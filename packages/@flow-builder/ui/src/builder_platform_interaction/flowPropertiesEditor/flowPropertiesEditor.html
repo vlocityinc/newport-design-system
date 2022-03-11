@@ -1,205 +1,218 @@
 <template>
-    <div if:true={showSaveAsTypePicker} class="slds-p-horizontal_small slds-p-top_small">
-        <lightning-radio-group
-            class="slds-text-align_center"
-            label={labels.saveAsTypeLabel}
-            name="saveAsType"
-            options={saveAsTypeOptions}
-            type="button"
-            onchange={handleSaveAsTypeChange}
-            value={flowProperties.saveType}
-        >
-        </lightning-radio-group>
-    </div>
-    <div
-        if:true={_templateOverrideBannerLabel}
-        class="test-overrides-banner slds-scoped-notification slds-media slds-media_center slds-color__background_gray-3 slds-m-left_small slds-m-top_small slds-m-right_small slds-m-bottom_small"
-    >
-        <div class="slds-media__figure">
-            <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
-        </div>
-        <div class="slds-media__body">{_templateOverrideBannerLabel}</div>
-    </div>
-    <div class="slds-p-around_small">
-        <builder_platform_interaction-label-description
-            dev-name={flowProperties.name}
-            dev-name-label={labels.uniqueNameLabel}
-            disable-dev-name={savingExistingFlow}
-            disable-dev-name-validation
-            description={flowProperties.description}
-            label={flowProperties.label}
-            name-label={labels.nameLabel}
-            onpropertychanged={handleEvent}
-        >
-        </builder_platform_interaction-label-description>
-
-        <div if:false={shouldHideAdvancedPropertiesButton} class="slds-m-top_small">
-            <lightning-button
-                variant="base"
-                class={_toggleAdvancedClass}
-                label={_toggleAdvancedLabel}
-                title={_toggleAdvancedLabel}
-                onclick={handleAdvancedToggle}
-            ></lightning-button>
-        </div>
-
-        <div if:true={isAdvancedShown} class="advanced">
-            <lightning-combobox
-                if:true={showRunInModeCombobox}
-                class="slds-col slds-grow"
-                label={labels.runInSystemModeLabel}
-                options={_runInModes}
-                value={runInMode}
-                disabled={systemModeDisabled}
-                placeholder={labels.processTypePlaceholderLabel}
-                dropdown-alignment="auto"
-                field-level-help={runInModeHelp}
-                onchange={handleRunInModeChange}
-            >
-            </lightning-combobox>
-            <lightning-combobox
-                class="process-type slds-col slds-grow"
-                label={labels.processTypeLabel}
-                options={_processTypes}
-                value={processTypeValue}
-                required
-                disabled={savingExistingFlow}
-                placeholder={labels.processTypePlaceholderLabel}
-                dropdown-alignment="auto"
-                field-level-help={processTypeFieldLevelHelp}
-                onchange={handleProcessTypeChange}
-            >
-            </lightning-combobox>
-
-            <!-- Template Elements -->
-            <div class="slds-p-top_small">
-                <builder_platform_interaction-combobox
-                    class="source-template slds-col slds-grow"
-                    menu-data={_filteredSourceTemplateOptions}
-                    oncomboboxstatechanged={handleSourceTemplateChange}
-                    onitemselected={handleSourceTemplateChange}
-                    label={labels.sourceTemplateLabel}
-                    value={_selectedSourceTemplate}
-                    error-message={sourceTemplateError}
-                    placeholder={labels.sourceTemplatePlaceholderLabel}
-                    field-level-help={labels.sourceTemplateHelpText}
-                    disabled={sourceTemplateDisabeld}
-                    onfiltermatches={handleTemplateFilterMatches}
-                    literals-allowed="false"
+    <div class={flowPropertiesEditorContainerCssClass}>
+        <div class="slds-scrollable_y slds-grid slds-grid_vertical slds-grow">
+            <div if:true={showSaveAsTypePicker} class="slds-p-horizontal_small slds-p-top_small">
+                <lightning-radio-group
+                    class="slds-text-align_center"
+                    label={labels.saveAsTypeLabel}
+                    name="saveAsType"
+                    options={saveAsTypeOptions}
+                    type="button"
+                    onchange={handleSaveAsTypeChange}
+                    value={flowProperties.saveType}
                 >
-                </builder_platform_interaction-combobox>
+                </lightning-radio-group>
             </div>
-            <lightning-input
-                if:true={showSlackCheckbox}
-                label={labels.slackLabel}
-                type="checkbox"
-                checked={slackEnabled}
-                onchange={handleSlackCheckBox}
-                class="slack_check slds-col slds-grow slds-p-top_small"
-                field-level-help={labels.slackCheckHelpText}
+            <div
+                if:true={_templateOverrideBannerLabel}
+                class="test-overrides-banner slds-scoped-notification slds-media slds-media_center slds-color__background_gray-3 slds-m-left_small slds-m-top_small slds-m-right_small slds-m-bottom_small"
             >
-            </lightning-input>
-            <lightning-input
-                label={labels.templateLabel}
-                type="checkbox"
-                checked={isTemplate}
-                onchange={handleTemplateCheckBox}
-                disabled={templateDisabled}
-                class="template_check slds-col slds-grow slds-p-top_small"
-                field-level-help={labels.templateCheckHelpText}
-            >
-            </lightning-input>
-
-            <!-- Override Elements -->
-            <div class="slds-p-top_small">
-                <builder_platform_interaction-combobox
-                    class="overrides-flow-template slds-col slds-grow"
-                    menu-data={_filteredOverridableFlowOptions}
-                    oncomboboxstatechanged={handleOverriddenFlowChange}
-                    onitemselected={handleOverriddenFlowChange}
-                    label={labels.overridableFlowLabel}
-                    value={_selectedOverriddenFlow}
-                    error-message={overriddenFlowError}
-                    placeholder={labels.overridableFlowPlaceholderLabel}
-                    field-level-help={labels.overridableFlowHelpText}
-                    disabled={overriddenFlowDisabled}
-                    onfiltermatches={handleOverridableFilterMatches}
-                    literals-allowed="false"
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">{_templateOverrideBannerLabel}</div>
+            </div>
+            <div class="slds-p-around_small">
+                <builder_platform_interaction-label-description
+                    dev-name={flowProperties.name}
+                    dev-name-label={labels.uniqueNameLabel}
+                    disable-dev-name={savingExistingFlow}
+                    disable-dev-name-validation
+                    description={flowProperties.description}
+                    label={flowProperties.label}
+                    name-label={labels.nameLabel}
+                    onpropertychanged={handleEvent}
                 >
-                </builder_platform_interaction-combobox>
-            </div>
-            <lightning-input
-                label={labels.overridableLabel}
-                type="checkbox"
-                checked={isOverridable}
-                onchange={handleOverridableCheckBox}
-                disabled={overridableDisabled}
-                class="overridable_check slds-col slds-grow slds-p-top_small"
-                field-level-help={labels.overridableCheckHelpText}
-            >
-            </lightning-input>
+                </builder_platform_interaction-label-description>
 
-            <lightning-combobox
-                if:true={showApiVersionComboBox}
-                class="api-version slds-col slds-grow slds-p-top_small"
-                label={labels.apiVersionLabel}
-                options={_apiVersionsList}
-                value={apiVersion}
-                required
-                dropdown-alignment="auto"
-                placeholder={labels.processTypePlaceholderLabel}
-                onchange={handleApiVersionChange}
-                spinner-active={apiVersionSpinner}
-            >
-            </lightning-combobox>
+                <div if:false={shouldHideAdvancedPropertiesButton} class="slds-m-top_small">
+                    <lightning-button
+                        variant="base"
+                        class={_toggleAdvancedClass}
+                        label={_toggleAdvancedLabel}
+                        title={_toggleAdvancedLabel}
+                        onclick={handleAdvancedToggle}
+                    ></lightning-button>
+                </div>
 
-            <lightning-input
-                if:true={isRecordTriggeredFlow}
-                label={labels.triggerOrderLabel}
-                type="number"
-                onchange={handleTriggerOrderChanged}
-                value={triggerOrder}
-                class="priority slds-col slds-grow slds-p-top_small"
-                field-level-help={labels.triggerOrderHelpText}
-            >
-            </lightning-input>
+                <div if:true={isAdvancedShown} class="advanced">
+                    <lightning-combobox
+                        if:true={showRunInModeCombobox}
+                        class="slds-col slds-grow"
+                        label={labels.runInSystemModeLabel}
+                        options={_runInModes}
+                        value={runInMode}
+                        disabled={systemModeDisabled}
+                        placeholder={labels.processTypePlaceholderLabel}
+                        dropdown-alignment="auto"
+                        field-level-help={runInModeHelp}
+                        onchange={handleRunInModeChange}
+                    >
+                    </lightning-combobox>
+                    <lightning-combobox
+                        class="process-type slds-col slds-grow"
+                        label={labels.processTypeLabel}
+                        options={_processTypes}
+                        value={processTypeValue}
+                        required
+                        disabled={savingExistingFlow}
+                        placeholder={labels.processTypePlaceholderLabel}
+                        dropdown-alignment="auto"
+                        field-level-help={processTypeFieldLevelHelp}
+                        onchange={handleProcessTypeChange}
+                    >
+                    </lightning-combobox>
 
-            <div class="slds-m-top_small">
-                <builder_platform_interaction-resourced-textarea
-                    help-text={labels.instanceLabelHelpText}
-                    label={labels.instanceLabel}
-                    name={labels.instanceLabel}
-                    row-index={_instanceLabelId}
-                    value={flowProperties.interviewLabel}
-                    onblur={handleInstanceLabelChanged}
-                    onchange={handleInstanceLabelChanged}
-                >
-                </builder_platform_interaction-resourced-textarea>
-            </div>
+                    <!-- Template Elements -->
+                    <div class="slds-p-top_small">
+                        <builder_platform_interaction-combobox
+                            class="source-template slds-col slds-grow"
+                            menu-data={_filteredSourceTemplateOptions}
+                            oncomboboxstatechanged={handleSourceTemplateChange}
+                            onitemselected={handleSourceTemplateChange}
+                            label={labels.sourceTemplateLabel}
+                            value={_selectedSourceTemplate}
+                            error-message={sourceTemplateError}
+                            placeholder={labels.sourceTemplatePlaceholderLabel}
+                            field-level-help={labels.sourceTemplateHelpText}
+                            disabled={sourceTemplateDisabeld}
+                            onfiltermatches={handleTemplateFilterMatches}
+                            literals-allowed="false"
+                        >
+                        </builder_platform_interaction-combobox>
+                    </div>
+                    <lightning-input
+                        if:true={showSlackCheckbox}
+                        label={labels.slackLabel}
+                        type="checkbox"
+                        checked={slackEnabled}
+                        onchange={handleSlackCheckBox}
+                        class="slack_check slds-col slds-grow slds-p-top_small"
+                        field-level-help={labels.slackCheckHelpText}
+                    >
+                    </lightning-input>
+                    <lightning-input
+                        label={labels.templateLabel}
+                        type="checkbox"
+                        checked={isTemplate}
+                        onchange={handleTemplateCheckBox}
+                        disabled={templateDisabled}
+                        class="template_check slds-col slds-grow slds-p-top_small"
+                        field-level-help={labels.templateCheckHelpText}
+                    >
+                    </lightning-input>
 
-            <div if:true={savingExistingFlow} class="slds-m-top_small">
-                <div>{labels.lastModified}</div>
-                <div class="lastModified">{lastModifiedText}</div>
-            </div>
+                    <!-- Override Elements -->
+                    <div class="slds-p-top_small">
+                        <builder_platform_interaction-combobox
+                            class="overrides-flow-template slds-col slds-grow"
+                            menu-data={_filteredOverridableFlowOptions}
+                            oncomboboxstatechanged={handleOverriddenFlowChange}
+                            onitemselected={handleOverriddenFlowChange}
+                            label={labels.overridableFlowLabel}
+                            value={_selectedOverriddenFlow}
+                            error-message={overriddenFlowError}
+                            placeholder={labels.overridableFlowPlaceholderLabel}
+                            field-level-help={labels.overridableFlowHelpText}
+                            disabled={overriddenFlowDisabled}
+                            onfiltermatches={handleOverridableFilterMatches}
+                            literals-allowed="false"
+                        >
+                        </builder_platform_interaction-combobox>
+                    </div>
+                    <lightning-input
+                        label={labels.overridableLabel}
+                        type="checkbox"
+                        checked={isOverridable}
+                        onchange={handleOverridableCheckBox}
+                        disabled={overridableDisabled}
+                        class="overridable_check slds-col slds-grow slds-p-top_small"
+                        field-level-help={labels.overridableCheckHelpText}
+                    >
+                    </lightning-input>
 
-            <div if:true={savingExistingFlow} class="slds-grid slds-m-top_small">
-                <div class="slds-size_1-of-3">
-                    {labels.status}:
-                    <div>
-                        <builder_platform_interaction-flow-status
-                            flow-status={flowProperties.status.value}
-                        ></builder_platform_interaction-flow-status>
+                    <lightning-combobox
+                        if:true={showApiVersionComboBox}
+                        class="api-version slds-col slds-grow slds-p-top_small"
+                        label={labels.apiVersionLabel}
+                        options={_apiVersionsList}
+                        value={apiVersion}
+                        required
+                        dropdown-alignment="auto"
+                        placeholder={labels.processTypePlaceholderLabel}
+                        onchange={handleApiVersionChange}
+                        spinner-active={apiVersionSpinner}
+                    >
+                    </lightning-combobox>
+
+                    <lightning-input
+                        if:true={isRecordTriggeredFlow}
+                        label={labels.triggerOrderLabel}
+                        type="number"
+                        onchange={handleTriggerOrderChanged}
+                        value={triggerOrder}
+                        class="priority slds-col slds-grow slds-p-top_small"
+                        field-level-help={labels.triggerOrderHelpText}
+                    >
+                    </lightning-input>
+
+                    <div class="slds-m-top_small">
+                        <builder_platform_interaction-resourced-textarea
+                            help-text={labels.instanceLabelHelpText}
+                            label={labels.instanceLabel}
+                            name={labels.instanceLabel}
+                            row-index={_instanceLabelId}
+                            value={flowProperties.interviewLabel}
+                            onblur={handleInstanceLabelChanged}
+                            onchange={handleInstanceLabelChanged}
+                        >
+                        </builder_platform_interaction-resourced-textarea>
+                    </div>
+
+                    <div if:true={savingExistingFlow} class="slds-m-top_small">
+                        <div>{labels.lastModified}</div>
+                        <div class="lastModified">{lastModifiedText}</div>
+                    </div>
+
+                    <div if:true={savingExistingFlow} class="slds-grid slds-m-top_small">
+                        <div class="slds-size_1-of-3">
+                            {labels.status}:
+                            <div>
+                                <builder_platform_interaction-flow-status
+                                    flow-status={flowProperties.status.value}
+                                ></builder_platform_interaction-flow-status>
+                            </div>
+                        </div>
+                        <div class="slds-size_1-of-3">
+                            {labels.currentType}:
+                            <div class="lastProcessType">{processTypeLabel}</div>
+                        </div>
+                        <div class="slds-size_1-of-3 versionNumber">
+                            {labels.currentVersion}:
+                            <div>{flowProperties.versionNumber}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="slds-size_1-of-3">
-                    {labels.currentType}:
-                    <div class="lastProcessType">{processTypeLabel}</div>
-                </div>
-                <div class="slds-size_1-of-3 versionNumber">
-                    {labels.currentVersion}:
-                    <div>{flowProperties.versionNumber}</div>
-                </div>
             </div>
+        </div>
+        <div class="slds-grid legal-popover-container">
+            <builder_platform_interaction-legal-popover
+                notices={noticesToLegalPopover}
+                onlegalnoticedismissed={handleLegalNoticeDismissed}
+                horizontal-position="right"
+                if:true={showLegalNotice}
+            >
+            </builder_platform_interaction-legal-popover>
         </div>
     </div>
 </template>

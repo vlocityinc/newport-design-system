@@ -29,6 +29,7 @@ import saveAsNewVersionTypeLabel from '@salesforce/label/FlowBuilderFlowProperti
 import showAdvanced from '@salesforce/label/FlowBuilderFlowPropertiesEditor.showAdvanced';
 import slackCheckHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.slackCheckHelpText';
 import slackLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.slackLabel';
+import slackLegalNoticeHeader from '@salesforce/label/FlowBuilderFlowPropertiesEditor.slackLegalNoticeHeader';
 import sourceTemplateHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplateHelpText';
 import sourceTemplateLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplateLabel';
 import sourceTemplatePlaceholderLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.sourceTemplatePlaceholderLabel';
@@ -67,6 +68,7 @@ export const LABELS = {
     apiVersionLabel,
     templateLabel,
     slackLabel,
+    slackLegalNoticeHeader,
     slackCheckHelpText,
     triggerOrderLabel,
     triggerOrderHelpText,

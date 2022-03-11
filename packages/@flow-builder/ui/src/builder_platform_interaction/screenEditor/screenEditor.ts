@@ -1,4 +1,8 @@
-import { hidePopover, modalBodyVariant } from 'builder_platform_interaction/builderUtils';
+import {
+    hidePopover,
+    modalBodyVariant,
+    updateLegalNoticesStateAfterDismiss
+} from 'builder_platform_interaction/builderUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
 import { getErrorsFromHydratedElement, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -557,14 +561,8 @@ export default class ScreenEditor extends LightningElement {
 
     handleLegalNoticeDismissed(event) {
         event.stopPropagation();
-        for (let i = 0; i < this.legalNotices.length; i++) {
-            const header = this.legalNotices[i].header;
-            if (this.noticesToLegalPopover.some((n) => n.header === header)) {
-                this.noticesToLegalPopover = this.noticesToLegalPopover.filter((notice) => notice.header !== header);
-                this.legalNotices[i].shown = false;
-                this.legalNotices[i].dismissed = true;
-            }
-        }
+        this.legalNotices = updateLegalNoticesStateAfterDismiss(this.legalNotices, this.noticesToLegalPopover);
+        this.noticesToLegalPopover = [];
     }
 
     /**

@@ -506,6 +506,9 @@ export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVaria
     return result.catch(() => ({}));
 }
 
+/**
+ * @param subtype
+ */
 function isSystemVariable(subtype) {
     return (
         subtype === SYSTEM_VARIABLE_PREFIX ||

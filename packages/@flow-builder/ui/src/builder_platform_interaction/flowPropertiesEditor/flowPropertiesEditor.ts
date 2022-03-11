@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { updateLegalNoticesStateAfterDismiss } from 'builder_platform_interaction/builderUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { orgHasScreenFlowsInSlack } from 'builder_platform_interaction/contextLib';
 import {
@@ -52,7 +53,8 @@ const TOGGLE_CLASS_HIDE = 'hide-advanced-button';
 
 const SELECTORS = {
     TRIGGER_ORDER: '.priority',
-    PROCESS_TYPE: '.process-type'
+    PROCESS_TYPE: '.process-type',
+    SLACK_CHECKBOX: '.slack_check'
 };
 
 /**
@@ -154,6 +156,11 @@ export default class FlowPropertiesEditor extends LightningElement {
     @track
     _processTypes = [];
 
+    @track legalNotices: UI.LegalNotice[] = [{ header: LABELS.slackLegalNoticeHeader, shown: false, dismissed: false }];
+
+    @track
+    noticesToLegalPopover: UI.LegalNotice[] = [];
+
     _runInModes = getRunInModesMenuData();
     _originalLabel;
     _originalApiName;
@@ -193,6 +200,8 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     /**
      * The value of the currently selected process type
+     *
+     * @returns process type selected
      */
     get processTypeValue() {
         const entry = this.findCurrentProcessTypeEntry();
@@ -212,7 +221,33 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     /**
+     * Returns the css class for the flow properties editor container
+     *
+     * @returns - string representing the css class
+     */
+    get flowPropertiesEditorContainerCssClass() {
+        return this.isAdvancedShown
+            ? 'slds-grid slds-grid_vertical flow-properties-editor-container'
+            : 'slds-grid slds-grid_vertical';
+    }
+
+    /**
+     * Whether to show legal notice or not
+     *
+     * @returns - boolean to indicate whether to show legal notice
+     */
+    get showLegalNotice() {
+        return (
+            this.showSlackCheckbox &&
+            this.isAdvancedShown &&
+            this.legalNotices.some((notice) => notice.shown && !notice.dismissed)
+        );
+    }
+
+    /**
      * The label of the currently selected process type
+     *
+     * @returns - process type label
      */
     get processTypeLabel() {
         const entry = this.findCurrentProcessTypeEntry();
@@ -240,6 +275,8 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     /**
      * Finds a closest process type entry matching by process type and trigger type.
+     *
+     * @returns process type entry
      */
     findCurrentProcessTypeEntry() {
         let result = null;
@@ -305,6 +342,8 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     /**
      * Indicates whether we are saving an existing to an existing flow definition (updating or saving as new version)
+     *
+     * @returns - true / false whether we are saving an existing flow
      */
     get savingExistingFlow() {
         return this.isSavingExistingFlow();
@@ -402,7 +441,7 @@ export default class FlowPropertiesEditor extends LightningElement {
      * Returns the localized string representing the last saved info
      * E.g. something like: '1/1/2018 by Jane Smith'
      *
-     * @returns {string}
+     * @returns {string} - last modified string
      */
     get lastModifiedText() {
         if (this.flowProperties.lastModifiedBy && this.flowProperties.lastModifiedBy.value) {
@@ -788,7 +827,27 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     handleSlackCheckBox(event) {
-        this.environments = event.detail.checked ? [FLOW_ENVIRONMENT.SLACK] : [FLOW_ENVIRONMENT.UNSPECIFIED];
+        if (event.detail.checked) {
+            this.environments = [FLOW_ENVIRONMENT.SLACK];
+            if (!this.legalNotices[0].shown && !this.legalNotices[0].dismissed) {
+                this.noticesToLegalPopover = [...this.noticesToLegalPopover, { header: LABELS.slackLegalNoticeHeader }];
+                this.legalNotices[0].shown = true;
+            }
+        } else {
+            this.environments = [FLOW_ENVIRONMENT.UNSPECIFIED];
+            this.noticesToLegalPopover = this.noticesToLegalPopover.filter(
+                (notice) => notice.header !== LABELS.slackLegalNoticeHeader
+            );
+            this.legalNotices[0].shown = false;
+        }
+    }
+
+    handleLegalNoticeDismissed(event) {
+        event.stopPropagation();
+        this.legalNotices = updateLegalNoticesStateAfterDismiss(this.legalNotices, this.noticesToLegalPopover);
+        this.noticesToLegalPopover = [];
+        // Return focus to Slack Checkbox
+        this.template.querySelector(SELECTORS.SLACK_CHECKBOX)?.focus();
     }
 
     handleOverridableCheckBox(event) {

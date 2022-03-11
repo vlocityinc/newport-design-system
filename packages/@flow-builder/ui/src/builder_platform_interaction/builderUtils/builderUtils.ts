@@ -25,6 +25,7 @@ import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils, invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './builderUtilsLabels';
+export * from './legalNoticeUtils';
 const { format } = commonUtils;
 
 /**

@@ -1,0 +1,8 @@
+.flow-properties-editor-container {
+    height: calc(100vh - 300px);
+}
+
+.legal-popover-container {
+    justify-content: flex-end;
+    width: 100%;
+}

@@ -170,7 +170,9 @@ const SELECTORS = {
     OVERRIDABLE_CHECK: 'lightning-input.overridable_check',
     OVERRIDABLE_COMBOBOX: 'builder_platform_interaction-combobox.overrides-flow-template',
     NEW_FLOW_OVERRIDES_BANNER: 'div.test-overrides-banner',
-    TRIGGER_ORDER: 'lightning-input.priority'
+    TRIGGER_ORDER: 'lightning-input.priority',
+    LEGAL_POPOVER: 'builder_platform_interaction-legal-popover',
+    LEGAL_POPOVER_DISMISS_BUTTON: 'lightning-button-icon'
 };
 
 const getLabelDescription = (flowPropertiesEditor) => {
@@ -218,6 +220,19 @@ const dispatchLabelChangedEvent = (flowPropertiesEditor, newLabelValue, error) =
     labelDescription.dispatchEvent(event);
 };
 
+const dispatchToggleSlackCheckboxEvent = (flowPropertiesEditor, value) => {
+    const event = new CustomEvent('change', { detail: { checked: value } });
+    getSlackCheck(flowPropertiesEditor).dispatchEvent(event);
+};
+
+const dispatchChangeProcessTypeEvent = (flowPropertiesEditor, newProcessType) => {
+    const processTypeEvent = new CustomEvent('change', {
+        detail: { value: newProcessType }
+    });
+    const processType = getProcessType(flowPropertiesEditor);
+    processType.dispatchEvent(processTypeEvent);
+};
+
 const getApiVersion = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.API_VERSION);
 };
@@ -248,6 +263,10 @@ const getOverridenFlowCombobox = (flowPropertiesEditor) => {
 
 const getNewFlowOverridesBanner = (flowPropertiesEditor) => {
     return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.NEW_FLOW_OVERRIDES_BANNER);
+};
+
+const getLegalNoticePopover = (flowPropertiesEditor) => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.LEGAL_POPOVER);
 };
 
 describe('FlowPropertiesEditor', () => {
@@ -716,11 +735,7 @@ describe('FlowPropertiesEditor', () => {
                 apiVersion.dispatchEvent(apiVersionEvent);
                 await ticks(1);
                 expect(getApiVersion(flowPropertiesEditor).value).toBe('49');
-                const processTypeEvent = new CustomEvent('change', {
-                    detail: { value: 'Flow None' }
-                });
-                const processType = getProcessType(flowPropertiesEditor);
-                processType.dispatchEvent(processTypeEvent);
+                dispatchChangeProcessTypeEvent(flowPropertiesEditor, 'Flow None');
                 await ticks(1);
                 expect(getApiVersion(flowPropertiesEditor).value).toBe('49');
             });
@@ -1154,16 +1169,81 @@ describe('FlowPropertiesEditor', () => {
             getShowAdvancedButton(flowPropertiesEditor).click();
             await ticks(1);
             const slackCheck = getSlackCheck(flowPropertiesEditor);
-            expect(slackCheck).toBeNull();
+            expect(slackCheck).toBeFalsy();
         });
         it('Slack in Flowbuilder checkbox and label is present when slack perm is on', async () => {
             (orgHasScreenFlowsInSlack as jest.Mock).mockReturnValue(true);
             flowPropertiesEditor = createComponentUnderTest(defaultNode);
             getShowAdvancedButton(flowPropertiesEditor).click();
             await ticks(1);
-
             const slackCheck = getSlackCheck(flowPropertiesEditor);
-            expect(slackCheck).not.toBeNull();
+            expect(slackCheck).toBeTruthy();
+        });
+    });
+    describe('Slack Screen Flows Beta Notice', () => {
+        let defaultNode;
+        beforeAll(() => {
+            defaultNode = {
+                ...sampleProperties,
+                processType: { value: 'Flow' },
+                interviewLabel: { value: 'interviewLabel' },
+                runInMode: { value: null, error: null },
+                status: { value: 'Active' },
+                saveType: SaveType.CREATE,
+                triggerType: { value: '' },
+                versionNumber: 1,
+                environments: ['Slack']
+            };
+            (orgHasScreenFlowsInSlack as jest.Mock).mockReturnValue(true);
+        });
+        beforeEach(async () => {
+            flowPropertiesEditor = createComponentUnderTest(defaultNode);
+            getShowAdvancedButton(flowPropertiesEditor).click();
+            await ticks(1);
+            dispatchToggleSlackCheckboxEvent(flowPropertiesEditor, true);
+            await ticks(1);
+        });
+        it('Legal Beta Notice is shown if slack checkbox is checked', async () => {
+            expect(getLegalNoticePopover(flowPropertiesEditor)).toBeTruthy();
+        });
+        it('Legal Beta Notice is hidden if user now clicks on hide advanced', async () => {
+            getHideAdvancedButton(flowPropertiesEditor).click();
+            await ticks(1);
+            expect(getLegalNoticePopover(flowPropertiesEditor)).toBeFalsy();
+        });
+        it('Legal Beta Notice is re-shown if user clicks on hide advanced and then show advanced again', async () => {
+            getHideAdvancedButton(flowPropertiesEditor).click();
+            await ticks(1);
+            expect(getLegalNoticePopover(flowPropertiesEditor)).toBeFalsy();
+            getShowAdvancedButton(flowPropertiesEditor).click();
+            await ticks(1);
+            expect(getLegalNoticePopover(flowPropertiesEditor)).toBeTruthy();
+        });
+        it('Legal Beta Notice is hidden if process type is changed to something other than screen flow', async () => {
+            dispatchChangeProcessTypeEvent(flowPropertiesEditor, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+            await ticks(1);
+            expect(getLegalNoticePopover(flowPropertiesEditor)).toBeFalsy();
+        });
+        it('Legal Beta Notice is re-shown if process type is changed back to screen flow', async () => {
+            dispatchChangeProcessTypeEvent(flowPropertiesEditor, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+            await ticks(1);
+            expect(getLegalNoticePopover(flowPropertiesEditor)).toBeFalsy();
+            dispatchChangeProcessTypeEvent(flowPropertiesEditor, FLOW_PROCESS_TYPE.FLOW);
+            await ticks(1);
+            expect(getLegalNoticePopover(flowPropertiesEditor)).toBeTruthy();
+        });
+        it('Legal Beta Notice is hidden if user unchecks slack checkbox', async () => {
+            dispatchToggleSlackCheckboxEvent(flowPropertiesEditor, false);
+            await ticks(1);
+            expect(getLegalNoticePopover(flowPropertiesEditor)).toBeFalsy();
+        });
+        it('Legal Beta Notice is hidden once dismissed', async () => {
+            const dismissButton = getLegalNoticePopover(flowPropertiesEditor).shadowRoot.querySelector(
+                SELECTORS.LEGAL_POPOVER_DISMISS_BUTTON
+            );
+            dismissButton.click();
+            await ticks(1);
+            expect(getLegalNoticePopover(flowPropertiesEditor)).toBeFalsy();
         });
     });
 });
