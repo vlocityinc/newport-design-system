@@ -5,7 +5,7 @@ import { ElementFilterConfig } from 'builder_platform_interaction/expressionUtil
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { fetchOnce, fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { shouldNotBeBlank } from 'builder_platform_interaction/validationRules';
@@ -49,6 +49,8 @@ export default class FormulaBuilder extends LightningElement {
     @api resourceId;
     // element type
     @api propertyEditorElementType = ELEMENT_TYPE.FORMULA;
+
+    @api validationOptions: UI.FormulaValidationOptions = {};
 
     // help text
     @api
@@ -267,11 +269,25 @@ export default class FormulaBuilder extends LightningElement {
         const expError = this.checkFormulaExpressionWithMergeFields();
         if (expError) {
             this.validationResult = { isValidSyntax: false, validationMessage: '' };
+            syntaxValidationCmp.enableCheckSyntaxButton();
         } else {
             this.validationResult = { isValidSyntax: true, validationMessage: '' };
-            // TODO: validate at server side, pass this.formulaType to the controller to call the sub validation resource
+            const params = {
+                flowProcessType: this.flowProcessType,
+                flowTriggerType: this.flowTriggerType,
+                recordTriggerType: this.recordTriggerType,
+                formulaType: this.formulaType,
+                formula: this._value,
+                validationOptions: this.validationOptions
+            };
+            fetchPromise(SERVER_ACTION_TYPE.VALIDATE_FORMULA, params)
+                .then((data) => {
+                    this.validationResult = data;
+                })
+                .finally(() => {
+                    syntaxValidationCmp.enableCheckSyntaxButton();
+                });
         }
-        syntaxValidationCmp.enableCheckSyntaxButton();
     }
 
     /**

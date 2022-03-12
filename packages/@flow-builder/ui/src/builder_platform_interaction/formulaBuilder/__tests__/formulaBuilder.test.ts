@@ -11,6 +11,7 @@ import { createElement } from 'lwc';
 import { formulaFunctionsForNoTrigger as mockFormulaFunctions } from 'serverData/GetFormulaFunctions/formulaFunctionsForNoTrigger.json';
 import { formulaFunctionsForRecordBeforeSave as mockFormulaFunctionsRecordBeforeSave } from 'serverData/GetFormulaFunctions/formulaFunctionsForRecordBeforeSave.json';
 import { formulaOperators as mockFormulaOperators } from 'serverData/GetFormulaOperators/formulaOperators.json';
+import { formulaValidationResults as mockFormulaValidationResults } from 'serverData/GetFormulaValidationResults/formulaValidationResults.json';
 import FormulaBuilder from '../formulaBuilder';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -40,6 +41,14 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                     return Promise.resolve(mockFormulaFunctions);
                 case SERVER_ACTION_TYPE.GET_FORMULA_OPERATORS:
                     return Promise.resolve(mockFormulaOperators);
+                default:
+                    return Promise.reject(new Error('Unexpected server action ' + serverActionType));
+            }
+        },
+        fetchPromise: (serverActionType) => {
+            switch (serverActionType) {
+                case SERVER_ACTION_TYPE.VALIDATE_FORMULA:
+                    return Promise.resolve(mockFormulaValidationResults);
                 default:
                     return Promise.reject(new Error('Unexpected server action ' + serverActionType));
             }
@@ -557,15 +566,22 @@ describe('Formula builder', () => {
             const formulaBuilder = createComponentUnderTest({
                 flowProcessType,
                 required: true,
+                recordTriggerType: 'RecordAfterSave',
+                formulaType: 'flowEntryCriteria',
+                formula: 'CONTAINS({!$Record.BillingCity},"San Francisco")',
+                validationOptions: {
+                    dataType: 'SObject',
+                    objectType: 'Account',
+                    doesRequireRecordChangedToMeetCriteria: false
+                },
                 value: { value: 'valid formula', error: null }
             });
             validateTextWithMergeFields.mockReturnValue([]);
             formulaBuilder.addEventListener('formulachanged', eventCallback);
-            const syntaxBtn = getSyntaxValidation(formulaBuilder);
-            syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
+            getSyntaxValidation(formulaBuilder).dispatchEvent(new CustomEvent('checksyntax'));
             await ticks(1);
             expectValueChangedEventWithValue('valid formula', null);
-            expect(syntaxBtn.validationResult.isValidSyntax).toBeTruthy();
+            expect(getSyntaxValidation(formulaBuilder).validationResult.isValidSyntax).toBeTruthy();
             expect(getErrorMessage(formulaBuilder)).toBeNull();
         });
         it('Should check requiredness on text area blur', async () => {

@@ -507,4 +507,10 @@ declare namespace UI {
         errorMessage: string;
         conditionOutcome: string;
     };
+
+    type FormulaValidationOptions = {
+        dataType?: string;
+        objectType?: string;
+        doesRequireRecordChangedToMeetCriteria?: boolean;
+    };
 }

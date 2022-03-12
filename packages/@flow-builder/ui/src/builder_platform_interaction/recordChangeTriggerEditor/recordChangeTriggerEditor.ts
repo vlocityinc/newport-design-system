@@ -1,6 +1,6 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import {
@@ -10,6 +10,7 @@ import {
     FlowComparisonOperator,
     FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_TYPE,
+    FORMULA_TYPE,
     SCHEDULED_PATH_TYPE,
     START_ELEMENT_FIELDS
 } from 'builder_platform_interaction/flowMetadata';
@@ -51,6 +52,8 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     _configurationEditor;
 
     labels = LABELS;
+
+    formulaType = FORMULA_TYPE.FLOW_ENTRY_CRITERIA;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -124,6 +127,16 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         if (isOrchestrator(getProcessType())) {
             this.startElement = updateAndValidateElementInPropertyEditor(oldElement, newValue, this);
         }
+    }
+
+    get validationOptions(): UI.FormulaValidationOptions {
+        return {
+            dataType: getValueFromHydratedItem(this.startElement.dataType),
+            objectType: getValueFromHydratedItem(this.startElement.object),
+            doesRequireRecordChangedToMeetCriteria: getValueFromHydratedItem(
+                this.startElement.doesRequireRecordChangedToMeetCriteria
+            )
+        };
     }
 
     /**

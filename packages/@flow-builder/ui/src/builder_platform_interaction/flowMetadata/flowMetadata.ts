@@ -382,6 +382,10 @@ export const FLOW_TRIGGER_TYPE = {
     NONE: 'None'
 };
 
+export const FORMULA_TYPE = {
+    FLOW_ENTRY_CRITERIA: 'flowEntryCriteria'
+};
+
 export const FLOW_TRIGGER_SAVE_TYPE = {
     UPDATE: 'Update',
     CREATE: 'Create',
