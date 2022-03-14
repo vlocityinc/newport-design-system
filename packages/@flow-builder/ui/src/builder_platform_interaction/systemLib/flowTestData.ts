@@ -62,6 +62,28 @@ const listState: FlowTestListState = new FlowTestListState();
 let flowTests: FlowTestAndResultDescriptor[] = [];
 
 /**
+ * Removes matching existing row if it already exists, and adds flow test to the top of the list.
+ *
+ * @param data data for the test to be added
+ */
+export function pushFlowTest(data: FlowTestAndResultDescriptor): void {
+    let existingLastRunDate: Date | null = null,
+        existingLastRunStatus: FlowTestResultStatusType | null = null;
+    const existingTestRow = flowTests.find((t) => t.flowTestId === data.flowTestId);
+    if (existingTestRow) {
+        existingLastRunDate = existingTestRow.lastRunDate;
+        existingLastRunStatus = existingTestRow.lastRunStatus;
+        flowTests = flowTests.filter((t) => t.flowTestId !== data.flowTestId);
+    }
+
+    flowTests.unshift({
+        ...data,
+        lastRunDate: existingLastRunDate,
+        lastRunStatus: existingLastRunStatus
+    });
+}
+
+/**
  * Adds tests to the local flow test store
  *
  * @param data incoming data from the server to be added to the local store

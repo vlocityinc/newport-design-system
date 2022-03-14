@@ -3,7 +3,7 @@ import { dehydrate } from 'builder_platform_interaction/dataMutationLib';
 import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
+import { BUILDER_MODE, pushFlowTest } from 'builder_platform_interaction/systemLib';
 import { translateUIModelToFlowTest } from 'builder_platform_interaction/translatorLib';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { api, LightningElement } from 'lwc';
@@ -65,6 +65,7 @@ export default class FlowTestFooter extends LightningElement {
 
     saveFlowTestCallback = ({ data }, flowTest) => {
         if (data.isSuccess) {
+            pushFlowTest(data);
             if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
                 hidePopover();
                 this.showToast(format(LABELS.flowTestFromDebuggerSavedSuccess, flowTest.metadata.label), 'success');

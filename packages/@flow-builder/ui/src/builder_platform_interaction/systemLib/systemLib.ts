@@ -79,6 +79,7 @@ export {
     FlowTestResultStatusType,
     getFlowTestListState,
     getFlowTests,
+    pushFlowTest,
     resetFlowTestStore,
     updateFlowTestResults
 } from './flowTestData';

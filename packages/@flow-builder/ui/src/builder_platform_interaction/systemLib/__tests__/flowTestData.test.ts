@@ -5,6 +5,7 @@ import {
     FlowTestResultStatusType,
     getFlowTestListState,
     getFlowTests,
+    pushFlowTest,
     resetFlowTestStore,
     updateFlowTestResults
 } from '../flowTestData';
@@ -188,6 +189,37 @@ describe('flowTestData', () => {
             expect(getFlowTests().length).toEqual(0);
             expect(() => clearTestResultsFromStore()).not.toThrow();
             expect(getFlowTests().length).toEqual(0);
+        });
+    });
+
+    describe('pushFlowTest', () => {
+        afterEach(() => {
+            resetFlowTestStore();
+        });
+        it('adds new incoming test data to the front/top of the store, leaving the rest of the list alone', () => {
+            addFlowTests(MOCK_DESCRIPTORS.slice(0, 4));
+            expect(getFlowTests()).toEqual(MOCK_DESCRIPTORS.slice(0, 4));
+            pushFlowTest(MOCK_DESCRIPTORS[4]);
+            const tests = getFlowTests();
+            expect(tests.length).toEqual(MOCK_DESCRIPTORS.length);
+            const firstTest = tests[0];
+            expect(firstTest.flowTestId).toEqual(MOCK_DESCRIPTORS[4].flowTestId);
+            expect(firstTest.flowTestName).toEqual(MOCK_DESCRIPTORS[4].flowTestName);
+            expect(firstTest.description).toEqual(MOCK_DESCRIPTORS[4].description);
+            expect(firstTest.createdBy).toEqual(MOCK_DESCRIPTORS[4].createdBy);
+            expect(firstTest.lastRunDate).toBeNull();
+            expect(firstTest.lastRunStatus).toBeNull();
+        });
+
+        it('moves existing test to top of list with new incoming data', () => {
+            addFlowTests(MOCK_DESCRIPTORS);
+            const testToUpdate = MOCK_DESCRIPTORS[3];
+            testToUpdate.description = 'updated';
+            pushFlowTest(testToUpdate);
+            const tests = getFlowTests();
+            expect(tests.length).toEqual(MOCK_DESCRIPTORS.length);
+            expect(tests[0].flowTestId).toEqual(testToUpdate.flowTestId);
+            expect(tests[0].description).toEqual('updated');
         });
     });
 });
