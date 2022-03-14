@@ -14,7 +14,6 @@ svg.fault {
 
 svg.connector-to-be-deleted {
     stroke: var(--lwc-colorBorderError);
-    z-index: var(--z-index-alc-connector-to-be-deleted);
 }
 
 svg.fault.connector-to-be-deleted {
@@ -30,7 +29,6 @@ svg.goTo {
 svg.connector-highlighted {
     stroke: #ffb75d;
     stroke-width: 6;
-    z-index: var(--z-index-alc-connector-highlighted);
 }
 
 svg.fault.connector-highlighted {
