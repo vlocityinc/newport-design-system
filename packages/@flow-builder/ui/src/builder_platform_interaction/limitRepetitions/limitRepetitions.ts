@@ -6,6 +6,7 @@ import {
     ELEMENT_PROPS,
     LimitRepetitionsInput
 } from 'builder_platform_interaction/limitRepetitionsLib';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './limitRepetitionsLabels';
@@ -18,7 +19,7 @@ export default class LimitRepetitions extends LightningElement {
     showReactionSettings = false;
 
     @track
-    state = { ...DEFAULT_INPUT_VALUE };
+    state = deepCopy(DEFAULT_INPUT_VALUE);
 
     /**
      * array of object containing name-value of a input parameter.
@@ -51,13 +52,13 @@ export default class LimitRepetitions extends LightningElement {
 
     handlePropertyChangedEvent(event: CustomEvent) {
         event.stopPropagation();
-        const { propertyName, value } = event.detail;
-        this.updateCpe(ELEMENT_PROPS[propertyName], value);
+        const { propertyName, value, error } = event.detail;
+        this.updateCpe(ELEMENT_PROPS[propertyName], value, error);
     }
 
     handleInputResourceChange(event: CustomEvent) {
         event.stopPropagation();
-        const { value } = event.detail; // guid
+        const { value, error } = event.detail; // guid
         this.showReactionSettings = !!value;
 
         if (!this.showReactionSettings) {
@@ -65,7 +66,7 @@ export default class LimitRepetitions extends LightningElement {
             return;
         }
 
-        this.updateCpe(ELEMENT_PROPS.inputRecommendations, value);
+        this.updateCpe(ELEMENT_PROPS.inputRecommendations, value, error);
     }
 
     /**
@@ -83,7 +84,7 @@ export default class LimitRepetitions extends LightningElement {
                     this.state[input.name].value = input.value;
                 }
             } else {
-                // set default value to each input variable
+                // set default value to each input variable, and register that the field has been set.
                 this.updateCpe(ELEMENT_PROPS[input.name], DEFAULT_INPUT_VALUE[input.name].value);
             }
         });
@@ -96,10 +97,13 @@ export default class LimitRepetitions extends LightningElement {
      * @param inputVariable.name input name
      * @param inputVariable.dataType input data type
      * @param inputValue new Value of the input parameter.
+     * @param error the error associated with new val, if nay.
      */
-    updateCpe(inputVariable: { name: string; dataType: string }, inputValue: string | number): void {
+    updateCpe(inputVariable: { name: string; dataType: string }, inputValue: string | number, error = null): void {
         const { name, dataType } = inputVariable;
         this.state[name].value = inputValue;
+        this.state[name].error = error;
+
         this.dispatchEvent(new ConfigurationEditorChangeEvent(name, inputValue, dataType));
     }
 

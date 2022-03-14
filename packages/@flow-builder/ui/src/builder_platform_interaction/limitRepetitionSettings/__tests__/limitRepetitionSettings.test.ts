@@ -121,7 +121,7 @@ describe('Limit Repetition Settings Component', () => {
             inputFields[0].value = 'abc';
             inputFields[0].dispatchEvent(new Event('blur'));
 
-            expect(eventCallback).not.toHaveBeenCalled();
+            expect(eventCallback).toHaveBeenCalled();
         });
 
         it('should handle withinDays value change', async () => {
@@ -150,7 +150,7 @@ describe('Limit Repetition Settings Component', () => {
             inputFields[1].value = 'abc';
             inputFields[1].dispatchEvent(new Event('blur'));
 
-            expect(eventCallback).not.toHaveBeenCalled();
+            expect(eventCallback).toHaveBeenCalled();
         });
     });
 });

@@ -20,6 +20,8 @@
             value={maxResponses}
             type="number"
             required
+            min={minMaxResponses}
+            max={maxMaxResponses}
             message-when-value-missing={labels.maxResponsesMissing}
             onblur={handleMaxResponsesFocusOut}
         >
@@ -32,6 +34,8 @@
             value={withinDays}
             type="number"
             required
+            min={minWithinDays}
+            max={maxWithinDays}
             message-when-value-missing={labels.withinDaysMissing}
             onblur={handleWithinDaysFocusOut}
         >

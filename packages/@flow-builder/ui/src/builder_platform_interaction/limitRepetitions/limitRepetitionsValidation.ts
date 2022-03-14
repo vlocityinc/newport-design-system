@@ -1,3 +1,9 @@
+import {
+    MAX_MAX_RESPONSES,
+    MAX_WITHIN_DAYS,
+    MIN_MAX_RESPONSES,
+    MIN_WITHIN_DAYS
+} from 'builder_platform_interaction/limitRepetitionsLib';
 import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
@@ -6,13 +12,13 @@ const additionalRules = {
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldBeANumber,
-        ValidationRules.shouldBeInRange(1, 2000)
+        ValidationRules.shouldBeInRange(MIN_MAX_RESPONSES, MAX_MAX_RESPONSES)
     ],
     withinDays: [
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldBeANumber,
-        ValidationRules.shouldBeInRange(1, 99999)
+        ValidationRules.shouldBeInRange(MIN_WITHIN_DAYS, MAX_WITHIN_DAYS)
     ],
     inputRecommendations: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
     responseTypeToLimit: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]

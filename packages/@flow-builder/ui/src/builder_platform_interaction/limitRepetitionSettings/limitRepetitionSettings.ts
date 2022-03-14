@@ -1,5 +1,12 @@
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { ELEMENT_PROPS, ResponseTypeToLimit } from 'builder_platform_interaction/limitRepetitionsLib';
+import {
+    ELEMENT_PROPS,
+    MAX_MAX_RESPONSES,
+    MAX_WITHIN_DAYS,
+    MIN_MAX_RESPONSES,
+    MIN_WITHIN_DAYS,
+    ResponseTypeToLimit
+} from 'builder_platform_interaction/limitRepetitionsLib';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './limitRepetitionSettingsLabels';
 
@@ -9,6 +16,11 @@ export default class LimitRepetitionSettings extends LightningElement {
         { label: LABELS.accepted, value: ResponseTypeToLimit.Accepted },
         { label: LABELS.rejected, value: ResponseTypeToLimit.Rejected }
     ];
+
+    minWithinDays = MIN_WITHIN_DAYS;
+    maxWithinDays = MAX_WITHIN_DAYS;
+    maxMaxResponses = MAX_MAX_RESPONSES;
+    minMaxResponses = MIN_MAX_RESPONSES;
 
     @api
     maxResponses;
@@ -39,10 +51,6 @@ export default class LimitRepetitionSettings extends LightningElement {
     handleMaxResponsesFocusOut(event) {
         event.stopPropagation();
         const { value } = event.target;
-        // avoid setting value other than integer
-        if (isNaN(parseInt(value, 10))) {
-            return;
-        }
         if (this.maxResponses !== value) {
             const event = new PropertyChangedEvent(ELEMENT_PROPS.maxResponses.name, value);
             this.dispatchEvent(event);
@@ -52,12 +60,6 @@ export default class LimitRepetitionSettings extends LightningElement {
     handleWithinDaysFocusOut(event) {
         event.stopPropagation();
         const { value } = event.target;
-
-        // avoid setting value other than integer
-        if (isNaN(parseInt(value, 10))) {
-            return;
-        }
-
         if (this.withinDays !== value) {
             const event = new PropertyChangedEvent(ELEMENT_PROPS.withinDays.name, value);
             this.dispatchEvent(event);

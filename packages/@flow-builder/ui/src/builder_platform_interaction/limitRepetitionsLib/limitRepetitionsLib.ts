@@ -1,7 +1,13 @@
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 export const DEFAULT_WITHIN_DAYS = 90;
+export const MIN_WITHIN_DAYS = 1;
+export const MAX_WITHIN_DAYS = 99999;
+
 export const DEFAULT_MAX_RESPONSES = 1;
+export const MIN_MAX_RESPONSES = 1;
+export const MAX_MAX_RESPONSES = 2000;
+
 export const RECORD_ID = 'recordId';
 
 export enum ResponseTypeToLimit {
