@@ -62,7 +62,8 @@ export function augmentElementsMetadata(elementsMetadata: UI.ElementConfig[], st
             elementType,
             type: getAlcElementType(elementType),
             // @ts-ignore  TODO: do we need this in the metadata?
-            canHaveFaultConnector: elementConfig.canHaveFaultConnector
+            canHaveFaultConnector: elementConfig.canHaveFaultConnector,
+            menuComponent: 'builder_platform_interaction/alcNodeMenu'
         });
     });
 

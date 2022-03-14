@@ -3,6 +3,7 @@ import { createComponent, ticks } from 'builder_platform_interaction/builderTest
 import { getChildElementTypesWithOverridenProperties } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { augmentElementsMetadata } from '../alcCanvasContainerUtils';
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 
@@ -133,6 +134,9 @@ const elementsMetadata = [
     }
 ];
 
+const startElement = {
+    elementType: 'START_ELEMENT'
+};
 const createComponentForTest = async (optionsOverrides = {}) => {
     return createComponent(
         'builder_platform_interaction-alc-canvas-container',
@@ -154,7 +158,7 @@ describe('alc canvas container', () => {
                 getCurrentState: jest.fn(() => {
                     return {
                         elements: {
-                            startGuid: { elementType: 'START_ELEMENT' },
+                            startGuid: startElement,
                             root: { elementType: ELEMENT_TYPE.ROOT_ELEMENT }
                         },
                         properties: { processType: 'autolaunched', isAutoLayoutCanvas: true }
@@ -232,6 +236,10 @@ describe('alc canvas container', () => {
 
         expect(menuComponent).toEqual('builder_platform_interaction/alcConnectorMenu');
         expect(elementTypes).toEqual(expectedElementTypes);
+    });
+
+    it('augments the metadata', () => {
+        expect(augmentElementsMetadata(elementsMetadata, startElement)).toMatchSnapshot();
     });
 });
 
