@@ -74,8 +74,7 @@ import { addToParentElementCache } from 'builder_platform_interaction/comboboxCa
 import {
     CLASSIC_EXPERIENCE,
     getPreferredExperience,
-    isAutoLayoutCanvasEnabled,
-    orgHasFlowTestingEnabled
+    isAutoLayoutCanvasEnabled
 } from 'builder_platform_interaction/contextLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -758,7 +757,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     }
 
     get showRunTestButton() {
-        return !!this.toolbarConfig.showRunTestButton && !this.fromEmailDebugging && orgHasFlowTestingEnabled();
+        return !!this.toolbarConfig.showRunTestButton && !this.fromEmailDebugging;
     }
 
     get showRunButton() {

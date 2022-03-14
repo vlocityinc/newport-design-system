@@ -179,15 +179,6 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-const mockOrgHasFlowTestingEnabled = true;
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return Object.assign({}, jest.requireActual('builder_platform_interaction/contextLib'), {
-        orgHasFlowTestingEnabled: jest.fn().mockImplementation(() => {
-            return mockOrgHasFlowTestingEnabled;
-        })
-    });
-});
-
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         addElement: jest.fn((el) => {

@@ -9,7 +9,6 @@
       "orgHasFlowAutomaticFieldsUseRecordPageComponents":true,
       "orgHasFlowScreenSections":true,
       "orgHasComponentPreview":true,
-      "orgHasFlowTestingEnabled":true,
       "orgHasFlowBuilderGuardrails":true
     },
     "devMode":false,

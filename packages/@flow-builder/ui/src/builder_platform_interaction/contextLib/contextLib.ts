@@ -17,7 +17,6 @@ type Access = {
     orgHasFlowScreenSections: boolean;
     orgHasComponentPreview: boolean;
     orgHasFlowBuilderGuardrails: boolean;
-    orgHasFlowTestingEnabled: boolean;
     orgHasFlowFormulaBuilder: boolean;
     orgHasScreenFlowsInSlack: boolean;
 };
@@ -114,13 +113,6 @@ export function getOrgId() {
  */
 export function orgHasFlowBuilderDebug() {
     return context.access?.orgHasFlowBuilderDebug;
-}
-
-/**
- * @returns true if Flow Testing perm is enabled, will be removed sometime post 236
- */
-export function orgHasFlowTestingEnabled() {
-    return context.access?.orgHasFlowTestingEnabled;
 }
 
 /**
