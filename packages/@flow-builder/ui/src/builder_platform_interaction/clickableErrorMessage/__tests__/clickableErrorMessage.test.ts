@@ -456,8 +456,8 @@ describe('clickableErrorMessage', () => {
             expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
             expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
         });
-        it('highlights erroneous element when error type is START_ELEMENT_ERROR', () => {
-            // create error message component with START_ELEMENT_ERROR
+        it('highlights erroneous element when error type is PROPERTY_EDITOR_ERROR and using Start element', () => {
+            // create error message component with PROPERTY_EDITOR_ERROR
             const errorMsgComponentStartEl = createComponentUnderTest({
                 info: {
                     message: {
@@ -468,14 +468,18 @@ describe('clickableErrorMessage', () => {
                 }
             });
             const element = startElement;
+            const locatorIconClickedEvent = new LocatorIconClickedEvent(element.guid);
+            const highlightElementPayload = { elementGuid: element.guid };
             const editElementEvent = new EditElementEvent(element.guid);
             const editElementPayload = {
                 mode: element?.triggerType,
                 canvasElementGUID: element.guid
             };
             errorMsgComponentStartEl.shadowRoot.querySelector(selectors.link).click();
-            expect(pubSub.publish.mock.calls[0][0]).toEqual(editElementEvent.type);
-            expect(pubSub.publish.mock.calls[0][1]).toEqual(editElementPayload);
+            expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
+            expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
+            expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
+            expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
         });
     });
 });

@@ -38,6 +38,10 @@ export default class ClickableMessage extends LightningElement {
                         pubSub.publish(locatorIconClickedEvent.type, highlightElementPayload);
                         break;
                     case errorType.PROPERTY_EDITOR_ERROR: {
+                        if (element?.triggerType) {
+                            // need this condition to open start editor, only start element has triggerType field
+                            editElementPayload.mode = element.triggerType;
+                        }
                         pubSub.publish(locatorIconClickedEvent.type, highlightElementPayload);
                         pubSub.publish(editElementEvent.type, editElementPayload);
                         break;
@@ -52,12 +56,6 @@ export default class ClickableMessage extends LightningElement {
                         pubSub.publish(editElementEvent.type, editElementPayload);
                         break;
                     }
-                    case errorType.START_ELEMENT_ERROR:
-                        if (element?.triggerType) {
-                            editElementPayload.mode = element.triggerType;
-                            pubSub.publish(editElementEvent.type, editElementPayload);
-                        }
-                        break;
                     default:
                 }
             }
