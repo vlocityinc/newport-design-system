@@ -13,6 +13,7 @@
     <aura:attribute name="values" type="List" default="[]" required="false" description="The values associated with the input"/>
     <aura:attribute name="priv_convertedValues" type="List" default="[]" required="false" description="The values associated with the input converted in to an aura friendly form"/>
     <aura:attribute name="errors" type="List" default="[]" required="false" description="The errors associated with the input"/>
+    <aura:attribute name="required" type="Boolean" default="true" description="If this field is required"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler name="valueAdded" event="ui:change" action="{!c.handleSelected}"/>
@@ -27,7 +28,7 @@
         enableAdvancedSearch="true"
         placeholder="{!v.placeholder}"
         errors="{!v.errors}"
-        required="true"
+        required="{!v.required}"
         requiredIndicatorClass="slds-required slds-float_left"
         labelClass="slds-form-element__label"
     ></forceSearch:inputLookupDesktop>

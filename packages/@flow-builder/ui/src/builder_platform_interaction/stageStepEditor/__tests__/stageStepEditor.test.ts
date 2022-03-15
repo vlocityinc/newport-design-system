@@ -146,7 +146,8 @@ const selectors = {
     ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.actorPicker',
     ENTRY_ACTION: '.entry-action',
     EXIT_ACTION: '.exit-action',
-    ASYNC_PROCESSING_BOX: '.externalCalloutsCheckbox'
+    ASYNC_PROCESSING_BOX: '.externalCalloutsCheckbox',
+    REQUIRED: '.required'
 };
 
 describe('StageStepEditor', () => {
@@ -874,6 +875,7 @@ describe('StageStepEditor', () => {
                     expect(recordPicker.attributes.entities).toHaveLength(1);
                     expect(recordPicker.attributes.entities[0].name).toEqual(ASSIGNEE_TYPE.User);
                     expect(recordPicker.attributes.entities[0].label).toEqual('Users');
+                    expect(recordPicker.required).toBe(true);
                 });
 
                 it('user reference displays user reference combobox', async () => {

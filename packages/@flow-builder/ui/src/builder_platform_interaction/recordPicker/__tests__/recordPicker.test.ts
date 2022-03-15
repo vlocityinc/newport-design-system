@@ -18,6 +18,7 @@ const createComponentUnderTest = (attributes, values, recordSelectedCallback, er
     el.values = values;
     el.error = error;
     el.recordSelectedCallback = recordSelectedCallback;
+    el.required = true;
 
     setDocumentBodyChildren(el);
 
@@ -28,6 +29,7 @@ describe('recordPicker', () => {
     const attributes = { a: 1 };
     const values = [{ id: 2 }];
     const errors = [];
+    const required = true;
     const recordSelectedCallback = jest.fn();
     let component;
 
@@ -39,6 +41,7 @@ describe('recordPicker', () => {
         const mergedAttributes = {
             ...attributes,
             recordSelectedCallback,
+            required,
             values,
             errors
         };

@@ -53,6 +53,9 @@ export default class RecordPicker extends LightningElement {
         }
     }
 
+    @api
+    required = false;
+
     renderedCallback() {
         if (
             !this.embededAuraComponent &&
@@ -80,7 +83,8 @@ export default class RecordPicker extends LightningElement {
             ...unwrap(this._attributes),
             recordSelectedCallback: this.recordSelectedCallback,
             values: this.values ? this.values : [],
-            errors: this.error ? [{ message: this.error }] : []
+            errors: this.error ? [{ message: this.error }] : [],
+            required: this.required
         };
 
         return new AuraComponent(container, descriptor, attributes, this.embededAuraComponent);

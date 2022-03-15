@@ -31,7 +31,8 @@ const createComponentUnderTest = async (overriddenProps?) => {
 };
 const selectors = {
     ...INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    RECORD_PICKER: 'builder_platform_interaction-record-picker'
 };
 
 describe('FlowTestTriggerEditForm', () => {
@@ -41,5 +42,10 @@ describe('FlowTestTriggerEditForm', () => {
             LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT_FIELD
         );
         expect(rows.length).toEqual(2);
+    });
+    it('does not show record picker as a required field', async () => {
+        const flowTestTriggerEditForm = await createComponentUnderTest();
+        const recordPicker = flowTestTriggerEditForm.shadowRoot.querySelector(selectors.RECORD_PICKER);
+        expect(recordPicker.required).toEqual(false);
     });
 });
