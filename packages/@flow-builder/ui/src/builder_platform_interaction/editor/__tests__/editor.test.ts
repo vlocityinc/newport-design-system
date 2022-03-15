@@ -1895,6 +1895,24 @@ describe('in edit mode', () => {
         const debugButton = editorComponent.shadowRoot.querySelector(selectors.debug);
         expect(debugButton).toBeDefined();
     });
+    it('debug button is hidden in platform event triggerd flows', async () => {
+        expect.assertions(1);
+
+        mockStoreState.properties.triggerType = FLOW_TRIGGER_TYPE.PLATFORM_EVENT;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { toolbarConfig: { showDebugButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+        await ticks(1);
+
+        const debugButton = editorComponent.shadowRoot.querySelector(selectors.debug);
+        expect(debugButton).toBeNull();
+    });
     it('run button is hidden in Record-Triggered Orchestration', async () => {
         expect.assertions(1);
 

@@ -54,6 +54,16 @@ export const isRecordChangeTriggerType = (triggerType) => {
 };
 
 /**
+ * Utility method to determine if the flow is Platform Event triggered
+ *
+ * @param {string} triggerType
+ * @returns whether flow is Platform Event Triggered
+ */
+export const isPlatformEvent = (triggerType) => {
+    return triggerType === FLOW_TRIGGER_TYPE.PLATFORM_EVENT;
+};
+
+/**
  * Whether or not this trigger type supports a triggering record update
  * NOTE: Delete this method in favor of getTriggerHasCriteria if and when we support ScheduledJourneys
  *

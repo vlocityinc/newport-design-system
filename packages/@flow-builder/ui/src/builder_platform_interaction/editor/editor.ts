@@ -177,7 +177,11 @@ import {
     translateFlowToUIModel,
     translateUIModelToFlow
 } from 'builder_platform_interaction/translatorLib';
-import { getTriggerTypeInfo, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import {
+    getTriggerTypeInfo,
+    isPlatformEvent,
+    isRecordChangeTriggerType
+} from 'builder_platform_interaction/triggerTypeLib';
 import { INIT, isRedoAvailable, isUndoAvailable, undoRedo } from 'builder_platform_interaction/undoRedoLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { time } from 'instrumentation/service';
@@ -741,7 +745,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     get showDebugButton() {
         // Hardcoded to hide debug button in orchestrator
         // TODO:  W-8146747
-        return !!this.toolbarConfig.showDebugButton && !isOrchestrator(this.properties.processType);
+        // Hide debug button in Platform Event Triggered Flows
+        return (
+            !!this.toolbarConfig.showDebugButton &&
+            !isOrchestrator(this.properties.processType) &&
+            !isPlatformEvent(getTriggerType())
+        );
     }
 
     get showAddToTestButton() {
