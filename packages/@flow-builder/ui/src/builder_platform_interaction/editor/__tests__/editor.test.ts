@@ -32,6 +32,7 @@ import {
     UpdateNodeEvent
 } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { loadProcessTypeFeatures } from 'builder_platform_interaction/preloadLib';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
@@ -49,6 +50,7 @@ let mockStoreState;
 
 jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
+        loadProcessTypeFeatures: jest.fn(() => Promise.resolve()),
         loadAllSupportedFeatures: jest.fn(),
         loadFieldsForComplexTypesInFlow: jest.fn(),
         loadParametersForInvocableApexActionsInFlowFromMetadata: jest.fn(),
@@ -124,6 +126,8 @@ jest.mock('builder_platform_interaction/drawingLib', () => require('builder_plat
 let mockIsAutolayoutCanvas = false;
 let mockIsOrchestration = false;
 let mockIsFlowTestingSupportedForProcessType = true;
+let mockIsNonOrchestratorRecordTriggeredFlow = false;
+
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     return Object.assign({}, jest.requireActual('builder_platform_interaction/processTypeLib'), {
         isAutoLayoutCanvasOnly: jest.fn().mockImplementation(() => {
@@ -134,6 +138,9 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
         }),
         isFlowTestingSupportedForProcessType: jest.fn().mockImplementation(() => {
             return mockIsFlowTestingSupportedForProcessType;
+        }),
+        isNonOrchestratorRecordTriggeredFlow: jest.fn(() => {
+            return mockIsNonOrchestratorRecordTriggeredFlow;
         })
     });
 });
@@ -882,6 +889,38 @@ describe('toolbar', () => {
     });
 });
 
+describe('Configure Start Panel', () => {
+    let editorComponent;
+    let alcCanvas;
+
+    beforeAll(() => {
+        mockIsAutolayoutCanvas = true;
+        mockIsNonOrchestratorRecordTriggeredFlow = true;
+    });
+
+    beforeEach(async () => {
+        editorComponent = createComponentUnderTest();
+        alcCanvas = editorComponent.shadowRoot.querySelector('.test-outer-canvas-container');
+        await ticks(1);
+    });
+
+    afterAll(() => {
+        mockIsNonOrchestratorRecordTriggeredFlow = false;
+        mockIsAutolayoutCanvas = false;
+    });
+
+    it('is not shown for existing NonOrchestratorRecordTriggeredFlows ', async () => {
+        editorComponent.flowId = 'someid';
+        alcCanvas.dispatchEvent(new CustomEvent('canvasready'));
+        expect(loadProcessTypeFeatures).not.toHaveBeenCalled();
+    });
+
+    it('is shown for new NonOrchestratorRecordTriggeredFlows ', async () => {
+        alcCanvas.dispatchEvent(new CustomEvent('canvasready'));
+        expect(loadProcessTypeFeatures).toHaveBeenCalled();
+    });
+});
+
 describe('property editor', () => {
     it('is opened in a modal by default', async () => {
         expect.assertions(1);
@@ -892,7 +931,8 @@ describe('property editor', () => {
         const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
         canvasContainer.dispatchEvent(editElementEvent);
 
-        await ticks();
+        await ticks(1);
+
         expect(invokePropertyEditor).toHaveBeenCalledWith(PROPERTY_EDITOR, {
             mode: 'editelement',
             node: getElementForPropertyEditor(mockStoreState.elements['1']),

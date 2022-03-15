@@ -102,7 +102,11 @@
                 show-elements-tab={showLeftPanelElementsTab}
                 role="complementary"
             ></builder_platform_interaction-left-panel>
-            <div if:true={hasCanvasElements} class="slds-col slds-is-relative">
+            <div
+                if:true={hasCanvasElements}
+                class="test-outer-canvas-container slds-col slds-is-relative"
+                oncanvasready={handleCanvasReady}
+            >
                 <!--
                     W-7866257: Make sure the fixed canvas comes first as both canvas can be in the DOM at the same time
                     for brief moment when toggling (LWC bug?), and the fixed canvas use the offsets of its container
@@ -145,7 +149,6 @@
                     onoutgoinggotostubclick={handleOutgoingGoToStubClick}
                     onopensubflow={handleOpenSubflow}
                     role="region"
-                    oncanvasready={handleCanvasReady}
                 >
                 </builder_platform_interaction-alc-canvas-container>
             </div>

@@ -516,10 +516,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         return this.urlAction === NEW_FLOW_ACTION && !!this.defaultFlow;
     }
 
-    get newRecordTriggeredFlowFromUrl() {
-        return this.newFlowFromUrl && isNonOrchestratorRecordTriggeredFlow(getTriggerType());
-    }
-
     /**
      * Indicates that the new flow modal should be displayed
      *
@@ -1056,9 +1052,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     this.loadReferencesInFlow();
                     if (this.newFlowFromUrl) {
                         updateUrl();
-                        if (this.newRecordTriggeredFlowFromUrl) {
-                            this.handleRecordTriggerStartPropertyEditor();
-                        }
                     }
                     this.isFlowServerCallInProgress = false;
                 });
@@ -2197,7 +2190,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      */
     handleCanvasReady() {
         // To Do: W-9299993: update this to not rely on hardcoded checks for process type and trigger type
-        if (isNonOrchestratorRecordTriggeredFlow(getTriggerType())) {
+        if (!this.currentFlowId && isNonOrchestratorRecordTriggeredFlow(getTriggerType())) {
             this.handleRecordTriggerStartPropertyEditor();
         }
     }
