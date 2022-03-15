@@ -38,12 +38,6 @@ export default class FlowTestDetails extends LightningElement {
     }
 
     get isCreateUpdateTriggerValue() {
-        if (this.mode === FlowTestMode.Edit) {
-            return (
-                this.testTriggerType === FLOW_TRIGGER_SAVE_TYPE.CREATE ||
-                this.testTriggerType === FLOW_TRIGGER_SAVE_TYPE.UPDATE
-            );
-        }
         return (
             this.triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE ||
             this.triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.UPDATE

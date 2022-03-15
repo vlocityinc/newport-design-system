@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createElement } from 'lwc';
 import FlowTestDetails from '../flowTestDetails';
@@ -11,14 +12,15 @@ const SELECTORS = {
     LABEL_NAME: 'builder_platform_interaction-label-description'
 };
 
-function flowTestDetails(testType, saveType) {
+function flowTestDetails(testType, saveType, mode) {
     const flowTestDetails = {
         triggerSaveType: saveType,
         label: { value: 'test' },
         devName: { value: 'testApi' },
         description: { value: 'testDescription' },
         testTriggerType: testType,
-        runPathValue: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH
+        runPathValue: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH,
+        mode
     };
     return flowTestDetails;
 }
@@ -48,13 +50,21 @@ describe('flow-test-editor', () => {
         expect(radioOptions.disabled).toBeTruthy();
     });
 
-    it('should enable radio buttons when saveTriggerType is CreateUpdate and set Create as default testTriggerType', () => {
+    it('should enable radio buttons when saveTriggerType is CreateUpdate, set Create as default testTriggerType', () => {
         const data = flowTestDetails(CREATE, CREATE_AND_UPDATE);
         const element = createComponentForTest(data);
         const radioOptions = element.shadowRoot.querySelector(SELECTORS.RECORD_TRIGGER_TYPE_SECTION);
         expect(radioOptions.value).toEqual(CREATE);
         expect(radioOptions.disabled).toBeFalsy();
     });
+    it('should enable radio buttons when saveTriggerType is CreateUpdate and Test mode is Edit', () => {
+        const data = flowTestDetails(CREATE, CREATE_AND_UPDATE, FlowTestMode.Edit);
+        const element = createComponentForTest(data);
+        const radioOptions = element.shadowRoot.querySelector(SELECTORS.RECORD_TRIGGER_TYPE_SECTION);
+        expect(radioOptions.value).toEqual(CREATE);
+        expect(radioOptions.disabled).toBeFalsy();
+    });
+
     it('should default run path to run immediately', () => {
         const data = flowTestDetails(CREATE, CREATE_AND_UPDATE);
         const element = createComponentForTest(data);
