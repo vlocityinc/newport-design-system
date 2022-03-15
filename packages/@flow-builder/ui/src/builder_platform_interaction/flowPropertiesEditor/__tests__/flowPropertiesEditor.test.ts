@@ -1163,6 +1163,35 @@ describe('FlowPropertiesEditor', () => {
                 environments: ['Slack']
             };
         });
+        it('Slack in Flowbuilder checkbox is checked by default when environments contains Slack and orgHasScreenFlowsInSlack access is true', async () => {
+            (orgHasScreenFlowsInSlack as jest.Mock).mockReturnValue(true);
+            flowPropertiesEditor = createComponentUnderTest(defaultNode);
+            getShowAdvancedButton(flowPropertiesEditor).click();
+            await ticks(1);
+            const slackCheck = getSlackCheck(flowPropertiesEditor);
+            expect(slackCheck.checked).toEqual(true);
+        });
+        it('Slack in Flowbuilder checkbox is not checked by default when environments does not contains Slack even if orgHasScreenFlowsInSlack access is true', async () => {
+            (orgHasScreenFlowsInSlack as jest.Mock).mockReturnValue(true);
+            defaultNode.environments = ['Unspecified'];
+            flowPropertiesEditor = createComponentUnderTest(defaultNode);
+            getShowAdvancedButton(flowPropertiesEditor).click();
+            await ticks(1);
+            const slackCheck = getSlackCheck(flowPropertiesEditor);
+            expect(slackCheck.checked).toEqual(false);
+        });
+        it('Slack in Flowbuilder checkbox toggles when clicked', async () => {
+            (orgHasScreenFlowsInSlack as jest.Mock).mockReturnValue(true);
+            flowPropertiesEditor = createComponentUnderTest(defaultNode);
+            getShowAdvancedButton(flowPropertiesEditor).click();
+            await ticks(1);
+            const toFalseEvent = new CustomEvent('change', {
+                detail: { checked: false }
+            });
+            getSlackCheck(flowPropertiesEditor).dispatchEvent(toFalseEvent);
+            await ticks(1);
+            expect(getSlackCheck(flowPropertiesEditor).checked).toEqual(false);
+        });
         it('Slack in Flowbuilder checkbox and label is not present when slack perm is off', async () => {
             (orgHasScreenFlowsInSlack as jest.Mock).mockReturnValue(false);
             flowPropertiesEditor = createComponentUnderTest(defaultNode);
