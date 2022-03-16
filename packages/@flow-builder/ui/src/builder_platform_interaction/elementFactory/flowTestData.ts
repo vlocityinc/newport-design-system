@@ -5,8 +5,8 @@ import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './base/baseList';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 
 export enum FlowTestParameterType {
-    Input = 'INPUT',
-    UpdateRecord = 'UPDATE_RECORD'
+    Input = 'INPUT_TRIGGERING_RECORD_INITIAL',
+    UpdateRecord = 'INPUT_TRIGGERING_RECORD_UPDATED'
 }
 
 export enum FlowTestPointValidator {

@@ -1,5 +1,6 @@
 import { FlowTestPointValidator } from 'builder_platform_interaction/elementFactory';
 import { FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FlowTestParameterType } from '../../elementFactory/flowTestData';
 import { translateFlowTestToUIModel } from '../flowTestToUiTranslator';
 
 const flowTest = {
@@ -14,7 +15,7 @@ const flowTest = {
                 parameters: [
                     {
                         leftValueReference: '$Record',
-                        type: 'INPUT',
+                        type: FlowTestParameterType.Input,
                         value: {
                             numberValue: 0,
                             sobjectValue: '{"name":"TestAccount","attributes":{"type":"Account"}}'
@@ -56,7 +57,7 @@ const flowTestUpdated = {
                 parameters: [
                     {
                         leftValueReference: '$Record',
-                        type: 'INPUT',
+                        type: FlowTestParameterType.Input,
                         value: {
                             numberValue: 0,
                             sobjectValue: '{"name":"TestAccount","attributes":{"type":"Account"}}'
@@ -64,7 +65,7 @@ const flowTestUpdated = {
                     },
                     {
                         leftValueReference: '$Record',
-                        type: 'UPDATE_RECORD',
+                        type: FlowTestParameterType.UpdateRecord,
                         value: {
                             numberValue: 0,
                             sobjectValue: '{"name":"TestAccountUpdated","attributes":{"type":"Account"}}'

@@ -77,7 +77,7 @@ const flowTestMetadata = {
             parameters: [
                 {
                     leftValueReference: '$Record',
-                    type: 'INPUT',
+                    type: FlowTestParameterType.Input,
                     value: {
                         numberValue: 0,
                         sobjectValue: '{"name":"TestAccount","attributes":{"type":"Account"}}'
@@ -116,7 +116,7 @@ const flowTestMetadataMultipleParameters = {
             parameters: [
                 {
                     leftValueReference: '$Record',
-                    type: 'INPUT',
+                    type: FlowTestParameterType.Input,
                     value: {
                         numberValue: 0,
                         sobjectValue: '{"name":"TestAccount","attributes":{"type":"Account"}}'
@@ -124,7 +124,7 @@ const flowTestMetadataMultipleParameters = {
                 },
                 {
                     leftValueReference: '$Record',
-                    type: 'UPDATE_RECORD',
+                    type: FlowTestParameterType.UpdateRecord,
                     value: {
                         numberValue: 0,
                         sobjectValue: '{"name":"TestAccountUpdated","attributes":{"type":"Account"}}'
@@ -163,7 +163,7 @@ const flowTestMetadataMultipleAssertions = {
             parameters: [
                 {
                     leftValueReference: '$Record',
-                    type: 'INPUT',
+                    type: FlowTestParameterType.Input,
                     value: {
                         numberValue: 0,
                         sobjectValue: '{"name":"TestAccount","attributes":{"type":"Account"}}'
