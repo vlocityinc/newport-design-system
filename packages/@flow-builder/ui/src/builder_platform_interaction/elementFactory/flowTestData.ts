@@ -121,7 +121,7 @@ function addParameters(
     const recordParameter: Metadata.FlowTestParameter = {
         leftValueReference: '$Record',
         value: {
-            sobjectValue: JSON.stringify(record)
+            sobjectValue: JSON.stringify(record, (k, v) => v ?? undefined)
         },
         type: parameterType
     };

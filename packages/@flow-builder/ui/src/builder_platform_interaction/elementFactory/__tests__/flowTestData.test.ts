@@ -256,29 +256,25 @@ describe('Flow Test Data', () => {
             const parameters = createFlowTestParametersMetadataObject(uiModel);
             expect(parameters.length).toBe(1);
         });
-        it('returns parameter of type Input, left reference value of $Record and value of account data', () => {
+        it('returns parameter of type Input, left reference value of $Record and value of account data (without null field)', () => {
             const parameters = createFlowTestParametersMetadataObject(uiModel);
             expect(parameters[0].leftValueReference).toBe('$Record');
             expect(parameters[0].type).toBe(FlowTestParameterType.Input);
-            expect(parameters[0].value.sobjectValue).toBe(
-                '{"AccountNumber":null,"Name":"testAcc2","OwnerId":"005xx000001X7ttAAC"}'
-            );
+            expect(parameters[0].value.sobjectValue).toBe('{"Name":"testAcc2","OwnerId":"005xx000001X7ttAAC"}');
         });
         it('returns 2 parameters ', () => {
             const parameters = createFlowTestParametersMetadataObject(uiModelUpdateRecord);
             expect(parameters.length).toBe(2);
         });
-        it('returns parameters of type Input and UpdatedRecord', () => {
+        it('returns parameters of type Input and UpdatedRecord (without null field)', () => {
             const parameters = createFlowTestParametersMetadataObject(uiModelUpdateRecord);
             expect(parameters[0].leftValueReference).toBe('$Record');
             expect(parameters[0].type).toBe(FlowTestParameterType.Input);
-            expect(parameters[0].value.sobjectValue).toBe(
-                '{"AccountNumber":null,"Name":"testAcc2","OwnerId":"005xx000001X7ttAAC"}'
-            );
+            expect(parameters[0].value.sobjectValue).toBe('{"Name":"testAcc2","OwnerId":"005xx000001X7ttAAC"}');
             expect(parameters[1].leftValueReference).toBe('$Record');
             expect(parameters[1].type).toBe(FlowTestParameterType.UpdateRecord);
             expect(parameters[1].value.sobjectValue).toBe(
-                '{"AccountNumber":null,"Name":"testAcc2","OwnerId":"005xx000001X7ttAAC","AnnualRevenue":1000}'
+                '{"Name":"testAcc2","OwnerId":"005xx000001X7ttAAC","AnnualRevenue":1000}'
             );
         });
     });
