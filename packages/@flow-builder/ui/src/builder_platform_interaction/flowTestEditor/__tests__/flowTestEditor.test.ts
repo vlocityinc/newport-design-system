@@ -17,7 +17,25 @@ import {
     UpdateTestRecordDataEvent
 } from 'builder_platform_interaction/events';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import { FlowTestMenuItems } from '../flowTestEditor';
+
+jest.mock('builder_platform_interaction/translatorLib', () => {
+    return Object.assign({}, jest.requireActual('builder_platform_interaction/translatorLib'), {
+        translateUIModelToFlowTest: jest.fn().mockImplementation(() => {
+            return {};
+        })
+    });
+});
+
+let mockServerResponse;
+jest.mock('builder_platform_interaction/serverDataLib', () => {
+    return Object.assign({}, jest.requireActual('builder_platform_interaction/serverDataLib'), {
+        fetchPromise: jest.fn().mockImplementation(() => {
+            return Promise.resolve(mockServerResponse);
+        })
+    });
+});
 
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS
@@ -77,6 +95,18 @@ describe('FlowTestEditor', () => {
         expect(menuItems[0].firstChild).toBeTruthy();
         expect(menuItems[1].firstChild).toBeNull();
         expect(menuItems[2].firstChild).toBeNull();
+    });
+    it('fires toast event when save results in error', async () => {
+        mockServerResponse = {
+            isSuccess: false,
+            errors: [{ fields: [], messages: 'Test', statusCode: 'CODE' }]
+        };
+        const flowTestEditorComponent = await createComponentUnderTest();
+        const handleToast = jest.fn();
+        flowTestEditorComponent.addEventListener(ShowToastEventName, handleToast);
+        flowTestEditorComponent.save();
+        await ticks(1);
+        expect(handleToast).toBeCalled();
     });
     describe('FlowTestDetails', () => {
         it('creates a new menu item when Trigger type is changed to Updated', async () => {

@@ -1,8 +1,13 @@
-import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
-import { getErrorsFromHydratedElement, pick } from 'builder_platform_interaction/dataMutationLib';
+import { FlowTestMode, hidePopover } from 'builder_platform_interaction/builderUtils';
+import { dehydrate, getErrorsFromHydratedElement, pick } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { BUILDER_MODE, pushFlowTest } from 'builder_platform_interaction/systemLib';
+import { translateUIModelToFlowTest } from 'builder_platform_interaction/translatorLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './flowTestEditorLabels';
 import { flowTestEditorReducer } from './flowTestEditorReducer';
@@ -21,15 +26,19 @@ const PROPERTIES_BY_TAB = {
     [FlowTestMenuItems.Assertions]: ['testAssertions']
 };
 
+const { format } = commonUtils;
+
 export default class FlowTestEditor extends LightningElement {
     @api triggerSaveType;
     @api mode;
     @track activeMenuItemId = FlowTestMenuItems.Details;
     items: UI.MenuItem[] = [];
     @api objectApiName;
-    @api showWaitingSpinner;
+    showWaitingSpinner;
     @api devNamePrefix;
     @api footer;
+    @api builderMode;
+    @api flowTestListViewCallback;
 
     @api validate() {
         const event = { type: VALIDATE_ALL, mode: this.mode };
@@ -39,6 +48,12 @@ export default class FlowTestEditor extends LightningElement {
             delete validatedFlowTest.testUpdatedRecordData;
         }
         return getErrorsFromHydratedElement(validatedFlowTest);
+    }
+
+    @api save() {
+        const dehydratedObj = this.dehydrateFlowTestObject(deepCopy(this.flowTestObject));
+        const flowTest = translateUIModelToFlowTest(dehydratedObj);
+        this.saveTest(flowTest, this.mode);
     }
 
     sampleRecordId;
@@ -184,4 +199,50 @@ export default class FlowTestEditor extends LightningElement {
         event.stopPropagation();
         this.sampleRecordId = event.detail.id;
     }
+
+    dehydrateFlowTestObject(data) {
+        const dehydratedObj = dehydrate(data);
+        dehydratedObj.testInitialRecordData = dehydrate(dehydratedObj.testInitialRecordData);
+        dehydratedObj.testUpdatedRecordData = dehydrate(dehydratedObj.testUpdatedRecordData);
+        return dehydratedObj;
+    }
+
+    saveTest = (flowTest, saveType) => {
+        this.showWaitingSpinner = true;
+        fetchPromise(SERVER_ACTION_TYPE.SAVE_FLOW_TEST, {
+            flowTest,
+            saveType
+        })
+            .then((data) => this.saveFlowTestCallback({ data }, flowTest))
+            // When not caught, two modals are displayed, one for the unhandled rejection, one for the actual server-side exception response.
+            // This catches the unhandled rejection modal but still allows the builder to handle the server-side exception response
+            .catch(() => {})
+            .finally(() => (this.showWaitingSpinner = false));
+    };
+
+    saveFlowTestCallback = ({ data }, flowTest) => {
+        if (data.isSuccess) {
+            pushFlowTest(data);
+            if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
+                hidePopover();
+                this.showToast(format(LABELS.flowTestFromDebuggerSavedSuccess, flowTest.metadata.label), 'success');
+            } else {
+                this.flowTestListViewCallback();
+                hidePopover();
+            }
+        } else {
+            data.errors.forEach((element) => {
+                this.showToast(element.messages, 'error', 'sticky');
+            });
+        }
+    };
+
+    showToast = (message: string, variant: string, mode?: string) => {
+        const toastEvent = new ShowToastEvent({
+            message,
+            variant,
+            mode
+        });
+        this.dispatchEvent(toastEvent);
+    };
 }

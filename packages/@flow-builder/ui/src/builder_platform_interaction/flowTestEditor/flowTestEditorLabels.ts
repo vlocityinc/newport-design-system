@@ -2,6 +2,7 @@ import flowTestAssertionPanelDescription from '@salesforce/label/FlowBuilderCrea
 import flowTestAssertionPanelHeader from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionPanelHeader';
 import flowTestAssertionsMenuItem from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionsMenuItem';
 import flowTestDetailsMenuItem from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestDetailsMenuItem';
+import flowTestFromDebuggerSavedSuccess from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestFromDebuggerSavedSuccess';
 import flowTestInitialRecordMenuItem from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestInitialRecordMenuItem';
 import flowTestInitialRecordPanelDescription from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestInitialRecordPanelDescription';
 import flowTestInitialRecordPanelHeader from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestInitialRecordPanelHeader';
@@ -21,5 +22,6 @@ export const LABELS = {
     flowTestInitialRecordPanelDescription,
     flowTestUpdatedRecordPanelHeader,
     flowTestUpdatedRecordPanelDescription,
-    spinnerAlternativeText
+    spinnerAlternativeText,
+    flowTestFromDebuggerSavedSuccess
 };

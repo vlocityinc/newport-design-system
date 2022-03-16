@@ -753,7 +753,9 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes, popov
         triggerSaveType: cmpAttributes.triggerSaveType,
         objectApiName: cmpAttributes.triggerObjectType,
         mode: cmpAttributes.mode,
-        devNamePrefix: cmpAttributes.devNamePrefix
+        devNamePrefix: cmpAttributes.devNamePrefix,
+        builderMode: cmpAttributes.builderMode,
+        flowTestListViewCallback
     });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);
@@ -762,9 +764,6 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes, popov
             modalFooter.disableFlowTestButtonOne(true);
         }
         modalFooter.set('v.panelInstance', modal);
-        modalFooter.set('v.testMode', cmpAttributes.mode);
-        modalFooter.set('v.flowTestListViewCallback', flowTestListViewCallback);
-        modalFooter.set('v.builderMode', cmpAttributes.builderMode);
         const panelBody = modal.get('v.body')[0];
         panelBody.set('v.footer', modalFooter);
     };
@@ -784,7 +783,7 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes, popov
 /**
  * Invoke flow test list view
  *
- * @param attributes
+ * @param attributes - attributes to pass to flow test body and footer
  */
 export function invokeFlowTestManager(attributes) {
     showTestFlowManagerPopover(
