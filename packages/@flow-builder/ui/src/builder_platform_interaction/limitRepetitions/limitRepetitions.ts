@@ -6,8 +6,8 @@ import {
     ELEMENT_PROPS,
     LimitRepetitionsInput
 } from 'builder_platform_interaction/limitRepetitionsLib';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
+import { swapDevNamesToGuids } from 'builder_platform_interaction/translatorLib';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './limitRepetitionsLabels';
 import { getRules, limitRepetitionsValidation } from './limitRepetitionsValidation';
@@ -78,7 +78,14 @@ export default class LimitRepetitions extends LightningElement {
             if (input.value) {
                 // update UI input fields
                 if (input.name === ELEMENT_PROPS.inputRecommendations.name) {
-                    this.state.inputRecommendations.value = <string>getElementByDevName(<string>input.value)?.guid;
+                    const obj = {
+                        isInput: true,
+                        valueDataType: input.valueDataType,
+                        value: input.value,
+                        error: null
+                    };
+                    swapDevNamesToGuids(Store.getStore().getCurrentState().elements, obj);
+                    this.state.inputRecommendations.value = obj.value;
                     this.showReactionSettings = true;
                 } else {
                     this.state[input.name].value = input.value;
