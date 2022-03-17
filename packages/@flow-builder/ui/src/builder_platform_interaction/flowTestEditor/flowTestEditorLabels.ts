@@ -1,3 +1,4 @@
+import errorMessageDuplicateFlowTest from '@salesforce/label/FlowBuilderAlertModal.errorMessageDuplicateFlowTest';
 import flowTestAssertionPanelDescription from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionPanelDescription';
 import flowTestAssertionPanelHeader from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionPanelHeader';
 import flowTestAssertionsMenuItem from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionsMenuItem';
@@ -23,5 +24,6 @@ export const LABELS = {
     flowTestUpdatedRecordPanelHeader,
     flowTestUpdatedRecordPanelDescription,
     spinnerAlternativeText,
-    flowTestFromDebuggerSavedSuccess
+    flowTestFromDebuggerSavedSuccess,
+    errorMessageDuplicateFlowTest
 };

@@ -508,6 +508,7 @@ export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVaria
 
 /**
  * True if the subtype representw a system variable other than $Record
+ *
  * @param subtype
  */
 function isSystemVariableExceptRecord(subtype) {

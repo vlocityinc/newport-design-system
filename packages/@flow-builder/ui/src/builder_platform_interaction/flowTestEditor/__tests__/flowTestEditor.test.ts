@@ -17,8 +17,11 @@ import {
     UpdateTestRecordDataEvent
 } from 'builder_platform_interaction/events';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { ShowToastEventName } from 'lightning/platformShowToastEvent';
-import { FlowTestMenuItems } from '../flowTestEditor';
+import { DUPLICATE_FLOW_API_NAME_ERROR_CODE, FlowTestMenuItems } from '../flowTestEditor';
+import { LABELS } from '../flowTestEditorLabels';
+const { format } = commonUtils;
 
 jest.mock('builder_platform_interaction/translatorLib', () => {
     return Object.assign({}, jest.requireActual('builder_platform_interaction/translatorLib'), {
@@ -107,6 +110,17 @@ describe('FlowTestEditor', () => {
         flowTestEditorComponent.save();
         await ticks(1);
         expect(handleToast).toBeCalled();
+    });
+    it('show field error when there is a duplicate test api name', async () => {
+        mockServerResponse = {
+            isSuccess: false,
+            errors: [{ fields: [], messages: 'duplicate', statusCode: DUPLICATE_FLOW_API_NAME_ERROR_CODE }]
+        };
+        const flowTestEditorComponent = await createComponentUnderTest();
+        flowTestEditorComponent.save();
+        await ticks(1);
+        const expectedErrorMessage = format(LABELS.errorMessageDuplicateFlowTest, DEFAULT_PROPS.flowTestObject.name);
+        expect(flowTestEditorComponent.flowTestObject.name.error).toEqual(expectedErrorMessage);
     });
     describe('FlowTestDetails', () => {
         it('creates a new menu item when Trigger type is changed to Updated', async () => {

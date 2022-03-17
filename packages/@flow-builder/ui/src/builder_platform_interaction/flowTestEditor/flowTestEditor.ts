@@ -1,5 +1,6 @@
 import { FlowTestMode, hidePopover } from 'builder_platform_interaction/builderUtils';
 import { dehydrate, getErrorsFromHydratedElement, pick } from 'builder_platform_interaction/dataMutationLib';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
@@ -18,6 +19,8 @@ export enum FlowTestMenuItems {
     UpdatedRecord,
     Assertions
 }
+
+export const DUPLICATE_FLOW_API_NAME_ERROR_CODE = 'DUPLICATE_VALUE';
 
 const PROPERTIES_BY_TAB = {
     [FlowTestMenuItems.Details]: ['name', 'label', 'description', 'testTriggerType', 'runPathValue'],
@@ -231,8 +234,12 @@ export default class FlowTestEditor extends LightningElement {
                 hidePopover();
             }
         } else {
-            data.errors.forEach((element) => {
-                this.showToast(element.messages, 'error', 'sticky');
+            data.errors.forEach((error) => {
+                if (error.statusCode === DUPLICATE_FLOW_API_NAME_ERROR_CODE) {
+                    this.showDuplicateFlowNameError();
+                } else {
+                    this.showToast(error.messages, 'error', 'sticky');
+                }
             });
         }
     };
@@ -244,5 +251,15 @@ export default class FlowTestEditor extends LightningElement {
             mode
         });
         this.dispatchEvent(toastEvent);
+    };
+
+    showDuplicateFlowNameError = () => {
+        const { value } = this._flowTestObject.name;
+        const errorMessage = format(this.labels.errorMessageDuplicateFlowTest, value);
+        const event = new PropertyChangedEvent('name', value, errorMessage);
+        this._flowTestObject = flowTestEditorReducer(this._flowTestObject, event);
+
+        // switch tabs to display the tab the error is in
+        this.activeMenuItemId = FlowTestMenuItems.Details;
     };
 }
