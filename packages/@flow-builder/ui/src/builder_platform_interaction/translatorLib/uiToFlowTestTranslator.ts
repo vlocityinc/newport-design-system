@@ -4,6 +4,7 @@ import {
     FlowTestPointValidator
 } from 'builder_platform_interaction/elementFactory';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { swapUidsForDevNames } from './uidSwapping';
 
 export type FlowTest = {
     fullName: string;
@@ -28,12 +29,14 @@ export function translateUIModelToFlowTest(uiModel: UI.FlowTestData): FlowTest {
         parameters: [],
         assertions: createFlowTestAssertionsMetadataObject(uiModel)
     });
+    const flowStoreState = Store.getStore().getCurrentState();
     const metadata = {
         label: uiModel.label,
         description: uiModel.description,
-        flowApiName: Store.getStore().getCurrentState().properties.name ?? '',
+        flowApiName: flowStoreState.properties.name ?? '',
         testPoints
     };
+    swapUidsForDevNames(flowStoreState.elements, metadata);
     return {
         fullName: uiModel.name,
         metadata

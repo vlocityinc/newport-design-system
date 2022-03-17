@@ -5,6 +5,8 @@ import {
     FlowTestPointValidator
 } from 'builder_platform_interaction/elementFactory';
 import { FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { swapDevNamesToGuids } from './uidSwapping';
 
 /**
  * Convert FlowTest tooling object to UI data model
@@ -29,6 +31,8 @@ export function translateFlowTestToUIModel(flowTest): UI.FlowTestData {
         assertionArr = createFlowTestAssertionsUIModel(flowTest.metadata);
         records = createFlowTestRecordsUIModel(flowTest.metadata, testTriggerType);
     }
+
+    swapDevNamesToGuids(Store.getStore().getCurrentState().elements, assertionArr);
 
     const label = flowTest?.metadata?.label;
     const name = flowTest?.fullName;

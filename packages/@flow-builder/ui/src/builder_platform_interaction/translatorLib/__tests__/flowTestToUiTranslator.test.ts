@@ -1,7 +1,18 @@
+// @ts-nocheck
 import { FlowTestPointValidator } from 'builder_platform_interaction/elementFactory';
 import { FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FlowTestParameterType } from '../../elementFactory/flowTestData';
 import { translateFlowTestToUIModel } from '../flowTestToUiTranslator';
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('../uidSwapping', () => {
+    return Object.assign({}, jest.requireActual('../uidSwapping'), {
+        swapDevNamesToGuids: jest.fn().mockImplementation(() => {
+            return {};
+        })
+    });
+});
 
 const flowTest = {
     fullName: 'flowTest',
