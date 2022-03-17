@@ -33,7 +33,10 @@ export function translateUIModelToFlowTest(uiModel: UI.FlowTestData): FlowTest {
     const metadata = {
         label: uiModel.label,
         description: uiModel.description,
-        flowApiName: flowStoreState.properties.name ?? '',
+        flowApiName: constructFlowApiNameWithVersion(
+            flowStoreState.properties.name,
+            flowStoreState.properties.versionNumber
+        ),
         testPoints
     };
     swapUidsForDevNames(flowStoreState.elements, metadata);
@@ -41,4 +44,18 @@ export function translateUIModelToFlowTest(uiModel: UI.FlowTestData): FlowTest {
         fullName: uiModel.name,
         metadata
     };
+}
+
+/**
+ * @param flowApiName
+ * @param versionNumber
+ * @returns [flow api name]-[number] formatted name
+ * Helper function to append version number into Flow Api Name
+ */
+export function constructFlowApiNameWithVersion(flowApiName: string, versionNumber): string {
+    let name = flowApiName ?? '';
+    if (versionNumber && typeof versionNumber == 'number') {
+        name += '-' + versionNumber;
+    }
+    return name;
 }

@@ -36,7 +36,8 @@ describe('UI to Flow Test Translation', () => {
         beforeAll(() => {
             Store.setMockState({
                 properties: {
-                    name: 'flowTestApi'
+                    name: 'flowTestApi',
+                    versionNumber: 1
                 },
                 elements: {}
             });
@@ -48,7 +49,7 @@ describe('UI to Flow Test Translation', () => {
             const { fullName, metadata } = translateUIModelToFlowTest(uiModel);
             expect(fullName).toBe('test');
             expect(metadata.description).toBe('testDescription');
-            expect(metadata.flowApiName).toBe('flowTestApi');
+            expect(metadata.flowApiName).toBe('flowTestApi-1');
             expect(metadata.label).toBe('testLabel');
         });
         it('return 2 test points ', () => {
