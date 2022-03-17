@@ -57,11 +57,18 @@ describe('isValidNumber', () => {
         ${null}        | ${false}
         ${undefined}   | ${false}
         ${''}          | ${false}
+        ${'  '}        | ${false}
         ${'false'}     | ${false}
         ${'true'}      | ${false}
         ${'astring'}   | ${false}
+        ${new Date()}  | ${false}
         ${() => {}}    | ${false}
+        ${NaN}         | ${false}
+        ${'11.11.11'}  | ${false}
+        ${'11.11'}     | ${true}
         ${1}           | ${true}
+        ${0}           | ${true}
+        ${0.1234}      | ${true}
     `('isValidNumber for parameter value: $parameterValue', ({ parameterValue, expected }) => {
         const actual = isValidNumber(parameterValue);
         expect(actual).toBe(expected);

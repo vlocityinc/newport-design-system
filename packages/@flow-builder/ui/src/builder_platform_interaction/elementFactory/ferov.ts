@@ -284,7 +284,7 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
                 switch (dataType) {
                     case FLOW_DATA_TYPE.NUMBER.value:
                     case FLOW_DATA_TYPE.CURRENCY.value:
-                        if (!isValidNumber(value?.toString())) {
+                        if (!isValidNumber(value)) {
                             ferovDataTypeKey = stringDataTypeKey;
                         }
                         break;

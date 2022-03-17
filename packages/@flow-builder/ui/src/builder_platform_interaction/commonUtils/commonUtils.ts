@@ -64,11 +64,14 @@ export const removeCurlyBraces = (value: string) => {
 /**
  * Validates the value is a number with optional decimal.
  *
- * @param {string} value input number string
- * @returns {*} false if not a number else regex result array
+ * @param value input number string
+ * @returns false if not a number else regex result array
  */
-export const isValidNumber = (value) => {
-    return value ? !isNaN(value) : false;
+export const isValidNumber = (value: string | number): boolean => {
+    return typeof value === 'number' || (typeof value === 'string' && value.trim() !== '')
+        ? // @ts-ignore
+          !isNaN(value)
+        : false;
 };
 
 /**
