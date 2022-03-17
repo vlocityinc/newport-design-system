@@ -1655,17 +1655,19 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      *
      * @param flowTestId
      * @param showTrace
+     * @returns the response from the server call to runFlowTests
      */
     handleRunAndViewTestDetail = async (flowTestId: string, showTrace: boolean) => {
         let hideFlowTestManager = false;
         const startInterviewTime = new Date();
         const enableRollbackMode = false;
         const isPausedDebugging = false;
+        let result = null;
         try {
             // Run flow test
             const results = await runFlowTests(this.currentFlowId, [flowTestId], showTrace);
-            const result = results[flowTestId];
-            if (result) {
+            if (results && results[flowTestId]) {
+                result = results[flowTestId];
                 this.currentFlowTestId = flowTestId;
                 // Setup debug data object and switch to test mode
                 hideFlowTestManager = true;
@@ -1686,6 +1688,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 hidePopover();
             }
         }
+        return result;
     };
 
     /**

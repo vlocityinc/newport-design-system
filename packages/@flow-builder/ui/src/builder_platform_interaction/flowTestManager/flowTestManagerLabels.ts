@@ -1,3 +1,4 @@
+import flowTestRunFailureWhenGateClosedToast from '@salesforce/label/FlowBuilderEditor.flowTestRunFailureWhenGateClosedToast';
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 import flowTestBodyDescription from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyDescription';
 import flowTestBodyHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyHeader';
@@ -39,5 +40,6 @@ export const LABELS = {
     flowTestListRunStatusError,
     flowTestRunBulkActionCompleteToast,
     flowTestDeleteActionSuccessToast,
-    flowTestDeleteActionFailureToast
+    flowTestDeleteActionFailureToast,
+    flowTestRunFailureWhenGateClosedToast
 };

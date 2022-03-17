@@ -256,7 +256,12 @@ export default class FlowTestManager extends LightningElement {
         logPerfTransactionStart(RUN_TEST_AND_VIEW_DETAIL_FROM_LIST);
         this.showLoadingSpinner = true;
         try {
-            await this.handleRunAndViewTestDetail(flowTestId, true);
+            const res = await this.handleRunAndViewTestDetail(flowTestId, true);
+            if (!res) {
+                // reusing the label for gate-based failure, but just something to keep in mind
+                // if we ever want the labels to deviate
+                this.showToast(LABELS.flowTestRunFailureWhenGateClosedToast, 'error', 'sticky');
+            }
         } finally {
             this.showLoadingSpinner = false;
             logPerfTransactionEnd(RUN_TEST_AND_VIEW_DETAIL_FROM_LIST, { flowTestId });
