@@ -678,14 +678,14 @@ function showDebugEditorPopover(
  *
  * @param attributes - contains callback and actual data
  */
-export function invokeCreateEditFlowTestEditor(attributes) {
+export async function invokeCreateEditFlowTestEditor(attributes) {
     const data = attributes.flowTestObject;
     const mode = attributes.createOrEdit;
     const triggerSaveType = attributes.triggerSaveType;
     const triggerObjectType = attributes.triggerObjectType;
     const devNamePrefix = attributes.devNamePrefix;
     const builderMode = attributes.builderMode;
-    showFlowTestPopover(
+    await showFlowTestPopover(
         'builder_platform_interaction:modalHeader',
         'builder_platform_interaction:flowTestEditor',
         'builder_platform_interaction:flowTestFooter',
@@ -714,7 +714,14 @@ export function invokeCreateEditFlowTestEditor(attributes) {
  * @param popoverProps - Contains popover properties
  * @param flowTestListViewCallback - callback to display list view after successful test save
  */
-function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes, popoverProps, flowTestListViewCallback) {
+async function showFlowTestPopover(
+    cmpHeader,
+    cmpBody,
+    cmpFooter,
+    cmpAttributes,
+    popoverProps,
+    flowTestListViewCallback
+) {
     let headerLabel = null;
     let footerButtonLabel = null;
 
@@ -768,7 +775,7 @@ function showFlowTestPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes, popov
         panelBody.set('v.footer', modalFooter);
     };
 
-    invokeModalWithComponents(
+    await invokeModalWithComponents(
         {
             flavor: popoverProps.flavor,
             closeCallback: hidePopover

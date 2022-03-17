@@ -230,7 +230,8 @@ const {
     initMetricsTracker,
     writeMetrics,
     TOGGLE_CANVAS_MODE,
-    EDITOR
+    EDITOR,
+    OPEN_FLOW_TEST_LIST
 } = loggingUtils;
 const { DisplayShortcutsCommand, FocusOnDockingPanelCommand } = commands;
 
@@ -1630,6 +1631,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Handles the View All Tests event fired by toolbar.
      */
     handleViewAllTests = async () => {
+        logPerfTransactionStart(OPEN_FLOW_TEST_LIST, { builderMode: this.builderMode });
         if (getFlowTests().length === 0) {
             this.spinners.showFlowTestRetrieveSpinner = true;
             try {
@@ -1967,7 +1969,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * @param createOrEdit Takes the mode, Create or Edit
      * @param flowTestId
      */
-    createOrEditFlowTest = (createOrEdit: FlowTestMode, flowTestId?: string) => {
+    createOrEditFlowTest = async (createOrEdit: FlowTestMode, flowTestId?: string) => {
         const triggerSaveType = getRecordTriggerType();
         const triggerObjectType = getStartObject();
         const devNamePrefix = this.properties.name + '_';
@@ -1977,7 +1979,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
                     ? FLOW_TRIGGER_SAVE_TYPE.CREATE
                     : getRecordTriggerType();
-            this.queueOpenCreateFlowTest(() => {
+            await this.queueOpenCreateFlowTest(() => {
                 // TODO: why are we passing {} ?
                 // @ts-ignore
                 let flowTestObject = createFlowTestData(); // initalize an empty flow test object
@@ -2002,7 +2004,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             if (!flowTestId) {
                 flowTestId = this.currentFlowTestId;
             }
-            this.getTest(flowTestId, createOrEdit, triggerSaveType, triggerObjectType);
+            await this.getTest(flowTestId, createOrEdit, triggerSaveType, triggerObjectType);
         }
     };
 
@@ -2012,16 +2014,22 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const data = await fetchPromise(SERVER_ACTION_TYPE.GET_FLOW_TEST, {
                 id: flowTestId
             });
-            this.editTestCallback(data, createOrEdit, triggerSaveType, triggerObjectType, this.handleViewAllTests);
+            await this.editTestCallback(
+                data,
+                createOrEdit,
+                triggerSaveType,
+                triggerObjectType,
+                this.handleViewAllTests
+            );
         } finally {
             this.spinners.showPropertyEditorSpinner = false;
         }
     };
 
-    editTestCallback(data, createOrEdit, triggerSaveType, triggerObjectType, flowTestListViewCallback) {
+    async editTestCallback(data, createOrEdit, triggerSaveType, triggerObjectType, flowTestListViewCallback) {
         let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data));
         flowTestObject = getElementForPropertyEditor(flowTestObject);
-        this.queueOpenCreateFlowTest(() => {
+        await this.queueOpenCreateFlowTest(() => {
             return {
                 flowTestObject,
                 createOrEdit,
@@ -2033,8 +2041,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         });
     }
 
-    queueOpenCreateFlowTest = (paramsProvider) => {
-        invokeCreateEditFlowTestEditor(paramsProvider());
+    queueOpenCreateFlowTest = async (paramsProvider) => {
+        await invokeCreateEditFlowTestEditor(paramsProvider());
     };
 
     /**

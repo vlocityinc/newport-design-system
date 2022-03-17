@@ -1,6 +1,6 @@
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { deleteFlowTest } from 'builder_platform_interaction/preloadLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import type { FlowTestAndResultDescriptor } from 'builder_platform_interaction/systemLib';
 import {
     deleteFlowTestFromCache,
@@ -13,6 +13,7 @@ import { api, LightningElement } from 'lwc';
 import { LABELS } from './flowTestManagerLabels';
 
 const { format } = commonUtils;
+const { logPerfTransactionStart, logPerfTransactionEnd, OPEN_FLOW_TEST_LIST } = loggingUtils;
 
 export enum FlowTestListRowAction {
     Delete = 'delete',
@@ -82,8 +83,18 @@ const RESULT_STATUS_TRANSLATED_METADATA = {
     }
 };
 
+const FLOW_TEST_MODE_TO_PERF_LOG_MAP = {
+    [FlowTestMode.Create]: 'CREATE_FLOW_TEST_FROM_LIST',
+    [FlowTestMode.Edit]: 'EDIT_FLOW_TEST_FROM_LIST'
+};
+
 /* Max number of tests to be sent in a single run request */
 const TEST_RUN_BATCH_SIZE = 50;
+
+/* Logging strings */
+const DELETE_FLOW_TEST_FROM_LIST = 'DELETE_FLOW_TEST_FROM_LIST';
+const RUN_TEST_AND_VIEW_DETAIL_FROM_LIST = 'RUN_TEST_AND_VIEW_DETAIL_FROM_LIST';
+const BULK_RUN_FLOW_TESTS_FROM_LIST = 'BULK_RUN_FLOW_TESTS_FROM_LIST';
 
 export default class FlowTestManager extends LightningElement {
     @api createOrEditFlowTestCallback;
@@ -102,10 +113,18 @@ export default class FlowTestManager extends LightningElement {
     selectedTests: FlowTestAndResultDescriptor[] = [];
 
     showLoadingSpinner = false;
+    isFirstRender = false;
 
     constructor() {
         super();
         this.copyDataFromTestStore();
+    }
+
+    renderedCallback() {
+        if (!this.isFirstRender) {
+            logPerfTransactionEnd(OPEN_FLOW_TEST_LIST, { testCount: this.privateFlowTestData.length });
+            this.isFirstRender = true;
+        }
     }
 
     handleCreateNewTest() {
@@ -170,6 +189,7 @@ export default class FlowTestManager extends LightningElement {
     }
 
     @api async runSelectedTests(): Promise<void> {
+        logPerfTransactionStart(BULK_RUN_FLOW_TESTS_FROM_LIST);
         this.showLoadingSpinner = true;
         const selectedTestIds = this.selectedTests.map((testData) => testData.flowTestId);
         const testRunPromises: Promise<void>[] = [];
@@ -182,12 +202,18 @@ export default class FlowTestManager extends LightningElement {
         } finally {
             this.copyDataFromTestStore();
             this.showLoadingSpinner = false;
+            logPerfTransactionEnd(BULK_RUN_FLOW_TESTS_FROM_LIST, { testCount: this.selectedTests.length });
         }
     }
 
-    handleCreateOrEdit(mode: FlowTestMode, flowTestId) {
-        this.hideModal();
-        this.createOrEditFlowTestCallback(mode, flowTestId);
+    async handleCreateOrEdit(mode: FlowTestMode, flowTestId) {
+        logPerfTransactionStart(FLOW_TEST_MODE_TO_PERF_LOG_MAP[mode]);
+        try {
+            this.hideModal();
+            await this.createOrEditFlowTestCallback(mode, flowTestId);
+        } finally {
+            logPerfTransactionEnd(FLOW_TEST_MODE_TO_PERF_LOG_MAP[mode], { flowTestId });
+        }
     }
 
     /**
@@ -196,12 +222,14 @@ export default class FlowTestManager extends LightningElement {
      * @param flowTestId Flow test Id to delete
      */
     handleDeleteFlowTest = async (flowTestId) => {
+        logPerfTransactionStart(DELETE_FLOW_TEST_FROM_LIST);
         this.showLoadingSpinner = true;
         try {
             const results = await deleteFlowTest([flowTestId]);
             this._deleteFlowTestResults(results);
         } finally {
             this.showLoadingSpinner = false;
+            logPerfTransactionEnd(DELETE_FLOW_TEST_FROM_LIST, { flowTestId });
         }
     };
 
@@ -225,11 +253,13 @@ export default class FlowTestManager extends LightningElement {
     }
 
     handleRunAndViewTestDetailAction = async (flowTestId) => {
+        logPerfTransactionStart(RUN_TEST_AND_VIEW_DETAIL_FROM_LIST);
         this.showLoadingSpinner = true;
         try {
             await this.handleRunAndViewTestDetail(flowTestId, true);
         } finally {
             this.showLoadingSpinner = false;
+            logPerfTransactionEnd(RUN_TEST_AND_VIEW_DETAIL_FROM_LIST, { flowTestId });
         }
     };
 
