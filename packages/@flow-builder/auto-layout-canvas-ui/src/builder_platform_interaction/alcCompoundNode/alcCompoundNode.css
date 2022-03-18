@@ -6,7 +6,13 @@ builder_platform_interaction-alc-connector {
     position: absolute;
 }
 
+builder_platform_interaction-alc-connector.loopBack,
+builder_platform_interaction-alc-connector.loopAfterLast,
 builder_platform_interaction-alc-connector.branchLeft,
 builder_platform_interaction-alc-connector.branchRight {
     z-index: var(--z-index-alc-connector-branch);
+}
+
+builder_platform_interaction-alc-connector.goTo {
+    width: 0;
 }

@@ -39,6 +39,7 @@ export interface ConnectorMenuInfo {
     canAddGoto: boolean;
     canAddEndElement: boolean;
     isGoToConnector: boolean;
+    isPasteAvailable: boolean;
     elementsMetadata: ElementMetadata[];
     autoFocus: boolean;
     metadata: ConnectorMenuMetadata;
@@ -191,6 +192,7 @@ export function getConnectorMenuInfo(canvasContext: CanvasContext, flowModel: Fl
             canAddEndElement,
             source,
             isGoToConnector,
+            isPasteAvailable: canvasContext.isPasteAvailable,
             ctor,
             elementsMetadata,
             autoFocus,

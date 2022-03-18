@@ -310,7 +310,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     }
 
     get isSelectionMode() {
-        return this.canvasContext.mode === AutoLayoutCanvasMode.SELECTION;
+        return (
+            this.canvasContext.mode === AutoLayoutCanvasMode.SELECTION ||
+            this.canvasContext.mode === AutoLayoutCanvasMode.RECONNECTION
+        );
     }
 
     @api
@@ -581,13 +584,30 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     }
 
     /**
+     * Helper function to update the mode in canvas context
+     *
+     * @param isEnteringSelectionMode - true in selection/reconnection mode, false otherwise
+     */
+    updateModeInCanvasContext(isEnteringSelectionMode: boolean) {
+        if (isEnteringSelectionMode) {
+            // Reconnection Mode is updated in handleAddOrRerouteGoToItemSelection
+            // so we don't need to update it again.
+            if (this.canvasContext.mode !== AutoLayoutCanvasMode.RECONNECTION) {
+                this.updateCanvasContext({ mode: AutoLayoutCanvasMode.SELECTION });
+            }
+        } else {
+            this.updateCanvasContext({ mode: AutoLayoutCanvasMode.DEFAULT });
+        }
+    }
+
+    /**
      * Handles a elements selection change
      *
-     * @param isSelectionMode - true in selection mode, false otherwise
+     * @param isEnteringSelectionMode - true in selection/reconnection mode, false otherwise
      */
-    handleSelectionModeChange(isSelectionMode: boolean) {
-        const mode = isSelectionMode ? AutoLayoutCanvasMode.SELECTION : AutoLayoutCanvasMode.DEFAULT;
-        this.updateCanvasContext({ mode });
+    handleSelectionModeChange(isEnteringSelectionMode: boolean) {
+        // Updating the canvas context with the right mode
+        this.updateModeInCanvasContext(isEnteringSelectionMode);
 
         if (this.isSelectionMode) {
             this.closeNodeOrConnectorMenu();
@@ -601,7 +621,6 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             }
         } else {
             this._topSelectedGuid = null;
-            this.updateCanvasContext({ mode: AutoLayoutCanvasMode.DEFAULT });
             this._goToSource = null;
             this._isReroutingGoto = false;
 
