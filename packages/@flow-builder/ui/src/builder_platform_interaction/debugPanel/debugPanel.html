@@ -67,16 +67,18 @@
                     allow-multiple-sections-open
                     class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
                 >
-                    <template for:each={testAssertionTrace} for:item="trace">
-                        <lightning-accordion-section
+                    <template if:true={showTestAssertionLogs} for:each={testAssertionTrace} for:item="trace">
+                        <builder_platform_interaction-accordion-section-with-icon
                             key={trace.id}
                             label={trace.assertionLabel}
                             name={trace.assertionLabel}
+                            assertion-status={trace.status}
+                            badge-properties={trace.testBadgeProperties}
                         >
                             <builder_platform_interaction-test-panel-body
                                 test-assertion-trace={trace}
                             ></builder_platform_interaction-test-panel-body>
-                        </lightning-accordion-section>
+                        </builder_platform_interaction-accordion-section-with-icon>
                     </template>
                 </lightning-accordion>
             </lightning-tab>
@@ -93,7 +95,7 @@
                             data-name={trace.title}
                             key={trace.id}
                             label={trace.title}
-                            name={trace.title}
+                            name={trace.id}
                             element-icon={trace.elementIcon}
                         >
                             <builder_platform_interaction-debug-panel-body
@@ -103,18 +105,18 @@
                             ></builder_platform_interaction-debug-panel-body>
                         </builder_platform_interaction-accordion-section-with-icon>
                     </template>
-                    <template if:true={showTestAssertions}>
-                        <template for:each={testAssertionTrace} for:item="trace">
-                            <lightning-accordion-section
-                                key={trace.id}
-                                label={trace.assertionLabel}
-                                name={trace.assertionLabel}
-                            >
-                                <builder_platform_interaction-test-panel-body
-                                    test-assertion-trace={trace}
-                                ></builder_platform_interaction-test-panel-body>
-                            </lightning-accordion-section>
-                        </template>
+                    <template if:true={showTestAssertionLogs} for:each={testAssertionTrace} for:item="trace">
+                        <builder_platform_interaction-accordion-section-with-icon
+                            key={trace.id}
+                            label={trace.assertionLabel}
+                            name={trace.assertionLabel}
+                            assertion-status={trace.status}
+                            badge-properties={trace.testBadgeProperties}
+                        >
+                            <builder_platform_interaction-test-panel-body
+                                test-assertion-trace={trace}
+                            ></builder_platform_interaction-test-panel-body>
+                        </builder_platform_interaction-accordion-section-with-icon>
                     </template>
                 </lightning-accordion>
             </lightning-tab>
@@ -151,6 +153,8 @@
                 </builder_platform_interaction-accordion-section-with-icon>
             </template>
         </lightning-accordion>
+
+        <!-- Error block For Debug and Test Panel-->
         <div if:true={hasErrors} class="error">
             <lightning-formatted-rich-text value={errorMessage} class="errorMsg"></lightning-formatted-rich-text>
         </div>

@@ -12,6 +12,7 @@ import {
     fakeResumedInterview,
     fakeResumedInterviewWithError
 } from 'mock/debugResponse/mock-fake-paused-interview';
+import { LABELS as debugUtilLabel } from '../../debugUtils/debugUtilsLabels';
 import { TEST_BODY_LABELS } from '../../testPanelBody/testPanelBodyLabels';
 import DebugPanel from '../debugPanel';
 import { LABELS } from '../debugPanelLabels';
@@ -47,6 +48,8 @@ const selectors = {
     accordionSection: 'builder_platform_interaction-accordion-section-with-icon',
     debugPanelBodyComponent: 'builder_platform_interaction-debug-panel-body',
     testPanelBodyComponent: 'builder_platform_interaction-test-panel-body',
+    accordionSecitonWithIcon: 'builder_platform_interaction-accordion-section-with-icon',
+    ligthningBadge: 'lightning-badge',
     debugPanelFilterComponent: 'builder_platform_interaction-debug-panel-filter',
     checkboxesGroup: 'lightning-checkbox-group',
     filterButton: 'lightning-button-icon.filterButton',
@@ -569,7 +572,7 @@ describe('test debug panel filter options', () => {
         expect(checkboxGroup.options[1].value).toEqual(LABELS.govLimFilter);
     });
 });
-describe('test debug test panel', () => {
+describe('test flow test panel', () => {
     let debugTestPanel;
     it('should have tabsets present when in test mode and the testAssertionTrace is present', () => {
         debugTestPanel = createComponentUnderTest(
@@ -579,6 +582,11 @@ describe('test debug test panel', () => {
             BUILDER_MODE.TEST_MODE,
             false
         );
+        const tabset = debugTestPanel.shadowRoot.querySelector(selectors.tabset);
+        expect(tabset).not.toBeNull();
+    });
+    it('should have tabsets present when in test mode and the testAssertionTrace is not present', () => {
+        debugTestPanel = createComponentUnderTest(completedInterview, undefined, false, BUILDER_MODE.TEST_MODE, false);
         const tabset = debugTestPanel.shadowRoot.querySelector(selectors.tabset);
         expect(tabset).not.toBeNull();
     });
@@ -618,12 +626,6 @@ describe('test debug test panel', () => {
         expect(tabs[0].label).toBe(LABELS.flowTestOutcomeTabLabel);
         expect(tabs[1].label).toBe(LABELS.flowTestLogTabLabel);
     });
-
-    it('should not have tabsets present if in test mode but no testAssertionTrace is present', () => {
-        debugTestPanel = createComponentUnderTest(completedInterview, undefined, false, BUILDER_MODE.TEST_MODE, false);
-        const tabset = debugTestPanel.shadowRoot.querySelector(selectors.tabset);
-        expect(tabset).toBeNull();
-    });
     it('displays two test outcome logs for a flow test with two assertions', () => {
         debugTestPanel = createComponentUnderTest(
             completedTestInterview,
@@ -639,5 +641,20 @@ describe('test debug test panel', () => {
         expect(vals[2].value).toEqual('custom fail message that customer input');
         // 2 test assertions in test outcome and 2 in test log
         expect(testPanelBody.length).toEqual(2 * 2);
+    });
+    it('displays the fail badge and not executed badge on accordion when the flow test assertion failed', () => {
+        debugTestPanel = createComponentUnderTest(
+            completedTestInterview,
+            undefined,
+            false,
+            BUILDER_MODE.TEST_MODE,
+            false
+        );
+        const accordionSection = debugTestPanel.shadowRoot.querySelectorAll(selectors.accordionSecitonWithIcon);
+        const badge = accordionSection[0].shadowRoot.querySelectorAll(selectors.ligthningBadge);
+        expect(badge[0].label).toEqual(debugUtilLabel.failLabel);
+
+        const badge2 = accordionSection[1].shadowRoot.querySelectorAll(selectors.ligthningBadge);
+        expect(badge2[0].label).toEqual(debugUtilLabel.notExecutedLabel);
     });
 });

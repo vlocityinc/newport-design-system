@@ -32,8 +32,13 @@
 
                     <!-- section title -->
                     <span class="slds-accordion__summary-content slds-col slds-p-left_xxx-small" title={label}
-                        >{label}</span
-                    >
+                        >{label}
+                        <lightning-badge
+                            if:true={showAssertionBadge}
+                            label={badgeProperties.badgeLabel}
+                            class={badgeProperties.cssClass}
+                        ></lightning-badge>
+                    </span>
                 </button>
             </h3>
             <slot name="actions"></slot>

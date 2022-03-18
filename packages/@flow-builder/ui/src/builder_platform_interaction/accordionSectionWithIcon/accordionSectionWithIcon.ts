@@ -14,6 +14,8 @@ export default class AccordionSectionWithIcon extends LightningAccordionSection 
      * Contains properties - iconName, iconSize, backgroundColor, alternativeText.
      */
     @api elementIcon;
+    @api assertionStatus;
+    @api badgeProperties?: UI.BadgeProperties;
 
     get iconName(): string {
         return this.elementIcon?.iconName;
@@ -29,5 +31,9 @@ export default class AccordionSectionWithIcon extends LightningAccordionSection 
 
     get backgroundColor(): string {
         return this.elementIcon?.backgroundColor || '';
+    }
+
+    get showAssertionBadge(): boolean {
+        return !!this.badgeProperties?.badgeLabel;
     }
 }

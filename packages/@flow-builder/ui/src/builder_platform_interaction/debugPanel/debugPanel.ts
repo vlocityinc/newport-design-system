@@ -66,16 +66,14 @@ export default class DebugPanel extends LightningElement {
     // to maintain list of sections open presently, maybe different from the initial activeSections set
     openSections = [];
     fromLabelFilter = false;
-
-    testAssertionTrace;
+    testAssertionTrace = [];
 
     get showTestAssertions() {
-        return (
-            this.builderMode === BUILDER_MODE.TEST_MODE &&
-            !this.fromEmailDebugging &&
-            !!this.testAssertionTrace &&
-            !!this.testAssertionTrace.length > 0
-        );
+        return this.builderMode === BUILDER_MODE.TEST_MODE && !this.fromEmailDebugging;
+    }
+
+    get showTestAssertionLogs() {
+        return this.builderMode === BUILDER_MODE.TEST_MODE && this.testAssertionTrace?.length > 0;
     }
 
     get selectedOptions() {

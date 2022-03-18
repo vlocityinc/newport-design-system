@@ -575,12 +575,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         return this.debugData && this.debugData.interviewStatus;
     }
 
-    get showInterviewLabel() {
-        return this.headerConfig.showInterviewLabel;
+    get testStatus() {
+        return this.debugData?.testStatus;
     }
 
-    get showDebugStatus() {
-        return this.headerConfig.showDebugStatus;
+    get testLabel() {
+        return this.debugData?.testName;
     }
 
     get showLeftPanelElementsTab() {

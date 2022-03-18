@@ -12,6 +12,10 @@ import keyboardHelpText from '@salesforce/label/FlowBuilderHeader.keyboardHelpTe
 import muteGuardrailsText from '@salesforce/label/FlowBuilderHeader.muteGuardrailsText';
 import overrideBadge from '@salesforce/label/FlowBuilderHeader.overrideBadge';
 import systemModeLabelText from '@salesforce/label/FlowBuilderHeader.systemModeLabelText';
+import testBadgeError from '@salesforce/label/FlowBuilderHeader.testBadgeError';
+import testBadgeFail from '@salesforce/label/FlowBuilderHeader.testBadgeFail';
+import testBadgePass from '@salesforce/label/FlowBuilderHeader.testBadgePass';
+import testLabelTitle from '@salesforce/label/FlowBuilderHeader.testLabelTitle';
 import trailblazerCommunityText from '@salesforce/label/FlowBuilderHeader.trailblazerCommunityText';
 import trailheadText from '@salesforce/label/FlowBuilderHeader.trailheadText';
 import unmuteGuardrailsText from '@salesforce/label/FlowBuilderHeader.unmuteGuardrailsText';
@@ -36,5 +40,9 @@ export const LABELS = {
     debugBadgeError,
     debugBadgeNotTriggered,
     interviewLabelTitle,
-    overrideBadge
+    overrideBadge,
+    testBadgePass,
+    testBadgeFail,
+    testBadgeError,
+    testLabelTitle
 };

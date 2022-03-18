@@ -17,6 +17,13 @@ export const STATUS = {
     WAITING: 'WAITING'
 };
 
+export const FLOW_TEST_ASSERTION_STATUS = {
+    ERROR: 'ERROR',
+    PASS: 'PASS',
+    FAIL: 'FAIL',
+    NOT_EXECUTED: 'NOT_EXECUTED'
+};
+
 export const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const ELEMENT_ERR_TITLE = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim();
@@ -124,10 +131,54 @@ export function updateFlowTestObject(testData) {
         return testData.map((value, i) => ({
             ...value,
             id: generateGuid(),
-            assertionLabel: `Assertion ${i + 1}`
+            assertionLabel: `Assertion ${i + 1}`,
+            testBadgeProperties: {
+                badgeLabel: flowAssertionBadgeLabel(value.status),
+                cssClass: flowAssertionBadgeClassDetails(value.status)
+            }
         }));
     }
     return [];
+}
+
+/**
+ * creates class for flow test badge
+ *
+ * @param testStatus
+ */
+function flowAssertionBadgeClassDetails(testStatus): string {
+    const commonStatus = 'slds-m-horizontal_medium';
+    switch (testStatus) {
+        case FLOW_TEST_ASSERTION_STATUS.PASS:
+            return `${commonStatus} slds-badge slds-theme_success`;
+        case FLOW_TEST_ASSERTION_STATUS.FAIL:
+        case FLOW_TEST_ASSERTION_STATUS.ERROR:
+            return `${commonStatus} slds-badge slds-theme_error`;
+        case FLOW_TEST_ASSERTION_STATUS.NOT_EXECUTED:
+            return `${commonStatus} slds-badge_inverse`;
+        default:
+    }
+    return '';
+}
+
+/**
+ * creates label for flow test badge
+ *
+ * @param testStatus
+ */
+function flowAssertionBadgeLabel(testStatus): string {
+    switch (testStatus) {
+        case FLOW_TEST_ASSERTION_STATUS.PASS:
+            return LABELS.passLabel;
+        case FLOW_TEST_ASSERTION_STATUS.FAIL:
+            return LABELS.failLabel;
+        case FLOW_TEST_ASSERTION_STATUS.ERROR:
+            return LABELS.errorLabel;
+        case FLOW_TEST_ASSERTION_STATUS.NOT_EXECUTED:
+            return LABELS.notExecutedLabel;
+        default:
+    }
+    return '';
 }
 
 /**

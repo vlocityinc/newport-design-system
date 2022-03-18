@@ -3,6 +3,8 @@
  */
 export const completedTestInterview = {
     interviewStatus: 'FINISHED',
+    testStatus: 'Fail',
+    testName: 'testFlowLabel',
     debugTrace: [
         {
             lines: [
@@ -56,7 +58,7 @@ export const completedTestInterview = {
             failureMessage: 'custom fail message that customer input',
             errorMessage: 'some handled error message',
             condition: '{Var 2} equals 5',
-            status: 'ERROR',
+            status: 'NOT_EXECUTED',
             outcomeCond:
                 '{Var 2}(4) does not equal 5.\n Logic: All conditions must be true(AND)\n Default outcome executed'
         }

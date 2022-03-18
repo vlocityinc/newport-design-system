@@ -1,5 +1,7 @@
 import interviewStartHeader from '@salesforce/label/DebugLogEmail.StartHeader';
 import alarmEventHelpText from '@salesforce/label/FlowBuilderDebugPanel.alarmEventHelpText';
+import errorLabel from '@salesforce/label/FlowBuilderDebugPanel.errorLabel';
+import failLabel from '@salesforce/label/FlowBuilderDebugPanel.failLabel';
 import interviewError from '@salesforce/label/FlowBuilderDebugPanel.interviewError';
 import interviewErrorAt from '@salesforce/label/FlowBuilderDebugPanel.interviewErrorAt';
 import interviewFinishDuration from '@salesforce/label/FlowBuilderDebugPanel.interviewFinishDuration';
@@ -9,6 +11,8 @@ import interviewPaused from '@salesforce/label/FlowBuilderDebugPanel.interviewPa
 import interviewPausedHeader from '@salesforce/label/FlowBuilderDebugPanel.interviewPausedHeader';
 import interviewStartedAt from '@salesforce/label/FlowBuilderDebugPanel.interviewStartedAt';
 import noAlarmEventLine from '@salesforce/label/FlowBuilderDebugPanel.noAlarmEventLine';
+import notExecutedLabel from '@salesforce/label/FlowBuilderDebugPanel.notExecutedLabel';
+import passLabel from '@salesforce/label/FlowBuilderDebugPanel.passLabel';
 import waitEventSelectionHeader from '@salesforce/label/FlowBuilderDebugPanel.waitEventSelectionHeader';
 import errorBody from '@salesforce/label/InteractionRuntimeError.ErrorBody';
 
@@ -25,5 +29,9 @@ export const LABELS = {
     errorBody,
     waitEventSelectionHeader,
     alarmEventHelpText,
-    noAlarmEventLine
+    noAlarmEventLine,
+    passLabel,
+    failLabel,
+    errorLabel,
+    notExecutedLabel
 };

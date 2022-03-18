@@ -43,7 +43,9 @@ const SELECTORS = {
     helpIcon: '.test-help-utility-icon',
     guardrailsMenuItem: 'analyzer_framework-help-menu-item',
     interviewLabel: '.test-interview-label',
+    flowTestLabel: '.test-flowTest-label',
     debugBadge: '.test-debug-badge',
+    testBadge: '.test-flowtest-badge',
     systemModeBadge: `${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BADGE}[title = "FlowBuilderHeader.systemModeLabelText"]`,
     overrideBadge: `${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BADGE}[title = "FlowBuilderHeader.overrideBadge"]`
 };
@@ -58,6 +60,7 @@ const getHelpUrl = (headerComponent) => headerComponent.shadowRoot.querySelector
 const getFlowIcon = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.flowIcon);
 const getBackUrl = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.backUrl);
 const getDebugStatusBadge = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.debugBadge);
+const getTestStatusBadge = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.testBadge);
 const getBackUrlTooltip = (headerComponent) => headerComponent.shadowRoot.querySelector(SELECTORS.backUrlTooltip);
 const getBackUrlIcon = (headerComponent) =>
     getBackUrl(headerComponent).querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
@@ -202,6 +205,17 @@ describe('header', () => {
             LABELS.interviewLabelTitle + headerComponent.interviewLabel
         );
     });
+
+    it('should have the flow test label when showTestStatus is true', () => {
+        const headerComponent = createComponentForTest({
+            flowName: 'Flow Name',
+            showTestStatus: true,
+            testLabel: 'Flow Test API'
+        });
+        expect(headerComponent.shadowRoot.querySelector(SELECTORS.flowTestLabel).textContent).toEqual(
+            LABELS.testLabelTitle + headerComponent.testLabel
+        );
+    });
     describe('debug status badge', () => {
         test.each`
             debugInterviewStatus | expectedExtraCssClass
@@ -238,6 +252,44 @@ describe('header', () => {
                 const debugStatusBadge = getDebugStatusBadge(headerComponent);
                 expect(debugStatusBadge).not.toBeNull();
                 expect(debugStatusBadge.label).toMatch(expectedBadgeLabel);
+            }
+        );
+    });
+
+    describe('test status badge', () => {
+        test.each`
+            testStatus | expectedExtraCssClass
+            ${'Pass'}  | ${'slds-theme_success'}
+            ${'Fail'}  | ${'slds-theme_error'}
+            ${'Error'} | ${'slds-theme_error'}
+        `(
+            'test status badge should be displayed with css class: "$expectedCssClass" for flow test status: "$testStatus"',
+            ({ testStatus, expectedExtraCssClass }) => {
+                const headerComponent = createComponentForTest({
+                    showTestStatus: true,
+                    testStatus
+                });
+                const testStatusBadge = getTestStatusBadge(headerComponent);
+                expect(testStatusBadge).not.toBeNull();
+                expect(testStatusBadge.className).toMatch(expectedExtraCssClass);
+            }
+        );
+
+        test.each`
+            testStatus | expectedBadgeLabel
+            ${'Pass'}  | ${LABELS.testBadgePass}
+            ${'Fail'}  | ${LABELS.testBadgeFail}
+            ${'Error'} | ${LABELS.testBadgeError}
+        `(
+            'test status badge should be displayed with label: "$expectedBadgeLabel" for flow test status: "$testStatus"',
+            ({ testStatus, expectedBadgeLabel }) => {
+                const headerComponent = createComponentForTest({
+                    showTestStatus: true,
+                    testStatus
+                });
+                const testStatusBadge = getTestStatusBadge(headerComponent);
+                expect(testStatusBadge).not.toBeNull();
+                expect(testStatusBadge.label).toMatch(expectedBadgeLabel);
             }
         );
     });

@@ -513,4 +513,9 @@ declare namespace UI {
         objectType?: string;
         doesRequireRecordChangedToMeetCriteria?: boolean;
     };
+
+    type BadgeProperties = {
+        badgeLabel: string;
+        cssClass: string;
+    };
 }

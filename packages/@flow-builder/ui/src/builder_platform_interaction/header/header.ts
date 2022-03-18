@@ -1,6 +1,8 @@
 import { invokeKeyboardHelpDialog } from 'builder_platform_interaction/builderUtils';
 import { orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { FlowTestResultStatusType } from 'builder_platform_interaction/systemLib';
+import { classSet } from 'lightning/utils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './headerLabels';
 
@@ -78,6 +80,15 @@ export default class Header extends LightningElement {
     debugInterviewStatus;
 
     @api
+    testStatus;
+
+    @api
+    testLabel;
+
+    @api
+    showTestStatus;
+
+    @api
     overriddenFlow;
 
     @api focus() {
@@ -132,11 +143,72 @@ export default class Header extends LightningElement {
         return this.builderName || LABELS.appNameText;
     }
 
-    get formattedInterviewLabel() {
+    get showLabel() {
+        if (this.showInterviewLabel || this.showTestStatus) {
+            return true;
+        }
+        return false;
+    }
+
+    // TODO move all test and debug logic out of header into editor as referenced in W-10863011
+    /**
+     * @returns {string} the formatted header label.
+     */
+    get formattedHeaderLabel() {
+        if (this.showTestStatus) {
+            return this.formattedTestLabel();
+        }
+        return this.formattedInterviewLabel();
+    }
+
+    /**
+     * @returns {string} the formatted css class for the header label
+     */
+    get cssClassForHeaderLabel() {
+        return classSet('slds-builder-header__item slds-p-horizontal_medium slds-truncate').add({
+            'test-flowTest-label': this.showTestStatus,
+            'test-interview-label': this.showInterviewLabel
+        });
+    }
+
+    /**
+     * @returns {string} the formatted interview label
+     */
+    formattedInterviewLabel() {
         return LABELS.interviewLabelTitle + this.interviewLabel;
     }
 
-    get interviewStatus() {
+    /**
+     * @returns {string} the formatted test label
+     */
+    formattedTestLabel() {
+        return LABELS.testLabelTitle + this.testLabel;
+    }
+
+    /**
+     * @returns {boolean} wheter a debug or test badge is to be displayed or not
+     */
+    get showBadgeStatus() {
+        if (this.showDebugStatus || this.showTestStatus) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @returns {string} the badge label for the badge which is displayed
+     */
+    get badgeStatus() {
+        if (this.showDebugStatus) {
+            return this.interviewStatus();
+        }
+        return this.testStatusLabel();
+    }
+
+    /**
+     * @returns {string} the label for the flow debug run to be displayed
+     */
+    interviewStatus() {
         const interviewStatus = this.debugInterviewStatus;
         if (interviewStatus === DEBUG_STATUS.FINISHED) {
             return LABELS.debugBadgeCompleted;
@@ -149,7 +221,46 @@ export default class Header extends LightningElement {
         return LABELS.debugBadgeNotTriggered;
     }
 
-    get debugBadgeClass() {
+    /**
+     * @returns {string} the label for the flow test to be displayed
+     */
+    testStatusLabel() {
+        const testStatus = this.testStatus;
+        if (testStatus === FlowTestResultStatusType.PASS) {
+            return LABELS.testBadgePass;
+        } else if (testStatus === FlowTestResultStatusType.FAIL) {
+            return LABELS.testBadgeFail;
+        } else if (testStatus === FlowTestResultStatusType.ERROR) {
+            return LABELS.testBadgeError;
+        }
+        return '';
+    }
+
+    /**
+     * @returns {string} the class for the badge to be displayed for debugging and testing
+     */
+    get badgeClass() {
+        if (this.showDebugStatus) {
+            return this.debugBadgeClass();
+        }
+        return this.testBadgeClass();
+    }
+
+    /**
+     * @returns {string} the class for the test badge
+     */
+    testBadgeClass() {
+        return classSet('slds-align-middle slds-m-left_xx-small test-flowtest-badge').add({
+            'slds-theme_success': this.testStatus === FlowTestResultStatusType.PASS,
+            'slds-theme_error':
+                this.testStatus === FlowTestResultStatusType.ERROR || this.testStatus === FlowTestResultStatusType.FAIL
+        });
+    }
+
+    /**
+     * @returns {string} the class for the flow debug badge
+     */
+    debugBadgeClass() {
         const badgeClass = 'slds-align-middle slds-m-left_xx-small test-debug-badge';
         const interviewStatus = this.debugInterviewStatus;
         if (interviewStatus === DEBUG_STATUS.FINISHED) {
