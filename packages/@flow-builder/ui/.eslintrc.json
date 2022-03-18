@@ -35,6 +35,7 @@
                         "**/builder_platform_interaction/debugPanelBody/debugPanelBody.ts",
                         "**/builder_platform_interaction/debugEditorInputVariables/debugEditorInputVariables.ts",
                         "**/builder_platform_interaction/alcCanvas/alcCanvas.ts",
+                        "**/builder_platform_interaction/preloadLib/dataForProcessType.ts",
                         "**/builder_platform_interaction/alcCanvasContainer/alcCanvasContainer.ts",
                         "**/builder_platform_interaction/preloadLib/loader.ts",
                         "**/builder_platform_interaction/screenExtensionField/auraInterop.ts",

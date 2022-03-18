@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
+import { $LABEL, setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
 import {
     getFlowSystemVariableComboboxItem,
     getGlobalVariableTypeComboboxItems
@@ -15,9 +15,11 @@ import {
     setEventTypes,
     setWorkflowEnabledEntities
 } from 'builder_platform_interaction/sobjectLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { setSubflows } from 'builder_platform_interaction/subflowsLib';
 import {
+    addLabelVariables,
     cacheVersioningDataForAllProcessTypes,
     getBuilderType,
     initVersioningInfoForProcessType,
@@ -91,13 +93,50 @@ export const loadResourceTypes = (flowProcessType) =>
         setResourceTypes
     );
 
-export const loadGlobalVariables = (flowProcessType) =>
-    fetchOnce(SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES, { flowProcessType }, { disableErrorModal: true }).then(
-        (data) => {
-            setGlobalVariables(data);
-            getGlobalVariableTypeComboboxItems().forEach((item) => addToParentElementCache(item.displayText, item));
-        }
+let globalVariablesPromise;
+
+export const loadGlobalVariables = (flowProcessType): Promise<any> => {
+    // exclude the labels only if we are sure we don't have any $Label references
+    const excludeLabels = !JSON.stringify(Store.getStore().getCurrentState()).includes($LABEL);
+
+    const actionType = excludeLabels
+        ? SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES_EXCLUDE_LABELS
+        : SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES;
+
+    globalVariablesPromise = fetchOnce(actionType, { flowProcessType }, { disableErrorModal: true }).then((data) => {
+        setGlobalVariables(data);
+        getGlobalVariableTypeComboboxItems().forEach((item) => addToParentElementCache(item.displayText, item));
+    });
+
+    // loads the global variable labels asynchronously
+    if (excludeLabels) {
+        loadGlobalLabelVariables(flowProcessType);
+    }
+    return globalVariablesPromise;
+};
+
+/**
+ * Loads the global variable labels
+ *
+ * @param flowProcessType - The process type
+ * @returns A promise that is resolved when the load is complete
+ */
+const loadGlobalLabelVariables = (flowProcessType): Promise<void> => {
+    const labelsOnlyPromise = fetchOnce(
+        SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES_ONLY_LABELS,
+        { flowProcessType },
+        { disableErrorModal: true, background: true }
     );
+
+    return globalVariablesPromise
+        .then(() => labelsOnlyPromise)
+        .then((data) => {
+            const labels = data.globalVariables;
+            if (labels?.length > 0) {
+                addLabelVariables(data);
+            }
+        });
+};
 
 export const loadSystemVariables = (flowProcessType) =>
     fetchOnce(

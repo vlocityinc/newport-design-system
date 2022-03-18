@@ -86,6 +86,7 @@ export {
 export type { FlowTestAndResultDescriptor } from './flowTestData';
 export { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './globalConstants';
 export {
+    addLabelVariables,
     getGlobalVariable,
     getGlobalVariables,
     getGlobalVariableTypes,

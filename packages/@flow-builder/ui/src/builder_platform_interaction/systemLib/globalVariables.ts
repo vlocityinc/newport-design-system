@@ -1,8 +1,24 @@
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 
-// @ts-nocheck
-let globalVariableTypes;
-let globalVariables;
+type GlobalVariableType = {
+    durableId: string;
+    label: string;
+    name: string;
+};
+
+type GlobalVariable = any;
+
+type GlobalVariableData = {
+    globalVariables: GlobalVariable[];
+    globalVariableTypes: GlobalVariableType[];
+};
+
+type NameToGlobalVariable = { [name: string]: GlobalVariable };
+type GlobalVariables = { [type: string]: NameToGlobalVariable };
+type GlobalVariableTypes = { [key: string]: GlobalVariableType };
+
+let globalVariableTypes: GlobalVariableTypes;
+let globalVariables: GlobalVariables;
 
 export const resetGlobalVariables = () => {
     globalVariables = {};
@@ -11,7 +27,8 @@ export const resetGlobalVariables = () => {
 /**
  * Creates a mapping of serialized GlobalVariableTypes.
  *
- * @param {Array} data raw type data from the server
+ * @param data -The raw type data from the server
+ * @returns The type map
  */
 const convertTypeData = (data) =>
     data.reduce((acc, obj) => {
@@ -28,11 +45,12 @@ const convertTypeData = (data) =>
 /**
  * Converts serialized GlobalVariables to a form usable by menus.
  *
- * @param {Array} data raw variable data from the server
- * @param types
+ * @param globalVariables - raw variable data from the server
+ * @param types - The global variable type map
+ * @returns A type to global variables object map
  */
-const convertData = (data, types) =>
-    data.reduce((acc, obj) => {
+const convertData = (globalVariables: GlobalVariable[], types: GlobalVariableTypes): GlobalVariables =>
+    globalVariables.reduce((acc, obj) => {
         const type = types[obj.type.name];
         const name = `${type.name}.${obj.name}`;
         const variable = {
@@ -56,11 +74,9 @@ const convertData = (data, types) =>
  * Sets the global variable types and variables. This should be done during app
  * initialization.
  *
- * @param {Object}
- *            data the data returned by the service
- * @param data
+ * @param data - The data returned by the service
  */
-export const setGlobalVariables = (data) => {
+export const setGlobalVariables = (data: GlobalVariableData) => {
     let allTypes;
     if (Array.isArray(data.globalVariableTypes)) {
         allTypes = convertTypeData(data.globalVariableTypes);
@@ -75,6 +91,19 @@ export const setGlobalVariables = (data) => {
         }
     });
 };
+
+/**
+ * Adds the global label variables
+ *
+ * @param data - The data returned by the service
+ */
+export function addLabelVariables(data: GlobalVariableData) {
+    const allTypes = convertTypeData(data.globalVariableTypes);
+    globalVariableTypes.$Label = allTypes.$Label;
+
+    const { $Label } = convertData(data.globalVariables, allTypes);
+    globalVariables.$Label = $Label;
+}
 
 /**
  * Gets all available global variable types. Should be used after

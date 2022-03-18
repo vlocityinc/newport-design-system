@@ -8,7 +8,7 @@ import {
     sanitizeBoolean,
     splitStringBySeparator
 } from 'builder_platform_interaction/commonUtils';
-import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
+import { $LABEL, FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import {
     createMetadataDateTime,
     formatDateTime,
@@ -514,6 +514,9 @@ export default class Combobox extends LightningElement {
     // as the user scrolls down in the list. This is a temporary property and will be removed once the feature is
     // approved for broad use.
     _renderIncrementally = false;
+
+    _stashedRenderIncrementally;
+
     set renderIncrementally(value) {
         value = !!value;
         if (this._renderIncrementally !== value) {
@@ -822,6 +825,8 @@ export default class Combobox extends LightningElement {
     handleSelect(event) {
         this._itemSelected = true;
 
+        this.restoreRenderIncrementally();
+
         if (event.detail.value === COMBOBOX_NEW_RESOURCE_VALUE) {
             this._isNewInlineResourceSelected = true;
             this.fireNewResourceEvent();
@@ -856,6 +861,12 @@ export default class Combobox extends LightningElement {
 
         if (!itemHasNextLevel) {
             this.fireItemSelectedEvent(item);
+        }
+    }
+
+    private restoreRenderIncrementally() {
+        if (this._stashedRenderIncrementally != null) {
+            this._renderIncrementally = this._stashedRenderIncrementally;
         }
     }
 
@@ -1035,6 +1046,14 @@ export default class Combobox extends LightningElement {
             const fetchMenuDataEvent = new FetchMenuDataEvent(item);
             this.dispatchEvent(fetchMenuDataEvent);
             this.state.showActivityIndicator = true;
+
+            // @W-10681666: force render incrementally for labels
+            if (item?.subtype === $LABEL) {
+                this._stashedRenderIncrementally = this._renderIncrementally;
+                this._renderIncrementally = true;
+            } else if (this._stashedRenderIncrementally != null) {
+                this.restoreRenderIncrementally();
+            }
         }
     }
 

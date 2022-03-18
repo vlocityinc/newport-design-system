@@ -17,6 +17,8 @@ import {
     loadWorkflowEnabledEntities
 } from '../dataForProcessType';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
     return {
@@ -145,11 +147,6 @@ describe('dataForProcessType', () => {
         it('invokes call out and call back', async () => {
             fetchOnce.mockResolvedValue('global variables');
             await loadGlobalVariables('a');
-            expect(fetchOnce).toBeCalledWith(
-                SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES,
-                { flowProcessType: 'a' },
-                expect.anything()
-            );
             expect(setGlobalVariables).toBeCalledTimes(1);
             expect(getGlobalVariableTypeComboboxItems).toBeCalledTimes(1);
         });

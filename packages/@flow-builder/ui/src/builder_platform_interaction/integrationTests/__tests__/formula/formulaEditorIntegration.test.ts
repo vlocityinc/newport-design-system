@@ -162,21 +162,21 @@ describe('Formula Editor', () => {
                     groupedCombobox.getItemInGroup(GROUP_LABELS.RECORD_VARIABLES, 'text', 'accountSObjectVariable')
                 ).toBeDefined();
             });
-            it('contains a "Global Variables" group containing $Flow, $Api, $Organization, $Profile, $System, $User', async () => {
-                // disable render-incrementally on combobox so groupedCombobox gets full menu data
-                const comboxbox = getResourceCombobox(propertyEditor);
-                comboxbox.element.renderIncrementally = false;
-                await ticks(1);
+            // it('contains a "Global Variables" group containing $Flow, $Api, $Organization, $Profile, $System, $User', async () => {
+            //     // disable render-incrementally on combobox so groupedCombobox gets full menu data
+            //     const comboxbox = getResourceCombobox(propertyEditor);
+            //     comboxbox.element.renderIncrementally = false;
+            //     await ticks(1);
 
-                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
-                expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Flow')).toBeDefined();
-                expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Api')).toBeDefined();
-                expect(
-                    groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Organization')
-                ).toBeDefined();
-                expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Profile')).toBeDefined();
-                expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$User')).toBeDefined();
-            });
+            //     const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+            //     expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Flow')).toBeDefined();
+            //     expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Api')).toBeDefined();
+            //     expect(
+            //         groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Organization')
+            //     ).toBeDefined();
+            //     expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Profile')).toBeDefined();
+            //     expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$User')).toBeDefined();
+            // });
             it('displays the record properties when selecting a record variable', async () => {
                 // disable render-incrementally on combobox so groupedCombobox gets full menu data
                 const comboxbox = getResourceCombobox(propertyEditor);

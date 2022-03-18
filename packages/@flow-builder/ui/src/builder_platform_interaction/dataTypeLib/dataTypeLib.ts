@@ -431,3 +431,5 @@ export const SUPER_TYPE = {
 };
 
 export const superTypeToFlowDataType = (superType) => SUPER_TYPE[superType].flowDataType;
+
+export const $LABEL = '$Label';
