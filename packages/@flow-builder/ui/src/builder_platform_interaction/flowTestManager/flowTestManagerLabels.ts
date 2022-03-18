@@ -1,4 +1,3 @@
-import flowTestRunFailureWhenGateClosedToast from '@salesforce/label/FlowBuilderEditor.flowTestRunFailureWhenGateClosedToast';
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 import flowTestBodyDescription from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyDescription';
 import flowTestBodyHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyHeader';
@@ -19,6 +18,7 @@ import flowTestListRunStatusFail from '@salesforce/label/FlowBuilderTestEditor.f
 import flowTestListRunStatusPass from '@salesforce/label/FlowBuilderTestEditor.flowTestListRunStatusPass';
 import flowTestListViewDetailAction from '@salesforce/label/FlowBuilderTestEditor.flowTestListViewDetailAction';
 import flowTestRunBulkActionCompleteToast from '@salesforce/label/FlowBuilderTestEditor.flowTestRunBulkActionCompleteToast';
+import flowTestRunFailureWhenGateClosedToast from '@salesforce/label/FlowBuilderTestEditor.flowTestRunFailureWhenGateClosedToast';
 
 export const LABELS = {
     flowTestBodyHeader,
