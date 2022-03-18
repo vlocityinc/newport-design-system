@@ -26,7 +26,47 @@ const { format } = commonUtils;
 jest.mock('builder_platform_interaction/translatorLib', () => {
     return Object.assign({}, jest.requireActual('builder_platform_interaction/translatorLib'), {
         translateUIModelToFlowTest: jest.fn().mockImplementation(() => {
-            return {};
+            return {
+                fullName: 'testNew',
+                metadata: {
+                    label: 'testLabel',
+                    description: 'testDescription',
+                    testPoints: [
+                        {
+                            elementApiName: 'START',
+                            assertions: [],
+                            parameters: [
+                                {
+                                    leftValueReference: '$Record',
+                                    type: 'INPUT_TRIGGERING_RECORD_INITIAL',
+                                    value: {
+                                        numberValue: 0,
+                                        sobjectValue: '{"name":"TestAccount","attributes":{"type":"Account"}}'
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            elementApiName: 'FINISH',
+                            assertions: [
+                                {
+                                    conditions: [
+                                        {
+                                            leftValueReference: '$Record.AnnualRevenue',
+                                            operator: 'EqualTo',
+                                            rightValue: {
+                                                numberValue: 100000.0
+                                            }
+                                        }
+                                    ],
+                                    errorMessage: 'Failed'
+                                }
+                            ],
+                            parameters: []
+                        }
+                    ]
+                }
+            };
         })
     });
 });

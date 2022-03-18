@@ -1788,6 +1788,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             });
         } finally {
             this.spinners.showDebugSpinner = false;
+            logInteraction('create-test-from-debug', 'debug-mode', {}, 'click');
         }
     };
 

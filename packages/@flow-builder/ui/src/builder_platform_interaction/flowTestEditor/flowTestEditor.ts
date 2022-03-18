@@ -1,9 +1,10 @@
 import { FlowTestMode, hidePopover } from 'builder_platform_interaction/builderUtils';
 import { dehydrate, getErrorsFromHydratedElement, pick } from 'builder_platform_interaction/dataMutationLib';
+import { FlowTestPointValidator } from 'builder_platform_interaction/elementFactory';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { BUILDER_MODE, pushFlowTest } from 'builder_platform_interaction/systemLib';
 import { translateUIModelToFlowTest } from 'builder_platform_interaction/translatorLib';
@@ -12,6 +13,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './flowTestEditorLabels';
 import { flowTestEditorReducer } from './flowTestEditorReducer';
+const { logInteraction } = loggingUtils;
 
 export enum FlowTestMenuItems {
     Details,
@@ -220,7 +222,21 @@ export default class FlowTestEditor extends LightningElement {
             // When not caught, two modals are displayed, one for the unhandled rejection, one for the actual server-side exception response.
             // This catches the unhandled rejection modal but still allows the builder to handle the server-side exception response
             .catch(() => {})
-            .finally(() => (this.showWaitingSpinner = false));
+            .finally(() => {
+                this.showWaitingSpinner = false;
+                const assertionCount = flowTest.metadata.testPoints.find(
+                    (n) => n.elementApiName === FlowTestPointValidator.Finish
+                ).assertions.length;
+                logInteraction(
+                    'save-test-button',
+                    'test-editor',
+                    {
+                        assertionCount,
+                        saveType
+                    },
+                    'click'
+                );
+            });
     };
 
     saveFlowTestCallback = ({ data }, flowTest) => {

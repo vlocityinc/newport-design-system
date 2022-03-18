@@ -24,6 +24,7 @@ import { clearExpressions } from 'builder_platform_interaction/expressionValidat
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { commonUtils, invokeModalWithComponents } from 'builder_platform_interaction/sharedUtils';
+import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import { LABELS } from './builderUtilsLabels';
 export * from './legalNoticeUtils';
 const { format } = commonUtils;
@@ -725,6 +726,16 @@ async function showFlowTestPopover(
     let headerLabel = null;
     let footerButtonLabel = null;
 
+    const cancelButtonCallback = () => {
+        hidePopover();
+        if (
+            cmpAttributes.builderMode === BUILDER_MODE.TEST_MODE ||
+            cmpAttributes.builderMode === BUILDER_MODE.EDIT_MODE
+        ) {
+            flowTestListViewCallback();
+        }
+    };
+
     if (cmpAttributes.mode === FlowTestMode.Create) {
         headerLabel = LABELS.flowTestEditorCreateLabel;
         footerButtonLabel = LABELS.flowTestEditorCreateButton;
@@ -750,7 +761,7 @@ async function showFlowTestPopover(
             flowTestButtonTwo: {
                 buttonLabel: LABELS.cancelButton,
                 buttonVariant: 'neutral',
-                buttonCallback: hidePopover,
+                buttonCallback: cancelButtonCallback,
                 closeCallback: false
             }
         }

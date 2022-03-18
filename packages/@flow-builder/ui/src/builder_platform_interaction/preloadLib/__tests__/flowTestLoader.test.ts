@@ -1,7 +1,9 @@
 // @ts-nocheck
 import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { addFlowTests, updateFlowTestResults } from 'builder_platform_interaction/systemLib';
 import { loadFlowTests, runFlowTests } from '../flowTestLoader';
+const { logInteraction } = loggingUtils;
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
@@ -12,6 +14,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 });
 
 jest.mock('builder_platform_interaction/systemLib');
+jest.mock('builder_platform_interaction/sharedUtils');
 
 describe('load flow tests', () => {
     const params = {
@@ -28,6 +31,8 @@ describe('load flow tests', () => {
         expect(fetchPromise).toBeCalledWith(SERVER_ACTION_TYPE.GET_FLOW_TESTS_AND_RESULTS, params);
         expect(addFlowTests).toBeCalledTimes(1);
         expect(addFlowTests).toHaveBeenCalledWith(testData);
+        expect(logInteraction).toHaveBeenCalled();
+        expect(logInteraction.mock.calls[0][0]).toBe('load-tests');
     });
 
     it('does not invoke call back on error', async () => {
@@ -54,6 +59,8 @@ describe('run flow tests', () => {
         expect(fetchPromise).toBeCalledWith(SERVER_ACTION_TYPE.RUN_FLOW_TESTS, params);
         expect(updateFlowTestResults).toBeCalledTimes(1);
         expect(updateFlowTestResults).toHaveBeenCalledWith(testData);
+        expect(logInteraction).toHaveBeenCalled();
+        expect(logInteraction.mock.calls[0][0]).toBe('run-test-action-button');
     });
 
     it('does not invoke call back on error', async () => {
