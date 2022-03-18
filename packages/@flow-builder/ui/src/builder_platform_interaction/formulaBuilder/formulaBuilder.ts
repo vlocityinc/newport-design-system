@@ -2,7 +2,7 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FormulaChangedEvent } from 'builder_platform_interaction/events';
 import { ElementFilterConfig } from 'builder_platform_interaction/expressionUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FORMULA_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchOnce, fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -66,7 +66,7 @@ export default class FormulaBuilder extends LightningElement {
     name = 'default';
     // the formula type to specify the sub resource validation path
     @api
-    formulaType;
+    formulaType = FORMULA_TYPE.FLOW_FORMULA;
 
     @track operatorData;
     @track functionData;
@@ -251,8 +251,8 @@ export default class FormulaBuilder extends LightningElement {
         };
         const textarea = this.dom.as<HTMLTextAreaElement>().textArea;
         this._value = textarea.value;
-        // formula can't be empty
-        let error = shouldNotBeBlank(this._value);
+        // formula can't be empty if this is required
+        let error = this.required ? shouldNotBeBlank(this._value) : null;
         if (!error) {
             const errors = validateTextWithMergeFields(this._value, options);
             error = errors.length > 0 ? errors[0].message : null;
@@ -271,7 +271,6 @@ export default class FormulaBuilder extends LightningElement {
             this.validationResult = { isValidSyntax: false, validationMessage: '' };
             syntaxValidationCmp.enableCheckSyntaxButton();
         } else {
-            this.validationResult = { isValidSyntax: true, validationMessage: '' };
             const params = {
                 flowProcessType: this.flowProcessType,
                 flowTriggerType: this.flowTriggerType,
@@ -283,6 +282,13 @@ export default class FormulaBuilder extends LightningElement {
             fetchPromise(SERVER_ACTION_TYPE.VALIDATE_FORMULA, params)
                 .then((data) => {
                     this.validationResult = data;
+                    // set validationMessage to formula builder error, then reset it
+                    this.setCustomValidity(
+                        this.validationResult.isValidSyntax ? null : this.validationResult.validationMessage
+                    );
+                    this.validationResult.validationMessage = '';
+                    // dispatch FormulaChangedEvent to update error
+                    this.dispatchEvent(new FormulaChangedEvent(this._value, this.error));
                 })
                 .finally(() => {
                     syntaxValidationCmp.enableCheckSyntaxButton();
@@ -330,7 +336,12 @@ export default class FormulaBuilder extends LightningElement {
         const post = val.substring(end, val.length);
         textarea.value = pre + value + post;
         textarea.setSelectionRange(start + value.length, start + value.length);
-        this.dispatchEvent(new FormulaChangedEvent(textarea.value, null));
+        // check formula merge fields
+        const error = this.checkFormulaExpressionWithMergeFields();
+        // set syntax validation message
+        if (error) {
+            this.validationResult = { isValidSyntax: false, validationMessage: '' };
+        }
         // reset the cmp to the initial state
         Promise.resolve().then(() => {
             const selectedCmp = this.template.querySelector(selector);

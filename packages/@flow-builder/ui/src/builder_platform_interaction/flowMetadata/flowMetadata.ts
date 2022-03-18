@@ -383,7 +383,8 @@ export const FLOW_TRIGGER_TYPE = {
 };
 
 export const FORMULA_TYPE = {
-    FLOW_ENTRY_CRITERIA: 'flowEntryCriteria'
+    FLOW_ENTRY_CRITERIA: 'flowEntryCriteria',
+    FLOW_FORMULA: 'flowFormula'
 };
 
 export const FLOW_TRIGGER_SAVE_TYPE = {

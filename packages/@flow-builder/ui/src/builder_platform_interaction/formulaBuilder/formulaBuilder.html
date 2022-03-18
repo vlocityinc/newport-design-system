@@ -68,7 +68,11 @@
             <div role="alert" class="slds-form-element__help">{error}</div>
         </div>
         <div class="slds-p-top_xx-small">
-            <formula-syntax-validation onchecksyntax={handleCheckSyntax} validation-result={validationResult}>
+            <formula-syntax-validation
+                validation-status-position="right"
+                onchecksyntax={handleCheckSyntax}
+                validation-result={validationResult}
+            >
             </formula-syntax-validation>
         </div>
     </div>

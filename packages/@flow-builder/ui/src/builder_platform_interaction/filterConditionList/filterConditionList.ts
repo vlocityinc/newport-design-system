@@ -218,7 +218,7 @@ export default class FilterConditionList extends LightningElement {
     handleFormulaChanged(event) {
         event.stopPropagation();
         const newFormula = event.detail.value;
-        const updateFormulaEvent = new PropertyChangedEvent('formula', newFormula, null, this.parentGuid);
+        const updateFormulaEvent = new PropertyChangedEvent('formula', newFormula, event.detail.error, this.parentGuid);
         this.dispatchEvent(updateFormulaEvent);
     }
 
