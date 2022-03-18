@@ -240,7 +240,7 @@ const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
     );
 };
 
-const isSystemVariablesAllowed = (showSystemVariables: boolean, allowedParamTypes?) =>
+const isSystemVariablesAllowed = (showSystemVariables: boolean | undefined, allowedParamTypes?) =>
     showSystemVariables && (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
 
 const defaultMenuConfig: MenuConfig = {
@@ -258,15 +258,15 @@ const defaultMenuConfig: MenuConfig = {
         allowsApexCollAnonymousAutoOutput: true,
         forFormula: false,
         shouldBeWritable: false,
-        showFlowSystemVariable: true,
-        showOrchestrationVariables: false
+        showFlowSystemVariable: true
     }
 };
 
 type FilteredData = {
+    picklistData: {};
     menuElements: [];
     systemAndGlobalVariables: [];
-    startElement: {};
+    startElement: UI.FlowResource;
 };
 
 /**
@@ -275,9 +275,15 @@ type FilteredData = {
  * @param menuDataElements the menu data elements to filter
  * @param allowedParamTypes the allowed param types (rule defined)
  * @param config the configuration specials
+ * @param additionalFilter optional additional filter to apply
  * @returns filtered menu data containing menu elements, start element and system/global variables
  */
-export function filterMenuData(menuDataElements = [], config: MenuConfig, allowedParamTypes?): FilteredData {
+export function filterMenuData(
+    menuDataElements = [],
+    config: MenuConfig,
+    allowedParamTypes?,
+    additionalFilter?: (element, config: MenuConfig, allowedParamTypes?) => boolean
+): FilteredData {
     if (config.filter.allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
         menuDataElements = [...menuDataElements, ...Object.values(GLOBAL_CONSTANT_OBJECTS)];
@@ -293,7 +299,8 @@ export function filterMenuData(menuDataElements = [], config: MenuConfig, allowe
             (allowsApexCollAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element)) &&
             !isSectionOrColumn(element) &&
             !isScheduledPath(element) &&
-            !isAutomaticField(element)
+            !isAutomaticField(element) &&
+            (additionalFilter === undefined || additionalFilter(element, config, allowedParamTypes))
     );
     // Add system and global variables, if requested
     const systemAndGlobalVariables =
@@ -309,11 +316,22 @@ export function filterMenuData(menuDataElements = [], config: MenuConfig, allowe
             isElementAllowed(allowedParamTypes, element, isTraversalEnabled)
     );
     return {
+        picklistData:
+            config.activePicklistValues?.length > 0 && isPicklistFieldAllowed(allowedParamTypes)
+                ? getPicklistMenuData(config.activePicklistValues)
+                : [],
         menuElements,
         systemAndGlobalVariables,
         startElement
     };
 }
+
+export const intializeMenuConfigWithDefaultValues = (config?: MenuConfig): MenuConfig => ({
+    ...defaultMenuConfig,
+    ...config,
+    traversalConfig: { ...defaultMenuConfig.traversalConfig, ...config?.traversalConfig },
+    filter: { ...defaultMenuConfig.filter, ...config?.filter }
+});
 
 /**
  * Filter the list of elements, append global constants and mutate elements to shape the combobox expects.
@@ -324,12 +342,7 @@ export function filterMenuData(menuDataElements = [], config: MenuConfig, allowe
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function filterAndMutateMenuData(menuDataElements = [], allowedParamTypes?, config?: MenuConfig) {
-    const initializedConfig = {
-        ...defaultMenuConfig,
-        ...config,
-        traversalConfig: { ...defaultMenuConfig.traversalConfig, ...config?.traversalConfig },
-        filter: { ...defaultMenuConfig.filter, ...config?.filter }
-    };
+    const initializedConfig = intializeMenuConfigWithDefaultValues(config);
 
     const filteredData = filterMenuData(menuDataElements, initializedConfig, allowedParamTypes);
 
@@ -341,7 +354,7 @@ export function filterAndMutateMenuData(menuDataElements = [], allowedParamTypes
         .sort(compareElementsByCategoryThenDevName)
         .reduce(sortIntoCategories, []);
 
-    const { startElement, systemAndGlobalVariables } = filteredData;
+    const { startElement, systemAndGlobalVariables, picklistData } = filteredData;
     if (startElement) {
         // Create a menu item for the start element
         systemAndGlobalVariables.push(
@@ -358,10 +371,8 @@ export function filterAndMutateMenuData(menuDataElements = [], allowedParamTypes
     }
 
     // Add picklist values to the top of the menu under the Picklist Values category
-    if (initializedConfig.activePicklistValues?.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
-        // if the picklist is allowed we want to include those in the menu data
-        const picklistMenuData = getPicklistMenuData(initializedConfig.activePicklistValues);
-        menuData.unshift(picklistMenuData);
+    if (Object.values(picklistData).length > 0) {
+        menuData.unshift(picklistData);
     }
 
     // Add the New Resource entry as the top entry, if requested

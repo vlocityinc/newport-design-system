@@ -410,6 +410,18 @@ declare namespace UI {
         value: string;
     }
 
+    interface FlowResource extends Element {
+        type?: {
+            icon?: string;
+        };
+        iconName?: string;
+        category?: string;
+        childReferences?: ChildReference[];
+        isSystemGeneratedOutput?: boolean;
+        object?: any;
+        apexClass?: string;
+    }
+
     interface NewResourceInfo {
         userProvidedText?: string | null;
         resourceTypes?: Array<string> | null;
