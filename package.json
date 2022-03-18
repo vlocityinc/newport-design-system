@@ -8,7 +8,7 @@
         "lwcVersion": "1.9.7-232.0",
         "lwcApiVersion": "0.230.14",
         "branch": "main",
-        "copyPasteThreshold": "1.30"
+        "copyPasteThreshold": "1.27"
     },
     "scripts": {
         "check:goldFiles": "./scripts/checkGoldFiles.sh -b $npm_package_config_branch",

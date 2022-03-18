@@ -2683,11 +2683,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             this.closeAutoLayoutContextualMenu();
         }
 
-        const savedActiveElement = focusUtils.getElementWithFocus();
-
         const nodeUpdate = this.deMutateAndUpdateNodeCollection;
         const moveFocusOnCloseCallback = () => {
-            savedActiveElement?.focus();
+            this.moveFocusToNode(guid);
         };
 
         const editResourceCallback = this.editResourceCallback;
