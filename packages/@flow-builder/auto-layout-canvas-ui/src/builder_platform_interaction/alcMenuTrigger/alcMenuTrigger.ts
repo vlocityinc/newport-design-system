@@ -210,7 +210,9 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
     }
 
     handleEscape() {
-        this.dispatchEvent(new CloseMenuEvent());
+        if (this._menuOpened) {
+            this.dispatchEvent(new CloseMenuEvent());
+        }
     }
 
     /** ***************************** Callbacks */

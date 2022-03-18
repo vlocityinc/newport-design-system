@@ -10,6 +10,7 @@ import {
 } from 'builder_platform_interaction/alcComponentsUtils';
 import {
     AlcSelectionEvent,
+    CloseMenuEvent,
     CreateGoToConnectionEvent,
     DeleteBranchElementEvent,
     GoToPathEvent,
@@ -724,13 +725,13 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         }
     };
 
-    handleCloseMenu = (event) => {
+    handleCloseMenu = (event: CloseMenuEvent) => {
         event.stopPropagation();
 
         const { source, type } = this.canvasContext.menu!;
         if (type === MenuType.CONNECTOR) {
             this.focusOnConnector(source);
-        } else if (event.moveFocusToTrigger) {
+        } else if (event.detail.moveFocusToTrigger) {
             this._focusOnNode(source.guid);
         }
 
