@@ -6,12 +6,15 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { ScreenEditorEventName } from 'builder_platform_interaction/events';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { FlowScreenFieldType, FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
 import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
+import { getEnvironments } from 'builder_platform_interaction/storeUtils';
 import { createElement } from 'lwc';
 
 const mockedContextLib = require('builder_platform_interaction_mocks/contextLib');
 jest.mock('builder_platform_interaction/contextLib', () => require('builder_platform_interaction_mocks/contextLib'));
+
+const SLACK_INDICATOR_DIV = '.test-slack_div';
 
 async function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
@@ -76,6 +79,12 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
         setDragFieldValue: jest.fn(),
         InputsOnNextNavToAssocScrnOption,
         getFieldByGuid
+    };
+});
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getEnvironments: jest.fn().mockReturnValue([])
     };
 });
 
@@ -164,5 +173,18 @@ describe('Screen Editor Palette when there are no screen field types', () => {
         expect(inputSection._children[0].label).toBe('File Upload');
         expect(customSection.label).toBe('Custom');
         expect(customSection._children[0].label).toBe('Custom Comp');
+    });
+});
+
+describe('Slack Indicator', () => {
+    it('should not display indicator if environment type is not slack', async () => {
+        (getEnvironments as jest.Mock).mockReturnValue([FLOW_ENVIRONMENT.UNSPECIFIED]);
+        const element = await createComponentForTest({ screenFieldTypes, extensionTypes });
+        expect(element.shadowRoot.querySelector(SLACK_INDICATOR_DIV)).toBeFalsy();
+    });
+    it('should display indicator if environment type is slack', async () => {
+        (getEnvironments as jest.Mock).mockReturnValue([FLOW_ENVIRONMENT.SLACK]);
+        const element = await createComponentForTest({ screenFieldTypes, extensionTypes });
+        expect(element.shadowRoot.querySelector(SLACK_INDICATOR_DIV)).toBeTruthy();
     });
 });

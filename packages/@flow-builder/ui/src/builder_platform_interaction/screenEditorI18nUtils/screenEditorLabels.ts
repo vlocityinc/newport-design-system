@@ -180,6 +180,8 @@ import sevenOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.sevenO
 import showFooter from '@salesforce/label/FlowBuilderScreenEditor.showFooter';
 import showHeader from '@salesforce/label/FlowBuilderScreenEditor.showHeader';
 import singleSelectChoiceDisplay from '@salesforce/label/FlowBuilderScreenEditor.singleSelectChoiceDisplay';
+import slackIndicatorInfoText from '@salesforce/label/FlowBuilderScreenEditor.slackIndicatorInfoText';
+import slackIndicatorText from '@salesforce/label/FlowBuilderScreenEditor.slackIndicatorText';
 import standardPauseMessage from '@salesforce/label/FlowBuilderScreenEditor.standardPauseMessage';
 import tenOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.tenOfTwelveWidth';
 import threeOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.threeOfTwelveWidth';
@@ -377,5 +379,7 @@ export const LABELS = {
     componentFinalPosition,
     componentAriaLabelTypeOnly,
     componentAriaLabel,
-    rightPanelInstructions
+    rightPanelInstructions,
+    slackIndicatorText,
+    slackIndicatorInfoText
 };

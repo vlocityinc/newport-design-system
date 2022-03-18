@@ -9,3 +9,12 @@
 .slds-panel {
     border-radius: 0;
 }
+
+.slack-indicator {
+    font-style: italic;
+}
+
+.slack-indicator-helptext {
+    position: relative;
+    top: -2px;
+}

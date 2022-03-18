@@ -3,10 +3,12 @@ import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
 import { labelFilter } from 'builder_platform_interaction/filterLib';
+import { FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getFieldByGuid, SCREEN_EDITOR_GUIDS, setDragFieldValue } from 'builder_platform_interaction/screenEditorUtils';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getEnvironments } from 'builder_platform_interaction/storeUtils';
 import { api, LightningElement, track } from 'lwc';
 
 const SELECTORS = {
@@ -46,6 +48,10 @@ export default class ScreenPalette extends LightningElement {
         const divClass =
             'screen-palette-container slds-size_small slds-panel slds-panel_drawer slds-border_right slds-grid slds-grid_vertical';
         return orgHasFlowBuilderAutomaticFields() ? divClass : `${divClass} slds-panel_docked-left`;
+    }
+
+    get showSlackIndicator() {
+        return getEnvironments()?.includes(FLOW_ENVIRONMENT.SLACK);
     }
 
     // Create palette model

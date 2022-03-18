@@ -27,6 +27,17 @@
             </div>
         </div>
         <div class="slds-scrollable_y slds-grid slds-grid_vertical slds-grow">
+            <div
+                class="slds-p-top_x-small slds-p-left_small slds-text-body_regular test-slack_div"
+                if:true={showSlackIndicator}
+            >
+                <span class="slack-indicator">{labels.slackIndicatorText}</span>
+                <lightning-helptext
+                    class="slds-list_inline slds-m-left_xx-small slack-indicator-helptext"
+                    content={labels.slackIndicatorInfoText}
+                >
+                </lightning-helptext>
+            </div>
             <builder_platform_interaction-palette
                 aria-labelledby={labels.paletteTitle}
                 data={types}
