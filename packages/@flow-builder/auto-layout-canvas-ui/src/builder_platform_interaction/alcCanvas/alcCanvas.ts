@@ -714,7 +714,9 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                 this.openMenu(event, interactionState);
             } else {
                 this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW));
-                this.zoomEndAction = () => this.openMenu(event, interactionState);
+                this.zoomEndAction = () => {
+                    this.openMenu(event, interactionState);
+                };
             }
         } else {
             this.updateCanvasContext({ menu: null });
@@ -996,7 +998,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             if (this.zoomEndAction) {
                 this.zoomEndAction();
             }
-            delete this.zoomEndAction;
+            this.zoomEndAction = undefined;
         };
 
         this._panzoom.on('zoomend', onZoomEnd);
