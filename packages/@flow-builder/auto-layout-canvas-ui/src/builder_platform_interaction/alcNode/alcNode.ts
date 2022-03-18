@@ -6,7 +6,11 @@ import {
     isMenuOpened,
     scheduleTask
 } from 'builder_platform_interaction/alcComponentsUtils';
-import { AlcSelectDeselectNodeEvent, IncomingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
+import {
+    AlcSelectDeselectNodeEvent,
+    CloseMenuEvent,
+    IncomingGoToStubClickEvent
+} from 'builder_platform_interaction/alcEvents';
 import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { getNodeMenuInfo, newMenuRenderedEvent, NodeMenuInfo } from 'builder_platform_interaction/alcMenuUtils';
 import {
@@ -42,7 +46,6 @@ export default class AlcNode extends LightningElement {
     _menu: NodeMenuInfo | null = null;
     _nodeInfo!: NodeRenderInfo;
     _canvasContext?: CanvasContext;
-    _isStartNodeFocusedPostLoad = false;
 
     isFocusTrapEnabled = false;
 
@@ -373,6 +376,15 @@ export default class AlcNode extends LightningElement {
     }
 
     /**
+     * Closes the menu when it is empty
+     */
+    handleFocusOut() {
+        if (this.isStart && this.getMenu()?.isEmpty()) {
+            this.dispatchEvent(new CloseMenuEvent(false));
+        }
+    }
+
+    /**
      * Handles the click on the selection checkbox and dispatches an event to toggle
      * the selected state of the node.
      *
@@ -406,11 +418,15 @@ export default class AlcNode extends LightningElement {
         this.expanded = event.detail.opened;
     }
 
+    private getMenu(): AlcMenu | undefined {
+        return this.dom.as<AlcMenu>().menu;
+    }
+
     /**
      * Task to run after rendering
      */
     postMenuRenderTask() {
-        const menuElement = this.dom.as<AlcMenu>().menu;
+        const menuElement = this.getMenu();
         if (menuElement != null) {
             if (menuElement.isEmpty()) {
                 this.focus();

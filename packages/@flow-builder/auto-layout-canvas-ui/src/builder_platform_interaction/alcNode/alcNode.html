@@ -1,5 +1,5 @@
 <template>
-    <builder_platform_interaction-focus-trap enabled={isFocusTrapEnabled}>
+    <builder_platform_interaction-focus-trap enabled={isFocusTrapEnabled} onfocusout={handleFocusOut}>
         <div class={iconContainerClasses}>
             <builder_platform_interaction-alc-menu-trigger
                 element-metadata={nodeInfo.metadata}
