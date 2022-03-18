@@ -16,13 +16,14 @@ import {
 } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isRecordTriggeredFlow } from 'builder_platform_interaction/processTypeLib';
-import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, keyboardInteractionUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { api, LightningElement, track } from 'lwc';
 import nodeElement from './node.html';
 import { LABELS } from './nodeLabels';
 import startNode from './startNode.html';
 
+const { Keys } = keyboardInteractionUtils;
 const { format } = commonUtils;
 const { logInteraction } = loggingUtils;
 
@@ -390,6 +391,29 @@ export default class Node extends LightningElement {
             return startNode;
         }
         return nodeElement;
+    }
+
+    /**
+     * Handles space or enter keys on a button
+     *
+     * @param event - the keyboard event
+     */
+    handleKeyDown(event: KeyboardEvent) {
+        const { key } = event;
+
+        if (key === Keys.Enter || key === Keys.Space) {
+            this.template.activeElement.performAction();
+        }
+    }
+
+    /**
+     * Handles a button click event
+     *
+     * @param event - The click event
+     */
+    handleButtonClick(event) {
+        event?.stopPropagation();
+        event?.target.performAction();
     }
 
     renderedCallback() {

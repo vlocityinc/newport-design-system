@@ -28,29 +28,34 @@
                 <div class="slds-text-heading_small slds-truncate slds-m-bottom_xx-small">{nodeTypeLabel}</div>
                 <div class="slds-text-body_regular slds-truncate slds-m-top_xx-small">{startIconFlowType}</div>
             </div>
-            <div class="slds-text-align_left">
+            <div class="slds-text-align_left" onclick={handleButtonClick} onkeydown={handleKeyDown}>
                 <div if:false={isRecordTriggeredFlow}>
                     <builder_platform_interaction-start-node-trigger-button
                         if:true={isTrigger}
                         node={node}
+                        tabindex="0"
                     ></builder_platform_interaction-start-node-trigger-button>
                     <builder_platform_interaction-start-node-context-button
                         if:true={isContext}
                         node={node}
+                        tabindex="0"
                     ></builder_platform_interaction-start-node-context-button>
                 </div>
                 <div if:true={isRecordTriggeredFlow}>
                     <builder_platform_interaction-record-trigger-start-node
                         node={node}
+                        tabindex="0"
                     ></builder_platform_interaction-record-trigger-start-node>
                 </div>
                 <builder_platform_interaction-start-node-scheduled-path-button
                     if:true={isScheduledPath}
                     node={node}
+                    tabindex="0"
                 ></builder_platform_interaction-start-node-scheduled-path-button>
                 <builder_platform_interaction-start-node-flow-explorer-entry-point
                     if:true={isRecordTriggeredFlow}
                     node={node}
+                    tabindex="0"
                 ></builder_platform_interaction-start-node-flow-explorer-entry-point>
             </div>
         </div>

@@ -1,6 +1,5 @@
 import AlcNodeMenu from 'builder_platform_interaction/alcNodeMenu';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
-import { EditElementEvent } from 'builder_platform_interaction/events';
 import { api } from 'lwc';
 
 /**
@@ -35,17 +34,6 @@ export default class AlcStartMenu extends AlcNodeMenu {
         return (
             this.flowElement == null || !(hasTrigger || hasContext || isRecordTriggeredFlow || supportsScheduledPaths)
         );
-    }
-
-    /**
-     * Creates an EditElementEvent.
-     * Can be overriden in subclasses to provide the right edit element event
-     *
-     * @returns an edit element event
-     */
-    createEditElementEvent(): EditElementEvent {
-        const canvasElementGUID = this.node.guid;
-        return new EditElementEvent(canvasElementGUID, this.node.triggerType, undefined, true);
     }
 
     /**

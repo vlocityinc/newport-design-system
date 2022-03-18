@@ -2,7 +2,7 @@
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { DeleteElementEvent, EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import Node from 'builder_platform_interaction/node';
 import { createElement } from 'lwc';
 
@@ -55,16 +55,19 @@ const selectors = {
     errorIcon: '.error-icon'
 };
 
+let mockProcessType;
+
 jest.mock('builder_platform_interaction/contextLib', () => ({
     isTestMode: jest.fn()
 }));
 
 jest.mock('builder_platform_interaction/storeUtils', () => ({
-    getProcessType: jest.fn()
+    getProcessType: jest.fn(() => mockProcessType)
 }));
 
 jest.mock('builder_platform_interaction/processTypeLib', () => ({
-    isRecordTriggeredFlow: jest.fn()
+    isRecordTriggeredFlow: jest.fn(),
+    isScheduledPathSupported: jest.fn(() => true)
 }));
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
@@ -79,6 +82,22 @@ const dblClick = (component) => {
 };
 
 describe('node', () => {
+    describe('start node', () => {
+        afterEach(() => {
+            mockProcessType = undefined;
+        });
+        it('record trigger button click', async () => {
+            mockProcessType = 'mock-process';
+            const nodeComponent = createComponentUnderTest(false, false, false, ELEMENT_TYPE.START_ELEMENT);
+            nodeComponent.node = { ...nodeComponent.node, triggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE };
+            await ticks(1);
+            const callback = jest.fn();
+            nodeComponent.addEventListener(EditElementEvent.EVENT_NAME, callback);
+            nodeComponent.shadowRoot.querySelector('builder_platform_interaction-start-node-trigger-button').click();
+            expect(callback).toHaveBeenCalled();
+        });
+    });
+
     it('Checks if node is rendered correctly', () => {
         const nodeComponent = createComponentUnderTest(false, false, false);
         expect(nodeComponent.node.guid).toEqual('1');
