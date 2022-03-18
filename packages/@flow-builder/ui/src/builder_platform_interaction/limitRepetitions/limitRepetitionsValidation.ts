@@ -21,7 +21,8 @@ const additionalRules = {
         ValidationRules.shouldBeInRange(MIN_WITHIN_DAYS, MAX_WITHIN_DAYS)
     ],
     inputRecommendations: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
-    responseTypeToLimit: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
+    responseTypeToLimit: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
+    recordId: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
 };
 
 export const limitRepetitionsValidation = new Validation(additionalRules);

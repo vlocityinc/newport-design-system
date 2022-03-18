@@ -186,5 +186,31 @@ describe('Limit Repetition Validation', () => {
                 });
             });
         });
+
+        describe('Record id validation', () => {
+            it('should catch error with empty recordId', () => {
+                const invalidInput = { recordId: { value: '', error: null } };
+                const newState = { ...limitRepetitionCmp.state, ...invalidInput };
+                const errors = validate(newState);
+
+                expect(errors).toHaveLength(1);
+                expect(errors[0]).toEqual({
+                    key: ELEMENT_PROPS.recordId.name,
+                    errorString: 'FlowBuilderValidation.cannotBeBlank'
+                });
+            });
+
+            it('should catch error if recordId is undefined', () => {
+                const invalidInput = { recordId: { value: undefined, error: null } };
+                const newState = { ...limitRepetitionCmp.state, ...invalidInput };
+                const errors = validate(newState);
+
+                expect(errors).toHaveLength(1);
+                expect(errors[0]).toEqual({
+                    key: ELEMENT_PROPS.recordId.name,
+                    errorString: 'FlowBuilderValidation.cannotBeBlank'
+                });
+            });
+        });
     });
 });

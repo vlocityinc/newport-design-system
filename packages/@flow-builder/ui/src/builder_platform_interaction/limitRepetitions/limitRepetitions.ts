@@ -95,6 +95,8 @@ export default class LimitRepetitions extends LightningElement {
                 this.updateCpe(ELEMENT_PROPS[input.name], DEFAULT_INPUT_VALUE[input.name].value);
             }
         });
+        // making sure recordId is set
+        this.updateCpe(ELEMENT_PROPS.recordId, this.state.recordId?.value || DEFAULT_INPUT_VALUE.recordId.value);
     }
 
     /**
