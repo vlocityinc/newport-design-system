@@ -210,7 +210,11 @@ export default class FlowTestManager extends LightningElement {
         logPerfTransactionStart(FLOW_TEST_MODE_TO_PERF_LOG_MAP[mode]);
         try {
             this.hideModal();
-            await this.createOrEditFlowTestCallback(mode, flowTestId);
+            const result = await this.createOrEditFlowTestCallback(mode, flowTestId);
+            if (result === false && flowTestId) {
+                deleteFlowTestFromCache(flowTestId);
+                this.copyDataFromTestStore();
+            }
         } finally {
             logPerfTransactionEnd(FLOW_TEST_MODE_TO_PERF_LOG_MAP[mode], { flowTestId });
         }

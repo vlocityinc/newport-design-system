@@ -1972,6 +1972,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      *
      * @param createOrEdit Takes the mode, Create or Edit
      * @param flowTestId
+     * @returns whether invoking the modal was successful
      */
     createOrEditFlowTest = async (createOrEdit: FlowTestMode, flowTestId?: string) => {
         const triggerSaveType = getRecordTriggerType();
@@ -2001,6 +2002,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     builderMode: this.builderMode
                 };
             });
+            return true;
         } else if (createOrEdit === FlowTestMode.Edit) {
             // When Edit test is clicked from Test mode toolbar, the flowTestId passed to this method would be undefined.
             // Only way to reach test mode would be by clicking the "Run and View Test detail" action. Setting this.currentFlowTestId in handleRunAndViewTestDetail
@@ -2008,41 +2010,57 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             if (!flowTestId) {
                 flowTestId = this.currentFlowTestId;
             }
-            await this.getTest(flowTestId, createOrEdit, triggerSaveType, triggerObjectType);
+            return this.getTest(flowTestId, createOrEdit, triggerSaveType, triggerObjectType);
         }
+        return true;
     };
 
     getTest = async (flowTestId, createOrEdit, triggerSaveType, triggerObjectType) => {
         this.spinners.showPropertyEditorSpinner = true;
+        let data;
+        let result = false;
         try {
-            const data = await fetchPromise(SERVER_ACTION_TYPE.GET_FLOW_TEST, {
+            data = await fetchPromise(SERVER_ACTION_TYPE.GET_FLOW_TEST, {
                 id: flowTestId
             });
-            await this.editTestCallback(
-                data,
-                createOrEdit,
-                triggerSaveType,
-                triggerObjectType,
-                this.handleViewAllTests
-            );
+        } catch (exception) {
+            // Catch unhandled promise reject error to prevent extra flow error modal
+            // Server-side unhandled error is still rendered as a new modal.
+        }
+        try {
+            if (data) {
+                result = await this.editTestCallback(
+                    data,
+                    createOrEdit,
+                    triggerSaveType,
+                    triggerObjectType,
+                    this.handleViewAllTests
+                );
+            }
         } finally {
             this.spinners.showPropertyEditorSpinner = false;
         }
+        return result;
     };
 
     async editTestCallback(data, createOrEdit, triggerSaveType, triggerObjectType, flowTestListViewCallback) {
-        let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data));
-        flowTestObject = getElementForPropertyEditor(flowTestObject);
-        await this.queueOpenCreateFlowTest(() => {
-            return {
-                flowTestObject,
-                createOrEdit,
-                triggerSaveType,
-                triggerObjectType,
-                flowTestListViewCallback,
-                builderMode: this.builderMode
-            };
-        });
+        if (data.isSuccess) {
+            let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data.flowTest));
+            flowTestObject = getElementForPropertyEditor(flowTestObject);
+            await this.queueOpenCreateFlowTest(() => {
+                return {
+                    flowTestObject,
+                    createOrEdit,
+                    triggerSaveType,
+                    triggerObjectType,
+                    flowTestListViewCallback,
+                    builderMode: this.builderMode
+                };
+            });
+        } else {
+            this.showToast(data.errors.messages, 'error', 'sticky');
+        }
+        return data.isSuccess;
     }
 
     queueOpenCreateFlowTest = async (paramsProvider) => {
@@ -2817,11 +2835,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      *
      * @param message the toast message to display
      * @param variant the toast variant
+     * @param mode optional, else will default to dismissible (toast default)
      */
-    showToast(message: string, variant: string) {
+    showToast(message: string, variant: string, mode?: string) {
         const toastEvent = new ShowToastEvent({
             variant,
-            message
+            message,
+            mode: mode ?? 'dismissible'
         });
         this.dispatchEvent(toastEvent);
     }

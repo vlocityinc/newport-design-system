@@ -208,7 +208,7 @@ describe('flowTestManager', () => {
         let cmp, props, createNewOrEditTestMock, handleRunAndViewTestDetailAction, toastHandler;
 
         beforeEach(async () => {
-            createNewOrEditTestMock = jest.fn();
+            createNewOrEditTestMock = jest.fn().mockReturnValue(false);
             handleRunAndViewTestDetailAction = jest.fn();
             props = {
                 footer: {},
@@ -312,6 +312,21 @@ describe('flowTestManager', () => {
             for (let i = 0; i < data.length; i++) {
                 expect(data[i].flowTestId).toEqual(MOCK_TESTS[i + 1].flowTestId);
             }
+        });
+
+        it('edit flow test updates store if flow test not found', async () => {
+            addFlowTests(MOCK_TESTS);
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+            let data = getDatatable(cmp).data;
+
+            cmp.copyDataFromTestStore();
+            await ticks(1);
+            const dataTable = getDatatable(cmp);
+            dataTable.dispatchEvent(rowActionEvent({ name: 'edit' }, MOCK_TESTS[0]));
+            await ticks(1);
+            data = getDatatable(cmp).data;
+            expect(data.length).toBe(MOCK_TESTS.length - 1);
         });
 
         it('calls the handleRunAndViewTestDetailAction when Run Test and View detail action is clicked', async () => {
