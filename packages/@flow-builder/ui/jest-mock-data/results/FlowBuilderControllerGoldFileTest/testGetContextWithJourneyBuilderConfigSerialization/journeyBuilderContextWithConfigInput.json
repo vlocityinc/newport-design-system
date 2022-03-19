@@ -4,6 +4,7 @@
       "orgHasFlowBuilderDebug":false,
       "orgHasComplianceBannerEnabled":false,
       "orgHasFlowFormulaBuilder":false,
+      "orgHasScreenFlowsInSlack":false,
       "orgHasBeforeSaveEnabled":true,
       "orgHasFlowBuilderAutomaticFields":true,
       "orgHasFlowAutomaticFieldsUseRecordPageComponents":true,
