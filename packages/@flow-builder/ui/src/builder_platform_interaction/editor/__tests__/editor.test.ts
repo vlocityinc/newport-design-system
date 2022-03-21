@@ -941,7 +941,8 @@ describe('property editor', () => {
             editResourceCallback: expect.anything(),
             processType: undefined,
             panelConfig: undefined,
-            moveFocusOnCloseCallback: expect.anything()
+            moveFocusOnCloseCallback: expect.anything(),
+            autoFocus: true
         });
     });
 

@@ -198,6 +198,7 @@ import {
     getCopiedChildElements,
     getCopiedData,
     getDuplicateElementGuidMaps,
+    getEditorAutoFocusForElementType,
     getElementsMetadata,
     getElementsToBeDeleted,
     getPasteElementGuidMaps,
@@ -2180,7 +2181,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         this.activeElementGuid = node.guid;
                     }
 
-                    let paramsProvider = {
+                    return {
                         mode,
                         node,
                         nodeUpdate,
@@ -2190,17 +2191,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         triggerType,
                         moveFocusOnCloseCallback,
                         insertInfo: alcConnectionSource,
-                        isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
+                        isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas,
+                        autoFocus: getEditorAutoFocusForElementType(elementType as ELEMENT_TYPE)
                     };
-
-                    if (elementType === ELEMENT_TYPE.SCREEN) {
-                        paramsProvider = {
-                            ...paramsProvider,
-                            // @ts-ignore
-                            autoFocus: false
-                        };
-                    }
-                    return paramsProvider;
                 },
                 false,
                 designateFocus
@@ -2727,7 +2720,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         editResourceCallback,
                         processType,
                         moveFocusOnCloseCallback,
-                        isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas
+                        isAutoLayoutCanvas: this.properties.isAutoLayoutCanvas,
+                        autoFocus: getEditorAutoFocusForElementType(element.elementType as ELEMENT_TYPE)
                     };
                 },
                 forceModal,

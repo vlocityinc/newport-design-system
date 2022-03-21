@@ -1212,3 +1212,13 @@ export const logElementCreation = (
 export const isFlowTestingSupported = (processType: string, triggerType: string) => {
     return isFlowTestingSupportedForProcessType(processType) && isFlowTestingSupportedForTriggerType(triggerType);
 };
+
+/**
+ * Returns whether to autofocus when opening an editor for an element type
+ *
+ * @param elementType - The element type
+ * @returns true if should auto-focus on the editor, false otherwise
+ */
+export function getEditorAutoFocusForElementType(elementType: ELEMENT_TYPE) {
+    return elementType !== ELEMENT_TYPE.SCREEN;
+}
