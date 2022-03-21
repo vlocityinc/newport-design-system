@@ -84,7 +84,7 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
         if (data) {
             const { fields = {} } = data;
             this.modifiableFields = Object.keys(fields).filter((key) => {
-                return fields[key].updateable;
+                return fields[key].updateable && fields[key].createable;
             });
             this.normalizedFields = this.modifiableFields.map((value) => {
                 return this.objectApiName + '.' + value;

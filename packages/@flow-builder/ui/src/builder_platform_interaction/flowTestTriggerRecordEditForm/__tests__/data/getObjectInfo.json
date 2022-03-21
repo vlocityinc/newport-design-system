@@ -2,11 +2,23 @@
     "fields": {
         "Name": {
             "value": "Test",
-            "updateable": true
+            "updateable": true,
+            "createable": true
         },
         "Description": {
             "value": "Hello",
-            "updateable": true
+            "updateable": true,
+            "createable": true
+        },
+        "NonEditableField": {
+            "value": "Hi",
+            "updateable": false,
+            "createable": true
+        },
+        "NonCreateableField": {
+            "value": "Hi",
+            "updateable": true,
+            "createable": false
         }
     }
 }
