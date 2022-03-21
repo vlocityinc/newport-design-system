@@ -9,6 +9,7 @@ import {
     updatePropertiesAfterSaveFailed,
     updatePropertiesAfterSaving
 } from 'builder_platform_interaction/actions';
+import { scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
 import { ElementMetadata, hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
@@ -54,7 +55,6 @@ import { getElementByDevName, getStartElement } from 'builder_platform_interacti
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { isFlowTestingSupportedForTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { invokeUsedByAlertModal, usedBy } from 'builder_platform_interaction/usedByLib';
-
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const BASE_URL = '/builder_platform_interaction/flowBuilder.app?';
 const { logPerfTransactionStart, logPerfTransactionEnd, logInteraction } = loggingUtils;
@@ -823,14 +823,14 @@ export const createVariableElement = (
 /**
  * Close modal and navigate the parent window to the specific url
  *
- * @param {string} navigateUrl url to navigate to
+ * @param navigateUrl - The url to navigate to
  * @returns true if you want to skip the close modal
  */
-export const closeModalAndNavigateTo = (navigateUrl) => {
+export const closeModalAndNavigateTo = (navigateUrl: string) => {
     if (navigateUrl) {
-        // @ts-ignore
-        window.top.location = navigateUrl;
-        return false;
+        scheduleTask(() => {
+            window.top!.location = navigateUrl;
+        });
     }
     // skip exit
     return true;
