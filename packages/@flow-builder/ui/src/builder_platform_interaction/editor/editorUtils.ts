@@ -39,6 +39,7 @@ import {
     FLOW_TRIGGER_TYPE,
     METADATA_KEY
 } from 'builder_platform_interaction/flowMetadata';
+import { DEBUG_STATUS } from 'builder_platform_interaction/header';
 import {
     isConfigurableStartSupported,
     isFlowTestingSupportedForProcessType
@@ -1221,4 +1222,14 @@ export const isFlowTestingSupported = (processType: string, triggerType: string)
  */
 export function getEditorAutoFocusForElementType(elementType: ELEMENT_TYPE) {
     return elementType !== ELEMENT_TYPE.SCREEN;
+}
+
+/**
+ * Returns whether a debug run has failed based on the response from the server
+ *
+ * @param debugData Debug data from editor
+ * @returns true if the status of the interview is error (header.ts)
+ */
+export function isDebugInterviewInError(debugData) {
+    return debugData?.interviewStatus === DEBUG_STATUS.ERROR;
 }

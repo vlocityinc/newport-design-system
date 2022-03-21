@@ -8,7 +8,7 @@ import { LABELS } from './headerLabels';
 
 const { logInteraction } = loggingUtils;
 
-const DEBUG_STATUS = {
+export const DEBUG_STATUS = {
     FINISHED: 'FINISHED',
     PAUSED: 'WAITING',
     ERROR: 'ERROR',

@@ -22,6 +22,7 @@ import {
     getPasteElementGuidMaps,
     getSaveType,
     highlightCanvasElement,
+    isDebugInterviewInError,
     logElementCreation,
     saveAsFlowCallback,
     screenFieldsReferencedByLoops,
@@ -1528,6 +1529,23 @@ describe('Editor Utils Test', () => {
                 startInterviewTime: startTime,
                 endInterviewTime: endTime
             });
+        });
+
+        it('reports errored debug interview correctly', () => {
+            const startTime = new Date();
+            const endTime = new Date();
+            const data = [
+                {
+                    interviewStatus: 'ERROR',
+                    debugTrace: 'testTrace',
+                    errors: 'testErrors',
+                    startInterviewTime: startTime,
+                    endInterviewTime: endTime
+                },
+                {}
+            ];
+
+            expect(isDebugInterviewInError(data[0])).toEqual(true);
         });
 
         it('fires the canvas decorate action if no errors or unsaved changes', () => {

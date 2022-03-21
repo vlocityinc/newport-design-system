@@ -100,10 +100,14 @@ jest.mock('builder_platform_interaction/builderUtils', () => {
     });
 });
 
+let mockDebugInterviewIsFailed = false;
 jest.mock('../editorUtils', () => {
     return Object.assign(jest.requireActual('../editorUtils'), {
         isGuardrailsEnabled: jest.fn(),
-        getElementsMetadata: () => []
+        getElementsMetadata: () => [],
+        isDebugInterviewInError: jest.fn().mockImplementation(() => {
+            return mockDebugInterviewIsFailed;
+        })
     });
 });
 
@@ -2255,6 +2259,28 @@ describe('in debug mode', () => {
         const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
         const testButton = lbg.querySelector(selectors.test);
         expect(testButton).toBeNull();
+    });
+
+    it('Add to test button is not displayed for failed debug run', async () => {
+        mockDebugInterviewIsFailed = true;
+        mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+        mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { toolbarConfig: { showAddToTestButton: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await 1;
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
+        const testButton = lbg.querySelector(selectors.test);
+        expect(testButton).toBeNull();
+        mockDebugInterviewIsFailed = false;
     });
 
     it('right panel is fixed width in Orchestrator', async () => {

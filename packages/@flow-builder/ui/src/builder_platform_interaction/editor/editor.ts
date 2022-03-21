@@ -206,6 +206,7 @@ import {
     getSelectedFlowEntry,
     getToolboxElements,
     highlightCanvasElement,
+    isDebugInterviewInError,
     isFlowTestingSupported,
     isGuardrailsEnabled,
     launchSubflow,
@@ -759,7 +760,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         return (
             !!this.toolbarConfig.showAddToTestButton &&
             !this.fromEmailDebugging &&
-            isFlowTestingSupported(this.properties.processType, this.triggerType)
+            isFlowTestingSupported(this.properties.processType, this.triggerType) &&
+            !isDebugInterviewInError(this.debugData)
         );
     }
 
