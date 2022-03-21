@@ -16,9 +16,6 @@ export default class LimitRepetitions extends LightningElement {
     supportedObjectType = RECOMMENDATION_STRATEGY.OBJECT_NAME;
 
     @track
-    showReactionSettings = false;
-
-    @track
     state = deepCopy(DEFAULT_INPUT_VALUE);
 
     /**
@@ -59,12 +56,6 @@ export default class LimitRepetitions extends LightningElement {
     handleInputResourceChange(event: CustomEvent) {
         event.stopPropagation();
         const { value, error } = event.detail; // guid
-        this.showReactionSettings = !!value;
-
-        if (!this.showReactionSettings) {
-            this.resetWithDefaultValues();
-            return;
-        }
 
         this.updateCpe(ELEMENT_PROPS.inputRecommendations, value, error);
     }
@@ -86,7 +77,6 @@ export default class LimitRepetitions extends LightningElement {
                     };
                     swapDevNamesToGuids(Store.getStore().getCurrentState().elements, obj);
                     this.state.inputRecommendations.value = obj.value;
-                    this.showReactionSettings = true;
                 } else {
                     this.state[input.name].value = input.value;
                 }

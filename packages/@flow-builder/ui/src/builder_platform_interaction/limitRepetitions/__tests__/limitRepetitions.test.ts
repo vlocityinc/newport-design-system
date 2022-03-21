@@ -1,4 +1,9 @@
-import { createComponent, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    createComponent,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     CollectionReferenceChangedEvent,
     ConfigurationEditorChangeEvent,
@@ -12,7 +17,8 @@ import { ComboboxTestComponent } from '../../integrationTests/__tests__/combobox
 
 /**
  * Executing jest test
- * yarn jest packages/@flow-builder/ui/src/builder_platform_interaction/limitRepetitions/__tests__/limitRepetitions.test.ts
+ * cd packages/@flow-builder/ui/
+ * yarn jest src/builder_platform_interaction/limitRepetitions/__tests__/limitRepetitions.test.ts
  */
 
 jest.mock('builder_platform_interaction/processTypeLib');
@@ -77,6 +83,11 @@ describe('limit repetitions component', () => {
             expect(inputCollection).not.toBeNull();
         });
 
+        it('should render reaction settings component', () => {
+            const reactionSettingsCmp = getReactionSettingsCmp(limitRepetitionCmp);
+            expect(reactionSettingsCmp).not.toBeNull();
+        });
+
         it('should have empty value with input collection resource combobox', () => {
             const ferovResourcePicker = getFerovResourcePicker(inputCollection);
             expect(ferovResourcePicker.value).toEqual('');
@@ -116,6 +127,27 @@ describe('limit repetitions component', () => {
                 newValue: 'test-12345',
                 newValueDataType: ELEMENT_PROPS.inputRecommendations.dataType
             });
+        });
+
+        it('should NOT reset input fields on clearing input collection', async () => {
+            const valueChangedEvent = new CollectionReferenceChangedEvent('', null);
+            const eventCallback = jest.fn();
+
+            limitRepetitionCmp.addEventListener(ConfigurationEditorChangeEvent.EVENT_NAME, eventCallback);
+            inputCollection.dispatchEvent(valueChangedEvent);
+
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalled();
+
+            const inputFields = reactionSettingsCmp.shadowRoot.querySelectorAll(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT
+            );
+            const comboboxFields = reactionSettingsCmp.shadowRoot.querySelectorAll(
+                LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+            );
+            expect(comboboxFields[0].value).toEqual('ACCEPTED'); // responseType
+            expect(inputFields[0].value).toEqual('5'); // maxResponses
+            expect(inputFields[1].value).toEqual('60'); // withinDays
         });
 
         it('should update responseTypeToLimit field with a new selection', () => {
