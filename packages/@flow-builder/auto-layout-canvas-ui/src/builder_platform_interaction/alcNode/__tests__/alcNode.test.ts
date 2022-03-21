@@ -255,6 +255,27 @@ describe('AlcNode', () => {
             const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
             expect(selectionCheckbox.getAttribute('aria-label')).toEqual(LABELS.checkboxLabel);
         });
+
+        it('Shows the selection checkbox in Reconnection Mode', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo,
+                canvasContext: { mode: AutoLayoutCanvasMode.RECONNECTION }
+            });
+            const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox).not.toBeNull();
+        });
+
+        it('Shows the selection checkbox for End Element in Reconnection Mode', async () => {
+            nodeInfo.metadata.type = NodeType.END;
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo,
+                canvasContext: { mode: AutoLayoutCanvasMode.RECONNECTION }
+            });
+            const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox).not.toBeNull();
+        });
     });
 
     describe('Text Container', () => {

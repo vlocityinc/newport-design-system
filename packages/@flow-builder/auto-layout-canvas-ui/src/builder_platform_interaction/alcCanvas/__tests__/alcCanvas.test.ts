@@ -1,7 +1,12 @@
 // @ts-nocheck
 import { setup } from '@sa11y/jest';
+import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import {
+    AlcSelectDeselectNodeEvent,
+    AlcSelectionEvent,
+    CreateGoToConnectionEvent,
     DeleteBranchElementEvent,
+    GoToPathEvent,
     HighlightPathsToDeleteEvent,
     ToggleMenuEvent
 } from 'builder_platform_interaction/alcEvents';
@@ -12,6 +17,7 @@ import {
     ClickToZoomEvent,
     DeleteElementEvent,
     EditElementEvent,
+    ToggleSelectionModeEvent,
     ZOOM_ACTION
 } from 'builder_platform_interaction/events';
 import { commands, invokeModal } from 'builder_platform_interaction/sharedUtils';
@@ -126,7 +132,9 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         shouldDeleteGoToOnNext,
         getConnectionTarget,
         getConnectionSource,
-        getTargetGuidsForReconnection
+        getTargetGuidsForReconnection,
+        hasChildren,
+        hasGoToOnBranchHead
     } = autoLayoutCanvas;
     const { flowRenderInfo } = jest.requireActual('./mockData');
 
@@ -156,7 +164,9 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         isBranchTerminal,
         shouldDeleteGoToOnNext,
         getConnectionSource,
-        getTargetGuidsForReconnection
+        getTargetGuidsForReconnection,
+        hasChildren,
+        hasGoToOnBranchHead
     };
 });
 
@@ -650,7 +660,6 @@ describe('Auto Layout Canvas', () => {
         });
     });
 
-    // TODO: 238 clco - fix and uncomment these tests
     describe('highlight path', () => {
         it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and no branch is persisted', async () => {
             const flow = getFlow();
@@ -760,6 +769,97 @@ describe('Auto Layout Canvas', () => {
                 const highlightPathsToDeleteEvent = new HighlightPathsToDeleteEvent('decision', 1);
                 await dispatchEvent(flow, highlightPathsToDeleteEvent);
                 expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 1, expect.anything(), false);
+            });
+        });
+    });
+
+    describe('AutoLayout Canvas Mode', () => {
+        it('isSelectionMode should be false when canvasContext.mode is default', async () => {
+            // Tests the getter for isSelectionMode
+            expect(cmp.isSelectionMode).toBeFalsy();
+        });
+
+        it('isSelectionMode should be true when canvasContext.mode is selection', async () => {
+            // Calls the setter and sets canvasContext.mode to AutoLayoutCanvasMode.SELECTION
+            cmp.isSelectionMode = true;
+            // Tests the getter for isSelectionMode
+            expect(cmp.isSelectionMode).toBeTruthy();
+        });
+
+        it('isSelectionMode should be true when canvasContext.mode is reconnection', async () => {
+            const goToPathEvent = new GoToPathEvent({ guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5' }, true);
+            // Sets the canvasContext.mode to AutoLayoutCanvasMode.RECONNECTION
+            await dispatchEvent(getFlow(), goToPathEvent);
+            // Tests the getter for isSelectionMode
+            expect(cmp.isSelectionMode).toBeTruthy();
+        });
+
+        it('canvasContext.mode should be reconnection when creating a GoTo and ensuring isSelectionMode is true', async () => {
+            const goToPathEvent = new GoToPathEvent({ guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5' }, true);
+            await dispatchEvent(getFlow(), goToPathEvent);
+            cmp.isSelectionMode = true;
+            // Ensure we wait for alcFlow to rerender with the updated canvasContext in case handleSelectionModeChange updates it
+            await ticks(1);
+            const flow = getFlow();
+            expect(flow.canvasContext.mode).toEqual(AutoLayoutCanvasMode.RECONNECTION);
+        });
+
+        it('Should dispatch ToggleSelectionModeEvent when handling GoToPathEvent', async () => {
+            const eventCallback = jest.fn();
+            cmp.addEventListener(ToggleSelectionModeEvent.EVENT_NAME, eventCallback);
+            const goToPathEvent = new GoToPathEvent({ guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5' }, true);
+            await dispatchEvent(getFlow(), goToPathEvent);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+
+        it('Should dispatch AlcSelectionEvent when handling GoToPathEvent', async () => {
+            const eventCallback = jest.fn();
+            cmp.addEventListener(AlcSelectionEvent.EVENT_NAME, eventCallback);
+            const goToPathEvent = new GoToPathEvent({ guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5' }, true);
+            await dispatchEvent(getFlow(), goToPathEvent);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+
+    describe('Handling AlcSelectDeselectNodeEvent', () => {
+        describe('When selecting', () => {
+            it('Should dispatch AlcSelectionEvent', async () => {
+                const eventCallback = jest.fn();
+                cmp.addEventListener(AlcSelectionEvent.EVENT_NAME, eventCallback);
+                const alcSelectDeselectNodeEvent = new AlcSelectDeselectNodeEvent(
+                    'eb01a710-d341-4ba0-81d2-f7ef03300db5',
+                    false
+                );
+                await dispatchEvent(getFlow(), alcSelectDeselectNodeEvent);
+                expect(eventCallback).toHaveBeenCalled();
+            });
+        });
+
+        describe('When reconnecting', () => {
+            beforeEach(async () => {
+                const goToPathEvent = new GoToPathEvent({ guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5' }, true);
+                // Sets the _goToSource
+                await dispatchEvent(getFlow(), goToPathEvent);
+            });
+
+            it('Should dispatch CreateGoToConnectionEvent event when reconnecting', async () => {
+                const eventCallback = jest.fn();
+                cmp.addEventListener(CreateGoToConnectionEvent.EVENT_NAME, eventCallback);
+                const alcSelectDeselectNodeEvent = new AlcSelectDeselectNodeEvent({
+                    canvasElementGUID: 'eb01a710-d341-4ba0-81d2-f7ef03300db5'
+                });
+                await dispatchEvent(getFlow(), alcSelectDeselectNodeEvent);
+                expect(eventCallback).toHaveBeenCalled();
+            });
+
+            it('Should dispatch ToggleSelectionModeEvent event when reconnecting', async () => {
+                const eventCallback = jest.fn();
+                cmp.addEventListener(ToggleSelectionModeEvent.EVENT_NAME, eventCallback);
+                const alcSelectDeselectNodeEvent = new AlcSelectDeselectNodeEvent({
+                    canvasElementGUID: 'eb01a710-d341-4ba0-81d2-f7ef03300db5'
+                });
+                await dispatchEvent(getFlow(), alcSelectDeselectNodeEvent);
+                expect(eventCallback).toHaveBeenCalled();
             });
         });
     });

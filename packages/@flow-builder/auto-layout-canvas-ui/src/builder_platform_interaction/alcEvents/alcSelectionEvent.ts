@@ -34,4 +34,5 @@ export class AlcSelectionEvent extends CustomEvent<AlcSelectionEventDetail> {
             }
         });
     }
+    static EVENT_NAME = eventName;
 }
