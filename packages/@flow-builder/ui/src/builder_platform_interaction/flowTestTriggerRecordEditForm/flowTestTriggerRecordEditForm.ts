@@ -75,7 +75,10 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
                     label: this.objectApiName
                 }
             ],
-            placeholder: format(this.labels.flowTestInitialRecordRecordPickerPlaceholder, this.objectApiName)
+            placeholder: format(
+                this.labels.flowTestInitialRecordRecordPickerPlaceholder,
+                this.objectApiName?.toLowerCase()
+            )
         };
     }
 

@@ -88,6 +88,7 @@ export default class FlowTestEditor extends LightningElement {
     };
 
     tabDescriptions = {
+        [FlowTestMenuItems.Details]: this.labels.flowTestDetailDescription,
         [FlowTestMenuItems.InitialRecord]: this.labels.flowTestInitialRecordPanelDescription,
         [FlowTestMenuItems.UpdatedRecord]: this.labels.flowTestUpdatedRecordPanelDescription,
         [FlowTestMenuItems.Assertions]: this.labels.flowTestAssertionPanelDescription

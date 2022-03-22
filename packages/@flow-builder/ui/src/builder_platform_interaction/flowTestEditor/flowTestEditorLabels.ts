@@ -2,6 +2,7 @@ import errorMessageDuplicateFlowTest from '@salesforce/label/FlowBuilderAlertMod
 import flowTestAssertionPanelDescription from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionPanelDescription';
 import flowTestAssertionPanelHeader from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionPanelHeader';
 import flowTestAssertionsMenuItem from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionsMenuItem';
+import flowTestDetailDescription from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestDetailDescription';
 import flowTestDetailsMenuItem from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestDetailsMenuItem';
 import flowTestFromDebuggerSavedSuccess from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestFromDebuggerSavedSuccess';
 import flowTestInitialRecordMenuItem from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestInitialRecordMenuItem';
@@ -25,5 +26,6 @@ export const LABELS = {
     flowTestUpdatedRecordPanelDescription,
     spinnerAlternativeText,
     flowTestFromDebuggerSavedSuccess,
-    errorMessageDuplicateFlowTest
+    errorMessageDuplicateFlowTest,
+    flowTestDetailDescription
 };
