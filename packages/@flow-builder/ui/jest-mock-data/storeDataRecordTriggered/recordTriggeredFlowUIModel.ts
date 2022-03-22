@@ -419,6 +419,6 @@ export const recordTriggeredFlowUIModel = {
         overriddenFlow: null,
         sourceTemplate: null,
         migratedFromWorkflowRuleName: null,
-        environments: ['Unspecified']
+        environments: ['Default']
     }
 };

@@ -5870,6 +5870,6 @@ export const flowWithAllElementsUIModel = {
         overriddenFlow: null,
         sourceTemplate: null,
         migratedFromWorkflowRuleName: null,
-        environments: ['Unspecified']
+        environments: ['Default']
     }
 };

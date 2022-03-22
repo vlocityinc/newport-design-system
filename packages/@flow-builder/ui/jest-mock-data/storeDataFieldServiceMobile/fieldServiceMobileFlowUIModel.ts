@@ -531,6 +531,6 @@ export const fieldServiceMobileFlowUIModel = {
         overriddenFlow: null,
         sourceTemplate: null,
         migratedFromWorkflowRuleName: null,
-        environments: ['Unspecified']
+        environments: ['Default']
     }
 };

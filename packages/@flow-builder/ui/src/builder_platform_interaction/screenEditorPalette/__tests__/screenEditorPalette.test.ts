@@ -178,7 +178,7 @@ describe('Screen Editor Palette when there are no screen field types', () => {
 
 describe('Slack Indicator', () => {
     it('should not display indicator if environment type is not slack', async () => {
-        (getEnvironments as jest.Mock).mockReturnValue([FLOW_ENVIRONMENT.UNSPECIFIED]);
+        (getEnvironments as jest.Mock).mockReturnValue([FLOW_ENVIRONMENT.DEFAULT]);
         const element = await createComponentForTest({ screenFieldTypes, extensionTypes });
         expect(element.shadowRoot.querySelector(SLACK_INDICATOR_DIV)).toBeFalsy();
     });

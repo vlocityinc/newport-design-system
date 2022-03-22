@@ -577,6 +577,6 @@ export const scheduleTriggeredFlowUIModel = {
         overriddenFlow: null,
         sourceTemplate: null,
         migratedFromWorkflowRuleName: null,
-        environments: ['Unspecified']
+        environments: ['Default']
     }
 };

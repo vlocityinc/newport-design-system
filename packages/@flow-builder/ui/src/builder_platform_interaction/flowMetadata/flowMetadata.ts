@@ -425,7 +425,7 @@ export const START_ELEMENT_FIELDS = {
 
 export const FLOW_ENVIRONMENT = {
     SLACK: 'Slack',
-    UNSPECIFIED: 'Unspecified'
+    DEFAULT: 'Default'
 };
 
 export enum COLLECTION_PROCESSOR_SUB_TYPE {

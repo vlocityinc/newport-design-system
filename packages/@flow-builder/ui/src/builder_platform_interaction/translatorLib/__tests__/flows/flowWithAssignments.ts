@@ -124,7 +124,7 @@ export const flowWithAssignments = {
         runInMode: null,
         status: 'InvalidDraft',
         apiVersion: 49,
-        environments: ['Unspecified']
+        environments: ['Default']
     },
     processType: 'AutoLaunchedFlow',
     status: 'InvalidDraft',

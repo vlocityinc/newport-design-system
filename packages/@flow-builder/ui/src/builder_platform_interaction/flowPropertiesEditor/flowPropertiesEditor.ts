@@ -834,7 +834,7 @@ export default class FlowPropertiesEditor extends LightningElement {
                 this.legalNotices[0].shown = true;
             }
         } else {
-            this.environments = [FLOW_ENVIRONMENT.UNSPECIFIED];
+            this.environments = [FLOW_ENVIRONMENT.DEFAULT];
             this.noticesToLegalPopover = this.noticesToLegalPopover.filter(
                 (notice) => notice.header !== LABELS.slackLegalNoticeHeader
             );

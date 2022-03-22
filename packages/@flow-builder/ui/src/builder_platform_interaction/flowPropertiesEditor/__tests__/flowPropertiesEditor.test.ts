@@ -1173,7 +1173,7 @@ describe('FlowPropertiesEditor', () => {
         });
         it('Slack in Flowbuilder checkbox is not checked by default when environments does not contains Slack even if orgHasScreenFlowsInSlack access is true', async () => {
             (orgHasScreenFlowsInSlack as jest.Mock).mockReturnValue(true);
-            defaultNode.environments = ['Unspecified'];
+            defaultNode.environments = ['Default'];
             flowPropertiesEditor = createComponentUnderTest(defaultNode);
             getShowAdvancedButton(flowPropertiesEditor).click();
             await ticks(1);

@@ -67,7 +67,7 @@ export function createFlowProperties(flowProperties = {}) {
         isAutoLayoutCanvas = false
     } = flowProperties;
     const { definitionId } = flowProperties;
-    environments = environments && environments.length > 0 ? [...environments] : [FLOW_ENVIRONMENT.UNSPECIFIED];
+    environments = environments && environments.length > 0 ? [...environments] : [FLOW_ENVIRONMENT.DEFAULT];
     canOnlySaveAsNewDefinition = canOnlySaveAsNewDefinition || manageableState === 'installed';
     if (processMetadataValues) {
         // isCreatedOutsideLFB can be true in 2 cases

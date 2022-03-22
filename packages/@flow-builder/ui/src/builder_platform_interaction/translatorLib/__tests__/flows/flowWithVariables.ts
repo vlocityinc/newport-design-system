@@ -167,7 +167,7 @@ export const flowWithVariables = {
         runInMode: null,
         status: 'InvalidDraft',
         apiVersion: 50,
-        environments: ['Unspecified']
+        environments: ['Default']
     },
     processType: 'AutoLaunchedFlow',
     status: 'InvalidDraft',
