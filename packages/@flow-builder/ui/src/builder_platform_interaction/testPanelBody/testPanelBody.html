@@ -17,7 +17,7 @@
     ></lightning-formatted-rich-text>
 
     <!-- failure message from customer -->
-    <div if:true={isFailure}>
+    <div if:true={showCustomErrorMessage}>
         <p class="sub-title slds-text-color_weak slds-p-vertical_xx-small">{testLabels.failureSubtitle}</p>
         <!-- Regular text -->
         <lightning-formatted-rich-text

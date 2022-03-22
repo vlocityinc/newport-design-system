@@ -35,6 +35,10 @@ export default class TestPanelBody extends LightningElement {
         return this.status === TEST_STATUS.ERROR;
     }
 
+    get showCustomErrorMessage() {
+        return this.isFailure && this.failureMessage?.length > 0;
+    }
+
     get isFailure() {
         return this.status === TEST_STATUS.FAIL;
     }
