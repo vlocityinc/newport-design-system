@@ -16,6 +16,7 @@ import {
     ORCHESTRATED_ACTION_CATEGORY,
     OrchestrationActionValueChangedEvent,
     OrchestrationAssigneeChangedEvent,
+    OrchestrationStageStepEditorValidateEvent,
     PropertyChangedEvent,
     RequiresAsyncProcessingChangedEvent,
     UpdateConditionEvent,
@@ -40,7 +41,6 @@ import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
 import { usedBy, UsedByElement } from 'builder_platform_interaction/usedByLib';
 import { Validation } from 'builder_platform_interaction/validation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from './stageStepEditorLabels';
 import { getRules } from './stageStepValidation';
 const { format } = commonUtils;
@@ -383,7 +383,9 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
         case UpdateEntryExitCriteriaEvent.EVENT_NAME:
             newState = updateEntryExitCriteria(state, event);
             break;
-        case VALIDATE_ALL:
+        case OrchestrationStageStepEditorValidateEvent.EVENT_NAME: {
+            const typedEvent = event as OrchestrationStageStepEditorValidateEvent;
+            const { relatedRecordPickerGuid, assigneePickerGuid } = typedEvent.detail;
             state = updateProperties(state, { action: mergeActionErrorToActionName(state.action, state.actionError) });
             state = updateProperties(state, {
                 entryAction: mergeActionErrorToActionName(state.entryAction, state.entryActionError)
@@ -391,7 +393,9 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
             state = updateProperties(state, {
                 exitAction: mergeActionErrorToActionName(state.exitAction, state.exitActionError)
             });
-            return validation.validateAll(state, getRules(state));
+
+            return validation.validateAll(state, getRules(state, assigneePickerGuid, relatedRecordPickerGuid));
+        }
         case MERGE_WITH_PARAMETERS:
             return mergeParameters(state, event.detail.parameters, event.detail.actionCategory);
         default:

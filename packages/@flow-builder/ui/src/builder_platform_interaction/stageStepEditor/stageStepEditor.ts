@@ -29,9 +29,11 @@ import {
     CreateEntryConditionsEvent,
     DeleteAllConditionsEvent,
     DeleteOrchestrationActionEvent,
+    ItemSelectedEvent,
     ORCHESTRATED_ACTION_CATEGORY,
     OrchestrationActionValueChangedEvent,
     OrchestrationAssigneeChangedEvent,
+    OrchestrationStageStepEditorValidateEvent,
     PropertyChangedEvent,
     RequiresAsyncProcessingChangedEvent,
     UpdateConditionEvent,
@@ -59,7 +61,6 @@ import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEdi
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
@@ -101,21 +102,39 @@ export default class StageStepEditor extends LightningElement {
     displayActionSpinner = false;
     displayAssigneeSpinner = false;
 
-    actorPickerId = generateGuid();
-
     @track
     assigneeRecordIds: { id: string }[] | undefined = undefined;
 
     rules = [];
 
-    actorErrorMessage = '';
+    _assigneePickerGuid = generateGuid();
+    get actorErrorMessage(): string {
+        if (this.element?.assignees[0]?.assignee?.error) {
+            return this.element?.assignees[0]?.assignee?.error;
+        }
+        return '';
+    }
 
     entryActionErrorMessage;
     actionErrorMessage;
     exitActionErrorMessage;
 
-    recordPickerId = generateGuid();
-    recordErrorMessage;
+    _relatedRecordPickerGuid = generateGuid();
+    /**
+     * display any relatedRecord errorMessage if
+     * - it's not the first time opening the editor
+     * - and relatedRecordItem is of type {@link UI.HydratedValue}
+     *
+     * @returns related record error message
+     */
+    get recordErrorMessage(): string {
+        return (
+            (!this.element?.isNew &&
+                !isParameterListRowItem(this.element?.relatedRecordItem) &&
+                this.element?.relatedRecordItem?.error) ||
+            ''
+        );
+    }
 
     requiresAsyncProcessing;
 
@@ -247,15 +266,11 @@ export default class StageStepEditor extends LightningElement {
      * @returns list of errors
      */
     @api validate(): object {
-        const event = new CustomEvent(VALIDATE_ALL);
+        const event = new OrchestrationStageStepEditorValidateEvent(
+            this._assigneePickerGuid,
+            this._relatedRecordPickerGuid
+        );
         this.element = stageStepReducer(this.element!, event);
-
-        // Only update the error for assignee ferov resource picker if one is present.
-        // Otherwise depend on the component to manage its own error state
-        // Always update for literal record picker
-        if (!this.element.assignees[0]?.isReference || this.element.assignees[0]?.assignee?.error) {
-            this.setActorError(this.element.assignees[0]?.assignee?.error);
-        }
 
         return getErrorsFromHydratedElement(this.element);
     }
@@ -320,13 +335,6 @@ export default class StageStepEditor extends LightningElement {
 
         // Handle all assignee related set node changes
         this.setNodeAssignee();
-
-        // Reopening existing elements should display any errors present
-        if (!this.element.isNew) {
-            this.recordErrorMessage =
-                (!isParameterListRowItem(this.element.relatedRecordItem) && this.element.relatedRecordItem?.error) ||
-                '';
-        }
     }
 
     /**
@@ -793,21 +801,19 @@ export default class StageStepEditor extends LightningElement {
         return this.element?.action.actionType === actionType || this.element?.action.actionType.value === actionType;
     }
 
+    _numberOfRenders = 0;
+
     /**
      * LWC hook after rendering every component we are setting all errors via set Custom Validity
      * except initial rendering
      */
     renderedCallback() {
-        // Only update the error for assignee ferov resource picker if one is present.
-        // Otherwise depend on the component to manage its own error state
-        // Always update for literal record picker
-        if (!this.element?.assignees[0]?.isReference || this.element.assignees[0]?.assignee?.error) {
-            this.setActorError(this.element?.assignees[0]?.assignee?.error);
+        this._numberOfRenders += 1;
+        // We need to validate in the second render because the assignee ferov
+        // picker does not have the appropriate value the first time
+        if (!this.element?.isNew && this._numberOfRenders === 2) {
+            this.validate();
         }
-    }
-
-    setActorError(error: string | null) {
-        this.actorErrorMessage = error ? error : '';
     }
 
     /**
@@ -1087,9 +1093,19 @@ export default class StageStepEditor extends LightningElement {
      */
     handleActorChanged = (event) => {
         event.stopPropagation();
+        this.updateAssignee(event.detail.item ? event.detail.item.value : event.detail.displayText, event.detail.error);
+    };
+
+    /**
+     * Handles assignee reference ferov picker ItemSelectedEvent
+     *
+     * @param event ItemSelectedEvent
+     */
+    handleActorItemSelected = (event: ItemSelectedEvent) => {
+        event.stopPropagation();
         this.updateAssignee(
             event.detail.item ? event.detail.item.value : event.detail.displayText,
-            event.detail.item ? event.detail.item.error : event.detail.error
+            event.detail?.item?.error
         );
     };
 
@@ -1115,7 +1131,7 @@ export default class StageStepEditor extends LightningElement {
      * @param assignee the new assignee
      * @param error any error if present
      */
-    updateAssignee(assignee: string | null, error: string) {
+    updateAssignee(assignee: string | null, error: string | null) {
         if (assignee === '') {
             assignee = null;
         }
@@ -1139,14 +1155,33 @@ export default class StageStepEditor extends LightningElement {
             error
         );
         this.element = stageStepReducer(this.element!, updateActor);
-        this.setActorError(error);
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
 
-    handleRecordChanged = (event) => {
+    handleRecordChanged = (event: ComboboxStateChangedEvent) => {
         event.stopPropagation();
+        const recordIdValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
+        this.updateRelatedRecord(recordIdValue, event.detail.error);
+    };
 
-        let recordIdValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
+    /**
+     * Handles related record ferov picker ItemSelectedEvent
+     *
+     * @param event ItemSelectedEvent
+     */
+    handleRecordItemSelected = (event: ItemSelectedEvent) => {
+        event.stopPropagation();
+        const recordIdValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
+        this.updateRelatedRecord(recordIdValue, event.detail?.item?.error);
+    };
+
+    /**
+     * Processes relatedRecord change
+     *
+     * @param recordIdValue recordId of updated related record selection
+     * @param error any error if present
+     */
+    updateRelatedRecord = (recordIdValue, error: string | null) => {
         if (recordIdValue === '') {
             recordIdValue = null;
         }
@@ -1158,8 +1193,6 @@ export default class StageStepEditor extends LightningElement {
                 valueDataType = ferovDataType;
             }
         }
-
-        const error = event.detail.item ? event.detail.item.error : event.detail.error;
 
         const inputParam: ParameterListRowItem | undefined = this.element!.inputParameters.find((p) => {
             const name = typeof p.name === 'string' ? p.name : p.name.value;

@@ -15,6 +15,7 @@ import {
     DeleteOrchestrationActionEvent,
     ItemSelectedEvent,
     ORCHESTRATED_ACTION_CATEGORY,
+    OrchestrationStageStepEditorValidateEvent,
     PropertyChangedEvent,
     RequiresAsyncProcessingChangedEvent,
     UpdateConditionEvent,
@@ -143,7 +144,7 @@ const selectors = {
     ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR: 'builder_platform_interaction-record-picker',
     USER_SELECTOR: '.assigneePicker lightning-input',
     USER_REFERENCE_SELECTOR: '.assigneePicker builder_platform_interaction-ferov-resource-picker',
-    ACTOR_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.actorPicker',
+    ACTOR_SELECTOR: '.assigneePicker builder_platform_interaction-ferov-resource-picker',
     ENTRY_ACTION: '.entry-action',
     EXIT_ACTION: '.exit-action',
     ASYNC_PROCESSING_BOX: '.externalCalloutsCheckbox',
@@ -678,7 +679,11 @@ describe('StageStepEditor', () => {
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                expect(stageStepReducer.mock.calls[7][1].detail).toEqual({ actionCategory: 2, parameters: [] });
+                const secondToLastCall = stageStepReducer.mock.calls.length - 2;
+                expect(stageStepReducer.mock.calls[secondToLastCall][1].detail).toEqual({
+                    actionCategory: 2,
+                    parameters: []
+                });
             });
         });
 
@@ -850,7 +855,8 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: null,
                         error: null,
                         type: ASSIGNEE_TYPE.User,
@@ -889,7 +895,8 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: null,
                         error: null,
                         type: ASSIGNEE_TYPE.User,
@@ -907,7 +914,8 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: null,
                         error: null,
                         type: ASSIGNEE_TYPE.Group,
@@ -950,7 +958,8 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: null,
                         error: null,
                         type: ASSIGNEE_TYPE.Group,
@@ -968,7 +977,8 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: null,
                         error: null,
                         type: ASSIGNEE_TYPE.Queue,
@@ -1010,7 +1020,8 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: null,
                         error: null,
                         type: ASSIGNEE_TYPE.Queue,
@@ -1031,7 +1042,8 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: { stringValue: await mockRecordDevNamePromise },
                         error: '',
                         type: ASSIGNEE_TYPE.User,
@@ -1047,7 +1059,8 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: null,
                         error: '',
                         type: ASSIGNEE_TYPE.User,
@@ -1128,7 +1141,8 @@ describe('StageStepEditor', () => {
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
                     // Note that the action category says this is a change on the STEP - this is what we really test.
-                    expect(stageStepReducer.mock.calls[9][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: {
                             stringValue: comboboxEvent.detail.displayText
                         },
@@ -1150,7 +1164,8 @@ describe('StageStepEditor', () => {
 
                     // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                     // Until then use the more brittle `.mocks`
-                    expect(stageStepReducer.mock.calls[9][1].detail).toEqual({
+                    const lastCall = stageStepReducer.mock.calls.length - 1;
+                    expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
                         value: {
                             stringValue: itemSelectedEvent.detail.item.value
                         },
@@ -1210,8 +1225,8 @@ describe('StageStepEditor', () => {
                         }).length > 0
                 ).toBeFalsy();
 
-                expect(stageStepReducer.mock.calls[4][1].detail).toEqual({ actionCategory: 0, parameters: [] });
-                expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new PropertyChangedEvent());
+                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({ actionCategory: 0, parameters: [] });
+                expect(stageStepReducer).toHaveBeenLastCalledWith(nodeParams, new PropertyChangedEvent());
             });
 
             it('node should be updated on item selected with item', () => {
@@ -1242,7 +1257,7 @@ describe('StageStepEditor', () => {
                         }).length > 0
                 ).toBeFalsy();
 
-                expect(stageStepReducer.mock.calls[4][1].detail).toEqual({ actionCategory: 0, parameters: [] });
+                expect(stageStepReducer.mock.calls[5][1].detail).toEqual({ actionCategory: 0, parameters: [] });
                 expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, new PropertyChangedEvent());
             });
 
@@ -1258,7 +1273,8 @@ describe('StageStepEditor', () => {
                 // Until then use the more brittle `.mocks`
 
                 // inputParameters should be updated here
-                expect(stageStepReducer.mock.calls[6][1].detail).toEqual({
+                const secondToLastCall = stageStepReducer.mock.calls.length - 2;
+                expect(stageStepReducer.mock.calls[secondToLastCall][1].detail).toEqual({
                     isInput: true,
                     rowIndex: mockInputParameters[3].rowIndex,
                     name: mockInputParameters[3].name.value,
@@ -1284,7 +1300,8 @@ describe('StageStepEditor', () => {
                 // Until then use the more brittle `.mocks`
 
                 // inputParameters should be updated here
-                expect(stageStepReducer.mock.calls[8][1].detail).toEqual({
+                const secondToLastCall = stageStepReducer.mock.calls.length - 2;
+                expect(stageStepReducer.mock.calls[secondToLastCall][1].detail).toEqual({
                     isInput: true,
                     rowIndex: mockInputParameters[3].rowIndex,
                     name: mockInputParameters[3].name.value,
@@ -1303,6 +1320,32 @@ describe('StageStepEditor', () => {
     });
 
     describe('validation', () => {
+        it('should initiallly validate when editor renders', async () => {
+            stageStepReducer.mockClear();
+            editor = createComponentUnderTest({
+                ...nodeParams,
+                assignees: [
+                    {
+                        assignee: 'userReference',
+                        assigneeType: ASSIGNEE_TYPE.User,
+                        isReference: true
+                    }
+                ]
+            });
+
+            await ticks(1);
+
+            const initialValidateCall = stageStepReducer.mock.calls.find((call) => {
+                return call[1].type === OrchestrationStageStepEditorValidateEvent.EVENT_NAME;
+            });
+
+            const assigneeFerovPicker = editor.shadowRoot.querySelector(selectors.ACTOR_SELECTOR);
+            const relatedRecordFerovPicker = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
+            expect(initialValidateCall[1].detail).toEqual({
+                assigneePickerGuid: assigneeFerovPicker.rowIndex,
+                relatedRecordPickerGuid: relatedRecordFerovPicker.rowIndex
+            });
+        });
         it('calls reducer with validate all event', () => {
             const node = editor.node;
             getErrorsFromHydratedElement.mockReturnValueOnce([]);
@@ -1312,9 +1355,9 @@ describe('StageStepEditor', () => {
         });
 
         it('gets the errors after validating', () => {
-            getErrorsFromHydratedElement.mockReturnValueOnce(editor.node);
+            getErrorsFromHydratedElement.mockReturnValue(editor.node);
             editor.validate();
-            expect(getErrorsFromHydratedElement).toHaveBeenCalledWith(editor.node);
+            expect(getErrorsFromHydratedElement).toHaveBeenLastCalledWith(editor.node);
         });
 
         it('assignee literal updates error', async () => {
@@ -1361,16 +1404,12 @@ describe('StageStepEditor', () => {
 
                 await ticks(1);
 
-                editor.validate();
-
-                await ticks(1);
-
                 const userRecordPicker = editor.shadowRoot.querySelector(selectors.USER_REFERENCE_SELECTOR);
 
                 expect(userRecordPicker.errorMessage).toEqual(editor.node.assignees[0].assignee.error);
             });
 
-            it('does not update error if not present', async () => {
+            it('updates error when error is not present', async () => {
                 const error = 'someError';
                 editor.node = {
                     ...editor.node,
@@ -1385,10 +1424,6 @@ describe('StageStepEditor', () => {
                         }
                     ]
                 };
-
-                await ticks(1);
-
-                editor.validate();
 
                 await ticks(1);
 
@@ -1410,7 +1445,25 @@ describe('StageStepEditor', () => {
 
                 const userRecordPicker = editor.shadowRoot.querySelector(selectors.USER_REFERENCE_SELECTOR);
 
-                expect(userRecordPicker.errorMessage).toEqual(error);
+                expect(userRecordPicker.errorMessage).toEqual('');
+            });
+        });
+
+        describe('relatedRecord picker', () => {
+            it('updates error if present', async () => {
+                editor.node = {
+                    ...editor.node,
+                    relatedRecordItem: {
+                        value: '',
+                        error: 'someError'
+                    }
+                };
+
+                await ticks(1);
+
+                const relatedRecordPicker = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
+
+                expect(relatedRecordPicker.errorMessage).toEqual(editor.node.relatedRecordItem.error);
             });
         });
     });

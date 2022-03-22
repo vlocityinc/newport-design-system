@@ -154,9 +154,9 @@
                 element-param={recordElementParam}
                 rules={resourcePickerRules}
                 error-message={recordErrorMessage}
-                row-index={_recordPickerId}
+                row-index={_relatedRecordPickerGuid}
                 oncomboboxstatechanged={handleRecordChanged}
-                onitemselected={handleRecordChanged}
+                onitemselected={handleRecordItemSelected}
                 value={recordValue}
                 is-pill-supported
                 hide-global-constants
@@ -200,9 +200,9 @@
                         element-param={actorElementParam}
                         rules={resourcePickerRules}
                         error-message={actorErrorMessage}
-                        row-index={_actorPickerId}
+                        row-index={_assigneePickerGuid}
                         oncomboboxstatechanged={handleActorChanged}
-                        onitemselected={handleActorChanged}
+                        onitemselected={handleActorItemSelected}
                         value={actorValue}
                         is-pill-supported
                         hide-global-constants

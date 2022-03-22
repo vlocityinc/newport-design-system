@@ -15,6 +15,7 @@ import {
     DeleteParameterItemEvent,
     ORCHESTRATED_ACTION_CATEGORY,
     OrchestrationActionValueChangedEvent,
+    OrchestrationStageStepEditorValidateEvent,
     PropertyChangedEvent,
     RequiresAsyncProcessingChangedEvent,
     UpdateConditionEvent,
@@ -25,7 +26,6 @@ import { ACTION_TYPE, ELEMENT_TYPE, EntryCriteria, ExitCriteria } from 'builder_
 import { removeAllUnsetParameters } from 'builder_platform_interaction/orchestratedStageAndStepReducerUtils';
 import { invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { Validation } from 'builder_platform_interaction/validation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { stageStepReducer } from '../stageStepReducer';
 
 const mockCondition = {
@@ -969,7 +969,7 @@ describe('StageStep Reducer', () => {
 
     describe('VALIDATE_ALL', () => {
         it('VALIDATE_ALL calls validateAll', () => {
-            const event = new CustomEvent(VALIDATE_ALL, {});
+            const event = new OrchestrationStageStepEditorValidateEvent();
             stageStepReducer(originalStateWithEntryExitActions, event);
 
             const validation = new Validation();
@@ -990,7 +990,7 @@ describe('StageStep Reducer', () => {
                         erorr: null
                     }
                 };
-                const event = new CustomEvent(VALIDATE_ALL, {});
+                const event = new OrchestrationStageStepEditorValidateEvent();
                 const newState = stageStepReducer(state, event);
 
                 expect(newState.entryAction.actionName.error).toEqual('someError');
@@ -1009,7 +1009,7 @@ describe('StageStep Reducer', () => {
                         erorr: null
                     }
                 };
-                const event = new CustomEvent(VALIDATE_ALL, {});
+                const event = new OrchestrationStageStepEditorValidateEvent();
                 const newState = stageStepReducer(state, event);
 
                 expect(newState.action.actionName.error).toEqual('someError');
@@ -1028,7 +1028,7 @@ describe('StageStep Reducer', () => {
                         erorr: null
                     }
                 };
-                const event = new CustomEvent(VALIDATE_ALL, {});
+                const event = new OrchestrationStageStepEditorValidateEvent();
                 const newState = stageStepReducer(state, event);
 
                 expect(newState.exitAction.actionName.error).toEqual('someError');

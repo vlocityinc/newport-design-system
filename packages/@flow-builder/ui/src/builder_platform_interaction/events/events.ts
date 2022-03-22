@@ -73,6 +73,7 @@ export { OpenSubflowEvent } from './openSubflowEvent';
 export { ORCHESTRATED_ACTION_CATEGORY } from './orchestratedActionCategory';
 export { OrchestrationActionValueChangedEvent } from './orchestrationActionValueChangedEvent';
 export { OrchestrationAssigneeChangedEvent } from './orchestrationAssigneeChangedEvent';
+export { OrchestrationStageStepEditorValidateEvent } from './orchestrationStageStepEditorValidateEvent';
 export { LocatorIconClickedEvent } from './paletteEvents/locatorIconClickedEvent';
 export { PaletteItemChevronClickedEvent } from './paletteEvents/paletteItemChevronClickedEvent';
 export { PaletteItemClickedEvent } from './paletteEvents/paletteItemClickedEvent';
