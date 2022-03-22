@@ -4,7 +4,9 @@ import { AlcSelectDeselectNodeEvent, IncomingGoToStubClickEvent } from 'builder_
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { createComponent } from 'builder_platform_interaction/builderTestUtils';
 import { EditElementEvent } from 'builder_platform_interaction/events';
+import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
 import { LABELS } from '../alcNodeLabels';
+const { Keys } = keyboardInteractionUtils;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
@@ -243,6 +245,34 @@ describe('AlcNode', () => {
             const eventCallback = jest.fn();
             alcNodeComponent.addEventListener(AlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
             alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox).click();
+            expect(eventCallback).toHaveBeenCalled();
+        });
+
+        it('Should dispatch AlcSelectDeselectNodeEvent event when pressing Enter on the checkbox', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo,
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
+            });
+            const eventCallback = jest.fn();
+            alcNodeComponent.addEventListener(AlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
+            const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            const keyDownEvent = new KeyboardEvent('keydown', { key: Keys.Enter, bubbles: true });
+            selectionCheckbox.dispatchEvent(keyDownEvent);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+
+        it('Should dispatch AlcSelectDeselectNodeEvent event when pressing Space on the checkbox', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo,
+                canvasContext: { mode: AutoLayoutCanvasMode.SELECTION }
+            });
+            const eventCallback = jest.fn();
+            alcNodeComponent.addEventListener(AlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
+            const selectionCheckbox = alcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            const keyDownEvent = new KeyboardEvent('keydown', { key: Keys.Space, bubbles: true });
+            selectionCheckbox.dispatchEvent(keyDownEvent);
             expect(eventCallback).toHaveBeenCalled();
         });
 
