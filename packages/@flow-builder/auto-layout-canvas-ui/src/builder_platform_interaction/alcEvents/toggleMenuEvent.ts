@@ -6,6 +6,8 @@ interface ToggleMenuEventDetail {
     type: MenuType;
     source: ConnectionSource;
     moveFocusToMenu: boolean;
+    top: number;
+    left: number;
 }
 
 export class ToggleMenuEvent extends CustomEvent<ToggleMenuEventDetail> {

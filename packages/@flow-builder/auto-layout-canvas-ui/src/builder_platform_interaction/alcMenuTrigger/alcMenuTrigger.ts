@@ -151,12 +151,15 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
         if (!hasComponent || (disableEditElements && elementMetadata.type !== NodeType.START)) {
             return;
         }
+        const { top, left } = this.dom.button.getBoundingClientRect();
 
         this.dispatchEvent(
             new ToggleMenuEvent({
                 type: variant,
                 source,
-                moveFocusToMenu
+                moveFocusToMenu,
+                top,
+                left
             })
         );
     }

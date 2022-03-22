@@ -103,6 +103,10 @@ const DOUBLE_CLICK_THRESHOLD = 250;
 
 // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
 const LEFT_PANEL_WIDTH = 320;
+const defaultConfig = getDefaultLayoutConfig();
+const NODE_ICON_SIZE = defaultConfig.node.icon.w;
+const CONNECTOR_ICON_SIZE = defaultConfig.connector.icon.w;
+const SYNTHETIC_ZOOM_TO_VIEW_EVENT = new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW);
 
 const { withKeyboardInteractions } = keyboardInteractionUtils;
 
@@ -542,7 +546,9 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                 const event = new ToggleMenuEvent({
                     type: MenuType.NODE,
                     source: { guid: startElementGuid },
-                    moveFocusToMenu: true
+                    moveFocusToMenu: true,
+                    top: 0,
+                    left: 0
                 });
 
                 this.openMenu(event, interactionState);
@@ -686,6 +692,24 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     }
 
     /**
+     * Zoom to full scale when opening a node or connector menu
+     *
+     * @param event - The toggle menu event
+     */
+    zoomForMenuDisplay(event: ToggleMenuEvent) {
+        let { left, top } = event.detail;
+        const menuButtonHalfWidth =
+            event.detail.type === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : NODE_ICON_SIZE / 2;
+        const { x, y } = getDomElementGeometry(this._canvasElement);
+
+        const buttonOffset = menuButtonHalfWidth * this.scale;
+        top = top - y + buttonOffset;
+        left = left - x + buttonOffset;
+
+        this.handleZoomAction(SYNTHETIC_ZOOM_TO_VIEW_EVENT, { top, left });
+    }
+
+    /**
      * Hack required to process double clicks on an element when a menu is opened (See @W-8984298):
      *
      * Since the first click of a double click will close the previously opened menu,
@@ -714,7 +738,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             if (this.scale === MAX_ZOOM) {
                 this.openMenu(event, interactionState);
             } else {
-                this.handleZoomAction(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW));
+                this.zoomForMenuDisplay(event);
+
                 this.zoomEndAction = () => {
                     this.openMenu(event, interactionState);
                 };
