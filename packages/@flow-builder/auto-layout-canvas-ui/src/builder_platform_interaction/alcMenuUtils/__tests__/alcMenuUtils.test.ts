@@ -122,7 +122,7 @@ const flowModel = {
 function testConnectorMenuInfo(
     flowModel,
     source,
-    { canAddGoto, isGoToConnector, canAddEndElement, autoFocus = false }
+    { canAddGoto, isGoToConnector, canAddEndElement, autoFocus = false, isPasteAvailable = false }
 ) {
     const menu = {
         source,
@@ -135,7 +135,8 @@ function testConnectorMenuInfo(
             menuComponent: 'alcConnectorMenu',
             elementTypes: new Set([ELEMENT_TYPE_SCREEN, ELEMENT_TYPE_DECISION])
         },
-        elementsMetadata
+        elementsMetadata,
+        isPasteAvailable
     };
 
     const connectorMenuInfo = getConnectorMenuInfo(canvasContext, flowModel);
@@ -147,7 +148,7 @@ function testConnectorMenuInfo(
         isGoToConnector,
         autoFocus,
         canAddEndElement,
-
+        isPasteAvailable,
         metadata: {
             menuComponent: 'alcConnectorMenu',
             elementTypes: new Set([ELEMENT_TYPE_SCREEN, ELEMENT_TYPE_DECISION])
@@ -338,6 +339,26 @@ describe('ALC Menu Utils', () => {
                 canAddEndElement: false,
                 isGoToConnector: false,
                 canAddGoto: false
+            });
+        });
+
+        it('isPasteAvailable is false when passed in as false into the canvas context', () => {
+            const source = { guid: 'branch-guid', childIndex: 3 };
+            testConnectorMenuInfo(flowModel, source, {
+                canAddEndElement: true,
+                isGoToConnector: false,
+                canAddGoto: true,
+                isPasteAvailable: false
+            });
+        });
+
+        it('isPasteAvailable is true when passed in as true into the canvas context', () => {
+            const source = { guid: 'branch-guid', childIndex: 3 };
+            testConnectorMenuInfo(flowModel, source, {
+                canAddEndElement: true,
+                isGoToConnector: false,
+                canAddGoto: true,
+                isPasteAvailable: true
             });
         });
     });
