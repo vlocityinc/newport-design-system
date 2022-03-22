@@ -379,9 +379,14 @@ export default class AlcNode extends LightningElement {
      * Closes the menu when it is empty
      */
     handleFocusOut() {
-        if (this.isStart && this.getMenu()?.isEmpty()) {
-            this.dispatchEvent(new CloseMenuEvent(false));
-        }
+        // W-10712668: close the menu in the next tick if it's still there to
+        // avoid the race condition where the focus out is the result of opening
+        // a menu for some other node/connector
+        scheduleTask(() => {
+            if (this.isStart && this.getMenu()?.isEmpty()) {
+                this.dispatchEvent(new CloseMenuEvent(false));
+            }
+        });
     }
 
     /**
