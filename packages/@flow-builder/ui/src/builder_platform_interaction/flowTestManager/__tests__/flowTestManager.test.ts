@@ -341,18 +341,6 @@ describe('flowTestManager', () => {
             expect(handleRunAndViewTestDetailAction).toHaveBeenCalled();
         });
 
-        it('toasts on a null response from the Run Tests and View Detail action', async () => {
-            addFlowTests(MOCK_TESTS);
-            cmp.copyDataFromTestStore();
-            await ticks(1);
-            const dataTable = getDatatable(cmp);
-            handleRunAndViewTestDetailAction.mockResolvedValue(null);
-            dataTable.dispatchEvent(rowActionEvent({ name: 'detail' }, MOCK_TESTS[0]));
-            await ticks(1);
-            expect(toastHandler).toHaveBeenCalled();
-            expect(toastHandler.mock.calls[0][0].detail.variant).toEqual('error');
-        });
-
         it('is written with the appropriate run status icon', async () => {
             addFlowTests(MOCK_TESTS);
             cmp.copyDataFromTestStore();

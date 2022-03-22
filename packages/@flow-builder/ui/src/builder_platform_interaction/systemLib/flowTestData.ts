@@ -1,3 +1,9 @@
+import flowTestFeatureNotAvailable from '@salesforce/label/FlowBuilderTestEditor.flowTestFeatureNotAvailable';
+
+export const FLOW_TEST_DATA_LABELS = {
+    flowTestFeatureNotAvailable
+};
+
 export type FlowTestAndResultDescriptor = {
     flowTestName: string;
     description: string;
@@ -110,10 +116,16 @@ export function updateFlowTestResults(incomingData): void {
     for (const testId in incomingData) {
         if (incomingData.hasOwnProperty(testId)) {
             const describeRunFlowTestResultData = incomingData[testId][0];
-            const matchingTestInStore = flowTests.find((t) => t.flowTestId === describeRunFlowTestResultData.testId);
-            if (matchingTestInStore) {
-                matchingTestInStore.lastRunDate = describeRunFlowTestResultData.endInterviewTime;
-                matchingTestInStore.lastRunStatus = describeRunFlowTestResultData.testStatus;
+            if (describeRunFlowTestResultData?.errors?.[0] === flowTestFeatureNotAvailable) {
+                break;
+            } else {
+                const matchingTestInStore = flowTests.find(
+                    (t) => t.flowTestId === describeRunFlowTestResultData.testId
+                );
+                if (matchingTestInStore) {
+                    matchingTestInStore.lastRunDate = describeRunFlowTestResultData.endInterviewTime;
+                    matchingTestInStore.lastRunStatus = describeRunFlowTestResultData.testStatus;
+                }
             }
         }
     }

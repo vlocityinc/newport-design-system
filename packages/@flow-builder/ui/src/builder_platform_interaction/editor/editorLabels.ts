@@ -23,6 +23,8 @@ import ariaLabelRightPanel from '@salesforce/label/FlowBuilderRightPanel.ariaLab
 import cancel from '@salesforce/label/FlowBuilderScreenEditor.cancel';
 import immediateScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.immediateScheduledPathLabel';
 import runAsyncScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.runAsyncScheduledPathLabel';
+import flowTestFeatureNotAvailable from '@salesforce/label/FlowBuilderTestEditor.flowTestFeatureNotAvailable';
+import flowTestRunFailureWhenGateClosedToast from '@salesforce/label/FlowBuilderTestEditor.flowTestRunFailureWhenGateClosedToast';
 import cantOpenSubflowUrl from '@salesforce/label/FlowBuilderToastLabels.cantOpenSubflowUrl';
 import ariaLabelToolbar from '@salesforce/label/FlowBuilderToolbar.ariaLabelToolbar';
 
@@ -52,5 +54,7 @@ export const LABELS = {
     runAsyncScheduledPathLabel,
     cantOpenSubflowUrl,
     debugToastMessage,
-    debugToastMessageNoElementLabel
+    debugToastMessageNoElementLabel,
+    flowTestRunFailureWhenGateClosedToast,
+    flowTestFeatureNotAvailable
 };

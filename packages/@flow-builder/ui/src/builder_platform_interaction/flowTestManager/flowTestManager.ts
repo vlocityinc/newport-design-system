@@ -192,13 +192,25 @@ export default class FlowTestManager extends LightningElement {
         logPerfTransactionStart(BULK_RUN_FLOW_TESTS_FROM_LIST);
         this.showLoadingSpinner = true;
         const selectedTestIds = this.selectedTests.map((testData) => testData.flowTestId);
-        const testRunPromises: Promise<void>[] = [];
+        const testRunPromises: Promise<any>[] = [];
         for (let i = 0; i < selectedTestIds.length; i += TEST_RUN_BATCH_SIZE) {
             testRunPromises.push(this.handleRunTests(selectedTestIds.slice(i, i + TEST_RUN_BATCH_SIZE), false));
         }
         try {
-            await Promise.all(testRunPromises);
-            this.showToast(LABELS.flowTestRunBulkActionCompleteToast, 'success');
+            let errors = null;
+            const results = await Promise.all(testRunPromises);
+            if (results?.[0]?.[selectedTestIds[0]]) {
+                errors = results[0][selectedTestIds[0]][0].errors;
+            }
+
+            if (errors && errors[0] === LABELS.flowTestFeatureNotAvailable) {
+                this.showToast(LABELS.flowTestRunFailureWhenGateClosedToast, 'error', 'sticky');
+            } else {
+                this.showToast(LABELS.flowTestRunBulkActionCompleteToast, 'success');
+            }
+        } catch (exception) {
+            // Catch unhandled promise reject error to prevent extra flow error modal
+            // Server-side unhandled error is still rendered as a new modal.
         } finally {
             this.copyDataFromTestStore();
             this.showLoadingSpinner = false;
@@ -260,12 +272,7 @@ export default class FlowTestManager extends LightningElement {
         logPerfTransactionStart(RUN_TEST_AND_VIEW_DETAIL_FROM_LIST);
         this.showLoadingSpinner = true;
         try {
-            const res = await this.handleRunAndViewTestDetail(flowTestId, true);
-            if (!res) {
-                // reusing the label for gate-based failure, but just something to keep in mind
-                // if we ever want the labels to deviate
-                this.showToast(LABELS.flowTestRunFailureWhenGateClosedToast, 'error', 'sticky');
-            }
+            await this.handleRunAndViewTestDetail(flowTestId, true);
         } finally {
             this.showLoadingSpinner = false;
             logPerfTransactionEnd(RUN_TEST_AND_VIEW_DETAIL_FROM_LIST, { flowTestId });

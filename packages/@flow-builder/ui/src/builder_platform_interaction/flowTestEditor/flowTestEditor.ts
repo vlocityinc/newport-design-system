@@ -244,7 +244,11 @@ export default class FlowTestEditor extends LightningElement {
             pushFlowTest(data);
             if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
                 hidePopover();
-                this.showToast(format(LABELS.flowTestFromDebuggerSavedSuccess, flowTest.metadata.label), 'success');
+                this.showToast(
+                    format(LABELS.flowTestFromDebuggerSavedSuccess, flowTest.metadata.label),
+                    'success',
+                    'sticky'
+                );
             } else {
                 this.flowTestListViewCallback();
                 hidePopover();

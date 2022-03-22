@@ -4,6 +4,7 @@ import flowTestBodyHeader from '@salesforce/label/FlowBuilderTestEditor.flowTest
 import createNewTest from '@salesforce/label/FlowBuilderTestEditor.flowTestCreateNewTest';
 import flowTestDeleteActionFailureToast from '@salesforce/label/FlowBuilderTestEditor.flowTestDeleteActionFailureToast';
 import flowTestDeleteActionSuccessToast from '@salesforce/label/FlowBuilderTestEditor.flowTestDeleteActionSuccessToast';
+import flowTestFeatureNotAvailable from '@salesforce/label/FlowBuilderTestEditor.flowTestFeatureNotAvailable';
 import flowTestListCreatorColumnHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestListCreatorColumnHeader';
 import flowTestListDeleteAction from '@salesforce/label/FlowBuilderTestEditor.flowTestListDeleteAction';
 import flowTestListDescriptionColumnHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestListDescriptionColumnHeader';
@@ -41,5 +42,6 @@ export const LABELS = {
     flowTestRunBulkActionCompleteToast,
     flowTestDeleteActionSuccessToast,
     flowTestDeleteActionFailureToast,
-    flowTestRunFailureWhenGateClosedToast
+    flowTestRunFailureWhenGateClosedToast,
+    flowTestFeatureNotAvailable
 };

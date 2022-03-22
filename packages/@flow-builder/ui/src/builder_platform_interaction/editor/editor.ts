@@ -1627,7 +1627,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     };
 
     handleRunTests = async (flowTestIds: string[], showTrace: boolean) => {
-        await runFlowTests(this.currentFlowId, flowTestIds, showTrace);
+        return runFlowTests(this.currentFlowId, flowTestIds, showTrace);
     };
 
     /**
@@ -1665,27 +1665,42 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const startInterviewTime = new Date();
         const enableRollbackMode = false;
         const isPausedDebugging = false;
-        let result = null;
+        let result: any = null;
         try {
             // Run flow test
             const results = await runFlowTests(this.currentFlowId, [flowTestId], showTrace);
             if (results && results[flowTestId]) {
                 result = results[flowTestId];
                 this.currentFlowTestId = flowTestId;
-                // Setup debug data object and switch to test mode
-                hideFlowTestManager = true;
-                this.ifBlockResume = false;
-                this.builderMode = BUILDER_MODE.TEST_MODE;
-                const endInterviewTime = new Date();
-                const response = debugInterviewResponseCallback(
-                    result as any,
-                    storeInstance,
-                    this.properties.hasUnsavedChanges,
-                    isPausedDebugging
-                );
-                this.debugData = { ...response, startInterviewTime, endInterviewTime, enableRollbackMode };
-                this.clearUndoRedoStack();
+                let errors = null;
+                if (result && result[0]) {
+                    errors = result[0].errors;
+                }
+                // If the  flow testing feature gate is closed, then do not switch to test mode and show toast error message
+                if (errors?.[0] === LABELS.flowTestFeatureNotAvailable) {
+                    this.showToast(LABELS.flowTestRunFailureWhenGateClosedToast, 'error', 'sticky');
+                } else {
+                    // Setup debug data object and switch to test mode
+                    hideFlowTestManager = true;
+                    this.ifBlockResume = false;
+                    this.builderMode = BUILDER_MODE.TEST_MODE;
+                    const endInterviewTime = new Date();
+                    const response = debugInterviewResponseCallback(
+                        result as any,
+                        storeInstance,
+                        this.properties.hasUnsavedChanges,
+                        isPausedDebugging
+                    );
+                    this.debugData = { ...response, startInterviewTime, endInterviewTime, enableRollbackMode };
+                    this.clearUndoRedoStack();
+                }
+            } else {
+                // If the result from runflowTest api is null, reusing the label for gate-based failure, but just something to keep in mind
+                // if we ever want the labels to deviate
+                this.showToast(LABELS.flowTestRunFailureWhenGateClosedToast, 'error', 'sticky');
             }
+        } catch (exception) {
+            // Catch unhandled promise reject error to prevent extra flow error modal
         } finally {
             if (hideFlowTestManager) {
                 hidePopover();

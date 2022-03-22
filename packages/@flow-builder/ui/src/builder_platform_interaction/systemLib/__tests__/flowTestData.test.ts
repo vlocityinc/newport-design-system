@@ -3,6 +3,7 @@ import {
     clearTestResultsFromStore,
     FlowTestAndResultDescriptor,
     FlowTestResultStatusType,
+    FLOW_TEST_DATA_LABELS,
     getFlowTestListState,
     getFlowTests,
     pushFlowTest,
@@ -65,7 +66,7 @@ const MOCK_RESULTS = {
             testId: 'id1',
             testStatus: FlowTestResultStatusType.FAIL,
             interviewStatus: '',
-            interviewErrors: [],
+            errors: [],
             trace: null,
             assertions: null,
             startInterviewTime: new Date(),
@@ -81,7 +82,7 @@ const MOCK_RESULTS = {
             testId: 'id3',
             testStatus: FlowTestResultStatusType.PASS,
             interviewStatus: '',
-            interviewErrors: [],
+            errors: [],
             trace: null,
             assertions: null,
             startInterviewTime: new Date(),
@@ -97,7 +98,26 @@ const MOCK_RESULTS = {
             testId: 'id5',
             testStatus: FlowTestResultStatusType.ERROR,
             interviewStatus: '',
-            interviewErrors: [],
+            errors: [],
+            trace: null,
+            assertions: null,
+            startInterviewTime: new Date(),
+            endInterviewTime: new Date()
+        },
+        {
+            decoratedElements: null
+        }
+    ]
+};
+
+const MOCK_RESULTS_ERROR = {
+    id1: [
+        {
+            testName: 'name1',
+            testId: 'id1',
+            testStatus: FlowTestResultStatusType.ERROR,
+            interviewStatus: '',
+            errors: [FLOW_TEST_DATA_LABELS.flowTestFeatureNotAvailable],
             trace: null,
             assertions: null,
             startInterviewTime: new Date(),
@@ -164,6 +184,13 @@ describe('flowTestData', () => {
 
             expect(getFlowTests()[4].lastRunStatus).toEqual(MOCK_RESULTS.id5[0].testStatus);
             expect(getFlowTests()[4].lastRunDate).toEqual(MOCK_RESULTS.id5[0].endInterviewTime);
+        });
+
+        it('does not touch the store if incoming data has error code for flow test feature gate closed', () => {
+            addFlowTests(MOCK_DESCRIPTORS);
+            expect(getFlowTests()).toEqual(MOCK_DESCRIPTORS);
+            updateFlowTestResults(MOCK_RESULTS_ERROR);
+            expect(getFlowTests()).toEqual(MOCK_DESCRIPTORS);
         });
     });
 
