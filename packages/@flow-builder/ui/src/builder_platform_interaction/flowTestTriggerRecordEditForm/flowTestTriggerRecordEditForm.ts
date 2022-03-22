@@ -66,6 +66,9 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
     @track
     objectFieldAndValues: object[] = [];
 
+    recordInfoLoaded = false;
+    objectInfoLoaded = false;
+
     get sampleRecordPickerAttributes() {
         return {
             label: format(this.labels.flowTestInitialRecordRecordPickerLabel, this.objectApiName),
@@ -93,6 +96,7 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
                 return this.objectApiName + '.' + value;
             });
             this.objectFieldAndValues = this.getValuesForKeyArray(this.modifiableFields, this.recordData);
+            this.objectInfoLoaded = true;
         }
     }
 
@@ -112,6 +116,11 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
             this.dispatchEvent(updateTestRecordDataEvent);
             this.processSampleRecord = false;
         }
+        this.recordInfoLoaded = true;
+    }
+
+    get showLoadingSpinner() {
+        return !this.objectInfoLoaded || !this.recordInfoLoaded;
     }
 
     /**
@@ -175,6 +184,7 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
         this.processSampleRecord = true;
         const recordSelectedEvent = new FlowTestRecordSelectedEvent(id);
         this.dispatchEvent(recordSelectedEvent);
+        this.recordInfoLoaded = false;
     };
 
     handleClearForm() {

@@ -29,6 +29,11 @@ const createComponentUnderTest = async (overriddenProps?) => {
     getRecordAdapter.emit(mockGetRecord);
     return component;
 };
+
+const createComponentUnderTestWithoutEmit = async (overriddenProps?) => {
+    return createComponent(selectors.FLOW_TEST_TRIGGER_EDIT_FORM, DEFAULT_PROPS, overriddenProps);
+};
+
 const selectors = {
     ...INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
@@ -47,5 +52,19 @@ describe('FlowTestTriggerEditForm', () => {
         const flowTestTriggerEditForm = await createComponentUnderTest();
         const recordPicker = flowTestTriggerEditForm.shadowRoot.querySelector(selectors.RECORD_PICKER);
         expect(recordPicker.required).toEqual(false);
+    });
+    it('does not show spinner when record info and object info has loaded', async () => {
+        const flowTestTriggerEditForm = await createComponentUnderTest();
+        const spinner = flowTestTriggerEditForm.shadowRoot.querySelector(
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_SPINNER
+        );
+        expect(spinner).toBeNull();
+    });
+    it('shows spinner when record info and object info has not loaded', async () => {
+        const flowTestTriggerEditForm = await createComponentUnderTestWithoutEmit();
+        const spinner = flowTestTriggerEditForm.shadowRoot.querySelector(
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_SPINNER
+        );
+        expect(spinner).not.toBeNull();
     });
 });

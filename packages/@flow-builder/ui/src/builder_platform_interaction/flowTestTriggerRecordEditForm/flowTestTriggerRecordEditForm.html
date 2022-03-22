@@ -1,35 +1,40 @@
 <template>
-    <div class="slds-grid">
-        <builder_platform_interaction-record-picker
-            if:false={isUpdatedRecord}
-            class="slds-size_1-of-3"
-            attributes={sampleRecordPickerAttributes}
-            values={sampleRecordIds}
-            error={sampleRecordErrorMessage}
-            record-selected-callback={handleSampleRecordSelected}
-        >
-        </builder_platform_interaction-record-picker>
-        <lightning-button
-            label={labels.flowTestRecordClearFormButtonLabel}
-            title={labels.flowTestRecordClearFormButtonLabel}
-            class="test-editor-clear-record-form slds-size_1-of-6 slds-align-bottom slds-p-around_xx-small"
-            onclick={handleClearForm}
-        ></lightning-button>
+    <div if:true={showLoadingSpinner}>
+        <lightning-spinner variant="brand" alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
     </div>
-    <div>
-        <lightning-record-edit-form object-api-name={objectApiName} layout-type="Compact">
-            <lightning-layout multiple-rows="true">
-                <template class="slds-grid slds-wrap" for:each={objectFieldAndValues} for:item="field">
-                    <lightning-layout-item key={field.name} class="slds-size_1-of-2">
-                        <lightning-input-field
-                            variant="label-stacked"
-                            field-name={field.name}
-                            onchange={onFieldChange}
-                            value={field.value}
-                        ></lightning-input-field>
-                    </lightning-layout-item>
-                </template>
-            </lightning-layout>
-        </lightning-record-edit-form>
+    <div if:false={showLoadingSpinner}>
+        <div class="slds-grid">
+            <builder_platform_interaction-record-picker
+                if:false={isUpdatedRecord}
+                class="slds-size_1-of-3"
+                attributes={sampleRecordPickerAttributes}
+                values={sampleRecordIds}
+                error={sampleRecordErrorMessage}
+                record-selected-callback={handleSampleRecordSelected}
+            >
+            </builder_platform_interaction-record-picker>
+            <lightning-button
+                label={labels.flowTestRecordClearFormButtonLabel}
+                title={labels.flowTestRecordClearFormButtonLabel}
+                class="test-editor-clear-record-form slds-size_1-of-6 slds-align-bottom slds-p-around_xx-small"
+                onclick={handleClearForm}
+            ></lightning-button>
+        </div>
+        <div>
+            <lightning-record-edit-form object-api-name={objectApiName} layout-type="Compact">
+                <lightning-layout multiple-rows="true">
+                    <template class="slds-grid slds-wrap" for:each={objectFieldAndValues} for:item="field">
+                        <lightning-layout-item key={field.name} class="slds-size_1-of-2">
+                            <lightning-input-field
+                                variant="label-stacked"
+                                field-name={field.name}
+                                onchange={onFieldChange}
+                                value={field.value}
+                            ></lightning-input-field>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </lightning-record-edit-form>
+        </div>
     </div>
 </template>
