@@ -1,5 +1,6 @@
 // @ts-nocheck
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import {
     clickPill,
@@ -918,7 +919,8 @@ describe('base expression builder', () => {
                     allowGlobalConstants: false,
                     showSystemVariables: true,
                     showGlobalVariables: true,
-                    shouldBeWritable: false
+                    shouldBeWritable: false,
+                    categoriesToInclude: []
                 }
             });
         });
@@ -941,7 +943,8 @@ describe('base expression builder', () => {
                     allowGlobalConstants: false,
                     showSystemVariables: true,
                     showGlobalVariables: false,
-                    shouldBeWritable: true
+                    shouldBeWritable: true,
+                    categoriesToInclude: []
                 }
             });
         });
@@ -966,7 +969,8 @@ describe('base expression builder', () => {
                     allowGlobalConstants: false,
                     showSystemVariables: true,
                     showGlobalVariables: false,
-                    shouldBeWritable: false
+                    shouldBeWritable: false,
+                    categoriesToInclude: []
                 }
             });
         });
@@ -1250,6 +1254,65 @@ describe('base expression builder', () => {
             await ticks(1);
             expect(getInlineResource).not.toHaveBeenCalled();
             expect(spy).not.toHaveBeenCalled();
+        });
+    });
+    describe('filter rhs menu items based on rhsCategoriesIncluded', () => {
+        beforeAll(() => {
+            ourCBChangeEvent = new ComboboxStateChangedEvent(mockComboboxReturnItem);
+            Store.setMockState(flowWithAllElementsUIModel);
+        });
+        afterAll(() => {
+            Store.resetStore();
+        });
+        it('should only filter out rhs menu items based on rhsCategoriesIncluded', () => {
+            createComponentForTest({
+                rules: [],
+                containerElement: ELEMENT_TYPE.DECISION,
+                lhsFields: null,
+                lhsParam: rulesMock.elementToParam(stringVariable),
+                lhsDisplayOption: expressionUtilsMock.LHS_DISPLAY_OPTION.NOT_FIELD,
+                showLhsAsFieldReference: true,
+                operatorValue: rulesMock.RULE_OPERATOR.EQUAL_TO,
+                lhsMustBeWritable: false,
+                lhsActivePicklistValues: [],
+                rhsCategoriesToInclude: [globalConstantCategory],
+                rhsIsField: null,
+                rhsFields: null,
+                rhsIsFer: false
+            });
+            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledTimes(2);
+
+            // first call to populate lhs menu with empty categoriesToInclude
+            expect(expressionUtilsMock.filterAndMutateMenuData).nthCalledWith(1, expect.anything(), undefined, {
+                traversalConfig: {
+                    isEnabled: true
+                },
+                activePicklistValues: [],
+                filter: {
+                    includeNewResource: true,
+                    allowGlobalConstants: false,
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    shouldBeWritable: false,
+                    categoriesToInclude: []
+                }
+            });
+
+            // second call to populate the rhs menu items with categoriesToInclude populated from rhsCategoriesToInclude
+            expect(expressionUtilsMock.filterAndMutateMenuData).nthCalledWith(2, expect.anything(), undefined, {
+                traversalConfig: {
+                    isEnabled: true
+                },
+                activePicklistValues: [],
+                filter: {
+                    includeNewResource: true,
+                    allowGlobalConstants: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    shouldBeWritable: false,
+                    categoriesToInclude: [globalConstantCategory]
+                }
+            });
         });
     });
 });

@@ -77,6 +77,13 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     @track
     rhsIsFer = false;
 
+    /**
+     * Array of element or resource category labels.  Only menu items from the categories included here will be shown on the rhs.
+     * If the filter is empty this attribute will have no effect.
+     */
+    @api
+    rhsCategoriesToInclude = [];
+
     @api
     variant;
 

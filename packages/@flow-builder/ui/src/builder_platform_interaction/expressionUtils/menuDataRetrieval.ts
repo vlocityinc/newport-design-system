@@ -213,6 +213,12 @@ function getNewResourceItem(resourceTypeLabel: String) {
 }
 
 /**
+ * String constant used to identify the picklist values menu category.
+ * Label looks like 'Picklist Values ({0})' - translations also contain parenthesized value but possible in a different place
+ */
+export const PICKLIST_CATEGORY_SUBSTR = picklistValuesLabel.replace(/\(.*\)/, '').trim();
+
+/**
  * Gets a GroupedMenuItem from the given picklist values
  *
  * @param {Object[]} picklist list of objects representing picklist values
@@ -258,7 +264,8 @@ const defaultMenuConfig: MenuConfig = {
         allowsApexCollAnonymousAutoOutput: true,
         forFormula: false,
         shouldBeWritable: false,
-        showFlowSystemVariable: true
+        showFlowSystemVariable: true,
+        categoriesToInclude: []
     }
 };
 
@@ -347,7 +354,7 @@ export function filterAndMutateMenuData(menuDataElements = [], allowedParamTypes
     const filteredData = filterMenuData(menuDataElements, initializedConfig, allowedParamTypes);
 
     // Create menu items from flow elements, sort them and group by their category.
-    const menuData = filteredData.menuElements
+    let menuData = filteredData.menuElements
         .map((element) => {
             return mutateFlowResourceToComboboxShape(element, initializedConfig.traversalConfig);
         })
@@ -373,6 +380,12 @@ export function filterAndMutateMenuData(menuDataElements = [], allowedParamTypes
     // Add picklist values to the top of the menu under the Picklist Values category
     if (Object.values(picklistData).length > 0) {
         menuData.unshift(picklistData);
+    }
+
+    if (initializedConfig.filter.categoriesToInclude?.length > 0) {
+        menuData = menuData.filter((item) => {
+            return initializedConfig.filter.categoriesToInclude?.find((category) => item.label?.includes(category));
+        });
     }
 
     // Add the New Resource entry as the top entry, if requested

@@ -313,6 +313,13 @@ export default class BaseExpressionBuilder extends LightningElement {
     blockRhsValidation = false;
 
     /**
+     * Array of element or resource category labels.  Only menu items from the categories included here will be shown on the rhs.
+     * If the filter is empty this attribute will have no effect.
+     */
+    @api
+    rhsCategoriesToInclude = [];
+
+    /**
      * @param {boolean} isFer   true if RHS is a FER, false if RHS is a FEROV
      */
     set rhsIsFer(isFer) {
@@ -832,7 +839,8 @@ export default class BaseExpressionBuilder extends LightningElement {
                 isDisplayedAsFieldReference,
                 isFerov: !this.rhsIsFer,
                 picklistValues,
-                shouldBeWritable
+                shouldBeWritable,
+                categoriesToInclude: this.rhsCategoriesToInclude
             }
         );
     }
@@ -917,6 +925,7 @@ export default class BaseExpressionBuilder extends LightningElement {
      * @param {boolean} options.allowSObjectFieldsTraversal - true to allow SObject fields traversal
      * @param {boolean} options.allowApexTypeFieldsTraversal - true to allow Apex Type fields traversal
      * @param {string} options.objectType - objectType for preFetchedFields. If set, fields in preFetchedFields won't be updated
+     * @param {string[]} options.categoriesToInclude - array of category labels that define which categories to include in the menu. empty array means no categories are filtered
      */
     populateMenuData(
         getFields,
@@ -932,7 +941,8 @@ export default class BaseExpressionBuilder extends LightningElement {
             shouldBeWritable = false,
             allowSObjectFieldsTraversal = this.isLookupTraversalSupported(),
             allowApexTypeFieldsTraversal = this.isLookupTraversalSupported(),
-            objectType = undefined
+            objectType = undefined,
+            categoriesToInclude = []
         } = {}
     ) {
         const config = {
@@ -980,7 +990,8 @@ export default class BaseExpressionBuilder extends LightningElement {
                     allowGlobalConstants: isFerov && !this.hideFerovMenuData,
                     showSystemVariables: !this.hideSystemVariables,
                     showGlobalVariables: !this.hideGlobalVariables && !shouldBeWritable,
-                    shouldBeWritable
+                    shouldBeWritable,
+                    categoriesToInclude
                 }
             });
             updateState({

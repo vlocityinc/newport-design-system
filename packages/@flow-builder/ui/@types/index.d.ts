@@ -131,6 +131,8 @@ type MenuFilter = {
     shouldBeWritable?: boolean;
     // whether or not the flow system variable ($Flow) should be filtered out
     showFlowSystemVariable?: boolean;
+    // list of category labels that defines which categories to show. an empty array means nothing is filtered
+    categoriesToInclude?: string[];
 };
 
 type MenuConfig = {

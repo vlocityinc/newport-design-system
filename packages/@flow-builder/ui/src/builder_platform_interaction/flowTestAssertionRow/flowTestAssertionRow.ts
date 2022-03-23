@@ -1,4 +1,6 @@
+import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import { UpdateTestAssertionEvent } from 'builder_platform_interaction/events';
+import { PICKLIST_CATEGORY_SUBSTR } from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_OPERATOR, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
@@ -36,6 +38,15 @@ export default class FlowTestAssertionRow extends LightningElement {
     @api
     showDeleteAssertion;
 
+    /**
+     * The list of categories we want to show on the rhs of an assertion.  Any categories not listed
+     * here will be hidden.
+     *
+     * @returns array of menu item categories that should be shown on the rhs of assertions
+     */
+    get rhsCategoriesToInclude() {
+        return [PICKLIST_CATEGORY_SUBSTR, globalConstantCategory];
+    }
     elementTypeForExpressionBuilder = ELEMENT_TYPE.DECISION;
     rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.COMPARISON, this.elementTypeForExpressionBuilder);
     defaultOperator = RULE_OPERATOR.EQUAL_TO;

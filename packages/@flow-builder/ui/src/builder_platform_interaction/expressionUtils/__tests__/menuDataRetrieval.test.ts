@@ -1,11 +1,13 @@
 // @ts-nocheck
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
+import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { PICKLIST_CATEGORY_SUBSTR } from 'builder_platform_interaction/expressionUtils';
 import { createExtensionDescription } from 'builder_platform_interaction/flowExtensionLib';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -65,6 +67,13 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('builder_platform_interaction/expressionUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/expressionUtils');
+    return Object.assign({}, actual, {
+        PICKLIST_CATEGORY_SUBSTR: 'FlowBuilderExpressionUtils.picklistValuesLabel'
+    });
+});
 
 const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
 const sobjectVariable = LABELS.sObjectPluralLabel.toUpperCase();
@@ -338,6 +347,29 @@ describe('Menu data retrieval', () => {
             );
             expect(allowedVariables[0].items).toHaveLength(1);
             expect(allowedVariables[0].items[0].displayText).toBe(addCurlyBraces(store.numberVariable.name));
+        });
+        it('should filter by category', () => {
+            const menuData = filterAndMutateMenuData(
+                [store.stringVariable, store.textTemplate1, store.stringConstant, store.loopOnTextCollectionAutoOutput],
+                { String: [stringParam], Boolean: [booleanParam] },
+                {
+                    traversalConfig: {
+                        isEnabled: true
+                    },
+                    activePicklistValues: [{ value: 'pick1' }, { value: 'pick2' }],
+                    filter: {
+                        includeNewResource: false,
+                        allowGlobalConstants: true,
+                        categoriesToInclude: [PICKLIST_CATEGORY_SUBSTR, globalConstantCategory]
+                    }
+                }
+            );
+
+            expect(menuData).toHaveLength(2);
+            const picklistItems = menuData.find((item) => item.label.startsWith(PICKLIST_CATEGORY_SUBSTR));
+            expect(picklistItems.items).toHaveLength(2);
+            const gcItems = menuData.find((item) => item.label.startsWith(globalConstantCategory));
+            expect(gcItems.items).toHaveLength(3);
         });
         it('should preserve devName in text & value field', () => {
             const copiedElement = filterAndMutateMenuData([store.numberVariable])[0].items[0];
