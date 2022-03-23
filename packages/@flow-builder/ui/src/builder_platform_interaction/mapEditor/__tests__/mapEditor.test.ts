@@ -114,6 +114,8 @@ const getMapItems = (mapEditor) => {
     return null;
 };
 
+const getHelpText = (mapEditor) => mapEditor.shadowRoot.querySelector(SELECTORS.HELP_TEXT);
+
 const GROUP_LABELS = {
     APEX_COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.APEXCOLLECTIONVARIABLEPLURALLABEL',
     COLLECTION_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL',
@@ -169,6 +171,11 @@ describe('map-editor', () => {
             const mapItems = getMapItems(mapEditor);
             expect(mapItems).toBeNull();
         });
+        it('should have selectCollection help text', () => {
+            const helpText = getHelpText(mapEditor);
+            expect(helpText).not.toBeNull();
+            expect(helpText.textContent).toEqual('FlowBuilderMapEditor.selectCollection');
+        });
     });
     describe('edit map mode', () => {
         describe('SObject Collection', () => {
@@ -190,6 +197,11 @@ describe('map-editor', () => {
             it('should have mapItems', () => {
                 const mapItems = getMapItems(mapEditor);
                 expect(mapItems).toHaveLength(testElementInfoWithSObjectCollection.mapItems.length);
+            });
+            it('should have selectCollection help text', () => {
+                const helpText = getHelpText(mapEditor);
+                expect(helpText).not.toBeNull();
+                expect(helpText.textContent).toEqual('FlowBuilderMapEditor.selectCollection');
             });
         });
         describe('handling events', () => {
@@ -235,6 +247,17 @@ describe('map-editor', () => {
                             expectedMapItems[index].rightHandSideDataType.value
                         );
                     });
+                });
+                it('do not change help text if input type is the same as output type', async () => {
+                    const valueChangedEvent = new CollectionReferenceChangedEvent(
+                        store.lookupRecordCollectionAutomaticOutput.guid,
+                        null
+                    );
+                    inputCollection.dispatchEvent(valueChangedEvent);
+                    await ticks(1);
+                    const helpText = getHelpText(mapEditor);
+                    expect(helpText).not.toBeNull();
+                    expect(helpText.textContent).toEqual('FlowBuilderMapEditor.selectCollection');
                 });
             });
         });

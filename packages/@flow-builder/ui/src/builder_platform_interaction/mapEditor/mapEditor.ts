@@ -44,9 +44,6 @@ export default class MapEditor extends LightningElement {
     outputObjectType;
 
     @track
-    outputHelpText = this.labels.selectCollection;
-
-    @track
     outputFields = {};
 
     @track
@@ -85,7 +82,6 @@ export default class MapEditor extends LightningElement {
             );
             if (collectionVariable && collectionVariable.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
                 this.inputObjectType = collectionVariable.subtype;
-                this.updateHelpText();
             }
         }
         // get current item variable
@@ -226,15 +222,6 @@ export default class MapEditor extends LightningElement {
     }
 
     /**
-     * Update help text when input object type changed
-     *
-     */
-    updateHelpText() {
-        this.outputHelpText =
-            this.inputObjectType === this.outputObjectType ? this.labels.addFields : this.labels.selectCollection;
-    }
-
-    /**
      * Update current item variable (subtype, name)
      *
      * @param property variable property
@@ -274,8 +261,6 @@ export default class MapEditor extends LightningElement {
         } else {
             this.inputObjectType = null;
         }
-        // update help text
-        this.updateHelpText();
     }
 
     /**
