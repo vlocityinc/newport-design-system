@@ -155,8 +155,9 @@ class Loader {
     ) {
         // currently, we prefetch actions, apex plugins and subflows for performance reasons but we don't need them to be loaded
         // before we can open a Property Editor
+        let loadActionsProcessTypePromise: Promise<any>;
         if (flowTriggerType != null) {
-            loadActions(flowProcessType, flowTriggerType);
+            loadActionsProcessTypePromise = loadActions(flowProcessType, flowTriggerType);
         }
         loadApexPlugins();
         const loadSubflowsPromise = loadSubflows(flowProcessType, flowDefinitionId);
@@ -170,7 +171,8 @@ class Loader {
         return {
             loadPeripheralMetadataPromise,
             loadPalettePromise,
-            loadSubflowsPromise
+            loadSubflowsPromise,
+            loadActionsProcessTypePromise
         };
     }
 
@@ -183,7 +185,7 @@ class Loader {
      * @returns Object with promises
      */
     public loadOnTriggerTypeChange(flowProcessType, flowTriggerType, recordTriggerType) {
-        const loadActionsPromise = loadActions(flowProcessType, flowTriggerType);
+        const loadActionsTriggerTypePromise = loadActions(flowProcessType, flowTriggerType);
         const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(
             flowProcessType,
             flowTriggerType,
@@ -191,7 +193,7 @@ class Loader {
         );
         const loadPalettePromise = loadPalette(flowProcessType, flowTriggerType);
         return {
-            loadActionsPromise,
+            loadActionsTriggerTypePromise,
             loadPeripheralMetadataPromise,
             loadPalettePromise
         };

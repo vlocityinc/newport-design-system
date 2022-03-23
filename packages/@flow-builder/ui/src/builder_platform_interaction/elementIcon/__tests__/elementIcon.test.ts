@@ -5,14 +5,16 @@ import { createElement } from 'lwc';
 
 const ICON_NAMES = {
     subflow: 'standard:flow',
-    decision: 'standard:decision'
+    decision: 'standard:decision',
+    standardAction: 'standard:custom_notification'
 };
 
 const CLASS_NAMES = {
     drag: 'drag-element',
     rotateContainer: 'rotate-icon-container',
     rotateDecision: 'non-canvas-decision-icon',
-    rotateSvg: 'rotate-icon-svg'
+    rotateSvg: 'rotate-icon-svg',
+    customSVGActionIcon: 'customActionIcon'
 };
 
 const SELECTORS = {
@@ -100,6 +102,14 @@ describe('Element Icon', () => {
             });
             const lightningIcon = getLightningIcon(elementIcon);
             expect(lightningIcon.classList).not.toContain(CLASS_NAMES.drag);
+        });
+
+        it('Should not add the css class to set the background color as white for standard actions', async () => {
+            const elementIcon = await createComponentForTest({
+                iconName: ICON_NAMES.standardAction
+            });
+            const lightningIcon = getLightningIcon(elementIcon);
+            expect(lightningIcon.classList).not.toContain(CLASS_NAMES.customSVGActionIcon);
         });
     });
 });

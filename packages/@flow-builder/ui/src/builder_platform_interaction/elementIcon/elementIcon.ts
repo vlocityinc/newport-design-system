@@ -8,6 +8,8 @@ export default class ElementIcon extends LightningElement {
     @api
     iconSize;
     @api
+    iconSrc;
+    @api
     iconShape;
     @api
     isCanvasElementIcon = false;
@@ -19,13 +21,32 @@ export default class ElementIcon extends LightningElement {
     alternativeText = '';
     @api
     backgroundColor = '';
+    @api
+    isLeftPanelElement = false;
 
     @api
     get iconElement() {
         return this.template.querySelector('.drag-element');
     }
 
+    get elementIconName() {
+        if (this.isLeftPanelElement && this.iconName) {
+            return this.iconName;
+        }
+        return this.iconName;
+    }
+
+    get elementIconSrc() {
+        if (this.isLeftPanelElement && this.iconSrc) {
+            return this.iconSrc;
+        }
+        return null;
+    }
+
     updateClassesForNonCanvasElements(baseClasses, commonClasses) {
+        if (!this.isCanvasElementIcon && this.isLeftPanelElement && this.iconSrc) {
+            baseClasses = `${baseClasses} customActionIcon`;
+        }
         if (!this.isCanvasElementIcon) {
             const updatedBaseClasses = `${baseClasses} ${commonClasses}`;
             return this.updateClassesForDraggableElements(updatedBaseClasses);
@@ -51,6 +72,10 @@ export default class ElementIcon extends LightningElement {
             return this.updateClassesForNonCanvasElements(baseClasses, commonClasses);
         }
         return '';
+    }
+
+    get elementIconSize() {
+        return this.iconSize;
     }
 
     get svgClass() {

@@ -105,6 +105,7 @@ import {
     SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
+import { getInvocableApexActions } from 'builder_platform_interaction/invocableActionLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import {
     initializeLoader,
@@ -356,6 +357,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     @track
     elementsMetadata;
+
+    @track
+    invocableApexActions;
 
     topSelectedGuid = null;
     cutOrCopiedCanvasElements = {};
@@ -903,16 +907,26 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 this.supportedElements = supportedElements;
             });
             let palettePromise;
+            let actionsProcessTypePromise;
+            let actionsTriggerTypePromise;
+
             if (flowProcessTypeChanged) {
-                const { loadPeripheralMetadataPromise, loadPalettePromise, loadSubflowsPromise } =
-                    loadOnProcessTypeChange(
-                        flowProcessType,
-                        flowTriggerType,
-                        flowRecordTriggerType,
-                        definitionId as string,
-                        environments
-                    );
+                const {
+                    loadPeripheralMetadataPromise,
+                    loadPalettePromise,
+                    loadSubflowsPromise,
+                    loadActionsProcessTypePromise
+                } = loadOnProcessTypeChange(
+                    flowProcessType,
+                    flowTriggerType,
+                    flowRecordTriggerType,
+                    definitionId as string,
+                    environments
+                );
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
+
+                actionsProcessTypePromise = loadActionsProcessTypePromise;
+
                 this.openSubflowBlockerPromise = loadSubflowsPromise;
 
                 palettePromise = loadPalettePromise.then((data) => {
@@ -940,16 +954,23 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     this.propertyEditorBlockerCalls.push(loadEventTypesManagedSetup);
                 }
                 if (!flowProcessTypeChanged) {
-                    const { loadPeripheralMetadataPromise, loadPalettePromise } = loadOnTriggerTypeChange(
-                        flowProcessType,
-                        flowTriggerType,
-                        flowRecordTriggerType
-                    );
+                    const { loadActionsTriggerTypePromise, loadPeripheralMetadataPromise, loadPalettePromise } =
+                        loadOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType);
+                    actionsTriggerTypePromise = loadActionsTriggerTypePromise;
                     this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
                     palettePromise = loadPalettePromise.then((data) => {
                         this.palette = data;
                     });
                 }
+            }
+
+            if (actionsTriggerTypePromise || actionsProcessTypePromise) {
+                Promise.all([actionsTriggerTypePromise, actionsProcessTypePromise]).then(() => {
+                    const actions = getInvocableApexActions();
+                    if (actions) {
+                        this.invocableApexActions = actions;
+                    }
+                });
             }
 
             Promise.all([toolboxPromise, palettePromise]).then(() => {

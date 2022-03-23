@@ -23,6 +23,7 @@
         "^builder_platform_interaction/sharedUtils/lwcUtils": "<rootDir>/../shared-utils/src/lwcUtils",
         "^builder_platform_interaction/sharedUtils/auraUtils": "<rootDir>/../shared-utils/src/auraUtils",
         "^builder_platform_interaction/sharedUtils/commonUtils": "<rootDir>/../shared-utils/src/commonUtils",
+        "^builder_platform_interaction/sharedUtils/actionUtils": "<rootDir>/../shared-utils/src/actionUtils",
 
         "^(builder_platform_interaction)/(fieldInput.*)$": "<rootDir>/../ui/src/builder_platform_interaction/fieldInput/$2/$2",
         "^(builder_platform_interaction)/richHelpTooltip": "<rootDir>/../ui/src/builder_platform_interaction/fieldInput/richHelpTooltip/richHelpTooltip",

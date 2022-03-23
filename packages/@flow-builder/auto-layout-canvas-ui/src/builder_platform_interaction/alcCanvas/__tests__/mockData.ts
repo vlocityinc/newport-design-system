@@ -18,6 +18,7 @@ const flowRenderInfo = {
                 type: 'start',
                 canHaveFaultConnector: false
             },
+            invocableApexActions: [],
             config: { isSelected: false, isHighlighted: false, canSelect: true },
             flows: [],
             isNew: false,
@@ -50,6 +51,7 @@ const flowRenderInfo = {
                 type: 'end',
                 canHaveFaultConnector: false
             },
+            invocableApexActions: [],
             config: { isSelected: false, isHighlighted: false, canSelect: true },
             flows: [],
             isNew: false,

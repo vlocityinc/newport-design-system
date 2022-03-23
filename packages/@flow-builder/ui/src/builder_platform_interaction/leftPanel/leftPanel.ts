@@ -70,6 +70,9 @@ export default class LeftPanel extends LightningElement {
         return this._showElementsTab;
     }
 
+    @api
+    invocableApexActions;
+
     set showElementsTab(value) {
         this._showElementsTab = value;
         if (this._showElementsTab) {

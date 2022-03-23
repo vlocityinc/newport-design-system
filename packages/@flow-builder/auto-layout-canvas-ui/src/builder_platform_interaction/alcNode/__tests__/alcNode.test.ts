@@ -2,13 +2,21 @@
 import { AutoLayoutCanvasMode, ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import { AlcSelectDeselectNodeEvent, IncomingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { createComponent } from 'builder_platform_interaction/builderTestUtils';
+import { createComponent, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
 import { LABELS } from '../alcNodeLabels';
+
 const { Keys } = keyboardInteractionUtils;
 
-jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+jest.useFakeTimers();
+
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const actions = jest.requireActual('builder_platform_interaction/sharedUtils/actionUtils');
+    return Object.assign({}, sharedUtils, { actionUtils: actions });
+});
 
 const defaultOptions = {
     canvasContext: {
@@ -24,6 +32,7 @@ const selectors = {
     menuTrigger: 'builder_platform_interaction-alc-menu-trigger',
     diamondIconWrapper: '.rotated-icon-radius.slds-icon-standard-decision',
     startIcon: '.background-green.slds-icon__container_circle',
+    apexActionWithCustomSldsIcon: '.background-navy',
     decisionIcon: '.rotate-icon-svg',
     selectionCheckbox: '.selection-checkbox',
     textContainerElementType: '.text-element-type',
@@ -101,6 +110,109 @@ describe('AlcNode', () => {
             });
             const startIcon = alcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
             expect(startIcon.size).toBe('medium');
+        });
+    });
+
+    describe('Custom Action Icon', () => {
+        let flowModel;
+
+        const standardActionNodeInfo = {
+            guid: 'guid',
+            metadata: {
+                icon: 'standard:custom_notification',
+                iconShape: ICON_SHAPE.SQUARE,
+                iconBackgroundColor: 'background-navy',
+                label: 'elementType',
+                elementType: 'ActionCall',
+                type: NodeType.default,
+                value: 'ActionCall'
+            },
+            node: {
+                actionName: 'StandardActionCall',
+                actionType: 'standard',
+                elementType: 'ActionCall'
+            },
+            menuOpened: false
+        };
+
+        const InvocableApexActionNodeInfo = {
+            guid: 'guid',
+            metadata: {
+                elementType: 'APEX_CALL',
+                iconShape: ICON_SHAPE.SQUARE,
+                iconBackgroundColor: 'background-navy',
+                icon: 'standard:apex',
+                label: 'Apex Action',
+                type: NodeType.default
+            },
+            node: {
+                actionName: 'CustomActionCall',
+                actionType: 'apex',
+                elementType: 'APEX_CALL'
+            },
+            menuOpened: false
+        };
+
+        const invocableApexActions = [
+            {
+                actionName: 'CustomActionCall',
+                iconResource: 'resource:/resource/1646092526000/google_drive#top'
+            }
+        ];
+
+        beforeEach(() => {
+            flowModel = {
+                guid: {
+                    config: {}
+                }
+            };
+        });
+
+        afterEach(() => {
+            jest.runAllTimers();
+        });
+
+        it('Should not add the css class to set the background color as white for standard action', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: standardActionNodeInfo
+            });
+            const actionIcon = alcNodeComponent.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
+
+            jest.advanceTimersByTime(10);
+            await ticks(1);
+
+            expect(actionIcon.classList).not.toContain('customActionIcon');
+        });
+
+        it('Does not show custom icon for apex action', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: InvocableApexActionNodeInfo,
+                canvasContext: { invocableApexActions: [] }
+            });
+
+            const actionIcon = alcNodeComponent.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
+
+            jest.advanceTimersByTime(10);
+            await ticks(1);
+
+            expect(actionIcon.src).toBeNull();
+        });
+
+        it('Shows custom icon for apex action', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: InvocableApexActionNodeInfo,
+                canvasContext: { invocableApexActions }
+            });
+
+            const actionIcon = alcNodeComponent.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
+
+            jest.advanceTimersByTime(10);
+            await ticks(1);
+
+            expect(actionIcon.src).not.toBeNull();
         });
     });
 

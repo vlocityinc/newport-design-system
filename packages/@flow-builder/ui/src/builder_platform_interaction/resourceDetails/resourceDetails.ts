@@ -12,6 +12,9 @@ export default class ResourceDetails extends LightningElement {
     @api
     resourceDetails;
 
+    @api
+    invocableApexActions;
+
     @track
     state = {
         hasAutomaticOutputParameters: false

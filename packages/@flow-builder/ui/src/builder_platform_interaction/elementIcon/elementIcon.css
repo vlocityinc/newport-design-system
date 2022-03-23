@@ -38,3 +38,8 @@
 .background-dark-blue {
     background-color: #00396b;
 }
+
+.customActionIcon {
+    background-color: var(--lwc--paletteNeutral100);
+    box-shadow: 0 0 0 2px var(--lwc-paletteNeutral80) inset;
+}

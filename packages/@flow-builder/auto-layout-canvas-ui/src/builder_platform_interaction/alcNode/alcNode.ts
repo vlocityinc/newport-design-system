@@ -24,12 +24,13 @@ import {
     NodeType
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
-import { commonUtils, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { actionUtils, commonUtils, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './alcNodeLabels';
 
 const { format } = commonUtils;
+const { getCustomIconNameAndSrc } = actionUtils;
 
 const { withKeyboardInteractions } = keyboardInteractionUtils;
 
@@ -53,6 +54,9 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
     _menu: NodeMenuInfo | null = null;
     _nodeInfo!: NodeRenderInfo;
     _canvasContext?: CanvasContext;
+
+    _customIconName: string | null = null;
+    _customIconSrc: string | null = null;
 
     isFocusTrapEnabled = false;
 
@@ -114,6 +118,16 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
         } else {
             this.menu = null;
         }
+
+        scheduleTask(() => {
+            const { iconName, iconSrc } = getCustomIconNameAndSrc(
+                this.nodeInfo.metadata?.elementType,
+                this.nodeInfo.node?.actionName,
+                this.canvasContext.invocableApexActions
+            );
+            this._customIconName = iconName;
+            this._customIconSrc = iconSrc;
+        });
     }
 
     get canvasContext() {
@@ -182,6 +196,10 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
     }
 
     get svgClass() {
+        if (this.iconSrc) {
+            return `slds-icon-standard-screen slds-icon_container slds-p-around_x-small customActionIcon`;
+        }
+
         let classes = '';
         if (this.nodeInfo.metadata.iconBackgroundColor) {
             classes = this.nodeInfo.metadata.iconBackgroundColor;
@@ -197,11 +215,22 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
     }
 
     get iconSize() {
+        if (this.iconSrc) {
+            return null;
+        }
         return this.nodeInfo.metadata.iconSize || 'large';
     }
 
     get isStart() {
         return this.nodeInfo.metadata.type === NodeType.START;
+    }
+
+    get iconName() {
+        return this._customIconName ? this._customIconName : this.nodeInfo.metadata.icon;
+    }
+
+    get iconSrc() {
+        return this._customIconSrc ? this._customIconSrc : null;
     }
 
     get showCheckboxInSelectionMode() {

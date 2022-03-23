@@ -544,7 +544,9 @@ describe('Used by library', () => {
                             iconName: 'standard:screen',
                             isCanvasElement: true,
                             label: 'screenWithAutomaticFields',
-                            name: 'screenWithAutomaticFields'
+                            name: 'screenWithAutomaticFields',
+                            type: 'Screen',
+                            actionName: undefined
                         }
                     ])
                 );
@@ -560,7 +562,9 @@ describe('Used by library', () => {
                             iconName: 'standard:screen',
                             isCanvasElement: true,
                             label: 'screenWithAutomaticFieldsInSection',
-                            name: 'screenWithAutomaticFieldsInSection'
+                            name: 'screenWithAutomaticFieldsInSection',
+                            type: 'Screen',
+                            actionName: undefined
                         }
                     ])
                 );
@@ -577,7 +581,9 @@ describe('Used by library', () => {
                             iconName: 'standard:display_text',
                             isCanvasElement: false,
                             label: undefined,
-                            name: 'displayTextUsingResources'
+                            name: 'displayTextUsingResources',
+                            type: 'SCREEN_FIELD',
+                            actionName: undefined
                         }
                     ])
                 );
@@ -593,7 +599,8 @@ describe('Used by library', () => {
                             iconName: 'standard:display_text',
                             isCanvasElement: false,
                             label: undefined,
-                            name: 'accounts'
+                            name: 'accounts',
+                            type: 'SCREEN_FIELD'
                         },
                         {
                             elementGuidsReferenced: [slider1.guid],
@@ -601,7 +608,8 @@ describe('Used by library', () => {
                             iconName: 'standard:screen',
                             isCanvasElement: true,
                             label: 'ScreenWithSection',
-                            name: 'ScreenWithSection'
+                            name: 'ScreenWithSection',
+                            type: 'Screen'
                         }
                     ])
                 );

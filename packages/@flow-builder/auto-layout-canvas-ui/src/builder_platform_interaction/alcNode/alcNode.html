@@ -16,12 +16,14 @@
                 class={menuTriggerClass}
             >
                 <!-- Element Icon -->
+                <!-- icon-name is ignored if src is supplied -->
                 <div slot="trigger" class={rotateIconClass}>
                     <lightning-icon
                         alternative-text={labels.nodeIconAltText}
                         class={svgClass}
-                        icon-name={nodeInfo.metadata.icon}
+                        icon-name={iconName}
                         size={iconSize}
+                        src={iconSrc}
                         variant="inverse"
                         aria-label={iconAriaLabel}
                         aria-haspopup="dialog"

@@ -62,6 +62,9 @@ export interface NodeModel {
     incomingGoTo?: GoToSourceRef[];
 
     canHaveCanvasEmbeddedElement?: boolean;
+
+    // used for custom icons
+    actionName?: string;
 }
 
 export interface StartNodeModel extends NodeModel {

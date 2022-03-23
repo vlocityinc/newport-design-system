@@ -40,4 +40,6 @@ export default class AlcCanvas extends LightningElement {
     @api closeNodeOrConnectorMenu = jest.fn();
 
     @api shortcuts;
+
+    @api invocableApexActions;
 }

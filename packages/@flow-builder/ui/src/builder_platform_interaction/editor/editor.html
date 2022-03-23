@@ -104,6 +104,7 @@
                 palette={palette}
                 show-elements-tab={showLeftPanelElementsTab}
                 role="complementary"
+                invocable-apex-actions={invocableApexActions}
             ></builder_platform_interaction-left-panel>
             <div
                 if:true={hasCanvasElements}
@@ -132,6 +133,7 @@
                     if:true={properties.isAutoLayoutCanvas}
                     elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
+                    invocable-apex-actions={invocableApexActions}
                     is-paste-available={isPasteAvailable}
                     disable-delete-elements={canvasConfig.disableDeleteElements}
                     disable-edit-elements={canvasConfig.disableEditElements}

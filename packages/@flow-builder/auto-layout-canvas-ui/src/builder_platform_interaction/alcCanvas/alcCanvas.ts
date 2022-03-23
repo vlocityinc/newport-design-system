@@ -218,11 +218,13 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         mode: AutoLayoutCanvasMode.DEFAULT,
         isPasteAvailable: false,
         menu: null,
+        invocableApexActions: [],
         incomingStubGuid: null
     };
 
     isFirstTimeCalled = true;
     loadAlcCanvasStartTime;
+    _invocableApexActions;
 
     constructor() {
         super();
@@ -279,6 +281,16 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
     @api
     disableEditElements;
+
+    @api
+    set invocableApexActions(invocableApexActions) {
+        this.updateCanvasContext({ invocableApexActions });
+        this._invocableApexActions = invocableApexActions;
+    }
+
+    get invocableApexActions() {
+        return this._invocableApexActions;
+    }
 
     /**
      * The active element refers to the element currently being edited using the property editor panel

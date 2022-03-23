@@ -8,11 +8,13 @@ import {
 } from 'builder_platform_interaction/dataMutationLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, EXPRESSION_RE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { getInvocableApexActions } from 'builder_platform_interaction/invocableActionLib';
 import { isRegionContainerField, isRegionField } from 'builder_platform_interaction/screenEditorUtils';
 import { commonUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { isPlainObject, Store } from 'builder_platform_interaction/storeLib';
 import { isReferenceField, isTemplateField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
 import { LABELS } from './usedByLibLabels';
+
 const { format } = commonUtils;
 
 // elements may be hydrated
@@ -176,6 +178,7 @@ export function invokeUsedByAlertModal(
     const listSectionItems = usedByElements;
     const buttonVariant = 'Brand';
     const buttonLabel = LABELS.deleteAlertOkayButtonLabel;
+    const invocableApexActions = getInvocableApexActions();
 
     if (elementGuidsToBeDeletedLength === 1) {
         // When only a single element is being deleted and either the element or it's children are being referenced in the flow
@@ -204,7 +207,8 @@ export function invokeUsedByAlertModal(
         bodyData: {
             bodyTextOne,
             listSectionHeader,
-            listSectionItems
+            listSectionItems,
+            invocableApexActions
         },
         footerData: {
             buttonOne: {
@@ -567,6 +571,8 @@ export function createUsedByElement({
     const guid = element.guid;
     const label = element.label;
     const name = element.name;
+    const type = element.elementType;
+    const actionName = element.actionName;
     const isCanvasElement = (elementConfig && elementConfig.canvasElement) || false;
     let iconName: string | undefined;
     if (elementConfig && elementConfig.nodeConfig && elementConfig.nodeConfig.iconName) {
@@ -577,8 +583,10 @@ export function createUsedByElement({
         guid,
         label,
         name,
+        type,
         elementGuidsReferenced,
         iconName,
-        isCanvasElement
+        isCanvasElement,
+        actionName
     });
 }

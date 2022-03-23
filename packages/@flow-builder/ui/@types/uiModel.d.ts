@@ -46,6 +46,7 @@ declare namespace UI {
         picklistField?: string;
         isNew?: boolean;
         storeOutputAutomatically?: boolean;
+        actionName?: string;
     }
 
     interface HydratedValue {
@@ -65,6 +66,7 @@ declare namespace UI {
         isCollection?: boolean;
         isCanvasElement?: boolean;
         connector?: Connector;
+        actionName?: string;
     }
 
     interface BaseCanvasElement extends Element {

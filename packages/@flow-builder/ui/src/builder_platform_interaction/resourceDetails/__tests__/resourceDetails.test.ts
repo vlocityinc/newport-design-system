@@ -25,7 +25,11 @@ import { LABELS } from '../resourceDetailsLabels';
 
 const { logInteraction } = loggingUtils;
 
-jest.mock('builder_platform_interaction/sharedUtils');
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const actions = jest.requireActual('builder_platform_interaction/sharedUtils/actionUtils');
+    return Object.assign({}, sharedUtils, { actionUtils: actions });
+});
 
 const createComponentUnderTest = (details) => {
     const el = createElement('builder_platform_interaction-resource-details', {

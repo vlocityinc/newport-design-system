@@ -56,16 +56,21 @@ export interface MenuInfo {
     type: MenuType;
     autoFocus: boolean;
 }
-
 export interface CanvasContext {
     elementsMetadata: ElementMetadata[];
     isPasteAvailable: boolean;
     mode: AutoLayoutCanvasMode;
+    invocableApexActions: invocableApexActionResources[];
 
     // Clicked incoming goTo stub guid
     incomingStubGuid: Guid | null;
     connectorMenuMetadata: ConnectorMenuMetadata | null;
     menu: MenuInfo | null;
+}
+
+interface invocableApexActionResources {
+    actionName: string;
+    iconResource: string;
 }
 
 interface CanvasElementSelectionData {

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
+import { ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
@@ -31,6 +32,17 @@ export function setInvocableActions(actions) {
  */
 export function getInvocableActions() {
     return invocableActions;
+}
+
+/**
+ * @returns apex invocable actions and corrresponding icon name
+ */
+export function getInvocableApexActions() {
+    return invocableActions
+        .filter((action) => action.type === ACTION_TYPE.APEX)
+        .map((action) => {
+            return { actionName: action.name, iconResource: action.iconName };
+        });
 }
 
 /**
