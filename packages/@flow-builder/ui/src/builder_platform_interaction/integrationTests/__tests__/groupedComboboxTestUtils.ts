@@ -123,7 +123,7 @@ export class GroupedComboboxTestComponent extends TestComponent<any> {
         return comboboxItem;
     }
 
-    public get validity(): string | null {
+    public get validity(): string | undefined {
         return this.element.validity;
     }
 }

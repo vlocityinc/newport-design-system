@@ -127,7 +127,7 @@ export class ComboboxTestComponent extends TestComponent<Combobox> {
         return result;
     }
 
-    public get validity(): string | null {
+    public get validity(): string | undefined {
         return this.getGroupedCombobox().validity;
     }
 }

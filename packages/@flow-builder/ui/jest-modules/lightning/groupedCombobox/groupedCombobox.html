@@ -1,4 +1,5 @@
 <template>
-    <lightning-base-combobox></lightning-base-combobox>
-    <lightning-base-combobox data-id="lookup" input-text={inputText}> </lightning-base-combobox>
+    <lightning-base-combobox onblur={handleBlur} onfocus={handleFocus}> </lightning-base-combobox>
+    <lightning-base-combobox onblur={handleBlur} onfocus={handleFocus} data-id="lookup" input-text={inputText}>
+    </lightning-base-combobox>
 </template>

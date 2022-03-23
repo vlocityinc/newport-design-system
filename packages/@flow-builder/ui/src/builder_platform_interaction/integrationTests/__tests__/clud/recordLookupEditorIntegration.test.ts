@@ -194,7 +194,7 @@ describe('Record Lookup Editor', () => {
                     await entityResourcePicker.getCombobox().typeLiteralValue('');
                     expect(entityResourcePicker.getCombobox().validity).toEqual('FlowBuilderValidation.cannotBeBlank');
                     await entityResourcePicker.getCombobox().selectItemBy('text', ['Account']);
-                    expect(entityResourcePicker.getCombobox().validity).toBeNull();
+                    expect(entityResourcePicker.getCombobox().validity).toBeUndefined();
                 });
             });
         });

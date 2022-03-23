@@ -20,9 +20,21 @@ export default class GroupedCombobox extends LightningElement {
         this._errorMessage = value;
     }
 
+    handleBlur() {
+        this._hasFocus = false;
+    }
+
+    handleFocus() {
+        this._hasFocus = true;
+    }
+
     @api
     get validity() {
-        return this._errorMessage;
+        let missingErr;
+        if (!this.disabled && !this._hasFocus && this.required && !this.value) {
+            missingErr = 'FlowBuilderValidation.cannotBeBlank';
+        }
+        return this._errorMessage || missingErr;
     }
 
     @api

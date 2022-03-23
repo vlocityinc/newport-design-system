@@ -1,6 +1,8 @@
 export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_ACCORDION: 'lightning-accordion',
+    LIGHTNING_ACCORDION_SECTION: 'lightning-accordion-section',
     LIGHTNING_BADGE: 'lightning-badge',
+    LIGHTNING_BASE_COMBOX: 'lightning-base-combobox',
     LIGHTNING_BUTTON: 'lightning-button',
     LIGHTNING_BUTTON_ICON: 'lightning-button-icon',
     LIGHTNING_BUTTON_MENU: 'lightning-button-menu',
