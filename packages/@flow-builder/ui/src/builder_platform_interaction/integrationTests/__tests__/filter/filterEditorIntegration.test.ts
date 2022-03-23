@@ -616,5 +616,35 @@ describe('Filter Editor', () => {
                 expect(lhs.element.disabled).toBeTruthy();
             });
         });
+        describe('Validate on Done', () => {
+            let elementFromFlow, collectionProcessorEditor;
+            beforeEach(async () => {
+                elementFromFlow = getElementByDevName('Filter_Get_Accounts_By_Formula');
+            });
+            it('reports no error', async () => {
+                collectionProcessorEditor = createCollectionProcessorEditorForTest(
+                    getElementForPropertyEditor(elementFromFlow),
+                    processType,
+                    EditElementEvent.EVENT_NAME
+                );
+                await ticks(1);
+                const errors = collectionProcessorEditor.validate();
+                expect(errors).toHaveLength(0);
+            });
+            it('reports error on formula', async () => {
+                const elementForEditor = getElementForPropertyEditor(elementFromFlow);
+                const expectedError = 'invalid formula';
+                elementForEditor.formula.error = expectedError;
+                const collectionProcessorEditor = createCollectionProcessorEditorForTest(
+                    elementForEditor,
+                    processType,
+                    EditElementEvent.EVENT_NAME
+                );
+                await ticks(1);
+                const errors = collectionProcessorEditor.validate();
+                expect(errors).toHaveLength(1);
+                expect(errors).toEqual([{ errorString: expectedError, key: 'formula' }]);
+            });
+        });
     });
 });
