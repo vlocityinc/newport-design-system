@@ -7,7 +7,6 @@ const flowRenderInfo = {
         {
             guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
             geometry: { x: 0, y: 0, w: 48, h: 144 },
-            menuOpened: false,
             label: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
             metadata: {
                 section: null,
@@ -39,7 +38,6 @@ const flowRenderInfo = {
         {
             guid: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
             geometry: { x: 0, y: 144, w: 48, h: 0 },
-            menuOpened: false,
             label: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
             metadata: {
                 section: 'Logic',

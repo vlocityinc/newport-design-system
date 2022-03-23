@@ -260,11 +260,12 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
     }
 
     get textContainerClasses() {
-        const shifted = this.isShifted;
-        const hidden = this.isMenuOpened();
+        const isMenuOpened = this.isMenuOpened();
+
         return classSet('slds-is-absolute text-container').add({
-            shifted,
-            hidden
+            shifted: this.isShifted,
+            hidden: isMenuOpened,
+            'slds-hide': isMenuOpened
         });
     }
 

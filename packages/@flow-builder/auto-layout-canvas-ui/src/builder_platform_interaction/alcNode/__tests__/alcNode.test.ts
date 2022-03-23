@@ -5,7 +5,7 @@ import {
     CloseMenuEvent,
     IncomingGoToStubClickEvent
 } from 'builder_platform_interaction/alcEvents';
-import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { createComponent, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { EditElementEvent } from 'builder_platform_interaction/events';
@@ -54,7 +54,8 @@ const selectors = {
     textIncomingGoTo: '.text-incoming-goto',
     errorIcon: '.error-icon',
     iconContainer: '.icon-container',
-    focusTrap: 'builder_platform_interaction-focus-trap'
+    focusTrap: 'builder_platform_interaction-focus-trap',
+    textContainer: '.text-container'
 };
 
 describe('AlcNode', () => {
@@ -76,8 +77,7 @@ describe('AlcNode', () => {
                 iconSize: 'medium',
                 label: 'elementType',
                 type: NodeType.START
-            },
-            menuOpened: false
+            }
         };
 
         const decisionNodeInfo = {
@@ -87,8 +87,7 @@ describe('AlcNode', () => {
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
                 type: NodeType.BRANCH
-            },
-            menuOpened: false
+            }
         };
 
         it('Should have the diamondIconWrapper when iconShape is diamond', async () => {
@@ -250,8 +249,7 @@ describe('AlcNode', () => {
                     icon: 'dummyIcon',
                     label: 'elementType',
                     type: NodeType.DEFAULT
-                },
-                menuOpened: false
+                }
             };
         });
 
@@ -455,8 +453,7 @@ describe('AlcNode', () => {
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
                 type: NodeType.BRANCH
-            },
-            menuOpened: false
+            }
         };
 
         const endNodeInfo = {
@@ -466,8 +463,7 @@ describe('AlcNode', () => {
                 iconShape: ICON_SHAPE.CIRCLE,
                 label: 'End',
                 type: NodeType.END
-            },
-            menuOpened: false
+            }
         };
 
         it('Should show the element type for Decision Element', async () => {
@@ -516,8 +512,7 @@ describe('AlcNode', () => {
                 label: 'elementType',
                 type: NodeType.BRANCH,
                 elementType: 'Decision'
-            },
-            menuOpened: false
+            }
         };
 
         const noLabelNodeInfo = {
@@ -527,8 +522,7 @@ describe('AlcNode', () => {
                 iconShape: ICON_SHAPE.CIRCLE,
                 label: 'end',
                 type: NodeType.END
-            },
-            menuOpened: false
+            }
         };
 
         const startLabelNodeInfo = {
@@ -540,8 +534,7 @@ describe('AlcNode', () => {
                 type: NodeType.START,
                 description: 'start description',
                 elementType: 'START_ELEMENT'
-            },
-            menuOpened: false
+            }
         };
 
         it('Should show the label for Decision Element', async () => {
@@ -597,8 +590,7 @@ describe('AlcNode', () => {
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
                 type: NodeType.BRANCH
-            },
-            menuOpened: false
+            }
         };
 
         const noIncomingGotoNodeInfo = {
@@ -607,9 +599,9 @@ describe('AlcNode', () => {
                 icon: 'standard:decision',
                 iconShape: ICON_SHAPE.DIAMOND,
                 label: 'elementType',
-                type: NodeType.BRANCH
-            },
-            menuOpened: false
+                type: NodeType.BRANCH,
+                menuComponent: 'builder_platform_interaction/alcNodeMenu'
+            }
         };
 
         it('Should show incoming count on gotos target if goto exists', async () => {
@@ -671,6 +663,22 @@ describe('AlcNode', () => {
             gotoCount.dispatchEvent(keyDownEvent);
             expect(eventCallback).toHaveBeenCalled();
         });
+
+        it('textContainer should be not be displayed when menu is open', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: decisionNodeInfo,
+                canvasContext: {
+                    menu: {
+                        type: MenuType.NODE,
+                        source: { guid: decisionNodeInfo.guid }
+                    }
+                }
+            });
+
+            const textContainer = alcNodeComponent.shadowRoot.querySelector(selectors.textContainer);
+            expect(textContainer.classList.contains('slds-hide')).toBeTruthy();
+        });
     });
 
     describe('Dynamic Component Goto Label', () => {
@@ -713,8 +721,7 @@ describe('AlcNode', () => {
                             config: {}
                         }
                     ];
-                },
-                menuOpened: false
+                }
             }
         };
 
@@ -740,8 +747,7 @@ describe('AlcNode', () => {
                         }
                     ];
                 }
-            },
-            menuOpened: false
+            }
         };
 
         it('Should show incoming count for dynamic nodes on gotos target if goto exists', async () => {
@@ -783,8 +789,7 @@ describe('AlcNode', () => {
                     icon: 'dummyIcon',
                     label: 'elementType',
                     type: NodeType.DEFAULT
-                },
-                menuOpened: false
+                }
             };
         });
 
@@ -859,8 +864,7 @@ describe('AlcNode', () => {
                     icon: 'dummyIcon',
                     label: 'elementType',
                     type: NodeType.DEFAULT
-                },
-                menuOpened: false
+                }
             };
 
             const alcNodeComponent = await createComponentUnderTest({
@@ -885,8 +889,7 @@ describe('AlcNode', () => {
                     icon: 'dummyIcon',
                     label: 'elementType',
                     type: NodeType.DEFAULT
-                },
-                menuOpened: false
+                }
             };
 
             const alcNodeComponent = await createComponentUnderTest({
@@ -923,8 +926,7 @@ describe('AlcNode', () => {
                 label: 'elementType',
                 type: NodeType.BRANCH,
                 elementType: 'Decision'
-            },
-            menuOpened: false
+            }
         };
 
         const startNodeInfo = {
@@ -938,8 +940,7 @@ describe('AlcNode', () => {
                 type: NodeType.START,
                 description: 'start description',
                 elementType: 'START_ELEMENT'
-            },
-            menuOpened: false
+            }
         };
 
         it('Should set the aria-label and aria-haspopup properly for decision', async () => {
@@ -1006,8 +1007,7 @@ describe('AlcNode', () => {
                     nodes: [],
                     preConnector: {}
                 }
-            ],
-            menuOpened: false
+            ]
         };
 
         const assignmentNodeInfo = {
@@ -1016,7 +1016,6 @@ describe('AlcNode', () => {
             isNew: false,
             isTerminal: false,
             logicConnectors: [],
-            menuOpened: false,
             metadata: {},
             nextConnector: { labelType: 0, geometry: {}, addInfo: {}, source: {}, svgInfo: {} }
         };
@@ -1028,7 +1027,6 @@ describe('AlcNode', () => {
             isNew: false,
             isTerminal: false,
             logicConnectors: [],
-            menuOpened: false,
             metadata: {},
             nextConnector: { labelType: 0, geometry: {}, addInfo: {}, source: {}, svgInfo: {} }
         };
@@ -1078,8 +1076,7 @@ describe('AlcNode', () => {
                     icon: 'dummyIcon',
                     label: 'elementType',
                     type: NodeType.DEFAULT
-                },
-                menuOpened: false
+                }
             };
         });
 
