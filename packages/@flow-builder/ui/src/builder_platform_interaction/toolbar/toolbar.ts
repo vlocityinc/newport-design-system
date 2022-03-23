@@ -66,6 +66,9 @@ export default class Toolbar extends LightningElement {
     isViewAllTestsDisabled;
 
     @api
+    isAddToTestDisabled;
+
+    @api
     lastModifiedDate;
 
     @api

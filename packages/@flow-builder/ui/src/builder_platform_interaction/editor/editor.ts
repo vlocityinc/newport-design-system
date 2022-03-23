@@ -764,8 +764,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         return (
             !!this.toolbarConfig.showAddToTestButton &&
             !this.fromEmailDebugging &&
-            isFlowTestingSupported(this.properties.processType, this.triggerType) &&
-            !isDebugInterviewInError(this.debugData)
+            isFlowTestingSupported(this.properties.processType, this.triggerType)
         );
     }
 
@@ -868,6 +867,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     get shouldViewAllTestsButtonBeDisabled() {
         return !this.flowId || storeInstance.getCurrentState().properties.hasUnsavedChanges;
+    }
+
+    get shouldAddToTestButtonBeDisabled() {
+        return isDebugInterviewInError(this.debugData);
     }
 
     /**

@@ -2261,7 +2261,7 @@ describe('in debug mode', () => {
         expect(testButton).toBeNull();
     });
 
-    it('Add to test button is not displayed for failed debug run', async () => {
+    it('Add to test button is disabled for failed debug run', async () => {
         mockDebugInterviewIsFailed = true;
         mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
         mockStoreState.elements['6'].triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
@@ -2279,7 +2279,8 @@ describe('in debug mode', () => {
         const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
         const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
         const testButton = lbg.querySelector(selectors.test);
-        expect(testButton).toBeNull();
+        expect(testButton).not.toBeNull();
+        expect(testButton.disabled).toBeTruthy();
         mockDebugInterviewIsFailed = false;
     });
 
