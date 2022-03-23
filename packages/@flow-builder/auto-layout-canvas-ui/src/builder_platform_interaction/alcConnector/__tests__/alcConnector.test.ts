@@ -3,7 +3,10 @@ import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponents
 import { OutgoingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
 import { ConnectorLabelType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { createComponent } from 'builder_platform_interaction/builderTestUtils';
+import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
 import { LABELS } from '../alcConnectorLabels';
+const { Keys } = keyboardInteractionUtils;
+
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const selectors = {
@@ -422,6 +425,36 @@ describe('Auto-Layout connector tests', () => {
                 }
             })
         );
+    });
+
+    it('Pressing Enter on the goTo info should dispatch OutgoingGoToStubClickEvent', async () => {
+        const goToConnectorInfo = getGoToConnectorInfo();
+        const goToConnector = await createComponentUnderTest({
+            connectorInfo: goToConnectorInfo,
+            flowModel: goToFlowModel
+        });
+        const callback = jest.fn();
+        goToConnector.addEventListener(OutgoingGoToStubClickEvent.EVENT_NAME, callback);
+        const goToInfo = goToConnector.shadowRoot.querySelector(selectors.goToInfo);
+        goToInfo.focus();
+        const keyDownEvent = new KeyboardEvent('keydown', { key: Keys.Enter, bubbles: true });
+        goToInfo.dispatchEvent(keyDownEvent);
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('Pressing Space on the goTo info should dispatch OutgoingGoToStubClickEvent', async () => {
+        const goToConnectorInfo = getGoToConnectorInfo();
+        const goToConnector = await createComponentUnderTest({
+            connectorInfo: goToConnectorInfo,
+            flowModel: goToFlowModel
+        });
+        const callback = jest.fn();
+        goToConnector.addEventListener(OutgoingGoToStubClickEvent.EVENT_NAME, callback);
+        const goToInfo = goToConnector.shadowRoot.querySelector(selectors.goToInfo);
+        goToInfo.focus();
+        const keyDownEvent = new KeyboardEvent('keydown', { key: Keys.Space, bubbles: true });
+        goToInfo.dispatchEvent(keyDownEvent);
+        expect(callback).toHaveBeenCalled();
     });
 
     it('Should have aria attributes set properly for add button', async () => {

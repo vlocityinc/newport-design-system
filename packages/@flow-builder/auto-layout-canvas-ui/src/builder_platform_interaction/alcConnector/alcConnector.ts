@@ -2,6 +2,7 @@ import {
     AutoLayoutCanvasMode,
     CanvasContext,
     getCssStyle,
+    getEnterKeyInteraction,
     getStyleFromGeometry,
     isMenuOpened,
     scheduleTask
@@ -23,10 +24,12 @@ import {
     resolveParent,
     START_IMMEDIATE_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
-import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './alcConnectorLabels';
+
+const { withKeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
     menuTrigger: 'builder_platform_interaction-alc-menu-trigger',
@@ -36,8 +39,12 @@ const selectors = {
 /**
  * Auto layout Canvas Connector Component.
  */
-export default class AlcConnector extends LightningElement {
+export default class AlcConnector extends withKeyboardInteractions(LightningElement) {
     dom = lwcUtils.createDomProxy(this, selectors);
+
+    getKeyboardInteractions() {
+        return [getEnterKeyInteraction(() => this.handleSpaceOrEnter())];
+    }
 
     @api
     connectorInfo!: ConnectorRenderInfo;
@@ -255,16 +262,33 @@ export default class AlcConnector extends LightningElement {
     }
 
     /**
+     * Dispatches an event to highlight the goTo target
+     */
+    highlightGoToTarget = () => {
+        const outgoingStubClickEvent = new OutgoingGoToStubClickEvent(this.connectorInfo.source);
+        this.dispatchEvent(outgoingStubClickEvent);
+    };
+
+    /**
      * Handles the click on the outgoing goTo stub and dispatches an event to handle the same
      *
      * @param event - click event fired when clicking on the outgoing goTo stub
      */
     handleOutgoingStubClick = (event: Event) => {
+        // Need to preventDefault, else it appends extra text to the url
         event.preventDefault();
         event.stopPropagation();
+        this.highlightGoToTarget();
+    };
 
-        const outgoingStubClickEvent = new OutgoingGoToStubClickEvent(this.connectorInfo.source);
-        this.dispatchEvent(outgoingStubClickEvent);
+    /**
+     * Handles Enter or Space keydown
+     */
+    handleSpaceOrEnter = () => {
+        const currentItemInFocus = this.template.activeElement;
+        if (currentItemInFocus?.classList.value.includes('go-to-info')) {
+            this.highlightGoToTarget();
+        }
     };
 
     @api

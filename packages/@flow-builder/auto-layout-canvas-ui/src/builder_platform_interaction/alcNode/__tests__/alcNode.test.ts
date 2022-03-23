@@ -516,6 +516,34 @@ describe('AlcNode', () => {
             gotoCount.click();
             expect(eventCallback).toHaveBeenCalled();
         });
+
+        it('Should fire IncomingGoToStubClickEvent when pressing enter', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: decisionNodeInfo
+            });
+            const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
+            gotoCount.focus();
+            const eventCallback = jest.fn();
+            alcNodeComponent.addEventListener(IncomingGoToStubClickEvent.EVENT_NAME, eventCallback);
+            const keyDownEvent = new KeyboardEvent('keydown', { key: Keys.Enter, bubbles: true });
+            gotoCount.dispatchEvent(keyDownEvent);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+
+        it('Should fire IncomingGoToStubClickEvent when pressing space', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: decisionNodeInfo
+            });
+            const gotoCount = alcNodeComponent.shadowRoot.querySelector(selectors.textIncomingGoTo);
+            gotoCount.focus();
+            const eventCallback = jest.fn();
+            alcNodeComponent.addEventListener(IncomingGoToStubClickEvent.EVENT_NAME, eventCallback);
+            const keyDownEvent = new KeyboardEvent('keydown', { key: Keys.Space, bubbles: true });
+            gotoCount.dispatchEvent(keyDownEvent);
+            expect(eventCallback).toHaveBeenCalled();
+        });
     });
 
     describe('Dynamic Component Goto Label', () => {

@@ -1,6 +1,7 @@
 import {
     AutoLayoutCanvasMode,
     CanvasContext,
+    getEnterKeyInteraction,
     ICON_SHAPE,
     importComponent,
     isMenuOpened,
@@ -23,12 +24,14 @@ import {
     NodeType
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
-import { commonUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './alcNodeLabels';
 
 const { format } = commonUtils;
+
+const { withKeyboardInteractions } = keyboardInteractionUtils;
 
 const selectors = {
     checkbox: '.selection-checkbox',
@@ -40,8 +43,12 @@ const selectors = {
 /**
  * Autolayout Canvas Node Component
  */
-export default class AlcNode extends LightningElement {
+export default class AlcNode extends withKeyboardInteractions(LightningElement) {
     dom = lwcUtils.createDomProxy(this, selectors);
+
+    getKeyboardInteractions() {
+        return [getEnterKeyInteraction(() => this.handleSpaceOrEnter())];
+    }
 
     _menu: NodeMenuInfo | null = null;
     _nodeInfo!: NodeRenderInfo;
@@ -403,14 +410,33 @@ export default class AlcNode extends LightningElement {
     };
 
     /**
+     * Dispatches an event to highlight the associated incoming goto stubs
+     */
+    highlightIncomingStub = () => {
+        const incomingStubClickEvent = new IncomingGoToStubClickEvent(this.nodeInfo.guid);
+        this.dispatchEvent(incomingStubClickEvent);
+    };
+
+    /**
      * Handles the click on the incoming goTo stub
      *
      * @param event - click event fired when clicking on the incoming goTo stub
      */
     handleIncomingStubClick = (event: Event) => {
+        // Need to preventDefault, else it appends extra text to the url
         event.preventDefault();
-        const incomingStubClickEvent = new IncomingGoToStubClickEvent(this.nodeInfo.guid);
-        this.dispatchEvent(incomingStubClickEvent);
+        event.stopPropagation();
+        this.highlightIncomingStub();
+    };
+
+    /**
+     * Handles Enter or Space keydown
+     */
+    handleSpaceOrEnter = () => {
+        const currentItemInFocus = this.template.activeElement;
+        if (currentItemInFocus?.classList.value.includes('text-incoming-goto')) {
+            this.highlightIncomingStub();
+        }
     };
 
     /**
