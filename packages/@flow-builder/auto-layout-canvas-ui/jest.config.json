@@ -10,6 +10,7 @@
         "^o11y/client$": "<rootDir>/../shared-utils/jest-modules/o11y/client",
         "^builder_platform_interaction_mocks/sharedUtils/keyboardInteractionUtils$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/keyboardInteractionUtils/keyboardInteractionUtils",
         "^builder_platform_interaction_mocks/sharedUtils/sharedUtils": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/sharedUtils",
+        "^builder_platform_interaction_mocks/alcStartMenu": "<rootDir>/../ui/jest-modules/builder_platform_interaction/alcStartMenu/alcStartMenu",
         "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
         "^builder_platform_interaction/sharedUtils/commands": "<rootDir>/../shared-utils/src/commands",

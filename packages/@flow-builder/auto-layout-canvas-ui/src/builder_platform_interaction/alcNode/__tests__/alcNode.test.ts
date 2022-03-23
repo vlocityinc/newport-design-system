@@ -1,6 +1,10 @@
 // @ts-nocheck
 import { AutoLayoutCanvasMode, ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
-import { AlcSelectDeselectNodeEvent, IncomingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
+import {
+    AlcSelectDeselectNodeEvent,
+    CloseMenuEvent,
+    IncomingGoToStubClickEvent
+} from 'builder_platform_interaction/alcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { createComponent, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
@@ -16,6 +20,16 @@ jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
     const actions = jest.requireActual('builder_platform_interaction/sharedUtils/actionUtils');
     return Object.assign({}, sharedUtils, { actionUtils: actions });
+});
+
+jest.mock('builder_platform_interaction/alcComponentsUtils', () => {
+    const alcComponentsUtils = jest.requireActual('builder_platform_interaction/alcComponentsUtils');
+    const AlcStartMenu = jest.requireActual('builder_platform_interaction_mocks/alcStartMenu');
+    return Object.assign({}, alcComponentsUtils, {
+        getComponent: jest.fn(() => {
+            return AlcStartMenu.default;
+        })
+    });
 });
 
 const defaultOptions = {
@@ -39,7 +53,8 @@ const selectors = {
     textElementLabel: '.text-element-label',
     textIncomingGoTo: '.text-incoming-goto',
     errorIcon: '.error-icon',
-    iconContainer: '.icon-container'
+    iconContainer: '.icon-container',
+    focusTrap: 'builder_platform_interaction-focus-trap'
 };
 
 describe('AlcNode', () => {
@@ -1068,6 +1083,10 @@ describe('AlcNode', () => {
             };
         });
 
+        afterEach(() => {
+            jest.runAllTimers();
+        });
+
         it('Focus event on menu trigger should be fired when in default mode', async () => {
             const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
@@ -1089,6 +1108,82 @@ describe('AlcNode', () => {
             selectionCheckbox.focus = jest.fn();
             alcNodeComponent.focus();
             expect(selectionCheckbox.focus).toHaveBeenCalled();
+        });
+
+        it('FocusOutEvent should be fired when the start element is empty', async () => {
+            const nodeInfo = {
+                guid: 'guid',
+                metadata: {
+                    elementType: 'START_ELEMENT',
+                    hasContext: false,
+                    hasTrigger: false,
+                    menuComponent: 'builder_platform_interaction/alcStartMenu',
+                    type: 'start'
+                },
+                menuOpened: true
+            };
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo,
+                canvasContext: { mode: AutoLayoutCanvasMode.DEFAULT }
+            });
+            alcNodeComponent.canvasContext = {
+                mode: AutoLayoutCanvasMode.DEFAULT,
+                menu: { type: 0, source: { guid: 'guid' } }
+            };
+            const eventCallback = jest.fn();
+            alcNodeComponent.addEventListener(CloseMenuEvent.EVENT_NAME, eventCallback);
+
+            const focusTrap = alcNodeComponent.shadowRoot.querySelector(selectors.focusTrap);
+            const focusOutEvent = new CustomEvent('focusout', {
+                bubbles: true,
+                cancelable: false
+            });
+
+            jest.advanceTimersByTime(10);
+            await ticks(1);
+            focusTrap.dispatchEvent(focusOutEvent);
+            jest.advanceTimersByTime(10);
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+
+        it('FocusOutEvent should not be fired when the start element is not empty', async () => {
+            const nodeInfo = {
+                guid: 'guid',
+                metadata: {
+                    elementType: 'START_ELEMENT',
+                    hasContext: true,
+                    hasTrigger: true,
+                    menuComponent: 'builder_platform_interaction/alcStartMenu',
+                    type: 'start'
+                },
+                menuOpened: true
+            };
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo,
+                canvasContext: { mode: AutoLayoutCanvasMode.DEFAULT }
+            });
+            alcNodeComponent.canvasContext = {
+                mode: AutoLayoutCanvasMode.DEFAULT,
+                menu: { type: 0, source: { guid: 'guid' } }
+            };
+            const eventCallback = jest.fn();
+            alcNodeComponent.addEventListener(CloseMenuEvent.EVENT_NAME, eventCallback);
+
+            const focusTrap = alcNodeComponent.shadowRoot.querySelector(selectors.focusTrap);
+            const focusOutEvent = new CustomEvent('focusout', {
+                bubbles: true,
+                cancelable: false
+            });
+
+            jest.advanceTimersByTime(10);
+            await ticks(1);
+            focusTrap.dispatchEvent(focusOutEvent);
+            jest.advanceTimersByTime(10);
+            await ticks(1);
+            expect(eventCallback).not.toHaveBeenCalled();
         });
     });
 });
