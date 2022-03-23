@@ -5,6 +5,7 @@ import {
     isOrCanContainSelector,
     readableElementsSelector,
     RetrieveOptions,
+    startSelector,
     writableElementsSelector
 } from 'builder_platform_interaction/selectors';
 import { getStartElement, getTriggerType } from 'builder_platform_interaction/storeUtils';
@@ -19,6 +20,7 @@ export type ElementFilterConfig = {
     staticChoiceGuids?: UI.Guid[];
     dataType?: string;
     allowsApexCollAnonymousAutoOutput?: boolean;
+    onlyGlobalAndSystemVariables?: boolean;
 };
 
 // TODO: all of this regarding filtering & selectors will be revisited with W-5462144
@@ -63,7 +65,7 @@ const filterInformationProviderMap = {
     [ELEMENT_TYPE.CHOICE]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.RECORD_CHOICE_SET]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
-    [ELEMENT_TYPE.START_ELEMENT]: () => writableOrReadableElement(),
+    [ELEMENT_TYPE.START_ELEMENT]: ({ onlyGlobalAndSystemVariables }) => startSelector(onlyGlobalAndSystemVariables),
     [ELEMENT_TYPE.STAGE_STEP]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.WAIT]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices, staticChoiceGuids }) =>

@@ -361,6 +361,12 @@ export const componentInstanceScreenFieldsSelector = filteredElementsSelector(
         element.elementType === ELEMENT_TYPE.SCREEN_FIELD && element.fieldType === FlowScreenFieldType.ComponentInstance
 );
 
+export const startSelector = (onlyGlobalAndSystemVariables) => {
+    return !onlyGlobalAndSystemVariables
+        ? writableElementsSelector
+        : filteredElementsSelector((element) => element.elementType === ELEMENT_TYPE.START_ELEMENT);
+};
+
 export const byElementTypeElementsSelector = (...elementType) =>
     filteredElementsSelector((element) => elementType.includes(element.elementType));
 

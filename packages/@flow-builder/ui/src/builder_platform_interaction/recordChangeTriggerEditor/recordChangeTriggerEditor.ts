@@ -165,7 +165,8 @@ export default class RecordChangeTriggerEditor extends LightningElement {
     get resourcePickerConfig() {
         return {
             elementConfig: {
-                elementType: this.startElement.elementType
+                elementType: this.startElement.elementType,
+                onlyGlobalAndSystemVariables: true
             },
             comboboxConfig: this.resourceComboBoxConfig,
             filterOptions: {

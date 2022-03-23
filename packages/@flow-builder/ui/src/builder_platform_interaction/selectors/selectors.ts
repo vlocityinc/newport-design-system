@@ -12,6 +12,7 @@ export {
     isOrCanContainSelector,
     QUERYABLE_FILTER,
     readableElementsSelector,
+    startSelector,
     UPDATEABLE_FILTER,
     writableElementsSelector
 } from './menuDataSelector';

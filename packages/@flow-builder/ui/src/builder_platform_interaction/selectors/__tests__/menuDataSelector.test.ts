@@ -41,6 +41,7 @@ import {
     isOrCanContainSelector,
     QUERYABLE_FILTER,
     RetrieveOptions,
+    startSelector,
     UPDATEABLE_FILTER,
     writableElementsSelector
 } from '../menuDataSelector';
@@ -915,5 +916,28 @@ describe('isOrCanContainSelector', () => {
                 'varForDecisionEditorTest'
             ]);
         });
+    });
+});
+describe('startSelector', () => {
+    beforeAll(() => {
+        // @ts-ignore
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        // @ts-ignore
+        Store.resetStore();
+    });
+    it('returns only the Start element when onlyGlobalAndSystemVariables is true', () => {
+        const result = startSelector(true)(flowWithAllElementsUIModel);
+
+        expect(result).toHaveLength(1);
+        expect(result[0].elementType).toEqual('START_ELEMENT');
+    });
+    it('returns all writeable elements when onlyGlobalAndSystemVariables is false', () => {
+        const result = startSelector(false)(flowWithAllElementsUIModel);
+
+        const startElement = result.find((x) => x.elementType === 'START_ELEMENT');
+        expect(result.length).toBeGreaterThan(50);
+        expect(startElement).toBeUndefined();
     });
 });
