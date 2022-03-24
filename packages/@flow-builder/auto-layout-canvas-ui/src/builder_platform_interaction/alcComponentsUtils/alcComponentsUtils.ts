@@ -1276,6 +1276,10 @@ function getNodeAriaInfo(flowModel: FlowModel, nodeInfo: NodeRenderInfo): string
         }
     }
 
+    if (node?.config?.hasError) {
+        ariaDescribedBy += DELIMITER + LABELS.ariaErrorStateLabel;
+    }
+
     return ariaDescribedBy;
 }
 

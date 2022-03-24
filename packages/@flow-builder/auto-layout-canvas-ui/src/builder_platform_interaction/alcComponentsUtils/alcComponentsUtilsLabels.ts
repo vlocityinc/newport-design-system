@@ -18,6 +18,7 @@ import ariaAfterLastPathLoopLabel from '@salesforce/label/AlcNode.ariaAfterLastP
 import ariaDecisionPathGoToInfo from '@salesforce/label/AlcNode.ariaDecisionPathGoToInfo';
 import ariaDecisionPathInfo from '@salesforce/label/AlcNode.ariaDecisionPathInfo';
 import ariaEmptyBranchLabel from '@salesforce/label/AlcNode.ariaEmptyBranchLabel';
+import ariaErrorStateLabel from '@salesforce/label/AlcNode.ariaErrorStateLabel';
 import ariaFaultPathGoToLabel from '@salesforce/label/AlcNode.ariaFaultPathGoToLabel';
 import ariaFaultPathLabel from '@salesforce/label/AlcNode.ariaFaultPathLabel';
 import ariaFollowedByPathImmediateLabel from '@salesforce/label/AlcNode.ariaFollowedByPathImmediateLabel';
@@ -93,5 +94,6 @@ export const LABELS = {
     ariaFaultLabel,
     ariaAfterLastLabel,
     ariaForEachLabel,
-    ariaRunImmediatelyLabel
+    ariaRunImmediatelyLabel,
+    ariaErrorStateLabel
 };

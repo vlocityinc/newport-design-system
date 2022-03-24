@@ -107,6 +107,10 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
         }));
     }
 
+    get errorStateMessage() {
+        return LABELS.stageStepErrorStateLabel;
+    }
+
     set node(node: NodeRenderInfo | undefined) {
         this._node = node;
 
