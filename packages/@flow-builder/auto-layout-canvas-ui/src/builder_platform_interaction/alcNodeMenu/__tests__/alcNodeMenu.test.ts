@@ -7,13 +7,15 @@ import {
 } from 'builder_platform_interaction/alcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { keydownEvent } from 'builder_platform_interaction/builderTestUtils/events';
 import {
     CopySingleElementEvent,
     DeleteElementEvent,
     EditElementEvent,
     OpenSubflowEvent
 } from 'builder_platform_interaction/events';
-import { commands } from 'builder_platform_interaction/sharedUtils';
+import { commands, Keys } from 'builder_platform_interaction/sharedUtils';
+import type { LightningElement } from 'lwc';
 import { ELEMENT_ACTION_CONFIG } from '../alcNodeMenuConfig';
 import { LABELS } from '../alcNodeMenuLabels';
 const { ArrowDown, EscapeCommand, SpaceCommand, EnterCommand } = commands;
@@ -93,20 +95,29 @@ const selectors = {
     footerButton: 'lightning-button'
 };
 
-const defaultOptions = {};
-
-const createComponentUnderTest = async (metaData, passedConditionOptions) => {
+const createComponentUnderTest = async (
+    elementMetadata: {
+        guid: UI.Guid;
+        section?: string;
+        icon?: string;
+        description?: string;
+        label?: string;
+        value?: string;
+        elementType?: string;
+        type?: NodeType;
+    },
+    conditionOptions?: { label: string; value: string }[]
+) => {
     const overrideOptions = {
-        flowModel: { [metaData.guid]: metaData },
-        conditionOptions: passedConditionOptions,
-        elementMetadata: metaData,
-        guid: metaData.guid
+        flowModel: { [elementMetadata.guid]: elementMetadata },
+        conditionOptions,
+        elementMetadata,
+        guid: elementMetadata.guid
     };
-
-    return createComponent('builder_platform_interaction-alc-node-menu', defaultOptions, overrideOptions);
+    return createComponent('builder_platform_interaction-alc-node-menu', overrideOptions);
 };
 
-function assertArrowDown(cmp, fromIndex) {
+function assertArrowDown(cmp: LightningElement, fromIndex: number) {
     const listItems = cmp.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
     cmp.getListKeyboardInteraction().setActiveElement(listItems[fromIndex]);
 
@@ -117,7 +128,7 @@ function assertArrowDown(cmp, fromIndex) {
     expect(callback).toHaveBeenCalled();
 }
 
-function assertArrowUp(cmp, fromIndex) {
+function assertArrowUp(cmp: LightningElement, fromIndex: number) {
     const listItems = cmp.shadowRoot.querySelectorAll(selectors.menuActionRowMenuItem);
     cmp.getListKeyboardInteraction().setActiveElement(listItems[fromIndex]);
 
@@ -131,7 +142,7 @@ function assertArrowUp(cmp, fromIndex) {
 
 describe('Node Menu', () => {
     describe('Base Node Menu', () => {
-        let menu;
+        let menu: LightningElement;
         beforeEach(async () => {
             menu = await createComponentUnderTest(dummySimpleElement);
         });
@@ -180,13 +191,13 @@ describe('Node Menu', () => {
     });
 
     describe('Element Action Node Menu for a Simple Element', () => {
-        let menu;
+        let menu: LightningElement;
         beforeEach(async () => {
             menu = await createComponentUnderTest(dummySimpleElement);
         });
 
         describe('Copy Row', () => {
-            let copyRow;
+            let copyRow: LightningElement;
             beforeEach(() => {
                 copyRow = menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[0];
             });
@@ -263,7 +274,7 @@ describe('Node Menu', () => {
         });
 
         describe('Delete Row', () => {
-            let deleteRow;
+            let deleteRow: LightningElement;
             beforeEach(() => {
                 deleteRow = menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[1];
             });
@@ -386,8 +397,8 @@ describe('Node Menu', () => {
         });
 
         describe('Footer area for Simple Element', () => {
-            let footer;
-            let editButton;
+            let footer: LightningElement;
+            let editButton: LightningElement;
 
             beforeEach(() => {
                 footer = menu.shadowRoot.querySelector(selectors.footer);
@@ -456,11 +467,23 @@ describe('Node Menu', () => {
                 menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(callback).not.toHaveBeenCalled();
             });
+
+            test('once focus is set to the edit footer button, enter key down should dispatch "EditElementEvent" with proper arguments', () => {
+                const callback = jest.fn();
+                menu.addEventListener(EditElementEvent.EVENT_NAME, callback);
+                menu.getListKeyboardInteraction().setActiveElement(editButton);
+                editButton.dispatchEvent(keydownEvent(Keys.Enter));
+                expect(callback.mock.calls[0][0].detail).toEqual({
+                    canvasElementGUID: dummySimpleElement.guid,
+                    mode: EditElementEvent.EVENT_NAME,
+                    designateFocus: true
+                });
+            });
         });
     });
 
     describe('Element Action Node Menu for a Branch Element', () => {
-        let menu;
+        let menu: LightningElement;
         const highlightPathCallback = jest.fn();
         const closeMenuCallback = jest.fn();
 
@@ -578,8 +601,8 @@ describe('Node Menu', () => {
         });
 
         describe('Footer area for Branch Element', () => {
-            let footer;
-            let deleteButton;
+            let footer: LightningElement;
+            let deleteButton: LightningElement;
 
             beforeEach(() => {
                 footer = menu.shadowRoot.querySelector(selectors.footer);
@@ -636,6 +659,18 @@ describe('Node Menu', () => {
                 });
             });
 
+            test('once focus is set to the delete footer button, enter key down should dispatch "DeleteBranchElementEvent" with proper arguments', () => {
+                const callback = jest.fn();
+                menu.addEventListener(DeleteBranchElementEvent.EVENT_NAME, callback);
+                menu.getListKeyboardInteraction().setActiveElement(deleteButton);
+                deleteButton.dispatchEvent(keydownEvent(Keys.Enter));
+                expect(callback.mock.calls[0][0].detail).toEqual({
+                    selectedElementGUID: [dummyBranchElement.guid],
+                    selectedElementType: dummyBranchElement.elementType,
+                    childIndexToKeep: 0
+                });
+            });
+
             it('Pressing escape while focus is on the Delete Button fires the CloseMenuEvent', () => {
                 const callback = jest.fn();
                 menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
@@ -662,8 +697,8 @@ describe('Node Menu', () => {
     });
 
     describe('Subflow Node Menu', () => {
-        let menu;
-        let openFlowRow;
+        let menu: LightningElement;
+        let openFlowRow: LightningElement;
         beforeEach(async () => {
             menu = await createComponentUnderTest(dummySubflowElement);
             menu.flowModel = {
