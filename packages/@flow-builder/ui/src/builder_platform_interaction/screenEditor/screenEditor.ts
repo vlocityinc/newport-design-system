@@ -23,6 +23,7 @@ import {
     isScreen,
     processRequiredParamsForExtensionsInScreen,
     processScreenExtensionTypes,
+    processSupportedScreenFieldTypes,
     ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
 import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
@@ -227,6 +228,7 @@ export default class ScreenEditor extends LightningElement {
                             return supportedType.name === type.name || supportedType.name === type.fieldType;
                         })
                     );
+                    this.screen = processSupportedScreenFieldTypes(this.screenFieldTypes, this.screen);
                 }
             })
             .catch((errorMessage) => {

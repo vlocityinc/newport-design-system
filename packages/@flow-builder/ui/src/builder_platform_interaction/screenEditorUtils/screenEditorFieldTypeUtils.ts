@@ -1,3 +1,4 @@
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { ExtraTypeInfo, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes } from 'builder_platform_interaction/flowExtensionLib';
 import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
@@ -594,6 +595,32 @@ export const getScreenFieldName = (field: FieldDefinition): ScreenFieldName | un
         ? ScreenFieldName.LargeTextArea
         : DATA_TYPE_TO_FIELD_NAME[field.dataType];
 };
+
+/**
+ * Go over all the screen fields in the parent, and if their screen field type
+ * is not in supportedScreenFieldTypes, then mark them as being in error
+ *
+ * @param supportedScreenFieldTypes - the list of supported screen field types
+ * @param screen - the screen whose child fields we should iterate over
+ * @returns the processed parent
+ */
+export function processSupportedScreenFieldTypes(
+    supportedScreenFieldTypes: UI.ScreenFieldType[],
+    screen: UI.Screen
+): UI.Screen {
+    if (screen?.fields) {
+        for (let i = 0; i < screen.fields.length; i++) {
+            const field = screen.fields[i];
+            if (!isExtensionField(field) && !supportedScreenFieldTypes.includes(field.type)) {
+                screen.fields[i] = updateProperties(field, {
+                    error: { value: null, error: LABELS.invalidScreenfield }
+                });
+            }
+        }
+    }
+
+    return screen;
+}
 
 /**
  * @param choice

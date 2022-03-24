@@ -7,8 +7,10 @@ import {
     getCachedExtensions,
     getCachedExtensionType
 } from 'builder_platform_interaction/flowExtensionLib';
+import { FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getEnvironments } from 'builder_platform_interaction/storeUtils';
 import { isExtensionField } from './screenEditorFieldTypeUtils';
 
 const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
@@ -85,7 +87,9 @@ export function processScreenExtensionTypes(screen) {
     const missingExtensionFields = [];
     let missingExtension = false;
     for (const field of extensionFields) {
-        if (field.type.source === EXTENSION_TYPE_SOURCE.LOCAL) {
+        // TODO: Checking the environments here is a hack. I need to figure out why, after checking the "Make available
+        // in Slack" checkbox, the source doesn't get set back to "LOCAL" until the second time I open the screen editor.
+        if (field.type.source === EXTENSION_TYPE_SOURCE.LOCAL || getEnvironments()?.includes(FLOW_ENVIRONMENT.SLACK)) {
             const cachedExtensionType = getCachedExtensionType(field.type.name);
             // If the extension type is not retrieved from server due to extension non-availability or missing perm,
             // then set error for the missing extension field and  proceed with the local field.type
