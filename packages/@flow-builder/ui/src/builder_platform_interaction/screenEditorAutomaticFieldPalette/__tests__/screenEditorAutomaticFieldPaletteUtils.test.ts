@@ -1,6 +1,6 @@
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { userFields } from 'serverData/GetFieldsForEntity/userFields.json';
-import { isAutomaticFieldRequired } from '../screenEditorAutomaticFieldPaletteUtils';
+import { getAutomaticFieldIcon, isAutomaticFieldRequired } from '../screenEditorAutomaticFieldPaletteUtils';
 
 describe('isAutomaticFieldRequired', () => {
     test('an automatic field is required if required attribute is true', () => {
@@ -25,5 +25,19 @@ describe('isAutomaticFieldRequired', () => {
         // But field is required whether account's record type is Business Account or Person Account.
         expect(field.required).toBe(false);
         expect(isAutomaticFieldRequired(field)).toBe(true);
+    });
+});
+describe('getAutomaticFieldIcon', () => {
+    test('palette icon for non-compound field', () => {
+        const field = accountFields.Name;
+        expect(getAutomaticFieldIcon(field)).toBe('utility:text');
+    });
+    test('palette icon for Person Name compound field', () => {
+        const field = userFields.Name;
+        expect(getAutomaticFieldIcon(field)).toBe('utility:identity');
+    });
+    test('palette icon for Address compound field', () => {
+        const field = userFields.Address;
+        expect(getAutomaticFieldIcon(field)).toBe('utility:checkin');
     });
 });

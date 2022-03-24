@@ -1,4 +1,4 @@
-import { ExtraTypeInfo, FieldDataType } from 'builder_platform_interaction/dataTypeLib';
+import { ExtraTypeInfo, FieldDataType, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 
 /**
  * Returns if an automatic field must be seen as a "real" required field
@@ -13,4 +13,19 @@ export const isAutomaticFieldRequired = (field: FieldDefinition) => {
         (field.required && field.fieldDataType !== FieldDataType.Boolean) ||
         field.extraTypeInfo === ExtraTypeInfo.SwitchablePersonName
     );
+};
+
+/**
+ * Determine which icon to use for the given automatic field in the palette
+ *
+ * @param field Field Definition
+ * @returns slds icon name
+ */
+export const getAutomaticFieldIcon = (field: FieldDefinition): string => {
+    if (field.fieldDataType === FieldDataType.Address) {
+        return 'utility:checkin';
+    } else if (field.extraTypeInfo === ExtraTypeInfo.PersonName) {
+        return 'utility:identity';
+    }
+    return getDataTypeIcons(field.dataType, 'utility');
 };

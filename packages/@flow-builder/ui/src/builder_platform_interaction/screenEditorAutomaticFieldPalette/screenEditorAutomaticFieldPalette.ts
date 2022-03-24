@@ -1,6 +1,5 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import Combobox from 'builder_platform_interaction/combobox';
-import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { createAddAutomaticScreenFieldEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
@@ -20,7 +19,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './screenEditorAutomaticFieldPaletteLabels';
-import { isAutomaticFieldRequired } from './screenEditorAutomaticFieldPaletteUtils';
+import { getAutomaticFieldIcon, isAutomaticFieldRequired } from './screenEditorAutomaticFieldPaletteUtils';
 const { format } = commonUtils;
 
 export default class ScreenEditorAutomaticFieldPalette extends LightningElement {
@@ -193,7 +192,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
                 apiName: field.apiName,
                 description: field.label,
                 guid: generateGuid(),
-                iconName: getDataTypeIcons(field.dataType, 'utility'),
+                iconName: getAutomaticFieldIcon(field),
                 label: field.label,
                 fieldTypeName: getScreenFieldName(field)!,
                 objectFieldReference: `${currentRecordVariable}.${field.apiName}`
