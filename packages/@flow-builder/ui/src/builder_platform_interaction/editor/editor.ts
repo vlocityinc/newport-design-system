@@ -71,6 +71,7 @@ import {
     PROPERTY_EDITOR
 } from 'builder_platform_interaction/builderUtils';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
+import { removeOrgNamespace } from 'builder_platform_interaction/commonUtils';
 import {
     CLASSIC_EXPERIENCE,
     getPreferredExperience,
@@ -1815,14 +1816,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 flowTestObject = getElementForPropertyEditor(flowTestObject);
                 const triggerSaveType = getRecordTriggerType();
                 const createOrEdit = FlowTestMode.Create;
-                const devNamePrefix = this.properties.name + '_';
                 this.queueOpenCreateFlowTest(() => {
                     return {
                         flowTestObject,
                         createOrEdit,
                         triggerSaveType,
                         triggerObjectType,
-                        devNamePrefix,
+                        devNamePrefix: this.getDevNamePrefix(),
                         flowTestListViewCallback: this.handleViewAllTests,
                         builderMode: this.builderMode
                     };
@@ -2019,7 +2019,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     createOrEditFlowTest = async (createOrEdit: FlowTestMode, flowTestId?: string) => {
         const triggerSaveType = getRecordTriggerType();
         const triggerObjectType = getStartObject();
-        const devNamePrefix = this.properties.name + '_';
         if (createOrEdit === FlowTestMode.Create) {
             // depending on the flow record trigger type, set trigger type for the test
             const testTriggerType =
@@ -2039,7 +2038,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     createOrEdit,
                     triggerSaveType,
                     triggerObjectType,
-                    devNamePrefix,
+                    devNamePrefix: this.getDevNamePrefix(),
                     flowTestListViewCallback: this.handleViewAllTests,
                     builderMode: this.builderMode
                 };
@@ -2083,6 +2082,17 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             this.spinners.showPropertyEditorSpinner = false;
         }
         return result;
+    };
+
+    /**
+     * Get the dev name of the Flow with the namespace removed
+     *
+     * @returns dev name of Flow with namespace removed
+     */
+    getDevNamePrefix = () => {
+        // Flow Tests already prepend the namespace server side, so to prevent doubling up
+        // we want to remove it here.
+        return removeOrgNamespace(this.properties.name + '_');
     };
 
     async editTestCallback(data, createOrEdit, triggerSaveType, triggerObjectType, flowTestListViewCallback) {

@@ -1,5 +1,12 @@
 // @ts-nocheck
-import { escapeForRegExp, isReference, isValidNumber, memoize, sanitizeBoolean } from '../commonUtils';
+import {
+    escapeForRegExp,
+    isReference,
+    isValidNumber,
+    memoize,
+    removeOrgNamespace,
+    sanitizeBoolean
+} from '../commonUtils';
 
 describe('memoize', () => {
     it('throws an exception if parameter is not a function', () => {
@@ -114,5 +121,20 @@ describe('isReference', () => {
         const invalidObj = { guid: 1 };
         const actual = isReference(invalidObj);
         expect(actual).toBeFalsy();
+    });
+});
+
+describe('removeOrgNamespace', () => {
+    it('removes the org namespace for value with namespace', () => {
+        const valueWithOrgNamespace = 'NS__flowName';
+        const expected = 'flowName';
+        const actual = removeOrgNamespace(valueWithOrgNamespace);
+        expect(actual).toEqual(expected);
+    });
+
+    it('returns original value for value without namespace', () => {
+        const valueWithNoNamespace = 'flowName';
+        const actual = removeOrgNamespace(valueWithNoNamespace);
+        expect(actual).toEqual(valueWithNoNamespace);
     });
 });

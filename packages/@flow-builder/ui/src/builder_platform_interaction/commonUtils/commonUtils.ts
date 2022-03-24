@@ -216,3 +216,17 @@ export function hasOwnProperty<X extends {}, Y extends PropertyKey>(obj: X, prop
 export function generateInternalName(name: string): string {
     return '_' + name;
 }
+
+/**
+ * Removes org namespace from given value, if it has a namespace
+ *
+ * @param value - value to remove namespace from
+ * @returns value with no org namespace
+ */
+export function removeOrgNamespace(value: string): string {
+    const doubleUnderscoreIndex = value.indexOf('__');
+    if (doubleUnderscoreIndex > -1) {
+        value = value.substring(doubleUnderscoreIndex + 2);
+    }
+    return value;
+}
