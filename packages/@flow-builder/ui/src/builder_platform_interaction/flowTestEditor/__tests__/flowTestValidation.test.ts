@@ -3,6 +3,7 @@ import cannotContainMergeFields from '@salesforce/label/FlowBuilderValidation.ca
 import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MAX_DEV_NAME_LENGTH } from 'builder_platform_interaction/flowTestDetails';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { LABELS } from '../../validationRules/validationRulesLabels';
 import { RECORD_DATA_ERROR } from '../flowTestEditor';
 import { flowTestValidation, getRules } from '../flowTestValidation';
@@ -13,7 +14,29 @@ const TEXT_WITH_81_CHARS = 'a'.repeat(81);
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
+jest.mock('builder_platform_interaction/systemLib', () => {
+    return {
+        getGlobalVariableTypes: jest.fn().mockImplementation(() => {
+            return { $Api: 'test' };
+        })
+    };
+});
+
 describe('Flow Test Validation', () => {
+    beforeAll(() => {
+        Store.setMockState({
+            properties: {
+                name: 'flowTestApi',
+                versionNumber: 1
+            },
+            elements: {
+                element1: 'test'
+            }
+        });
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     it('should return the same object with no error message when properly populated', () => {
         const flowTestWithCorrectCondition = {
             label: { value: 'HELLO', error: null },
@@ -167,5 +190,50 @@ describe('Flow Test Validation', () => {
             getRules(FlowTestMode.Edit)
         );
         expect(flowTestFromNamespacedOrg).toEqual(validatedFlowTest);
+    });
+    it('should have error when an expression righthandside contains $Record fields', () => {
+        const flowTestWithCorrectCondition = {
+            testAssertions: [
+                {
+                    expression: {
+                        leftHandSide: { value: 'TEST_VAR', error: null },
+                        operator: { value: 'EqualTo', error: null },
+                        rightHandSide: { value: '$Record.Name', error: null }
+                    }
+                }
+            ]
+        };
+        const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
+        expect(validatedFlowTest.testAssertions[0].expression.rightHandSide.error).toEqual(cannotContainMergeFields);
+    });
+    it('should have error when an expression righthandside contains global variable fields', () => {
+        const flowTestWithCorrectCondition = {
+            testAssertions: [
+                {
+                    expression: {
+                        leftHandSide: { value: 'TEST_VAR', error: null },
+                        operator: { value: 'EqualTo', error: null },
+                        rightHandSide: { value: '$Api.Name', error: null }
+                    }
+                }
+            ]
+        };
+        const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
+        expect(validatedFlowTest.testAssertions[0].expression.rightHandSide.error).toEqual(cannotContainMergeFields);
+    });
+    it('should have error when an expression righthandside contains flow variable', () => {
+        const flowTestWithCorrectCondition = {
+            testAssertions: [
+                {
+                    expression: {
+                        leftHandSide: { value: 'TEST_VAR', error: null },
+                        operator: { value: 'EqualTo', error: null },
+                        rightHandSide: { value: '$Api.Name', error: null }
+                    }
+                }
+            ]
+        };
+        const validatedFlowTest = flowTestValidation.validateAll(flowTestWithCorrectCondition);
+        expect(validatedFlowTest.testAssertions[0].expression.rightHandSide.error).toEqual(cannotContainMergeFields);
     });
 });
