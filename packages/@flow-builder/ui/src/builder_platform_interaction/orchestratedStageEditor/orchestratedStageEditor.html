@@ -49,6 +49,15 @@
             >
             </builder_platform_interaction-action-selector>
         </div>
+        <div class="slds-p-top_x-small" if:true={showOpenExitConditionFlow}>
+            <lightning-button
+                label={labels.openFlowLabel}
+                onclick={handleOpenExitConditionFlowClicked}
+                icon-name="utility:new_window"
+                icon-position="right"
+                class="open-flow"
+            ></lightning-button>
+        </div>
         <div if:true={showExitParameterList}>
             <h3 if:false={emptyInputs} class="slds-text-color_weak inputHeader">
                 {exitActionParameterListConfig.inputHeader}

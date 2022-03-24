@@ -54,6 +54,7 @@ import {
     FLOW_TRANSACTION_MODEL,
     ICONS
 } from 'builder_platform_interaction/flowMetadata';
+import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
@@ -86,6 +87,7 @@ export default class StageStepEditor extends LightningElement {
     isActionsFetched = false;
 
     availableActions: InvocableAction[] = [];
+    flowNamesToIds: {} = {};
     availableDeterminationActions: InvocableAction[] = [];
 
     actionElementType = ELEMENT_TYPE.ACTION_CALL;
@@ -788,6 +790,8 @@ export default class StageStepEditor extends LightningElement {
             this.availableActions = stepActions;
             this.availableDeterminationActions = determinationActions;
 
+            this.flowNamesToIds = await getFlowIdsForNames(actions.map((action) => action.name));
+
             await this.setActionParameters(this.selectedAction, ORCHESTRATED_ACTION_CATEGORY.STEP);
             await this.setActionParameters(this.selectedEntryAction!, ORCHESTRATED_ACTION_CATEGORY.ENTRY);
             await this.setActionParameters(this.selectedExitAction!, ORCHESTRATED_ACTION_CATEGORY.EXIT);
@@ -1242,5 +1246,40 @@ export default class StageStepEditor extends LightningElement {
         event.stopPropagation();
         this.element = stageStepReducer(this.element!, new RequiresAsyncProcessingChangedEvent(event.detail.checked));
         this.dispatchEvent(new UpdateNodeEvent(this.element));
+    }
+
+    handleOpenFlowClicked() {
+        const actionId = this.flowNamesToIds[this.selectedAction?.actionName];
+        openFlow(actionId);
+    }
+
+    handleOpenEntryConditionFlowClicked() {
+        const actionId = this.flowNamesToIds[this.selectedEntryAction?.actionName];
+        openFlow(actionId);
+    }
+
+    handleOpenExitConditionFlowClicked() {
+        const actionId = this.flowNamesToIds[this.selectedExitAction?.actionName];
+        openFlow(actionId);
+    }
+
+    get showOpenFlow(): boolean {
+        return this.selectedAction?.actionName && !this.actionErrorMessage;
+    }
+
+    get showOpenEntryConditionFlow(): boolean {
+        return (
+            this.selectedEntryAction?.actionName &&
+            !this.entryActionErrorMessage &&
+            this.selectedEntryCriteria === EntryCriteria.ON_DETERMINATION_COMPLETE
+        );
+    }
+
+    get showOpenExitConditionFlow(): boolean {
+        return (
+            this.selectedExitAction?.actionName &&
+            !this.exitActionErrorMessage &&
+            this.selectedExitCriteria === ExitCriteria.ON_DETERMINATION_COMPLETE
+        );
     }
 }

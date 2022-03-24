@@ -30,6 +30,7 @@ import {
     ExitCriteria,
     ICONS
 } from 'builder_platform_interaction/flowMetadata';
+import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -37,6 +38,7 @@ import { updateAndValidateElementInPropertyEditor } from 'builder_platform_inter
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { createElement } from 'lwc';
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
+import { flowIds } from 'serverData/GetFlowIds/flowIds.json';
 import StageStepEditor from '../stageStepEditor';
 import { stageStepReducer } from '../stageStepReducer';
 
@@ -50,9 +52,23 @@ jest.mock('../stageStepReducer', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
+jest.mock('builder_platform_interaction/inlineOpenFlowUtils', () => {
+    return {
+        openFlow: jest.fn(),
+        getFlowIdsForNames: jest.fn(() => {
+            return mockFlowIdsPromise;
+        })
+    };
+});
+
 const mockRecordIdPromise = Promise.resolve('aUserRecordId');
 const mockRecordDevNamePromise = Promise.resolve('aUserDevName');
 const mockActionsPromise = Promise.resolve(invocableActionsForOrchestrator);
+const mockFlowIdsPromise = Promise.resolve(flowIds);
+
+const mockEvaluationFlows = invocableActionsForOrchestrator.slice(0, 1);
+const mockStepBackgroundFlows = invocableActionsForOrchestrator.slice(1, 4);
+const mockStepInteractiveFlows = invocableActionsForOrchestrator.slice(4, 14);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
@@ -148,7 +164,8 @@ const selectors = {
     ENTRY_ACTION: '.entry-action',
     EXIT_ACTION: '.exit-action',
     ASYNC_PROCESSING_BOX: '.externalCalloutsCheckbox',
-    REQUIRED: '.required'
+    REQUIRED: '.required',
+    OPEN_FLOW_SELECTOR: '.open-flow'
 };
 
 describe('StageStepEditor', () => {
@@ -305,6 +322,60 @@ describe('StageStepEditor', () => {
         exitActionInputParameters: mockInputParameters,
         exitCriteria: {
             value: ExitCriteria.ON_DETERMINATION_COMPLETE
+        }
+    };
+
+    const nodeParamsWithNoFlowsSelected = {
+        guid: 'someGuid',
+        name: 'someName',
+        label: 'someLabel',
+        description: 'someDescription',
+        entryConditions: [],
+        relatedRecordItem: {
+            name: { value: 'ActionInput__RecordId' },
+            rowIndex: 'ActionInput__RecordIdGuid',
+            value: { value: RELATED_RECORD_ID }
+        },
+        action: {
+            actionName: {
+                value: ''
+            },
+            actionType: {
+                value: ACTION_TYPE.STEP_INTERACTIVE
+            }
+        },
+        assignees: [
+            {
+                assignee: { value: 'orchestrator@salesforce.com' },
+                assigneeType: 'User',
+                isReference: false
+            }
+        ],
+        inputParameters: mockInputParameters,
+        entryAction: {
+            actionName: {
+                value: ''
+            },
+            actionType: {
+                value: ACTION_TYPE.EVALUATION_FLOW
+            }
+        },
+        entryActionInputParameters: mockInputParameters,
+        entryCriteria: {
+            value: EntryCriteria.ON_STAGE_START
+        },
+
+        exitAction: {
+            actionName: {
+                value: ''
+            },
+            actionType: {
+                value: ACTION_TYPE.EVALUATION_FLOW
+            }
+        },
+        exitActionInputParameters: mockInputParameters,
+        exitCriteria: {
+            value: ExitCriteria.ON_STEP_COMPLETE
         }
     };
 
@@ -555,11 +626,14 @@ describe('StageStepEditor', () => {
             expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
                 flowProcessType: editor.processType
             });
+            expect(getFlowIdsForNames).toHaveBeenCalledWith(
+                invocableActionsForOrchestrator.map((action) => action.name)
+            );
         });
 
         it('list set from available actions', () => {
             const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(4, 14));
+            expect(actionSelector.invocableActions).toEqual(mockStepInteractiveFlows);
         });
         describe('autolaunched step', () => {
             beforeEach(() => {
@@ -567,7 +641,7 @@ describe('StageStepEditor', () => {
             });
             it('list set from available actions for autolaunched step', () => {
                 const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-                expect(actionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(1, 4));
+                expect(actionSelector.invocableActions).toEqual(mockStepBackgroundFlows);
             });
         });
 
@@ -577,10 +651,10 @@ describe('StageStepEditor', () => {
             });
             it('list set from available actions for evaluation flow', () => {
                 const entryActionSelector = editor.shadowRoot.querySelector(selectors.ENTRY_ACTION);
-                expect(entryActionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(0, 1));
+                expect(entryActionSelector.invocableActions).toEqual(mockEvaluationFlows);
 
                 const exitActionSelector = editor.shadowRoot.querySelector(selectors.EXIT_ACTION);
-                expect(exitActionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(0, 1));
+                expect(exitActionSelector.invocableActions).toEqual(mockEvaluationFlows);
             });
         });
     });
@@ -1475,6 +1549,143 @@ describe('StageStepEditor', () => {
 
             editor.focus();
             expect(label.focus).toHaveBeenCalled();
+        });
+    });
+
+    describe('inline open flow', () => {
+        describe('screen flow', () => {
+            const mockFlowName = mockStepInteractiveFlows[0].name;
+            beforeEach(() => {
+                editor = createComponentUnderTest({
+                    ...nodeParamsWithNoFlowsSelected,
+                    action: {
+                        actionName: {
+                            value: mockFlowName
+                        },
+                        actionType: {
+                            value: ACTION_TYPE.STEP_INTERACTIVE
+                        }
+                    }
+                });
+            });
+            it('show open flow button when a screen flow is selected', () => {
+                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+                expect(openFlowButton).not.toBeNull();
+            });
+            it('do not show open flow button when a screen flow is not selected', () => {
+                editor = createComponentUnderTest({
+                    ...nodeParamsWithNoFlowsSelected
+                });
+                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+                expect(openFlowButton).toBeNull();
+            });
+            it('openFlow is called when click on Open Flow button of screen flow ', () => {
+                editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
+                // verify openFlow is called with the flow name
+                expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
+            });
+        });
+        describe('autolaunched flow', () => {
+            const mockFlowName = mockStepBackgroundFlows[0].name;
+            beforeEach(() => {
+                editor = createComponentUnderTest({
+                    ...nodeParamsWithNoFlowsSelected,
+                    action: {
+                        actionName: {
+                            value: mockFlowName
+                        },
+                        actionType: {
+                            value: ACTION_TYPE.STEP_BACKGROUND
+                        }
+                    }
+                });
+            });
+            it('show open flow button when an autolaunched flow is selected', () => {
+                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+                expect(openFlowButton).not.toBeNull();
+            });
+            it('do not show open flow button when an autolaunched flow is not selected', () => {
+                editor = createComponentUnderTest({
+                    ...nodeParamsWithNoFlowsSelected
+                });
+                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+                expect(openFlowButton).toBeNull();
+            });
+            it('openFlow is called when click on Open Flow button of an autolaunched flow ', () => {
+                editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
+                // verify openFlow is called with the flow name
+                expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
+            });
+        });
+        describe('entry condition flow', () => {
+            const mockFlowName = mockEvaluationFlows[0].name;
+            beforeEach(() => {
+                editor = createComponentUnderTest({
+                    ...nodeParamsWithNoFlowsSelected,
+                    entryAction: {
+                        actionName: {
+                            value: mockFlowName
+                        },
+                        actionType: {
+                            value: ACTION_TYPE.EVALUATION_FLOW
+                        }
+                    },
+                    entryCriteria: {
+                        value: EntryCriteria.ON_DETERMINATION_COMPLETE
+                    }
+                });
+            });
+            it('show open flow button when an entry condition flow is selected', () => {
+                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+                expect(openFlowButton).not.toBeNull();
+            });
+            it('do not show open flow button when an entry condition flow is not selected', () => {
+                editor = createComponentUnderTest({
+                    ...nodeParamsWithNoFlowsSelected
+                });
+                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+                expect(openFlowButton).toBeNull();
+            });
+            it('openFlow is called when click on Open Flow button of an entry condition flow ', () => {
+                editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
+                // verify openFlow is called with the flow id
+                expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
+            });
+        });
+        describe('exit condition flow', () => {
+            const mockFlowName = mockEvaluationFlows[0].name;
+            beforeEach(() => {
+                editor = createComponentUnderTest({
+                    ...nodeParamsWithNoFlowsSelected,
+                    exitAction: {
+                        actionName: {
+                            value: mockFlowName
+                        },
+                        actionType: {
+                            value: ACTION_TYPE.EVALUATION_FLOW
+                        }
+                    },
+                    exitCriteria: {
+                        value: ExitCriteria.ON_DETERMINATION_COMPLETE
+                    }
+                });
+            });
+            it('show open flow button when an exit condition flow is selected', () => {
+                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+                expect(openFlowButton).not.toBeNull();
+            });
+            it('do not show open flow button when an exit condition flow is not selected', () => {
+                editor = createComponentUnderTest({
+                    ...nodeParamsWithNoFlowsSelected
+                });
+                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+                expect(openFlowButton).toBeNull();
+            });
+            it('openFlow is called when click on Open Flow button of an exit condition flow ', () => {
+                editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
+                // verify openFlow is called with the flow name
+                expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
+            });
         });
     });
 });

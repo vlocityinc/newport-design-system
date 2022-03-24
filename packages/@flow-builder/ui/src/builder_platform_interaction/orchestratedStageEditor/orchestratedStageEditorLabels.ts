@@ -21,6 +21,7 @@ import exitActionSelectionLabel from '@salesforce/label/FlowBuilderOrchestratedS
 import exitOptionBasedOnAllStepsComplete from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitOptionBasedOnAllStepsComplete';
 import exitSectionLabel from '@salesforce/label/FlowBuilderOrchestratedStageEditor.exitSectionLabel';
 import criteriaActionHelpText from '@salesforce/label/FlowBuilderStageStepEditor.criteriaActionHelpText';
+import openFlowLabel from '@salesforce/label/FlowBuilderStageStepEditor.openFlowLabel';
 
 export const LABELS = {
     outcomesSectionHeader,
@@ -45,5 +46,6 @@ export const LABELS = {
     exitOptionBasedOnAllStepsComplete,
     completeOptionBasedOnCustomFlow,
     determinationFlowSelectorHeader,
-    criteriaActionHelpText
+    criteriaActionHelpText,
+    openFlowLabel
 };

@@ -13,7 +13,8 @@ import {
     PropertyChangedEvent,
     UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
-import { ELEMENT_TYPE, StageExitCriteria } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, StageExitCriteria } from 'builder_platform_interaction/flowMetadata';
+import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import OrchestratedStageEditor from 'builder_platform_interaction/orchestratedStageEditor';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -22,6 +23,7 @@ import { updateAndValidateElementInPropertyEditor } from 'builder_platform_inter
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { createElement } from 'lwc';
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
+import { flowIds } from 'serverData/GetFlowIds/flowIds.json';
 import { orchestratedStageReducer } from '../orchestratedStageReducer';
 
 jest.mock('../orchestratedStageReducer', () => {
@@ -58,7 +60,19 @@ jest.mock('builder_platform_interaction/validation', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
+jest.mock('builder_platform_interaction/inlineOpenFlowUtils', () => {
+    return {
+        openFlow: jest.fn(),
+        getFlowIdsForNames: jest.fn(() => {
+            return mockFlowIdsPromise;
+        })
+    };
+});
+
 const mockActionsPromise = Promise.resolve(invocableActionsForOrchestrator);
+
+const mockFlowIdsPromise = Promise.resolve(flowIds);
+const mockEvaluationFlows = invocableActionsForOrchestrator.slice(0, 1);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
@@ -103,7 +117,8 @@ const createComponentUnderTest = (node) => {
 };
 
 const selectors = {
-    ACTION_SELECTOR: 'builder_platform_interaction-action-selector'
+    ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
+    OPEN_FLOW_SELECTOR: '.open-flow'
 };
 
 describe('OrchestratedStageEditor', () => {
@@ -234,6 +249,9 @@ describe('OrchestratedStageEditor', () => {
             expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
                 flowProcessType: editor.processType
             });
+            expect(getFlowIdsForNames).toHaveBeenCalledWith(
+                invocableActionsForOrchestrator.map((action) => action.name)
+            );
         });
     });
 
@@ -369,7 +387,54 @@ describe('OrchestratedStageEditor', () => {
         });
         it('list set from available actions for evaluation flow', () => {
             const exitActionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            expect(exitActionSelector.invocableActions).toEqual(invocableActionsForOrchestrator.slice(0, 1));
+            expect(exitActionSelector.invocableActions).toEqual(mockEvaluationFlows);
+        });
+    });
+
+    describe('inline open flow', () => {
+        const mockFlowName = mockEvaluationFlows[0].name;
+        beforeEach(() => {
+            editor = createComponentUnderTest({
+                ...nodeParams,
+                exitAction: {
+                    actionName: {
+                        value: mockFlowName
+                    },
+                    actionType: {
+                        value: ACTION_TYPE.EVALUATION_FLOW
+                    }
+                },
+                exitCriteria: {
+                    value: StageExitCriteria.ON_DETERMINATION_COMPLETE
+                }
+            });
+        });
+        it('show open flow button when an exit condition flow is selected', () => {
+            const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+            expect(openFlowButton).not.toBeNull();
+        });
+        it('do not show open flow button when an exit condition flow is not selected', () => {
+            editor = createComponentUnderTest({
+                ...nodeParams,
+                exitCriteria: {
+                    value: StageExitCriteria.ON_STEP_COMPLETE
+                },
+                exitAction: {
+                    actionName: {
+                        value: ''
+                    },
+                    actionType: {
+                        value: ACTION_TYPE.EVALUATION_FLOW
+                    }
+                }
+            });
+            const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
+            expect(openFlowButton).toBeNull();
+        });
+        it('openFlow is called when click on Open Flow button', () => {
+            editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
+            // verify openFlow is called with the flow name
+            expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
         });
     });
 });

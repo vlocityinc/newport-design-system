@@ -47,6 +47,7 @@ import exitActionSelectionLabel from '@salesforce/label/FlowBuilderStageStepEdit
 import exitDeterminationFlowSelectorHeader from '@salesforce/label/FlowBuilderStageStepEditor.exitDeterminationFlowSelectorHeader';
 import exitSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.exitSectionLabel';
 import implementationSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.implementationSectionLabel';
+import openFlowLabel from '@salesforce/label/FlowBuilderStageStepEditor.openFlowLabel';
 import recordSelectionSectionLabel from '@salesforce/label/FlowBuilderStageStepEditor.recordSelectionSectionLabel';
 import recordSelectorLabel from '@salesforce/label/FlowBuilderStageStepEditor.recordSelectorLabel';
 import recordSelectorPlaceholder from '@salesforce/label/FlowBuilderStageStepEditor.recordSelectorPlaceholder';
@@ -129,5 +130,7 @@ export const LABELS = {
     recordSelectorTooltip,
 
     containsExternalCalloutsLabel,
-    containsExternalCalloutsTooltip
+    containsExternalCalloutsTooltip,
+
+    openFlowLabel
 };

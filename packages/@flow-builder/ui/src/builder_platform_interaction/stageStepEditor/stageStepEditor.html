@@ -56,6 +56,15 @@
             >
             </builder_platform_interaction-combobox>
         </div>
+        <div class="slds-p-top_x-small" if:true={showOpenEntryConditionFlow}>
+            <lightning-button
+                label={labels.openFlowLabel}
+                onclick={handleOpenEntryConditionFlowClicked}
+                icon-name="utility:new_window"
+                icon-position="right"
+                class="open-flow"
+            ></lightning-button>
+        </div>
         <div if:true={showEntryParameterList}>
             <h3 if:false={isEntryActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
                 {entryActionParameterListConfig.inputHeader}
@@ -107,6 +116,15 @@
                 field-level-help={actionTooltipLabel}
             >
             </builder_platform_interaction-action-selector>
+        </div>
+        <div class="slds-p-top_x-small" if:true={showOpenFlow}>
+            <lightning-button
+                label={labels.openFlowLabel}
+                onclick={handleOpenFlowClicked}
+                icon-name="utility:new_window"
+                icon-position="right"
+                class="open-flow"
+            ></lightning-button>
         </div>
         <div if:true={showExternalCalloutsCheckbox} class="slds-p-top_small slds-grid">
             <lightning-input
@@ -241,6 +259,15 @@
                     label-override={labels.exitDeterminationFlowSelectorHeader}
                 >
                 </builder_platform_interaction-action-selector>
+            </div>
+            <div class="slds-p-top_x-small" if:true={showOpenExitConditionFlow}>
+                <lightning-button
+                    label={labels.openFlowLabel}
+                    onclick={handleOpenExitConditionFlowClicked}
+                    icon-name="utility:new_window"
+                    icon-position="right"
+                    class="open-flow"
+                ></lightning-button>
             </div>
             <div if:true={showExitParameterList}>
                 <h3 if:false={isExitActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">

@@ -26,6 +26,7 @@ import {
     FLOW_TRANSACTION_MODEL,
     StageExitCriteria
 } from 'builder_platform_interaction/flowMetadata';
+import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -55,6 +56,8 @@ export default class OrchestratedStageEditor extends LightningElement {
     displayActionSpinner = false;
 
     selectedExitCriteria?: StageExitCriteria;
+
+    flowNamesToIds: {} = {};
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -203,6 +206,8 @@ export default class OrchestratedStageEditor extends LightningElement {
             this.availableDeterminationActions = actions.filter(
                 (action) => action.type === ACTION_TYPE.EVALUATION_FLOW
             );
+
+            this.flowNamesToIds = await getFlowIdsForNames(actions.map((action) => action.name));
 
             if (this.selectedExitAction) {
                 this.setActionParameters(this.selectedExitAction);
@@ -357,5 +362,18 @@ export default class OrchestratedStageEditor extends LightningElement {
 
     get emptyInputs() {
         return this.exitActionParameterListConfig?.inputs?.length === 0;
+    }
+
+    get showOpenExitConditionFlow(): boolean {
+        return (
+            this.selectedExitAction?.actionName &&
+            !this.exitActionErrorMessage &&
+            this.selectedExitCriteria === StageExitCriteria.ON_DETERMINATION_COMPLETE
+        );
+    }
+
+    handleOpenExitConditionFlowClicked() {
+        const flowId = this.flowNamesToIds[this.selectedExitAction?.actionName];
+        openFlow(flowId);
     }
 }

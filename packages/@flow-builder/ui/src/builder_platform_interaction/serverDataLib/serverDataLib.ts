@@ -63,7 +63,8 @@ export const SERVER_ACTION_TYPE = {
     SAVE_FLOW_TEST: 'storeFlowTest',
     RUN_FLOW_TESTS: 'runFlowTests',
     GET_FLOW_TEST: 'retrieveFlowTest',
-    VALIDATE_FORMULA: 'validateFormulaSyntax'
+    VALIDATE_FORMULA: 'validateFormulaSyntax',
+    GET_FLOW_IDS: 'getFlowIds'
 };
 
 const actionConfig = {
@@ -129,7 +130,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.SAVE_FLOW_TEST]: 'c.storeFlowTest',
     [SERVER_ACTION_TYPE.RUN_FLOW_TESTS]: 'c.runFlowTests',
     [SERVER_ACTION_TYPE.GET_FLOW_TEST]: 'c.retrieveFlowTest',
-    [SERVER_ACTION_TYPE.VALIDATE_FORMULA]: 'c.validateFormulaSyntax'
+    [SERVER_ACTION_TYPE.VALIDATE_FORMULA]: 'c.validateFormulaSyntax',
+    [SERVER_ACTION_TYPE.GET_FLOW_IDS]: 'c.getFlowIds'
 };
 
 let auraFetch;
@@ -264,7 +266,8 @@ const KEY_PROVIDER = {
         `${params.flowDefinitionId}-${params.flowVersionid}-${params.offset}-${params.limit}`,
     [SERVER_ACTION_TYPE.GET_FORMULA_FUNCTIONS]: (params) =>
         `${params.flowProcessType}-${params.flowTriggerType}-${params.recordTriggerType}`,
-    [SERVER_ACTION_TYPE.GET_FORMULA_OPERATORS]: (params) => `${params.flowProcessType}-${params.flowTriggerType}`
+    [SERVER_ACTION_TYPE.GET_FORMULA_OPERATORS]: (params) => `${params.flowProcessType}-${params.flowTriggerType}`,
+    [SERVER_ACTION_TYPE.GET_FLOW_IDS]: (params) => params.flowNameList
 };
 
 const fetchOnceCache = {};
