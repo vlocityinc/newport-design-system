@@ -44,14 +44,19 @@ export default class ScreenPalette extends LightningElement {
         this.buildModel();
     }
 
+    // TODO: W-10888798 will refine how we determine which environments allow automaticFields.  This is temp.
+    get slackIsEnabled() {
+        return getEnvironments()?.includes(FLOW_ENVIRONMENT.SLACK);
+    }
+
+    get showPaletteTitle() {
+        return !this.orgHasFlowBuilderAutomaticFields || this.slackIsEnabled;
+    }
+
     get wrappingDivClass() {
         const divClass =
             'screen-palette-container slds-size_small slds-panel slds-panel_drawer slds-border_right slds-grid slds-grid_vertical';
-        return orgHasFlowBuilderAutomaticFields() ? divClass : `${divClass} slds-panel_docked-left`;
-    }
-
-    get showSlackIndicator() {
-        return getEnvironments()?.includes(FLOW_ENVIRONMENT.SLACK);
+        return this.showPaletteTitle ? `${divClass} slds-panel_docked-left` : divClass;
     }
 
     // Create palette model

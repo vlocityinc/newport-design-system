@@ -10,7 +10,7 @@ import {
     createSingleOrMultiChoiceTypeChangedEvent
 } from 'builder_platform_interaction/events';
 import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
-import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType, FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
 import { loadFlowExtensionsOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -193,6 +193,15 @@ export default class ScreenEditor extends LightningElement {
 
     get showLegalNotice() {
         return this.legalNotices.some((notice) => notice.shown && !notice.dismissed);
+    }
+
+    // TODO: W-10888798 will refine how we determine which environments allow automaticFields.  This is temp.
+    get slackIsEnabled() {
+        return getEnvironments()?.includes(FLOW_ENVIRONMENT.SLACK);
+    }
+
+    get automaticFieldsEnabled() {
+        return this.orgHasFlowBuilderAutomaticFields && !this.slackIsEnabled;
     }
 
     /**

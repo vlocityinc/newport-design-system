@@ -5,7 +5,7 @@
     <!-- main container for editor -->
     <div if:true={screen} class={screenEditorContainerCssClass}>
         <!-- this div is the container for the left panel-->
-        <template if:false={orgHasFlowBuilderAutomaticFields}>
+        <template if:false={automaticFieldsEnabled}>
             <div
                 class="left-panel slds-size_small slds-grow-none slds-shrink-none"
                 tabindex="0"
@@ -19,7 +19,7 @@
                 ></builder_platform_interaction-screen-editor-palette>
             </div>
         </template>
-        <template if:true={orgHasFlowBuilderAutomaticFields}>
+        <template if:true={automaticFieldsEnabled}>
             <div
                 class="left-panel slds-size_small slds-grow-none slds-shrink-none slds-border_right"
                 tabindex="0"
