@@ -70,6 +70,7 @@ import { classSet } from 'lightning/utils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './alcCanvasLabels';
 import {
+    convertToElementMetadataMap,
     findConnector,
     findNode,
     getBoundingBoxForElements,
@@ -312,7 +313,9 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
         // Used to make sure flow.info sent to alc-flow does not have stale elementsMetadata
         if (this.canvasContext.elementsMetadata) {
-            this.updateFlowRenderContext({ elementsMetadata: this._convertToElementMetadataMap() });
+            this.updateFlowRenderContext({
+                elementsMetadata: convertToElementMetadataMap(this.canvasContext.elementsMetadata)
+            });
         }
     }
 
@@ -569,25 +572,13 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     }
 
     /**
-     * Helper function that converts this.canvasContext.elementsMetadata to map of elementType -> metaData
-     *
-     * @returns - The elements metadata map
-     */
-    _convertToElementMetadataMap() {
-        return this.canvasContext.elementsMetadata!.reduce((acc, elementMetadata) => {
-            acc[elementMetadata.elementSubtype || elementMetadata.elementType] = elementMetadata;
-            return acc;
-        }, {});
-    }
-
-    /**
      * Creates the initial flow render context
      *
      * @returns A new flow render context
      */
     createInitialFlowRenderContext(): FlowRenderContext {
         // transforms the elementsMetadata array to a map
-        const elementsMetadataMap = this._convertToElementMetadataMap();
+        const elementsMetadataMap = convertToElementMetadataMap(this.canvasContext.elementsMetadata);
 
         return {
             flowModel: this.flowModel,
@@ -676,11 +667,16 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
             // Note the number of dynamic node components we have.  A spinner will be shown
             // until they've all rendered
-            const nodes: { elementType: string; elementSubtype: string }[] = Object.values(this.flowModel);
+            const nodes: { elementType: string; elementSubtype: string; actionType: string }[] = Object.values(
+                this.flowModel
+            );
 
             let count = 0;
             nodes.forEach((node) => {
-                const metadata = this._flowRenderContext.elementsMetadata[node.elementSubtype || node.elementType];
+                const metadata =
+                    this._flowRenderContext.elementsMetadata[
+                        node.actionType || node.elementSubtype || node.elementType
+                    ];
                 if (metadata && metadata.dynamicNodeComponent) {
                     count++;
                 }

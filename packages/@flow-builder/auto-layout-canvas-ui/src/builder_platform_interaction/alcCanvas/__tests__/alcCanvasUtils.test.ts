@@ -1,7 +1,13 @@
 import AlcNode from 'builder_platform_interaction/alcNode';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { createElement } from 'lwc';
-import { getBoundingBoxForElements, getFocusPath, getSanitizedNodeGeo } from '../alcCanvasUtils';
+import {
+    convertToElementMetadataMap,
+    getBoundingBoxForElements,
+    getFocusPath,
+    getSanitizedNodeGeo
+} from '../alcCanvasUtils';
+import { elementsMetadata } from './mockData';
 
 const flowModel = {
     startGuid: {
@@ -316,6 +322,29 @@ describe('ALC Builder Utils tests', () => {
                     y: 7.6
                 });
             });
+        });
+    });
+
+    describe('convertToElementMetadataMap util function tests', () => {
+        it('Should have ActionCall in the map with the elementType as the key', () => {
+            const elementsMetadataMap = convertToElementMetadataMap(elementsMetadata);
+            const actionCall = elementsMetadataMap.ActionCall;
+            expect(actionCall).not.toBeNull();
+            expect(actionCall.elementType).toEqual('ActionCall');
+        });
+
+        it('Should have emailAlert in the map with the actionType as the key since it has a defined actionType', () => {
+            const elementsMetadataMap = convertToElementMetadataMap(elementsMetadata);
+            const emailAlert = elementsMetadataMap.emailAlert;
+            expect(emailAlert).not.toBeNull();
+            expect(emailAlert.actionType).toEqual('emailAlert');
+        });
+
+        it('Should have emailSimple in the map with the actionType as the key since it has a defined actionType', () => {
+            const elementsMetadataMap = convertToElementMetadataMap(elementsMetadata);
+            const emailSimple = elementsMetadataMap.emailSimple;
+            expect(emailSimple).not.toBeNull();
+            expect(emailSimple.actionType).toEqual('emailSimple');
         });
     });
 });

@@ -37,6 +37,7 @@ export interface NodeModel {
     label: string;
     elementType: string;
     elementSubtype?: string;
+    actionType?: string;
     maxConnections: number;
     isCanvasElement: boolean;
     canHaveFaultConnector: boolean;

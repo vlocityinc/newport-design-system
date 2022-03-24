@@ -168,6 +168,16 @@ const elementsMetadata = {
     [ACTION_ELEMENT_TYPE]: {
         type: NodeType.DEFAULT,
         icon: 'standard:default'
+    },
+    emailSimple: {
+        type: NodeType.DEFAULT,
+        icon: 'standard:default',
+        label: 'Send Email'
+    },
+    emailAlert: {
+        type: NodeType.DEFAULT,
+        icon: 'standard:default',
+        label: 'Email Alert'
     }
 };
 
@@ -1566,6 +1576,56 @@ function getFlowWhenGoingFromForEachBranch() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWithPalettePromotedActions() {
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let simpleAction = createElementWithElementType('simple-action-guid', 'ActionCall', NodeType.DEFAULT);
+    let emailSimple = createElementWithElementType('email-simple-guid', 'ActionCall', NodeType.DEFAULT);
+    let emailAlert = createElementWithElementType('email-alert-guid', 'ActionCall', NodeType.DEFAULT);
+    let end = createElementWithElementType('end-guid', 'END_ELEMENT', NodeType.END);
+
+    start = {
+        ...start,
+        parent: 'root',
+        childIndex: 0,
+        next: 'simple-action-guid'
+    };
+
+    simpleAction = {
+        ...simpleAction,
+        prev: 'start-guid',
+        next: 'email-simple-guid',
+        actionType: 'addMember'
+    };
+
+    emailSimple = {
+        ...emailSimple,
+        prev: 'simple-action-guid',
+        next: 'email-alert-guid',
+        actionType: 'emailSimple'
+    };
+
+    emailAlert = {
+        ...emailAlert,
+        prev: 'email-simple-guid',
+        next: 'end-guid',
+        actionType: 'emailAlert'
+    };
+
+    end = {
+        ...end,
+        prev: 'email-alert-guid',
+        next: null
+    };
+
+    const elements = [root, start, simpleAction, emailSimple, emailAlert, end];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
 export {
     ACTION_ELEMENT_GUID,
     BRANCH_ELEMENT_GUID,
@@ -1620,5 +1680,6 @@ export {
     getFlowWhenGoingToLoopBranchHead,
     getFlowWhenMergingToAncestorBranch,
     getFlowWithGoToOnFirstMergeableNonNullNext,
-    getFlowWhenGoingFromForEachBranch
+    getFlowWhenGoingFromForEachBranch,
+    getFlowWithPalettePromotedActions
 };

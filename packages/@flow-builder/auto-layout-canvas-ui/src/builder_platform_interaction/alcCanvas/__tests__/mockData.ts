@@ -7,7 +7,6 @@ const flowRenderInfo = {
         {
             guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
             geometry: { x: 0, y: 0, w: 48, h: 144 },
-            label: 'eb01a710-d341-4ba0-81d2-f7ef03300db5',
             metadata: {
                 section: null,
                 icon: 'utility:right',
@@ -17,7 +16,6 @@ const flowRenderInfo = {
                 type: 'start',
                 canHaveFaultConnector: false
             },
-            invocableApexActions: [],
             config: { isSelected: false, isHighlighted: false, canSelect: true },
             flows: [],
             isNew: false,
@@ -38,7 +36,6 @@ const flowRenderInfo = {
         {
             guid: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
             geometry: { x: 0, y: 144, w: 48, h: 0 },
-            label: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
             metadata: {
                 section: 'Logic',
                 icon: 'standard:first_non_empty',
@@ -49,7 +46,6 @@ const flowRenderInfo = {
                 type: 'end',
                 canHaveFaultConnector: false
             },
-            invocableApexActions: [],
             config: { isSelected: false, isHighlighted: false, canSelect: true },
             flows: [],
             isNew: false,
@@ -481,7 +477,36 @@ const elementsMetadata = [
         value: 'ActionCall',
         elementType: 'ActionCall',
         description:
-            'Perform an action outside of the flow. Choose from your org’s custom create and update actions or an out-of-the-box action, like Post to Chatter or Submit for Approval.',
+            'Perform an action outside of the flow. Choose from your orgs custom create and update actions or an out-of-the-box action, like Post to Chatter or Submit for Approval.',
+        canHaveFaultConnector: true,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
+    },
+    {
+        section: 'Interaction',
+        type: 'default',
+        icon: 'standard:custom_notification',
+        label: 'Send Email',
+        value: 'ActionCall',
+        actionIsStandard: true,
+        actionName: 'emailSimple',
+        actionType: 'emailSimple',
+        elementType: 'ActionCall',
+        description: 'Send an email where you specify the subject, body, and recipients.',
+        canHaveFaultConnector: true,
+        menuComponent: 'builder_platform_interaction/alcNodeMenu'
+    },
+    {
+        section: 'Interaction',
+        type: 'default',
+        icon: 'standard:custom_notification',
+        label: 'Send Email',
+        value: 'ActionCall',
+        actionIsStandard: false,
+        actionName: 'emailAlert',
+        actionType: 'emailAlert',
+        elementType: 'ActionCall',
+        description:
+            "Perform an action outside of the flow. Choose from your org's custom create and update actions or an out-of-the-box action, like Post to Chatter or Submit for Approval.",
         canHaveFaultConnector: true,
         menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
