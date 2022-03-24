@@ -2,8 +2,10 @@
 import { copyAndUpdateDebugTraceObject, updateFlowTestObject } from 'builder_platform_interaction/debugUtils';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
+import { TEST_ASSERTION_STATUS } from 'builder_platform_interaction/testPanelBody';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './debugPanelLabels';
+
 const { format } = commonUtils;
 
 /**
@@ -63,6 +65,7 @@ export default class DebugPanel extends LightningElement {
     // to see if it's from a expand or collapse run
     fromExpandCollapseClick = false;
     activeSections = [];
+    activeSectionsForTest = [];
     // to maintain list of sections open presently, maybe different from the initial activeSections set
     openSections = [];
     fromLabelFilter = false;
@@ -193,6 +196,12 @@ export default class DebugPanel extends LightningElement {
                 return e.titleWithApiName;
             }
             return e.titleWithLabel;
+        });
+        this.activeSectionsForTest = this.testAssertionTrace?.map((e, index) => {
+            if (e.status === TEST_ASSERTION_STATUS.FAIL || e.status === TEST_ASSERTION_STATUS.ERROR) {
+                return `Assertion ${index + 1}`;
+            }
+            return '';
         });
         this.fromDebugRun = true;
         this.expandAll = true;

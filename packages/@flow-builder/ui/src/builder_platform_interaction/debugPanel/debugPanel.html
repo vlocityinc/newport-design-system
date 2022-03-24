@@ -66,6 +66,7 @@
                 <lightning-accordion
                     allow-multiple-sections-open
                     class="slds-has-divider--bottom slds-p-around_none slds-m-around_none"
+                    active-section-name={activeSectionsForTest}
                 >
                     <template if:true={showTestAssertionLogs} for:each={testAssertionTrace} for:item="trace">
                         <builder_platform_interaction-accordion-section-with-icon

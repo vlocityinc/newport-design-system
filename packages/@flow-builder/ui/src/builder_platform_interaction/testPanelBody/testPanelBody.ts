@@ -1,7 +1,7 @@
 import { api, LightningElement } from 'lwc';
 import { TEST_BODY_LABELS } from './testPanelBodyLabels';
 
-const TEST_STATUS = {
+export const TEST_ASSERTION_STATUS = {
     ERROR: 'ERROR',
     PASS: 'PASS',
     FAIL: 'FAIL',
@@ -32,7 +32,7 @@ export default class TestPanelBody extends LightningElement {
     }
 
     get isError() {
-        return this.status === TEST_STATUS.ERROR;
+        return this.status === TEST_ASSERTION_STATUS.ERROR;
     }
 
     get showCustomErrorMessage() {
@@ -40,15 +40,15 @@ export default class TestPanelBody extends LightningElement {
     }
 
     get isFailure() {
-        return this.status === TEST_STATUS.FAIL;
+        return this.status === TEST_ASSERTION_STATUS.FAIL;
     }
 
     get isPass() {
-        return this.status === TEST_STATUS.PASS;
+        return this.status === TEST_ASSERTION_STATUS.PASS;
     }
 
     get isNotExecuted() {
-        return this.status === TEST_STATUS.NOT_EXECUTED;
+        return this.status === TEST_ASSERTION_STATUS.NOT_EXECUTED;
     }
 
     get showOutcomeCondition() {
