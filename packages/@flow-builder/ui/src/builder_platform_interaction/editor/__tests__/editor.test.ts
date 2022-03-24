@@ -969,6 +969,15 @@ describe('property editor', () => {
         expect(rightPanel).not.toBeNull();
     });
 
+    it('sets close callback to "editor#moveFocusToNode" function (to move the focus back to the edited element)', async () => {
+        const editorComponent = createComponentUnderTest();
+        editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER).dispatchEvent(new EditElementEvent('1'));
+        await ticks(1);
+        expect(invokePropertyEditor.mock.calls[0][1].moveFocusOnCloseCallback.toString()).toEqual(
+            expect.stringContaining('this.moveFocusToNode(guid)')
+        );
+    });
+
     describe('panel', () => {
         let editorComponent;
         let leftPanel;
