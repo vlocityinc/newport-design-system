@@ -2,6 +2,7 @@
     <div class="flow-test-editor-assertion-row slds-m-bottom_medium">
         <div>
             <p class="slds-p-bottom_xx-small">
+                <abbr if:true={isFirstAssertionRow} title={labels.required} class="slds-required">*</abbr>
                 <b>{labelForAssertionRow}</b>
             </p>
         </div>
@@ -24,6 +25,7 @@
                         rhs-placeholder={labels.flowTestAssertionRHSPlaceholder}
                         rhs-categories-to-include={rhsCategoriesToInclude}
                         default-operator={defaultOperator}
+                        required
                         hide-new-resource
                     >
                     </builder_platform_interaction-fer-to-ferov-expression-builder>

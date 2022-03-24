@@ -58,4 +58,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
     @api
     rhsCategoriesToInclude;
+
+    @api
+    required;
 }

@@ -8,6 +8,7 @@ import flowTestAssertionOperatorPlaceholder from '@salesforce/label/FlowBuilderC
 import flowTestAssertionRHSLabel from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionRHSLabel';
 import flowTestAssertionRHSPlaceholder from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionRHSPlaceholder';
 import flowTestAssertionRowLabel from '@salesforce/label/FlowBuilderCreateTestEditor.flowTestAssertionRowLabel';
+import required from '@salesforce/label/FlowBuilderCreateTestEditor.inputRequiredTitle';
 
 export const LABELS = {
     flowTestAssertionLHSLabel,
@@ -19,5 +20,6 @@ export const LABELS = {
     flowTestAssertionCustomAssertionMessageButtonLabel,
     flowTestAssertionCustomAssertionMessageLabel,
     flowTestAssertionCustomAssertionMessagePlaceholder,
-    flowTestAssertionRowLabel
+    flowTestAssertionRowLabel,
+    required
 };

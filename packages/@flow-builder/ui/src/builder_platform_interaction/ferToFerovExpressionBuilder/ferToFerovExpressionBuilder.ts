@@ -88,6 +88,9 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     variant;
 
     @api
+    required = false;
+
+    @api
     get expression() {
         return this.state.expression;
     }

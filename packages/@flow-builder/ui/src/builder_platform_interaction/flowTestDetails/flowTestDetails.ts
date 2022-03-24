@@ -37,11 +37,15 @@ export default class FlowTestDetails extends LightningElement {
         ];
     }
 
-    get isCreateUpdateTriggerValue() {
+    get isCreateOrUpdateTriggerValue() {
         return (
             this.triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE ||
             this.triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.UPDATE
         );
+    }
+
+    get isCreateAndUpdateTriggerValue() {
+        return this.triggerSaveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE;
     }
 
     handleTrigTypeChangeWithEvent(event) {

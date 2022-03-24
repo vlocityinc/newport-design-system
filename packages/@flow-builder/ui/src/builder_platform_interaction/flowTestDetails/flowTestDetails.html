@@ -22,7 +22,8 @@
             value={testTriggerType}
             onchange={handleTrigTypeChangeWithEvent}
             class="slds-m-top_x-small test-trigger-type"
-            disabled={isCreateUpdateTriggerValue}
+            disabled={isCreateOrUpdateTriggerValue}
+            required={isCreateAndUpdateTriggerValue}
         >
         </lightning-radio-group>
     </div>

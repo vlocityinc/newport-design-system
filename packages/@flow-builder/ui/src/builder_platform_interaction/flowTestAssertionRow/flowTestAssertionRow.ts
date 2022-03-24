@@ -38,6 +38,10 @@ export default class FlowTestAssertionRow extends LightningElement {
     @api
     showDeleteAssertion;
 
+    get isFirstAssertionRow() {
+        return this.index === 0;
+    }
+
     /**
      * The list of categories we want to show on the rhs of an assertion.  Any categories not listed
      * here will be hidden.
