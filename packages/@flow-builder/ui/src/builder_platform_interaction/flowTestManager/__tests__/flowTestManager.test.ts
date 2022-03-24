@@ -27,7 +27,8 @@ const SELECTORS = {
     CREATE_BUTTON: '[data-id="create-button"]',
     CREATE_BUTTON_ON_TABLE: '[data-id="create-button-w-table"]',
     DATATABLE: 'lightning-datatable',
-    SPINNER: 'lightning-spinner'
+    SPINNER: 'lightning-spinner',
+    URL: 'lightning-formatted-url'
 };
 
 const getCreateButton = (cmp) => {
@@ -44,6 +45,10 @@ const getDatatable = (cmp) => {
 
 const getSpinner = (cmp) => {
     return cmp.shadowRoot.querySelector(SELECTORS.SPINNER);
+};
+
+const getUrl = (cmp) => {
+    return cmp.shadowRoot.querySelector(SELECTORS.URL);
 };
 
 const MOCK_TESTS = [
@@ -136,6 +141,8 @@ describe('flowTestManager', () => {
             cmp = await createComponentUnderTest(props);
             await ticks(1);
             const button = getCreateButton(cmp);
+            const url = getUrl(cmp);
+            expect(url).not.toBeNull();
             expect(button).not.toBeNull();
             expect(button).toBeDefined();
         });

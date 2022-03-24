@@ -107,6 +107,7 @@ export default class FlowTestManager extends LightningElement {
 
     labels = LABELS;
     columns = COLUMNS;
+    legalAgreementLink = 'https://www.salesforce.com/company/legal/agreements.jsp';
     listIsLoadingMoreTests = false;
 
     privateFlowTestData: FlowTestAndResultDescriptor[] = [];

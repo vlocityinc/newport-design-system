@@ -1,4 +1,6 @@
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
+import flowTestBetaLegalNoticeText from '@salesforce/label/FlowBuilderTestEditor.flowTestBetaLegalNoticeText';
+import flowTestBetaUrlText from '@salesforce/label/FlowBuilderTestEditor.flowTestBetaUrlText';
 import flowTestBodyDescription from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyDescription';
 import flowTestBodyHeader from '@salesforce/label/FlowBuilderTestEditor.flowTestBodyHeader';
 import createNewTest from '@salesforce/label/FlowBuilderTestEditor.flowTestCreateNewTest';
@@ -43,5 +45,7 @@ export const LABELS = {
     flowTestDeleteActionSuccessToast,
     flowTestDeleteActionFailureToast,
     flowTestRunFailureWhenGateClosedToast,
-    flowTestFeatureNotAvailable
+    flowTestFeatureNotAvailable,
+    flowTestBetaLegalNoticeText,
+    flowTestBetaUrlText
 };

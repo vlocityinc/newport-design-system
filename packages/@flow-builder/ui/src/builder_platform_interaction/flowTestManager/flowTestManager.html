@@ -33,6 +33,26 @@
             </div>
         </div>
         <template if:false={flowHasTests}>
+            <div
+                class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light"
+                style="padding-left: 100px; margin-left: 150px; margin-right: 150px; padding-right: 100px"
+                role="status"
+            >
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <p>
+                        {labels.flowTestBetaLegalNoticeText}
+                        <lightning-formatted-url
+                            value={legalAgreementLink}
+                            label={labels.flowTestBetaUrlText}
+                            target="_blank"
+                        >
+                        </lightning-formatted-url>
+                    </p>
+                </div>
+            </div>
             <builder_platform_interaction-illustration
                 illustration="lakeMountain"
                 title={labels.flowTestBodyHeader}

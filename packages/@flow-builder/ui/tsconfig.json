@@ -127,7 +127,6 @@
             "builder_platform_interaction/header": ["./src/builder_platform_interaction/header/header.ts"],
             "builder_platform_interaction/illustration": ["./src/builder_platform_interaction/illustration/illustration.ts"],
             "builder_platform_interaction/imageLib": ["./src/builder_platform_interaction/imageLib/imageLib.ts"],
-            "builder_platform_interaction/inlineOpenFlow": ["./src/builder_platform_interaction/inlineOpenFlow/inlineOpenFlow.ts"],
             "builder_platform_interaction/inlineOpenFlowUtils": ["./src/builder_platform_interaction/inlineOpenFlowUtils/inlineOpenFlowUtils.ts"],
             "builder_platform_interaction/inlineResourceUtils": ["./src/builder_platform_interaction/inlineResourceUtils/inlineResourceUtils.ts"],
             "builder_platform_interaction/inputCollectionPicker": ["./src/builder_platform_interaction/inputCollectionPicker/inputCollectionPicker.ts"],
