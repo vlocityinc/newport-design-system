@@ -482,35 +482,6 @@ const elementsMetadata = [
         menuComponent: 'builder_platform_interaction/alcNodeMenu'
     },
     {
-        section: 'Interaction',
-        type: 'default',
-        icon: 'standard:custom_notification',
-        label: 'Send Email',
-        value: 'ActionCall',
-        actionIsStandard: true,
-        actionName: 'emailSimple',
-        actionType: 'emailSimple',
-        elementType: 'ActionCall',
-        description: 'Send an email where you specify the subject, body, and recipients.',
-        canHaveFaultConnector: true,
-        menuComponent: 'builder_platform_interaction/alcNodeMenu'
-    },
-    {
-        section: 'Interaction',
-        type: 'default',
-        icon: 'standard:custom_notification',
-        label: 'Send Email',
-        value: 'ActionCall',
-        actionIsStandard: false,
-        actionName: 'emailAlert',
-        actionType: 'emailAlert',
-        elementType: 'ActionCall',
-        description:
-            "Perform an action outside of the flow. Choose from your org's custom create and update actions or an out-of-the-box action, like Post to Chatter or Submit for Approval.",
-        canHaveFaultConnector: true,
-        menuComponent: 'builder_platform_interaction/alcNodeMenu'
-    },
-    {
         section: 'Flow Control',
         type: 'branch',
         icon: 'standard:decision',

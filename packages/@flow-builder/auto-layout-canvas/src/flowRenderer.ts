@@ -181,10 +181,7 @@ function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRend
     const { elementsMetadata, nodeLayoutMap, progress, layoutConfig, isDeletingBranch } = context;
     const { y, h, x } = getLayout(node.guid, progress, nodeLayoutMap);
 
-    const metadata =
-        node.actionType && node.actionType in elementsMetadata
-            ? getElementMetadata(elementsMetadata, node.actionType)
-            : getElementMetadata(elementsMetadata, node.elementSubtype || node.elementType);
+    const metadata = getElementMetadata(elementsMetadata, node.elementSubtype || node.elementType);
 
     const nodeRenderInfo = {
         guid,

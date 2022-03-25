@@ -21,7 +21,6 @@ import {
     getFlowWithHighlightedFaultBranch,
     getFlowWithHighlightedLoopBranches,
     getFlowWithOnlyImmediateScheduledPathContext,
-    getFlowWithPalettePromotedActions,
     getFlowWithScheduledPathsContext,
     getFlowWithTwoFaults,
     getSimpleFlowContext
@@ -126,10 +125,6 @@ describe('flowRenderer', () => {
 
         it('flow with a start element that supports scheduled paths and has children', () => {
             renderAndAssert(getFlowWithScheduledPathsContext());
-        });
-
-        it('flow with a palette promoted actions', () => {
-            renderAndAssert(getFlowWithPalettePromotedActions());
         });
 
         describe('with menu', () => {
