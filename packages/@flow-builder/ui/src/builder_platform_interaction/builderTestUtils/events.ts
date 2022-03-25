@@ -1,5 +1,3 @@
-import { Keys } from '@flow-builder/shared-utils';
-
 export const focusEvent = new FocusEvent('focus', {
     bubbles: false,
     cancelable: false
@@ -121,7 +119,7 @@ export const dragStartEvent = (textValue?) => {
  * @param key key pressed
  * @returns new keydown event
  */
-export const keydownEvent = (key: Keys) => new KeyboardEvent('keydown', { key, bubbles: true });
+export const keydownEvent = (key: string) => new KeyboardEvent('keydown', { key, bubbles: true });
 
 export const rowActionEvent = (action, row) =>
     new CustomEvent('rowaction', {
