@@ -611,7 +611,12 @@ export function processSupportedScreenFieldTypes(
     if (screen?.fields) {
         for (let i = 0; i < screen.fields.length; i++) {
             const field = screen.fields[i];
-            if (!isExtensionField(field) && !supportedScreenFieldTypes.includes(field.type)) {
+            // TODO : W-10888798 for now don't check automatic fields
+            if (
+                !isExtensionField(field) &&
+                !isAutomaticField(field) &&
+                !supportedScreenFieldTypes.includes(field.type)
+            ) {
                 screen.fields[i] = updateProperties(field, {
                     error: { value: null, error: LABELS.invalidScreenfield }
                 });
