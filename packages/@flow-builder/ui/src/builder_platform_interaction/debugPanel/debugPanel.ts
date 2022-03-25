@@ -215,12 +215,12 @@ export default class DebugPanel extends LightningElement {
             const traces = copyAndUpdateDebugTraceObject(data);
             this.debugTracesFull = traces.debugTraces;
             this.debugTraceCopy = traces.copyTraces;
-            this.testAssertionTrace = updateFlowTestObject(data.testAssertionTrace);
         } else if (this.hasErrors) {
             this.debugTracesFull = this.debugTraceCopy;
             this.errorMessage = data.error;
         }
         this.removeBlockedEntries();
+        this.testAssertionTrace = updateFlowTestObject(data?.testAssertionTrace);
     }
 
     removeBlockedEntries() {
