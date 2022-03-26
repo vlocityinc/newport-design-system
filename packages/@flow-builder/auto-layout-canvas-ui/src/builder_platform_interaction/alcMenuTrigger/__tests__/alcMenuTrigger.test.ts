@@ -256,6 +256,14 @@ describe('AlcMenuTrigger', () => {
         await assertTriggerKey(options, Keys.Enter, ToggleMenuEvent.EVENT_NAME, true);
     });
 
+    it('should dispatch the CloseMenuEvent when pressing the escape key if menu is opened', async () => {
+        await assertTriggerKey({ menuOpened: true }, Keys.Escape, CloseMenuEvent.EVENT_NAME, true);
+    });
+
+    it('should not dispatch the CloseMenuEvent when pressing the escape key if menu is not opened', async () => {
+        await assertTriggerKey({ menuOpened: false }, Keys.Escape, CloseMenuEvent.EVENT_NAME, false);
+    });
+
     it('should not dispatch the toggleMenu event if we are in selection mode', async () => {
         const options = { canvasMode: AutoLayoutCanvasMode.SELECTION };
         await assertTriggerClick(options, false);

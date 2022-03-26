@@ -4,6 +4,7 @@ import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponents
 import {
     AlcSelectDeselectNodeEvent,
     AlcSelectionEvent,
+    CloseMenuEvent,
     CreateGoToConnectionEvent,
     DeleteBranchElementEvent,
     GoToPathEvent,
@@ -21,6 +22,7 @@ import {
     ZOOM_ACTION
 } from 'builder_platform_interaction/events';
 import { commands, invokeModal } from 'builder_platform_interaction/sharedUtils';
+import { findNode } from '../alcCanvasUtils';
 import { elementsMetadata, flowModel } from './mockData';
 
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
@@ -86,14 +88,13 @@ jest.mock('builder_platform_interaction/sharedUtils', () => {
     return Object.assign({}, sharedUtils, auraUtils, { commands: sharedcommands, invokeModal: jest.fn() });
 });
 
-jest.mock('../alcCanvasUtils', () => {
-    const temp = jest.requireActual('../alcCanvasUtils');
-    return Object.assign({}, temp, {
-        getNodeAndGoToGeometry: jest.fn((tempFlowModel) => {
-            return tempFlowModel.testGeo;
-        })
-    });
-});
+jest.mock('../alcCanvasUtils', () =>
+    Object.assign({}, jest.requireActual('../alcCanvasUtils'), {
+        getNodeAndGoToGeometry: jest.fn((tempFlowModel) => tempFlowModel.testGeo),
+        findNode: jest.fn().mockReturnValue({ focus: () => jest.fn() }),
+        getSanitizedNodeGeo: jest.fn().mockReturnValue({ x: 10, y: 30, w: 50, h: 100 })
+    })
+);
 
 jest.mock('builder_platform_interaction/zoomPanel', () =>
     jest.requireActual('builder_platform_interaction_mocks/zoomPanel')
@@ -860,6 +861,51 @@ describe('Auto Layout Canvas', () => {
                 });
                 await dispatchEvent(getFlow(), alcSelectDeselectNodeEvent);
                 expect(eventCallback).toHaveBeenCalled();
+            });
+        });
+    });
+
+    describe('Handling CloseMenuEvent', () => {
+        describe('When node menu is closed', () => {
+            test.each`
+                menu                                                            | moveFocusToTrigger | shouldFocusOnNode
+                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${undefined}       | ${false}
+                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${null}            | ${false}
+                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${false}           | ${false}
+                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${true}            | ${false}
+                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${undefined}       | ${true}
+                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${null}            | ${false}
+                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${false}           | ${false}
+                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${true}            | ${true}
+            `(
+                'should call focus on node: $shouldFocusOnNode',
+                async ({ menu, moveFocusToTrigger, shouldFocusOnNode }) => {
+                    await dispatchEvent(getFlow(), new ToggleMenuEvent(menu));
+                    await dispatchEvent(getFlow(), new CloseMenuEvent(moveFocusToTrigger));
+
+                    if (shouldFocusOnNode) {
+                        expect(findNode.mock.calls[0][0]).toEqual(menu.source.guid);
+                    } else {
+                        expect(findNode).not.toHaveBeenCalled();
+                    }
+                }
+            );
+        });
+
+        describe('When connector menu is closed', () => {
+            test.each`
+                menu                                                            | shouldFocusOnConnector
+                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${true}
+                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${false}
+            `('should call focus on connector: $shouldFocusOnConnector', async ({ menu, shouldFocusOnConnector }) => {
+                await dispatchEvent(getFlow(), new ToggleMenuEvent(menu));
+                await dispatchEvent(getFlow(), new CloseMenuEvent());
+
+                if (shouldFocusOnConnector) {
+                    expect(cmp.focusOnConnector).toHaveBeenCalledWith({ guid: 'screen-one' });
+                } else {
+                    expect(cmp.focusOnConnector).not.toHaveBeenCalled();
+                }
             });
         });
     });
