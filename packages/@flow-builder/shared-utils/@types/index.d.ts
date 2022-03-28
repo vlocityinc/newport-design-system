@@ -26,7 +26,7 @@ interface BodyData {
     listSectionItems?: any;
     listWarningItems?: any;
     showBodyTwoVariant?: string;
-    invocableApexActions?: any;
+    customIconMap?: any;
 }
 
 interface FooterData {

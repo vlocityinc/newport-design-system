@@ -66,12 +66,12 @@ export default class LeftPanel extends LightningElement {
     palette;
 
     @api
+    customIconMap = {};
+
+    @api
     get showElementsTab() {
         return this._showElementsTab;
     }
-
-    @api
-    invocableApexActions;
 
     set showElementsTab(value) {
         this._showElementsTab = value;
@@ -114,6 +114,7 @@ export default class LeftPanel extends LightningElement {
         }
         return classes;
     }
+
     get panelHeaderClasses() {
         let classes = 'left-panel-header slds-panel__header slds-truncate_container';
         if (!this.showResourceDetailsPanel) {

@@ -545,7 +545,6 @@ describe('Used by library', () => {
                             isCanvasElement: true,
                             label: 'screenWithAutomaticFields',
                             name: 'screenWithAutomaticFields',
-                            type: 'Screen',
                             actionName: undefined
                         }
                     ])
@@ -563,7 +562,6 @@ describe('Used by library', () => {
                             isCanvasElement: true,
                             label: 'screenWithAutomaticFieldsInSection',
                             name: 'screenWithAutomaticFieldsInSection',
-                            type: 'Screen',
                             actionName: undefined
                         }
                     ])
@@ -582,7 +580,6 @@ describe('Used by library', () => {
                             isCanvasElement: false,
                             label: undefined,
                             name: 'displayTextUsingResources',
-                            type: 'SCREEN_FIELD',
                             actionName: undefined
                         }
                     ])
@@ -599,8 +596,7 @@ describe('Used by library', () => {
                             iconName: 'standard:display_text',
                             isCanvasElement: false,
                             label: undefined,
-                            name: 'accounts',
-                            type: 'SCREEN_FIELD'
+                            name: 'accounts'
                         },
                         {
                             elementGuidsReferenced: [slider1.guid],
@@ -608,8 +604,7 @@ describe('Used by library', () => {
                             iconName: 'standard:screen',
                             isCanvasElement: true,
                             label: 'ScreenWithSection',
-                            name: 'ScreenWithSection',
-                            type: 'Screen'
+                            name: 'ScreenWithSection'
                         }
                     ])
                 );

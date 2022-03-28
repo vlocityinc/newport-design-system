@@ -21,32 +21,13 @@ export default class ElementIcon extends LightningElement {
     alternativeText = '';
     @api
     backgroundColor = '';
-    @api
-    isLeftPanelElement = false;
 
     @api
     get iconElement() {
         return this.template.querySelector('.drag-element');
     }
 
-    get elementIconName() {
-        if (this.isLeftPanelElement && this.iconName) {
-            return this.iconName;
-        }
-        return this.iconName;
-    }
-
-    get elementIconSrc() {
-        if (this.isLeftPanelElement && this.iconSrc) {
-            return this.iconSrc;
-        }
-        return null;
-    }
-
     updateClassesForNonCanvasElements(baseClasses, commonClasses) {
-        if (!this.isCanvasElementIcon && this.isLeftPanelElement && this.iconSrc) {
-            baseClasses = `${baseClasses} customActionIcon`;
-        }
         if (!this.isCanvasElementIcon) {
             const updatedBaseClasses = `${baseClasses} ${commonClasses}`;
             return this.updateClassesForDraggableElements(updatedBaseClasses);
@@ -74,10 +55,6 @@ export default class ElementIcon extends LightningElement {
         return '';
     }
 
-    get elementIconSize() {
-        return this.iconSize;
-    }
-
     get svgClass() {
         let commonClasses;
         if (this.iconName === 'standard:decision') {
@@ -88,6 +65,9 @@ export default class ElementIcon extends LightningElement {
             if (this.iconShape === ICON_SHAPE.CIRCLE) {
                 commonClasses = `${commonClasses} slds-icon__container_circle`;
             }
+        }
+        if (this.iconSrc) {
+            commonClasses = `${commonClasses} custom-icon`;
         }
 
         return commonClasses;

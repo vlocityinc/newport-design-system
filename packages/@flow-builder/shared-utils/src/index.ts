@@ -1,7 +1,7 @@
-export * as actionUtils from './actionUtils';
 export * from './auraUtils';
 export * as commands from './commands';
 export * as commonUtils from './commonUtils';
+export * as customIconUtils from './customIconUtils';
 export * as focusUtils from './focusUtils';
 export * as keyboardInteractionUtils from './keyboardInteractionUtils';
 export * as loggingUtils from './loggingUtils';

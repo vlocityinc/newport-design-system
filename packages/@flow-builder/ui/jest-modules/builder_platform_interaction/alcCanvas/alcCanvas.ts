@@ -41,5 +41,5 @@ export default class AlcCanvas extends LightningElement {
 
     @api shortcuts;
 
-    @api invocableApexActions;
+    @api customIconMap;
 }

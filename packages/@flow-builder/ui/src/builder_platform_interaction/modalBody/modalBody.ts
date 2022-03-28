@@ -10,7 +10,7 @@ export default class ModalBody extends LightningElement {
     @api listSectionItems: Array[object];
     @api listWarningItems: Array[object];
     @api bodyVariant;
-    @api invocableApexActions;
+    @api customIconMap;
     @api showBodyTwoVariant;
     activeSection = [];
     labels = LABELS;

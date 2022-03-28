@@ -13,7 +13,7 @@ export default class ResourceDetails extends LightningElement {
     resourceDetails;
 
     @api
-    invocableApexActions;
+    customIconMap;
 
     @track
     state = {

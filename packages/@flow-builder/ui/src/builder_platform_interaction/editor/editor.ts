@@ -106,7 +106,7 @@ import {
     SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
-import { getInvocableApexActions } from 'builder_platform_interaction/invocableActionLib';
+import { getActionIconMap } from 'builder_platform_interaction/invocableActionLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import {
     initializeLoader,
@@ -360,7 +360,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     elementsMetadata;
 
     @track
-    invocableApexActions;
+    _customIconMap = {};
 
     topSelectedGuid = null;
     cutOrCopiedCanvasElements = {};
@@ -831,6 +831,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         return this.debugData || {};
     }
 
+    get customIconMap() {
+        return this.properties.isAutoLayoutCanvas ? this._customIconMap : {};
+    }
+
     get interviewLabel() {
         const options = {
             year: 'numeric',
@@ -970,10 +974,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
             if (actionsTriggerTypePromise || actionsProcessTypePromise) {
                 Promise.all([actionsTriggerTypePromise, actionsProcessTypePromise]).then(() => {
-                    const actions = getInvocableApexActions();
-                    if (actions) {
-                        this.invocableApexActions = actions;
-                    }
+                    this._customIconMap = getActionIconMap();
                 });
             }
 

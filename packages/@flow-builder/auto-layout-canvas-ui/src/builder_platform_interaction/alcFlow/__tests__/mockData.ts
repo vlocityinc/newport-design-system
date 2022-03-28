@@ -10,7 +10,6 @@ const flowWithFault = {
             isTerminal: false,
             logicConnectors: [],
             menuOpened: false,
-            invocableApexActions: [],
             metadata: {
                 canHaveFaultConnector: false,
                 description: 'Screen Flow',
@@ -119,7 +118,6 @@ const flowWithFault = {
                 type: 'branch',
                 value: 'Decision'
             },
-            invocableApexActions: [],
             nextConnector: {
                 addInfo: { offsetY: 36, menuOpened: false },
                 source: {
@@ -270,7 +268,6 @@ const flowWithFault = {
                 type: 'default',
                 value: 'RecordCreate'
             },
-            invocableApexActions: [],
             nextConnector: {
                 addInfo: { offsetY: 60, menuOpened: false },
                 source: {
@@ -299,7 +296,6 @@ const flowWithFault = {
             isTerminal: true,
             logicConnectors: [],
             menuOpened: false,
-            invocableApexActions: [],
             metadata: {
                 canHaveFaultConnector: false,
                 description: 'Finish the flow.',

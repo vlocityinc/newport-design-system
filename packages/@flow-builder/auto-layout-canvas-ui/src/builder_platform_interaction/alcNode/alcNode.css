@@ -138,7 +138,7 @@ builder_platform_interaction-alc-menu-trigger.dynamic-node {
     z-index: var(--z-index-alc-dynamic-node-trigger);
 }
 
-.customActionIcon {
+.custom-icon {
     background-color: var(--lwc--paletteNeutral100);
     box-shadow: 0 0 0 2px var(--lwc-paletteNeutral80) inset;
 }

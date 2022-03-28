@@ -79,7 +79,7 @@ export const invokeModal = (data: InvokeModalData) => {
         listWarningItems: data.bodyData.listWarningItems,
         bodyVariant: data.bodyData.bodyVariant,
         showBodyTwoVariant: data.bodyData.showBodyTwoVariant,
-        invocableApexActions: data.bodyData.invocableApexActions
+        customIconMap: data.bodyData.customIconMap
     });
     const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
         buttons: data.footerData,

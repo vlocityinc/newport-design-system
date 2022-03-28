@@ -39,7 +39,7 @@
     background-color: #00396b;
 }
 
-.customActionIcon {
+.custom-icon {
     background-color: var(--lwc--paletteNeutral100);
     box-shadow: 0 0 0 2px var(--lwc-paletteNeutral80) inset;
 }

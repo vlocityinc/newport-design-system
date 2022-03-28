@@ -75,7 +75,7 @@ export default class AlcCanvasContainer extends LightningElement {
     isSelectionMode;
 
     @api
-    invocableApexActions;
+    customIconMap;
 
     @api
     disableDeleteElements;

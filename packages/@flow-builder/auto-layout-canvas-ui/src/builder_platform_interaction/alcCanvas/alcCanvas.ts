@@ -1,6 +1,7 @@
 import {
     AutoLayoutCanvasMode,
     CanvasContext,
+    CustomIconMap,
     getAlcFlowData,
     getCanvasElementDeselectionData,
     getCanvasElementSelectionData,
@@ -218,13 +219,13 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         mode: AutoLayoutCanvasMode.DEFAULT,
         isPasteAvailable: false,
         menu: null,
-        invocableApexActions: [],
+        customIconMap: {},
         incomingStubGuid: null
     };
 
     isFirstTimeCalled = true;
     loadAlcCanvasStartTime;
-    _invocableApexActions;
+    _customIconMap: CustomIconMap = {};
 
     constructor() {
         super();
@@ -282,16 +283,6 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     @api
     disableEditElements;
 
-    @api
-    set invocableApexActions(invocableApexActions) {
-        this.updateCanvasContext({ invocableApexActions });
-        this._invocableApexActions = invocableApexActions;
-    }
-
-    get invocableApexActions() {
-        return this._invocableApexActions;
-    }
-
     /**
      * The active element refers to the element currently being edited using the property editor panel
      */
@@ -341,6 +332,16 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
     get flowModel() {
         return this._flowModel;
+    }
+
+    @api
+    get customIconMap(): CustomIconMap {
+        return this._customIconMap;
+    }
+
+    set customIconMap(iconMap: CustomIconMap) {
+        this.updateCanvasContext({ customIconMap: iconMap });
+        this._customIconMap = iconMap;
     }
 
     @api

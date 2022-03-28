@@ -1,15 +1,7 @@
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import ConnectorType from './ConnectorTypeEnum';
 import MenuType from './MenuType';
-import {
-    ConnectionSource,
-    ElementMetadata,
-    ElementsMetadata,
-    FlowModel,
-    Guid,
-    NodeModel,
-    ParentNodeModel
-} from './model';
+import { ConnectionSource, ElementMetadata, ElementsMetadata, FlowModel, Guid, ParentNodeModel } from './model';
 import { isBranchTerminal } from './modelUtils';
 import { Geometry, SvgInfo } from './svgUtils';
 
@@ -84,7 +76,6 @@ export interface NodeRenderInfo {
     toBeDeleted: boolean;
     dynamicNodeComponent?: string;
     dynamicNodeComponentSelector?: Function;
-    node: NodeModel;
 }
 
 export interface Dimension {

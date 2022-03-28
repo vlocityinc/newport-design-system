@@ -6,7 +6,7 @@ export default class UsedByContent extends LightningElement {
     @api listSectionItems;
     @api isResourceDetails = false;
     @api showLocatorIcon;
-    @api invocableApexActions;
+    @api customIconMap;
 
     get enableLocator() {
         return this.showLocatorIcon && this.isResourceDetails;

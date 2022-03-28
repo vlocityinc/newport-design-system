@@ -60,7 +60,7 @@ export interface CanvasContext {
     elementsMetadata: ElementMetadata[];
     isPasteAvailable: boolean;
     mode: AutoLayoutCanvasMode;
-    invocableApexActions: invocableApexActionResources[];
+    customIconMap: CustomIconMap;
 
     // Clicked incoming goTo stub guid
     incomingStubGuid: Guid | null;
@@ -68,9 +68,9 @@ export interface CanvasContext {
     menu: MenuInfo | null;
 }
 
-interface invocableApexActionResources {
-    actionName: string;
-    iconResource: string;
+export interface CustomIconMap {
+    // TODO: Moved this to shared utils. Refer W-10897936
+    [key: string]: string;
 }
 
 interface CanvasElementSelectionData {

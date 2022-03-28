@@ -1,16 +1,14 @@
 // @ts-nocheck
 import { LocatorIconClickedEvent } from 'builder_platform_interaction/events';
-import { actionUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { customIconUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './usedByContentItemLabels';
-const { getCustomIconNameAndSrc } = actionUtils;
+const { getCustomIconNameOrSrc } = customIconUtils;
 
 const { logInteraction } = loggingUtils;
 
 export default class UsedByContentItem extends LightningElement {
-    _customIconName: string | null = null;
-    _customIconSrc: string | null = null;
-    _invocableApexActions;
+    _customIconMap: { [key: string]: string } = {};
 
     @api
     listItem;
@@ -19,19 +17,12 @@ export default class UsedByContentItem extends LightningElement {
     showLocatorIcon = false;
 
     @api
-    set invocableApexActions(invocableApexActions) {
-        this._invocableApexActions = invocableApexActions;
-        const { iconName, iconSrc } = getCustomIconNameAndSrc(
-            this.listItem?.type,
-            this.listItem?.actionName,
-            this._invocableApexActions
-        );
-        this._customIconName = iconName;
-        this._customIconSrc = iconSrc;
+    get customIconMap() {
+        return this._customIconMap;
     }
 
-    get invocableApexActions() {
-        return this._invocableApexActions;
+    set customIconMap(iconMap) {
+        this._customIconMap = iconMap;
     }
 
     get showLocatorIconForCanvasElements() {
@@ -43,11 +34,13 @@ export default class UsedByContentItem extends LightningElement {
     }
 
     get iconName() {
-        return this._customIconName ? this._customIconName : this.listItem.iconName;
+        const { iconName: customIconName } = getCustomIconNameOrSrc(this.listItem?.actionName, this._customIconMap);
+        return customIconName ? customIconName : this.listItem.iconName;
     }
 
     get iconSrc() {
-        return this._customIconSrc ? this._customIconSrc : null;
+        const { iconSrc } = getCustomIconNameOrSrc(this.listItem?.actionName, this._customIconMap);
+        return iconSrc ? iconSrc : null;
     }
 
     /**

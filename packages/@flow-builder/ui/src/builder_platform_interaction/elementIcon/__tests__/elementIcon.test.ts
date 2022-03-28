@@ -14,7 +14,7 @@ const CLASS_NAMES = {
     rotateContainer: 'rotate-icon-container',
     rotateDecision: 'non-canvas-decision-icon',
     rotateSvg: 'rotate-icon-svg',
-    customSVGActionIcon: 'customActionIcon'
+    customIcon: 'custom-icon'
 };
 
 const SELECTORS = {
@@ -106,10 +106,11 @@ describe('Element Icon', () => {
 
         it('Should not add the css class to set the background color as white for standard actions', async () => {
             const elementIcon = await createComponentForTest({
-                iconName: ICON_NAMES.standardAction
+                iconName: ICON_NAMES.standardAction,
+                iconSrc: null
             });
             const lightningIcon = getLightningIcon(elementIcon);
-            expect(lightningIcon.classList).not.toContain(CLASS_NAMES.customSVGActionIcon);
+            expect(lightningIcon.classList).not.toContain(CLASS_NAMES.customIcon);
         });
     });
 });
