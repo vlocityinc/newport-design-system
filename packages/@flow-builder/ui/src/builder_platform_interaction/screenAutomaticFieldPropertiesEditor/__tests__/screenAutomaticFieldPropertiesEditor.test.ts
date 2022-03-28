@@ -84,7 +84,7 @@ jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePersonName'
 jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeAddress', () => ({ default: 'Address' }), {
     virtual: true
 });
-jest.mock('@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelPicklist', () => ({ default: 'Picklist' }), {
+jest.mock('@salesforce/label/FlowBuilderAutomaticFieldEditor.dataTypePicklist', () => ({ default: 'Picklist' }), {
     virtual: true
 });
 

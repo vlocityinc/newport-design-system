@@ -173,7 +173,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
                 break;
             }
             case ScreenFieldName.DropdownBox: {
-                dataType = this.labels.fieldTypeLabelPicklist;
+                dataType = this.labels.automaticFieldDataTypePicklist;
                 break;
             }
             default: {
