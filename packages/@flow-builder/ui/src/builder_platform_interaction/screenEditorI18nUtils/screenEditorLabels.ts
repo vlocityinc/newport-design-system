@@ -11,7 +11,7 @@ import automaticFieldDataTypeLongTextArea from '@salesforce/label/FlowBuilderAut
 import automaticFieldDataTypeNumber from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeNumber';
 import automaticFieldDataTypePersonName from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePersonName';
 import automaticFieldDataTypePhone from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePhone';
-import automaticFieldDataTypePicklist from '@salesforce/label/FlowBuilderAutomaticFieldEditor.dataTypePicklist';
+import automaticFieldDataTypePicklist from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypePicklist';
 import automaticFieldDataTypeText from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeText';
 import automaticFieldDataTypeTextArea from '@salesforce/label/FlowBuilderAutomaticFieldEditor.datatypeTextArea';
 import automaticFieldFieldLabel from '@salesforce/label/FlowBuilderAutomaticFieldEditor.fieldLabel';
