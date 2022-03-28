@@ -35,6 +35,7 @@ import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_plat
 import { loadProcessTypeFeatures } from 'builder_platform_interaction/preloadLib';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { focusUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -976,6 +977,13 @@ describe('property editor', () => {
         expect(invokePropertyEditor.mock.calls[0][1].moveFocusOnCloseCallback.toString()).toEqual(
             expect.stringContaining('this.moveFocusToNode(guid)')
         );
+    });
+
+    it('restores focus to the element with focus for the start menu', async () => {
+        const editorComponent = createComponentUnderTest();
+        editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER).dispatchEvent(new EditElementEvent('6'));
+        await ticks(1);
+        expect(focusUtils.getElementWithFocus).toHaveBeenCalled();
     });
 
     describe('panel', () => {

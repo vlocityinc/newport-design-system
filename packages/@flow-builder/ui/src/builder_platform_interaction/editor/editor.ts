@@ -2742,13 +2742,23 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      */
     editElement(mode: any, guid: string, forceModal = false, designateFocus = false) {
         const element = storeInstance.getCurrentState().elements[guid];
+        let savedActiveElement;
+
         if (element && element.elementType !== ELEMENT_TYPE.START_ELEMENT) {
             this.closeAutoLayoutContextualMenu();
+        } else {
+            savedActiveElement = focusUtils.getElementWithFocus();
         }
 
         const nodeUpdate = this.deMutateAndUpdateNodeCollection;
         const moveFocusOnCloseCallback = () => {
-            this.moveFocusToNode(guid);
+            if (savedActiveElement) {
+                // for the start element, return the focus to the start menu button
+                savedActiveElement.focus();
+            } else {
+                // otherwise return the focus to the element on the canvas
+                this.moveFocusToNode(guid);
+            }
         };
 
         const editResourceCallback = this.editResourceCallback;
