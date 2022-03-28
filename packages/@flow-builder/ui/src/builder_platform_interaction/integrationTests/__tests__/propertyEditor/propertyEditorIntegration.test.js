@@ -8,6 +8,7 @@ import { createElement } from 'lwc';
 import * as autoLaunchedFlowScheduled from 'mock/flows/autoLaunchedFlowScheduled.json';
 import * as contactRequestFlow from 'mock/flows/contactRequestFlow.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
+import * as flowOnSlack from 'mock/flows/flowOnSlack.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as orchestratorFlow from 'mock/flows/orchestratorFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
@@ -80,7 +81,8 @@ describe('Property Editor', () => {
         { flow: fieldServiceMobileFlow },
         { flow: orchestratorFlow },
         { flow: recordTriggeredFlow },
-        { flow: scheduleTriggeredFlow }
+        { flow: scheduleTriggeredFlow },
+        { flow: flowOnSlack }
     ])('for flow : $flow.fullName', ({ flow }) => {
         beforeAll(async () => {
             // we set devMode to true to detect illegal changes to the state during getElementForPropertyEditor calls (see W-9823122 or W-9843783)

@@ -28,7 +28,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { resetSystemVariables, setGlobalVariables } from 'builder_platform_interaction/systemLib';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import LegalPopover from 'src/builder_platform_interaction/legalPopover/legalPopover';
-import { initializeAuraFetch, initializeContext } from './serverDataTestUtils';
+import { initializeAuraFetch, initializeContext, initializeRunInModes } from './serverDataTestUtils';
 import { TestComponent } from './testComponent';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
@@ -87,10 +87,17 @@ export const setupStateForProcessType = async (processType) => {
 };
 
 export const loadFlow = async (flow, store) => {
-    await loadOnProcessTypeChange(flow.processType).loadPeripheralMetadataPromise;
+    await loadOnProcessTypeChange(
+        flow.processType,
+        undefined,
+        undefined,
+        flow.definitionId,
+        flow?.metadata?.environments
+    ).loadPeripheralMetadataPromise;
     const uiFlow = translateFlowToUIModel(flow);
     store.dispatch(updateFlow(uiFlow));
     await loadFieldsForComplexTypesInFlow(uiFlow);
+    initializeRunInModes();
 };
 
 export const setupStateForFlow = async (flow, { devMode = false } = {}) => {

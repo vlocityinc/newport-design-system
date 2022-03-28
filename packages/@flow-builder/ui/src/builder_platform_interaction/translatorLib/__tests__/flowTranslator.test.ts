@@ -9,6 +9,7 @@ import { parseDateTimeUTC } from 'lightning/internalLocalizationService';
 import { readonly } from 'lwc';
 import * as contactRequestFlow from 'mock/flows/contactRequestFlow.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
+import * as flowOnSlack from 'mock/flows/flowOnSlack.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as orchestratorFlow from 'mock/flows/orchestratorFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
@@ -16,6 +17,7 @@ import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { contactRequestFlowUIModel } from 'mock/storeDataContactrequest';
 import { fieldServiceMobileFlowUIModel } from 'mock/storeDataFieldServiceMobile';
+import { flowOnSlackUIModel } from 'mock/storeDataFlowOnSlack';
 import { orchestratorFlowUIModel } from 'mock/storeDataOrchestrator';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
@@ -342,6 +344,15 @@ describe('Flow Translator', () => {
             expect(uiFlow).toEqualGoldObject(
                 orchestratorFlowUIModel,
                 'orchestratorFlowUIModel in mock_store_data_orchestrator/storeDataOrchestratorFlowUIModel'
+            );
+        });
+        it('returns expected ui model for an flow with slack environment', () => {
+            uiFlow = translateFlowToUIModel(flowOnSlack);
+            store.dispatch(updateFlow(uiFlow));
+
+            expect(uiFlow).toEqualGoldObject(
+                flowOnSlackUIModel,
+                'flowOnSlackUIModel in mock_store_data_slack/storeDataFlowOnSlackUIModel'
             );
         });
     });

@@ -1,0 +1,22 @@
+{
+  "runInModes":[
+    {
+      "name":"DefaultMode",
+      "learnMoreLink":"",
+      "value":"User or System Context\u2014Depends on How Flow is Launched",
+      "helpMessage":"flow will run without system mode"
+    },
+    {
+      "name":"SystemModeWithSharing",
+      "learnMoreLink":"",
+      "value":"System Context with Sharing\u2014Enforces Record-Level Access",
+      "helpMessage":"flow will run with system mode with sharing"
+    },
+    {
+      "name":"SystemModeWithoutSharing",
+      "learnMoreLink":"",
+      "value":"System Context Without Sharing\u2014Access All Data ",
+      "helpMessage":"flow will run with system mode without sharing"
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { setContext } from 'builder_platform_interaction/contextLib';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_ENVIRONMENT, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { setAuraFetch, setAuraGetCallback } from 'builder_platform_interaction/serverDataLib';
+import { setRunInModes } from 'builder_platform_interaction/systemLib';
 import { mockSubflows } from 'mock/calloutData';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { globalVariablesForAutoLaunchedFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForAutoLaunchedFlow.json';
@@ -50,6 +51,7 @@ import { paletteForAutoLaunchedFlow } from 'serverData/GetPalette/paletteForAuto
 import { paletteForFlow } from 'serverData/GetPalette/paletteForFlow.json';
 import { resourceTypesForAutoLaunchedFlow } from 'serverData/GetResourceTypes/resourceTypesForAutoLaunchedFlow.json';
 import { resourceTypesForFlow } from 'serverData/GetResourceTypes/resourceTypesForFlow.json';
+import { runInModes } from 'serverData/GetRunInModes/runInModes.json';
 import { supportedElementsForAutoLaunchedFlow } from 'serverData/GetSupportedElements/supportedElementsForAutoLaunchedFlow.json';
 import { supportedElementsForFlow } from 'serverData/GetSupportedElements/supportedElementsForFlow.json';
 import { supportedElementsForRecommendationFlow } from 'serverData/GetSupportedElements/supportedElementsForRecommendationFlow.json';
@@ -57,6 +59,7 @@ import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupporte
 import { supportedFeaturesListForContactRequestFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForContactRequestFlow.json';
 import { supportedFeaturesListForFieldServiceMobileFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFieldServiceMobileFlow.json';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
+import { supportedScreenFieldsForFlowOnSlack } from 'serverData/GetSupportedScreenFields/supportedScreenFieldsForFlowOnSlack.json';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
@@ -139,6 +142,12 @@ export const createGetterByProcessType =
     (map, defaultValue = []) =>
     ({ flowProcessType }) => ({
         data: map[flowProcessType] || defaultValue
+    });
+
+export const createGetterByProcessTypeAndEnvironment =
+    (map, defaultValue = []) =>
+    ({ flowProcessType, flowEnvironmentKey }) => ({
+        data: map[flowProcessType + flowEnvironmentKey] || defaultValue
     });
 
 const getFlowExtensionListParams = (flowExtensionListParameters) => (params) => ({
@@ -232,6 +241,10 @@ const allAuraActions = {
         [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: flowExtensionsForContactRequestFlow,
         [FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE]: flowExtensionsForFieldServiceMobile
     }),
+    'c.getSupportedScreenFields': createGetterByProcessTypeAndEnvironment({
+        [FLOW_PROCESS_TYPE.FLOW + FLOW_ENVIRONMENT.DEFAULT]: flowExtensionsForFlow,
+        [FLOW_PROCESS_TYPE.FLOW + FLOW_ENVIRONMENT.SLACK]: supportedScreenFieldsForFlowOnSlack
+    }),
     'c.getApexPlugins': createGetter([]),
     'c.getApexTypes': createGetter(apexTypesForFlow),
     'c.getSubflows': getSubflows({
@@ -245,7 +258,7 @@ const allAuraActions = {
     }),
     'c.retrieveHeaderUrls': createGetter([]),
     'c.getProcessTypes': createGetter([]),
-    'c.getRunInModes': createGetter([]),
+    'c.getRunInModes': createGetter(runInModes),
     'c.getFlowEntries': createGetter(flowEntries),
     'c.getPalette': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: paletteForFlow,
@@ -282,4 +295,11 @@ export function initializeAuraFetch(actions = {}) {
 export function initializeContext({ devMode = false } = {}) {
     const modifiedContext = { ...context, devMode };
     setContext(modifiedContext);
+}
+
+/**
+ * Initialize the run in mode From json mocks
+ */
+export function initializeRunInModes() {
+    setRunInModes(runInModes);
 }
