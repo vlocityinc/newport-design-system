@@ -116,13 +116,23 @@ describe('Flow Test to UI Translation', () => {
     });
 
     it('returns Updated as test trigger type', () => {
-        const { testTriggerType } = translateFlowTestToUIModel(flowTestUpdated);
+        const { testTriggerType } = translateFlowTestToUIModel(flowTestUpdated, FLOW_TRIGGER_SAVE_TYPE.UPDATE);
         expect(testTriggerType).toBe(FLOW_TRIGGER_SAVE_TYPE.UPDATE);
     });
 
-    it('returns Created as test trigger type', () => {
-        const { testTriggerType } = translateFlowTestToUIModel(flowTest);
+    it('returns Created as test trigger type when the test was originally saved as Updated because the flow trigger type changed', () => {
+        const { testTriggerType } = translateFlowTestToUIModel(flowTestUpdated, FLOW_TRIGGER_SAVE_TYPE.CREATE);
         expect(testTriggerType).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
+    });
+
+    it('returns Created as test trigger type', () => {
+        const { testTriggerType } = translateFlowTestToUIModel(flowTest, FLOW_TRIGGER_SAVE_TYPE.CREATE);
+        expect(testTriggerType).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
+    });
+
+    it('returns Updated as test trigger type when the test was originally saved as Created because the flow trigger type changed', () => {
+        const { testTriggerType } = translateFlowTestToUIModel(flowTest, FLOW_TRIGGER_SAVE_TYPE.UPDATE);
+        expect(testTriggerType).toBe(FLOW_TRIGGER_SAVE_TYPE.UPDATE);
     });
 
     it('returns assertions', () => {
@@ -143,7 +153,10 @@ describe('Flow Test to UI Translation', () => {
         expect(testUpdatedRecordData).toBe(undefined);
     });
     it('returns initial and updated record data for Updated test trigger type', () => {
-        const { testInitialRecordData, testUpdatedRecordData } = translateFlowTestToUIModel(flowTestUpdated);
+        const { testInitialRecordData, testUpdatedRecordData } = translateFlowTestToUIModel(
+            flowTestUpdated,
+            FLOW_TRIGGER_SAVE_TYPE.UPDATE
+        );
         expect(testInitialRecordData).not.toBe(undefined);
         expect(testUpdatedRecordData).not.toBe(undefined);
     });

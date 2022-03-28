@@ -1812,10 +1812,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             await fetchPromise(SERVER_ACTION_TYPE.GET_TEST_DETAIL_FROM_DEBUG_RUN, {
                 serializedInterview: this.debugData.serializedInterview
             }).then((data: any) => {
-                let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data.flowTest));
+                const triggerSaveType = getRecordTriggerType();
+                let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data.flowTest, triggerSaveType));
                 const triggerObjectType = getStartObject();
                 flowTestObject = getElementForPropertyEditor(flowTestObject);
-                const triggerSaveType = getRecordTriggerType();
                 const createOrEdit = FlowTestMode.Create;
                 this.queueOpenCreateFlowTest(() => {
                     return {
@@ -2098,7 +2098,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     async editTestCallback(data, createOrEdit, triggerSaveType, triggerObjectType, flowTestListViewCallback) {
         if (data.isSuccess) {
-            let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data.flowTest));
+            let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data.flowTest, triggerSaveType));
             flowTestObject = getElementForPropertyEditor(flowTestObject);
             await this.queueOpenCreateFlowTest(() => {
                 return {

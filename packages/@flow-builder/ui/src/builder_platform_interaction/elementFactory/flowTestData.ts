@@ -187,8 +187,11 @@ function addParametersToUI(
     parameterType: FlowTestParameterType,
     records: object[]
 ): object[] {
-    const parameterValue = parameterArr.find((i) => i.type === parameterType)!.value;
-    // @ts-ignore
-    records.push(JSON.parse(parameterValue.sobjectValue));
+    const parameter = parameterArr.find((i) => i.type === parameterType);
+    if (parameter) {
+        const parameterValue = parameter!.value;
+        // @ts-ignore
+        records.push(JSON.parse(parameterValue.sobjectValue));
+    }
     return records;
 }

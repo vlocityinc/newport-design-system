@@ -1,8 +1,6 @@
 import {
     createFlowTestAssertionsUIModel,
-    createFlowTestRecordsUIModel,
-    FlowTestParameterType,
-    FlowTestPointValidator
+    createFlowTestRecordsUIModel
 } from 'builder_platform_interaction/elementFactory';
 import { FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -12,22 +10,18 @@ import { swapDevNamesToGuids } from './uidSwapping';
  * Convert FlowTest tooling object to UI data model
  *
  * @param flowTest flow test data from Flow Test tooling object
+ * @param flowTriggerType current trigger type of the flow
  * @returns FlowTest tooling object
  */
-export function translateFlowTestToUIModel(flowTest): UI.FlowTestData {
-    let testTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
-    let tp;
+export function translateFlowTestToUIModel(flowTest, flowTriggerType): UI.FlowTestData {
+    let testTriggerType;
     let assertionArr;
     let records;
     if (flowTest && flowTest.metadata) {
-        tp = flowTest.metadata.testPoints.find((n) => n.elementApiName === FlowTestPointValidator.Start);
-        if (
-            tp.parameters.length === 2 &&
-            tp.parameters.some((e) => e.type === FlowTestParameterType.Input) &&
-            tp.parameters.some((e) => e.type === FlowTestParameterType.UpdateRecord)
-        ) {
-            testTriggerType = FLOW_TRIGGER_SAVE_TYPE.UPDATE;
-        }
+        testTriggerType =
+            flowTriggerType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
+                ? FLOW_TRIGGER_SAVE_TYPE.CREATE
+                : flowTriggerType;
         assertionArr = createFlowTestAssertionsUIModel(flowTest.metadata);
         records = createFlowTestRecordsUIModel(flowTest.metadata, testTriggerType);
     }
