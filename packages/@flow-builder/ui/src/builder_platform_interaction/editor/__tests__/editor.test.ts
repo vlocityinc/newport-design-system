@@ -13,7 +13,14 @@ import {
     setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { invokePropertyEditor, PROPERTY_EDITOR } from 'builder_platform_interaction/builderUtils';
+import {
+    hidePopover,
+    invokeFlowTestManager,
+    invokePropertyEditor,
+    isPopoverOpen,
+    PROPERTY_EDITOR,
+    showPopover
+} from 'builder_platform_interaction/builderUtils';
 import {
     AddConnectionEvent,
     AddElementEvent,
@@ -29,7 +36,8 @@ import {
     NewResourceEvent,
     SelectNodeEvent,
     ToggleMarqueeOnEvent,
-    UpdateNodeEvent
+    UpdateNodeEvent,
+    ViewAllTestsEvent
 } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loadProcessTypeFeatures } from 'builder_platform_interaction/preloadLib';
@@ -97,7 +105,8 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
     return Object.assign(jest.requireActual('builder_platform_interaction/builderUtils'), {
-        invokePropertyEditor: jest.fn()
+        invokePropertyEditor: jest.fn(),
+        invokeFlowTestManager: jest.fn()
     });
 });
 
@@ -2519,5 +2528,39 @@ describe('in test mode', () => {
         const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
         const editTestButton = toolbar.shadowRoot.querySelector(selectors.editTest);
         expect(editTestButton).not.toBeNull();
+    });
+});
+
+describe('On click of view Tests toolbar button', () => {
+    it('flowTest modal is opened if there is no popover open', async () => {
+        const editorComponent = createComponentUnderTest();
+        if (isPopoverOpen()) {
+            hidePopover();
+        }
+        const viewAllTestsEvent = new ViewAllTestsEvent();
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        toolbar.dispatchEvent(viewAllTestsEvent);
+        await ticks(1);
+        expect(invokeFlowTestManager).toHaveBeenCalled();
+    });
+
+    it('flowTest modal is not opened if there is popover open', async () => {
+        const editorComponent = createComponentUnderTest();
+        hidePopover();
+        expect(isPopoverOpen()).toBe(false);
+        showPopover(
+            'builder_platform_interaction:statusIconSummary',
+            {},
+            {
+                referenceElement: null,
+                onClose: () => {}
+            }
+        );
+        expect(isPopoverOpen()).toBe(true);
+        const viewAllTestsEvent = new ViewAllTestsEvent();
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        toolbar.dispatchEvent(viewAllTestsEvent);
+        await ticks(1);
+        expect(invokeFlowTestManager).not.toHaveBeenCalled();
     });
 });

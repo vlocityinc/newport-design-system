@@ -1660,6 +1660,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Handles the View All Tests event fired by toolbar.
      */
     handleViewAllTests = async () => {
+        // Blocking users from clicking View Test button if there are validation warning (validation warning message is a pop over, so blocking multiple popover)
+        if (isPopoverOpen()) {
+            return;
+        }
+
         logPerfTransactionStart(OPEN_FLOW_TEST_LIST, { builderMode: this.builderMode });
         if (getFlowTests().length === 0) {
             this.spinners.showFlowTestRetrieveSpinner = true;
