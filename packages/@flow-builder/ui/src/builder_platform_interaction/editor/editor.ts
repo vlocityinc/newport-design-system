@@ -2291,14 +2291,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     handleRecordTriggerStartPropertyEditor = () => {
         const startElement = getStartElement();
         if (startElement) {
-            this.spinners.showPropertyEditorSpinner = true;
-            loadProcessTypeFeatures(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
-                .then(() => {
-                    this.editElement(startElement.triggerType, startElement.guid);
-                })
-                .finally(() => {
-                    this.spinners.showPropertyEditorSpinner = false;
-                });
+            loadProcessTypeFeatures(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW).then(() => {
+                this.editElement(startElement.triggerType, startElement.guid);
+            });
         }
     };
 
