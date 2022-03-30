@@ -215,6 +215,7 @@ export default class FlowTestEditor extends LightningElement {
 
     saveTest = (flowTest, saveType) => {
         this.showWaitingSpinner = true;
+        this.footer.disableFlowTestButtonOne(true);
         fetchPromise(SERVER_ACTION_TYPE.SAVE_FLOW_TEST, {
             flowTest,
             saveType
@@ -255,6 +256,7 @@ export default class FlowTestEditor extends LightningElement {
                 hidePopover();
             }
         } else {
+            this.footer.disableFlowTestButtonOne(false);
             data.errors.forEach((error) => {
                 if (error.statusCode === DUPLICATE_FLOW_API_NAME_ERROR_CODE) {
                     this.showDuplicateFlowNameError();
