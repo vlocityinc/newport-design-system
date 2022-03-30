@@ -14,7 +14,8 @@
 
     /* TODO: W-9582142: Group, clean up and rationalize the z-index number assignments   */
     --z-index-alc-connector-svg: -1;
-    --z-index-alc-connector-branch: -1;
+    --z-index-alc-connector-branch: -2;
+    --z-index-alc-connector-branch-is-highlighted: -1;
 
     --z-index-alc-dynamic-node-trigger: 2;
     --z-index-alc-dynamic-node: 1;

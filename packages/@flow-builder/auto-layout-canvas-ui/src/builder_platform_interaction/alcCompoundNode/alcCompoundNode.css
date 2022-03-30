@@ -9,8 +9,25 @@ builder_platform_interaction-alc-connector {
 builder_platform_interaction-alc-connector.loopBack,
 builder_platform_interaction-alc-connector.loopAfterLast,
 builder_platform_interaction-alc-connector.branchLeft,
-builder_platform_interaction-alc-connector.branchRight {
+builder_platform_interaction-alc-connector.branchRight,
+builder_platform_interaction-alc-connector.mergeLeft,
+builder_platform_interaction-alc-connector.mergeRight {
     z-index: var(--z-index-alc-connector-branch);
+}
+
+builder_platform_interaction-alc-connector.loopBack.is-highlighted,
+builder_platform_interaction-alc-connector.loopAfterLast.is-highlighted,
+builder_platform_interaction-alc-connector.branchLeft.is-highlighted,
+builder_platform_interaction-alc-connector.branchRight.is-highlighted,
+builder_platform_interaction-alc-connector.mergeLeft.is-highlighted,
+builder_platform_interaction-alc-connector.mergeRight.is-highlighted,
+builder_platform_interaction-alc-connector.loopBack.to-be-deleted,
+builder_platform_interaction-alc-connector.loopAfterLast.to-be-deleted,
+builder_platform_interaction-alc-connector.branchLeft.to-be-deleted,
+builder_platform_interaction-alc-connector.branchRight.to-be-deleted,
+builder_platform_interaction-alc-connector.mergeLeft.to-be-deleted,
+builder_platform_interaction-alc-connector.mergeRight.to-be-deleted {
+    z-index: var(--z-index-alc-connector-branch-is-highlighted);
 }
 
 builder_platform_interaction-alc-connector.goTo {

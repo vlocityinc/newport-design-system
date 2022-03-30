@@ -584,11 +584,19 @@ function getStyleFromGeometry({ x, y, w, h }: { x?: number; y?: number; w?: numb
  */
 function getAlcConnectorData(flowModel: FlowModel, connectorInfo: ConnectorRenderInfo) {
     const connectorDescription = getConnectorAriaInfo(flowModel, connectorInfo.source);
+    const className = classSet('logic-connector')
+        .add({
+            [connectorInfo.type]: true,
+            'is-highlighted': connectorInfo.isHighlighted,
+            'to-be-deleted': connectorInfo.toBeDeleted
+        })
+        .toString();
+
     return {
         key: connectorKey(connectorInfo),
         connectorInfo,
         style: getStyleFromGeometry(connectorInfo.geometry),
-        className: `logic-connector ${connectorInfo.type}`,
+        className,
         connectorDescription
     };
 }

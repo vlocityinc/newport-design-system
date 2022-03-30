@@ -27,7 +27,9 @@ const getLoopNodeRenderInfo: NodeRenderInfo = () => {
                 type: 'loopAfterLast',
                 source: {
                     guid: 'loop'
-                }
+                },
+                isHighlighted: true,
+                toBeDeleted: true
             },
             {
                 geometry: {},
@@ -38,7 +40,9 @@ const getLoopNodeRenderInfo: NodeRenderInfo = () => {
                 source: {
                     guid: 'loop'
                 },
-                type: 'loopBack'
+                type: 'loopBack',
+                isHighlighted: false,
+                toBeDeleted: false
             }
         ],
         nextConnector: {
@@ -96,14 +100,34 @@ describe('alcCompoundNode tests', () => {
             expect(alcConnectors.length).toEqual(3);
         });
 
-        it('After Last connector should have the right classes', async () => {
+        it('After Last connector should have the loop after last class', async () => {
             const afterLastConnector = alcConnectors[0];
             expect(afterLastConnector.classList.value.includes('loopAfterLast')).toBeTruthy();
         });
 
-        it('Loop Back Connector should have the right classes', async () => {
+        it('After Last connector should have the is-highlighted class', async () => {
+            const afterLastConnector = alcConnectors[0];
+            expect(afterLastConnector.classList.value.includes('is-highlighted')).toBeTruthy();
+        });
+
+        it('After Last connector should not have the to-be-deleted class', async () => {
+            const afterLastConnector = alcConnectors[0];
+            expect(afterLastConnector.classList.value.includes('to-be-deleted')).toBeTruthy();
+        });
+
+        it('Loop Back Connector should have the loop back class', async () => {
             const loopBackConnector = alcConnectors[1];
             expect(loopBackConnector.classList.value.includes('loopBack')).toBeTruthy();
+        });
+
+        it('Loop Back Connector should not have is-highlighted class', async () => {
+            const loopBackConnector = alcConnectors[1];
+            expect(loopBackConnector.classList.value.includes('is-highlighted')).toBeFalsy();
+        });
+
+        it('Loop Back Connector should not have to-be-deleted class', async () => {
+            const loopBackConnector = alcConnectors[1];
+            expect(loopBackConnector.classList.value.includes('to-be-deleted')).toBeFalsy();
         });
 
         it('Next connector should have the right classes', async () => {
