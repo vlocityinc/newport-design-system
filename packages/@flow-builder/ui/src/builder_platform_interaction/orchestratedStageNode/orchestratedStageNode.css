@@ -1,7 +1,10 @@
 .stepped-stage-node {
     width: var(--alc-menu-width);
     position: relative;
+    padding-top: var(--lwc-spacingXxSmall, 0.25rem);
+    padding-bottom: 0px;
     margin: 0;
+    background: var(--alc-menu-background);
 }
 
 h3 {
@@ -37,6 +40,8 @@ builder_platform_interaction-stage-step-menu {
 
 .items-section {
     background: white;
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+    padding-bottom: var(--lwc-spacingXxSmall, 0.25rem);
 }
 
 .item {
