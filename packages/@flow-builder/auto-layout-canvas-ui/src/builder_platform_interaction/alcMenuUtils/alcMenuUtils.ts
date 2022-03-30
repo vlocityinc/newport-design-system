@@ -53,11 +53,11 @@ export interface ConnectorMenuInfo {
  */
 export async function processConnectorMenuMetadata(
     prevMenuMetadata: ConnectorMenuMetadata | null,
-    nextMenuMetadata: ConnectorMenuMetadata
+    nextMenuMetadata: ConnectorMenuMetadata | null
 ) {
     const prevMenuComponent = prevMenuMetadata?.menuComponent;
 
-    const { menuComponent } = nextMenuMetadata;
+    const menuComponent = nextMenuMetadata != null ? nextMenuMetadata.menuComponent : null;
     if (menuComponent) {
         await importComponent(menuComponent);
     } else if (prevMenuComponent) {

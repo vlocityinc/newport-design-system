@@ -42,7 +42,9 @@ export default class AlcCanvasContainer extends LightningElement {
     _elementsMetadata;
 
     _startElement!: UI.Start;
-    _connectorMenuMetadata = defaultConnectorMenuMetadata;
+
+    @track
+    _connectorMenuMetadata?: ConnectorMenuMetadata = defaultConnectorMenuMetadata;
 
     @api
     set elementsMetadata(elementsMetadata) {
@@ -82,6 +84,17 @@ export default class AlcCanvasContainer extends LightningElement {
 
     @api
     disableEditElements;
+
+    _disableAddElements = false;
+    @api
+    set disableAddElements(value: boolean) {
+        this._disableAddElements = value;
+        this.updateConnectorMenuMetadata(this._elementsMetadata || []);
+    }
+
+    get disableAddElements() {
+        return this._disableAddElements;
+    }
 
     @api
     disableAnimation;
@@ -165,6 +178,13 @@ export default class AlcCanvasContainer extends LightningElement {
      * @param nextElementsMetadata - The next elements metadata
      */
     updateConnectorMenuMetadata(nextElementsMetadata) {
+        if (this.disableAddElements) {
+            this._connectorMenuMetadata = undefined;
+            return;
+        }
+
+        this._connectorMenuMetadata = defaultConnectorMenuMetadata;
+
         this._elementsMetadata = [...nextElementsMetadata];
 
         const connectorMenuElementTypes = this._elementsMetadata.map(({ elementType }) => elementType);

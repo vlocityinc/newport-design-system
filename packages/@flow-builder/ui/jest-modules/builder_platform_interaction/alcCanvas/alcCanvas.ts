@@ -20,9 +20,6 @@ export default class AlcCanvas extends LightningElement {
     isPasteAvailable;
 
     @api
-    disableAddElements;
-
-    @api
     disableDeleteElements;
 
     @api

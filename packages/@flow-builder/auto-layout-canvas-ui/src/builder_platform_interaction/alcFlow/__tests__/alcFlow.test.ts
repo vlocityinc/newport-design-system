@@ -16,7 +16,6 @@ const createComponentUnderTest = (flow, flowModel) => {
     el.flowModel = flowModelWithFault;
     el.canvasContext = { mode: 'default' };
     el.isCanvasReady = true;
-    el.disableAddElements = false;
 
     document.body.appendChild(el);
     return el;

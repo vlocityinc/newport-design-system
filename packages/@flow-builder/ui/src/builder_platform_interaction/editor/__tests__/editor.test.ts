@@ -1046,6 +1046,37 @@ describe('property editor', () => {
         });
     });
 
+    describe('canvas config > ', () => {
+        it('disableAddElements', async () => {
+            mockStoreState.properties.processType = 'right';
+            mockIsAutolayoutCanvas = true;
+
+            const editorComponent = createComponentUnderTest({
+                flowId: '301RM0000000E4NEDIT',
+                builderType: 'new',
+                builderMode: 'editMode',
+                builderConfig: {
+                    supportedProcessTypes: ['right'],
+                    componentConfigs: {
+                        editMode: {
+                            leftPanelConfig: { showLeftPanel: true },
+                            toolbarConfig: {
+                                showCanvasModeToggle: true,
+                                showSaveButton: true
+                            },
+                            canvasConfig: { disableAddElements: true }
+                        }
+                    }
+                }
+            });
+
+            await ticks(1);
+            const alcCanvas = getCanvas(editorComponent);
+            expect(alcCanvas.connectorMenuMetadata).toBe(undefined);
+            mockIsAutolayoutCanvas = false;
+        });
+    });
+
     it('for new resource is always opened in a modal', async () => {
         expect.assertions(1);
 
