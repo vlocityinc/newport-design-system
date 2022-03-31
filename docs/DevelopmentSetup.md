@@ -65,14 +65,14 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
     yarn build
     ```
 
-8.  Run mvn compile (See instructions here to set up mvn: https://sites.google.com/a/salesforce.com/butc/user-documentation/install-maven):
+8.  Run mvn compile:
 
     ```sh
     mvn compile
     ```
 
     If you have any auth errors here, make sure the file `~/.m2/settings.xml` has your valid nexus tokens.
-    If you don't have a `~/.m2/settings.xml` see this setting up maven doc: https://git.soma.salesforce.com/modularization-team/maven-settings/blob/master/QuickStart.md or this one here: https://git.soma.salesforce.com/modularization-team/maven-settings
+    If you don't have a `~/.m2/settings.xml` or need help with maven setup in general, see this maven doc: https://git.soma.salesforce.com/modularization-team/maven-settings/blob/master/QuickStart.md or this one here: https://git.soma.salesforce.com/modularization-team/maven-settings
 
 9.  Run this watch command so that when you modify files, they are picked up by core (for best results picking up changes, run the app in an incognito browser):
 
