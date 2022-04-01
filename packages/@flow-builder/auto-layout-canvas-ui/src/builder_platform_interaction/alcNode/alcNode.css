@@ -74,6 +74,10 @@
     left: calc(var(--node-icon-half-width-with-padding) * -1);
 }
 
+.icon-container.menu-opened {
+    z-index: var(--z-index-alc-dynamic-node-trigger-menu-opened);
+}
+
 .highlighted-container .text-container > div {
     background: transparent !important;
 }
@@ -132,6 +136,10 @@
     transform: translateX(-50%);
     width: var(--alc-menu-width);
     z-index: var(--z-index-alc-dynamic-node);
+}
+
+.dynamic-component.expanded {
+    z-index: var(--z-index-alc-dynamic-node-menu-opened);
 }
 
 builder_platform_interaction-alc-menu-trigger.dynamic-node {
