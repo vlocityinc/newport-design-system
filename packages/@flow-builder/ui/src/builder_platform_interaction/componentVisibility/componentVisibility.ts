@@ -219,7 +219,9 @@ export default class ComponentVisibility extends LightningElement {
         this.savedActiveElement = this.getConditionListItem(index);
 
         this.returnFocus();
-        hidePopover();
+        hidePopover({
+            closedBy: 'closeOnDone'
+        });
     };
 
     /**
@@ -230,7 +232,7 @@ export default class ComponentVisibility extends LightningElement {
      * @fires DeleteConditionEvent
      */
     handleClosePopover = (panel) => {
-        if (panel.closedBy === 'closeOnTabOut' || panel.closedBy === 'closeOnClickOut') {
+        if (panel.closedBy !== 'closeOnDone') {
             this.deleteNewCondition();
             this._popoverIndex = -1;
         }

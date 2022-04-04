@@ -15,7 +15,10 @@ import {
     UpdateConditionLogicEvent
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
 import { createElement } from 'lwc';
+
+const { Keys } = keyboardInteractionUtils;
 
 jest.mock('builder_platform_interaction/builderUtils');
 jest.mock('builder_platform_interaction/conditionListItem', () =>
@@ -132,6 +135,74 @@ describe('Component Visibility', () => {
         expect(showPopover).toHaveBeenCalled();
         expect(showPopover.mock.calls[0][1]).toMatchObject({
             condition: CONDITION
+        });
+    });
+
+    it('when escape is pressed on an open popover, popover closes', () => {
+        const element = createComponentUnderTest({
+            visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [NEW_CONDITION])
+        });
+
+        const indexOfItemToDelete = 0;
+
+        const eventCallback = jest.fn();
+        element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
+
+        const secondCondition = element.shadowRoot.querySelector(selectors.firstCondition);
+
+        secondCondition.dispatchEvent(
+            new Event('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+
+        expect(showPopover).toHaveBeenCalled();
+
+        const keyDownEvent = new KeyboardEvent('keydown', { key: Keys.Escape, bubbles: true });
+        secondCondition.dispatchEvent(keyDownEvent);
+
+        expect(hidePopover).toHaveBeenCalled();
+
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+            detail: {
+                index: indexOfItemToDelete
+            }
+        });
+    });
+
+    it('when tab is pressed on an open popover, popover closes', () => {
+        const element = createComponentUnderTest({
+            visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [NEW_CONDITION])
+        });
+
+        const indexOfItemToDelete = 0;
+
+        const eventCallback = jest.fn();
+        element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
+
+        const secondCondition = element.shadowRoot.querySelector(selectors.firstCondition);
+
+        secondCondition.dispatchEvent(
+            new Event('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+
+        expect(showPopover).toHaveBeenCalled();
+
+        const keyDownEvent = new KeyboardEvent('keydown', { key: Keys.Tab, bubbles: true });
+        secondCondition.dispatchEvent(keyDownEvent);
+
+        expect(hidePopover).toHaveBeenCalled();
+
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+            detail: {
+                index: indexOfItemToDelete
+            }
         });
     });
 
