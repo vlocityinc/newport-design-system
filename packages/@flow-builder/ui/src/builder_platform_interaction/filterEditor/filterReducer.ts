@@ -26,17 +26,19 @@ const initLHS = (state) => {
     const currentItem = getResourceByUniqueIdentifier(assignNextValueToReferenceGuidOrDevName, {
         lookupByDevName: true
     });
-    const collectionVariable = getVariableOrField(
-        state[COLLECTION_PROCESSOR_PROPERTIES.COLLECTION_REFERENCE].value,
-        Store.getStore().getCurrentState().elements
-    );
-    if (
-        collectionVariable &&
-        currentItem &&
-        collectionVariable.dataType !== FLOW_DATA_TYPE.SOBJECT.value &&
-        collectionVariable.dataType !== FLOW_DATA_TYPE.APEX.value
-    ) {
-        return currentItem.guid;
+    if (state[COLLECTION_PROCESSOR_PROPERTIES.COLLECTION_REFERENCE].value) {
+        const collectionVariable = getVariableOrField(
+            state[COLLECTION_PROCESSOR_PROPERTIES.COLLECTION_REFERENCE].value,
+            Store.getStore().getCurrentState().elements
+        );
+        if (
+            collectionVariable &&
+            currentItem &&
+            collectionVariable.dataType !== FLOW_DATA_TYPE.SOBJECT.value &&
+            collectionVariable.dataType !== FLOW_DATA_TYPE.APEX.value
+        ) {
+            return currentItem.guid;
+        }
     }
     return '';
 };
@@ -101,8 +103,8 @@ const updateCollectionReference = (state, event) => {
     state = updateProperties(state, {
         [COLLECTION_PROCESSOR_PROPERTIES.COLLECTION_REFERENCE]: { value: event.detail.value, error }
     });
-    // reset filter if input collection reference changed and no error
-    if (newValue !== currentStateReferenceValue && !error) {
+    // reset filter if input collection reference changed
+    if (newValue !== currentStateReferenceValue) {
         state = resetFilter(state);
     }
     return state;

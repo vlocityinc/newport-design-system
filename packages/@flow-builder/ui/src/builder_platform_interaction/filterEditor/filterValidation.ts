@@ -26,7 +26,7 @@ const additionalRules = {
 };
 
 export const filterValidation = new Validation(additionalRules);
-
+const MAX_FORMULA_LENGTH = 3900;
 /**
  * Build specific overridden rules
  *
@@ -38,15 +38,17 @@ export const getRules = (state) => {
     const elements = Store.getStore().getCurrentState().elements;
 
     overriddenRules.collectionReference = validateCollectionReference(elements);
-
-    if (state.conditionLogic.value === CONDITION_LOGIC.FORMULA) {
-        overriddenRules.formula = [
-            ValidationRules.maximumCharactersLimit(3900),
-            ValidationRules.shouldNotBeBlank,
-            ValidationRules.isValidFormulaExpression
-        ];
-    } else {
-        overriddenRules.conditions = validateFilterItems();
+    if (state.collectionReference.value) {
+        if (state.conditionLogic.value === CONDITION_LOGIC.FORMULA) {
+            overriddenRules.formula = [
+                ValidationRules.maximumCharactersLimit(MAX_FORMULA_LENGTH),
+                ValidationRules.shouldNotBeBlank,
+                ValidationRules.isValidFormulaExpression
+            ];
+        } else {
+            overriddenRules.conditions = validateFilterItems();
+        }
     }
+
     return overriddenRules;
 };

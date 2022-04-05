@@ -92,6 +92,24 @@ describe('filter reducer test', () => {
             const newState = filterReducer(originalState, event);
             expect(newState.conditionLogic.value).toEqual(CONDITION_LOGIC.AND);
         });
+        it('should reset filter items on removing input collection', () => {
+            const event = {
+                type: CollectionReferenceChangedEvent.EVENT_NAME,
+                detail: {
+                    value: null,
+                    error: '"Enter a valid value."'
+                }
+            };
+            const newState = filterReducer(originalState, event);
+            expect(newState.conditions).toMatchObject([
+                {
+                    leftHandSide: { value: '', error: null },
+                    rightHandSide: { value: '', error: null },
+                    rightHandSideDataType: { value: '', error: null },
+                    operator: { value: '', error: null }
+                }
+            ]);
+        });
     });
 
     describe('update filter item', () => {
