@@ -378,6 +378,25 @@ $b2b-table-border: $palette-gray-5;
       }
     }
   }
+
+  .nds-b2b-product-status {
+    transform: translateY(-50%);
+    &[data-linkicon="utility:link"] {
+      .nds-button__icon {
+        fill: #007A59;
+      }
+    }
+    &[data-linkicon="utility:warning"] {
+      .nds-button__icon {
+        fill: orange;
+      }
+    }
+  }
+  [data-num="0"] {
+    .nds-b2b-product-status {
+      transform: translateY(-15%);
+    }
+  }
 }
 .nds-b2b-validation_success{
   background-color: rgba(60, 179, 113,0.3);

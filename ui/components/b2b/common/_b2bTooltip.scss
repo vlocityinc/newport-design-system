@@ -14,3 +14,29 @@
 		display: block;
 	}
 }
+
+.nds-b2b-tooltip_attrwrapper {
+	position: relative;
+}
+
+.nds-b2b-tooltip_attr {
+	display: none;
+	color: $black-primary;
+	margin-top: .5rem;
+	position: absolute;
+	top: 100%;
+	left: 0;
+  transform: translateX(-50%);
+
+	.nds-b2b-tooltip_attrwrapper:hover & {
+		display: block;
+	}
+}
+
+.nds-b2b-attribute-count {
+  font-size: .875rem;
+    color: #1564bf;
+    font-weight: 400;
+    background: none;
+    border: none;
+}
