@@ -1,6 +1,8 @@
 {
-    "formulaValidationResults": {
-        "isValidSyntax": true,
-        "validationMessage": ""
-    }
+  "formulaValidationResults":{
+    "compileSize":null,
+    "validationMessage":"No syntax errors in merge fields or functions.",
+    "errorLocation":null,
+    "isValidSyntax":true
+  }
 }

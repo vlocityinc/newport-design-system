@@ -94,7 +94,9 @@
           },
           "headerConfig":{
             "showDebugStatus":false,
-            "showInterviewLabel":false
+            "showTestStatus":false,
+            "showInterviewLabel":false,
+            "showTestLabel":false
           },
           "leftPanelConfig":{
             "showLeftPanel":true
@@ -119,23 +121,25 @@
             "showCopyPasteButton":false,
             "showViewAllTestsButton":true,
             "showDebugButton":false,
-            "showRunTestButton":true,
-            "showSaveAsButton":true,
+            "showRunTestButton":false,
+            "showSaveAsButton":false,
             "showUndoRedoButton":true,
             "showCanvasModeToggle":false,
             "showRestartRunButton":false,
             "showEditFlowPropertiesButton":false,
             "showEditFlowButton":true,
-            "showSaveButton":true,
+            "showSaveButton":false,
             "showAddToTestButton":false,
             "showRunButton":false,
             "showFlowStatus":false,
             "showEditTestButton":true,
-            "showActivateButton":true
+            "showActivateButton":false
           },
           "headerConfig":{
             "showDebugStatus":false,
-            "showInterviewLabel":true
+            "showTestStatus":true,
+            "showInterviewLabel":false,
+            "showTestLabel":true
           },
           "leftPanelConfig":{
             "showLeftPanel":false
@@ -160,7 +164,7 @@
             "showCopyPasteButton":false,
             "showViewAllTestsButton":false,
             "showDebugButton":false,
-            "showRunTestButton":true,
+            "showRunTestButton":false,
             "showSaveAsButton":true,
             "showUndoRedoButton":true,
             "showCanvasModeToggle":false,
@@ -176,7 +180,9 @@
           },
           "headerConfig":{
             "showDebugStatus":true,
-            "showInterviewLabel":true
+            "showTestStatus":false,
+            "showInterviewLabel":true,
+            "showTestLabel":false
           },
           "leftPanelConfig":{
             "showLeftPanel":false

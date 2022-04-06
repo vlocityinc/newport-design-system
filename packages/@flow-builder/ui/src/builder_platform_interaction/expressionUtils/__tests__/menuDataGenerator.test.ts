@@ -235,7 +235,7 @@ describe('menuDataGenerator', () => {
     describe('getSystemAndGlobalVariableMenuData', () => {
         describe('Global variables', () => {
             // The number of global variable types from globalVariablesForFlow which also have fields
-            const NUM_GLOBAL_VARIABLE_TYPES = 7;
+            const NUM_GLOBAL_VARIABLE_TYPES = 8;
             const NUM_SYSTEM_VARIABLES = 1; // only $Flow
             beforeEach(() => {
                 setGlobalVariables(globalVariablesForFlow);

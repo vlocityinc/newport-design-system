@@ -1603,7 +1603,7 @@
       "sobjectName":"Contact",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "MailingCity":{
       "activePicklistValues":[
@@ -2150,7 +2150,7 @@
       "sobjectName":"Contact",
       "sortable":false,
       "subtype":null,
-      "supportedByAutomaticField":false
+      "supportedByAutomaticField":true
     },
     "OtherCity":{
       "activePicklistValues":[

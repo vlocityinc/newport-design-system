@@ -43,6 +43,16 @@
     {
       "Status":"Active",
       "IsTemplate":true,
+      "ProcessType":"AutoLaunchedFlow",
+      "IsSwingFlow":false,
+      "Description":null,
+      "EnumOrID":"runtime_industries_recurrence__Orch-1",
+      "Label":"Orchestration flow for Recurrence Scheduler",
+      "VersionNumber":1
+    },
+    {
+      "Status":"Active",
+      "IsTemplate":true,
       "ProcessType":"Flow",
       "IsSwingFlow":false,
       "Description":null,

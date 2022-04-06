@@ -61,6 +61,28 @@
 },
     {
   "category" : "Input",
+  "description" : "Datatable Component",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "genericTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowExtensionGenericType",
+    "records" : [ {
+      "description" : "Generic sObject data type used for input sObject properties",
+      "fieldsToNull" : [ ],
+      "label" : "Input Type",
+      "name" : "T",
+      "superType" : "SOBJECT"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "label" : "Datatable",
+  "qualifiedApiName" : "flowruntime:datatable",
+  "source" : "Standard"
+},
+    {
+  "category" : "Input",
   "description" : "Dependent Picklists",
   "extensionType" : "lwc",
   "fieldsToNull" : [ ],
@@ -240,6 +262,15 @@
   "fieldsToNull" : [ ],
   "label" : "LWC Test Component",
   "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
+  "source" : "Standard"
+},
+    {
+  "category" : "Inputs",
+  "description" : "A raptor testing component",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcTranslationsTest",
   "source" : "Standard"
 },
     {

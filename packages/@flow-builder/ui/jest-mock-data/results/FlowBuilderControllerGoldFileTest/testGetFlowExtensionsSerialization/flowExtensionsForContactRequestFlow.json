@@ -149,6 +149,15 @@
   "source" : "Standard"
 },
     {
+  "category" : "Inputs",
+  "description" : "A raptor testing component",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcTranslationsTest",
+  "source" : "Standard"
+},
+    {
   "description" : "Create a script for agents to follow while talking on the phone with customers.",
   "extensionType" : "aura",
   "fieldsToNull" : [ ],

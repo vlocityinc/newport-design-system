@@ -1,0 +1,403 @@
+{
+  "labelGlobalVariablesForAutoLaunchedFlow":{
+    "globalVariableTypes":[
+      {
+  "durableId" : "Flow-$Api",
+  "fieldsToNull" : [ ],
+  "label" : "Api",
+  "name" : "$Api"
+},
+      {
+  "durableId" : "Flow-$Label",
+  "fieldsToNull" : [ ],
+  "label" : "Label",
+  "name" : "$Label"
+},
+      {
+  "durableId" : "Flow-$Organization",
+  "fieldsToNull" : [ ],
+  "label" : "Organization",
+  "name" : "$Organization"
+},
+      {
+  "durableId" : "Flow-$Permission",
+  "fieldsToNull" : [ ],
+  "label" : "Permission",
+  "name" : "$Permission"
+},
+      {
+  "durableId" : "Flow-$Profile",
+  "fieldsToNull" : [ ],
+  "label" : "Current User Profile",
+  "name" : "$Profile"
+},
+      {
+  "durableId" : "Flow-$Setup",
+  "fieldsToNull" : [ ],
+  "label" : "$Setup",
+  "name" : "$Setup"
+},
+      {
+  "durableId" : "Flow-$System",
+  "fieldsToNull" : [ ],
+  "label" : "System",
+  "name" : "$System"
+},
+      {
+  "durableId" : "Flow-$User",
+  "fieldsToNull" : [ ],
+  "label" : "Current User",
+  "name" : "$User"
+},
+      {
+  "durableId" : "Flow-$UserRole",
+  "fieldsToNull" : [ ],
+  "label" : "Current User Role",
+  "name" : "$UserRole"
+}
+    ],
+    "globalVariables":[
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-AccessLevel",
+  "fieldsToNull" : [ ],
+  "label" : "AccessLevel",
+  "name" : "AccessLevel",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Back",
+  "fieldsToNull" : [ ],
+  "label" : "Back",
+  "name" : "Back",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-ButtonIsNotSupportedMessage",
+  "fieldsToNull" : [ ],
+  "label" : "ButtonIsNotSupportedMessage",
+  "name" : "ButtonIsNotSupportedMessage",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-ConditionLogicHelpText",
+  "fieldsToNull" : [ ],
+  "label" : "ConditionLogicHelpText",
+  "name" : "ConditionLogicHelpText",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Delete",
+  "fieldsToNull" : [ ],
+  "label" : "Delete",
+  "name" : "Delete",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-FieldIsNotSupportedMessage",
+  "fieldsToNull" : [ ],
+  "label" : "FieldIsNotSupportedMessage",
+  "name" : "FieldIsNotSupportedMessage",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-For",
+  "fieldsToNull" : [ ],
+  "label" : "For",
+  "name" : "For",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-LackingPermissions",
+  "fieldsToNull" : [ ],
+  "label" : "LackingPermissions",
+  "name" : "LackingPermissions",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-ManagerEmptyMessage",
+  "fieldsToNull" : [ ],
+  "label" : "ManagerEmptyMessage",
+  "name" : "ManagerEmptyMessage",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-MultipleGroupsForRole",
+  "fieldsToNull" : [ ],
+  "label" : "MultipleGroupsForRole",
+  "name" : "MultipleGroupsForRole",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Name",
+  "fieldsToNull" : [ ],
+  "label" : "Name",
+  "name" : "Name",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-NonePicklistValueLabel",
+  "fieldsToNull" : [ ],
+  "label" : "NonePicklistValueLabel",
+  "name" : "NonePicklistValueLabel",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-OWDReadWrite",
+  "fieldsToNull" : [ ],
+  "label" : "OWDReadWrite",
+  "name" : "OWDReadWrite",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-OwnerAdminModify",
+  "fieldsToNull" : [ ],
+  "label" : "OwnerAdminModify",
+  "name" : "OwnerAdminModify",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-PublicGroups",
+  "fieldsToNull" : [ ],
+  "label" : "PublicGroups",
+  "name" : "PublicGroups",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Queues",
+  "fieldsToNull" : [ ],
+  "label" : "Queues",
+  "name" : "Queues",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Read",
+  "fieldsToNull" : [ ],
+  "label" : "Read",
+  "name" : "Read",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-ReadWrite",
+  "fieldsToNull" : [ ],
+  "label" : "ReadWrite",
+  "name" : "ReadWrite",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Reason",
+  "fieldsToNull" : [ ],
+  "label" : "Reason",
+  "name" : "Reason",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-RelatedUsers",
+  "fieldsToNull" : [ ],
+  "label" : "RelatedUsers",
+  "name" : "RelatedUsers",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Roles",
+  "fieldsToNull" : [ ],
+  "label" : "Roles",
+  "name" : "Roles",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Search",
+  "fieldsToNull" : [ ],
+  "label" : "Search in",
+  "name" : "Search",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-SearchFor",
+  "fieldsToNull" : [ ],
+  "label" : "SearchFor",
+  "name" : "SearchFor",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-SetAccessLevel",
+  "fieldsToNull" : [ ],
+  "label" : "SetAccessLevel",
+  "name" : "SetAccessLevel",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-SupportedAddCapabilitiesEmptyMessage",
+  "fieldsToNull" : [ ],
+  "label" : "SupportedAddCapabilitiesEmptyMessage",
+  "name" : "SupportedAddCapabilitiesEmptyMessage",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-SupportedButtonsEmptyMessage",
+  "fieldsToNull" : [ ],
+  "label" : "SupportedButtonsEmptyMessage",
+  "name" : "SupportedButtonsEmptyMessage",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-SupportedEditCapabilitiesEmptyMessage",
+  "fieldsToNull" : [ ],
+  "label" : "SupportedEditCapabilitiesEmptyMessage",
+  "name" : "SupportedEditCapabilitiesEmptyMessage",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-TooManyResultsMessage",
+  "fieldsToNull" : [ ],
+  "label" : "TooManyResultsMessage",
+  "name" : "TooManyResultsMessage",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Type",
+  "fieldsToNull" : [ ],
+  "label" : "Type",
+  "name" : "Type",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-UserOrGroup",
+  "fieldsToNull" : [ ],
+  "label" : "UserOrGroup",
+  "name" : "UserOrGroup",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Label-Users",
+  "fieldsToNull" : [ ],
+  "label" : "Users",
+  "name" : "Users",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Label"
+  }
+}
+    ]
+  }
+}

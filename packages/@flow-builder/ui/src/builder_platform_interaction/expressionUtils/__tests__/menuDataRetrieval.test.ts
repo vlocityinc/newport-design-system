@@ -640,6 +640,7 @@ describe('Menu data retrieval', () => {
             expect(menuData[0].items.map((item) => item.text)).toEqual([
                 '$Api',
                 '$Flow',
+                '$Label',
                 '$Organization',
                 '$Profile',
                 '$Setup',

@@ -57,6 +57,14 @@
       "isViewable":true
     },
     {
+      "masterLabel":"Recurrence Schedule Flow",
+      "activeVersionId":"runtime_industries_recurrence__Schdlr-1",
+      "fullName":"runtime_industries_recurrence__Schdlr",
+      "description":"Flow for creating object items from Recurrence Scheduler Records",
+      "latestVersionId":"runtime_industries_recurrence__Schdlr-1",
+      "isViewable":false
+    },
+    {
       "masterLabel":"SomeFlow",
       "activeVersionId":null,
       "fullName":"autoLaunchedFlow",

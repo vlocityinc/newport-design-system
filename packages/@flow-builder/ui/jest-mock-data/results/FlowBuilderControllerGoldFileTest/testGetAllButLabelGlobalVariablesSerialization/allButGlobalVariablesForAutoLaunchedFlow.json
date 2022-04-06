@@ -1,5 +1,5 @@
 {
-  "globalVariablesForAutoLaunchedFlow":{
+  "allButGlobalVariablesForAutoLaunchedFlow":{
     "globalVariableTypes":[
       {
   "durableId" : "Flow-$Api",
@@ -59,17 +59,6 @@
     "globalVariables":[
       {
   "datatype" : "String",
-  "durableId" : "Flow-$Label-AccessLevel",
-  "fieldsToNull" : [ ],
-  "label" : "AccessLevel",
-  "name" : "AccessLevel",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
   "durableId" : "Flow-$Organization-Address",
   "fieldsToNull" : [ ],
   "label" : "Address",
@@ -99,28 +88,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$User"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-Back",
-  "fieldsToNull" : [ ],
-  "label" : "Back",
-  "name" : "Back",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-ButtonIsNotSupportedMessage",
-  "fieldsToNull" : [ ],
-  "label" : "ButtonIsNotSupportedMessage",
-  "name" : "ButtonIsNotSupportedMessage",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
   }
 },
       {
@@ -176,17 +143,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$User"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-ConditionLogicHelpText",
-  "fieldsToNull" : [ ],
-  "label" : "ConditionLogicHelpText",
-  "name" : "ConditionLogicHelpText",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
   }
 },
       {
@@ -264,17 +220,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$Setup"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-Delete",
-  "fieldsToNull" : [ ],
-  "label" : "Delete",
-  "name" : "Delete",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
   }
 },
       {
@@ -1016,17 +961,6 @@
 },
       {
   "datatype" : "String",
-  "durableId" : "Flow-$Label-FieldIsNotSupportedMessage",
-  "fieldsToNull" : [ ],
-  "label" : "FieldIsNotSupportedMessage",
-  "name" : "FieldIsNotSupportedMessage",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
   "durableId" : "Flow-$User-FirstName",
   "fieldsToNull" : [ ],
   "label" : "First Name",
@@ -1034,17 +968,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$User"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-For",
-  "fieldsToNull" : [ ],
-  "label" : "For",
-  "name" : "For",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
   }
 },
       {
@@ -1144,17 +1067,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$Profile"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-LackingPermissions",
-  "fieldsToNull" : [ ],
-  "label" : "LackingPermissions",
-  "name" : "LackingPermissions",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
   }
 },
       {
@@ -1291,17 +1203,6 @@
 },
       {
   "datatype" : "String",
-  "durableId" : "Flow-$Label-ManagerEmptyMessage",
-  "fieldsToNull" : [ ],
-  "label" : "ManagerEmptyMessage",
-  "name" : "ManagerEmptyMessage",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
   "durableId" : "Flow-$User-ManagerId",
   "fieldsToNull" : [ ],
   "label" : "Manager ID",
@@ -1346,28 +1247,6 @@
 },
       {
   "datatype" : "String",
-  "durableId" : "Flow-$Label-MultipleGroupsForRole",
-  "fieldsToNull" : [ ],
-  "label" : "MultipleGroupsForRole",
-  "name" : "MultipleGroupsForRole",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-Name",
-  "fieldsToNull" : [ ],
-  "label" : "Name",
-  "name" : "Name",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
   "durableId" : "Flow-$Organization-Name",
   "fieldsToNull" : [ ],
   "label" : "Name",
@@ -1400,28 +1279,6 @@
   }
 },
       {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-NonePicklistValueLabel",
-  "fieldsToNull" : [ ],
-  "label" : "NonePicklistValueLabel",
-  "name" : "NonePicklistValueLabel",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-OWDReadWrite",
-  "fieldsToNull" : [ ],
-  "label" : "OWDReadWrite",
-  "name" : "OWDReadWrite",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
   "datatype" : "Picklist",
   "durableId" : "Flow-$UserRole-OpportunityAccessForAccountOwner",
   "fieldsToNull" : [ ],
@@ -1441,17 +1298,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$System"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-OwnerAdminModify",
-  "fieldsToNull" : [ ],
-  "label" : "OwnerAdminModify",
-  "name" : "OwnerAdminModify",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
   }
 },
       {
@@ -2149,83 +1995,6 @@
 },
       {
   "datatype" : "String",
-  "durableId" : "Flow-$Label-PublicGroups",
-  "fieldsToNull" : [ ],
-  "label" : "PublicGroups",
-  "name" : "PublicGroups",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-Queues",
-  "fieldsToNull" : [ ],
-  "label" : "Queues",
-  "name" : "Queues",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-Read",
-  "fieldsToNull" : [ ],
-  "label" : "Read",
-  "name" : "Read",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-ReadWrite",
-  "fieldsToNull" : [ ],
-  "label" : "ReadWrite",
-  "name" : "ReadWrite",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-Reason",
-  "fieldsToNull" : [ ],
-  "label" : "Reason",
-  "name" : "Reason",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-RelatedUsers",
-  "fieldsToNull" : [ ],
-  "label" : "RelatedUsers",
-  "name" : "RelatedUsers",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-Roles",
-  "fieldsToNull" : [ ],
-  "label" : "Roles",
-  "name" : "Roles",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
   "durableId" : "Flow-$UserRole-RollupDescription",
   "fieldsToNull" : [ ],
   "label" : "Description",
@@ -2237,28 +2006,6 @@
 },
       {
   "datatype" : "String",
-  "durableId" : "Flow-$Label-Search",
-  "fieldsToNull" : [ ],
-  "label" : "Search in",
-  "name" : "Search",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-SearchFor",
-  "fieldsToNull" : [ ],
-  "label" : "SearchFor",
-  "name" : "SearchFor",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
   "durableId" : "Flow-$Api-Session_ID",
   "fieldsToNull" : [ ],
   "label" : "API Session ID",
@@ -2266,17 +2013,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$Api"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-SetAccessLevel",
-  "fieldsToNull" : [ ],
-  "label" : "SetAccessLevel",
-  "name" : "SetAccessLevel",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
   }
 },
       {
@@ -2357,39 +2093,6 @@
   }
 },
       {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-SupportedAddCapabilitiesEmptyMessage",
-  "fieldsToNull" : [ ],
-  "label" : "SupportedAddCapabilitiesEmptyMessage",
-  "name" : "SupportedAddCapabilitiesEmptyMessage",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-SupportedButtonsEmptyMessage",
-  "fieldsToNull" : [ ],
-  "label" : "SupportedButtonsEmptyMessage",
-  "name" : "SupportedButtonsEmptyMessage",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-SupportedEditCapabilitiesEmptyMessage",
-  "fieldsToNull" : [ ],
-  "label" : "SupportedEditCapabilitiesEmptyMessage",
-  "name" : "SupportedEditCapabilitiesEmptyMessage",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
   "datatype" : "Picklist",
   "durableId" : "Flow-$User-TimeZoneSidKey",
   "fieldsToNull" : [ ],
@@ -2409,28 +2112,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$User"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-TooManyResultsMessage",
-  "fieldsToNull" : [ ],
-  "label" : "TooManyResultsMessage",
-  "name" : "TooManyResultsMessage",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-Type",
-  "fieldsToNull" : [ ],
-  "label" : "Type",
-  "name" : "Type",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
   }
 },
       {
@@ -2479,17 +2160,6 @@
 },
       {
   "datatype" : "String",
-  "durableId" : "Flow-$Label-UserOrGroup",
-  "fieldsToNull" : [ ],
-  "label" : "UserOrGroup",
-  "name" : "UserOrGroup",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
-  }
-},
-      {
-  "datatype" : "String",
   "durableId" : "Flow-$User-UserRoleId",
   "fieldsToNull" : [ ],
   "label" : "Role ID",
@@ -2530,17 +2200,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$User"
-  }
-},
-      {
-  "datatype" : "String",
-  "durableId" : "Flow-$Label-Users",
-  "fieldsToNull" : [ ],
-  "label" : "Users",
-  "name" : "Users",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Label"
   }
 }
     ]

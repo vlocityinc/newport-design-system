@@ -197,6 +197,22 @@
       "isStandard":true,
       "allowsTransactionControl":false,
       "iconName":null,
+      "name":"authorizePayment",
+      "description":"Authorize a payment.",
+      "configurationEditor":null,
+      "label":"Authorize Payment",
+      "type":"authorizePayment",
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"authorizePayment-authorizePayment"
+    },
+    {
+      "iconId":null,
+      "isStandard":true,
+      "allowsTransactionControl":false,
+      "iconName":null,
       "name":"chatterPost",
       "description":"Post to the feed for a specific record, user, or Chatter group.",
       "configurationEditor":null,

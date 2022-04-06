@@ -51,6 +51,14 @@
       "isCollection":false
     },
     {
+      "category":"Orchestration",
+      "dataType":"String",
+      "devName":"Instance",
+      "isAssignable":false,
+      "isAvailableInBuilder":true,
+      "isCollection":false
+    },
+    {
       "category":"Flow",
       "dataType":"String",
       "devName":"InterviewGuid",
@@ -67,10 +75,9 @@
       "isCollection":false
     },
     {
-      "category":"Orchestration",
-      "dataType":"String",
-      "devName":"Instance",
-      "isAssignable":false,
+      "category":"Record",
+      "dataType":"SObject",
+      "isAssignable":true,
       "isAvailableInBuilder":true,
       "isCollection":false
     }

@@ -32,6 +32,15 @@
   "label" : "LWC Test Component",
   "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
   "source" : "Standard"
+},
+    {
+  "category" : "Inputs",
+  "description" : "A raptor testing component",
+  "extensionType" : "lwc",
+  "fieldsToNull" : [ ],
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcTranslationsTest",
+  "source" : "Standard"
 }
   ]
 }

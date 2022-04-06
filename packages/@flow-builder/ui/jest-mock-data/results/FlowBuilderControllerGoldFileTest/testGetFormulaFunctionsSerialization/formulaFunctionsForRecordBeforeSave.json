@@ -465,6 +465,13 @@
         "categoryId":"MATH"
       },
       {
+        "exampleString":"PICKLISTCOUNT(multiselect_picklist_field)",
+        "name":"PICKLISTCOUNT",
+        "description":"Returns the number of selected values in a multi-select picklist.",
+        "label":"PICKLISTCOUNT",
+        "categoryId":"TEXT"
+      },
+      {
         "exampleString":"REGEX(Text, RegEx_Text)",
         "name":"REGEX",
         "description":"Returns TRUE if Text matches the regular expression RegEx_Text. Otherwise, it returns FALSE.",

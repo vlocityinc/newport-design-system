@@ -69,6 +69,22 @@
       "isStandard":false,
       "allowsTransactionControl":false,
       "iconName":null,
+      "name":"runtime_industries_recurrence__Schdlr",
+      "description":"Flow for creating object items from Recurrence Scheduler Records",
+      "configurationEditor":null,
+      "label":"Recurrence Schedule Flow",
+      "type":"stepBackground",
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"stepBackground-runtime_industries_recurrence__Schdlr"
+    },
+    {
+      "iconId":null,
+      "isStandard":false,
+      "allowsTransactionControl":false,
+      "iconName":null,
       "name":"BusOp__TestFileBasedInaccessible",
       "description":null,
       "configurationEditor":null,
@@ -127,6 +143,22 @@
 
       ],
       "durableId":"stepInteractive-FtestSfdcOnly__TestFileBasedScreen"
+    },
+    {
+      "iconId":null,
+      "isStandard":false,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "name":"FtestSfdcOnly__TestFileBasedSlack",
+      "description":"FTEST - File Based Flow Screen Flow",
+      "configurationEditor":null,
+      "label":"FTest-TestFileBasedScreen",
+      "type":"stepInteractive",
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"stepInteractive-FtestSfdcOnly__TestFileBasedSlack"
     },
     {
       "iconId":null,
