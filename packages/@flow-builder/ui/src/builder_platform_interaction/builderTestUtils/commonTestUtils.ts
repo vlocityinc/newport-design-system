@@ -10,8 +10,8 @@ const DEFAULT_MAX_TICKS = 10;
  * @param {number} maxTicks max number of event loop ticks before the condition becomes truthy
  * @returns {Promise} if fulfilled, value is the condition returned value
  */
-export const until = (condition, maxTicks = DEFAULT_MAX_TICKS) => {
-    return Promise.resolve().then(() => {
+export const until = (condition, maxTicks = DEFAULT_MAX_TICKS) =>
+    Promise.resolve().then(() => {
         try {
             const result = condition();
             if (result) {
@@ -27,7 +27,6 @@ export const until = (condition, maxTicks = DEFAULT_MAX_TICKS) => {
         }
         return until(condition, maxTicks - 1);
     });
-};
 
 /**
  * Returns a promise that is fulfilled when expectations are met
@@ -36,12 +35,11 @@ export const until = (condition, maxTicks = DEFAULT_MAX_TICKS) => {
  * @param {number} maxTicks max number of event loop ticks before the condition becomes truthy
  * @returns {Promise} fulfilled when expectations are met
  */
-export const untilNoFailure = (expectations, maxTicks = DEFAULT_MAX_TICKS) => {
-    return until(() => {
+export const untilNoFailure = (expectations, maxTicks = DEFAULT_MAX_TICKS) =>
+    until(() => {
         expectations();
         return true;
     }, maxTicks);
-};
 
 /**
  * Returns a promise that is fulfilled after the given number of event loop ticks
@@ -49,14 +47,13 @@ export const untilNoFailure = (expectations, maxTicks = DEFAULT_MAX_TICKS) => {
  * @param {number} maxTicks number of event loop ticks before the promise is fulfilled
  * @returns {Promise} fulfilled after the given number of event loop ticks
  */
-export const ticks = (maxTicks = DEFAULT_MAX_TICKS) => {
-    return until(() => false, maxTicks).catch(() => {});
-};
+export const ticks = (maxTicks = DEFAULT_MAX_TICKS) => until(() => false, maxTicks).catch(() => {});
 
 /**
  * Create a new promise with status properties.
  *
- * @param promise
+ * @param promise current promise
+ * @returns new promise with status properties
  */
 export const makeQuerablePromise = (promise) => {
     // Don't modify any promise that has been already modified.
@@ -93,14 +90,10 @@ export const makeQuerablePromise = (promise) => {
  * @param s - the string to format
  * @returns the formatted string
  */
-function camelCase(s) {
-    return s.replace(/-[a-zA-Z]/gi, (match) => {
-        return match.charAt(1).toUpperCase();
-    });
-}
+const camelCase = (s: string) => s.replace(/-[a-zA-Z]/gi, (match) => match.charAt(1).toUpperCase());
 
 /**
- * Creates a component for for use in jest tests
+ * Creates a component for use in jest tests
  *
  * @param tagName - The component name
  * @param options - The component properties
@@ -117,11 +110,16 @@ export const createComponent = async (tagName, options = {}, optionsOverride = {
         is: require(`${namespace}/${moduleName}`).default
     });
 
-    if (options) {
-        Object.assign(el, options);
-    }
+    Object.assign(el, options);
 
     setDocumentBodyChildren(el);
     await ticks(1);
     return el;
 };
+
+/*
+ * @param callback Jest mocked callback
+ * @returns the mocked callback event detail object value
+ */
+export const getDetailPassedToEvent = (callback: { mock: { calls: { detail: {} }[][] } }) =>
+    callback.mock.calls[0][0].detail;
