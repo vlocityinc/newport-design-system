@@ -17,11 +17,11 @@ import { isLookupTraversalSupported as isLookupTraversalSupportedByTriggerType }
 /**
  * Whether or not lookup traversal is supported in this flow
  *
- * @param {string} processType the current process type
- * @param {string} triggerType the current trigger type
- * @returns {boolean} true if lookup traversal is supported, false otherwise
+ * @param processType the current process type
+ * @param triggerType the current trigger type
+ * @returns true if lookup traversal is supported, false otherwise
  */
-export const isLookupTraversalSupported = (processType: string, triggerType?: string) =>
+export const isLookupTraversalSupported = (processType: string, triggerType: UI.FlowTriggerType): boolean =>
     isLookupTraversalSupportedByProcessType(processType) && isLookupTraversalSupportedByTriggerType(triggerType);
 
 /**

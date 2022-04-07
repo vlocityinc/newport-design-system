@@ -149,9 +149,9 @@ export const isOrderNumberInStore = (orderNumberToBeTested: number, listOfGuidsT
 /**
  * @returns the trigger type for the current flow
  */
-export const getTriggerType = (): string | undefined => {
+export const getTriggerType = (): UI.FlowTriggerType => {
     const startElement = getStartElement();
-    return startElement ? startElement.triggerType : undefined;
+    return startElement?.triggerType || FLOW_TRIGGER_TYPE.NONE;
 };
 
 /**
@@ -182,10 +182,8 @@ export const isExecuteOnlyWhenChangeMatchesConditionsPossible = () => {
     const triggerType = getTriggerType();
     const saveType = getRecordTriggerType();
     return (
-        ((triggerType && triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) ||
-            triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) &&
-        ((saveType && saveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE) ||
-            saveType === FLOW_TRIGGER_SAVE_TYPE.UPDATE)
+        (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE || triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) &&
+        (saveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE || saveType === FLOW_TRIGGER_SAVE_TYPE.UPDATE)
     );
 };
 

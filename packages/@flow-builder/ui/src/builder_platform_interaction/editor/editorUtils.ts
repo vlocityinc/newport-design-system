@@ -165,7 +165,7 @@ const doDeleteOrInvokeAlert = (
     }
 };
 
-const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
+const resetStartElementIfNeeded = (storeInstance, processType, triggerType: UI.FlowTriggerType) => {
     const elements: UI.Elements = storeInstance.getCurrentState().elements;
     const startElement = Object.values(elements).find(
         (element) => element.elementType === ELEMENT_TYPE.START_ELEMENT
@@ -173,7 +173,7 @@ const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
     if (
         !isConfigurableStartSupported(processType) ||
         triggerType !== startElement.triggerType ||
-        (triggerType && startElement.triggerType === FLOW_TRIGGER_TYPE.NONE)
+        startElement.triggerType === FLOW_TRIGGER_TYPE.NONE
     ) {
         let deletedChildElementGuids: UI.Guid[] = [];
         if (startElement.childReferences) {
@@ -1209,10 +1209,10 @@ export const logElementCreation = (
  * As of 238, only Before/After-Save triggered Autolaunched Flows are supported.
  *
  * @param processType
- * @param triggerType
+ * @param triggerType - The trigger type
  * @returns
  */
-export const isFlowTestingSupported = (processType: string, triggerType: string) => {
+export const isFlowTestingSupported = (processType: string, triggerType: UI.FlowTriggerType) => {
     return isFlowTestingSupportedForProcessType(processType) && isFlowTestingSupportedForTriggerType(triggerType);
 };
 

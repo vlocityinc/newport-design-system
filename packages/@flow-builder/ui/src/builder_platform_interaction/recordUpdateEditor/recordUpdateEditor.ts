@@ -145,8 +145,8 @@ export default class RecordUpdateEditor extends LightningElement {
         ];
 
         // add triggering record option only if its record change trigger and object on start is set
-        const triggerType: string | undefined = getTriggerType();
-        if (triggerType && doesSupportTriggeringRecordUpdate(triggerType) && this.dollarRecordName()) {
+        const triggerType = getTriggerType();
+        if (doesSupportTriggeringRecordUpdate(triggerType) && this.dollarRecordName()) {
             const label =
                 triggerType === FLOW_TRIGGER_TYPE.SCHEDULED
                     ? LABELS.triggeringScheduledRecordLabel
@@ -163,8 +163,7 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get showWayToFindInfoMessage() {
-        const triggerType: string | undefined = getTriggerType();
-        return triggerType && triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+        return getTriggerType() === FLOW_TRIGGER_TYPE.BEFORE_SAVE;
     }
 
     get recordFilterTitle() {
@@ -175,8 +174,7 @@ export default class RecordUpdateEditor extends LightningElement {
      * used to disable radio wayToFindRecords radio group.
      */
     get isDisabled(): boolean {
-        const triggerType = getTriggerType();
-        return triggerType && triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+        return getTriggerType() === FLOW_TRIGGER_TYPE.BEFORE_SAVE;
     }
 
     get isSobjectReference(): boolean {

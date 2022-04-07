@@ -91,8 +91,8 @@ export default class contextRecordEditor extends LightningElement {
         }
     }
 
-    get triggerType() {
-        return this.startElement.triggerType.value;
+    get triggerType(): UI.FlowTriggerType {
+        return this.startElement.triggerType.value || FLOW_TRIGGER_TYPE.NONE;
     }
 
     get elementType() {

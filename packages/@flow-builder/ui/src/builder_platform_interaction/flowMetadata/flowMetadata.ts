@@ -372,15 +372,15 @@ export const FLOW_SUPPORTED_FEATURES = {
     CONFIGURABLE_START: 'ConfigurableStart'
 };
 
-export const FLOW_TRIGGER_TYPE = {
-    SCHEDULED: 'Scheduled',
-    SCHEDULED_JOURNEY: 'ScheduledJourney',
-    BEFORE_SAVE: 'RecordBeforeSave',
-    BEFORE_DELETE: 'RecordBeforeDelete',
-    AFTER_SAVE: 'RecordAfterSave',
-    PLATFORM_EVENT: 'PlatformEvent',
-    NONE: 'None'
-};
+export enum FLOW_TRIGGER_TYPE {
+    SCHEDULED = 'Scheduled',
+    SCHEDULED_JOURNEY = 'ScheduledJourney',
+    BEFORE_SAVE = 'RecordBeforeSave',
+    BEFORE_DELETE = 'RecordBeforeDelete',
+    AFTER_SAVE = 'RecordAfterSave',
+    PLATFORM_EVENT = 'PlatformEvent',
+    NONE = 'None'
+}
 
 export const FORMULA_TYPE = {
     FLOW_ENTRY_CRITERIA: 'flowEntryCriteria',

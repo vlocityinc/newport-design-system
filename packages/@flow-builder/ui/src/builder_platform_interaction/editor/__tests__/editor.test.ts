@@ -4,7 +4,8 @@ import {
     addElement,
     updateCanvasElementLocation,
     updateElement,
-    updateElementErrorState
+    updateElementErrorState,
+    updateFlow
 } from 'builder_platform_interaction/actions';
 import {
     deepQuerySelector,
@@ -40,7 +41,10 @@ import {
     ViewAllTestsEvent
 } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { loadProcessTypeFeatures } from 'builder_platform_interaction/preloadLib';
+import {
+    loadOperatorsAndRulesOnTriggerTypeChange,
+    loadProcessTypeFeatures
+} from 'builder_platform_interaction/preloadLib';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { focusUtils } from 'builder_platform_interaction/sharedUtils';
@@ -202,6 +206,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
+        updateFlow: jest.requireActual('builder_platform_interaction/actions').updateFlow,
         addElement: jest.fn((el) => {
             return {
                 value: el
@@ -2593,5 +2598,22 @@ describe('On click of view Tests toolbar button', () => {
         toolbar.dispatchEvent(viewAllTestsEvent);
         await ticks(1);
         expect(invokeFlowTestManager).not.toHaveBeenCalled();
+    });
+});
+
+describe('loading rules', () => {
+    it('rules are not reloaded when setting trigger type to NONE', async () => {
+        createComponentUnderTest();
+
+        const storeInstance = Store.getStore();
+
+        const state = storeInstance.getCurrentState();
+        storeInstance.dispatch(updateFlow(state));
+        const newElements = { ...state.elements };
+        const newState = { ...state, elements: newElements };
+        newElements['6'].triggerType = FLOW_TRIGGER_TYPE.NONE;
+        storeInstance.dispatch(updateFlow(newState));
+
+        expect(loadOperatorsAndRulesOnTriggerTypeChange).toHaveBeenCalledTimes(0);
     });
 });

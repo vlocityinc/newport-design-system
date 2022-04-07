@@ -131,7 +131,7 @@ export const copyAlcExtraProps = (fromElement: UI.Element, toElement: UI.Element
  * @param triggerType - The trigger type
  * @returns the description
  */
-export const startElementDescription = (triggerType: string): string | undefined => {
+export const startElementDescription = (triggerType: UI.FlowTriggerType): string | undefined => {
     const processType = getProcessType();
     if (isRecordChangeTriggerType(triggerType) || triggerType === SCHEDULED || triggerType === PLATFORM_EVENT) {
         return PROCESS_TRIGGER_TYPE_LABELS[processType + triggerType] || TRIGGER_TYPE_LABELS[triggerType];

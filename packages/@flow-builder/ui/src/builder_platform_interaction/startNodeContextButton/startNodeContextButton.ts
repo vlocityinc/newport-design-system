@@ -29,7 +29,7 @@ export default class StartNodeContextButton extends StartNodeButton {
     }
 
     get isOptional() {
-        return this.node.triggerType === SCHEDULED ? true : false;
+        return this.node.triggerType === SCHEDULED;
     }
 
     get optionalLabel() {

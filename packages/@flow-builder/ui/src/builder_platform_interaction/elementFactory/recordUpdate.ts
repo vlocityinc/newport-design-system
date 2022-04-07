@@ -51,7 +51,7 @@ export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerTy
     let { canHaveFaultConnector } = newRecordUpdate;
 
     let maxConnections = 2;
-    if (triggerType && triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
+    if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
         canHaveFaultConnector = false;
         maxConnections -= 1;
         availableConnections = [
@@ -96,7 +96,6 @@ export function createRecordUpdate(recordUpdate = {}, triggerType = getTriggerTy
     // handles incompatible switches between processTypes and triggerTypes.
     if (
         wayToFindRecords !== RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD &&
-        triggerType &&
         triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE
     ) {
         // If triggerType is before save, only Triggering Record option is available.

@@ -67,7 +67,7 @@ declare namespace Metadata {
         object?: string;
         recordTriggerType?: string;
         schedule: Schedule;
-        triggerType?: string;
+        triggerType: UI.FlowTriggerType;
         scheduledPaths?: ScheduledPath[];
         doesRequireRecordChangedToMeetCriteria?: boolean;
         connector: Connector;

@@ -380,7 +380,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     _isInlineEditingResource = false;
     ifBlockResume = false;
 
-    triggerType;
+    triggerType: UI.FlowTriggerType = FLOW_TRIGGER_TYPE.NONE;
+
     recordTriggerType;
     originalFlowLabel;
     originalFlowDescription;
@@ -571,8 +572,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     get useNewDebugExperience() {
         return (
             this.properties.processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
-            (!this.triggerType ||
-                this.triggerType === FLOW_TRIGGER_TYPE.NONE ||
+            (this.triggerType === FLOW_TRIGGER_TYPE.NONE ||
                 this.triggerType === FLOW_TRIGGER_TYPE.SCHEDULED ||
                 isRecordChangeTriggerType(this.triggerType))
         );
@@ -778,9 +778,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         // TODO:  W-8146747
         return (
             !!this.toolbarConfig.showRunButton &&
-            (!isOrchestrator(this.properties.processType) ||
-                !this.triggerType ||
-                this.triggerType === FLOW_TRIGGER_TYPE.NONE)
+            (!isOrchestrator(this.properties.processType) || this.triggerType === FLOW_TRIGGER_TYPE.NONE)
         );
     }
 
@@ -948,10 +946,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
             if (triggerTypeChanged) {
                 this.triggerType = flowTriggerType;
-                if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
+                if (this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
                     getTriggerTypeInfo(flowTriggerType);
                 }
-                if (this.triggerType && this.triggerType === FLOW_TRIGGER_TYPE.PLATFORM_EVENT) {
+                if (this.triggerType === FLOW_TRIGGER_TYPE.PLATFORM_EVENT) {
                     const loadEventTypesManagedSetup = fetchOnce(
                         SERVER_ACTION_TYPE.GET_EVENT_TYPES,
                         { eventType: MANAGED_SETUP },
@@ -1109,7 +1107,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const flowMetadata = data.metadata || data;
         if (flowMetadata.start) {
             const { object, triggerType } = flowMetadata.start;
-            if (triggerType && object) {
+            if (object) {
                 if (triggerType === FLOW_TRIGGER_TYPE.SCHEDULED || isRecordChangeTriggerType(triggerType)) {
                     promises.push(loadEntity(object));
                 } else if (triggerType === FLOW_TRIGGER_TYPE.PLATFORM_EVENT) {

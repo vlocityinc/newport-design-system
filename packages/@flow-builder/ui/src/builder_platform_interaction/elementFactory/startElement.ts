@@ -695,7 +695,7 @@ function getDefaultFilterLogic(triggerType, processType) {
  */
 function getDefaultObjectForOrchestration(
     object: string,
-    triggerType: string,
+    triggerType: UI.FlowTriggerType,
     newStartElement: UI.Start,
     processType: string | null | undefined
 ) {

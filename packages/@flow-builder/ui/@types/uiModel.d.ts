@@ -193,9 +193,18 @@ declare namespace UI {
         leftHandSideDataType: string;
     }
 
+    type FlowTriggerType =
+        | 'Scheduled'
+        | 'ScheduledJourney'
+        | 'RecordBeforeSave'
+        | 'RecordBeforeDelete'
+        | 'RecordAfterSave'
+        | 'PlatformEvent'
+        | 'None';
+
     interface Start extends BaseCanvasElementWithFilter, Schedule {
         doesRequireRecordChangedToMeetCriteria: boolean;
-        triggerType?: string;
+        triggerType: UI.FlowTriggerType;
         haveSystemVariableFields?: boolean;
         object: string;
         objectIndex?: string;
