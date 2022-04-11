@@ -2,7 +2,7 @@ import { isObject, isReference } from 'builder_platform_interaction/commonUtils'
 import { getErrorsFromHydratedElement, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
-import { FlowScreenFieldType, FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     getPlaceHolderLabel,
@@ -16,7 +16,6 @@ import {
     isNumberField,
     ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
-import { getEnvironments } from 'builder_platform_interaction/storeUtils';
 import { api, LightningElement } from 'lwc';
 
 /*
@@ -41,16 +40,7 @@ export default class ScreenField extends LightningElement {
 
     get hasErrors(): boolean {
         const errors = this.screenfield && getErrorsFromHydratedElement(this.screenfield);
-        return (
-            this.screenfield.hasErrors === true ||
-            (errors?.length > 0 &&
-                // TODO: W-10890803 - When this story is done, remove this hack to show sections
-                // in an error state when the flow is marked for Slack. What we should do is have
-                // an error state for the section preview and then recursively go over all the
-                // section's decendents, putting them in an error state if their screen field type
-                // is not in the list of supported screen fields.
-                (!this.isSectionType || getEnvironments()?.includes(FLOW_ENVIRONMENT.SLACK)))
-        );
+        return this.screenfield.hasErrors === true || (errors?.length > 0 && !this.isSectionType);
     }
 
     get isExtension(): boolean {

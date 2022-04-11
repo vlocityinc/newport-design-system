@@ -107,16 +107,21 @@ export const dehydrate = (element) => {
  *
  * @param {Object} element hydrated element data object
  * @param {Object[]} errorsList list of errors, empty list by default
+ * @param {string[]} keysToExclude list of keys to exclude
  * @returns {Object[]} List of errors
  */
-export const getErrorsFromHydratedElement = (element, errorsList: ElementOrComponentError[] = []) => {
+export const getErrorsFromHydratedElement = (
+    element,
+    errorsList: ElementOrComponentError[] = [],
+    keysToExclude: string[] = []
+) => {
     const listOfErrors = errorsList;
     Object.entries(element).forEach(([key, value]) => {
-        if (value && typeof value === 'object') {
+        if (value && typeof value === 'object' && !keysToExclude.includes(key)) {
             // TODO: ALC find better way
             if (Array.isArray(value) && key !== 'children') {
                 value.forEach((item) => {
-                    getErrorsFromHydratedElement(item, listOfErrors);
+                    getErrorsFromHydratedElement(item, listOfErrors, keysToExclude);
                 });
             } else if (isItemHydratedWithErrors(element[key])) {
                 const errorString = element[key].error;
@@ -124,7 +129,7 @@ export const getErrorsFromHydratedElement = (element, errorsList: ElementOrCompo
                     listOfErrors.push({ key, errorString });
                 }
             } else {
-                getErrorsFromHydratedElement(value, listOfErrors);
+                getErrorsFromHydratedElement(value, listOfErrors, keysToExclude);
             }
         }
     });

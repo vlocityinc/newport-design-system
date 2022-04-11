@@ -7,6 +7,7 @@ import {
 import { ItemSelectedEvent } from 'builder_platform_interaction/events';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { loadFlow, resetState, setupState } from '../../integrationTestUtils';
@@ -18,7 +19,8 @@ import {
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
-    ...INTERACTION_COMPONENTS_SELECTORS
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    SECTION_ERROR_CONTAINER: '.section-error-border'
 };
 
 describe('ScreenEditor', () => {
@@ -214,6 +216,81 @@ describe('ScreenEditor', () => {
             expect(conditionListItem.condition.leftHandSide.value).toEqual(slider.guid + '.value');
             expect(conditionListItem.condition.operator.value).toEqual('GreaterThanOrEqualTo');
             expect(conditionListItem.condition.rightHandSide.value).toEqual('50');
+        });
+    });
+    describe('Existing Screen containing a section with header, containing nested screen fields', () => {
+        beforeAll(async () => {
+            store = setupState();
+            await loadFlow(flowWithAllElements, store);
+        });
+        afterAll(() => {
+            resetState();
+        });
+        beforeEach(async () => {
+            /*
+                Layout of ScreenWithSectionWithHeader
+                - Section
+                    - Column1
+                        - Text
+                        - DateTime
+                    - Column 2
+                        - Picklist (DropdownBox)
+            */
+            const element = getElementByDevName('ScreenWithSectionWithHeader');
+            screenNode = getElementForPropertyEditor(element);
+            screenEditor = new ScreenEditorTestComponent(
+                createComponentUnderTest({
+                    node: screenNode,
+                    processType: FLOW_PROCESS_TYPE.FLOW
+                })
+            );
+            await ticks(50);
+        });
+        it('Removing header on section with header enabled, puts section in error state with children components still visible', async () => {
+            const section = screenEditor
+                .getCanvas()
+                .getScreenEditorHighlightForScreenFieldWithName('SectionWithHeader');
+            const screenSectionField = section
+                .getScreenField()
+                .element.shadowRoot.querySelector(SELECTORS.SCREEN_SECTION_FIELD);
+            expect(screenSectionField.shadowRoot.querySelector(SELECTORS.SECTION_ERROR_CONTAINER)).toBeFalsy();
+            await section!.click();
+            const screenSectionFieldPropertiesEditor = screenEditor
+                .getPropertiesEditorContainer()
+                .getSectionFieldPropertiesEditor()!;
+            const labelDescription = screenSectionFieldPropertiesEditor.getLabelDescription();
+            const labelInput = labelDescription.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[0];
+            labelInput.value = '';
+            labelInput.dispatchEvent(new CustomEvent('focusout'));
+            await ticks(1);
+            expect(screenSectionField.shadowRoot.querySelector(SELECTORS.SECTION_ERROR_CONTAINER)).toBeTruthy();
+            expect(
+                screenEditor.getCanvas().getScreenEditorHighlightForScreenFieldWithName('accountsInSectionWithHeader')
+            ).toBeTruthy();
+        });
+        it('An error in a child component, does not put section with header in error state', async () => {
+            const picklist = screenEditor
+                .getCanvas()
+                .getScreenEditorHighlightForScreenFieldWithName('accountsInSectionWithHeader');
+            await picklist!.click();
+            const choicePropertiesEditor = screenEditor
+                .getPropertiesEditorContainer()
+                .getChoiceFieldPropertiesEditorElement()!;
+            const labelDescription = choicePropertiesEditor.getLabelDescription();
+            const devNameInput = labelDescription.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[1];
+            devNameInput.value = '';
+            devNameInput.dispatchEvent(new CustomEvent('focusout'));
+            await ticks(1);
+            const picklistScreenField = picklist!.getScreenField().element;
+            expect(picklistScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD).title).toEqual(
+                LABELS.invalidScreenfield
+            );
+            const screenSectionField = screenEditor
+                .getCanvas()
+                .getScreenEditorHighlightForScreenFieldWithName('SectionWithHeader')
+                .getScreenField()
+                .element.shadowRoot.querySelector(SELECTORS.SCREEN_SECTION_FIELD);
+            expect(screenSectionField.shadowRoot.querySelector(SELECTORS.SECTION_ERROR_CONTAINER)).toBeFalsy();
         });
     });
 });

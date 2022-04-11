@@ -2,26 +2,40 @@
  Wrapper for section fields, used for the purpose of screen builder canvas preview only
  -->
 <template>
-    <div if:true={section.hasHeading} class="slds-box slds-box_x-small slds-theme_shade">
+    <div class={sectionContainerClass}>
+        <div
+            if:true={section.hasHeading}
+            class="section-header slds-box slds-box_x-small slds-theme_shade slds-is-relative"
+        >
+            <lightning-icon
+                icon-name="utility:chevrondown"
+                size="x-small"
+                class="section-arrow slds-p-right_small slds-m-top_xxx-small"
+            ></lightning-icon>
+            <span class="slds-text-heading_small">{section.fieldText.value}</span>
+        </div>
+        <div class="slds-grid">
+            <template for:each={columns} for:item="column">
+                <builder_platform_interaction-screen-canvas
+                    class={column.calculatedClass}
+                    key={column.guid}
+                    element={column}
+                    selected-item-guid={selectedItemGuid}
+                    show-empty-placeholder="true"
+                    moved-item-guid={movedItemGuid}
+                >
+                </builder_platform_interaction-screen-canvas>
+            </template>
+        </div>
         <lightning-icon
-            icon-name="utility:chevrondown"
-            size="x-small"
-            class="section-arrow slds-p-right_small slds-m-top_xxx-small"
+            if:true={hasError}
+            icon-name="utility:error"
+            variant="inverse"
+            size="xx-small"
+            alternative-text={labels.invalidScreenfield}
+            title={labels.invalidScreenfield}
+            class="section-error-icon slds-is-absolute slds-button-icon_small"
         ></lightning-icon>
-        <span class="slds-text-heading_small">{section.fieldText.value}</span>
-    </div>
-    <div class="slds-grid">
-        <template for:each={columns} for:item="column">
-            <builder_platform_interaction-screen-canvas
-                class={column.calculatedClass}
-                key={column.guid}
-                element={column}
-                selected-item-guid={selectedItemGuid}
-                show-empty-placeholder="true"
-                moved-item-guid={movedItemGuid}
-            >
-            </builder_platform_interaction-screen-canvas>
-        </template>
     </div>
 </template>
 <!---->

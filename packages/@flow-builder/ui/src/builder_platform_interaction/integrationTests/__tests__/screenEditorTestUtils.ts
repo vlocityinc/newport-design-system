@@ -456,6 +456,10 @@ export class SectionPropertiesEditorTestComponent extends TestComponent<ScreenSe
         const addButton = deepQuerySelector(this.element, [SELECTORS.LIST, SELECTORS.LIGHTNING_BUTTON]);
         addButton.click();
     }
+
+    public getLabelDescription() {
+        return this.element.shadowRoot!.querySelector(SELECTORS.LABEL_DESCRIPTION);
+    }
 }
 export class ScreenPropertiesEditorTestComponent extends TestComponent<ScreenPropertiesEditor> {
     public getNextOrFinishLabelTypeRadioButtons() {
@@ -522,6 +526,10 @@ export class ChoicePropertiesEditorTestComponent extends TestComponent<ScreenCho
 
     public getScreenComponentVisibilitySection() {
         return this.element.shadowRoot!.querySelector(SELECTORS.SCREEN_COMPONENT_VISIBILITY_SECTION);
+    }
+
+    public getLabelDescription() {
+        return this.element.shadowRoot!.querySelector(SELECTORS.LABEL_DESCRIPTION);
     }
 }
 

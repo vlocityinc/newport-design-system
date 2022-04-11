@@ -41,6 +41,7 @@
     background-color: var(--lwc-colorBrandDark);
     top: var(--lwc-borderWidthThick); /* for preventevents false, as in that case this div is absolute */
     right: var(--lwc-borderWidthThick); /* for preventevents false, as in that case this div is absolute */
+    z-index: 1;
 }
 
 .highlight-icon-container {
@@ -117,7 +118,7 @@
     width: 1rem;
     height: 1rem;
     top: var(--lwc-borderWidthThin); /* for preventevents false, as in that case this div is absolute */
-    right: var(--lwc-borderWidthThick); /* for preventevents false, as in that case this div is absolute */
+    right: var(--lwc-borderWidthThin); /* for preventevents false, as in that case this div is absolute */
 }
 
 .visibility-icon-container.noZindex {

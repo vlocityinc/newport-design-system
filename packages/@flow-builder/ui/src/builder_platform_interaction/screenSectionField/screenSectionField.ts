@@ -1,5 +1,6 @@
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { api, LightningElement } from 'lwc';
 
 /**
@@ -11,6 +12,21 @@ export default class ScreenSectionField extends LightningElement {
     @api section;
     @api selectedItemGuid;
     @api movedItemGuid;
+
+    labels = LABELS;
+
+    @api focusChildElement(index) {
+        const columns = this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.SCREEN_CANVAS);
+        columns[index[1]].focusElement([index[0]]);
+    }
+
+    get hasError() {
+        return getErrorsFromHydratedElement(this.section, [], ['fields'])?.length;
+    }
+
+    get sectionContainerClass() {
+        return `slds-is-relative ${this.hasError ? 'section-error-border' : ''}`;
+    }
 
     get columns() {
         return this.section.fields.map((column) => {
@@ -25,9 +41,5 @@ export default class ScreenSectionField extends LightningElement {
                 calculatedClass
             };
         });
-    }
-    @api focusChildElement(index) {
-        const columns = this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.SCREEN_CANVAS);
-        columns[index[1]].focusElement([index[0]]);
     }
 }

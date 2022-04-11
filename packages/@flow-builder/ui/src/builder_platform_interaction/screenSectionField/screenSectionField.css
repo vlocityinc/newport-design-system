@@ -10,3 +10,22 @@
 .section-arrow {
     vertical-align: top;
 }
+
+.section-header {
+    z-index: -2;
+}
+
+.section-error-border {
+    box-shadow: inset 0 0 0 var(--lwc-borderWidthThick) var(--lwc-colorTextError);
+    padding: 16px 0px;
+    margin: -16px 0px;
+}
+
+.section-error-icon {
+    background-color: var(--lwc-colorTextError);
+    right: 0px;
+    top: 0px;
+    padding: 1px;
+    border-radius: 0px;
+    z-index: -1;
+}

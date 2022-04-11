@@ -59,6 +59,7 @@ import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupporte
 import { supportedFeaturesListForContactRequestFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForContactRequestFlow.json';
 import { supportedFeaturesListForFieldServiceMobileFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFieldServiceMobileFlow.json';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
+import { supportedScreenFieldsForFlow } from 'serverData/GetSupportedScreenFields/supportedScreenFieldsForFlow.json';
 import { supportedScreenFieldsForFlowOnSlack } from 'serverData/GetSupportedScreenFields/supportedScreenFieldsForFlowOnSlack.json';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
@@ -242,7 +243,7 @@ const allAuraActions = {
         [FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE]: flowExtensionsForFieldServiceMobile
     }),
     'c.getSupportedScreenFields': createGetterByProcessTypeAndEnvironment({
-        [FLOW_PROCESS_TYPE.FLOW + FLOW_ENVIRONMENT.DEFAULT]: flowExtensionsForFlow,
+        [FLOW_PROCESS_TYPE.FLOW + FLOW_ENVIRONMENT.DEFAULT]: supportedScreenFieldsForFlow,
         [FLOW_PROCESS_TYPE.FLOW + FLOW_ENVIRONMENT.SLACK]: supportedScreenFieldsForFlowOnSlack
     }),
     'c.getApexPlugins': createGetter([]),
