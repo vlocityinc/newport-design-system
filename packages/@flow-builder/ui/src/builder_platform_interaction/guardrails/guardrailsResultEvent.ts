@@ -1,4 +1,3 @@
-// @ts-nocheck
 const eventName = 'guardrailresult';
 
 /**
@@ -6,9 +5,9 @@ const eventName = 'guardrailresult';
  *
  * TODO: W-7261153
  */
-export class GuardrailsResultEvent {
+export class GuardrailsResultEvent extends CustomEvent<any> {
     constructor(result) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             detail: { guardrailsResult: result }
         });
     }

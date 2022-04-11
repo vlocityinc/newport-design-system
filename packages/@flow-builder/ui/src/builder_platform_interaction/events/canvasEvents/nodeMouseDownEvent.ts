@@ -1,11 +1,10 @@
-// @ts-nocheck
 /**
  * Used by canvas on node mouse down
  */
 const eventName = 'nodemousedown';
-export class NodeMouseDownEvent {
+export class NodeMouseDownEvent extends CustomEvent<any> {
     constructor(canvasElementGUID) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

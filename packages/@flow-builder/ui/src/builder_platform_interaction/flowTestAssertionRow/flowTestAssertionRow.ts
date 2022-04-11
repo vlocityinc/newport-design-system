@@ -3,10 +3,10 @@ import { UpdateTestAssertionEvent } from 'builder_platform_interaction/events';
 import { PICKLIST_CATEGORY_SUBSTR } from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_OPERATOR, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './flowTestAssertionRowLabels';
-const { logInteraction } = loggingUtils;
+
 const { format } = commonUtils;
 
 const customMessageInput = '.test-editor-assertion-message-input';
@@ -23,7 +23,7 @@ export default class FlowTestAssertionRow extends LightningElement {
 
     set assertion(data) {
         this._assertion = data;
-        const input = this.template.querySelector(customMessageInput);
+        const input = this.template.querySelector(customMessageInput) as any;
         if (input) {
             if (this._assertion.message) {
                 input.setCustomValidity(this._assertion.message.error ? this._assertion.message.error : '');

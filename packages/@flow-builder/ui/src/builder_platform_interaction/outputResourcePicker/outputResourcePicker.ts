@@ -42,6 +42,7 @@ export default class OutputResourcePicker extends LightningElement {
 
     @track
     inlineItem = null;
+    _baseResourcePicker: any;
 
     /**
      * The current value of the picker

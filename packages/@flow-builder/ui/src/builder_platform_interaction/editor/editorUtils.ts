@@ -31,7 +31,7 @@ import {
     getConnectionProperties,
     shouldSupportScheduledPaths
 } from 'builder_platform_interaction/elementFactory';
-import { DeleteElementEventDetail, SaveFlowEvent } from 'builder_platform_interaction/events';
+import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import {
     CONNECTOR_TYPE,
     DECORATION_TYPE,
@@ -208,7 +208,7 @@ const resetStartElementIfNeeded = (storeInstance, processType, triggerType: UI.F
  */
 export const getElementsToBeDeleted = (
     storeInstance: Store,
-    { selectedElementGUID, selectedElementType, childIndexToKeep, parentGUID }: DeleteElementEventDetail
+    { selectedElementGUID, selectedElementType, childIndexToKeep, parentGUID }
 ) => {
     const isMultiElementDelete = !selectedElementGUID;
     const currentState = storeInstance.getCurrentState();
@@ -229,7 +229,7 @@ export const getElementsToBeDeleted = (
             canvasElementGuidsToDelete,
             connectorsToDelete,
             selectedElementType,
-            childIndexToKeep,
+            childIndexToKeep || undefined,
             parentGUID
         );
     }
@@ -243,7 +243,7 @@ export const getElementsToBeDeleted = (
  * @param canOnlySaveAsNewDefinition It is needed to handle use case for flow template. They can only be saved as new flow
  * @returns the save type
  */
-export const getSaveType = (eventType: SaveFlowEvent, flowId: string, canOnlySaveAsNewDefinition: boolean) => {
+export const getSaveType = (eventType: string, flowId: string, canOnlySaveAsNewDefinition: boolean) => {
     if (!eventType) {
         throw new Error('Event type for saving a flow is not defined');
     }

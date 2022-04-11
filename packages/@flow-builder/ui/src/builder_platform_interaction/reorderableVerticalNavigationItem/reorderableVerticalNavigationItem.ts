@@ -28,6 +28,7 @@ export default class ReorderableVerticalNavigationItem extends LightningElement 
         return this.focusId === this.navItemId;
     }
 
+    // @ts-ignore TODO: remove me
     get ariaSelected() {
         return this.isActive() ? LINK_ARIA_SELECTED_ACTIVE : LINK_ARIA_SELECTED_INACTIVE;
     }
@@ -53,6 +54,6 @@ export default class ReorderableVerticalNavigationItem extends LightningElement 
 
     @api
     focus() {
-        this.template.querySelector('.slds-vertical-tabs__nav-item').focus();
+        this.template.querySelector<HTMLElement>('.slds-vertical-tabs__nav-item')?.focus();
     }
 }

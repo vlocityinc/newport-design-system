@@ -1,7 +1,8 @@
 import { CommandRegistry, KeyboardShortcutServiceImpl } from 'builder_framework/command';
 // @ts-ignore
-import { api } from 'lwc';
+import { api, LightningElement } from 'lwc';
 import { BaseCommand } from '../commands';
+import { ShadowRootTheGoodPart } from '../lwcUtils';
 import { isMacPlatform } from '../platformUtils';
 import { KeyboardInteraction } from './interactions/BaseKeyboardInteraction';
 
@@ -110,7 +111,7 @@ export class KeyboardInteractions {
         this.keyboardService = new KeyboardShortcutServiceImpl(this.commandRegistry);
     }
 
-    keydownListener = (event: KeyboardEvent) => {
+    keydownListener = (event: Event) => {
         // setting this property makes the event available to the interactions
         // @ts-ignore
         event.commandContext = event;
@@ -118,11 +119,11 @@ export class KeyboardInteractions {
         this.keyboardService.handleKeydown(event);
     };
 
-    addKeyDownEventListener(template: HTMLElement) {
+    addKeyDownEventListener(template: HTMLElement | ShadowRootTheGoodPart) {
         template.addEventListener('keydown', this.keydownListener);
     }
 
-    removeKeyDownEventListener(template: HTMLElement) {
+    removeKeyDownEventListener(template: HTMLElement | ShadowRootTheGoodPart) {
         template.removeEventListener('keydown', this.keydownListener);
     }
 
@@ -150,16 +151,8 @@ export class KeyboardInteractions {
 type Constructor<T = {}> = new (...args: any[]) => T;
 
 type KeyboardEnabled = {
-    getKeyboardInteractions: () => KeyboardInteraction[];
-};
-
-type KeyboardInteractionsCtor = new (...args: any[]) => {
-    keyboardInteractions: KeyboardInteractions;
     getKeyboardInteractions(): KeyboardInteraction[];
     setKeyboardInteractions(interactions: KeyboardInteraction[]): void;
-    connectedCallback(): void;
-    renderedCallback(): void;
-    disconnectedCallback(): void;
 };
 
 /**
@@ -178,9 +171,9 @@ type KeyboardInteractionsCtor = new (...args: any[]) => {
  * @param Base a base class that extends LightningElement
  * @returns a LightningElement subclass with keyboard interactions
  */
-export function withKeyboardInteractions<TBase extends Constructor<LightningElement & KeyboardEnabled>>(
+export function withKeyboardInteractions<TBase extends Constructor<LightningElement>>(
     Base: TBase
-): KeyboardInteractionsCtor & TBase {
+): TBase & Constructor<KeyboardEnabled> {
     return class extends Base {
         // TODO: rename KeyboardInteractions => KeyboardInteractionsManager
         // @api present for testing purposes
@@ -198,6 +191,7 @@ export function withKeyboardInteractions<TBase extends Constructor<LightningElem
          *
          * @returns the keyboard interactions
          */
+
         getKeyboardInteractions(): KeyboardInteraction[] {
             return this._keyboardInteractions || [];
         }

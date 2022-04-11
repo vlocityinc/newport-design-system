@@ -1,11 +1,16 @@
-// @ts-nocheck
+interface SelectNodeEventDetail {
+    canvasElementGUID: UI.Guid;
+    isMultiSelectKeyPressed: boolean;
+    isSelected: boolean;
+}
+
 /**
  * Used by canvas on node selection
  */
 const eventName = 'nodeselected';
-export class SelectNodeEvent {
+export class SelectNodeEvent extends CustomEvent<SelectNodeEventDetail> {
     constructor(canvasElementGUID, isMultiSelectKeyPressed, isSelected) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

@@ -2,7 +2,6 @@ import { shortcuts } from 'builder_platform_interaction/app';
 import { commands, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
 const { ShiftF6 } = commands;
-const { Keys } = keyboardInteractionUtils;
 
 const { BaseKeyboardInteraction, withKeyboardInteractions, createShortcut } = keyboardInteractionUtils;
 export default class ScreenPropertiesEditorContainer extends withKeyboardInteractions(LightningElement) {
@@ -27,6 +26,10 @@ export default class ScreenPropertiesEditorContainer extends withKeyboardInterac
 
     @api
     validate;
+
+    handleShiftFocusBackward() {
+        // TODO: why is this empty?
+    }
 
     getKeyboardInteractions() {
         return [

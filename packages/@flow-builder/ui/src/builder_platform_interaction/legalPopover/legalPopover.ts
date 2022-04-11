@@ -56,10 +56,10 @@ export default class LegalPopover extends LightningElement {
      */
     @api
     updatePopupPosition() {
-        const popupLocation = this.template.querySelector('.popupLocation');
+        const popupLocation = this.template.querySelector('.popupLocation') as any;
         // This is done in order to re-render the popup at the right position
-        this.popupElement.close();
-        this.popupElement.show(popupLocation, {
+        this.popupElement?.close();
+        this.popupElement?.show(popupLocation, {
             reference: { horizontal: this.horizontalPosition, vertical: 'top' },
             popup: { horizontal: this.horizontalPosition, vertical: 'bottom' },
             padding: 0.5,
@@ -115,6 +115,6 @@ export default class LegalPopover extends LightningElement {
     }
 
     get popupElement() {
-        return this.template.querySelector('lightning-popup');
+        return this.template.querySelector('lightning-popup') as any;
     }
 }

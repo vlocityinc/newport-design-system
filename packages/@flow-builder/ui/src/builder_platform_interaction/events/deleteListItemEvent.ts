@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'deletelistitem';
 
-export class DeleteListItemEvent {
+export class DeleteListItemEvent extends CustomEvent<any> {
     constructor(index) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

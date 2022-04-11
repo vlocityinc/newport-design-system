@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by combobox to indicate that updated menu data is needed
  */
 const eventName = 'fetchmenudata';
 
-export class FetchMenuDataEvent {
+export class FetchMenuDataEvent extends CustomEvent<any> {
     constructor(item = null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

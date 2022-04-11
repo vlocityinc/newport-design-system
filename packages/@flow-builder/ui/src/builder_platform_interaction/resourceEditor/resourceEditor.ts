@@ -46,6 +46,7 @@ export default class ResourceEditor extends LightningElement {
 
     @api
     editorParams;
+    resourceNode?: {};
 
     set newResourceInfo(newResourceInfo) {
         this._newResourceInfo = newResourceInfo;
@@ -80,7 +81,7 @@ export default class ResourceEditor extends LightningElement {
      */
     @api
     get node() {
-        return this.template.querySelector(CONTAINER_SELECTOR).getNode();
+        return (this.template.querySelector(CONTAINER_SELECTOR) as any).getNode();
     }
 
     get labels() {
@@ -95,7 +96,7 @@ export default class ResourceEditor extends LightningElement {
      */
     @api
     getNode() {
-        return this.template.querySelector(CONTAINER_SELECTOR).getNode();
+        return (this.template.querySelector(CONTAINER_SELECTOR) as any).getNode();
     }
 
     /**
@@ -106,12 +107,12 @@ export default class ResourceEditor extends LightningElement {
      */
     @api
     validate() {
-        const container = this.template.querySelector(CONTAINER_SELECTOR);
+        const container = this.template.querySelector(CONTAINER_SELECTOR) as any;
         // instead of going through the property editor validation steps (calling validateAll) we know the editor is invalid by just checking selectedResource
         const error = shouldNotBeNullOrUndefined(this.selectedResourceType);
         if (error) {
             // if we have an error set it on the combobox and return it to the property editor
-            const combobox = this.template.querySelector(COMBOBOX_SELECTOR);
+            const combobox = this.template.querySelector(COMBOBOX_SELECTOR) as any;
             combobox.setCustomValidity(error);
             combobox.showHelpMessageIfInvalid();
             return [error];
@@ -154,7 +155,7 @@ export default class ResourceEditor extends LightningElement {
     handleResourceChange(event) {
         this.selectedResourceType = event.detail.value;
         // now that we have changed the resource type we can remove any errors we may have had
-        const combobox = this.template.querySelector(COMBOBOX_SELECTOR);
+        const combobox = this.template.querySelector(COMBOBOX_SELECTOR) as any;
         if (!combobox.checkValidity()) {
             combobox.setCustomValidity(null);
             combobox.showHelpMessageIfInvalid();

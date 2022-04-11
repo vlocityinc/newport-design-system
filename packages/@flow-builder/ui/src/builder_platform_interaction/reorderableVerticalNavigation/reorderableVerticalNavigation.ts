@@ -178,7 +178,7 @@ export default class ReorderableVerticalNavigation extends withKeyboardInteracti
      * @param key - Arrow Down or Arrow Up key pressed
      */
     handleArrowKeyDown(key: Keys.ArrowDown | Keys.ArrowUp) {
-        const currentItemInFocus = this.template.activeElement;
+        const currentItemInFocus = this.template.activeElement as any;
         const items = this.getItems();
 
         // Reordering items if any row has been grabbed else moving focus up/down the list
@@ -202,7 +202,7 @@ export default class ReorderableVerticalNavigation extends withKeyboardInteracti
      * Handles the space key down event and toggles the reordering mode
      */
     handleSpace() {
-        const currentItemInFocus = this.template.activeElement;
+        const currentItemInFocus = this.template.activeElement as any;
         this._focusedItemId = currentItemInFocus.navItemId;
         currentItemInFocus.focus();
 
@@ -229,7 +229,7 @@ export default class ReorderableVerticalNavigation extends withKeyboardInteracti
      * Handles the enter key down event and selects the currently focused row
      */
     handleEnter() {
-        const currentItemInFocus = this.template.activeElement;
+        const currentItemInFocus = this.template.activeElement as any;
         this.selectItem(currentItemInFocus.navItemId);
     }
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -31,7 +30,7 @@ const SELECTORS = {
  * @param {Object[]} parameters list of parameters
  * @returns {Object} object where the key is the param name and the value is the parameter
  */
-const inputParameterArrayToMap = (parameters = []) => {
+const inputParameterArrayToMap = (parameters: any[] = []) => {
     const parametersMap = new Map();
 
     parameters.forEach((param) => {
@@ -66,6 +65,7 @@ export default class WaitTimeEvent extends LightningElement {
      */
     @track
     outputEventDeliveryStatus = {};
+    shouldSetResumeTimeErrors?: boolean;
 
     /**
      * @typedef {Object} WaitEventParameter
@@ -229,7 +229,7 @@ export default class WaitTimeEvent extends LightningElement {
             true,
             true,
             false,
-            FEROV_DATA_TYPE.REFERENCE.value
+            FEROV_DATA_TYPE.REFERENCE
         );
     }
 
@@ -423,7 +423,7 @@ export default class WaitTimeEvent extends LightningElement {
      */
     renderedCallback() {
         if (this.absoluteBaseTime && (this.absoluteBaseTime !== '' || this.absoluteBaseTimeErrorMessage)) {
-            const absoluteBaseTimeInput = this.template.querySelector(SELECTORS.ABSOLUTE_BASE_TIME_INPUT);
+            const absoluteBaseTimeInput = this.template.querySelector(SELECTORS.ABSOLUTE_BASE_TIME_INPUT) as any;
             absoluteBaseTimeInput.setCustomValidity(this.absoluteBaseTimeErrorMessage || '');
         }
         if (this.shouldSetResumeTimeErrors) {

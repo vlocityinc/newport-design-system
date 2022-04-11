@@ -75,7 +75,7 @@ export default class OrchestratedStageEditor extends LightningElement {
 
     @api
     focus() {
-        const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION);
+        const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION) as any;
         labelDescription.focus?.();
     }
 
@@ -314,7 +314,7 @@ export default class OrchestratedStageEditor extends LightningElement {
     }
 
     async handleExitActionSelected(e: ValueChangedEvent<InvocableAction>) {
-        e.detail.value.actionType = ACTION_TYPE.EVALUATION_FLOW;
+        e.detail.value!.actionType = ACTION_TYPE.EVALUATION_FLOW;
         const orchEvt = new OrchestrationActionValueChangedEvent(
             ORCHESTRATED_ACTION_CATEGORY.EXIT,
             e.detail.value,
@@ -322,7 +322,7 @@ export default class OrchestratedStageEditor extends LightningElement {
         );
         this.element = orchestratedStageReducer(this.element!, orchEvt);
 
-        if (e.detail.value.actionName) {
+        if (e.detail.value!.actionName) {
             await this.setActionParameters(this.selectedExitAction);
         }
 

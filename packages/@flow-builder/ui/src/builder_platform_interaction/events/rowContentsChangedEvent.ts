@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'rowcontentschanged';
 
-export class RowContentsChangedEvent {
+export class RowContentsChangedEvent extends CustomEvent<any> {
     constructor(newValue = null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

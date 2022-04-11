@@ -1,8 +1,8 @@
 const eventName = 'dummypreviewmode';
 
-export class DummyPreviewModeEvent {
+export class DummyPreviewModeEvent extends CustomEvent<any> {
     constructor(dummyModeDueToError, dummyModeDueToRenderError) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

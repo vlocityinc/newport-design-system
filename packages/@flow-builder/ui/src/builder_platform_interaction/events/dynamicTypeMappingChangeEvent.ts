@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'dynamictypemappingchange';
 
-export class DynamicTypeMappingChangeEvent {
+export class DynamicTypeMappingChangeEvent extends CustomEvent<any> {
     constructor({ typeName, typeValue, error, rowIndex, isConfigurable }) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -3,9 +3,9 @@
  */
 const eventName = 'textchanged';
 
-export class TextChangedEvent {
+export class TextChangedEvent extends CustomEvent<any> {
     constructor(text: string | null = null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

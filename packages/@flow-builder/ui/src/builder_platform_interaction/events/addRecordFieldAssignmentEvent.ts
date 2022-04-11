@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'addrecordfieldassignment';
 
-export class AddRecordFieldAssignmentEvent {
+export class AddRecordFieldAssignmentEvent extends CustomEvent<null> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by waitEvent to indicate a new input parameter being added
  */
 const eventName = 'waiteventaddparameter';
 
-export class WaitEventAddParameterEvent {
+export class WaitEventAddParameterEvent extends CustomEvent<any> {
     constructor(name = null, parentGUID, isInputParameter) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

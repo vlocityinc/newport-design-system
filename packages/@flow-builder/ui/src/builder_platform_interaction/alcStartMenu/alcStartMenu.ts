@@ -1,5 +1,6 @@
 import AlcNodeMenu from 'builder_platform_interaction/alcNodeMenu';
 import { shouldSupportScheduledPaths } from 'builder_platform_interaction/elementFactory';
+import StartNodeButton from 'builder_platform_interaction/startNodeButton';
 import { api } from 'lwc';
 
 /**
@@ -57,7 +58,7 @@ export default class AlcStartMenu extends AlcNodeMenu {
      * Delegates the button action to the corresponding button component
      */
     performButtonAction() {
-        const button = this.template.activeElement;
-        button.performAction();
+        const button = <StartNodeButton>(this.template.activeElement as unknown);
+        button?.performAction();
     }
 }

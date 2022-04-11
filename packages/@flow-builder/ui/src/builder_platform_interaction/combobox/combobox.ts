@@ -158,6 +158,13 @@ export default class Combobox extends LightningElement {
 
     @api
     fieldLevelHelp;
+    _waitingForMenuDataDropDown: any;
+    _placeholder: any;
+    _messageWhenValueMissing: any;
+    _initialyRendered: any;
+    _isPillClicked: any;
+    _itemSelected: any;
+    item: any;
 
     /**
      * Force the activity indicator
@@ -405,7 +412,7 @@ export default class Combobox extends LightningElement {
         this._setCurrentMenuData();
         this.state.showActivityIndicator = false;
         if (this._waitingForMenuDataDropDown) {
-            const combobox = this.getGroupedCombobox();
+            const combobox = this.getGroupedCombobox() as any;
             if (combobox) {
                 combobox.focusAndOpenDropdownIfNotEmpty();
             }
@@ -1202,7 +1209,7 @@ export default class Combobox extends LightningElement {
      * @param {boolean} hasNextLevel whether or not the selected item has a next level
      */
     setValueAndCursor(value, hasNextLevel = false) {
-        const input = this.getInputElement();
+        const input = this.getInputElement() as any;
 
         // Add a separator to the end if selected value has a next level
         if (hasNextLevel) {
@@ -1275,7 +1282,7 @@ export default class Combobox extends LightningElement {
      * @param {string} customErrorMessage to be set on the combobox.
      */
     setErrorMessage(customErrorMessage) {
-        const groupedCombobox = this.getGroupedCombobox();
+        const groupedCombobox = this.getGroupedCombobox() as any;
         if (groupedCombobox) {
             groupedCombobox.setCustomValidity(customErrorMessage);
             groupedCombobox.showHelpMessageIfInvalid();
@@ -1291,7 +1298,7 @@ export default class Combobox extends LightningElement {
      * @returns {Object} the grouped combobox element.
      */
     getGroupedCombobox() {
-        return this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
+        return this.template.querySelector(SELECTORS.GROUPED_COMBOBOX) as any;
     }
 
     /**

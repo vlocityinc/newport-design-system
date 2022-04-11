@@ -1,10 +1,9 @@
-// @ts-nocheck
 /**
  * Used by radio button group on decision outcome
  */
 const eventName = 'executewhenoptionchanged';
 
-export class ExecuteWhenOptionChangedEvent extends CustomEvent {
+export class ExecuteWhenOptionChangedEvent extends CustomEvent<any> {
     constructor(guid: string, doesRequireRecordChangedToMeetCriteria: boolean) {
         super(eventName, {
             cancelable: false,

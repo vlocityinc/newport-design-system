@@ -4,10 +4,10 @@
  * @salesforce/sfdx-lwc-jest, see:
  * https://github.com/salesforce/sfdx-lwc-jest/blob/master/src/lightning-stubs/platformShowToastEvent/platformShowToastEvent.js
  */
-// @ts-nocheck
+
 export const ShowToastEventName = 'lightning__showtoast';
 
-export class ShowToastEvent extends CustomEvent {
+export class ShowToastEvent extends CustomEvent<any> {
     constructor(toast) {
         super(ShowToastEventName, {
             composed: true,

@@ -58,6 +58,7 @@ export default class FerovResourcePicker extends LightningElement {
      */
     @api
     rowIndex;
+    _baseResourcePicker: any;
 
     /**
      * The current value of the picker

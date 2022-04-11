@@ -212,6 +212,8 @@ export default class AlcCanvasContainer extends LightningElement {
     @api
     focus() {
         const alcCanvas = this.getAlcCanvas();
+
+        // @ts-ignore TODO: remove me
         alcCanvas.focus();
     }
 

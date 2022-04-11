@@ -1,8 +1,8 @@
 const eventName = 'editlistitem';
 
-export class EditListItemEvent {
+export class EditListItemEvent extends CustomEvent<any> {
     constructor(index: number) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

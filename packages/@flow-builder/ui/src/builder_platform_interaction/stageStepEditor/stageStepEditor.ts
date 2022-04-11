@@ -70,6 +70,8 @@ import { stageStepReducer } from './stageStepReducer';
 const STANDARD_INPUT_PREFIX = 'ActionInput__';
 
 export default class StageStepEditor extends LightningElement {
+    error;
+
     labels = LABELS;
 
     element?: StageStep;
@@ -256,7 +258,7 @@ export default class StageStepEditor extends LightningElement {
     /**
      * public api function to return the node
      *
-     * @returns {object} node - node
+     * @returns the node
      */
     @api getNode() {
         return this.element;
@@ -279,7 +281,9 @@ export default class StageStepEditor extends LightningElement {
 
     @api
     focus(): void {
-        const labelDescription = this.template.querySelector('builder_platform_interaction-label-description');
+        const labelDescription = this.template.querySelector(
+            'builder_platform_interaction-label-description'
+        ) as HTMLElement;
         labelDescription.focus?.();
     }
 
@@ -1108,7 +1112,7 @@ export default class StageStepEditor extends LightningElement {
     handleActorItemSelected = (event: ItemSelectedEvent) => {
         event.stopPropagation();
         this.updateAssignee(
-            event.detail.item ? event.detail.item.value : event.detail.displayText,
+            (event.detail.item ? event.detail.item.value : event.detail.displayText) || null,
             event.detail?.item?.error
         );
     };

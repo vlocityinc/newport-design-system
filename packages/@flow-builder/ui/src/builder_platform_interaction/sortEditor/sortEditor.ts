@@ -67,6 +67,8 @@ export default class SortEditor extends LightningElement {
         return LABELS;
     }
 
+    _collectionVariable;
+
     updateSortOptions() {
         this.sObjectOrApexReference = getSObjectOrApexReference(this._collectionVariable);
         this._sortOptions = this.sortElement.sortOptions;

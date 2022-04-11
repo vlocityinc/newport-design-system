@@ -1448,7 +1448,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      */
     closeAutoLayoutContextualMenu = () => {
         if (this.properties.isAutoLayoutCanvas) {
-            const alcCanvasContainer = this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS);
+            const alcCanvasContainer = this.template.querySelector<any>(PANELS.AUTOLAYOUT_CANVAS);
             if (alcCanvasContainer) {
                 alcCanvasContainer.callCloseNodeOrConnectorMenuInBuilder();
             }
@@ -1466,7 +1466,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     handleToggleSelectionMode = () => {
         this.isSelectionMode = !this.isSelectionMode;
         this.handleClosePropertyEditor();
-        this.template.querySelector(PANELS.TOOLBAR).focus();
+        this.template.querySelector<HTMLElement>(PANELS.TOOLBAR)?.focus();
     };
 
     /**
@@ -2148,7 +2148,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     }
 
     getAlcCanvasContainer() {
-        return this.template.querySelector('builder_platform_interaction-alc-canvas-container');
+        return this.template.querySelector('builder_platform_interaction-alc-canvas-container') as any;
     }
 
     moveFocusToNode = (focusGuid: UI.Guid) => {
@@ -2389,7 +2389,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             // Attempt Free-Form to Auto-Layout Canvas conversion, no-gack if fails
             if (!this.canConvertToAutoLayoutCheck()) {
                 // Resetting the canvas mode combobox in toolbar to free-form
-                this.template.querySelector(PANELS.TOOLBAR).resetComboboxValueToFreeForm();
+                this.template.querySelector<any>(PANELS.TOOLBAR).resetComboboxValueToFreeForm();
 
                 const unsupportedFeatureItems = [
                     { message: LABELS.errorMessageDisconnectedElements, key: 1 },
@@ -2418,7 +2418,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 });
             } else if (this.hasUnsavedChangesAfterTogglingCanvas) {
                 // Resetting the canvas mode combobox in toolbar to free-form
-                this.template.querySelector(PANELS.TOOLBAR).resetComboboxValueToFreeForm();
+                this.template.querySelector<any>(PANELS.TOOLBAR).resetComboboxValueToFreeForm();
 
                 // Show a warning modal if there are unsaved changes (besides the canvas mode change) on toggle
                 invokeModal({
@@ -2501,7 +2501,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Handler method for designating focus to the property editor panel
      */
     handleFocusPropertyEditor() {
-        const propertyEditor = this.template.querySelector(PANELS.PROPERTY_EDITOR_PANEL);
+        const propertyEditor = this.template.querySelector<any>(PANELS.PROPERTY_EDITOR_PANEL);
+
         if (propertyEditor) {
             propertyEditor.focus();
         }
@@ -2564,7 +2565,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      *
      * @returns The canvas component
      */
-    _getCanvasComponent = () => {
+    _getCanvasComponent = (): any => {
         return (
             this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS) || this.template.querySelector(PANELS.FREEFORM_CANVAS)
         );
@@ -2643,7 +2644,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     @api
     handleFocusOnToolbox() {
-        this.template.querySelector(PANELS.TOOLBOX).focus();
+        this.template.querySelector<any>(PANELS.TOOLBOX).focus();
     }
 
     /**
@@ -2683,13 +2684,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      */
     highlightOnCanvas(elementGuid: string) {
         // Panning the canvas element into the viewport if needed
-        const canvasContainer = this.template.querySelector(PANELS.FREEFORM_CANVAS);
+        const canvasContainer = this.template.querySelector(PANELS.FREEFORM_CANVAS) as any;
         if (canvasContainer && canvasContainer.panElementToView) {
             canvasContainer.panElementToView(elementGuid);
         }
 
         // Zooming on element on autolayout canvas
-        const alcCanvasContainer = this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS);
+        const alcCanvasContainer = this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS) as any;
         if (alcCanvasContainer) {
             alcCanvasContainer.focusOnNode(elementGuid);
         }
@@ -3020,7 +3021,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     }
 
     getShiftFocusComponents(): HTMLElement[] {
-        const canvas = this._getCanvasComponent();
+        const canvas = this._getCanvasComponent()!;
         let canvasSections;
 
         if (this.properties.isAutoLayoutCanvas) {

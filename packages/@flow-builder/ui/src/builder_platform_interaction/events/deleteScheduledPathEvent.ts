@@ -1,8 +1,8 @@
 const eventName = 'deletescheduledpath';
 
-export class DeleteScheduledPathEvent {
+export class DeleteScheduledPathEvent extends CustomEvent<any> {
     constructor(guid) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used to allow selection on the visual picker
  */
 const eventName = 'visualpickerlistchanged';
 
-export class VisualPickerListChangedEvent {
+export class VisualPickerListChangedEvent extends CustomEvent<any> {
     constructor(items) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

@@ -68,7 +68,7 @@ export default class CollectionProcessorEditor extends LightningElement {
     @api validate() {
         let errors: ElementOrComponentError[] = [];
         // validate the inner editor
-        const editor = this.template.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR);
+        const editor = this.template.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR) as any;
         if (editor) {
             errors = editor.validate();
         }

@@ -1,8 +1,8 @@
 const eventName = 'updatesortcollectionoutput';
 
-export class UpdateSortCollectionOutputEvent {
+export class UpdateSortCollectionOutputEvent extends CustomEvent<any> {
     constructor(selectedOutput: string | null, limit: number | null, error: string | null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

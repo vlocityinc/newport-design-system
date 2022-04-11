@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used to report a click action on a palette item.
  */
 const eventName = 'paletteitemclicked';
 
-export class PaletteItemClickedEvent {
+export class PaletteItemClickedEvent extends CustomEvent<any> {
     constructor(elementType, guid, elementSubtype = null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

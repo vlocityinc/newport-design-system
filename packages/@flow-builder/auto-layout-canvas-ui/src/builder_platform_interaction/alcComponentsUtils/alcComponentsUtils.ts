@@ -32,6 +32,7 @@ import {
 import { ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { commands, commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
+import { LightningElement } from 'lwc';
 import { LABELS } from './alcComponentsUtilsLabels';
 
 const {
@@ -317,7 +318,7 @@ export function deleteComponent(componentName: string): void {
  * @returns the component constructor, or undefined if not in the cached
  */
 export function getComponent<T extends LightningElement>(componentName: string): T | undefined {
-    return constructorCache[componentName];
+    return constructorCache[componentName] as T;
 }
 
 /**

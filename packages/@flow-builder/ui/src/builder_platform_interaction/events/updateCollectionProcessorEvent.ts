@@ -1,8 +1,8 @@
 const eventName = 'updatecollectionprocessor';
 
-export class UpdateCollectionProcessorEvent {
+export class UpdateCollectionProcessorEvent extends CustomEvent<any> {
     constructor(element: object) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -25,6 +25,7 @@ export default class InputCollectionPicker extends LightningElement {
     collectionProcessorFilter?: CollectionProcessorFilter;
     @track
     _collectionReference;
+    _collectionVariable: any;
 
     /**
      * Gets the collection reference value

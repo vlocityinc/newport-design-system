@@ -54,6 +54,7 @@ export default class MapEditor extends LightningElement {
 
     @track
     shouldDeleteVariable = false;
+    _inputVariables: any;
 
     @api
     get elementInfo() {
@@ -130,6 +131,7 @@ export default class MapEditor extends LightningElement {
             this.shouldDeleteVariable
         );
     }
+    originalVariable;
 
     /**
      * Create the current item variable

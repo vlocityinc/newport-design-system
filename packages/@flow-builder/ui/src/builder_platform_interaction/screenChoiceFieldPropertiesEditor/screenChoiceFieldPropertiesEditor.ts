@@ -213,7 +213,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     }
 
     getSingleOrMultiRadioButtons() {
-        return this.template.querySelector(SINGLE_OR_MULTI_RADIO_GROUP_SELECTOR);
+        return this.template.querySelector(SINGLE_OR_MULTI_RADIO_GROUP_SELECTOR) as any;
     }
 
     // Convert flow data type to the value from the data type drop down list.

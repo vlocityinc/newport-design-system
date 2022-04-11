@@ -21,6 +21,7 @@ import {
     ParentNodeModel,
     resolveParent
 } from 'builder_platform_interaction/autoLayoutCanvas';
+import { LightningElement } from 'lwc';
 
 enum ConditionOptions {
     DEFAULT_PATH = 'DEFAULT_PATH',
@@ -28,13 +29,13 @@ enum ConditionOptions {
 }
 
 export interface NodeMenuInfo {
-    ctor: MenuConstructor<AlcNodeMenu>;
+    ctor: AlcNodeMenu;
     source: ConnectionSource;
     autoFocus: boolean;
     conditionOptions?: Option[];
 }
 export interface ConnectorMenuInfo {
-    ctor: MenuConstructor<AlcConnectorMenu>;
+    ctor: AlcConnectorMenu;
     source: ConnectionSource;
     canAddGoto: boolean;
     canAddEndElement: boolean;
@@ -73,9 +74,9 @@ export async function processConnectorMenuMetadata(
  */
 export function getConnectorMenuConstructor(
     connectorMenuMetadata: ConnectorMenuMetadata | undefined
-): MenuConstructor<AlcConnectorMenu> | undefined {
+): AlcConnectorMenu | undefined {
     const menuComponent = connectorMenuMetadata?.menuComponent;
-    return menuComponent ? getComponent<MenuConstructor<AlcConnectorMenu>>(menuComponent) : undefined;
+    return menuComponent ? getComponent<AlcConnectorMenu>(menuComponent) : undefined;
 }
 
 export interface Option {
@@ -209,10 +210,10 @@ export function getConnectorMenuInfo(canvasContext: CanvasContext, flowModel: Fl
  * @param elementMetadata - The metadata for the element
  * @returns the constructor for the menu
  */
-export function getNodeMenuConstructor(elementMetadata: ElementMetadata): MenuConstructor<AlcNodeMenu> | undefined {
+export function getNodeMenuConstructor(elementMetadata: ElementMetadata): AlcNodeMenu | undefined {
     const componentName = elementMetadata.menuComponent;
 
-    return componentName ? getComponent(componentName) : undefined;
+    return componentName ? getComponent<AlcNodeMenu>(componentName) : undefined;
 }
 
 /**
@@ -252,7 +253,7 @@ function checkCanAddGoTo(
  * @param menuElement - The menu element
  * @returns a MenuRenderedEvent for the menu
  */
-export function newMenuRenderedEvent(menuElement: LightningElement) {
+export function newMenuRenderedEvent(menuElement: HTMLElement | LightningElement) {
     const { w, h } = getDomElementGeometry(menuElement);
     return new MenuRenderedEvent(w, h);
 }

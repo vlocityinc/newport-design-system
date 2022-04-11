@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'redo';
 
-export class RedoEvent {
+export class RedoEvent extends CustomEvent<any> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

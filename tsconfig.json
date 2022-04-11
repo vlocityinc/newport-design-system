@@ -9,9 +9,13 @@
         "esModuleInterop": true,
         "noEmitOnError": true,
         "target": "es2020",
-        "lib": ["dom", "es2020"]
+        "lib": ["dom", "es2020"],
+        "paths": {
+            "lwc": ["./node_modules/lwc/types.d.ts"]
+        }
     },
 
     "exclude": ["node_modules", "**/*.test.ts"],
+    "include": ["./src/", "./@types/",  "./node_modules/lwc/types.d.ts", "./packages/@types/index.d.ts"],
     "files": ["./packages/@types/index.d.ts"]
 }

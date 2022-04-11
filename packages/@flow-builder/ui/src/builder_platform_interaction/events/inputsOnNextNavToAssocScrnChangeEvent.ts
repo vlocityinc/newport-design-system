@@ -1,8 +1,8 @@
 const eventName = 'inputsonnextnavtoassocscrnchanged';
 
-export class InputsOnNextNavToAssocScrnChangeEvent {
+export class InputsOnNextNavToAssocScrnChangeEvent extends CustomEvent<any> {
     constructor(option: 'UseStoredValues' | 'ResetValues') {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: true,
             composed: true,
             bubbles: true,

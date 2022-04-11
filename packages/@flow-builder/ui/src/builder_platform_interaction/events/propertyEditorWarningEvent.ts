@@ -1,13 +1,12 @@
-// @ts-nocheck
 /**
  * Used by components to indicate that a property of the business element they represent
  * has warning. These warnings would appear in the property editor footer warning pop over.
  */
 const eventName = 'propeditorwarning';
 
-export class PropertyEditorWarningEvent {
+export class PropertyEditorWarningEvent extends CustomEvent<any> {
     constructor(propertyName, warning = null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

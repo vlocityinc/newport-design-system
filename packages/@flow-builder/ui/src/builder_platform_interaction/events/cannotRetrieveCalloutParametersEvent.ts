@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'cannotretrievecalloutparameters';
 
-export class CannotRetrieveCalloutParametersEvent {
+export class CannotRetrieveCalloutParametersEvent extends CustomEvent<any> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

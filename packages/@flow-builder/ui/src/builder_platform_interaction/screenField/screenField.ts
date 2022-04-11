@@ -121,7 +121,7 @@ export default class ScreenField extends LightningElement {
     }
 
     @api focusChildElement(index) {
-        const section = this.template.querySelector('builder_platform_interaction-screen-section-field');
+        const section = this.template.querySelector('builder_platform_interaction-screen-section-field') as any;
         section.focusChildElement(index);
     }
 

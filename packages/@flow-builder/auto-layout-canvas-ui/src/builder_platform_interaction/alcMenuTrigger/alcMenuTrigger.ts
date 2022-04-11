@@ -208,7 +208,9 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
         } else {
             // Checking and unchecking the element when in selection mode
             // The checkbox is in a slot being filled by alcnode
-            this.querySelector<HTMLElement>(selectors.checkbox).click();
+
+            // TODO: this should be handled in AlcNode
+            this.querySelector<HTMLElement>(selectors.checkbox)?.click();
         }
     }
 

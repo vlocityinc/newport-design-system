@@ -1,11 +1,7 @@
-// @ts-nocheck
-/**
- * Due to lwc compilation this has to be a class and not an interface
- */
-export class DeleteElementEventDetail {
+export interface DeleteElementEventDetail {
     selectedElementGUID: UI.Guid[];
     selectedElementType: UI.ElementType;
-    childIndexToKeep?: number;
+    childIndexToKeep?: number | null;
     parentGUID?: UI.Guid;
 }
 
@@ -20,25 +16,23 @@ export class DeleteElementEventDetail {
  */
 const eventName = 'deleteelement';
 
-export class DeleteElementEvent {
+export class DeleteElementEvent extends CustomEvent<DeleteElementEventDetail> {
     constructor(
         selectedElementGUID: UI.Guid[],
         selectedElementType: UI.ElementType,
         childIndexToKeep?: number | null,
         parentGUID?: UI.Guid
     ) {
-        const detail: DeleteElementEvent = {
-            selectedElementGUID,
-            selectedElementType,
-            childIndexToKeep,
-            parentGUID
-        };
-
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
-            detail
+            detail: {
+                selectedElementGUID,
+                selectedElementType,
+                childIndexToKeep,
+                parentGUID
+            }
         });
     }
 

@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used to open an empty property editor for the given element type.
  */
 const eventName = 'addnoncanvaselement';
 
-export class AddNonCanvasElementEvent {
+export class AddNonCanvasElementEvent extends CustomEvent<any> {
     constructor(elementType) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

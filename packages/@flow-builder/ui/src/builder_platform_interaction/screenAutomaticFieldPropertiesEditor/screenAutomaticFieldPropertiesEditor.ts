@@ -31,6 +31,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
 
     objectManagerLink = '';
     visibilityLogicComboboxLabel: string = automaticFieldLogicComboboxLabel;
+    expandedSectionNames?: string;
 
     set field(value) {
         this._field = value;

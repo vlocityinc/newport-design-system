@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by zoom/pan panel to marquee select on the canvas
  */
 const eventName = 'togglemarqueeon';
 
-export class ToggleMarqueeOnEvent {
+export class ToggleMarqueeOnEvent extends CustomEvent<null> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true

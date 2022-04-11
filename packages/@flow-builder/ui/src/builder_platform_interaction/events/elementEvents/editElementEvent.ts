@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used to open a property editor for the given element.
  */
 const eventName = 'editelement';
 
-export class EditElementEvent {
+export class EditElementEvent extends CustomEvent<any> {
     constructor(canvasElementGUID, mode = eventName, elementType?: string, designateFocus?: boolean) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

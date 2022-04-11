@@ -3,9 +3,9 @@
  */
 const eventName = 'filtermatches';
 
-export class FilterMatchesEvent {
+export class FilterMatchesEvent extends CustomEvent<any> {
     constructor(value: string | null = null, isMergeField = false) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

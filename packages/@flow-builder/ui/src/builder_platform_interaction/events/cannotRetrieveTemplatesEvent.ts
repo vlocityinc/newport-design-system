@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'cannotretrievetemplates';
 
-export class CannotRetrieveTemplatesEvent {
+export class CannotRetrieveTemplatesEvent extends CustomEvent<null> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: false,
             bubbles: true

@@ -68,7 +68,7 @@ export class RecordCreateEditorComponentTest extends TestComponent<RecordCreateE
     }
 
     public getRecordStoreOptionRadioGroupElements() {
-        return this.getRecordStoreOptionElement().shadowRoot!.querySelectorAll(
+        return (this.getRecordStoreOptionElement().shadowRoot! as any).querySelectorAll(
             LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
         );
     }

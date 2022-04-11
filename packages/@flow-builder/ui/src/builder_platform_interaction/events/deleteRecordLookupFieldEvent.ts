@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'deleterecordlookupfield';
 
-export class DeleteRecordLookupFieldEvent {
+export class DeleteRecordLookupFieldEvent extends CustomEvent<any> {
     constructor(index) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

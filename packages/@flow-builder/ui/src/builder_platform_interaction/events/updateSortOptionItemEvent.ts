@@ -1,8 +1,8 @@
 const eventName = 'updatesortoptionitem';
 
-export class UpdateSortOptionItemEvent {
+export class UpdateSortOptionItemEvent extends CustomEvent<any> {
     constructor(propertyName, optionIndex = 0, value, error) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

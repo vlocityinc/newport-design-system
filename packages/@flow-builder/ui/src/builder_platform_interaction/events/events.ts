@@ -54,7 +54,7 @@ export { EditListItemEvent } from './editListItemEvent';
 export { EditMergeFieldPillEvent } from './editMergeFieldPillEvent';
 export { AddElementEvent } from './elementEvents/addElementEvent';
 export { AddNonCanvasElementEvent } from './elementEvents/addNonCanvasElementEvent';
-export { DeleteElementEvent, DeleteElementEventDetail } from './elementEvents/deleteElementEvent';
+export { DeleteElementEvent } from './elementEvents/deleteElementEvent';
 export { EditElementEvent } from './elementEvents/editElementEvent';
 export { ToggleElementEvent } from './elementEvents/toggleElementEvent';
 export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';

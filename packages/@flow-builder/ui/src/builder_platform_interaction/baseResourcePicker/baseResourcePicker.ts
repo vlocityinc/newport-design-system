@@ -63,6 +63,7 @@ export default class BaseResourcePicker extends LightningElement {
 
     @api
     showActivityIndicator = false;
+    _rowIndex: any;
 
     /**
      * Custom error message to display
@@ -85,7 +86,7 @@ export default class BaseResourcePicker extends LightningElement {
 
     @api
     focus(): void {
-        const labelDescription = this.template.querySelector(Combobox.SELECTOR);
+        const labelDescription = this.template.querySelector(Combobox.SELECTOR) as HTMLElement;
         labelDescription.focus();
     }
 

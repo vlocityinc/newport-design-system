@@ -1,13 +1,12 @@
-// @ts-nocheck
 const eventName = 'templatechanged';
 
-export class TemplateChangedEvent {
+export class TemplateChangedEvent extends CustomEvent<any> {
     /**
      *
      * @param {TemplateId|{ processType: string, triggerType: string}} detail
      */
     constructor(detail) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

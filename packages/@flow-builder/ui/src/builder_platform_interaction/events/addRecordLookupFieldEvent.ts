@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'addrecordlookupfield';
 
-export class AddRecordLookupFieldEvent {
+export class AddRecordLookupFieldEvent extends CustomEvent<null> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

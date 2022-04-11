@@ -16,7 +16,7 @@ export default class ScreenSectionField extends LightningElement {
     labels = LABELS;
 
     @api focusChildElement(index) {
-        const columns = this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.SCREEN_CANVAS);
+        const columns = this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.SCREEN_CANVAS) as any;
         columns[index[1]].focusElement([index[0]]);
     }
 

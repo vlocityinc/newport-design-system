@@ -40,6 +40,7 @@ const selectors = {
 
 export default class FormulaBuilder extends LightningElement {
     dom = lwcUtils.createDomProxy(this, selectors);
+
     // flow process type
     @api flowProcessType;
     // flow trigger type
@@ -158,6 +159,7 @@ export default class FormulaBuilder extends LightningElement {
         return this._resourcePickerConfig?.filterOptions || {};
     }
 
+    // @ts-ignore TODO: remove me
     get classList() {
         return (
             'container slds-rich-text-editor slds-grid slds-grid_vertical slds-nowrap' +

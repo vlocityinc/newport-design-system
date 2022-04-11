@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used to report a click action on a visual picker item.
  */
 const eventName = 'visualpickeritemchanged';
 
-export class VisualPickerItemChangedEvent {
+export class VisualPickerItemChangedEvent extends CustomEvent<any> {
     constructor(id, isSelected) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

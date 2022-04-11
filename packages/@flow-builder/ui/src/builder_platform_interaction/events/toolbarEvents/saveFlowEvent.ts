@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used to save a flow.
  */
 const eventName = 'save';
 
-export class SaveFlowEvent {
+export class SaveFlowEvent extends CustomEvent<any> {
     constructor(type = null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by waitEvent to indicate an input parameters being deleted
  */
 const eventName = 'waiteventdeleteparameter';
 
-export class WaitEventDeleteParameterEvent {
+export class WaitEventDeleteParameterEvent extends CustomEvent<any> {
     constructor(name = null, parentGUID, isInputParameter, index = null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -1,4 +1,3 @@
-// @ts-nocheck
 const eventName = 'configuration_editor_generic_type_mapping_changed';
 
 /**
@@ -7,9 +6,9 @@ const eventName = 'configuration_editor_generic_type_mapping_changed';
  * @export
  * @class ConfigurationEditorTypeMappingChangeEvent
  */
-export class ConfigurationEditorTypeMappingChangeEvent {
+export class ConfigurationEditorTypeMappingChangeEvent extends CustomEvent<any> {
     constructor(typeName, typeValue) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -63,7 +63,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
     isFocusTrapEnabled = false;
 
     // @ts-ignore
-    private dynamicNodeConstructor: Function | undefined;
+    private dynamicNodeConstructor: LightningElement | undefined;
 
     // @ts-ignore
     private dynamicNodeData: NodeModel;
@@ -431,6 +431,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
      */
     handleSelectionCheckboxClick = (event: Event) => {
         event.stopPropagation();
+
         const node = this.getNode();
         const toggleNodeSelectionEvent = new AlcSelectDeselectNodeEvent(this.nodeInfo.guid, node.config.isSelected);
         this.dispatchEvent(toggleNodeSelectionEvent);

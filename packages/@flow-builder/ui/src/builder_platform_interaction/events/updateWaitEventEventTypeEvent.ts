@@ -1,13 +1,11 @@
-// @ts-nocheck
-
 /**
  * Used by waitEvent to indicate that event type is udpated.
  */
 const eventName = 'updatewaiteventeventtype';
 
-export class UpdateWaitEventEventTypeEvent {
+export class UpdateWaitEventEventTypeEvent extends CustomEvent<any> {
     constructor(value, error = null, parentGUID, oldValue = undefined) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

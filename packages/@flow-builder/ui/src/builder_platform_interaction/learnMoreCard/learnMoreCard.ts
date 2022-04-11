@@ -20,12 +20,12 @@ export default class LearnMoreCard extends LightningElement {
     popupLinkUrl = '';
 
     get popup() {
-        return this.template.querySelector('lightning-popup');
+        return this.template.querySelector('lightning-popup') as any;
     }
 
     handlePopupTriggerClick() {
         const referenceElement = this.template.querySelector('.popup-trigger');
-        this.popup.show(referenceElement, {
+        this.popup?.show(referenceElement, {
             reference: { vertical: 'bottom', horizontal: 'center' },
             popup: { vertical: 'top', horizontal: 'left' },
             padding: -1,
@@ -36,7 +36,7 @@ export default class LearnMoreCard extends LightningElement {
     // Focus the popup link instead of its first tabbable element, which would be the close icon
     handlePopupAutofocus(e: Event) {
         e.preventDefault();
-        this.template.querySelector('lightning-formatted-url').focus();
+        (this.template.querySelector('lightning-formatted-url') as any).focus();
     }
 
     handlePopupKeydown(e: KeyboardEvent) {

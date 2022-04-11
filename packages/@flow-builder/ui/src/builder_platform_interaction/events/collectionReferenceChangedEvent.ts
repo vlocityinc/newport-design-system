@@ -1,8 +1,8 @@
 const eventName = 'collectionreferencechanged';
 
-export class CollectionReferenceChangedEvent {
+export class CollectionReferenceChangedEvent extends CustomEvent<any> {
     constructor(value: string | null, error: string | null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

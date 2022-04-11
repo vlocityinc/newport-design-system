@@ -1,3 +1,7 @@
+import { LightningElement } from 'lwc';
+
+export type ShadowRootTheGoodPart = typeof LightningElement.prototype.template;
+
 /**
  * Utility function that creates a proxy to query the DOM of a lightning component.
  * The proxy exposes the component's selector keys as type-safe properties
@@ -49,7 +53,7 @@
  * @returns a type-safe proxy for the component's DOM
  */
 export function createDomProxy<P extends string, T extends HTMLElement = HTMLElement>(
-    component: LightningElement,
+    component: LightningElement | { template: ShadowRootTheGoodPart },
     selectors?: Record<P, string | Function>
 ) {
     /**

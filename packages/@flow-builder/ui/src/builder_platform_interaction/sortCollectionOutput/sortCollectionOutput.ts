@@ -40,7 +40,7 @@ export default class SortCollectionOutput extends LightningElement {
     }
 
     renderedCallback() {
-        const inputSelector = this.template.querySelector('lightning-input');
+        const inputSelector = this.template.querySelector('lightning-input') as any;
         if (inputSelector) {
             inputSelector.focus();
         }

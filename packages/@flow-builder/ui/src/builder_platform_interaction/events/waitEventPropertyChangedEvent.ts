@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by waitEvent to indicate that one of its properties changed
  */
 const eventName = 'waiteventpropertychanged';
 
-export class WaitEventPropertyChangedEvent {
+export class WaitEventPropertyChangedEvent extends CustomEvent<any> {
     constructor(propertyName, value, error = null, parentGUID, oldValue = undefined) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

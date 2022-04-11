@@ -26,7 +26,7 @@ export default class ScheduledPath extends LightningElement {
 
     /** Focus the label field of the label description component */
     @api focus() {
-        const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION);
+        const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION) as HTMLElement;
         labelDescription.focus();
     }
 
@@ -147,7 +147,7 @@ export default class ScheduledPath extends LightningElement {
         this.resetError(offsetUnitCombobox, this.scheduledPath.offsetUnit.error);
         this.setInputErrorMessage(offsetUnitCombobox, this.scheduledPath.offsetUnit.error);
 
-        const batchSizeInput = this.template.querySelector(SELECTORS.BATCH_SIZE_INPUT);
+        const batchSizeInput = this.template.querySelector(SELECTORS.BATCH_SIZE_INPUT) as any;
         if (batchSizeInput.value) {
             this.resetError(batchSizeInput, this.scheduledPath.maxBatchSize.error, false);
             this.setInputErrorMessage(batchSizeInput, this.scheduledPath.maxBatchSize.error);

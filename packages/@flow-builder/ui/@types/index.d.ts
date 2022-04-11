@@ -1,7 +1,6 @@
 // Add global types for @flow-builder/ui here
 declare module 'mock*';
 declare module '*.json';
-declare module 'lwc';
 
 /**
  * Combobox configuration (used by pickers such as BaseResourcePicker, FerovResourcePicker for instance

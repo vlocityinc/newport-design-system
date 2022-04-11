@@ -1,11 +1,10 @@
-// @ts-nocheck
 /**
  * Used by canvas on drag node
  */
 const eventName = 'dragnode';
-export class DragNodeEvent {
+export class DragNodeEvent extends CustomEvent<any> {
     constructor(canvasElementGUID, locationX, locationY) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

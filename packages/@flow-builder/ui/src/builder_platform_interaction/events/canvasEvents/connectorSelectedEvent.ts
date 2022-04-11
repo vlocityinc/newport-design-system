@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by canvas to select a connection
  */
 const eventName = 'connectorselected';
 
-export class ConnectorSelectedEvent {
+export class ConnectorSelectedEvent extends CustomEvent<any> {
     constructor(connectorGUID, isMultiSelectKeyPressed) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

@@ -1,6 +1,6 @@
 const eventName = 'prepopulatemapitems';
 
-export class PrepopulateMapItemsEvent {
+export class PrepopulateMapItemsEvent extends CustomEvent<any> {
     constructor(
         outputObjectType: string,
         outputFields: object,
@@ -8,7 +8,7 @@ export class PrepopulateMapItemsEvent {
         inputObjectType: string,
         inputFields: object
     ) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

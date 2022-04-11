@@ -1,24 +1,23 @@
-// @ts-nocheck
 const eventName = 'richtextplaintextswitchchanged';
 
 /**
  * Class representing an Event dispatched when switching between rich text and plain text mode
  */
-export class RichTextPlainTextSwitchChangedEvent extends Event {
+export class RichTextPlainTextSwitchChangedEvent extends CustomEvent<any> {
     /**
      * Create the event.
      *
-     * @param {boolean} isPlainText - Switched to plain text mode
+     * @param isPlainText - Switched to plain text mode
      */
-    constructor(isPlainText) {
+    constructor(isPlainText: boolean) {
         super(eventName, {
             cancelable: false,
             composed: true,
-            bubbles: true
+            bubbles: true,
+            detail: {
+                isPlainText
+            }
         });
-        this.detail = {
-            isPlainText
-        };
     }
 
     static EVENT_NAME = eventName;

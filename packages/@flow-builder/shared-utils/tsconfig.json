@@ -6,5 +6,5 @@
         "declaration": true,
         "noImplicitAny": false
     },
-    "include": ["src/", "@types/"]
+    "include": ["src/", "./@types/"]
 }

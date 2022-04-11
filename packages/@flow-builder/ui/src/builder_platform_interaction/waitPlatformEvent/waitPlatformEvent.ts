@@ -1,4 +1,3 @@
-// @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -33,7 +32,8 @@ const ASSIGNMENT_ICON = 'utility:assignment';
 export default class WaitPlatformEvent extends LightningElement {
     labels = LABELS;
 
-    filterParameters = [];
+    filterParameters: any[] = [];
+    _outputParameters: any;
 
     /**
      * Object of output parameters
@@ -100,7 +100,7 @@ export default class WaitPlatformEvent extends LightningElement {
      *
      * @type {Map}
      */
-    set inputFilterParameters(parameterItems) {
+    set inputFilterParameters(parameterItems: any[]) {
         if (parameterItems) {
             this.filterParameters = parameterItems;
 
@@ -149,10 +149,10 @@ export default class WaitPlatformEvent extends LightningElement {
     ];
 
     @track
-    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementTypeForExpressionBuilder);
+    elementTypeForExpressionBuilder = ELEMENT_TYPE.WAIT;
 
     @track
-    elementTypeForExpressionBuilder = ELEMENT_TYPE.WAIT;
+    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementTypeForExpressionBuilder);
 
     @track
     eventTypeParameters;
@@ -161,7 +161,7 @@ export default class WaitPlatformEvent extends LightningElement {
     filterConditionLogic = { value: CONDITION_LOGIC.NO_CONDITIONS };
 
     @track
-    filters = [];
+    filters: any[] = [];
 
     @track
     filterFields;
@@ -174,7 +174,7 @@ export default class WaitPlatformEvent extends LightningElement {
     @track
     outputParameterItem = {};
 
-    _lastRecordedEventTypeValue = null;
+    _lastRecordedEventTypeValue? = null;
 
     get eventTypeValue() {
         return this._eventType ? getValueFromHydratedItem(this._eventType) : null;
@@ -296,7 +296,7 @@ export default class WaitPlatformEvent extends LightningElement {
             value,
             error,
             this.waitEventGuid,
-            this._lastRecordedEventTypeValue
+            this._lastRecordedEventTypeValue!
         );
         this.dispatchEvent(updateWaitEvenTypeEvent);
 

@@ -208,7 +208,7 @@ export default class CustomPropertyEditor extends LightningElement {
      */
     createComponent = () => {
         logPerfTransactionStart(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, null, null);
-        const container = this.template.querySelector(CONFIGURATION_EDITOR_SELECTOR);
+        const container = this.template.querySelector(CONFIGURATION_EDITOR_SELECTOR) as any;
         this.configurationEditorLoading = true;
 
         const successCallback = () => {
@@ -267,6 +267,7 @@ export default class CustomPropertyEditor extends LightningElement {
      */
     getConfigurationEditorTemplate = () => {
         const configurationEditorTemplate = this.template.querySelector(CONFIGURATION_EDITOR_SELECTOR);
-        return configurationEditorTemplate && configurationEditorTemplate.firstChild;
+
+        return (configurationEditorTemplate && configurationEditorTemplate.firstChild) as any;
     };
 }

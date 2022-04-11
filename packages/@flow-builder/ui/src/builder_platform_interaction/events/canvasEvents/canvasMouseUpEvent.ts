@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by canvas on mouse up
  */
 const eventName = 'canvasmouseup';
 
-export class CanvasMouseUpEvent {
+export class CanvasMouseUpEvent extends CustomEvent<null> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true

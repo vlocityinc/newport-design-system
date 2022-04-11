@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by actions to indicate that it's action has changed, includes action type and number of actions of that type
  */
 const eventName = 'actionsloaded';
 
-export class ActionsLoadedEvent {
+export class ActionsLoadedEvent extends CustomEvent<any> {
     constructor(value = null, number = null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

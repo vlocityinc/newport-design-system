@@ -46,13 +46,13 @@ export default class ScreenPropertiesEditorContainer extends withKeyboardInterac
 
     @api
     focusExpandButton() {
-        const button = this.template.querySelector(SELECTORS.EXPAND_BUTTON);
+        const button = this.template.querySelector(SELECTORS.EXPAND_BUTTON) as any;
         button?.focus();
     }
 
     @api
     focusLabelDescription() {
-        const screenPropertiesEditor = this.template.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR);
+        const screenPropertiesEditor = this.template.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR) as any;
         screenPropertiesEditor?.focus();
     }
 
@@ -66,7 +66,7 @@ export default class ScreenPropertiesEditorContainer extends withKeyboardInterac
         super.renderedCallback();
 
         if (this.focusExpandOnRender) {
-            const button =
+            const button: any =
                 this.template.querySelector(SELECTORS.BACK_BUTTON) ||
                 this.template.querySelector(SELECTORS.EXPAND_BUTTON);
             if (button) {
@@ -173,7 +173,7 @@ export default class ScreenPropertiesEditorContainer extends withKeyboardInterac
         if (this.configurationEditor) {
             const screenExtensionPropertiesEditor = this.template.querySelector(
                 'builder_platform_interaction-screen-extension-properties-editor'
-            );
+            ) as any;
             if (screenExtensionPropertiesEditor) {
                 return screenExtensionPropertiesEditor.validate();
             }
@@ -182,7 +182,7 @@ export default class ScreenPropertiesEditorContainer extends withKeyboardInterac
     }
 
     handleToggleExpand = () => {
-        const container = this.template.querySelector('.properties-container');
+        const container = this.template.querySelector('.properties-container') as any;
 
         container.classList.toggle('slds-size_medium');
         const expanded = container.classList.toggle('slds-size_x-large');

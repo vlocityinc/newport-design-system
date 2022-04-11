@@ -1,4 +1,3 @@
-// @ts-nocheck
 const eventName = 'configuration_editor_input_value_changed';
 
 /**
@@ -7,9 +6,9 @@ const eventName = 'configuration_editor_input_value_changed';
  * @export
  * @class ConfigurationEditorChangeEvent
  */
-export class ConfigurationEditorChangeEvent {
+export class ConfigurationEditorChangeEvent extends CustomEvent<any> {
     constructor(name, newValue, newValueDataType) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

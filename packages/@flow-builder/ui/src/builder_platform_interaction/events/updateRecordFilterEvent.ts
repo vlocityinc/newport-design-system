@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'updaterecordfilter';
 
-export class UpdateRecordFilterEvent {
+export class UpdateRecordFilterEvent extends CustomEvent<any> {
     constructor(index, value) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used to report a click action on a Delete Resource.
  */
 const eventName = 'deleteresource';
 
-export class DeleteResourceEvent {
+export class DeleteResourceEvent extends CustomEvent<any> {
     constructor(selectedElementGUID, selectedElementType) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

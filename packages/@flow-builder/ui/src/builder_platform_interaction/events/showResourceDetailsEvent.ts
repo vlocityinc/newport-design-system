@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Fired to show the resource details.
  */
 const eventName = 'showresourcedetails';
 
-export class ShowResourceDetailsEvent {
+export class ShowResourceDetailsEvent extends CustomEvent<any> {
     constructor(elementGUID, canvasElement) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

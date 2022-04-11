@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used to indicate a new item has been selected inside the process types vertical navigation
  */
 const eventName = 'processtypeselected';
 
-export class ProcessTypeSelectedEvent {
+export class ProcessTypeSelectedEvent extends CustomEvent<any> {
     constructor(name) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

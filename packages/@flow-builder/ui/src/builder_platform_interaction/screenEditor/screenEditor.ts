@@ -124,7 +124,7 @@ export default class ScreenEditor extends LightningElement {
         let errors = getErrorsFromHydratedElement(this.screen);
         const screenPropertiesEditorContainer = this.template.querySelector(
             'builder_platform_interaction-screen-properties-editor-container'
-        );
+        ) as any;
         if (screenPropertiesEditorContainer) {
             const customPropertyEditorErrors = screenPropertiesEditorContainer.validate();
             errors = [...errors, ...customPropertyEditorErrors];
@@ -160,6 +160,7 @@ export default class ScreenEditor extends LightningElement {
     getAutomaticFieldPalette() {
         const tabset = this.template.querySelector('lightning-tabset');
         const automaticFieldsTab = tabset?.shadowRoot?.querySelector('slot')?.assignedNodes()[1];
+        // @ts-ignore
         const automaticFieldPalette = automaticFieldsTab?.shadowRoot
             ?.querySelector('slot')
             ?.assignedNodes()[0]
@@ -482,7 +483,7 @@ export default class ScreenEditor extends LightningElement {
     focus() {
         const screenPropertiesEditorContainer = this.template.querySelector(
             SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
-        );
+        ) as any;
         return screenPropertiesEditorContainer?.focusLabelDescription();
     }
 
@@ -496,7 +497,7 @@ export default class ScreenEditor extends LightningElement {
         if (event.detail.fromKeyboard) {
             const screenPropertiesEditorContainer = this.template.querySelector(
                 SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
-            );
+            ) as any;
             if (screenPropertiesEditorContainer) {
                 if (
                     event.detail.screenElement.elementType === ELEMENT_TYPE.SCREEN &&
@@ -517,7 +518,7 @@ export default class ScreenEditor extends LightningElement {
     };
 
     handleFocusScreenElement = () => {
-        const element = this.template.querySelector(SELECTORS.SCREEN_EDITOR_CANVAS);
+        const element = this.template.querySelector(SELECTORS.SCREEN_EDITOR_CANVAS) as any;
         element.focusHighlight();
     };
 

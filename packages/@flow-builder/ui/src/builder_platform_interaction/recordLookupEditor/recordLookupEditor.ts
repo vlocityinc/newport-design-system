@@ -66,6 +66,7 @@ export default class RecordLookupEditor extends LightningElement {
      * element type of the current editor
      */
     elementType = ELEMENT_TYPE.RECORD_LOOKUP;
+    _mode: any;
 
     /**
      * public API function to return the node

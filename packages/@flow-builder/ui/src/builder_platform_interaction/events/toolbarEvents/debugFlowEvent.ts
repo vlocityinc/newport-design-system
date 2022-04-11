@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'debugflow';
 
-export class DebugFlowEvent {
+export class DebugFlowEvent extends CustomEvent<any> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

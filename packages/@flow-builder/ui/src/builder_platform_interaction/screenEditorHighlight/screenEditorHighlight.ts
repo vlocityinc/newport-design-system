@@ -55,22 +55,24 @@ export default class ScreenEditorHighlight extends LightningElement {
 
     @api focusIfSelected() {
         if (this.selected) {
-            const element = this.template.querySelector(HIGHLIGHT_SELECTOR);
+            const element = this.template.querySelector(HIGHLIGHT_SELECTOR) as any;
             element?.focus();
         }
     }
 
     @api focusHighlight() {
-        const element = this.template.querySelector(HIGHLIGHT_SELECTOR);
+        const element = this.template.querySelector(HIGHLIGHT_SELECTOR) as any;
         element.focus();
     }
 
+    // @ts-ignore TODO: remove me
     get classList() {
         return `highlight slds-is-relative ${booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : ''} ${
             booleanAttributeValue(this, 'hovering') ? HOVERING_CLASS : ''
         } ${booleanAttributeValue(this, 'isInKeyboardReorderableMode') ? MOVING_CLASS : ''}`;
     }
 
+    // @ts-ignore TODO: remove me
     get tabIndex() {
         if (this.preventEvents) {
             return -1;
@@ -105,12 +107,13 @@ export default class ScreenEditorHighlight extends LightningElement {
         );
     }
 
+    // @ts-ignore TODO: remove me
     get ariaLabel() {
         return this.screenElement?.name?.value;
     }
 
     setFocusOnElement() {
-        const elementToFocus = this.template.querySelector(HIGHLIGHT_SELECTOR);
+        const elementToFocus = this.template.querySelector(HIGHLIGHT_SELECTOR) as any;
         elementToFocus?.focus();
     }
 
@@ -166,7 +169,7 @@ export default class ScreenEditorHighlight extends LightningElement {
 
     handleDragStart(event) {
         event.stopPropagation();
-        this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.add(DRAGGING_CLASS);
+        this.template.querySelector(CONTAINER_DIV_SELECTOR)?.classList.add(DRAGGING_CLASS);
         event.dataTransfer.effectAllowed = 'move';
         // Cannot use a different attribute here because only 'text' works in IE
         event.dataTransfer.setData('text', this.screenElement.guid);
@@ -174,7 +177,7 @@ export default class ScreenEditorHighlight extends LightningElement {
     }
 
     handleDragEnd(/* event */) {
-        this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.remove(DRAGGING_CLASS);
+        this.template.querySelector(CONTAINER_DIV_SELECTOR)?.classList.remove(DRAGGING_CLASS);
     }
 
     handleKeyDown(event) {

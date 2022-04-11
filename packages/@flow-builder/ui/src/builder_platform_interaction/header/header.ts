@@ -22,6 +22,7 @@ export default class Header extends LightningElement {
 
     private _flowName;
     private _flowVersion;
+    grayPill: any;
 
     @api
     get flowName() {
@@ -92,7 +93,7 @@ export default class Header extends LightningElement {
     overriddenFlow;
 
     @api focus() {
-        const headerFocusableElement = this.template.querySelector('[href].test-back-url');
+        const headerFocusableElement = this.template.querySelector('[href].test-back-url') as any;
         if (headerFocusableElement) {
             headerFocusableElement.focus();
         }

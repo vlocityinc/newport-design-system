@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp } from '../../commands';
-import { createDomProxy } from '../../lwcUtils';
+import { createDomProxy, ShadowRootTheGoodPart } from '../../lwcUtils';
 import { createShortcut, Keys } from '../keyboardInteractions';
 import { BaseKeyboardInteraction, TabIndex, updateTabIndex } from './BaseKeyboardInteraction';
 import { Direction, getNextItem } from './interactionsUtils';

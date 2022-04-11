@@ -1,8 +1,8 @@
 const eventName = 'formulachanged';
 
-export class FormulaChangedEvent {
+export class FormulaChangedEvent extends CustomEvent<any> {
     constructor(value: string | null, error: string | null) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

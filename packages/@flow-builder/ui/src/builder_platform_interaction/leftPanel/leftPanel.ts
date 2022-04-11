@@ -77,7 +77,7 @@ export default class LeftPanel extends LightningElement {
         this._showElementsTab = value;
         if (this._showElementsTab) {
             this.postRenderCallback = () => {
-                (this.dom.tabset as LightningElement).activeTabValue = this.tabItemElements;
+                (this.dom.tabset as any).activeTabValue = this.tabItemElements;
             };
         }
     }

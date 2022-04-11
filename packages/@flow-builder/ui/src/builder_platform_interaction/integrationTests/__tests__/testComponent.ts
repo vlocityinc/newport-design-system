@@ -11,7 +11,7 @@ export abstract class TestComponent<E> {
     }
 
     get element() {
-        return this._element;
+        return this._element as any;
     }
 
     deepQuerySelector(selectors: string[]) {

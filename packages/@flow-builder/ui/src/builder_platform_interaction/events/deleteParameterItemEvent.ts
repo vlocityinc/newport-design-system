@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'deleteparameteritem';
 
-export class DeleteParameterItemEvent {
+export class DeleteParameterItemEvent extends CustomEvent<any> {
     constructor(isInput, rowIndex, name) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -61,12 +61,14 @@ export default class ScreenEditorCanvas extends LightningElement {
     @api focusHighlight() {
         const indexArray = this.screen.getFieldIndexesByGUID(this.selectedItemGuid);
         if (indexArray === -1) {
-            const highlights = this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
+            const highlights = this.template.querySelectorAll(
+                INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_HIGHLIGHT
+            ) as any;
             for (let x = 0; x < highlights.length; x++) {
                 highlights[x].focusIfSelected();
             }
         } else {
-            const canvas = this.template.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_CANVAS);
+            const canvas = this.template.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_CANVAS) as any;
             canvas?.focusElement(indexArray);
         }
     }
@@ -148,14 +150,17 @@ export default class ScreenEditorCanvas extends LightningElement {
     }
 
     clearDraggingState() {
+        // @ts-ignore TODO: remove me
         delete this.ranges; // Force recalculate bounding client rects for the new scroll position
+
+        // @ts-ignore TODO: remove me
         delete this.top;
     }
 
     getSelectedElement() {
         for (const highlight of this.template.querySelectorAll(
             'builder_platform_interaction-screen-editor-highlight'
-        )) {
+        ) as any) {
             if (highlight.selected) {
                 return highlight;
             }

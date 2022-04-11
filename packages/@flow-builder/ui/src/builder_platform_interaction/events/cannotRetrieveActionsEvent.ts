@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'cannotretrieveactions';
 
-export class CannotRetrieveActionsEvent {
+export class CannotRetrieveActionsEvent extends CustomEvent<null> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

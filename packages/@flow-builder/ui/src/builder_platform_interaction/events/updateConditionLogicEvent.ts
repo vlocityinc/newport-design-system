@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'updateconditionlogic';
 
-export class UpdateConditionLogicEvent {
+export class UpdateConditionLogicEvent extends CustomEvent<any> {
     constructor(parentGUID, value) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

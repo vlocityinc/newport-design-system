@@ -85,7 +85,7 @@ export default class SortOptionList extends LightningElement {
     }
 
     updateTooltip() {
-        const sortList = this.template.querySelector('builder_platform_interaction-list');
+        const sortList = this.template.querySelector('builder_platform_interaction-list') as any;
         if (sortList) {
             const addBtn = sortList.shadowRoot.querySelector('lightning-button');
             if (addBtn) {

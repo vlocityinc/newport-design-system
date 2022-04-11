@@ -17,7 +17,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
-import { api, track } from 'lwc';
+import { api, LightningElement, track } from 'lwc';
 import { ELEMENT_ACTION_CONFIG, getMenuConfiguration, NodeMenuMode } from './alcNodeMenuConfig';
 import { LABELS } from './alcNodeMenuLabels';
 
@@ -214,9 +214,10 @@ export default class AlcNodeMenu extends AlcMenu {
     override handleSpaceOrEnter() {
         const currentItemInFocus = this.template.activeElement;
         if (currentItemInFocus) {
+            // @ts-ignore TODO: remove me
             if (currentItemInFocus.role === 'menuitem') {
-                this.handleSelectNodeAction({ currentTarget: currentItemInFocus.parentElement, fromKeyboard: true });
-            } else if (currentItemInFocus.parentElement.classList.value.includes('footer')) {
+                this.handleSelectNodeAction({ currentTarget: currentItemInFocus.parentElement!, fromKeyboard: true });
+            } else if (currentItemInFocus.parentElement!.classList.value.includes('footer')) {
                 this.handleFooterButtonClick();
             } else if (currentItemInFocus.classList.value.includes('back-button')) {
                 this.handleBackButtonClick();
@@ -233,6 +234,7 @@ export default class AlcNodeMenu extends AlcMenu {
             if (this.menuConfiguration.footer) {
                 // Setting the slds-button_stretch class on the footer button the make it extend
                 const footerButton = this.dom.as<LightningElement>().footerButton;
+                // @ts-ignore TODO: remove me
                 const baseButton = footerButton?.shadowRoot.querySelector('button');
                 if (baseButton) {
                     baseButton.classList.add('slds-button_stretch');

@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by canvas to add a connection
  */
 const eventName = 'addconnection';
 
-export class AddConnectionEvent {
+export class AddConnectionEvent extends CustomEvent<any> {
     constructor(sourceGuid, targetGuid) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

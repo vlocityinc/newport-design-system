@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'duplicate';
 
-export class DuplicateEvent {
+export class DuplicateEvent extends CustomEvent<any> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

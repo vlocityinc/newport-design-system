@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'undo';
 
-export class UndoEvent {
+export class UndoEvent extends CustomEvent<null> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

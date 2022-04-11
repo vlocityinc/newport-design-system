@@ -5,7 +5,7 @@
  * @returns Element that has focus.
  */
 export function getElementWithFocus(): HTMLElement | undefined {
-    let currentFocusedElement = document.activeElement as LightningElement;
+    let currentFocusedElement = document.activeElement as any;
     while (currentFocusedElement) {
         if (currentFocusedElement.shadowRoot) {
             const nextFocusedElement = currentFocusedElement.shadowRoot.activeElement;

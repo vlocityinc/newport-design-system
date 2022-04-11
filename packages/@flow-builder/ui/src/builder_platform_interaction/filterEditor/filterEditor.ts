@@ -62,6 +62,8 @@ export default class FilterEditor extends LightningElement {
 
     @track
     shouldDeleteVariable = false;
+    collectionVariable: any;
+    _inputVariables: any;
 
     @api
     get elementInfo() {
@@ -158,6 +160,8 @@ export default class FilterEditor extends LightningElement {
             this.shouldDeleteVariable
         );
     }
+
+    originalVariable;
 
     /**
      * Create the current item variable

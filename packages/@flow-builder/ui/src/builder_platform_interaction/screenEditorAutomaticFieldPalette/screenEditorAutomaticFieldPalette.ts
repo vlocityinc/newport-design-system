@@ -36,6 +36,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     crudFilter: CrudFilter = ({ createable, updateable }) => createable || updateable;
 
     _searchPattern?: string | null;
+    isRecordVariableSetViaApi?: boolean;
 
     @api
     get searchPattern() {
@@ -273,6 +274,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
      * @private
      */
     private getObjectCombobox(): Combobox | null {
+        // @ts-ignore TODO: remove me
         return this.template
             .querySelector(SObjectOrSObjectCollectionPicker.SELECTOR)
             ?.shadowRoot.querySelector(FerovResourcePicker.SELECTOR)

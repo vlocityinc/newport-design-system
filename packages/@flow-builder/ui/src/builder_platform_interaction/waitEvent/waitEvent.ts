@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -45,7 +44,7 @@ export default class WaitEvent extends LightningElement {
 
     /** Focus the label field of the label description component */
     @api focus() {
-        this.template.querySelector(SELECTORS.LABEL_DESCRIPTION).focus();
+        (this.template.querySelector(SELECTORS.LABEL_DESCRIPTION) as HTMLElement).focus();
     }
 
     handleDelete(event) {

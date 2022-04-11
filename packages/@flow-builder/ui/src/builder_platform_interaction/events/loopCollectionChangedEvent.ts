@@ -1,17 +1,16 @@
-// @ts-nocheck
 /**
  * Used to report a update on 'LoopCollection' and 'LoopVariableErrorMessage'
  */
 const eventName = 'loopcollectionchanged';
 
-export class LoopCollectionChangedEvent {
+export class LoopCollectionChangedEvent extends CustomEvent<any> {
     constructor(
         collectionValue = null,
         collectionError = null,
         loopVariableValue = null,
         loopVariableErrorMessage = null
     ) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'addlistitem';
 
-export class AddListItemEvent {
+export class AddListItemEvent extends CustomEvent<any> {
     constructor(index) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'runflow';
 
-export class RunFlowEvent {
+export class RunFlowEvent extends CustomEvent<any> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

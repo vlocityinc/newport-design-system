@@ -177,8 +177,10 @@ export default class ComponentVisibility extends LightningElement {
      * @param index - The index for the item
      * @returns The condition list item at the specified index
      */
-    getConditionListItem(index: number): LightningElement {
-        return this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST_ITEM)[index];
+    getConditionListItem(index: number) {
+        return this.template.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST_ITEM)[
+            index
+        ] as HTMLElement;
     }
 
     /**

@@ -1,8 +1,8 @@
 const eventName = 'copyoncanvas';
 
-export class CopyOnCanvasEvent {
+export class CopyOnCanvasEvent extends CustomEvent<any> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

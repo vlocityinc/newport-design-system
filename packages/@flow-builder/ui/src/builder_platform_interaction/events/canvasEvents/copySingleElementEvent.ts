@@ -1,8 +1,11 @@
-// @ts-nocheck
+interface CopySingleElementEventDetail {
+    elementGuid: UI.Guid;
+}
+
 const eventName = 'copysingleelement';
-export class CopySingleElementEvent {
+export class CopySingleElementEvent extends CustomEvent<CopySingleElementEventDetail> {
     constructor(elementGuid) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

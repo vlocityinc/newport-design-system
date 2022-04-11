@@ -204,7 +204,7 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
      * @param key - the key pressed (arrowDown or arrowUp)
      */
     handleArrowKeys(key: string) {
-        const currentItemInFocus = this.template.activeElement;
+        const currentItemInFocus = this.template.activeElement as HTMLElement;
         if (currentItemInFocus) {
             const stepItems = this.dom.all.stepItem;
             if (stepItems.includes(currentItemInFocus)) {
@@ -217,7 +217,7 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
      * Helper function used following an enter/space key command on a stage's step element
      */
     handleEnterOrSpaceKey() {
-        const currentItemInFocus = this.template.activeElement;
+        const currentItemInFocus = this.template.activeElement as HTMLElement;
 
         if (currentItemInFocus) {
             const stepItems = this.dom.all.stepItem;

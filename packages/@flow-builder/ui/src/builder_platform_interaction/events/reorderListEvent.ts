@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Used to indicate that the order of the items in a list
  * (e.g. outcomes in a decision or events in a wait)
@@ -6,9 +5,9 @@
  */
 const eventName = 'reorderlist';
 
-export class ReorderListEvent {
+export class ReorderListEvent extends CustomEvent<any> {
     constructor(sourceGuid, destinationGuid) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

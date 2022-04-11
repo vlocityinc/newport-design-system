@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'editflowproperties';
 
-export class EditFlowPropertiesEvent {
+export class EditFlowPropertiesEvent extends CustomEvent<any> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true

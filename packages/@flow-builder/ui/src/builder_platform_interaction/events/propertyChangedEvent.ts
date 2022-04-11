@@ -1,6 +1,3 @@
-// @ts-nocheck
-import { ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
-
 /**
  * Used by components to indicate that a property of the business element they represent
  * has changed
@@ -16,6 +13,24 @@ type PropertyChangedEventDetail = {
     listIndex?: Number;
     dataType?: string | null;
     ignoreValidate?: boolean;
+};
+
+type ValueWithError = {
+    value: string;
+    error: string;
+};
+
+type ParameterListRowItem = {
+    rowIndex: UI.Guid;
+    name: string | ValueWithError;
+    value: string | ValueWithError;
+    valueDataType: string;
+    warnings?: string[];
+    // When coming from the api
+    dataType?: string;
+    subtype?: string;
+    isCollection?: boolean;
+    maxOccurs?: number;
 };
 
 export class PropertyChangedEvent extends CustomEvent<PropertyChangedEventDetail | ParameterListRowItem> {

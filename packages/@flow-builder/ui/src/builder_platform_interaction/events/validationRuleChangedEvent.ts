@@ -1,12 +1,11 @@
-// @ts-nocheck
 /**
  * Used by components to indicate that it's value has changed
  */
 const eventName = 'validationrulechanged';
 
-export class ValidationRuleChangedEvent {
+export class ValidationRuleChangedEvent extends CustomEvent<any> {
     constructor(rule) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

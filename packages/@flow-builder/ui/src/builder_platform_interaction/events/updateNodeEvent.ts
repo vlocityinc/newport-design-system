@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'updatenode';
 
-export class UpdateNodeEvent {
+export class UpdateNodeEvent extends CustomEvent<any> {
     constructor(node) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

@@ -162,7 +162,7 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
         const inputFields = this.template.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT_FIELD);
         const objectFieldValues = {};
         let hasError = false;
-        inputFields.forEach((fieldComponent) => {
+        inputFields.forEach((fieldComponent: any) => {
             if (fieldComponent.reportValidity() === false) {
                 hasError = true;
             }
@@ -188,7 +188,7 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
     };
 
     handleClearForm() {
-        const inputFields = this.template.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT_FIELD);
+        const inputFields = this.template.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT_FIELD) as any;
         inputFields.forEach((fieldComponent) => {
             fieldComponent.reset();
         });

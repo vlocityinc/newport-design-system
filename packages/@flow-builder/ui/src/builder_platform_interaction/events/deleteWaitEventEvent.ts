@@ -1,9 +1,8 @@
-// @ts-nocheck
 const eventName = 'deletewaitevent';
 
-export class DeleteWaitEventEvent {
+export class DeleteWaitEventEvent extends CustomEvent<any> {
     constructor(guid) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

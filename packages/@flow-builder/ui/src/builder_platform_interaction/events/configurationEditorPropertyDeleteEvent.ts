@@ -1,4 +1,3 @@
-// @ts-nocheck
 const eventName = 'configuration_editor_input_value_deleted';
 
 /**
@@ -9,9 +8,9 @@ const eventName = 'configuration_editor_input_value_deleted';
  * @export
  * @class ConfigurationEditorPropertyDeleteEvent
  */
-export class ConfigurationEditorPropertyDeleteEvent {
+export class ConfigurationEditorPropertyDeleteEvent extends CustomEvent<any> {
     constructor(name) {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

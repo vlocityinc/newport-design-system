@@ -86,7 +86,7 @@ export default abstract class AlcMenu extends withKeyboardInteractions(Lightning
     handleSpaceOrEnter() {
         const currentItemInFocus = this.template.activeElement;
         if (currentItemInFocus) {
-            this.doSelectMenuItem(currentItemInFocus.parentElement);
+            this.doSelectMenuItem(currentItemInFocus.parentElement!);
         }
     }
 

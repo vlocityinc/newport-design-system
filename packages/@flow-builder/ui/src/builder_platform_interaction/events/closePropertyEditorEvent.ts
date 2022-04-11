@@ -1,13 +1,12 @@
-// @ts-nocheck
 /**
  * Fired to close the property editor.
  */
 
 const eventName = 'closepropertyeditor';
 
-export class ClosePropertyEditorEvent {
+export class ClosePropertyEditorEvent extends CustomEvent<any> {
     constructor() {
-        return new CustomEvent(eventName, {
+        super(eventName, {
             cancelable: true,
             composed: true,
             bubbles: true
