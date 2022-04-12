@@ -33,12 +33,12 @@ jest.mock('builder_platform_interaction/translatorLib', () => {
                     description: 'testDescription',
                     testPoints: [
                         {
-                            elementApiName: 'START',
+                            elementApiName: 'Start',
                             assertions: [],
                             parameters: [
                                 {
                                     leftValueReference: '$Record',
-                                    type: 'INPUT_TRIGGERING_RECORD_INITIAL',
+                                    type: 'InputTriggeringRecordInitial',
                                     value: {
                                         numberValue: 0,
                                         sobjectValue: '{"name":"TestAccount","attributes":{"type":"Account"}}'
@@ -47,7 +47,7 @@ jest.mock('builder_platform_interaction/translatorLib', () => {
                             ]
                         },
                         {
-                            elementApiName: 'FINISH',
+                            elementApiName: 'Finish',
                             assertions: [
                                 {
                                     conditions: [
