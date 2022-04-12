@@ -1392,6 +1392,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         startObject = getEntity(startObject)!.entityLabel;
                     }
                 }
+
+                this.isSelectionMode = false;
+
                 this.queueOpenFlowDebugEditor(() => {
                     return {
                         flowId: this.flowId,

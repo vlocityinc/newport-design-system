@@ -1,19 +1,19 @@
 // @ts-nocheck
 import {
+    createComponent,
     INTERACTION_COMPONENTS_SELECTORS,
-    setDocumentBodyChildren,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     ClosePropertyEditorEvent,
     EditElementEvent,
+    NewDebugFlowEvent,
     SelectNodeEvent,
     ToggleSelectionModeEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { createElement } from 'lwc';
 import { Decision1, Decision2, orchestratorFlowUIModel } from 'mock/storeDataOrchestrator';
-import Editor from '../editor';
+import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 
@@ -22,6 +22,15 @@ jest.mock('builder_platform_interaction/drawingLib', () => require('builder_plat
 jest.mock('builder_platform_interaction/sharedUtils', () =>
     jest.requireActual('builder_platform_interaction_mocks/sharedUtils')
 );
+
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        ...jest.requireActual('builder_platform_interaction_mocks/sobjectLib'),
+        getEntity: jest.fn(() => {
+            return {};
+        })
+    };
+});
 
 jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
@@ -77,30 +86,25 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     };
 });
 
-const createComponentUnderTest = (
-    props = {
-        builderType: 'FlowBuilder',
-        builderConfig: {
-            supportedProcessTypes: ['Orchestrator'],
-            usePanelForPropertyEditor: false,
-            componentConfigs: {
-                editMode: {
-                    leftPanelConfig: { showLeftPanel: true },
-                    rightPanelConfig: { showDebugPanel: false },
-                    toolbarConfig: {
-                        showCanvasModeToggle: true
-                    }
+const defaultOptions = {
+    builderType: 'FlowBuilder',
+    builderConfig: {
+        supportedProcessTypes: ['Orchestrator'],
+        usePanelForPropertyEditor: false,
+        componentConfigs: {
+            editMode: {
+                leftPanelConfig: { showLeftPanel: true },
+                rightPanelConfig: { showDebugPanel: false },
+                toolbarConfig: {
+                    showCanvasModeToggle: true
                 }
             }
         }
     }
-) => {
-    const el = createElement('builder_platform_interaction-editor', {
-        is: Editor
-    });
-    Object.assign(el, props);
-    setDocumentBodyChildren(el);
-    return el;
+};
+
+const createComponentUnderTest = async (overrideOptions) => {
+    return createComponent('builder_platform_interaction-editor', defaultOptions, overrideOptions);
 };
 
 const selectors = {
@@ -108,16 +112,36 @@ const selectors = {
 };
 
 describe('auto-layout', () => {
-    beforeAll(() => {
-        Store.setMockState(orchestratorFlowUIModel);
-    });
-    afterAll(() => {
+    it('exits selection mode when the debug button is clicked', async () => {
+        Store.setMockState({
+            ...recordTriggeredFlowUIModel,
+            properties: { ...recordTriggeredFlowUIModel.properties, isAutoLayoutCanvas: true }
+        });
+        const editorComponent = await createComponentUnderTest();
+        const event = new ToggleSelectionModeEvent();
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+
+        toolbar.dispatchEvent(event);
+        await ticks(1);
+        expect(toolbar.isSelectionMode).toBeTruthy();
+
+        toolbar.dispatchEvent(new NewDebugFlowEvent());
+        await ticks(1);
+        expect(toolbar.isSelectionMode).toBeFalsy();
         Store.resetStore();
     });
+
     describe('use auto layout canvas', () => {
+        beforeAll(() => {
+            Store.setMockState(orchestratorFlowUIModel);
+        });
+        afterAll(() => {
+            Store.resetStore();
+        });
+
         let editorComponent;
         beforeEach(async () => {
-            editorComponent = createComponentUnderTest();
+            editorComponent = await createComponentUnderTest();
             const editElementEvent = new EditElementEvent(Decision1.guid);
             const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
             await alcCanvasContainer.dispatchEvent(editElementEvent);
@@ -127,6 +151,7 @@ describe('auto-layout', () => {
             const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
             expect(alcCanvasContainer).not.toBeNull();
         });
+
         describe('in right panel', () => {
             let rightPanel;
             beforeEach(async () => {
