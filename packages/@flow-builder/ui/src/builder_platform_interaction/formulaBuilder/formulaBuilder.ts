@@ -21,13 +21,13 @@ export interface FormulaResourcePickerConfig {
         hideGlobalVariables?: boolean;
         hideNewResource?: boolean;
         includeQuickCreateResourceOption?: boolean;
-        activePicklistValues?: Array<string> | null;
+        activePicklistValues?: string[] | null;
         isPillSupported?: boolean;
         forFormula?: boolean;
         hideFlowSystemVariable?: boolean;
         newResourceTypeLabel?: string;
     };
-    rules?: Array<string> | null;
+    rules?: string[] | null;
 }
 
 const selectors = {

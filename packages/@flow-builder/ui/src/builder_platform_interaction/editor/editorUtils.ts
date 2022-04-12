@@ -1029,7 +1029,7 @@ export const getConnectorsToHighlight = (canvasDecorator: any): Object[] => {
  *
  * @param canvasDecorator canvas decorator object returned from the server
  */
-export const getElementsWithError = (canvasDecorator: any): Array<object> => {
+export const getElementsWithError = (canvasDecorator: any): object[] => {
     let elementsToDecorate: any[] = [];
     if (canvasDecorator && canvasDecorator.decoratedElements) {
         elementsToDecorate = canvasDecorator.decoratedElements

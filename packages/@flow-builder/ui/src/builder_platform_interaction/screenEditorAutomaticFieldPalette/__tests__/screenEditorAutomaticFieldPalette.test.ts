@@ -380,9 +380,9 @@ describe('Screen editor automatic field palette', () => {
         });
     });
     describe('Palette content and events handling', () => {
-        let allItemsFromPaletteData: Array<ScreenPaletteItem>, eventCallback, palette;
+        let allItemsFromPaletteData: ScreenPaletteItem[], eventCallback, palette;
         const getPaletteItemByFieldApiName = (fieldApiName: string): ScreenAutomaticFieldPaletteItem | undefined =>
-            (allItemsFromPaletteData as Array<ScreenAutomaticFieldPaletteItem>).find(
+            (allItemsFromPaletteData as ScreenAutomaticFieldPaletteItem[]).find(
                 (paletteItem) => paletteItem.apiName === fieldApiName
             );
 
@@ -391,7 +391,7 @@ describe('Screen editor automatic field palette', () => {
             getSObjectOrSObjectCollectionPicker(element).dispatchEvent(sObjectReferenceChangedEvent);
             await ticks();
             palette = getBasePalette(element);
-            allItemsFromPaletteData = ([] as Array<ScreenPaletteItem>).concat(
+            allItemsFromPaletteData = ([] as ScreenPaletteItem[]).concat(
                 ...element.paletteData.map((e) => e._children)
             );
         });

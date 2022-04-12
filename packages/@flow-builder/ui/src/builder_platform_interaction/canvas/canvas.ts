@@ -139,7 +139,7 @@ export default class Canvas extends withKeyboardInteractions(LightningElement) {
 
     getKeyboardInteractions() {
         // Delete Nodes Command
-        const deleteNodesCommand = new DeleteNodesCommand((event) => this.handleDeleteNodes());
+        const deleteNodesCommand = new DeleteNodesCommand(() => this.handleDeleteNodes());
 
         // Move Focus To Docking Panel Command
         const focusOnDockingPanelCommand = new FocusOnDockingPanelCommand(() => this.handleFocusOnDockingPanel());

@@ -16,9 +16,9 @@ const { format } = commonUtils;
  * - Titles are "Result" or any string that ends with ":"
  */
 
-const NULL = '^[^ ]+ = null$';
-const EQUALSNULL = '^[^ ]+ ' + LABELS.equals + ' null$';
-const NULLPARENS = '(null)';
+// const NULL = '^[^ ]+ = null$';
+// const EQUALSNULL = '^[^ ]+ ' + LABELS.equals + ' null$';
+// const NULLPARENS = '(null)';
 
 /* Labels with "{0}" or "{1}" need to be replaced" for proper checking */
 const ERROR_OCCURRED = LABELS.faultMess.replace('{0}', '');

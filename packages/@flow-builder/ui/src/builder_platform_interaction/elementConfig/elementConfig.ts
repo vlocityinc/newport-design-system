@@ -1254,7 +1254,7 @@ export const elementTypeToConfigMap: {
  *
  * @param elements - Array of elements retrieved from Service API to populate toolbox elements list in left panel
  */
-export const updateElementConfigMapWithSubtypes = (elements: Array<any>) => {
+export const updateElementConfigMapWithSubtypes = (elements: any[]) => {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         if (element && element.isElementSubtype) {

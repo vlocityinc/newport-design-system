@@ -746,7 +746,7 @@ function _filterAvailableConnections(element, childSourceGUID, connectorType) {
  * @param element - element to be updated
  * @param elementsToDecorate - array of elements that need to be decorated
  */
-function _shouldUpdateHasError(element: object, elementsToDecorate: Array<object>) {
+function _shouldUpdateHasError(element: object, elementsToDecorate: object[]) {
     for (let i = 0; i < elementsToDecorate.length; i++) {
         const { elementName, decorationType } = elementsToDecorate[i];
         if (elementName === element.name && decorationType === DECORATION_TYPE.ERROR) {
@@ -764,7 +764,7 @@ function _shouldUpdateHasError(element: object, elementsToDecorate: Array<object
  * @param elements - store state
  * @param elementsToDecorate - array of elements that need to be decorated
  */
-function _decorateCanvasElements(elements: object, elementsToDecorate: Array<object>) {
+function _decorateCanvasElements(elements: object, elementsToDecorate: object[]) {
     const newState = updateProperties(elements);
     let hasStateChanged = false;
 

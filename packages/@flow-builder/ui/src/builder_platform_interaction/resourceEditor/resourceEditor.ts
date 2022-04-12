@@ -19,7 +19,7 @@ export default class ResourceEditor extends LightningElement {
     /**
      * Menu items representing allowed resource types
      */
-    _resourceTypes: Array<{ value: string; label: string }> | null = null;
+    _resourceTypes: { value: string; label: string }[] | null = null;
 
     /**
      * Preconfiguration information about the new resource being created

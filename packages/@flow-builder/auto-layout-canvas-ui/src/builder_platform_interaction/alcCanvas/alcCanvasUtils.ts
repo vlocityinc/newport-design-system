@@ -24,7 +24,7 @@ const NODE_ICON_SIZE = defaultConfig.node.icon.w;
  */
 export const getFocusPath = (
     flowModel: FlowModel,
-    focusPath: Array<{ guid: Guid; index?: number; canHaveCanvasEmbeddedElement?: boolean }>
+    focusPath: { guid: Guid; index?: number; canHaveCanvasEmbeddedElement?: boolean }[]
 ) => {
     const focusGuid = focusPath[0].guid;
     const branchHead = findFirstElement(flowModel[focusGuid], flowModel);

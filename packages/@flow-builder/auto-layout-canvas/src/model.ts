@@ -17,8 +17,8 @@ export type NodeRef = Guid | null;
 export interface HighlightInfo {
     highlightNext?: boolean;
     highlightLoopBack?: boolean;
-    branchIndexesToHighlight?: Array<number>;
-    mergeBranchIndexesToHighlight?: Array<number>;
+    branchIndexesToHighlight?: number[];
+    mergeBranchIndexesToHighlight?: number[];
 }
 
 /**
@@ -83,7 +83,7 @@ export interface StartNodeModel extends NodeModel {
 
 export interface ParentNodeModel extends NodeModel {
     children: NodeRef[];
-    childReferences: Array<{ childReference: string }>;
+    childReferences: { childReference: string }[];
 }
 
 export interface BranchHeadNodeModel extends NodeModel {

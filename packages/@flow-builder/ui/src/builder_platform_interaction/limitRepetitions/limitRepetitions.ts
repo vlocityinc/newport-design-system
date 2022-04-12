@@ -35,7 +35,7 @@ export default class LimitRepetitions extends LightningElement {
      * @returns validation errors
      */
     @api validate() {
-        this.state = limitRepetitionsValidation.validateAll(this.state, getRules(this.state));
+        this.state = limitRepetitionsValidation.validateAll(this.state, getRules());
         return getErrorsFromHydratedElement(this.state);
     }
 

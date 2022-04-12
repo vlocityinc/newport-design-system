@@ -168,8 +168,8 @@ export function getDragFieldValue() {
  * @returns {ScreenPaletteItem} the corresponding field if found
  * @throws if field not found
  */
-export function getFieldByGuid(sections: Array<ScreenPaletteSection>, guid: string): ScreenPaletteItem {
-    const field = ([] as Array<ScreenPaletteItem>)
+export function getFieldByGuid(sections: ScreenPaletteSection[], guid: string): ScreenPaletteItem {
+    const field = ([] as ScreenPaletteItem[])
         .concat(...sections.map(({ _children }) => _children))
         .find((field) => field.guid === guid);
     if (field) {
@@ -201,7 +201,7 @@ export function attributesHaveChanged(oldAttributes, newAttributes) {
  * @param fields screen state fields
  * @returns all the screen fields
  */
-export function getAllScreenFields(fields: Array): Array {
+export function getAllScreenFields(fields: any[]): any[] {
     let allFields: any[] = [];
     fields.forEach((field) => {
         allFields = [...allFields, ...flattenScreenFields(field)];
@@ -215,7 +215,7 @@ export function getAllScreenFields(fields: Array): Array {
  * @param screenField The screen field
  * @returns all the screen fields after the flatten
  */
-function flattenScreenFields(screenField: Object): Array {
+function flattenScreenFields(screenField: Object): any[] {
     if (!screenField) {
         return [];
     }

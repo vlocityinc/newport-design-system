@@ -165,7 +165,7 @@ export default class FlowTestManager extends LightningElement {
         this.footer.enableButtonOne(areAnySelected);
     }
 
-    async loadMoreHandler(event) {
+    async loadMoreHandler() {
         if (this.listIsLoadingMoreTests || getFlowTestListState().hasHitEndOfList()) {
             return;
         }

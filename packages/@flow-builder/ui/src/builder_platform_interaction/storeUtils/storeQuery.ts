@@ -197,7 +197,7 @@ export const getProcessType = () => Store.getStore().getCurrentState().propertie
  *
  * @returns Environments for the current flow
  */
-export const getEnvironments = (): Array<string> => Store.getStore().getCurrentState().properties.environments;
+export const getEnvironments = (): string[] => Store.getStore().getCurrentState().properties.environments;
 
 /**
  * Returns the value of isAutoLayoutCanvas as in the store. Returns false if the store has not been initialized

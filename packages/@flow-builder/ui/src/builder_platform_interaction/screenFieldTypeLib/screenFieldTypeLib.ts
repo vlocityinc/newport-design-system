@@ -18,7 +18,7 @@ const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
 export function getSupportedScreenFieldTypes(
     flowProcessType: string,
     flowTriggerType?: string,
-    flowEnvironments?: Array<string>
+    flowEnvironments?: string[]
 ): Promise<any> {
     logPerfTransactionStart(SCREEN_FIELD_TYPES, null, null);
     // Flow environments is an array so the array is sorted then the values are concatenate and used as cache key

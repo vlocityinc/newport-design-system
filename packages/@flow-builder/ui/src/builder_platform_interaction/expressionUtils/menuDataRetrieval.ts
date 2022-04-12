@@ -468,7 +468,7 @@ export function filterFieldsForChosenElement(
         allowSObjectFields,
         allowElementFields = true
     } = {}
-): Array<Object> {
+): Object[] {
     if (fields) {
         if (selectorConfig) {
             allowSObjectFieldsTraversal = false;

@@ -63,7 +63,7 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
         return this.field.entityFieldExtraTypeInfo;
     }
 
-    get displayedFields(): Array<{ key: string; label: string; value: string }> {
+    get displayedFields(): { key: string; label: string; value: string }[] {
         const displayedFieldsResult = [
             {
                 key: 'autofield-object',

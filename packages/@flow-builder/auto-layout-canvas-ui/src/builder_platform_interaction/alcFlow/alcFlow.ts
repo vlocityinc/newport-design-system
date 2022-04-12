@@ -84,7 +84,7 @@ export default class AlcFlow extends LightningElement {
     }
 
     @api
-    findNode(pathToFocusNode: Array<{ guid: Guid; index?: number; canHaveCanvasEmbeddedElement?: boolean }>) {
+    findNode(pathToFocusNode: { guid: Guid; index?: number; canHaveCanvasEmbeddedElement?: boolean }[]) {
         const compoundNode = this.getCompoundNode(pathToFocusNode[0].guid);
 
         if (pathToFocusNode.length === 1) {
@@ -101,7 +101,7 @@ export default class AlcFlow extends LightningElement {
     }
 
     @api
-    findConnector(pathToFocusNode: Array<{ guid: Guid; index?: number }>, focusBranchIndex?: number) {
+    findConnector(pathToFocusNode: { guid: Guid; index?: number }[], focusBranchIndex?: number) {
         const compoundNode = this.getCompoundNode(pathToFocusNode[0].guid);
 
         if (pathToFocusNode.length === 1) {

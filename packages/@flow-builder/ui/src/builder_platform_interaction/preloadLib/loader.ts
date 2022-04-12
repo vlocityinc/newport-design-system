@@ -369,7 +369,7 @@ export const loadOnProcessTypeChange = (
     flowTriggerType?: string,
     flowRecordTriggerType?: string,
     flowDefinitionId?: string,
-    flowEnvironments?: Array<string>
+    flowEnvironments?: string[]
 ) =>
     loader.loadOnProcessTypeChange(
         flowProcessType,

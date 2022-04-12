@@ -30,11 +30,9 @@ export const limitRepetitionsValidation = new Validation(additionalRules);
 /**
  * Build specific overridden rules
  *
- * @param state {Object}
- * @param elements
- * @returns {Object} the overridden rules
+ * @returns the overridden rules
  */
-export const getRules = (state) => {
+export const getRules = () => {
     const overriddenRules = { ...limitRepetitionsValidation.finalizedRules };
 
     return overriddenRules;

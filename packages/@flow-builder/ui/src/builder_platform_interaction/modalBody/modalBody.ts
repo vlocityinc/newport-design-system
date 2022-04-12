@@ -7,8 +7,8 @@ export default class ModalBody extends LightningElement {
     @api bodyTextOne;
     @api bodyTextTwo;
     @api listSectionHeader;
-    @api listSectionItems: Array[object];
-    @api listWarningItems: Array[object];
+    @api listSectionItems: any[][object];
+    @api listWarningItems: any[][object];
     @api bodyVariant;
     @api customIconMap;
     @api showBodyTwoVariant;

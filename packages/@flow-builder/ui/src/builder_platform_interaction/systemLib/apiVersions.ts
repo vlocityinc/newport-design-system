@@ -1,4 +1,4 @@
-let apiVersionsList: Array<number>;
+let apiVersionsList: number[];
 let defaultApiVersion: number;
 let versioningDataInitialized = false;
 
@@ -74,7 +74,7 @@ export const setVersioningDataInitialized = (value: boolean): void => {
  *
  * @returns {Array<number>>}
  */
-export const getApiVersionsList = (): Array<number> => {
+export const getApiVersionsList = (): number[] => {
     return apiVersionsList;
 };
 

@@ -146,7 +146,7 @@ function createSection(label, items) {
  * @param screenFieldTypes
  * @param extTypes
  */
-function getTypeMap(pattern: string, screenFieldTypes: Array<any> = [], extTypes: Array<any> = []) {
+function getTypeMap(pattern: string, screenFieldTypes: any[] = [], extTypes: any[] = []) {
     const types = [...screenFieldTypes, ...extTypes].filter(labelFilter(pattern));
     const typeMap = types.reduce((acc, type) => {
         const guid = generateGuid();

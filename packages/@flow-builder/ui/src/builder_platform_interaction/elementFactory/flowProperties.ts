@@ -217,7 +217,7 @@ function checkIfLightningFlowBuilder(processMetadataValues = []) {
  * @param processMetadataValues array of objects
  * @returns true if processMetadataValues have a object with name as 'CanvasMode' and stringValue as 'AUTO-LAYOUT-CANVAS'
  */
-function checkIfBuiltInAutoLayoutCanvas(processMetadataValues: Array<object> = []): boolean {
+function checkIfBuiltInAutoLayoutCanvas(processMetadataValues: object[] = []): boolean {
     return processMetadataValues.some((processMetadataValue) => {
         return (
             processMetadataValue.name === CANVAS_MODE &&
