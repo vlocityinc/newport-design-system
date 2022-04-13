@@ -5,14 +5,16 @@ exports[`Combobox pill supported fieldLevelText is displayed if present 1`] = `
   #shadow-root(open)
     <div>
       <div>
-        <label
-          class="slds-form-element__label"
-        >
-          
-        </label>
-        <lightning-helptext>
-          #shadow-root(open)
-        </lightning-helptext>
+        <div>
+          <label
+            class="slds-form-element__label"
+          >
+            
+          </label>
+          <lightning-helptext>
+            #shadow-root(open)
+          </lightning-helptext>
+        </div>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -34,11 +36,13 @@ exports[`Combobox pill supported fieldLevelText is not displayed if not present 
   #shadow-root(open)
     <div>
       <div>
-        <label
-          class="slds-form-element__label"
-        >
-          
-        </label>
+        <div>
+          <label
+            class="slds-form-element__label"
+          >
+            
+          </label>
+        </div>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -60,11 +64,13 @@ exports[`Combobox pill supported pill icon should  have a pill icon for selected
   #shadow-root(open)
     <div>
       <div>
-        <label
-          class="slds-form-element__label"
-        >
-          
-        </label>
+        <div>
+          <label
+            class="slds-form-element__label"
+          >
+            
+          </label>
+        </div>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -89,11 +95,13 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
   #shadow-root(open)
     <div>
       <div>
-        <label
-          class="slds-form-element__label"
-        >
-          
-        </label>
+        <div>
+          <label
+            class="slds-form-element__label"
+          >
+            
+          </label>
+        </div>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -115,11 +123,13 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
   #shadow-root(open)
     <div>
       <div>
-        <label
-          class="slds-form-element__label"
-        >
-          
-        </label>
+        <div>
+          <label
+            class="slds-form-element__label"
+          >
+            
+          </label>
+        </div>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -141,11 +151,13 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
   #shadow-root(open)
     <div>
       <div>
-        <label
-          class="slds-form-element__label"
-        >
-          
-        </label>
+        <div>
+          <label
+            class="slds-form-element__label"
+          >
+            
+          </label>
+        </div>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -167,17 +179,40 @@ exports[`Combobox pill supported required displays required element for required
   #shadow-root(open)
     <div>
       <div>
-        <abbr
-          class="slds-required"
-          title="FlowBuilderStartEditor.requiredLabel"
+        <div>
+          <abbr
+            class="slds-required"
+            title="FlowBuilderStartEditor.requiredLabel"
+          >
+            *
+          </abbr>
+          <label
+            class="slds-form-element__label"
+          >
+            
+          </label>
+        </div>
+        <div
+          class="slds-pill_container"
+          title="MyAccount > Created By ID"
         >
-          *
-        </abbr>
-        <label
-          class="slds-form-element__label"
-        >
-          
-        </label>
+          <lightning-pill
+            class="pill"
+          >
+            #shadow-root(open)
+              <slot />
+          </lightning-pill>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-combobox>
+`;
+
+exports[`Combobox pill supported required does NOT display label if variant is label hidden 1`] = `
+<builder_platform_interaction-combobox>
+  #shadow-root(open)
+    <div>
+      <div>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"
@@ -199,11 +234,13 @@ exports[`Combobox pill supported required does NOT display required element for 
   #shadow-root(open)
     <div>
       <div>
-        <label
-          class="slds-form-element__label"
-        >
-          
-        </label>
+        <div>
+          <label
+            class="slds-form-element__label"
+          >
+            
+          </label>
+        </div>
         <div
           class="slds-pill_container"
           title="MyAccount > Created By ID"

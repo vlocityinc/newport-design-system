@@ -121,6 +121,10 @@ const fillComboboxPropertiesFromConfig = (comboBox = combobox) => {
     }
 };
 
+const SELECTORS = {
+    PILL_LABEL: 'label.slds-form-element__label'
+};
+
 describe('Combobox', () => {
     beforeAll(() => {
         const sObjectVariables = comboboxInitialConfig.menuData[1].items;
@@ -1493,6 +1497,8 @@ describe('Combobox', () => {
                 await ticks(1);
                 groupedCombobox.dispatchEvent(blurEvent);
                 await ticks(1);
+                const pillLabelElement = combobox.shadowRoot.querySelector(SELECTORS.PILL_LABEL);
+                expect(pillLabelElement).not.toBeNull();
                 expect(combobox).toMatchSnapshot();
             });
             it('does NOT display required element for non required field', async () => {
@@ -1503,6 +1509,22 @@ describe('Combobox', () => {
                 await ticks(1);
                 groupedCombobox.dispatchEvent(blurEvent);
                 await ticks(1);
+                expect(combobox).toMatchSnapshot();
+            });
+            it('does NOT display label if variant is label hidden', async () => {
+                createCombobox({
+                    isPillSupported: true,
+                    required: true,
+                    variant: LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN
+                });
+                combobox.menuData = secondLevelMenuData;
+                const [comboboxItem] = secondLevelMenuData;
+                groupedCombobox.dispatchEvent(selectEvent(comboboxItem.value));
+                await ticks(1);
+                groupedCombobox.dispatchEvent(blurEvent);
+                await ticks(1);
+                const pillLabelElement = combobox.shadowRoot.querySelector(SELECTORS.PILL_LABEL);
+                expect(pillLabelElement).toBeNull();
                 expect(combobox).toMatchSnapshot();
             });
         });

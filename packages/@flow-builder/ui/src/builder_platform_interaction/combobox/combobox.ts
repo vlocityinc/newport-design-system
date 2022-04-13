@@ -561,6 +561,10 @@ export default class Combobox extends LightningElement {
         return this.type === FLOW_DATA_TYPE.DATE_TIME.value;
     }
 
+    get showLabelInPillMode() {
+        return this.hasPill && this._comboboxVariant !== LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN;
+    }
+
     renderedCallback() {
         if (!this._isInitialErrorMessageSet && this._errorMessage) {
             this.setErrorMessage(this._errorMessage);

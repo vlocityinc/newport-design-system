@@ -1,9 +1,11 @@
 <template>
     <div>
         <div if:true={hasPill}>
-            <abbr if:true={required} class="slds-required" title={labels.requiredLabel}>*</abbr
-            ><label class="slds-form-element__label">{label}</label>
-            <lightning-helptext if:true={fieldLevelHelp} content={fieldLevelHelp}></lightning-helptext>
+            <div if:true={showLabelInPillMode}>
+                <abbr if:true={required} class="slds-required" title={labels.requiredLabel}>*</abbr
+                ><label class="slds-form-element__label">{label}</label>
+                <lightning-helptext if:true={fieldLevelHelp} content={fieldLevelHelp}></lightning-helptext>
+            </div>
             <div class="slds-pill_container" title={pillTooltip}>
                 <lightning-pill
                     href="javascript:void(0);"
