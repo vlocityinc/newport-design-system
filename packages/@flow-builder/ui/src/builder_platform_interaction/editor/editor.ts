@@ -1819,7 +1819,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 serializedInterview: this.debugData.serializedInterview
             }).then((data: any) => {
                 const triggerSaveType = getRecordTriggerType();
-                let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data.flowTest, triggerSaveType));
+                let flowTestObject = createFlowTestData(
+                    translateFlowTestToUIModel(data.flowTest, triggerSaveType, true)
+                );
                 const triggerObjectType = getStartObject();
                 flowTestObject = getElementForPropertyEditor(flowTestObject);
                 const createOrEdit = FlowTestMode.Create;

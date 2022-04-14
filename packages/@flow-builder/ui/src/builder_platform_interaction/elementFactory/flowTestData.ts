@@ -164,9 +164,7 @@ export function createFlowTestRecordsUIModel(
     testTriggerType: string
 ): object[] {
     const records = [];
-    const parameterArr: Metadata.FlowTestParameter[] = flowTestMetadata.testPoints.find(
-        (n) => n.elementApiName === FlowTestPointValidator.Start
-    )!.parameters;
+    const parameterArr: Metadata.FlowTestParameter[] = getParameters(flowTestMetadata);
     addParametersToUI(parameterArr, FlowTestParameterType.Input, records);
     if (testTriggerType === FLOW_TRIGGER_SAVE_TYPE.UPDATE) {
         addParametersToUI(parameterArr, FlowTestParameterType.UpdateRecord, records);
@@ -194,4 +192,14 @@ function addParametersToUI(
         records.push(JSON.parse(parameterValue.sobjectValue));
     }
     return records;
+}
+
+/**
+ * Helper function to get test data
+ *
+ * @param metadata save flow test metadata
+ * @returns array of flow test parameter
+ */
+export function getParameters(metadata: Metadata.FlowTestMetadata): Metadata.FlowTestParameter[] {
+    return metadata.testPoints.find((n) => n.elementApiName === FlowTestPointValidator.Start)!.parameters;
 }
