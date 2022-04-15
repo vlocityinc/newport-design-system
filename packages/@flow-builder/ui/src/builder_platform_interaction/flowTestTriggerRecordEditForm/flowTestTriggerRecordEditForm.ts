@@ -117,6 +117,9 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
             this.processSampleRecord = false;
         }
         this.recordInfoLoaded = true;
+
+        const clearRecordPickerEvent = new FlowTestRecordSelectedEvent(null);
+        this.dispatchEvent(clearRecordPickerEvent);
     }
 
     get showLoadingSpinner() {
