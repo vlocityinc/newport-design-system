@@ -51,6 +51,7 @@ const mutateElements = (elements, palette) =>
                             actionType: headerItem.name ?? headerItem.shortcutEnumName,
                             actionName: headerItem.name ?? headerItem.shortcutEnumName,
                             actionIsStandard: headerItem.actionIsStandard,
+                            actionIconName: headerItem.actionIconName,
                             description: headerItem.actionDescription ?? headerItem.shortcutDescription
                         };
                         filteredElements.push(item);
@@ -71,6 +72,7 @@ const mutateElements = (elements, palette) =>
                             const actionType = element.actionType;
                             const actionName = element.actionName;
                             const actionIsStandard = element.actionIsStandard;
+                            const actionIconName = element.actionIconName;
                             const {
                                 iconName,
                                 dragImageSrc,
@@ -105,6 +107,7 @@ const mutateElements = (elements, palette) =>
                                 actionType,
                                 actionName,
                                 actionIsStandard,
+                                actionIconName,
                                 canHaveFaultConnector,
                                 iconShape,
                                 iconSize,

@@ -5,6 +5,7 @@ Array [
   Object {
     "_children": Array [
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": undefined,
         "actionName": undefined,
         "actionType": undefined,
@@ -24,6 +25,7 @@ Array [
         "label": "QuickLinksLabelAndDescription.recordUpdateLabel",
       },
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": false,
         "actionName": "emailAlert",
         "actionType": "emailAlert",
@@ -49,6 +51,7 @@ Array [
   Object {
     "_children": Array [
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": undefined,
         "actionName": undefined,
         "actionType": undefined,
@@ -68,6 +71,7 @@ Array [
         "label": "FlowBuilderLeftPanelElements.screenComponentLabel",
       },
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": undefined,
         "actionName": undefined,
         "actionType": undefined,
@@ -93,6 +97,7 @@ Array [
   Object {
     "_children": Array [
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": undefined,
         "actionName": undefined,
         "actionType": undefined,
@@ -112,6 +117,7 @@ Array [
         "label": "FlowBuilderLeftPanelElements.assignmentLogicLabel",
       },
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": undefined,
         "actionName": undefined,
         "actionType": undefined,
@@ -131,6 +137,7 @@ Array [
         "label": "FlowBuilderLeftPanelElements.waitLogicLabel",
       },
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": true,
         "actionName": "marketingEmail",
         "actionType": "marketingEmail",
@@ -156,6 +163,7 @@ Array [
   Object {
     "_children": Array [
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": undefined,
         "actionName": undefined,
         "actionType": undefined,
@@ -175,6 +183,7 @@ Array [
         "label": "FlowBuilderLeftPanelElements.createDataOperationLabel",
       },
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": undefined,
         "actionName": undefined,
         "actionType": undefined,
@@ -194,6 +203,7 @@ Array [
         "label": "FlowBuilderLeftPanelElements.updateDataOperationLabel",
       },
       Object {
+        "actionIconName": undefined,
         "actionIsStandard": undefined,
         "actionName": undefined,
         "actionType": undefined,
