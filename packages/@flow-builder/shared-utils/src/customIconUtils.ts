@@ -20,7 +20,7 @@ export function getCustomIconNameOrSrc(
         // custom svg icon resource will start with prefix "resource:" , example - "resource:/resource/23423423453442234/customSVG:Id"
         const iconResource = customIconMap[key];
         const prefix = iconResource.split(':')[0];
-        const resource = iconResource.substring(iconResource.indexOf(':') + 1);
+        const resource = removePrefixFromCustomIcon(iconResource);
 
         ({ iconName, iconSrc } =
             prefix === SLDS_ICON_PREFIX
@@ -28,4 +28,14 @@ export function getCustomIconNameOrSrc(
                 : { iconName: null, iconSrc: resource });
     }
     return { iconName, iconSrc };
+}
+
+/**
+ * Returns the icon name without the prefix
+ *
+ * @param iconName the icon name with prefix
+ * @returns icon name
+ */
+export function removePrefixFromCustomIcon(iconName: string) {
+    return iconName?.substring(iconName.indexOf(':') + 1);
 }

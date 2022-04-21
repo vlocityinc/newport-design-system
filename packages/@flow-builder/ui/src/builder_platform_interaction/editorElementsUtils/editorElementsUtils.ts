@@ -2,11 +2,13 @@
 import { getConfigForElement, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ACTION_TYPE_TO_ELEMENT_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { customIconUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 const { logMetricsServiceErrorTransaction } = loggingUtils;
+const { removePrefixFromCustomIcon } = customIconUtils;
+
 /**
  * Transforms elements into a form that is usable by lightning-tree-grid. These
  * are grouped by element category so that they can more easily be placed into
@@ -51,7 +53,7 @@ const mutateElements = (elements, palette) =>
                             actionType: headerItem.name ?? headerItem.shortcutEnumName,
                             actionName: headerItem.name ?? headerItem.shortcutEnumName,
                             actionIsStandard: headerItem.actionIsStandard,
-                            actionIconName: headerItem.actionIconName,
+                            actionIconName: removePrefixFromCustomIcon(headerItem.actionIconName),
                             description: headerItem.actionDescription ?? headerItem.shortcutDescription
                         };
                         filteredElements.push(item);
