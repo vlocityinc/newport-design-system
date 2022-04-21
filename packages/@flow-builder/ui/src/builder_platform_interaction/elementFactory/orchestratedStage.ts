@@ -160,7 +160,6 @@ export function createOrchestratedStageWithItems(existingStage: OrchestratedStag
     newStage.maxConnections = 1;
     newStage.elementType = elementType;
     newStage.dataType = FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value;
-    newStage.canHaveCanvasEmbeddedElement = true;
     newStage.exitActionError = existingStage.exitActionError;
     newStage.exitCriteria =
         existingStage.exitCriteria ||
@@ -293,7 +292,6 @@ export function createOrchestratedStageWithItemReferences(stage: OrchestratedSta
         exitActionName,
         exitActionType,
         exitActionInputParameters: exitActionInputParametersUiObject,
-        canHaveCanvasEmbeddedElement: true,
         exitCriteria
     });
 
@@ -340,7 +338,6 @@ export function createOrchestratedStageWithItemReferencesWhenUpdatingFromPropert
         exitActionError,
         exitActionName: exitActionCall.actionName,
         exitActionType: exitActionCall.actionType,
-        canHaveCanvasEmbeddedElement: true,
         exitCriteria
     });
 

@@ -87,7 +87,6 @@ declare namespace UI {
         childReferences?: ChildReference[];
         elementType: string;
         maxConnections: number;
-        canHaveCanvasEmbeddedElement?: boolean;
     }
 
     interface ChildElement extends Element {
@@ -113,7 +112,7 @@ declare namespace UI {
 
     type VisibilityRule = {
         conditionLogic: string;
-        conditions: Array<Condition>;
+        conditions: Condition[];
     };
 
     interface Screen extends CanvasElement {
@@ -435,7 +434,7 @@ declare namespace UI {
 
     interface NewResourceInfo {
         userProvidedText?: string | null;
-        resourceTypes?: Array<string> | null;
+        resourceTypes?: string[] | null;
         dataType?: string | null;
         newResourceTypeLabel?: string | null;
         newResource?: {} | null;

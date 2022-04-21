@@ -4,7 +4,13 @@ import {
     getAlcConnectorData
 } from 'builder_platform_interaction/alcComponentsUtils';
 import AlcCompoundNode from 'builder_platform_interaction/alcCompoundNode';
-import { FAULT_INDEX, FlowModel, FlowRenderInfo, Geometry, Guid } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    ConnectionSource,
+    FAULT_INDEX,
+    FlowModel,
+    FlowRenderInfo,
+    Geometry
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
 
@@ -84,24 +90,27 @@ export default class AlcFlow extends LightningElement {
     }
 
     @api
-    findNode(pathToFocusNode: { guid: Guid; index?: number; canHaveCanvasEmbeddedElement?: boolean }[]) {
+    findNode(pathToFocusNode: ConnectionSource[]) {
         const compoundNode = this.getCompoundNode(pathToFocusNode[0].guid);
 
         if (pathToFocusNode.length === 1) {
             // If there's only a single item remaining, that would mean that we have found the desired node
             return compoundNode;
         }
-        if (pathToFocusNode[0].canHaveCanvasEmbeddedElement) {
-            return compoundNode.findNode(pathToFocusNode[1].guid);
+
+        const embeddedElement = compoundNode.findNode(pathToFocusNode[1].guid);
+        if (embeddedElement != null) {
+            return embeddedElement;
         }
+
         // Recursively going down the nested flows to reach the desired node
-        const nestedFlow = this.getFaultOrNestedFlow(compoundNode, pathToFocusNode[0].index);
+        const nestedFlow = this.getFaultOrNestedFlow(compoundNode, pathToFocusNode[0].childIndex!);
         pathToFocusNode = pathToFocusNode.slice(1);
         return nestedFlow.findNode(pathToFocusNode);
     }
 
     @api
-    findConnector(pathToFocusNode: { guid: Guid; index?: number }[], focusBranchIndex?: number) {
+    findConnector(pathToFocusNode: ConnectionSource[], focusBranchIndex?: number) {
         const compoundNode = this.getCompoundNode(pathToFocusNode[0].guid);
 
         if (pathToFocusNode.length === 1) {
@@ -111,7 +120,7 @@ export default class AlcFlow extends LightningElement {
             return this.getFaultOrNestedFlow(compoundNode, focusBranchIndex).getPreConnector();
         }
         // Recursively going down the nested flows to reach the desired connector's source node
-        const nestedFlow = this.getFaultOrNestedFlow(compoundNode, pathToFocusNode[0].index);
+        const nestedFlow = this.getFaultOrNestedFlow(compoundNode, pathToFocusNode[0].childIndex!);
         pathToFocusNode = pathToFocusNode.slice(1);
         return nestedFlow.findConnector(pathToFocusNode, focusBranchIndex);
     }

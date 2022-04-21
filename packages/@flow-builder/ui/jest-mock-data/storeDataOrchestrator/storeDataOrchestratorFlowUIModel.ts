@@ -210,8 +210,7 @@ export const orchestratorFlowUIModel = {
                 dataType: 'ActionOutput',
                 storeOutputAutomatically: true
             },
-            exitActionInputParameters: [],
-            canHaveCanvasEmbeddedElement: true
+            exitActionInputParameters: []
         },
         '7f4ddba5-e41b-456b-b686-94b257cc9914': {
             actionName: 'flowWithActiveAndLatest',

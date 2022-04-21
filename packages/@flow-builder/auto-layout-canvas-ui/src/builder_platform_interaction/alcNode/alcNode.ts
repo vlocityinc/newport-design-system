@@ -370,7 +370,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
 
     @api
     findNode(guid: Guid) {
-        return this.dom.as<AlcNode>().dynamicComponent.findNode(guid);
+        return this.dom.as<AlcNode>().dynamicComponent?.findNode(guid);
     }
 
     /** ***************************** Event Handlers */

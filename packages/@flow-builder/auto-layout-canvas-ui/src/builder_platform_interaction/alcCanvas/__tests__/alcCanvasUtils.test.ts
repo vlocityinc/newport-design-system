@@ -1,7 +1,7 @@
 import AlcNode from 'builder_platform_interaction/alcNode';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { createElement } from 'lwc';
-import { getBoundingBoxForElements, getFocusPath, getSanitizedNodeGeo } from '../alcCanvasUtils';
+import { getBoundingBoxForElements, getNodePath, getSanitizedNodeGeo } from '../alcCanvasUtils';
 
 const flowModel = {
     startGuid: {
@@ -126,7 +126,6 @@ const orchestratorModel = {
         locationX: 0,
         locationY: 0,
         isCanvasElement: true,
-        canHaveCanvasEmbeddedElement: true,
         connectorCount: 1,
         config: {
             isSelected: false,
@@ -222,23 +221,20 @@ Element.prototype.getBoundingClientRect = jest.fn(() => {
 });
 
 describe('ALC Builder Utils tests', () => {
-    describe('getFocusPath tests', () => {
+    describe('getNodePath tests', () => {
         it('When focusing on Start Element', () => {
-            const focusPath = [{ guid: 'startGuid' }];
-            expect(getFocusPath(flowModel, focusPath)).toEqual([{ guid: 'startGuid' }]);
+            expect(getNodePath(flowModel, 'startGuid')).toEqual([{ guid: 'startGuid' }]);
         });
 
         it('When focusing on any other element is the main flow', () => {
-            const focusPath = [{ guid: 'branch1' }];
-            expect(getFocusPath(flowModel, focusPath)).toEqual([{ guid: 'branch1' }]);
+            expect(getNodePath(flowModel, 'branch1')).toEqual([{ guid: 'branch1' }]);
         });
 
         it('When focusing on a branch head element', () => {
-            const focusPath = [{ guid: 'branchHead1' }];
-            expect(getFocusPath(flowModel, focusPath)).toEqual([
+            expect(getNodePath(flowModel, 'branchHead1')).toEqual([
                 {
                     guid: 'branch1',
-                    index: 0
+                    childIndex: 0
                 },
                 {
                     guid: 'branchHead1'
@@ -247,15 +243,14 @@ describe('ALC Builder Utils tests', () => {
         });
 
         it('When focusing on any element other than a branch head element in a given branch', () => {
-            const focusPath = [{ guid: 'screen1' }];
-            expect(getFocusPath(flowModel, focusPath)).toEqual([
+            expect(getNodePath(flowModel, 'screen1')).toEqual([
                 {
                     guid: 'branch1',
-                    index: 1
+                    childIndex: 1
                 },
                 {
                     guid: 'branchHead2',
-                    index: 0
+                    childIndex: 0
                 },
                 {
                     guid: 'screen1'
@@ -320,11 +315,10 @@ describe('ALC Builder Utils tests', () => {
     });
 });
 describe('ALC Builder Utils tests for Orchestrator', () => {
-    describe('getFocusPath tests', () => {
+    describe('getNodePath tests', () => {
         it('When focusing on Step 1 from stage element', () => {
-            const focusPath = [{ guid: 'step1Guid' }];
-            expect(getFocusPath(orchestratorModel, focusPath)).toEqual([
-                { guid: 'stageGuid', index: 0, canHaveCanvasEmbeddedElement: true },
+            expect(getNodePath(orchestratorModel, 'step1Guid')).toEqual([
+                { guid: 'stageGuid', childIndex: 0 },
                 { guid: 'step1Guid' }
             ]);
         });

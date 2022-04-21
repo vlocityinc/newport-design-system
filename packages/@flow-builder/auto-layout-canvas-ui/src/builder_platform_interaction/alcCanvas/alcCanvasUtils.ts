@@ -10,6 +10,7 @@ import {
     Guid,
     isRoot
 } from 'builder_platform_interaction/autoLayoutCanvas';
+
 const defaultConfig = getDefaultLayoutConfig();
 
 const NODE_ICON_SIZE = defaultConfig.node.icon.w;
@@ -19,32 +20,25 @@ const NODE_ICON_SIZE = defaultConfig.node.icon.w;
  * guid and branch index to follow for all the branching nodes leading up to the focus node.
  *
  * @param flowModel The flow model
- * @param focusPath The focus path
+ * @param guid - The node guid
  * @returns The complete focus path
  */
-export const getFocusPath = (
-    flowModel: FlowModel,
-    focusPath: { guid: Guid; index?: number; canHaveCanvasEmbeddedElement?: boolean }[]
-) => {
-    const focusGuid = focusPath[0].guid;
-    const branchHead = findFirstElement(flowModel[focusGuid], flowModel);
-    const { childIndex, parent } = branchHead;
+export const getNodePath = (flowModel: FlowModel, guid: Guid): ConnectionSource[] => {
+    const nodePath: ConnectionSource[] = [];
 
-    if (!isRoot(parent)) {
-        const parentElement = flowModel[parent];
-        // Adding childIndex along with the parent guid so that we know which
-        // branch to follow when going down the flow to move focus
-        return getFocusPath(flowModel, [
-            {
-                guid: parent,
-                index: childIndex,
-                canHaveCanvasEmbeddedElement: parentElement?.canHaveCanvasEmbeddedElement
-            },
-            ...focusPath
-        ]);
-    }
+    let parent = guid;
+    let childIndex;
+
+    do {
+        const pathEntry = childIndex != null ? { guid: parent, childIndex } : { guid: parent };
+        nodePath.unshift(pathEntry);
+
+        const branchHead = findFirstElement(flowModel[parent], flowModel);
+        ({ childIndex, parent } = branchHead);
+    } while (!isRoot(parent));
+
     // The focus path is complete once we hit the Root element
-    return focusPath;
+    return nodePath;
 };
 
 /**
@@ -123,8 +117,8 @@ export const getSanitizedNodeGeo = (element: HTMLElement, scale: number): Geomet
  * @returns alcCompoundNode html element.
  */
 export const findNode = (elementGuid: string, flowModel: FlowModel, alcFlow: AlcFlow): HTMLElement => {
-    const pathToFocusNode = getFocusPath(flowModel, [{ guid: elementGuid }]);
-    return alcFlow.findNode(pathToFocusNode);
+    const nodePath = getNodePath(flowModel, elementGuid);
+    return alcFlow.findNode(nodePath);
 };
 
 /**
@@ -136,8 +130,8 @@ export const findNode = (elementGuid: string, flowModel: FlowModel, alcFlow: Alc
  */
 export const findConnector = (source: ConnectionSource, flowModel: FlowModel, alcFlow: AlcFlow): AlcConnector => {
     const { guid, childIndex } = source;
-    const pathToFocusNode = getFocusPath(flowModel, [{ guid }]);
-    return alcFlow.findConnector(pathToFocusNode, childIndex!);
+    const nodePath = getNodePath(flowModel, guid);
+    return alcFlow.findConnector(nodePath, childIndex!);
 };
 
 /**

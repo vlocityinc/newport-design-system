@@ -61,8 +61,6 @@ export interface NodeModel {
     // goto
     incomingGoTo?: GoToSourceRef[];
 
-    canHaveCanvasEmbeddedElement?: boolean;
-
     // used for custom icons
     actionName?: string;
 }
