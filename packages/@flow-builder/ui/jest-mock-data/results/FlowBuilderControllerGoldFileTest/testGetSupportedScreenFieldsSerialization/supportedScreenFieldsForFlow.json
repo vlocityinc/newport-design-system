@@ -502,6 +502,36 @@
     },
     {
       "isElementSubtype":false,
+      "name":"ObjectProvided",
+      "attributes":[
+        {
+          "name":"isCollection",
+          "source":"Inferred",
+          "type":"Boolean",
+          "value":{
+            "values":[
+              false
+            ],
+            "constraint":"thisValue"
+          }
+        },
+        {
+          "name":"fieldType",
+          "source":"UserDefined",
+          "type":"FlowScreenFieldType",
+          "value":{
+            "values":[
+              "OBJECT_PROVIDED"
+            ],
+            "constraint":"thisValue"
+          }
+        }
+      ],
+      "classification":"Child",
+      "elementType":"ScreenField"
+    },
+    {
+      "isElementSubtype":false,
       "name":"DisplayText",
       "attributes":[
         {

@@ -10,7 +10,7 @@ import {
     createSingleOrMultiChoiceTypeChangedEvent
 } from 'builder_platform_interaction/events';
 import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
-import { ELEMENT_TYPE, FlowScreenFieldType, FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { loadFlowExtensionsOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 import ScreenEditorAutomaticFieldPalette from 'builder_platform_interaction/screenEditorAutomaticFieldPalette';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -26,7 +26,10 @@ import {
     processSupportedScreenFieldTypes,
     ScreenFieldName
 } from 'builder_platform_interaction/screenEditorUtils';
-import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
+import {
+    getSupportedScreenFieldTypes,
+    isAutomaticFieldsSupported
+} from 'builder_platform_interaction/screenFieldTypeLib';
 import { commonUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getEnvironments, getTriggerType } from 'builder_platform_interaction/storeUtils';
@@ -77,6 +80,7 @@ export default class ScreenEditor extends LightningElement {
     labels = LABELS;
 
     orgHasFlowBuilderAutomaticFields = orgHasFlowBuilderAutomaticFields();
+    private isAutomaticFieldsSupported = false;
     screenEditorContainerCssClass = this.orgHasFlowBuilderAutomaticFields
         ? 'slds-grid screen-editor-container-with-tabs'
         : 'slds-grid screen-editor-container';
@@ -196,13 +200,8 @@ export default class ScreenEditor extends LightningElement {
         return this.legalNotices.some((notice) => notice.shown && !notice.dismissed);
     }
 
-    // TODO: W-10888798 will refine how we determine which environments allow automaticFields.  This is temp.
-    get slackIsEnabled() {
-        return getEnvironments()?.includes(FLOW_ENVIRONMENT.SLACK);
-    }
-
     get automaticFieldsEnabled() {
-        return this.orgHasFlowBuilderAutomaticFields && !this.slackIsEnabled;
+        return this.orgHasFlowBuilderAutomaticFields && this.isAutomaticFieldsSupported;
     }
 
     /**
@@ -238,7 +237,12 @@ export default class ScreenEditor extends LightningElement {
                             return supportedType.name === type.name || supportedType.name === type.fieldType;
                         })
                     );
-                    this.screen = processSupportedScreenFieldTypes(this.screenFieldTypes, this.screen);
+                    this.isAutomaticFieldsSupported = isAutomaticFieldsSupported(supportedTypes);
+                    this.screen = processSupportedScreenFieldTypes(
+                        this.screenFieldTypes,
+                        this.screen,
+                        this.isAutomaticFieldsSupported
+                    );
                 }
             })
             .catch((errorMessage) => {

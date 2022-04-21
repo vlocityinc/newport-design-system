@@ -44,13 +44,11 @@ export default class ScreenPalette extends LightningElement {
         this.buildModel();
     }
 
-    // TODO: W-10888798 will refine how we determine which environments allow automaticFields.  This is temp.
+    @api
+    showPaletteTitle: boolean;
+
     get slackIsEnabled() {
         return getEnvironments()?.includes(FLOW_ENVIRONMENT.SLACK);
-    }
-
-    get showPaletteTitle() {
-        return !this.orgHasFlowBuilderAutomaticFields || this.slackIsEnabled;
     }
 
     get wrappingDivClass() {

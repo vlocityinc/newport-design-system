@@ -1,7 +1,10 @@
 // @ts-nocheck
 import * as contextLibMock from 'builder_platform_interaction/contextLib';
 import { FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
-import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
+import {
+    getSupportedScreenFieldTypes,
+    isAutomaticFieldsSupported
+} from 'builder_platform_interaction/screenFieldTypeLib';
 import { supportedScreenFieldsForFlow as mockSupportedScreenFieldsForFlow } from 'serverData/GetSupportedScreenFields/supportedScreenFieldsForFlow.json';
 import { supportedScreenFieldsForFlowOnSlack as mockSupportedScreenFieldsForSlack } from 'serverData/GetSupportedScreenFields/supportedScreenFieldsForFlowOnSlack.json';
 
@@ -74,5 +77,18 @@ describe('getAllScreenFieldTypes function', () => {
             ]);
             expect(supportedTypes).toMatchObject(mockSupportedScreenFieldsForSlack);
         });
+    });
+});
+
+describe('isAutomaticFieldsSupported function', () => {
+    it('returns true in non-Slack environment', async () => {
+        const supportedTypes = await getSupportedScreenFieldTypes('someProcessType', 'someTriggerType', null);
+        expect(isAutomaticFieldsSupported(supportedTypes)).toBe(true);
+    });
+    it('returns false in Slack environment', async () => {
+        const supportedTypes = await getSupportedScreenFieldTypes('someProcessType', 'someTriggerType', [
+            FLOW_ENVIRONMENT.SLACK
+        ]);
+        expect(isAutomaticFieldsSupported(supportedTypes)).toBe(false);
     });
 });

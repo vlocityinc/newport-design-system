@@ -1,4 +1,5 @@
 import { orgHasFlowScreenSections } from 'builder_platform_interaction/contextLib';
+import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { getSectionFieldType } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
@@ -46,4 +47,16 @@ export function getSupportedScreenFieldTypes(
         .catch((/* error */) => {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
         });
+}
+
+/**
+ * Determine whether automatic fields are supported
+ *
+ * @param supportedScreenFieldTypes List of supported screen field types for the current flow
+ * @returns Whether automatic fields are supported or not
+ */
+export function isAutomaticFieldsSupported(supportedScreenFieldTypes): boolean {
+    return supportedScreenFieldTypes?.some(
+        (supportedType) => supportedType.name === FlowScreenFieldType.ObjectProvided
+    );
 }

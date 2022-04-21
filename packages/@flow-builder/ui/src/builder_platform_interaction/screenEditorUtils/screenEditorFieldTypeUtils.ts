@@ -600,13 +600,15 @@ export const getScreenFieldName = (field: FieldDefinition): ScreenFieldName | un
  * Go over all the screen fields in the parent, and if their screen field type
  * is not in supportedScreenFieldTypes, then mark them as being in error
  *
- * @param supportedScreenFieldTypes - the list of supported screen field types
+ * @param supportedScreenFieldTypes - the list of supported standard screen field types
  * @param parent - the parent (can be a screen / region / region container) whose child fields we should iterate over
+ * @param isAutomaticFieldsSupported - whether automatic fields are supported in this flow
  * @returns the processed parent
  */
 export function processSupportedScreenFieldTypes(
     supportedScreenFieldTypes: UI.ScreenFieldType[],
-    parent: UI.Screen | UI.ScreenField
+    parent: UI.Screen | UI.ScreenField,
+    isAutomaticFieldsSupported: boolean
 ): UI.Screen | UI.ScreenField {
     if (parent?.fields) {
         for (let i = 0; i < parent.fields.length; i++) {
@@ -614,13 +616,12 @@ export function processSupportedScreenFieldTypes(
             if (isRegionContainerField(field) || isRegionField(field)) {
                 parent.fields[i] = updateProperties(
                     field,
-                    processSupportedScreenFieldTypes(supportedScreenFieldTypes, field)
+                    processSupportedScreenFieldTypes(supportedScreenFieldTypes, field, isAutomaticFieldsSupported)
                 );
             }
-            // TODO : W-10888798 for now don't check automatic fields
             if (
                 !isExtensionField(field) &&
-                !isAutomaticField(field) &&
+                (!isAutomaticField(field) || (isAutomaticField(field) && !isAutomaticFieldsSupported)) &&
                 !isRegionField(field) &&
                 !supportedScreenFieldTypes.includes(field.type)
             ) {
