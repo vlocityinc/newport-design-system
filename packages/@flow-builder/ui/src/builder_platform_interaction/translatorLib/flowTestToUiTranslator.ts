@@ -1,6 +1,7 @@
 import {
     createFlowTestAssertionsUIModel,
     createFlowTestRecordsUIModel,
+    FlowTestParameterType,
     getParameters
 } from 'builder_platform_interaction/elementFactory';
 import { FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -20,15 +21,18 @@ export function translateFlowTestToUIModel(flowTest, flowTriggerType, convertDeb
     let assertionArr;
     let records;
     if (flowTest && flowTest.metadata) {
+        const inputRecordData = getParameters(flowTest.metadata);
         if (convertDebugToTest === false) {
             testTriggerType =
                 flowTriggerType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
-                    ? FLOW_TRIGGER_SAVE_TYPE.CREATE
+                    ? isUpdateTestTriggerType(inputRecordData)
+                        ? FLOW_TRIGGER_SAVE_TYPE.UPDATE
+                        : FLOW_TRIGGER_SAVE_TYPE.CREATE
                     : flowTriggerType;
         } else {
-            const inputRecordData = getParameters(flowTest.metadata);
-            testTriggerType =
-                inputRecordData.length === 2 ? FLOW_TRIGGER_SAVE_TYPE.UPDATE : FLOW_TRIGGER_SAVE_TYPE.CREATE;
+            testTriggerType = isUpdateTestTriggerType(inputRecordData)
+                ? FLOW_TRIGGER_SAVE_TYPE.UPDATE
+                : FLOW_TRIGGER_SAVE_TYPE.CREATE;
         }
         assertionArr = createFlowTestAssertionsUIModel(flowTest.metadata);
         records = createFlowTestRecordsUIModel(flowTest.metadata, testTriggerType);
@@ -52,4 +56,18 @@ export function translateFlowTestToUIModel(flowTest, flowTriggerType, convertDeb
         testUpdatedRecordData,
         testAssertions: assertionArr
     };
+}
+
+/**
+ * Helper function checks if test trigger type is update or not
+ *
+ * @param inputRecordData saved test data
+ * @returns boolean, true for Update trigger type else false
+ */
+function isUpdateTestTriggerType(inputRecordData): boolean {
+    return (
+        inputRecordData.length === 2 &&
+        inputRecordData.some((e) => e.type === FlowTestParameterType.Input) &&
+        inputRecordData.some((e) => e.type === FlowTestParameterType.UpdateRecord)
+    );
 }

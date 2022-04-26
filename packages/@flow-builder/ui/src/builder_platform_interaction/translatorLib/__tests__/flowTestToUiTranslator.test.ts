@@ -161,7 +161,7 @@ describe('Flow Test to UI Translation', () => {
         expect(testUpdatedRecordData).not.toBe(undefined);
     });
     it('returns label, name, description, testInitialRecordData, testUpdatedRecordData, testAssertions as undefined in case flowTest is null  ', () => {
-        const { label, name, description, runPathValue, testInitialRecordData, testUpdatedRecordData, testAssertions } =
+        const { label, name, description, testInitialRecordData, testUpdatedRecordData, testAssertions } =
             translateFlowTestToUIModel({});
         expect(label).toBe(undefined);
         expect(name).toBe(undefined);
@@ -192,11 +192,21 @@ describe('Flow Test to UI Translation', () => {
     });
     it('returns Created test trigger type and initial record data when not creating from debug run ', () => {
         const { testTriggerType, testInitialRecordData, testUpdatedRecordData } = translateFlowTestToUIModel(
-            flowTestUpdated,
+            flowTest,
             FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
         );
         expect(testTriggerType).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
         expect(testInitialRecordData).not.toBe(undefined);
         expect(testUpdatedRecordData).toBe(undefined);
+    });
+
+    it('returns Updated test trigger type and initial and updated record data when not creating test from debug run and test data contains 2 records ', () => {
+        const { testTriggerType, testInitialRecordData, testUpdatedRecordData } = translateFlowTestToUIModel(
+            flowTestUpdated,
+            FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
+        );
+        expect(testTriggerType).toBe(FLOW_TRIGGER_SAVE_TYPE.UPDATE);
+        expect(testInitialRecordData).not.toBe(undefined);
+        expect(testUpdatedRecordData).not.toBe(undefined);
     });
 });
