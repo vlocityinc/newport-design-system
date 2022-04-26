@@ -9,10 +9,12 @@
 	position: absolute;
 	top: 100%;
 	left: 0;
+}
 
-	.nds-b2b-tooltip_wrapper:hover & {
-		display: block;
-	}
+.nds-b2b-tooltip_wrapper:hover {
+  .nds-b2b-tooltip_cont {
+    display: block;
+  }
 }
 
 .nds-b2b-tooltip_attrwrapper {
@@ -27,10 +29,12 @@
 	top: 100%;
 	left: 0;
   transform: translateX(-50%);
+}
 
-	.nds-b2b-tooltip_attrwrapper:hover & {
-		display: block;
-	}
+.nds-b2b-tooltip_attrwrapper:hover {
+  .nds-b2b-tooltip_attr {
+    display: block;
+  }
 }
 
 .nds-b2b-attribute-count {
