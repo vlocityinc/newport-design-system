@@ -928,6 +928,17 @@
 },
       {
   "datatype" : "String",
+  "durableId" : "Flow-$Api-Enterprise_Server_URL_560",
+  "fieldsToNull" : [ ],
+  "label" : "API Enterprise Server 56.0 URL",
+  "name" : "Enterprise_Server_URL_560",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Api"
+  }
+},
+      {
+  "datatype" : "String",
   "durableId" : "Flow-$Api-Enterprise_Server_URL_60",
   "fieldsToNull" : [ ],
   "label" : "API Enterprise Server 6.0 URL",
@@ -2010,6 +2021,17 @@
   "fieldsToNull" : [ ],
   "label" : "API Partner Server 55.0 URL",
   "name" : "Partner_Server_URL_550",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Api"
+  }
+},
+      {
+  "datatype" : "String",
+  "durableId" : "Flow-$Api-Partner_Server_URL_560",
+  "fieldsToNull" : [ ],
+  "label" : "API Partner Server 56.0 URL",
+  "name" : "Partner_Server_URL_560",
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$Api"

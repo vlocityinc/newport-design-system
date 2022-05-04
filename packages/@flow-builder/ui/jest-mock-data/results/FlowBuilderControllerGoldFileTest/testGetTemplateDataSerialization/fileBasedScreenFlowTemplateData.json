@@ -2,7 +2,7 @@
   "fileBasedScreenFlowTemplateData":{
   "actionCalls" : [ ],
   "apexPluginCalls" : [ ],
-  "apiVersion" : 55.0,
+  "apiVersion" : 56.0,
   "assignments" : [ {
     "assignmentItems" : [ {
       "assignToReference" : "$Flow.CurrentStage",

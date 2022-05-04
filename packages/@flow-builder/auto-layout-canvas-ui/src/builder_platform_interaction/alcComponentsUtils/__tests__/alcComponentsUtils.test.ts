@@ -12,6 +12,7 @@ import {
     flowModelWithGoToInLoop,
     flowModelWithGoToOnFault,
     flowModelWithOneDecision,
+    orchestrationFlowModel,
     recordTriggeredFlowModelData,
     recordTriggeredFlowModelWithScheduledPathsData,
     recordTriggerFlowModel2,
@@ -1459,6 +1460,28 @@ describe('ALC Canvas Utils test', () => {
                 connectorRenderInfo
             );
             expect(connectorDescription).toEqual(expectedAriaDescribedBy);
+        });
+    });
+
+    describe('orchestrator nodeDescription', () => {
+        it('sets nodeDescription properly for an orchestratedStage element in error state', () => {
+            const nodeRenderInfo = {
+                guid: '0cc72cc6-93b1-4e01-807d-35ef745c13b5',
+                metadata: {}
+            };
+            const expectedAriaDescribedBy = 'AlcNode.ariaRegularFollowedByLabel(End), AlcNode.ariaErrorStateLabel';
+            const { nodeDescription } = getAlcNodeData(orchestrationFlowModel, nodeRenderInfo);
+            expect(nodeDescription).toEqual(expectedAriaDescribedBy);
+        });
+
+        it('sets nodeDescription properly for an Stage_Step element in error state', () => {
+            const nodeRenderInfo = {
+                guid: 'ff638661-52ec-4d23-8aef-c9170d55f171',
+                metadata: {}
+            };
+            const expectedAriaDescribedBy = 'AlcNode.ariaRegularFollowedByLabel(End), AlcNode.ariaErrorStateLabel';
+            const { nodeDescription } = getAlcNodeData(orchestrationFlowModel, nodeRenderInfo);
+            expect(nodeDescription).toEqual(expectedAriaDescribedBy);
         });
     });
 });

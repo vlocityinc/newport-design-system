@@ -309,6 +309,146 @@ const flowModelData = {
     }
 };
 
+const orchestrationFlowModel = {
+    root: {
+        children: ['6b8f26b0-4938-4182-819a-5a287150303b'],
+        elementType: 'root',
+        guid: 'root',
+        label: 'root',
+        name: 'root',
+        next: null,
+        nodeType: 'root',
+        prev: null,
+        text: 'root',
+        value: 'root'
+    },
+    '6b8f26b0-4938-4182-819a-5a287150303b': {
+        availableConnections: [
+            {
+                type: 'REGULAR'
+            }
+        ],
+        canHaveFaultConnector: false,
+        childIndex: 0,
+        childReferences: [],
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        connectorCount: 0,
+        dataType: 'SObject',
+        description: '',
+        elementType: 'START_ELEMENT',
+        filterLogic: 'no_conditions',
+        filters: [
+            {
+                rowIndex: 'd375a6c7-2c49-4dad-bae5-b39c5cd655b5',
+                leftHandSide: '',
+                leftHandSideDataType: 'String',
+                rightHandSide: '',
+                rightHandSideDataType: ''
+            }
+        ],
+        guid: '6b8f26b0-4938-4182-819a-5a287150303b',
+        haveSystemVariableFields: true,
+        isAssignable: true,
+        isCanvasElement: true,
+        isCollection: false,
+        isTerminal: true,
+        locationX: 50,
+        locationY: 50,
+        maxConnections: 1,
+        name: '$Record',
+        next: '0cc72cc6-93b1-4e01-807d-35ef745c13b5',
+        nodeType: 'start',
+        object: 'Account',
+        objectIndex: 'a4977bf2-86b5-4690-b686-b2c7b9800e87',
+        parent: 'root',
+        prev: null,
+        recordTriggerType: 'Create',
+        shouldSupportScheduledPaths: false,
+        subtype: 'Account',
+        triggerType: 'RecordAfterSave'
+    },
+    '0cc72cc6-93b1-4e01-807d-35ef745c13b5': {
+        canHaveFaultConnector: false,
+        childReferences: [
+            {
+                childReference: 'ff638661-52ec-4d23-8aef-c9170d55f171'
+            }
+        ],
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: true
+        },
+        connectorCount: 0,
+        dataType: 'ORCHESTRATED_STAGE',
+        description: '',
+        elementType: 'OrchestratedStage',
+        guid: '0cc72cc6-93b1-4e01-807d-35ef745c13b5',
+        incomingGoTo: [],
+        isCanvasElement: true,
+        isNew: true,
+        label: 'Stage 1',
+        locationX: 0,
+        locationY: 0,
+        maxConnections: 1,
+        name: '',
+        next: 'ab1764a4-df09-4b58-932e-23288255c18e',
+        nodeType: 'orchestratedstage',
+        prev: '6b8f26b0-4938-4182-819a-5a287150303b'
+    },
+    'ff638661-52ec-4d23-8aef-c9170d55f171': {
+        actionType: 'stepBackground',
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: true
+        },
+        dataType: 'STAGE_STEP',
+        elementType: 'STAGE_STEP',
+        entryActionInputParameters: [],
+        entryCriteria: 'on_stage_start',
+        exitActionInputParameters: [],
+        exitCriteria: 'on_step_complete',
+        guid: 'ff638661-52ec-4d23-8aef-c9170d55f171',
+        inputParameters: [],
+        isInlineEditingResource: false,
+        isNew: false,
+        label: 'Step 1 of Stage 1',
+        name: 'Step_1_of_Stage_1',
+        outputParameters: [],
+        parent: '0cc72cc6-93b1-4e01-807d-35ef745c13b5'
+    },
+    'ab1764a4-df09-4b58-932e-23288255c18e': {
+        canHaveFaultConnector: false,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        connectorCount: 0,
+        description: '',
+        elementType: 'END_ELEMENT',
+        guid: 'ab1764a4-df09-4b58-932e-23288255c18e',
+        isCanvasElement: true,
+        label: 'End',
+        locationX: 0,
+        locationY: 0,
+        name: 'END_ELEMENT',
+        nodeType: 'end',
+        prev: '0cc72cc6-93b1-4e01-807d-35ef745c13b5',
+        text: 'END_ELEMENT',
+        value: 'END_ELEMENT'
+    }
+};
+
 const recordTriggeredFlowModelData = {
     '80e0340e-67ba-4bb7-bf11-f2696aa8043f': {
         guid: '80e0340e-67ba-4bb7-bf11-f2696aa8043f',
@@ -1755,6 +1895,7 @@ const flowModelWithGoToOnFault = {
 
 export {
     flowModelData,
+    orchestrationFlowModel,
     recordTriggeredFlowModelData,
     recordTriggeredFlowModelWithScheduledPathsData,
     recordTriggerFlowModel2,
