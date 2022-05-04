@@ -12,6 +12,7 @@ const newResourceEventListener = (event) => {
     const newResource = event.detail.newResourceInfo?.newResource;
     if (newResource) {
         nextInlineResource.name = newResource.name;
+        nextInlineResource.storedValueDataType = newResource.storedValueDataType;
     }
     Store.getStore().dispatch(addElement(nextInlineResource));
     nextInlineResource = undefined;

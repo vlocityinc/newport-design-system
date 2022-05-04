@@ -93,6 +93,8 @@ describe('ScreenEditor choice components', () => {
                     displayText: '{!mustard}',
                     text: 'mustard'
                 });
+                const choice: any = getElementByDevName('mustard');
+                expect(choice?.storedValueDataType).toEqual('String');
             });
             it('Create the choice automatically with the default name when the user selects the new resource option', async () => {
                 const inlineChoice = createChoice({

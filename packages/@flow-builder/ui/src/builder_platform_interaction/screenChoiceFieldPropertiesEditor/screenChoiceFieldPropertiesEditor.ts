@@ -369,6 +369,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
                     name: devName,
                     choiceText: newResourceInfo.userProvidedText,
                     storedValue: newResourceInfo.userProvidedText,
+                    storedValueDataType: FLOW_DATA_TYPE.STRING.value,
                     elementType: ELEMENT_TYPE.CHOICE,
                     dataType: this.field.dataType
                 };
