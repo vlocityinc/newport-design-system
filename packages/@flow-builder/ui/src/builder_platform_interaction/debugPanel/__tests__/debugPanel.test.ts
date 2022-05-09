@@ -7,6 +7,7 @@ import { createElement } from 'lwc';
 import { completedInterview } from 'mock/debugResponse/mock-completed-interview';
 import { completedTestInterview } from 'mock/debugResponse/mock-completed-test-interview';
 import { errorInterview } from 'mock/debugResponse/mock-error-interview';
+import { errorInterviewTestResponse } from 'mock/debugResponse/mock-error-interview-test-response';
 import {
     fakePausedInterview,
     fakeResumedInterview,
@@ -57,7 +58,8 @@ const selectors = {
     popover: 'section.slds-popover',
     closePopover: 'lightning-button-icon.slds-popover__close',
     header: 'div.slds-panel__header',
-    tabset: 'lightning-tabset'
+    tabset: 'lightning-tabset',
+    assertionsNotExecutedMsg: '.test-assertion-empty-msg'
 };
 
 describe('Debug Panel', () => {
@@ -502,6 +504,23 @@ describe('test assertion outcomes', () => {
         debugPanel = createComponentUnderTest(completedTestInterview, undefined, false, BUILDER_MODE.EDIT_MODE);
         const testPanelBody = debugPanel.shadowRoot.querySelector(selectors.testPanelBodyComponent);
         expect(testPanelBody).toBeNull();
+    });
+
+    it('should display default error message in test panel when interview has an error', () => {
+        debugPanel = createComponentUnderTest(errorInterviewTestResponse, undefined, false, BUILDER_MODE.TEST_MODE);
+        const assertionMsg = debugPanel.shadowRoot.querySelector(selectors.assertionsNotExecutedMsg);
+        expect(assertionMsg).toBeTruthy();
+        expect(assertionMsg.value).toEqual(LABELS.assertionsNotExecuted);
+    });
+
+    it('should display same error message in both tabs if interview has an unhandled error', () => {
+        debugPanel = createComponentUnderTest(errorInterview, undefined, false, BUILDER_MODE.TEST_MODE);
+        const error = debugPanel.shadowRoot.querySelector(selectors.errorMessage);
+        expect(error).toBeDefined();
+        expect(error.value[0]).toEqual(errorInterview.error[0]);
+        // should not display the assertions not executed message
+        const assertionMsg = debugPanel.shadowRoot.querySelector(selectors.assertionsNotExecutedMsg);
+        expect(assertionMsg).toBeFalsy();
     });
 });
 

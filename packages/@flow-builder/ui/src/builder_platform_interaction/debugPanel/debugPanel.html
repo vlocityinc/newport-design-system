@@ -82,6 +82,30 @@
                         </builder_platform_interaction-accordion-section-with-icon>
                     </template>
                 </lightning-accordion>
+                <!-- error box if interview has error and there are no test assertions executed-->
+                <template if:true={showAssertionsNotExecutedMsg}>
+                    <div class="helptext slds-p-top_medium">
+                        <div class="slds-box">
+                            <div class="custom-builder-baseCallOutEditor__mode-info slds-grid">
+                                <lightning-icon
+                                    class="error"
+                                    icon-name="utility:error"
+                                    alternative-text="Info"
+                                    variant="error"
+                                    size="xx-small"
+                                ></lightning-icon>
+                                <p class="slds-text-color_weak withIcon sub-title slds-p-left_x-small">
+                                    {labels.errorTitle}
+                                </p>
+                            </div>
+                            <lightning-formatted-rich-text
+                                class="test-assertion-empty-msg"
+                                value={labels.assertionsNotExecuted}
+                                disable-linkify="true"
+                            ></lightning-formatted-rich-text>
+                        </div>
+                    </div>
+                </template>
             </lightning-tab>
             <lightning-tab label={labels.flowTestLogTabLabel}>
                 <!-- if there's an error, there will be no debugData.debugTraces-->

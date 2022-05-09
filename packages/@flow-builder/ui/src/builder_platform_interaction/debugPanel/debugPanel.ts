@@ -183,6 +183,10 @@ export default class DebugPanel extends LightningElement {
         return this.debugData && this.debugData.error && !!this.debugData.error[0];
     }
 
+    get showAssertionsNotExecutedMsg() {
+        return this.hasErrors ? false : this.testAssertionTrace?.length === 0;
+    }
+
     @api
     get debugData() {
         return this._debugData;

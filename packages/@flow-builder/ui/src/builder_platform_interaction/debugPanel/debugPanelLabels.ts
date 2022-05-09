@@ -1,3 +1,4 @@
+import assertionsNotExecuted from '@salesforce/label/FlowBuilderDebugPanel.assertionsNotExecuted';
 import collapseAllLabel from '@salesforce/label/FlowBuilderDebugPanel.collapseAllLabel';
 import collapseAllTitle from '@salesforce/label/FlowBuilderDebugPanel.collapseAllTitle';
 import debugInspector from '@salesforce/label/FlowBuilderDebugPanel.debugInspector';
@@ -19,6 +20,7 @@ import showApiNamesFilter from '@salesforce/label/FlowBuilderDebugPanel.showApiN
 import singleFilterText from '@salesforce/label/FlowBuilderDebugPanel.singleFilterText';
 import transactionFilter from '@salesforce/label/FlowBuilderDebugPanel.transactionBoundariesFilterOption';
 import waitEventSelectionHeader from '@salesforce/label/FlowBuilderDebugPanel.waitEventSelectionHeader';
+import errorTitle from '@salesforce/label/FlowBuilderTestPanelBody.errorTitle';
 
 export const LABELS = {
     debugInspector,
@@ -41,5 +43,7 @@ export const LABELS = {
     waitEventSelectionHeader,
     resumeLabel,
     flowTestOutcomesLabel,
-    flowTestLogTabLabel
+    flowTestLogTabLabel,
+    errorTitle,
+    assertionsNotExecuted
 };

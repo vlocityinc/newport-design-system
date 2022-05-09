@@ -1,5 +1,5 @@
 /**
- * contains the jsonified RunInterviewResult object returned by a flow test run
+ * contains the jsonified RunFlowTestResult object returned by a flow test run
  */
 export const completedTestInterview = {
     interviewStatus: 'FINISHED',
