@@ -171,6 +171,9 @@ export const orchestratorFlowUIModel = {
             childReferences: [
                 {
                     childReference: '7f4ddba5-e41b-456b-b686-94b257cc9914'
+                },
+                {
+                    childReference: 'a35e28e0-3d3b-44b1-9638-9caba6ef3820'
                 }
             ],
             maxConnections: 1,
@@ -325,6 +328,138 @@ export const orchestratorFlowUIModel = {
             entryCriteria: 'on_stage_start',
             exitAction: {
                 guid: '41c6da8a-c6e0-418b-8b23-9906b4adab11',
+                name: '',
+                description: '',
+                label: '',
+                locationX: 0,
+                locationY: 0,
+                isCanvasElement: true,
+                connectorCount: 0,
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true,
+                    hasError: false
+                },
+                canHaveFaultConnector: true,
+                actionType: null,
+                actionName: '',
+                dataTypeMappings: [],
+                inputParameters: [],
+                outputParameters: [],
+                availableConnections: [
+                    {
+                        type: 'REGULAR'
+                    },
+                    {
+                        type: 'FAULT'
+                    }
+                ],
+                maxConnections: 2,
+                elementType: 'ActionCall',
+                dataType: 'ActionOutput',
+                storeOutputAutomatically: true
+            },
+            exitCriteria: 'on_step_complete',
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true,
+                hasError: false
+            },
+            parent: '4968239c-5e3d-45ee-9339-f575c917e223'
+        },
+        'a35e28e0-3d3b-44b1-9638-9caba6ef3820': {
+            actionName: 'flowWithActiveAndLatest',
+            actionType: 'stepBackground',
+            assignees: [],
+            entryActionInputParameters: [],
+            entryActionOutputParameters: [],
+            entryConditionLogic: 'and',
+            entryConditions: [],
+            exitActionInputParameters: [],
+            exitActionOutputParameters: [],
+            inputParameters: [],
+            label: 'Step 2 of Stage 1',
+            name: 'Step_2_of_Stage_1',
+            outputParameters: [],
+            processMetadataValues: [],
+            requiresAsyncProcessing: false,
+            guid: 'a35e28e0-3d3b-44b1-9638-9caba6ef3820',
+            elementType: 'STAGE_STEP',
+            dataType: 'STAGE_STEP',
+            action: {
+                guid: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
+                name: '',
+                description: '',
+                label: '',
+                locationX: 0,
+                locationY: 0,
+                isCanvasElement: true,
+                connectorCount: 0,
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true,
+                    hasError: false
+                },
+                canHaveFaultConnector: true,
+                actionType: 'stepBackground',
+                actionName: 'flowWithActiveAndLatest',
+                dataTypeMappings: [],
+                inputParameters: [],
+                outputParameters: [],
+                availableConnections: [
+                    {
+                        type: 'REGULAR'
+                    },
+                    {
+                        type: 'FAULT'
+                    }
+                ],
+                maxConnections: 2,
+                elementType: 'ActionCall',
+                dataType: 'ActionOutput',
+                storeOutputAutomatically: true
+            },
+            relatedRecordItem: {},
+            entryAction: {
+                guid: '3f1c4d9a-ea88-4c6c-85ac-6aa009601964',
+                name: '',
+                description: '',
+                label: '',
+                locationX: 0,
+                locationY: 0,
+                isCanvasElement: true,
+                connectorCount: 0,
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true,
+                    hasError: false
+                },
+                canHaveFaultConnector: true,
+                actionType: null,
+                actionName: '',
+                dataTypeMappings: [],
+                inputParameters: [],
+                outputParameters: [],
+                availableConnections: [
+                    {
+                        type: 'REGULAR'
+                    },
+                    {
+                        type: 'FAULT'
+                    }
+                ],
+                maxConnections: 2,
+                elementType: 'ActionCall',
+                dataType: 'ActionOutput',
+                storeOutputAutomatically: true
+            },
+            entryCriteria: 'on_stage_start',
+            exitAction: {
+                guid: '2f00ca0d-743f-4639-a084-272bbc548f8b',
                 name: '',
                 description: '',
                 label: '',

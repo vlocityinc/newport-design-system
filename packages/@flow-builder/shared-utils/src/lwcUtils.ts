@@ -88,7 +88,7 @@ export function createDomProxy<P extends string, T extends HTMLElement = HTMLEle
             }
 
             const selector = resolveSelector(prop);
-            return target.template!.querySelector(selector) as T;
+            return getQueryable(target).querySelector(selector) as T;
         }
     };
 
@@ -97,4 +97,11 @@ export function createDomProxy<P extends string, T extends HTMLElement = HTMLEle
     };
 
     return proxy;
+}
+
+/**
+ * @param target
+ */
+function getQueryable(target: LightningElement) {
+    return target.template || target.shadowRoot;
 }

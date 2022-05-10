@@ -140,4 +140,23 @@ type MenuConfig = {
     // the picklist values that will be appended to the menu data if picklist values are allowed
     activePicklistValues?: string[];
     filter: MenuFilter;
+    sortField?: 'label' | 'name';
+};
+
+type FieldInputBreadcrumb = {
+    label: string;
+    name: string;
+    id: string;
+    tooltip?: string;
+};
+
+type VariablesConfig = {
+    label: string;
+    description: string;
+    iconName: string;
+};
+
+type SystemAndGlobalVariablesConfig = VariablesConfig & {
+    hasLabelSubtypeParam?: boolean;
+    hasDescriptionSubtypeParam?: boolean;
 };

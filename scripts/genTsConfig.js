@@ -51,6 +51,7 @@ const FLOW_BUILDER_UI_PACKAGE_DIR = 'packages/@flow-builder/ui';
 ${pathPropertyIndent()}"lightning/accordion": ["../../../node_modules/lwc-components-lightning/src/lightning/accordion/accordion.js"],
 ${pathPropertyIndent()}"lightning/focusTrap": ["../../../node_modules/lwc-components-lightning/src/lightning/focusTrap/focusTrap.js"],
 ${pathPropertyIndent()}"lightning/popup": ["../../../node_modules/lwc-components-lightning/src/lightning/popup/popup.js"],
+${pathPropertyIndent()}"lightning/popupSource": ["../../../node_modules/lwc-components-lightning/src/lightning/popupSource/popupSource.js"],
 ${pathPropertyIndent()}"lightning/accordionSection": ["../../../node_modules/lwc-components-lightning/src/lightning/accordionSection/accordionSection.js"],
 ${pathPropertyIndent()}"lightning/utils": ["../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
 ${pathPropertyIndent()}"lightning/platformShowToastEvent": ["../../../node_modules/lwc-components-lightning/src/lightning/platformShowToastEvent/platformShowToastEvent.js"],

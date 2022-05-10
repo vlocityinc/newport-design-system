@@ -6,18 +6,16 @@
         "noImplicitAny": false,
         "outDir": "./build/builder_platform_interaction",
         "baseUrl": "./src",
-         "paths": {
+        "paths": {
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "lightning/focusTrap": ["../../../../node_modules/lwc-components-lightning/src/lightning/focusTrap/focusTrap.js"],
             "builder_platform_interaction/events": ["../../ui/src/builder_platform_interaction/events/events.ts"],
-            "builder_platform_interaction/recordEditorLib": ["../../ui/src/builder_platform_interaction/recordEditorLib/recordEditorLib.ts"],
-            "builder_platform_interaction/autoLayoutCanvas": [
-                "../../auto-layout-canvas/dist/types/index.d.js"
+            "builder_platform_interaction/recordEditorLib": [
+                "../../ui/src/builder_platform_interaction/recordEditorLib/recordEditorLib.ts"
             ],
+            "builder_platform_interaction/autoLayoutCanvas": ["../../auto-layout-canvas/dist/types/index.d.js"],
 
-            "builder_platform_interaction/sharedUtils": [
-                "../../shared-utils/dist/types/index.d.js"
-            ],
+            "builder_platform_interaction/sharedUtils": ["../../shared-utils/dist/types/index.d.js"],
             "builder_platform_interaction/alcCanvas": ["./builder_platform_interaction/alcCanvas/alcCanvas.ts"],
             "builder_platform_interaction/alcMenuTrigger": ["./builder_platform_interaction/alcMenuTrigger/alcMenuTrigger.ts"],
             "builder_platform_interaction/alcNodeMenu": ["./builder_platform_interaction/alcNodeMenu/alcNodeMenu.ts"],
@@ -32,10 +30,7 @@
             "builder_platform_interaction/alcConnectorMenu": ["./builder_platform_interaction/alcConnectorMenu/alcConnectorMenu.ts"],
             "builder_platform_interaction/popover": ["./builder_platform_interaction/popover/popover.ts"],
             "builder_platform_interaction/alcMenuUtils": ["./builder_platform_interaction/alcMenuUtils/alcMenuUtils.ts"]
-           
-
          }
     },
-  
     "include": ["src/**/*", "@types/index.d.ts","../ui/@types/uiModel.d.ts","../ui/@types/metadataModel.d.ts", "../shared-utils/@types/index.d.ts"]
 }

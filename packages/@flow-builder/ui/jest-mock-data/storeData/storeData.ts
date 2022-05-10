@@ -60,6 +60,7 @@ const getAutomaticFieldElement = (screenElementName, objectFieldReference) => {
 
 export const numberVariable = getElementByName('numberVariable');
 export const stringVariable = getElementByName('stringVariable');
+export const booleanVariable = getElementByName('booleanVariable');
 export const dateVariable = getElementByName('dateVariable');
 export const currencyVariable = getElementByName('currencyVariable');
 export const assignmentElement = getElementByName('assignment1');

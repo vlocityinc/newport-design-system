@@ -272,7 +272,6 @@ describe('Node Menu', () => {
 
         describe('Delete Row', () => {
             let deleteRow: LightningElement;
-
             beforeEach(() => {
                 deleteRow = getMenuActionRows(menu)[1];
             });

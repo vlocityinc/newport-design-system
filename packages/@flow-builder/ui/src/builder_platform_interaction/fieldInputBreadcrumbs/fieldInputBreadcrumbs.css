@@ -1,0 +1,9 @@
+ol.slds-breadcrumb {
+    list-style: none;
+    white-space: nowrap;
+    display: flex;
+    width: 100%;
+}
+:host {
+    display: block;
+}

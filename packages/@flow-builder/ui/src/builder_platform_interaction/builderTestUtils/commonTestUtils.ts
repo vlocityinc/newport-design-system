@@ -1,4 +1,3 @@
-// @ts-ignore
 import { createElement } from 'lwc';
 import { setDocumentBodyChildren } from './domTestUtils';
 
@@ -51,6 +50,24 @@ export const untilNoFailure = (expectations, maxTicks = DEFAULT_MAX_TICKS) =>
 export const ticks = (maxTicks = DEFAULT_MAX_TICKS) => until(() => false, maxTicks).catch(() => {});
 
 /**
+ * Utility function that waits 1 tick (can be used to wait for rendering after a component update)
+ */
+export async function tick() {
+    await ticks(1);
+}
+
+/**
+ * Updates a lightning component's props and waits for it to render
+ *
+ * @param cmp - The component
+ * @param props - The props
+ */
+export async function updateComponent(cmp, props) {
+    Object.assign(cmp, props);
+    await tick();
+}
+
+/**
  * Create a new promise with status properties.
  *
  * @param promise current promise
@@ -96,15 +113,15 @@ const camelCase = (s: string) => s.replace(/-[a-zA-Z]/gi, (match) => match.charA
 /**
  * Creates a component for use in jest tests
  *
- * @param tagName - The component name
+ * @param tagName - The component name (with namespace eg: builder_platform_interaction-breadcrumbs)
  * @param options - The component properties
  * @param optionsOverride - The overridden component properties
- * @returns the html element for the component
+ * @returns promise with the lightning element for the component as returned value
  */
 export const createComponent = async (tagName, options = {}, optionsOverride = {}) => {
     options = { ...options, ...optionsOverride };
 
-    const namespace = tagName.substring(0, tagName.indexOf('-'));
+    const [namespace] = tagName.split('-');
     const moduleName = camelCase(tagName.replace(`${namespace}-`, ''));
 
     const el = createElement(tagName, {

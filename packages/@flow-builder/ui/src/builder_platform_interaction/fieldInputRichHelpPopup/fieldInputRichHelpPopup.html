@@ -1,0 +1,48 @@
+<template>
+    <lightning-popup-source>
+        <lightning-button-icon
+            slot="source"
+            alternative-text={sourceButtonAltText}
+            icon-name="utility:info"
+            size="medium"
+            variant="bare"
+            onmouseenter={handlePopupSourceMouseEnter}
+            onmouseleave={handlePopupSourceMouseLeave}
+        >
+        </lightning-button-icon>
+
+        <div class="slds-popover__body">
+            <div if:true={popupData.description} class="slds-m-bottom_x-small test-description-section">
+                <span class="slds-text-body_regular">{popupData.description}</span>
+            </div>
+            <div if:false={showLabel} class="slds-m-bottom_x-small test-api-name-section">
+                <div><b>{labels.apiNameHeading}</b></div>
+                <div>
+                    <span class="slds-text-body_regular">{popupData.apiName}</span>
+                </div>
+            </div>
+            <div if:true={showLabel} class="slds-m-bottom_x-small test-label-section">
+                <div><b>{labels.labelHeading}</b></div>
+                <div>
+                    <span class="slds-text-body_regular">{popupData.label}</span>
+                </div>
+            </div>
+            <div class="slds-m-bottom_x-small test-resource-type-section">
+                <div><b>{labels.resourceTypeHeading}</b></div>
+                <div>
+                    <lightning-icon class="slds-m-right_xx-small" icon-name={popupData.resourceTypeIcon} size="x-small">
+                    </lightning-icon>
+                    <span class="slds-text-body_regular">{popupData.resourceType}</span>
+                </div>
+            </div>
+            <div class="test-data-type-section">
+                <div><b>{labels.dataTypeHeading}</b></div>
+                <div>
+                    <lightning-icon class="slds-m-right_xx-small" icon-name={popupData.dataTypeIcon} size="x-small">
+                    </lightning-icon>
+                    <span class="slds-text-body_regular">{dataTypeText}</span>
+                </div>
+            </div>
+        </div>
+    </lightning-popup-source>
+</template>

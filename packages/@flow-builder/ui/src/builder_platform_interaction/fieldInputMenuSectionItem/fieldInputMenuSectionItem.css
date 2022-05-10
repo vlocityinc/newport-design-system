@@ -1,0 +1,29 @@
+.background-navy {
+    background-color: #54698d;
+}
+
+.background-red {
+    background-color: var(--lwc-colorBackgroundError);
+}
+
+.background-orange {
+    background-color: #ff9a3c;
+}
+
+.rotate-icon-container {
+    transform: rotate(45deg);
+    border-radius: var(--lwc-borderRadiusMedium);
+}
+
+.rotate-icon-svg {
+    transform: rotate(-45deg);
+    background: transparent;
+}
+
+.background-pink {
+    background-color: #eb7092;
+}
+
+.background-dark-blue {
+    background-color: var(--lwc-paletteBlue30);
+}

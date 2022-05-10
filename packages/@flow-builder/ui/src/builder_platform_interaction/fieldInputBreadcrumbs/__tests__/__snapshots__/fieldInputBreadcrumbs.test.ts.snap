@@ -1,0 +1,666 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`field-input-breadcrumbs with truncation displays correctly the truncated breadcrumbs (template check: "resources" parent entry, role, tabindex, displayText, aria-expanded, slds-is-open...) and the non truncated ones 1`] = `
+<builder_platform_interaction-field-input-breadcrumbs>
+  #shadow-root(open)
+    <nav
+      aria-label="FlowBuilderFieldInputBreadcrumbs.navAriaLabel"
+    >
+      <ol
+        class="slds-breadcrumb breadcrumbs-horizontal"
+        role="menubar"
+      >
+        <li
+          class="slds-breadcrumb__item"
+        >
+          <div
+            class="slds-dropdown-trigger slds-dropdown-trigger_click"
+          >
+            <button
+              aria-expanded="false"
+              aria-haspopup="true"
+              class="menu-trigger slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small"
+              title="FlowBuilderFieldInputBreadcrumbs.popupMenuTriggerShowMore"
+            >
+              <svg
+                aria-hidden="true"
+                class="slds-button__icon"
+              >
+                <use
+                  xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#threedots"
+                />
+              </svg>
+              <span
+                class="slds-assistive-text"
+              >
+                FlowBuilderFieldInputBreadcrumbs.popupMenuTriggerShowMore
+              </span>
+            </button>
+            <div
+              class="slds-dropdown slds-dropdown_left slds-dropdown_actions"
+            >
+              <ul
+                class="slds-dropdown__list"
+                role="menu"
+              >
+                <li
+                  class="slds-dropdown__item truncated-breadcrumb"
+                  role="none"
+                >
+                  <a
+                    class="truncated-breadcrumb"
+                    data-id="resources"
+                    href="#[shadow:guid]"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    <span
+                      class="slds-truncate"
+                      data-id="resources"
+                      title="FlowBuilderFieldInputBreadcrumbs.parentBreadcrumbLabel"
+                    >
+                      FlowBuilderFieldInputBreadcrumbs.parentBreadcrumbLabel
+                    </span>
+                  </a>
+                </li>
+                <li
+                  class="slds-dropdown__item truncated-breadcrumb"
+                  role="none"
+                >
+                  <a
+                    class="truncated-breadcrumb"
+                    data-id="vFeedItem"
+                    href="#[shadow:guid]"
+                    role="menuitem"
+                    tabindex="-1"
+                  >
+                    <span
+                      class="slds-truncate"
+                      data-id="vFeedItem"
+                      title="vFeedItem"
+                    >
+                      vFeedItem
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User"
+            data-index="0"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            CreatedBy (User) ID
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account"
+            data-index="1"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy"
+            data-index="2"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Last Modified By ID
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            aria-current="location"
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy.Account"
+            data-index="3"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account
+          </a>
+        </li>
+      </ol>
+    </nav>
+</builder_platform_interaction-field-input-breadcrumbs>
+`;
+
+exports[`field-input-breadcrumbs with truncation events dispatches the expected custom event on truncated breadcrumb click (not on "resources" root parent) and updates breadcrumbs accordingly 1`] = `
+<builder_platform_interaction-field-input-breadcrumbs>
+  #shadow-root(open)
+    <nav
+      aria-label="FlowBuilderFieldInputBreadcrumbs.navAriaLabel"
+    >
+      <ol
+        class="slds-breadcrumb breadcrumbs-horizontal"
+        role="menubar"
+      >
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="resources"
+            data-index="0"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="0"
+          >
+            FlowBuilderFieldInputBreadcrumbs.parentBreadcrumbLabel
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            aria-current="location"
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem"
+            data-index="1"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            vFeedItem
+          </a>
+        </li>
+      </ol>
+    </nav>
+</builder_platform_interaction-field-input-breadcrumbs>
+`;
+
+exports[`field-input-breadcrumbs with truncation events dispatches the expected custom event on truncated breadcrumb click (on "resources" root parent) and updates breadcrumbs accordingly 1`] = `
+<builder_platform_interaction-field-input-breadcrumbs>
+  #shadow-root(open)
+    <nav
+      aria-label="FlowBuilderFieldInputBreadcrumbs.navAriaLabel"
+    >
+      <ol
+        class="slds-breadcrumb breadcrumbs-horizontal"
+        role="menubar"
+      />
+    </nav>
+</builder_platform_interaction-field-input-breadcrumbs>
+`;
+
+exports[`field-input-breadcrumbs without truncation no breadcrumbs does not display any breadcrumbs (template check) 1`] = `
+<builder_platform_interaction-field-input-breadcrumbs>
+  #shadow-root(open)
+    <nav
+      aria-label="FlowBuilderFieldInputBreadcrumbs.navAriaLabel"
+    >
+      <ol
+        class="slds-breadcrumb breadcrumbs-horizontal"
+        role="menubar"
+      />
+    </nav>
+</builder_platform_interaction-field-input-breadcrumbs>
+`;
+
+exports[`field-input-breadcrumbs without truncation with breadcrumbs displays correctly the breadcrumbs (template check: "resources" parent entry, role, tabindex, displayText...) 1`] = `
+<builder_platform_interaction-field-input-breadcrumbs>
+  #shadow-root(open)
+    <nav
+      aria-label="FlowBuilderFieldInputBreadcrumbs.navAriaLabel"
+    >
+      <ol
+        class="slds-breadcrumb breadcrumbs-horizontal"
+        role="menubar"
+      >
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="resources"
+            data-index="0"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="0"
+          >
+            FlowBuilderFieldInputBreadcrumbs.parentBreadcrumbLabel
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem"
+            data-index="1"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            vFeedItem
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User"
+            data-index="2"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            CreatedBy (User) ID
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account"
+            data-index="3"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy"
+            data-index="4"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Last Modified By ID
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            aria-current="location"
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy.Account"
+            data-index="5"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account
+          </a>
+        </li>
+      </ol>
+    </nav>
+</builder_platform_interaction-field-input-breadcrumbs>
+`;
+
+exports[`field-input-breadcrumbs without truncation with breadcrumbs events dispatches the expected custom event on breadcrumb click (not on "resources" root parent) and updates breadcrumbs accordingly 1`] = `
+<builder_platform_interaction-field-input-breadcrumbs>
+  #shadow-root(open)
+    <nav
+      aria-label="FlowBuilderFieldInputBreadcrumbs.navAriaLabel"
+    >
+      <ol
+        class="slds-breadcrumb breadcrumbs-horizontal"
+        role="menubar"
+      >
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="resources"
+            data-index="0"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="0"
+          >
+            FlowBuilderFieldInputBreadcrumbs.parentBreadcrumbLabel
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem"
+            data-index="1"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            vFeedItem
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User"
+            data-index="2"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            CreatedBy (User) ID
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account"
+            data-index="3"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            aria-current="location"
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy"
+            data-index="4"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Last Modified By ID
+          </a>
+        </li>
+      </ol>
+    </nav>
+</builder_platform_interaction-field-input-breadcrumbs>
+`;
+
+exports[`field-input-breadcrumbs without truncation with breadcrumbs events dispatches the expected custom event on breadcrumb click (on "resources" root parent) and reset breadcrumbs accordingly 1`] = `
+<builder_platform_interaction-field-input-breadcrumbs>
+  #shadow-root(open)
+    <nav
+      aria-label="FlowBuilderFieldInputBreadcrumbs.navAriaLabel"
+    >
+      <ol
+        class="slds-breadcrumb breadcrumbs-horizontal"
+        role="menubar"
+      />
+    </nav>
+</builder_platform_interaction-field-input-breadcrumbs>
+`;
+
+exports[`field-input-breadcrumbs without truncation with breadcrumbs events reset of the breadcrumbs (ie: empty array) on "reset" API call 1`] = `
+<builder_platform_interaction-field-input-breadcrumbs>
+  #shadow-root(open)
+    <nav
+      aria-label="FlowBuilderFieldInputBreadcrumbs.navAriaLabel"
+    >
+      <ol
+        class="slds-breadcrumb breadcrumbs-horizontal"
+        role="menubar"
+      >
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="resources"
+            data-index="0"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="0"
+          >
+            FlowBuilderFieldInputBreadcrumbs.parentBreadcrumbLabel
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem"
+            data-index="1"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            vFeedItem
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User"
+            data-index="2"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            CreatedBy (User) ID
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account"
+            data-index="3"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy"
+            data-index="4"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Last Modified By ID
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            aria-current="location"
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy.Account"
+            data-index="5"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account
+          </a>
+        </li>
+      </ol>
+    </nav>
+</builder_platform_interaction-field-input-breadcrumbs>
+`;
+
+exports[`field-input-breadcrumbs without truncation with breadcrumbs when adding a new breadcrumb it is displayed correctly (template check: "resources" parent entry, role, tabindex, displayText...) 1`] = `
+<builder_platform_interaction-field-input-breadcrumbs>
+  #shadow-root(open)
+    <nav
+      aria-label="FlowBuilderFieldInputBreadcrumbs.navAriaLabel"
+    >
+      <ol
+        class="slds-breadcrumb breadcrumbs-horizontal"
+        role="menubar"
+      >
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="resources"
+            data-index="0"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="0"
+          >
+            FlowBuilderFieldInputBreadcrumbs.parentBreadcrumbLabel
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem"
+            data-index="1"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            vFeedItem
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User"
+            data-index="2"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            CreatedBy (User) ID
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account"
+            data-index="3"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy"
+            data-index="4"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Last Modified By ID
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy.Account"
+            data-index="5"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account
+          </a>
+        </li>
+        <li
+          class="slds-breadcrumb__item"
+          role="none"
+        >
+          <a
+            aria-current="location"
+            class="non-truncated-breadcrumb"
+            data-id="vFeedItem.CreatedBy:User.Account.LastModifiedBy.Account.AccountNumber"
+            data-index="6"
+            href="#[shadow:guid]"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Account Number
+          </a>
+        </li>
+      </ol>
+    </nav>
+</builder_platform_interaction-field-input-breadcrumbs>
+`;

@@ -284,7 +284,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateSubflow,
             uiToFlow: createSubflowMetadataObject,
             flowToUi: createSubflowWithConnectors
-        }
+        },
+        fieldInputCategory: 'Subflow'
     },
     [ELEMENT_TYPE.ACTION_CALL]: {
         descriptor: {
@@ -321,7 +322,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateActionCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
-        }
+        },
+        fieldInputCategory: 'Action'
     },
     [ELEMENT_TYPE.EXTERNAL_SERVICE]: {
         descriptor: {
@@ -351,7 +353,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateActionCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
-        }
+        },
+        fieldInputCategory: 'Action'
     },
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
         descriptor: {
@@ -380,7 +383,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateApexPlugin,
             uiToFlow: createApexPluginMetadataObject,
             flowToUi: createApexPluginWithConnectors
-        }
+        },
+        fieldInputCategory: 'Action'
     },
     [ELEMENT_TYPE.APEX_CALL]: {
         descriptor: {
@@ -410,7 +414,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateApexCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
-        }
+        },
+        fieldInputCategory: 'Action'
     },
     [ELEMENT_TYPE.EMAIL_ALERT]: {
         descriptor: {
@@ -440,7 +445,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateEmailAlert,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
-        }
+        },
+        fieldInputCategory: 'Action'
     },
     [ELEMENT_TYPE.ASSIGNMENT]: {
         descriptor: 'builder_platform_interaction:assignmentEditor',
@@ -468,7 +474,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateAssignment,
             uiToFlow: createAssignmentMetadataObject,
             flowToUi: createAssignmentWithConnectors
-        }
+        },
+        fieldInputCategory: 'Assignment'
     },
     [ELEMENT_TYPE.COLLECTION_PROCESSOR]: {
         descriptor: 'builder_platform_interaction:collectionProcessorEditor',
@@ -538,7 +545,8 @@ export const elementTypeToConfigMap: {
             closePropertyEditor: createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
             uiToFlow: createScreenMetadataObject,
             flowToUi: createScreenWithFieldReferences
-        }
+        },
+        fieldInputCategory: 'Screen'
     },
 
     [ELEMENT_TYPE.DECISION]: {
@@ -575,7 +583,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateDecision,
             uiToFlow: createDecisionMetadataObject,
             flowToUi: createDecisionWithOutcomeReferences
-        }
+        },
+        fieldInputCategory: 'Decision'
     },
 
     [ELEMENT_TYPE.WAIT]: {
@@ -608,7 +617,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateWait,
             uiToFlow: createWaitMetadataObject,
             flowToUi: createWaitWithWaitEventReferences
-        }
+        },
+        fieldInputCategory: 'Wait'
     },
 
     [ELEMENT_TYPE.WAIT_EVENT]: {
@@ -625,7 +635,8 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createWaitEvent
         },
-        hasOwnPropertyEditor: false
+        hasOwnPropertyEditor: false,
+        fieldInputCategory: 'WaitEvent'
     },
 
     [ELEMENT_TYPE.LOOP]: {
@@ -656,7 +667,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateLoop,
             uiToFlow: createLoopMetadataObject,
             flowToUi: createLoopWithConnectors
-        }
+        },
+        fieldInputCategory: 'Loop'
     },
     [ELEMENT_TYPE.RECORD_CREATE]: {
         descriptor: 'builder_platform_interaction:recordCreateEditor',
@@ -684,7 +696,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateRecordCreate,
             uiToFlow: createRecordCreateMetadataObject,
             flowToUi: createRecordCreateWithConnectors
-        }
+        },
+        fieldInputCategory: 'RecordCreate'
     },
     [ELEMENT_TYPE.RECORD_LOOKUP]: {
         descriptor: 'builder_platform_interaction:recordLookupEditor',
@@ -717,7 +730,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateRecordLookup,
             uiToFlow: createRecordLookupMetadataObject,
             flowToUi: createRecordLookupWithConnectors
-        }
+        },
+        fieldInputCategory: 'RecordLookup'
     },
     [ELEMENT_TYPE.RECORD_DELETE]: {
         descriptor: 'builder_platform_interaction:recordDeleteEditor',
@@ -744,7 +758,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateRecordDelete,
             uiToFlow: createRecordDeleteMetadataObject,
             flowToUi: createRecordDeleteWithConnectors
-        }
+        },
+        fieldInputCategory: 'RecordDelete'
     },
     [ELEMENT_TYPE.RECORD_UPDATE]: {
         descriptor: 'builder_platform_interaction:recordUpdateEditor',
@@ -771,7 +786,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateRecordUpdate,
             uiToFlow: createRecordUpdateMetadataObject,
             flowToUi: createRecordUpdateWithConnectors
-        }
+        },
+        fieldInputCategory: 'RecordUpdate'
     },
     [ELEMENT_TYPE.OUTCOME]: {
         // OUTCOME is not a canvas element, but is a first class element
@@ -787,7 +803,8 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createOutcome
         },
-        hasOwnPropertyEditor: false
+        hasOwnPropertyEditor: false,
+        fieldInputCategory: 'Outcome'
     },
     [ELEMENT_TYPE.SCHEDULED_PATH]: {
         // Scheduled Path is not a canvas element, but is a first class element
@@ -820,7 +837,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createVariable,
             uiToFlow: createVariableMetadataObject,
             flowToUi: createVariableForStore
-        }
+        },
+        fieldInputCategory: 'Variable'
     },
     [ELEMENT_TYPE.CHOICE]: {
         descriptor: 'builder_platform_interaction:choiceEditor',
@@ -843,7 +861,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createChoice,
             uiToFlow: createChoiceMetadataObject,
             flowToUi: createChoiceForStore
-        }
+        },
+        fieldInputCategory: 'Choice'
     },
     [ELEMENT_TYPE.RECORD_CHOICE_SET]: {
         descriptor: 'builder_platform_interaction:recordChoiceSetEditor',
@@ -866,7 +885,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createRecordChoiceSet,
             uiToFlow: createRecordChoiceSetMetadataObject,
             flowToUi: dynamicChoiceSetForStore
-        }
+        },
+        fieldInputCategory: 'Choice'
     },
     [ELEMENT_TYPE.COLLECTION_CHOICE_SET]: {
         descriptor: 'builder_platform_interaction:collectionChoiceSetEditor',
@@ -889,7 +909,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createCollectionChoiceSet,
             uiToFlow: createCollectionChoiceSetMetadataObject,
             flowToUi: dynamicChoiceSetForStore
-        }
+        },
+        fieldInputCategory: 'Choice'
     },
     [ELEMENT_TYPE.PICKLIST_CHOICE_SET]: {
         descriptor: 'builder_platform_interaction:picklistChoiceSetEditor',
@@ -912,7 +933,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createPicklistChoiceSet,
             uiToFlow: createPicklistChoiceSetMetadataObject,
             flowToUi: dynamicChoiceSetForStore
-        }
+        },
+        fieldInputCategory: 'Choice'
     },
     [ELEMENT_TYPE.CONSTANT]: {
         descriptor: 'builder_platform_interaction:variableConstantEditor',
@@ -935,7 +957,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createConstant,
             uiToFlow: createConstantMetadataObject,
             flowToUi: createConstantForStore
-        }
+        },
+        fieldInputCategory: 'Constant'
     },
     [ELEMENT_TYPE.FORMULA]: {
         descriptor: 'builder_platform_interaction:formulaEditor',
@@ -958,7 +981,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createFormula,
             uiToFlow: createFormulaMetadataObject,
             flowToUi: createFormulaForStore
-        }
+        },
+        fieldInputCategory: 'Formula'
     },
     [ELEMENT_TYPE.TEXT_TEMPLATE]: {
         descriptor: 'builder_platform_interaction:textTemplateEditor',
@@ -982,7 +1006,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createTextTemplate,
             uiToFlow: createTextTemplateMetadataObject,
             flowToUi: createTextTemplateForStore
-        }
+        },
+        fieldInputCategory: 'TextTemplate'
     },
     [ELEMENT_TYPE.STAGE]: {
         descriptor: 'builder_platform_interaction:stageEditor',
@@ -1005,7 +1030,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createStage,
             uiToFlow: createStageMetadataObject,
             flowToUi: createStageForStore
-        }
+        },
+        fieldInputCategory: 'Stage'
     },
     [ELEMENT_TYPE.STEP]: {
         descriptor: 'builder_platform_interaction:stepEditor',
@@ -1046,7 +1072,8 @@ export const elementTypeToConfigMap: {
             propertyEditor: createScreenField
         },
         nonHydratableProperties: ['inputsOnNextNavToAssocScrn', 'entityFieldExtraTypeInfo', 'entityFieldDataType'],
-        hasOwnPropertyEditor: false
+        hasOwnPropertyEditor: false,
+        fieldInputCategory: 'ScreenField'
     },
     [ELEMENT_TYPE.END_ELEMENT]: {
         nodeConfig: {
@@ -1116,7 +1143,8 @@ export const elementTypeToConfigMap: {
             uiToFlow: createOrchestratedStageMetadataObject,
             flowToUi: createOrchestratedStageWithItemReferences
         },
-        getChildrenItems: getOrchestratedStageChildren
+        getChildrenItems: getOrchestratedStageChildren,
+        fieldInputCategory: 'OrchestratedStage'
     },
     [ELEMENT_TYPE.STAGE_STEP]: {
         // A step in a stage is not a canvas element, but is a first class element
@@ -1137,7 +1165,8 @@ export const elementTypeToConfigMap: {
         factory: {
             propertyEditor: createStageStep
         },
-        getChildrenItems: getStageStepChildren
+        getChildrenItems: getStageStepChildren,
+        fieldInputCategory: 'StageStep'
     },
     /**
      * There are two types of Orchestration Stage Step elements: background and interactive. In order to have
@@ -1184,7 +1213,8 @@ export const elementTypeToConfigMap: {
         labels: {
             singular: LABELS.sortSingularLabel,
             plural: LABELS.sortPluralLabel
-        }
+        },
+        fieldInputCategory: 'Sort'
     },
     [COLLECTION_PROCESSOR_SUB_TYPE.FILTER]: {
         nodeConfig: {
@@ -1196,7 +1226,8 @@ export const elementTypeToConfigMap: {
         labels: {
             singular: LABELS.filterSingularLabel,
             plural: LABELS.filterPluralLabel
-        }
+        },
+        fieldInputCategory: 'Filter'
     },
     [COLLECTION_PROCESSOR_SUB_TYPE.MAP]: {
         nodeConfig: {
@@ -1208,7 +1239,8 @@ export const elementTypeToConfigMap: {
         labels: {
             singular: LABELS.mapSingularLabel,
             plural: LABELS.mapPluralLabel
-        }
+        },
+        fieldInputCategory: 'Map'
     },
     [ELEMENT_TYPE.ROLLBACK]: {
         descriptor: 'builder_platform_interaction:rollbackEditor',
@@ -1236,7 +1268,8 @@ export const elementTypeToConfigMap: {
             duplicateElement: createDuplicateRollback,
             uiToFlow: createRollbackMetadataObject,
             flowToUi: createRollbackWithConnectors
-        }
+        },
+        fieldInputCategory: 'RollBack'
     },
     [ELEMENT_TYPE.DEFAULT]: {
         // defaultEditor doesn't exist but should lead here making it easier to debug the issue
@@ -1258,6 +1291,7 @@ export const updateElementConfigMapWithSubtypes = (elements: any[]) => {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         if (element && element.isElementSubtype) {
+            const fieldInputCategory = elementTypeToConfigMap[element.name!]?.fieldInputCategory;
             elementTypeToConfigMap[element.name!] = JSON.parse(
                 JSON.stringify(elementTypeToConfigMap[element.elementType!])
             );
@@ -1275,6 +1309,7 @@ export const updateElementConfigMapWithSubtypes = (elements: any[]) => {
             elementToUpdate.nodeConfig!.description = element.description;
             elementToUpdate.nodeConfig!.dragImageSrc = ICONS_LARGE[element.name];
             elementToUpdate.configComponent = element.configComponent;
+            elementToUpdate.fieldInputCategory = fieldInputCategory;
         }
     }
 };

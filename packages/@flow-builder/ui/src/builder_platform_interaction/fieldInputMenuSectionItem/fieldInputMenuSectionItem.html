@@ -1,0 +1,41 @@
+<template>
+    <div
+        role="option"
+        class="slds-grid slds-listbox__option slds-p-vertical_xx-small"
+        onmouseenter={handleMouseEnter}
+        onmouseleave={handleMouseLeave}
+        onclick={handleSelect}
+    >
+        <div class={comboboxItemClass}>
+            <template if:true={item.iconName}>
+                <span class={iconContainerClass}>
+                    <lightning-icon
+                        class={iconClass}
+                        size={item.iconSize}
+                        alternative-text={item.iconAlternativeText}
+                        icon-name={item.iconName}
+                    ></lightning-icon>
+                </span>
+            </template>
+            <span class="slds-media__body">
+                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                    <span class="slds-truncate">{item.text}</span>
+                </span>
+            </span>
+            <template if:true={item.rightIconName}>
+                <span class="slds-media__figure slds-media__figure_reverse">
+                    <lightning-icon
+                        size={item.rightIconSize}
+                        alternative-text={item.rightIconAlternativeText}
+                        icon-name={item.rightIconName}
+                    ></lightning-icon>
+                </span>
+            </template>
+        </div>
+        <builder_platform_interaction-field-input-rich-help-popup
+            if:true={isHovering}
+            class="slds-col slds-size_1-of-12 slds-align_absolute-center"
+        >
+        </builder_platform_interaction-field-input-rich-help-popup>
+    </div>
+</template>

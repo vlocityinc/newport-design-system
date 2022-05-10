@@ -1,4 +1,3 @@
-// @ts-nocheck
 import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.emptyStringMetaLine';
 import falseMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.falseMetaLine';
 import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';

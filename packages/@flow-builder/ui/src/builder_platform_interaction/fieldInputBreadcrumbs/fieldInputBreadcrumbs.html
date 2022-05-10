@@ -1,0 +1,74 @@
+<template>
+    <nav aria-label={labels.navAriaLabel}>
+        <ol class="slds-breadcrumb breadcrumbs-horizontal" role="menubar">
+            <!-- Truncated breadcrumbs (accessible via popup menu)-->
+            <li if:true={isTruncated} class="slds-breadcrumb__item">
+                <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                    <button
+                        class="menu-trigger slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small"
+                        aria-haspopup="true"
+                        aria-expanded={isExpanded}
+                        title={labels.popupMenuTriggerShowMore}
+                        onclick={handlePopupMenuTriggerButtonClick}
+                        onkeydown={handlePopupMenuTriggerButtonKeyDown}
+                    >
+                        <svg class="slds-button__icon" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#threedots"></use>
+                        </svg>
+                        <span class="slds-assistive-text">{labels.popupMenuTriggerShowMore}</span>
+                    </button>
+                    <div
+                        class="slds-dropdown slds-dropdown_left slds-dropdown_actions"
+                        onfocusout={handlePopupMenuFocusOut}
+                    >
+                        <ul class="slds-dropdown__list" role="menu">
+                            <template for:each={truncatedBreadcrumbsView} for:item="truncatedBreadcrumb">
+                                <li
+                                    key={truncatedBreadcrumb.id}
+                                    class="slds-dropdown__item truncated-breadcrumb"
+                                    role="none"
+                                >
+                                    <a
+                                        onclick={handleBreadcrumbClick}
+                                        onkeydown={handleKeyDown}
+                                        data-id={truncatedBreadcrumb.id}
+                                        href="#"
+                                        role="menuitem"
+                                        tabindex="-1"
+                                        class="truncated-breadcrumb"
+                                        ><span
+                                            class="slds-truncate"
+                                            data-id={truncatedBreadcrumb.id}
+                                            title={truncatedBreadcrumb.label}
+                                            >{truncatedBreadcrumb.label}</span
+                                        >
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <!-- Non truncated breadcrumbs -->
+            <template
+                for:each={nonTruncatedBreadcrumbsView}
+                for:item="nonTruncatedBreadcrumb"
+                for:index="nonTruncatedBreadcrumbIndex"
+            >
+                <li key={nonTruncatedBreadcrumb.id} class="slds-breadcrumb__item" role="none">
+                    <a
+                        onclick={handleBreadcrumbClick}
+                        onkeydown={handleKeyDown}
+                        href="#"
+                        class="non-truncated-breadcrumb"
+                        data-id={nonTruncatedBreadcrumb.id}
+                        data-index={nonTruncatedBreadcrumbIndex}
+                        tabindex="0"
+                        role="menuitem"
+                        >{nonTruncatedBreadcrumb.displayText}</a
+                    >
+                </li>
+            </template>
+        </ol>
+    </nav>
+</template>

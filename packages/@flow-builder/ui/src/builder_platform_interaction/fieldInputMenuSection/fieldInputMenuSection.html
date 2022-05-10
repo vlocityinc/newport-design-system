@@ -1,0 +1,13 @@
+<template>
+    <ul role="group" aria-label={section.label} class="slds-listbox slds-listbox_vertical">
+        <li role="presentation" class="slds-media slds-listbox__option_plain slds-listbox__option-header">
+            <h3 title={section.label}>{section.label}</h3>
+        </li>
+        <template for:each={section.items} for:item="item">
+            <li key={item.value} role="presentation" class="slds-listbox__item">
+                <builder_platform_interaction-field-input-menu-section-item item={item}>
+                </builder_platform_interaction-field-input-menu-section-item>
+            </li>
+        </template>
+    </ul>
+</template>

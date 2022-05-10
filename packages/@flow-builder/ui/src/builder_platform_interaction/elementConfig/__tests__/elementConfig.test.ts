@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     elementTypeToConfigMap,
     getConfigForElementType,
@@ -77,6 +77,24 @@ describe('element-config', () => {
             ];
             updateElementConfigMapWithSubtypes(elements);
             verifyConfig('test_subtype_name', getConfigForElementType('test_subtype_name'));
+        });
+
+        it('updates the elementTypeToConfigMap to include fieldInputCategory', () => {
+            const elements = [
+                {
+                    isElementSubtype: 'true',
+                    name: COLLECTION_PROCESSOR_SUB_TYPE.SORT,
+                    label: 'Sort Apex Collection',
+                    description: 'test_sort_description',
+                    elementSubtype: COLLECTION_PROCESSOR_SUB_TYPE.SORT,
+                    collectionProcessorType: COLLECTION_PROCESSOR_SUB_TYPE.SORT,
+                    elementType: ELEMENT_TYPE.COLLECTION_PROCESSOR
+                }
+            ];
+            const expectedConfig = elementTypeToConfigMap[COLLECTION_PROCESSOR_SUB_TYPE.SORT];
+            updateElementConfigMapWithSubtypes(elements);
+            const config = getConfigForElementType(COLLECTION_PROCESSOR_SUB_TYPE.SORT);
+            expect(config.fieldInputCategory).toEqual(expectedConfig.fieldInputCategory);
         });
     });
 });

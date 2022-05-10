@@ -9,11 +9,45 @@ declare namespace UI {
     type ElementType = string;
     type ElementSubtype = string;
     type Datatype = string;
+    type ActionType = string;
 
     type Ferov = {
         elementReference: string | null;
         value: string | null;
     };
+
+    type FieldInputCategory =
+        | 'Action'
+        | 'Assignment'
+        | 'Variable'
+        | 'Collection'
+        | 'RecordVariable'
+        | 'RecordCollection'
+        | 'ApexVariable'
+        | 'ApexCollection'
+        | 'Decision'
+        | 'Choice'
+        | 'Constant'
+        | 'Formula'
+        | 'Stage'
+        | 'TextTemplate'
+        | 'Loop'
+        | 'Outcome'
+        | 'RecordCreate'
+        | 'RecordDelete'
+        | 'RecordLookup'
+        | 'RecordUpdate'
+        | 'RollBack'
+        | 'Screen'
+        | 'Subflow'
+        | 'Wait'
+        | 'WaitEvent'
+        | 'ScreenField'
+        | 'OrchestratedStage'
+        | 'StageStep'
+        | 'Sort'
+        | 'Filter'
+        | 'Map';
 
     interface CanvasElementConfig {
         isHighlighted: boolean;
@@ -47,6 +81,7 @@ declare namespace UI {
         isNew?: boolean;
         storeOutputAutomatically?: boolean;
         actionName?: string;
+        actionType?: ActionType;
     }
 
     interface HydratedValue {
@@ -285,6 +320,7 @@ declare namespace UI {
         queryable: boolean;
         updateable: boolean;
         durableId?: string;
+        isCollection?: boolean;
     };
 
     type StoredEntities = {
@@ -339,6 +375,7 @@ declare namespace UI {
         getChildrenItems?: (element: Element) => StringKeyedMap<any>;
         hasOwnPropertyEditor?: boolean;
         propertyEditorPanelSize?: string;
+        fieldInputCategory?: FieldInputCategory;
     }
 
     interface LabelsObject {
@@ -430,6 +467,30 @@ declare namespace UI {
         isSystemGeneratedOutput?: boolean;
         object?: any;
         apexClass?: string;
+        elementSubtype?: ElementSubtype;
+    }
+
+    interface FieldInputMenuItem {
+        name: string;
+        label: string;
+        description?: string;
+        type: string;
+        dataType?: string;
+        iconName?: string;
+        iconAlternativeText?: string;
+        iconSize?: string;
+        value: string;
+        hasNext?: boolean;
+        category?: string;
+        subtype?: string;
+        rightIconName?: string;
+        rightIconSize?: string;
+        isCollection?: boolean;
+    }
+
+    interface FieldInputMenuData {
+        label: string;
+        items: FieldInputMenuItem[];
     }
 
     interface NewResourceInfo {
@@ -492,6 +553,17 @@ declare namespace UI {
         isDraggable: boolean;
     }
 
+    interface FieldMenuPopupData {
+        description?: string;
+        apiName: string;
+        label: string;
+        resourceType: string;
+        resourceTypeIcon: string;
+        dataType: string;
+        dataTypeIcon: string;
+        subtype?: string;
+    }
+
     interface FlowTestData {
         label: string;
         name: string;
@@ -506,6 +578,10 @@ declare namespace UI {
     interface FlowTestAssertion {
         expression: UI.ExpressionFilter;
         message?: string;
+    }
+    interface LabelName {
+        label: string;
+        name: string;
     }
 
     type DebugDataEntry = {

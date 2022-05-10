@@ -19,6 +19,22 @@
             "sourceMaps": true,
             "internalConsoleOptions": "neverOpen",
             "disableOptimisticBPs": true
+        },
+        {
+            "name": "Debug current integration Jest test file (ui packages)",
+            "type": "node",
+            "request": "launch",
+            "runtimeArgs": [
+                "--inspect-brk",
+                "${workspaceRoot}/node_modules/.bin/jest",
+                "${relativeFile}",
+                "--config",
+                "${relativeFileDirname}/../../../../../jest.config.json"
+            ],
+            "console": "integratedTerminal",
+            "sourceMaps": true,
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true
         }
     ]
 }

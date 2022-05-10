@@ -5,6 +5,11 @@ import screenFieldPluralLabel from '@salesforce/label/FlowBuilderElementConfig.s
 import sObjectCollectionPluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectCollectionPluralLabel';
 import sObjectPluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectPluralLabel';
 import loopApexAutoOutputSubtext from '@salesforce/label/FlowBuilderElementLabels.loopApexAutoOutputSubtext';
+import globalRecordDescription from '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalRecordDescription';
+import globalRecordLabel from '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalRecordLabel';
+import globalRecordPriorValueDescription from '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalRecordPriorValueDescription';
+import globalRecordPriorValueLabel from '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalRecordPriorValueLabel';
+import globalResources from '@salesforce/label/FlowBuilderFieldInputMenuCategories.globalResources';
 import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 
 export const LABELS = {
@@ -15,5 +20,10 @@ export const LABELS = {
     sObjectCollectionPluralLabel,
     collectionVariablePluralLabel,
     screenFieldPluralLabel,
-    loopApexAutoOutputSubtext
+    loopApexAutoOutputSubtext,
+    globalResources,
+    globalRecordLabel,
+    globalRecordDescription,
+    globalRecordPriorValueLabel,
+    globalRecordPriorValueDescription
 };

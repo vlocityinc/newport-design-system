@@ -1,4 +1,3 @@
-// @ts-nocheck
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 import actionPluralLabel from '@salesforce/label/FlowBuilderElementConfig.actionPluralLabel';
 import actionSingularLabel from '@salesforce/label/FlowBuilderElementConfig.actionSingularLabel';

@@ -140,6 +140,23 @@
                         "outputParameters": [],
                         "processMetadataValues": [],
                         "requiresAsyncProcessing": false
+                    },
+                    {
+                        "actionName": "flowWithActiveAndLatest",
+                        "actionType": "stepBackground",
+                        "assignees": [],
+                        "entryActionInputParameters": [],
+                        "entryActionOutputParameters": [],
+                        "entryConditionLogic": "and",
+                        "entryConditions": [],
+                        "exitActionInputParameters": [],
+                        "exitActionOutputParameters": [],
+                        "inputParameters": [],
+                        "label": "Step 2 of Stage 1",
+                        "name": "Step_2_of_Stage_1",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "requiresAsyncProcessing": false
                     }
                 ]
             }

@@ -1,0 +1,23 @@
+<template>
+    <div class="menu-fixed-height slds-dropdown slds-is-relative slds-p-around_none">
+        <builder_platform_interaction-field-input-menu-header> </builder_platform_interaction-field-input-menu-header>
+
+        <div class="slds-scrollable_y">
+            <template for:each={sections} for:item="section">
+                <builder_platform_interaction-field-input-menu-section key={section.key} section={section}>
+                </builder_platform_interaction-field-input-menu-section>
+            </template>
+        </div>
+
+        <div if:true={showFooter} class="slds-border_top slds-p-around_small test-footer">
+            <lightning-icon
+                icon-name="utility:add"
+                size="x-small"
+                alternative-text={labels.addUtilityLabel}
+                title={labels.addUtilityLabel}
+            >
+            </lightning-icon>
+            <span class="slds-p-left_small">{labels.footerLabel}</span>
+        </div>
+    </div>
+</template>

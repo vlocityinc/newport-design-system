@@ -1,5 +1,5 @@
 /*
- * Contains all custom event classes
+ * export all custom event classes
  */
 
 export { ActionsLoadedEvent } from './actionsLoadedEvent';
@@ -58,7 +58,9 @@ export { DeleteElementEvent } from './elementEvents/deleteElementEvent';
 export { EditElementEvent } from './elementEvents/editElementEvent';
 export { ToggleElementEvent } from './elementEvents/toggleElementEvent';
 export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';
+export { FetchFieldInputMenuDataEvent } from './fetchFieldInputMenuDataEvent';
 export { FetchMenuDataEvent } from './fetchMenuDataEvent';
+export { FieldInputBreadcrumbClickEvent } from './fieldInputBreadcrumbClickEvent';
 export { FilterMatchesEvent } from './filterMatchesEvent';
 export { FormulaChangedEvent } from './formulaChangedEvent';
 export { InputsOnNextNavToAssocScrnChangeEvent } from './inputsOnNextNavToAssocScrnChangeEvent';
