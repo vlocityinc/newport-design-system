@@ -217,7 +217,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         elementsMetadata: [],
         connectorMenuMetadata: null,
         mode: AutoLayoutCanvasMode.DEFAULT,
-        isPasteAvailable: false,
+        numPasteElementsAvailable: 0,
         menu: null,
         customIconMap: {},
         incomingStubGuid: null
@@ -253,12 +253,12 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     disableAnimation = false;
 
     @api
-    set isPasteAvailable(isPasteAvailable) {
-        this.updateCanvasContext({ isPasteAvailable });
+    set numPasteElementsAvailable(numPasteElementsAvailable) {
+        this.updateCanvasContext({ numPasteElementsAvailable });
     }
 
-    get isPasteAvailable() {
-        return this.canvasContext.isPasteAvailable;
+    get numPasteElementsAvailable() {
+        return this.canvasContext.numPasteElementsAvailable;
     }
 
     @api

@@ -14,6 +14,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     CopySingleElementEvent,
+    CutElementsEvent,
     DeleteElementEvent,
     EditElementEvent,
     OpenSubflowEvent
@@ -23,7 +24,7 @@ import type { LightningElement } from 'lwc';
 import { ELEMENT_ACTION_CONFIG } from '../alcNodeMenuConfig';
 import { LABELS } from '../alcNodeMenuLabels';
 
-const { ArrowDown, EscapeCommand, SpaceCommand, EnterCommand } = commands;
+const { ArrowDown, ArrowUp, EscapeCommand, SpaceCommand, EnterCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
@@ -143,7 +144,7 @@ const assertFocusIsMovedOnArrowUp = (cmp: LightningElement, fromIndex: number) =
     const nextIndex = fromIndex === 0 ? listItems.length - 1 : fromIndex - 1;
     listItems[nextIndex].addEventListener('focus', callback);
 
-    cmp.keyboardInteractions.execute(ArrowDown.COMMAND_NAME);
+    cmp.keyboardInteractions.execute(ArrowUp.COMMAND_NAME);
     expect(callback).toHaveBeenCalled();
 };
 
@@ -273,7 +274,7 @@ describe('Node Menu', () => {
         describe('Delete Row', () => {
             let deleteRow: LightningElement;
             beforeEach(() => {
-                deleteRow = getMenuActionRows(menu)[1];
+                deleteRow = getMenuActionRows(menu)[2];
             });
 
             describe('Clicking', () => {
@@ -295,7 +296,7 @@ describe('Node Menu', () => {
                 test('Clicking the Delete Action for Loop should dispatch DeleteElementEvent with right details', async () => {
                     menu = await createComponentUnderTest(dummyLoopElement);
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-                    deleteRow = getMenuActionRows(menu)[1];
+                    deleteRow = getMenuActionRows(menu)[2];
                     deleteRow.click();
                     expect(getDetailPassedToEvent(callback)).toEqual({
                         selectedElementGUID: [dummyLoopElement.guid],
@@ -329,7 +330,7 @@ describe('Node Menu', () => {
             describe('Keyboard Commands', () => {
                 beforeEach(() => {
                     const listItems = getMenuActionRowMenuItems(menu);
-                    listItems[1].focus();
+                    listItems[2].focus();
                 });
                 test('Pressing enter on the Delete Action dispatches the DeleteElementEvent', () => {
                     menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
@@ -366,6 +367,71 @@ describe('Node Menu', () => {
                     menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(getDetailPassedToEvent(callback)).toEqual({
                         moveFocusToTrigger: false
+                    });
+                });
+            });
+        });
+
+        describe('Cut Row', () => {
+            let cutRow: LightningElement;
+
+            beforeEach(() => {
+                cutRow = getMenuActionRows(menu)[1];
+            });
+
+            describe('Clicking', () => {
+                test('Clicking on the Cut Action dispatches the CutElementsEvent', () => {
+                    menu.addEventListener(CutElementsEvent.EVENT_NAME, callback);
+                    cutRow.click();
+                    expect(callback).toHaveBeenCalled();
+                });
+
+                test('Clicking the Cut Action should dispatch CutElementsEvent with right details', () => {
+                    menu.addEventListener(CutElementsEvent.EVENT_NAME, callback);
+                    cutRow.click();
+                    expect(getDetailPassedToEvent(callback)).toEqual({
+                        guids: [dummySimpleElement.guid]
+                    });
+                });
+
+                test('The cut row icon should have the right icon-name and variant', () => {
+                    const cutIcon = cutRow.querySelector(selectors.menuActionRowIcon);
+                    expect(cutIcon).toMatchObject({
+                        iconName: ELEMENT_ACTION_CONFIG.CUT_ACTION.icon,
+                        variant: ELEMENT_ACTION_CONFIG.CUT_ACTION.iconVariant
+                    });
+                });
+
+                test('The cut row should have the right label', () => {
+                    const cutRowLabel = cutRow.querySelector(selectors.menuActionRowLabel);
+                    expect(cutRowLabel.textContent).toBe(ELEMENT_ACTION_CONFIG.CUT_ACTION.label);
+                });
+            });
+
+            describe('Keyboard Commands', () => {
+                beforeEach(() => {
+                    const listItems = getMenuActionRowMenuItems(menu);
+                    listItems[1].focus();
+                });
+                test('Pressing enter on the Cut Action dispatches the CutElementsEvent', () => {
+                    menu.addEventListener(CutElementsEvent.EVENT_NAME, callback);
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+                    expect(callback).toHaveBeenCalled();
+                });
+
+                test('Pressing enter on the Cut Action should dispatch CutElementsEvent with right details', () => {
+                    menu.addEventListener(CutElementsEvent.EVENT_NAME, callback);
+                    menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
+                    expect(getDetailPassedToEvent(callback)).toEqual({
+                        guids: [dummySimpleElement.guid]
+                    });
+                });
+
+                test('Pressing space on the Cut Action dispatches the CutElementsEvent with proper arguments', () => {
+                    menu.addEventListener(CutElementsEvent.EVENT_NAME, callback);
+                    menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
+                    expect(getDetailPassedToEvent(callback)).toEqual({
+                        guids: [dummySimpleElement.guid]
                     });
                 });
             });
@@ -458,9 +524,9 @@ describe('Node Menu', () => {
             menu.addEventListener(HighlightPathsToDeleteEvent.EVENT_NAME, highlightPathCallback);
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, closeMenuCallback);
 
-            const secondMenuItem = getMenuActionRowMenuItems(menu)[1];
-            menu.getListKeyboardInteraction().setActiveElement(secondMenuItem);
-            secondMenuItem.click();
+            const thirdMenuItem = getMenuActionRowMenuItems(menu)[2];
+            menu.getListKeyboardInteraction().setActiveElement(thirdMenuItem);
+            thirdMenuItem.click();
         });
 
         test('Clicking the Delete Action should dispatch HighlightPathsToDeleteEvent', () => {
@@ -638,7 +704,7 @@ describe('Node Menu', () => {
                     flowName: 'Dummy Subflow'
                 }
             };
-            openFlowRow = getMenuActionRows(menu)[2];
+            openFlowRow = getMenuActionRows(menu)[3];
         });
 
         it('Should have the open subflow row item', () => {

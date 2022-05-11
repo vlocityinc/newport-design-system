@@ -38,6 +38,7 @@ describe('getMenuConfiguration tests', () => {
         it('Body should have the right actions', () => {
             expect(configuration.body.nodeActions).toEqual([
                 ELEMENT_ACTION_CONFIG.COPY_ACTION,
+                ELEMENT_ACTION_CONFIG.CUT_ACTION,
                 ELEMENT_ACTION_CONFIG.DELETE_ACTION,
                 ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION
             ]);
@@ -51,24 +52,32 @@ describe('getMenuConfiguration tests', () => {
             expect(configuration.body.nodeActions[0].label).toBe(LABELS.copyActionLabel);
         });
 
+        it('Cut Action should have the right icon', () => {
+            expect(configuration.body.nodeActions[1].icon).toBe('utility:cut');
+        });
+
+        it('Cut Action should have the right label', () => {
+            expect(configuration.body.nodeActions[1].label).toBe(LABELS.cutActionLabel);
+        });
+
         it('Delete Action should have the right icon', () => {
-            expect(configuration.body.nodeActions[1].icon).toBe('utility:delete');
+            expect(configuration.body.nodeActions[2].icon).toBe('utility:delete');
         });
 
         it('Delete Action should have the right icon variant', () => {
-            expect(configuration.body.nodeActions[1].iconVariant).toBe('error');
+            expect(configuration.body.nodeActions[2].iconVariant).toBe('error');
         });
 
         it('Delete Action should have the right label', () => {
-            expect(configuration.body.nodeActions[1].label).toBe(LABELS.deleteActionLabel);
+            expect(configuration.body.nodeActions[2].label).toBe(LABELS.deleteActionLabel);
         });
 
         it('Add Fault Action should have the right icon', () => {
-            expect(configuration.body.nodeActions[2].icon).toBe('utility:level_down');
+            expect(configuration.body.nodeActions[3].icon).toBe('utility:level_down');
         });
 
         it('Add Fault should have the right label', () => {
-            expect(configuration.body.nodeActions[2].label).toBe(LABELS.addFaultActionLabel);
+            expect(configuration.body.nodeActions[3].label).toBe(LABELS.addFaultActionLabel);
         });
 
         it('Delete Fault Action should have the right icon', () => {
@@ -79,7 +88,7 @@ describe('getMenuConfiguration tests', () => {
                 true,
                 false
             );
-            expect(configuration.body.nodeActions[2].icon).toBe('utility:level_down');
+            expect(configuration.body.nodeActions[3].icon).toBe('utility:level_down');
         });
 
         it('Delete Fault Action should have the right icon variant', () => {
@@ -90,7 +99,7 @@ describe('getMenuConfiguration tests', () => {
                 true,
                 false
             );
-            expect(configuration.body.nodeActions[2].iconVariant).toBe('error');
+            expect(configuration.body.nodeActions[3].iconVariant).toBe('error');
         });
 
         it('Delete Fault should have the right label', () => {
@@ -101,7 +110,7 @@ describe('getMenuConfiguration tests', () => {
                 true,
                 false
             );
-            expect(configuration.body.nodeActions[2].label).toBe(LABELS.deleteFaultActionLabel);
+            expect(configuration.body.nodeActions[3].label).toBe(LABELS.deleteFaultActionLabel);
         });
 
         it.each`
@@ -123,12 +132,14 @@ describe('getMenuConfiguration tests', () => {
                 if (faultAction) {
                     expect(configuration.body.nodeActions).toEqual([
                         ELEMENT_ACTION_CONFIG.COPY_ACTION,
+                        ELEMENT_ACTION_CONFIG.CUT_ACTION,
                         ELEMENT_ACTION_CONFIG.DELETE_ACTION,
                         faultAction
                     ]);
                 } else {
                     expect(configuration.body.nodeActions).toEqual([
                         ELEMENT_ACTION_CONFIG.COPY_ACTION,
+                        ELEMENT_ACTION_CONFIG.CUT_ACTION,
                         ELEMENT_ACTION_CONFIG.DELETE_ACTION
                     ]);
                 }
@@ -218,7 +229,7 @@ describe('getMenuConfiguration tests', () => {
                 getElementMetadata(NodeType.DEFAULT),
                 NodeMenuMode.Default,
                 true,
-                false,
+                0,
                 true
             );
         });

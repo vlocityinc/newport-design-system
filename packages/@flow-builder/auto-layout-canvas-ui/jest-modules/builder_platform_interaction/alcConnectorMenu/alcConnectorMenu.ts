@@ -14,7 +14,7 @@ export default class AlcConnectorMenu extends LightningElement {
     elementsMetadata;
 
     @api
-    isPasteAvailable;
+    numPasteElementsAvailable;
 
     @api
     canAddEndElement;

@@ -11,6 +11,7 @@ import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { FOR_EACH_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     CopySingleElementEvent,
+    CutElementsEvent,
     DeleteElementEvent,
     EditElementEvent,
     OpenSubflowEvent
@@ -153,6 +154,10 @@ export default class AlcNodeMenu extends AlcMenu {
                     this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
                 }
                 moveFocusToTrigger = false;
+                break;
+            case ELEMENT_ACTION_CONFIG.CUT_ACTION.value:
+                // TODO (W-11022933): Handle specific use cases. Should be similar to delete
+                this.dispatchEvent(new CutElementsEvent([this.guid]));
                 break;
             case ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION.value:
                 this.dispatchEvent(new AddElementFaultEvent(this.guid));

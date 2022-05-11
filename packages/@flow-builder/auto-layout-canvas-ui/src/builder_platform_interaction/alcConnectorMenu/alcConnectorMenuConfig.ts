@@ -1,10 +1,11 @@
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import type { ElementMetadata, MenuSection } from 'builder_platform_interaction/autoLayoutCanvas';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { storeUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './alcConnectorMenuLabels';
 
 const { generateGuid } = storeUtils;
+const { format } = commonUtils;
 
 export const PASTE_ACTION = 'Paste';
 export const GOTO_ACTION = 'goTo';
@@ -26,7 +27,7 @@ const pasteActionItem = {
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
-    label: LABELS.pasteItemLabel,
+    label: '',
     elementType: PASTE_ACTION,
     rowClass: 'slds-listbox__item action-row-line-height'
 };
@@ -73,7 +74,7 @@ const deleteGoToActionItem = {
  * @param metadata - The menu's metadata
  * @param elementsMetadata - The elements metadata
  * @param showEndElement - Whether to show the end element item
- * @param isPasteAvailable - If paste is available
+ * @param numPasteElementsAvailable - Number of elements available to paste
  * @param canAddGoto - Is the next element END
  * @param isGoToConnector - Is this a Goto connection
  * @returns the connector menu configuration
@@ -82,7 +83,7 @@ export const configureMenu = (
     metadata: ConnectorMenuMetadata,
     elementsMetadata: ElementMetadata[],
     showEndElement: boolean,
-    isPasteAvailable: boolean,
+    numPasteElementsAvailable: number,
     canAddGoto: boolean,
     isGoToConnector: boolean
 ) => {
@@ -91,7 +92,7 @@ export const configureMenu = (
     let extraSections: MenuSection[] = [];
     actionSection.items = [];
 
-    if (isPasteAvailable || canAddGoto || isGoToConnector) {
+    if (numPasteElementsAvailable > 0 || canAddGoto || isGoToConnector) {
         if (isGoToConnector) {
             actionSection.items.push(rerouteGoToActionItem);
             actionSection.items.push(deleteGoToActionItem);
@@ -99,7 +100,11 @@ export const configureMenu = (
             actionSection.items.push(addGoToActionItem);
         }
 
-        if (isPasteAvailable) {
+        if (numPasteElementsAvailable > 0) {
+            pasteActionItem.label =
+                numPasteElementsAvailable === 1
+                    ? LABELS.pasteOneItemLabel
+                    : format(LABELS.pasteMultiItemLabel, numPasteElementsAvailable.toString());
             actionSection.items.push(pasteActionItem);
         }
 

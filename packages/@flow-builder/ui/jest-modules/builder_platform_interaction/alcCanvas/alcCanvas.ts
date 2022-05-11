@@ -17,7 +17,7 @@ export default class AlcCanvas extends LightningElement {
     offsets;
 
     @api
-    isPasteAvailable;
+    numPasteElementsAvailable;
 
     @api
     disableDeleteElements;

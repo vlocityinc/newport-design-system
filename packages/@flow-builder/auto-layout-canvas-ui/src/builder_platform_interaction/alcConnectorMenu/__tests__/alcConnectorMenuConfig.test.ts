@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { configureMenu } from '../alcConnectorMenuConfig';
+import { configureMenu, PASTE_ACTION } from '../alcConnectorMenuConfig';
 import { LABELS } from '../alcConnectorMenuLabels';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
@@ -68,78 +68,104 @@ const metadata = {
 
 describe('connector menu config', () => {
     it('Match Snapshot with both paste and goto option', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, true, false)).toMatchSnapshot();
+        expect(configureMenu(metadata, elementsMetadata, false, 1, true, false)).toMatchSnapshot();
     });
 
     it('actionSection should have the right label', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, false, false).sections[0].label).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, false, false).sections[0].label).toBe(
             LABELS.actionSectionLabel
         );
     });
 
-    it('pasteItem should have the right label', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, false, false).sections[0].items[0].label).toBe(
-            LABELS.pasteItemLabel
+    it('pasteItem should not be present when there are no available elements to paste', () => {
+        expect(
+            configureMenu(metadata, elementsMetadata, false, 0, false, false).sections[0].items[0].elementType
+        ).not.toBe(PASTE_ACTION);
+    });
+
+    it('pasteItem should have the right label when there is only 1 available element to paste', () => {
+        expect(configureMenu(metadata, elementsMetadata, false, 1, false, false).sections[0].items[0].label).toBe(
+            LABELS.pasteOneItemLabel
+        );
+    });
+
+    it('pasteItem should have the right label when there is more than 1 available element to paste', () => {
+        expect(configureMenu(metadata, elementsMetadata, false, 2, false, false).sections[0].items[0].label).toEqual(
+            'AlcConnectorContextualMenu.pasteMultiItemLabel(2)'
         );
     });
 
     it('pasteSection item should have the right icon', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, false, false).sections[0].items[0].icon).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, false, false).sections[0].items[0].icon).toBe(
             'utility:paste'
         );
     });
 
     it('pasteSection item should have the right rowClass', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, false, false).sections[0].items[0].rowClass).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, false, false).sections[0].items[0].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
     });
 
     it('goToPath should have the right label', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, true, false).sections[0].items[0].label).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, true, false).sections[0].items[0].label).toBe(
             `${LABELS.goToPathItemLabel}`
         );
     });
 
     it('goToPath item should have the right icon', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, true, false).sections[0].items[0].icon).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, true, false).sections[0].items[0].icon).toBe(
             'utility:level_down'
         );
     });
 
     it('goToPath item should have the right rowClass', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, true, false).sections[0].items[0].rowClass).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, true, false).sections[0].items[0].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
     });
 
-    it('reRoute/delete should be displayed and GoTo should not', () => {
-        const menu = configureMenu(metadata, elementsMetadata, false, true, false, true);
+    it('reRoute/delete should be displayed and GoTo should not with no pasteItem', () => {
+        const menu = configureMenu(metadata, elementsMetadata, false, 0, false, true);
         expect(menu.sections[0].items[0].label).toBe(LABELS.reRouteGoToPathItemLabel);
         expect(menu.sections[0].items[1].label).toBe(LABELS.deleteGoToPathItemLabel);
-        expect(menu.sections[0].items[2].label).toBe(LABELS.pasteItemLabel);
+        expect(menu.sections[0].items[2]).toBe(undefined);
+    });
+
+    it('reRoute/delete should be displayed and GoTo should not with the right paste one item label', () => {
+        const menu = configureMenu(metadata, elementsMetadata, false, 1, false, true);
+        expect(menu.sections[0].items[0].label).toBe(LABELS.reRouteGoToPathItemLabel);
+        expect(menu.sections[0].items[1].label).toBe(LABELS.deleteGoToPathItemLabel);
+        expect(menu.sections[0].items[2].label).toBe(LABELS.pasteOneItemLabel);
+    });
+
+    it('reRoute/delete should be displayed and GoTo should not with the right paste multi item label', () => {
+        const menu = configureMenu(metadata, elementsMetadata, false, 2, false, true);
+        expect(menu.sections[0].items[0].label).toBe(LABELS.reRouteGoToPathItemLabel);
+        expect(menu.sections[0].items[1].label).toBe(LABELS.deleteGoToPathItemLabel);
+        expect(menu.sections[0].items[2].label).toBe('AlcConnectorContextualMenu.pasteMultiItemLabel(2)');
     });
 
     it('reRoutePath item should have the right icon', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, false, true).sections[0].items[0].icon).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, false, true).sections[0].items[0].icon).toBe(
             'utility:level_down'
         );
     });
 
     it('reRoutePath item should have the right rowClass', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, false, true).sections[0].items[0].rowClass).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, false, true).sections[0].items[0].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
     });
 
     it('deletePath item should have the right icon', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, false, true).sections[0].items[1].icon).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, false, true).sections[0].items[1].icon).toBe(
             'utility:delete'
         );
     });
 
     it('deletePath item should have the right rowClass', () => {
-        expect(configureMenu(metadata, elementsMetadata, false, true, false, true).sections[0].items[1].rowClass).toBe(
+        expect(configureMenu(metadata, elementsMetadata, false, 1, false, true).sections[0].items[1].rowClass).toBe(
             'slds-listbox__item action-row-line-height'
         );
     });
@@ -163,12 +189,12 @@ describe('Section Heading', () => {
                 elementType: 'Decision'
             }
         ];
-        const menu = configureMenu(metadata, metaDataWithOrchestrator, false, true, false, true);
+        const menu = configureMenu(metadata, metaDataWithOrchestrator, false, 1, false, true);
         expect(menu.sections.find((section) => section.label === 'Logic').heading).toBe(null);
     });
 
     it('is not null for other types', () => {
-        const menu = configureMenu(metadata, elementsMetadata, false, true, false, true);
+        const menu = configureMenu(metadata, elementsMetadata, false, 1, false, true);
         expect(menu.sections.find((section) => section.label === 'Logic').heading).toBe('Logic');
     });
 });

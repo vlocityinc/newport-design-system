@@ -19,6 +19,7 @@ export { CANVAS_EVENT, MARQUEE_ACTION, ZOOM_ACTION } from './canvasEvents/canvas
 export { CanvasMouseUpEvent } from './canvasEvents/canvasMouseUpEvent';
 export { ConnectorSelectedEvent } from './canvasEvents/connectorSelectedEvent';
 export { CopySingleElementEvent } from './canvasEvents/copySingleElementEvent';
+export { CutElementsEvent } from './canvasEvents/cutElementsEvent';
 export { DragNodeEvent } from './canvasEvents/dragNodeEvent';
 export { DragNodeStopEvent } from './canvasEvents/dragNodeStopEvent';
 export { MarqueeSelectEvent } from './canvasEvents/marqueeSelectEvent';

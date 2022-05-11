@@ -71,7 +71,7 @@ export default class AlcCanvasContainer extends LightningElement {
     activeElementGuid;
 
     @api
-    isPasteAvailable;
+    numPasteElementsAvailable;
 
     @api
     isSelectionMode;

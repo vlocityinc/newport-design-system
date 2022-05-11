@@ -122,7 +122,7 @@ const flowModel = {
 function testConnectorMenuInfo(
     flowModel,
     source,
-    { canAddGoto, isGoToConnector, canAddEndElement, autoFocus = false, isPasteAvailable = false }
+    { canAddGoto, isGoToConnector, canAddEndElement, autoFocus = false, numPasteElementsAvailable = 0 }
 ) {
     const menu = {
         source,
@@ -136,7 +136,7 @@ function testConnectorMenuInfo(
             elementTypes: new Set([ELEMENT_TYPE_SCREEN, ELEMENT_TYPE_DECISION])
         },
         elementsMetadata,
-        isPasteAvailable
+        numPasteElementsAvailable
     };
 
     const connectorMenuInfo = getConnectorMenuInfo(canvasContext, flowModel);
@@ -148,7 +148,7 @@ function testConnectorMenuInfo(
         isGoToConnector,
         autoFocus,
         canAddEndElement,
-        isPasteAvailable,
+        numPasteElementsAvailable,
         metadata: {
             menuComponent: 'alcConnectorMenu',
             elementTypes: new Set([ELEMENT_TYPE_SCREEN, ELEMENT_TYPE_DECISION])
@@ -342,23 +342,23 @@ describe('ALC Menu Utils', () => {
             });
         });
 
-        it('isPasteAvailable is false when passed in as false into the canvas context', () => {
+        it('numPasteElementsAvailable is 0 when passed in as 0 into the canvas context', () => {
             const source = { guid: 'branch-guid', childIndex: 3 };
             testConnectorMenuInfo(flowModel, source, {
                 canAddEndElement: true,
                 isGoToConnector: false,
                 canAddGoto: true,
-                isPasteAvailable: false
+                numPasteElementsAvailable: 0
             });
         });
 
-        it('isPasteAvailable is true when passed in as true into the canvas context', () => {
+        it('numPasteElementsAvailable is not 0 when passed in as a positive number into the canvas context', () => {
             const source = { guid: 'branch-guid', childIndex: 3 };
             testConnectorMenuInfo(flowModel, source, {
                 canAddEndElement: true,
                 isGoToConnector: false,
                 canAddGoto: true,
-                isPasteAvailable: true
+                numPasteElementsAvailable: 2
             });
         });
     });

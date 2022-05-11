@@ -471,7 +471,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     isCutCopyDisabled = true;
 
     @track
-    isPasteAvailable = false;
+    numPasteElementsAvailable = 0;
 
     @track
     isSelectionMode = false;
@@ -1523,7 +1523,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.cutOrCopiedChildElements = getCopiedChildElements(elements, copiedElement);
         this.topCutOrCopiedGuid = elementGuid;
         this.bottomCutOrCopiedGuid = elementGuid;
-        this.isPasteAvailable = true;
+        this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
     };
 
     /**
@@ -1540,7 +1540,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.cutOrCopiedChildElements = copiedChildElements;
         this.bottomCutOrCopiedGuid = bottomCutOrCopiedGuid;
 
-        this.isPasteAvailable = true;
+        this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
 
         // Toggling out of the selection mode on Copy
         this.handleToggleSelectionMode();
@@ -3428,7 +3428,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     _resetSelectionState() {
         // update tracked properties
         this.isCutCopyDisabled = true;
-        this.isPasteAvailable = false;
+        this.numPasteElementsAvailable = 0;
         this.isSelectionMode = false;
 
         // reset cut/copy variables

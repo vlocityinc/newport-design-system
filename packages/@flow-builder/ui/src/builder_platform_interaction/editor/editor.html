@@ -130,15 +130,15 @@
                 >
                 </builder_platform_interaction-canvas-container>
                 <builder_platform_interaction-alc-canvas-container
+                    active-element-guid={activeElementGuid}
                     aria-label={labels.ariaLabelCanvasContainer}
                     if:true={properties.isAutoLayoutCanvas}
                     elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
                     custom-icon-map={customIconMap}
-                    is-paste-available={isPasteAvailable}
                     disable-delete-elements={canvasConfig.disableDeleteElements}
                     disable-edit-elements={canvasConfig.disableEditElements}
-                    active-element-guid={activeElementGuid}
+                    num-paste-elements-available={numPasteElementsAvailable}
                     onaddelement={handleAddCanvasElement}
                     oncopysingleelement={handleCopySingleElement}
                     ondeleteelement={handleElementDelete}

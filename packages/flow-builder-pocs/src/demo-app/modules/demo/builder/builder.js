@@ -483,7 +483,7 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
         return palette;
     }
 
-    isPasteAvailable = false;
+    numPasteElementsAvailable = 0;
 
     constructor() {
         super();
@@ -783,7 +783,7 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
         this.cutOrCopiedChildElements = getCopiedChildElements(elements, copiedElement);
         this.topCutOrCopiedGuid = elementGuid;
         this.bottomCutOrCopiedGuid = elementGuid;
-        this.isPasteAvailable = true;
+        this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
     }
 
     handlePasteOnCanvas(event) {
@@ -819,7 +819,7 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
         this.cutOrCopiedChildElements = copiedChildElements;
         this.bottomCutOrCopiedGuid = bottomCutOrCopiedGuid;
 
-        this.isPasteAvailable = true;
+        this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
 
         // Toggling out of the selection mode on Copy
         this.handleToggleSelectionMode();

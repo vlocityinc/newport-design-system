@@ -59,7 +59,7 @@ export interface MenuInfo {
 }
 export interface CanvasContext {
     elementsMetadata: ElementMetadata[];
-    isPasteAvailable: boolean;
+    numPasteElementsAvailable: number;
     mode: AutoLayoutCanvasMode;
     customIconMap: CustomIconMap;
 

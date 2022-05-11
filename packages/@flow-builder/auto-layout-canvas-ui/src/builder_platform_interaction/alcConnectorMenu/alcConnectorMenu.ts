@@ -28,7 +28,7 @@ export default class AlcConnectorMenu extends AlcMenu {
     elementsMetadata: ElementMetadata[] = [];
 
     @api
-    isPasteAvailable!: boolean;
+    numPasteElementsAvailable!: number;
 
     /* whether the end element should be shown in the menu */
     @api
@@ -45,7 +45,7 @@ export default class AlcConnectorMenu extends AlcMenu {
             this.metadata,
             this.elementsMetadata,
             this.canAddEndElement,
-            this.isPasteAvailable,
+            this.numPasteElementsAvailable,
             this.canAddGoto,
             this.isGoToConnector
         );

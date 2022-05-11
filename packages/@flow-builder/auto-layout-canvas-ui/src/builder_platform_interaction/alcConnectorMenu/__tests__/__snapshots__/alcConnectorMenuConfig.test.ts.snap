@@ -26,7 +26,7 @@ Object {
           "iconContainerClass": "slds-media__figure slds-listbox__option-icon",
           "iconSize": "x-small",
           "iconVariant": "",
-          "label": "AlcConnectorContextualMenu.pasteItemLabel",
+          "label": "AlcConnectorContextualMenu.pasteOneActionItemLabel",
           "rowClass": "slds-listbox__item action-row-line-height",
         },
       ],

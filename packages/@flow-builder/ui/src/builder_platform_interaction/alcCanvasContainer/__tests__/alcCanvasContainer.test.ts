@@ -143,7 +143,7 @@ const createComponentForTest = async (optionsOverrides = {}) => {
         {
             elementsMetadata,
             isSelectionMode: false,
-            isPasteAvailable: false
+            numPasteElementsAvailable: 0
         },
         optionsOverrides
     );
