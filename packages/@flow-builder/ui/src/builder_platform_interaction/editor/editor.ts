@@ -36,7 +36,10 @@ import {
     UPDATE_RESOURCE_ERROR_STATE
 } from 'builder_platform_interaction/actions';
 import AlcCanvasContainer from 'builder_platform_interaction/alcCanvasContainer';
-import { getShiftFocusKeyboardInteraction } from 'builder_platform_interaction/alcComponentsUtils';
+import {
+    getEscapeKeyInteraction,
+    getShiftFocusKeyboardInteraction
+} from 'builder_platform_interaction/alcComponentsUtils';
 import {
     addEndElementsAndConnectorsTransform,
     canConvertToAutoLayoutCanvas,
@@ -2618,6 +2621,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         focusOnDockingPanel();
     };
 
+    handleEscape = () => {
+        if (this.isSelectionMode) {
+            this.handleToggleSelectionMode();
+        }
+    };
+
     /**
      * Handles the CreateGoToConnectionEvent coming from alcCanvas and dispatches an action to create a GoTo connector
      *
@@ -3060,7 +3069,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             new BaseKeyboardInteraction([
                 createShortcut(shortcuts.displayShortcuts, displayShortcutsCommand),
                 createShortcut(shortcuts.focusOnDockingPanel, focusOnDockingPanelCommand)
-            ])
+            ]),
+            getEscapeKeyInteraction(this.handleEscape)
         ];
     }
 

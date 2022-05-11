@@ -12,8 +12,11 @@ import {
     ToggleSelectionModeEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
 import { Decision1, Decision2, orchestratorFlowUIModel } from 'mock/storeDataOrchestrator';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+
+const { Keys } = keyboardInteractionUtils;
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 
@@ -128,6 +131,29 @@ describe('auto-layout', () => {
         toolbar.dispatchEvent(new NewDebugFlowEvent());
         await ticks(1);
         expect(toolbar.isSelectionMode).toBeFalsy();
+
+        Store.resetStore();
+    });
+
+    it('exits selection mode when the escape key is pressed', async () => {
+        Store.setMockState({
+            ...recordTriggeredFlowUIModel,
+            properties: { ...recordTriggeredFlowUIModel.properties, isAutoLayoutCanvas: true }
+        });
+        const editorComponent = await createComponentUnderTest();
+        const toggleModeEvent = new ToggleSelectionModeEvent();
+        const escapeEvent = new KeyboardEvent('keydown', { key: Keys.Escape, bubbles: true });
+        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+        alcCanvasContainer.dispatchEvent(toggleModeEvent);
+        await ticks(1);
+        expect(alcCanvasContainer.isSelectionMode).toBeTruthy();
+
+        alcCanvasContainer.dispatchEvent(escapeEvent);
+        await ticks(1);
+        expect(alcCanvasContainer.isSelectionMode).toBeFalsy();
+
         Store.resetStore();
     });
 

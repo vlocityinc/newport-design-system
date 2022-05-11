@@ -14,7 +14,7 @@ export class KeyboardInteractions {
                 this.commands.entercommand.execute();
                 break;
             case Keys.Escape:
-                this.commands.escapecommand.execute();
+                this.commands.escapecommand?.execute();
                 break;
             case Keys.Space:
                 this.commands.spacecommand.execute();

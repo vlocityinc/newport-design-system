@@ -12,6 +12,10 @@
         onmousedown={handleCanvasMouseDown}
         onmouseup={handleCanvasMouseUp}
     >
+        <builder_platform_interaction-scoped-notification
+            if:true={isSelectionMode}
+            canvas-mode={canvasContext.mode}
+        ></builder_platform_interaction-scoped-notification>
         <template if:true={flow}>
             <div class={flowContainerClass}>
                 <builder_platform_interaction-alc-flow

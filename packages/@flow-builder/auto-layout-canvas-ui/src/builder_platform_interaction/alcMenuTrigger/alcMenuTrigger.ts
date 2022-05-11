@@ -1,7 +1,6 @@
 import {
     AutoLayoutCanvasMode,
     getEnterKeyInteraction,
-    getEscapeKeyInteraction,
     ICON_SHAPE
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { CloseMenuEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
@@ -10,7 +9,7 @@ import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction
 import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
 
-const { withKeyboardInteractions } = keyboardInteractionUtils;
+const { withKeyboardInteractions, Keys } = keyboardInteractionUtils;
 
 const selectors = {
     button: 'button',
@@ -25,10 +24,7 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
     dom = lwcUtils.createDomProxy(this, selectors);
 
     override getKeyboardInteractions() {
-        return [
-            getEnterKeyInteraction(() => this.handleSpaceOrEnter()),
-            getEscapeKeyInteraction(() => this.handleEscape())
-        ];
+        return [getEnterKeyInteraction(() => this.handleSpaceOrEnter())];
     }
 
     @api
@@ -214,11 +210,12 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
         }
     }
 
-    handleEscape() {
-        if (this._menuOpened) {
+    handleKeyDown = (event) => {
+        if (event.key === Keys.Escape && this._menuOpened) {
+            event.stopPropagation();
             this.dispatchEvent(new CloseMenuEvent());
         }
-    }
+    };
 
     /** ***************************** Callbacks */
 
@@ -226,5 +223,12 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
         super.connectedCallback();
 
         this.classList.add('slds-dropdown-trigger', 'slds-dropdown-trigger_click');
+
+        // the keyboard framework stops propagation by default but we need escape to propagate
+        this.template.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    disconnectedCallback() {
+        this.template.removeEventListener('keydown', this.handleKeyDown);
     }
 }

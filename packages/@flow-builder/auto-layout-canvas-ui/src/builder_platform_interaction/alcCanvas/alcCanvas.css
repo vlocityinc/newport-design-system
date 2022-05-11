@@ -63,6 +63,12 @@ builder_platform_interaction-zoom-panel {
     bottom: 0;
 }
 
+builder_platform_interaction-scoped-notification {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
 .canvas {
     display: flex;
     flex: auto;

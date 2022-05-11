@@ -11,7 +11,10 @@ import {
     updateElement,
     updateIsAutoLayoutCanvasProperty
 } from 'builder_platform_interaction/actions';
-import { getShiftFocusKeyboardInteraction } from 'builder_platform_interaction/alcComponentsUtils';
+import {
+    getEscapeKeyInteraction,
+    getShiftFocusKeyboardInteraction
+} from 'builder_platform_interaction/alcComponentsUtils';
 import { createEndElement, createStartElementForPropertyEditor } from 'builder_platform_interaction/elementFactory';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -456,8 +459,17 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
             this.dom.leftPanel,
             ...this.dom.canvasContainer.getAlcCanvas().getAriaSections()
         ];
-        this.setKeyboardInteractions([getShiftFocusKeyboardInteraction(sections)]);
+        this.setKeyboardInteractions([
+            getShiftFocusKeyboardInteraction(sections),
+            getEscapeKeyInteraction(this.handleEscape)
+        ]);
     }
+
+    handleEscape = () => {
+        if (this.isSelectionMode) {
+            this.handleToggleSelectionMode();
+        }
+    };
 
     get isRunningTestMonkey() {
         return !!this.testMonkeyHandle;
