@@ -149,8 +149,8 @@ describe('Flow Test to UI Translation', () => {
 
     it('returns initial record data only for Create test trigger type', () => {
         const { testInitialRecordData, testUpdatedRecordData } = translateFlowTestToUIModel(flowTest);
-        expect(testInitialRecordData).not.toBe(undefined);
-        expect(testUpdatedRecordData).toBe(undefined);
+        expect(testInitialRecordData.value).not.toBe(undefined);
+        expect(testUpdatedRecordData.value).toBe(undefined);
     });
     it('returns initial and updated record data for Updated test trigger type', () => {
         const { testInitialRecordData, testUpdatedRecordData } = translateFlowTestToUIModel(
@@ -166,8 +166,8 @@ describe('Flow Test to UI Translation', () => {
         expect(label).toBe(undefined);
         expect(name).toBe(undefined);
         expect(description).toBe(undefined);
-        expect(testInitialRecordData).toBe(undefined);
-        expect(testUpdatedRecordData).toBe(undefined);
+        expect(testInitialRecordData.value).toBe(undefined);
+        expect(testUpdatedRecordData.value).toBe(undefined);
         expect(testAssertions).toBe(undefined);
     });
     it('returns Updated test trigger type, initial and updated record data when test created from debug run and debug is of type Updated ', () => {
@@ -187,8 +187,8 @@ describe('Flow Test to UI Translation', () => {
             true
         );
         expect(testTriggerType).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
-        expect(testInitialRecordData).not.toBe(undefined);
-        expect(testUpdatedRecordData).toBe(undefined);
+        expect(testInitialRecordData.value).not.toBe(undefined);
+        expect(testUpdatedRecordData.value).toBe(undefined);
     });
     it('returns Created test trigger type and initial record data when not creating from debug run ', () => {
         const { testTriggerType, testInitialRecordData, testUpdatedRecordData } = translateFlowTestToUIModel(
@@ -196,8 +196,8 @@ describe('Flow Test to UI Translation', () => {
             FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE
         );
         expect(testTriggerType).toBe(FLOW_TRIGGER_SAVE_TYPE.CREATE);
-        expect(testInitialRecordData).not.toBe(undefined);
-        expect(testUpdatedRecordData).toBe(undefined);
+        expect(testInitialRecordData.value).not.toBe(undefined);
+        expect(testUpdatedRecordData.value).toBe(undefined);
     });
 
     it('returns Updated test trigger type and initial and updated record data when not creating test from debug run and test data contains 2 records ', () => {

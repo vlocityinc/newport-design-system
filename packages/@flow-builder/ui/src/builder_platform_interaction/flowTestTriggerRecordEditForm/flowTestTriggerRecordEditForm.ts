@@ -112,6 +112,7 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
                     error: null
                 };
             });
+            this.addUnmodifiableFieldValuesTo(objectFieldValuesObject);
             const updateTestRecordDataEvent = new UpdateTestRecordDataEvent(objectFieldValuesObject, false, false);
             this.dispatchEvent(updateTestRecordDataEvent);
             this.processSampleRecord = false;
@@ -174,6 +175,7 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
                 error: hasError ? RECORD_DATA_ERROR : null
             };
         });
+        this.addUnmodifiableFieldValuesTo(objectFieldValues);
         const updateTestRecordDataEvent = new UpdateTestRecordDataEvent(
             objectFieldValues,
             hasError,
@@ -201,5 +203,21 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
         }
         const clearFormEvent = new FlowTestClearRecordFormEvent(this.isUpdatedRecord);
         this.dispatchEvent(clearFormEvent);
+    }
+
+    addUnmodifiableFieldValuesTo(objectFieldValuesObject) {
+        const fields = this.recordData.hasOwnProperty('value')
+            ? Object.keys(this.recordData.value)
+            : Object.keys(this.recordData);
+        fields.forEach((key) => {
+            const fieldValue = this.getValue(this.recordData, key);
+            const isUnmodifiableField = !this.modifiableFields.includes(key);
+            if (fieldValue && isUnmodifiableField) {
+                objectFieldValuesObject[key] = {
+                    value: fieldValue,
+                    error: null
+                };
+            }
+        });
     }
 }

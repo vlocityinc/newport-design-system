@@ -571,8 +571,13 @@ declare namespace UI {
         runPathValue: string;
         testTriggerType: string;
         testAssertions: UI.FlowTestAssertion[];
-        testInitialRecordData: object;
-        testUpdatedRecordData: object;
+        testInitialRecordData: UI.FlowTestRecordData;
+        testUpdatedRecordData: UI.FlowTestRecordData;
+    }
+
+    interface FlowTestRecordData {
+        value: object;
+        error?: string;
     }
 
     interface FlowTestAssertion {

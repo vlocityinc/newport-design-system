@@ -52,8 +52,8 @@ export function translateFlowTestToUIModel(flowTest, flowTriggerType, convertDeb
         description,
         runPathValue: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH,
         testTriggerType,
-        testInitialRecordData,
-        testUpdatedRecordData,
+        testInitialRecordData: { value: testInitialRecordData },
+        testUpdatedRecordData: { value: testUpdatedRecordData },
         testAssertions: assertionArr
     };
 }
