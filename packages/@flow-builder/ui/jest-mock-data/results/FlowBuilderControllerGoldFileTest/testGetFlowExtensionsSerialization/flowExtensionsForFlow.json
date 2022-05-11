@@ -61,28 +61,6 @@
 },
     {
   "category" : "Input",
-  "description" : "Datatable Component",
-  "extensionType" : "lwc",
-  "fieldsToNull" : [ ],
-  "genericTypes" : {
-    "done" : true,
-    "entityTypeName" : "FlowExtensionGenericType",
-    "records" : [ {
-      "description" : "Generic sObject data type used for input sObject properties",
-      "fieldsToNull" : [ ],
-      "label" : "Input Type",
-      "name" : "T",
-      "superType" : "SOBJECT"
-    } ],
-    "size" : 1,
-    "totalSize" : 1
-  },
-  "label" : "Datatable",
-  "qualifiedApiName" : "flowruntime:datatable",
-  "source" : "Standard"
-},
-    {
-  "category" : "Input",
   "description" : "Dependent Picklists",
   "extensionType" : "lwc",
   "fieldsToNull" : [ ],

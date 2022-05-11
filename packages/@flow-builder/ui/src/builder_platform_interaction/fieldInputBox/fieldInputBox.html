@@ -1,4 +1,23 @@
 <template>
-    <lightning-input></lightning-input>
+    <div class="slds-form-element">
+        <label class="slds-form-element__label" for="text-input-id">{labels.comboBoxLabel}</label>
+        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+            <lightning-icon
+                icon-name="utility:search"
+                alternative-text={labels.searchAltText}
+                title={labels.searchAltText}
+                size="x-small"
+                class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+            >
+            </lightning-icon>
+            <input
+                type="text"
+                id="text-input-id"
+                placeholder={labels.placeholderText}
+                class="slds-input"
+                onchange={handleKeyChange}
+            />
+        </div>
+    </div>
     <builder_platform_interaction-field-input-box-pill></builder_platform_interaction-field-input-box-pill>
 </template>
