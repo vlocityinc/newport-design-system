@@ -4,6 +4,7 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { NewResourceEvent } from 'builder_platform_interaction/events';
 import { LABELS } from '../fieldInputMenuLabels';
 
 const createComponentUnderTest = async () => {
@@ -13,7 +14,8 @@ const createComponentUnderTest = async () => {
 const selectors = {
     container: '.menu-fixed-height',
     footer: '.test-footer',
-    footerText: '.test-footer span.slds-p-left_small'
+    footerText: '.test-footer span.slds-p-left_small',
+    footerButton: '.test-footer button'
 };
 
 describe('Field Input Menu Tests', () => {
@@ -65,5 +67,15 @@ describe('Field Input Menu Tests', () => {
     it('Footer add icon should have the right alternative text', () => {
         const footerAddIcon = cmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
         expect(footerAddIcon.alternativeText).toBe(LABELS.addUtilityLabel);
+    });
+
+    it('Should emit addnewresource on footer click', () => {
+        const callback = jest.fn(),
+            footerButton = cmp.shadowRoot.querySelector(selectors.footerButton);
+
+        cmp.addEventListener(NewResourceEvent.EVENT_NAME, callback);
+        footerButton.click();
+
+        expect(callback).toHaveBeenCalled();
     });
 });

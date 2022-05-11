@@ -1,3 +1,4 @@
+import { NewResourceEvent } from 'builder_platform_interaction/events';
 import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { LightningElement } from 'lwc';
 import { LABELS } from './fieldInputMenuLabels';
@@ -13,6 +14,11 @@ export default class FieldInputMenu extends withKeyboardInteractions(LightningEl
     // TODO: a11y support will be done as part of another PR
     getKeyboardInteractions() {
         return [];
+    }
+
+    handleFooterClick(event) {
+        event.preventDefault();
+        this.dispatchEvent(new NewResourceEvent(null, false));
     }
 
     // Mock Data
