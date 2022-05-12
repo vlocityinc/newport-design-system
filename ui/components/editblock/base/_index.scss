@@ -477,11 +477,12 @@
 
 .nds-edit-block_shortcards[aria-invalid="true"],
 .nds-edit-block_longcards[aria-invalid="true"] {
+  border-width: 2px;
   border-color: $color-border-error;
 }
 
 .nds-edit-block-fs-row[aria-invalid="true"] .nds-grid[role="button"] {
-  border: 1px solid $color-border-error;
+  border: 2px solid $color-border-error;
 }
 
 .nds-edit-block-fs-row {
@@ -489,6 +490,7 @@
 }
 
 .nds-editblock_inline .nds-edit-block_longcards form[aria-invalid="true"] {
+  border-width: 2px;
   border-color: $color-border-error;
 }
 
@@ -503,5 +505,6 @@
 }
 
 .nds-editblock-table-row[aria-invalid="true"] {
+  border-width: 2px;
   border-color: $color-border-error;
 }
