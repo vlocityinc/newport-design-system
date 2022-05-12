@@ -1,1 +1,1 @@
-export default 'Selection checkbox';
+export default 'Select element';

@@ -1,1 +1,1 @@
-export default 'Select a screen flow to display when the step is started';
+export default 'Select a flow to run when the step starts.';

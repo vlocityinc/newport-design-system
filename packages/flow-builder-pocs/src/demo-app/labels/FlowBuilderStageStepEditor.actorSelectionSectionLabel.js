@@ -1,1 +1,1 @@
-export default 'Assign Work To';
+export default 'Specify Assigned User';

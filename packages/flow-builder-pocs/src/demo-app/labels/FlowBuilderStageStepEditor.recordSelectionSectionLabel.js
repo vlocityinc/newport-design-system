@@ -1,1 +1,1 @@
-export default 'Configure How Step is Displayed';
+export default 'Specify Record Page';

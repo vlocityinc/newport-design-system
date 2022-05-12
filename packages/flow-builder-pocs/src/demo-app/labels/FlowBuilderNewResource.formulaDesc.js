@@ -1,1 +1,1 @@
-export default 'Calculates a value when the formula is used in the flow.';
+export default 'Calculate a value when the formula is used in the flow.';

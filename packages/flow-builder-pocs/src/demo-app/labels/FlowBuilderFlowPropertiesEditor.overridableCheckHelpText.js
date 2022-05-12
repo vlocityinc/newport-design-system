@@ -1,0 +1,1 @@
+export default 'Let admins create a linked, customized version of this flow. The customized flow override is linked to the original flow. An overridable original flow can have only one active flow override.';

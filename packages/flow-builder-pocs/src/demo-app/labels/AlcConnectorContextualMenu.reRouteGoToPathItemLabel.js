@@ -1,1 +1,1 @@
-export default 'Reroute GoTo another component';
+export default 'Reroute connector';

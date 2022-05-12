@@ -1,0 +1,1 @@
+export default '<p>Specify entry conditions to reduce the number of records that trigger the orchestration and the number of times the orchestration is executed. Minimizing unnecessary orchestration executions helps to conserve your org’s resources.</p>';

@@ -1,0 +1,1 @@
+export default 'Assign values to the target {0} collection. To display these recommendations to users, use an Assignment element to assign them to this flow’s outputRecommendations variable. They can be displayed by the Einstein Next Best Action Lightning page component and other presentation tools.';

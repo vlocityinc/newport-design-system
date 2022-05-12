@@ -1,0 +1,1 @@
+export default 'If this flow is a template, you can use it as a starting point when creating flows in Flow Builder. If you distribute the template via a managed package, subscribers can also create flows from the template.';

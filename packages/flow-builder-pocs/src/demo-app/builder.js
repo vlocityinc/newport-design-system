@@ -1,4 +1,5 @@
 import DemoBuilder from 'demo-builder';
+import FieldInput from 'demo-field-input';
 import configProviderService from 'lightning/configProvider';
 import { createElement } from 'lwc';
 
@@ -130,4 +131,11 @@ const serviceAPI = {
 
 configProviderService(serviceAPI);
 
-document.querySelector('#main').appendChild(createElement('demo-builder', { is: DemoBuilder }));
+const hash = window.location.hash;
+const componentTag = hash ? `demo-${hash.substring(1)}` : 'demo-builder';
+const mainChild =
+    componentTag === 'demo-field-input'
+        ? createElement('demo-field-input', { is: FieldInput })
+        : createElement('demo-builder', { is: DemoBuilder });
+
+document.querySelector('#main').appendChild(mainChild);

@@ -8,7 +8,8 @@
         "validityRangeUnderflow": "The number is too low.",
         "validityStepMismatch": "Your entry isn't a valid increment.",
         "validityTooLong": "Your entry is too long.",
-        "validityTooShort": "Your entry is too short."
+        "validityTooShort": "Your entry is too short.",
+        "validitySelectAtleastOne": "You must select at least one choice from this set."
     },
     "LightningCarousel": { "tabString": "Tab", "autoPlay": "Stop auto-play" },
     "LightningInputFile": {
@@ -43,6 +44,7 @@
         "moreActions": "More actions",
         "link": "Link",
         "image": "Image",
+        "video": "Video",
         "removeFormatting": "Remove formatting"
     },
     "LightningRichTextEditor": {
@@ -51,6 +53,7 @@
         "formatBody": "Format body",
         "alignText": "Align text",
         "insertContent": "Insert content",
+        "insertVideo": "Insert Video",
         "removeFormatting": "Remove formatting",
         "formatFont": "Format font family and size",
         "font": "Font",
@@ -86,7 +89,10 @@
         "label": "Selected Options:",
         "more": "+{0} more"
     },
-    "LightningProgressBar": { "progress": "Progress" },
+    "LightningProgressBar": {
+        "progress": "Progress",
+        "progressBar": "Progress Bar"
+    },
     "LightningClickToDial": {
         "enabled": "Click to dial",
         "disabled": "Click to dial disabled"
@@ -105,7 +111,9 @@
         "requiredError": "An option must be selected",
         "minRequiredErrorPlural": "At least {0} options must be selected",
         "minRequiredErrorSingular": "At least 1 option must be selected",
-        "requiredOptionError": "{0} must be selected"
+        "requiredOptionError": "{0} must be selected",
+        "movedOptionsSingular": "Item {0} moved to the list {1}",
+        "movedOptionsPlural": "Items {0} moved to the list {1}"
     },
     "LightningProgressIndicator": {
         "stageComplete": "Stage Complete",
@@ -190,11 +198,15 @@
         "today": "Today",
         "ariaLabelMonth": "Date picker: ",
         "selectDate": "Select a date",
+        "selectDateFor": "Select a date for {0}",
         "dateLabel": "Date",
         "timeLabel": "Time",
         "invalidDate": "Your entry does not match the allowed format {0}.",
         "rangeOverflow": "Value must be {0} or earlier.",
-        "rangeUnderflow": "Value must be {0} or later."
+        "rangeUnderflow": "Value must be {0} or later.",
+        "minRangeMessage": "Select a date after {0}",
+        "maxRangeMessage": "Select a date before {0}",
+        "minAndMaxRangeMessage": "Select a date between {0} and {1}"
     },
     "LightningPrimitiveCellActions": {
         "showActions": "Show actions",
@@ -222,7 +234,8 @@
     "LightningRecordForm": {
         "save": "Save",
         "cancel": "Cancel",
-        "loading": "Loading"
+        "loading": "Loading",
+        "edit": "Edit: {0}"
     },
     "LightningLookup": {
         "add": "Add",
@@ -235,6 +248,7 @@
         "messageWhenBadInputDefault": "Select an option from the picklist or remove the search term.",
         "panelHeaderMobile": "Relate {0} To",
         "recentObject": "Recent {0}",
+        "recentItems": "Recent Items",
         "resultsListHeaderMobile": "All Results for \"{0}\"",
         "search": "Search",
         "searchObjectsPlaceholder": "Search {0}...",
@@ -254,7 +268,9 @@
     "LightningMap": {
         "coordinatesTitle": "Markers",
         "openInGoogleMaps": "Open in Google Maps",
-        "iframeTitle": "Map Container"
+        "iframeTitle": "Map Container",
+        "titleWithAddress": "Map of {0}",
+        "defaultTitle": "Map of {0} Markers"
     },
     "LightningPrimitiveCoordinate": { "selected": "is currently selected" },
     "LightningButtonMenu": {
@@ -278,5 +294,22 @@
     },
     "LightningServiceCloudVoiceToolkitApi": {
         "missingNbaParams": "\"Missing parameters. Ensure 'recordId' and 'parameters' are specified.\""
-    }
+    },
+    "LightningOutputField": { "helptextAlternativeText": "{0} Help Info" },
+    "LightningInput": { "helptextAlternativeText": "{0} Help Info" },
+    "LightningRating": {
+        "readOnlyAssistiveText": "{0} out of {1}",
+        "selectRating": "Select a rating",
+        "rating": "Rating",
+        "oneStar": "1 Star",
+        "nStars": "{0} Stars"
+    },
+    "LightningModalBase": {
+        "cancelandclose": "Cancel and close",
+        "waitstate": "Processing"
+    },
+    "LightningInteractiveDialogBase": { "ok": "OK", "cancel": "Cancel" },
+    "LightningAlert": { "defaultLabel": "Alert" },
+    "LightningConfirm": { "defaultLabel": "Confirm" },
+    "LightningPrompt": { "defaultLabel": "Prompt" }
 }

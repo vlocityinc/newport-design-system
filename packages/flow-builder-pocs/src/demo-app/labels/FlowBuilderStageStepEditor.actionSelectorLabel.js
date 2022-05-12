@@ -1,1 +1,1 @@
-export default 'Workflow';
+export default 'Flow';

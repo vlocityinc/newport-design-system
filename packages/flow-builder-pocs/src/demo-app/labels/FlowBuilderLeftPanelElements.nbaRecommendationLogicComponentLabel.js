@@ -1,1 +1,1 @@
-export default 'Recommendation Logic';
+export default 'Logic';

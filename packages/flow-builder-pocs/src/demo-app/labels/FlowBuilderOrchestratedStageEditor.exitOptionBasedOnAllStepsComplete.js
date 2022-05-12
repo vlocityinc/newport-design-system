@@ -1,1 +1,1 @@
-export default 'Automatic. The Stage will be marked Complete when all of its required Steps are marked Complete.';
+export default 'When all steps have been marked Complete, the stage is marked Complete';

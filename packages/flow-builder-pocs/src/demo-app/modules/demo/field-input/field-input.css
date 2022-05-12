@@ -1,0 +1,11 @@
+builder_platform_interaction-field-input {
+    border: 1px dashed black;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}

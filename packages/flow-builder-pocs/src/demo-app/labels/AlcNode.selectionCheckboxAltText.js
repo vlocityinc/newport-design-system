@@ -1,1 +1,1 @@
-export default 'Select Element';
+export default 'Select element';

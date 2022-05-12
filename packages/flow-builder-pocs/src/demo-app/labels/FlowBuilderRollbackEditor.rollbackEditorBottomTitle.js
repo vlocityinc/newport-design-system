@@ -1,1 +1,1 @@
-export default 'How this element works';
+export default 'Learn about this element';

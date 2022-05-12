@@ -1,1 +1,1 @@
-export default 'Automatic. The Workflow decides when this step is complete';
+export default 'When the assigned user has completed the screen flow, the step is marked Complete';

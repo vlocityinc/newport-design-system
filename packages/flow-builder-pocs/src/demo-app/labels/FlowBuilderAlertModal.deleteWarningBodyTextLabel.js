@@ -1,1 +1,1 @@
-export default 'Deleting this element also deletes all the elements that come after it.';
+export default 'The remaining path has an End element or a Go To connector to another element. If you delete the selected element and keep the selected path, all of the elements located after the unselected paths merge together are deleted.';

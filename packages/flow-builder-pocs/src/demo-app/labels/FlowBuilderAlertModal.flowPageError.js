@@ -1,1 +1,1 @@
-export default 'This flow has an error. You might just need to save your flow and refresh the page.';
+export default 'Save your flow and refresh the page. If the problem persists, contact Salesforce Customer Support.';

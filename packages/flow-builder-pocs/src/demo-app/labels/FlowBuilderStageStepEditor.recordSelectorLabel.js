@@ -1,1 +1,1 @@
-export default 'Context Record ID';
+export default 'Record ID';

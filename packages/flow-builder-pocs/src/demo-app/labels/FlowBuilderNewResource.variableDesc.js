@@ -1,1 +1,1 @@
-export default 'Stores a value that can be changed throughout the flow.';
+export default 'Store a value that can be used and changed throughout the flow.';

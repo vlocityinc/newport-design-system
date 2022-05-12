@@ -1,0 +1,1 @@
+export default "Shows a filtered list of flow screen components that are supported for Screen Flows in Slack (Beta). To build a flow with more components that doesn't run in Slack, in the flow properties window, deselect Make available in Slack.";

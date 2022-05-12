@@ -1,1 +1,1 @@
-export default 'Enter value or search resources...';
+export default 'Enter record ID or search resources...';

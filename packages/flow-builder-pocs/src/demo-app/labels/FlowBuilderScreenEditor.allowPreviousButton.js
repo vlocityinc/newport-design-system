@@ -1,1 +1,1 @@
-export default 'Previous';
+export default 'Previous Button';

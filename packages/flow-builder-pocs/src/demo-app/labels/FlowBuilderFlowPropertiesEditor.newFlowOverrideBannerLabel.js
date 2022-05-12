@@ -1,0 +1,1 @@
+export default 'This creates a flow that overrides and is linked to the original flow. Then any requests execute the override, and not the original flow. Use an override to customize parts of an application in a managed package.';

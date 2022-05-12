@@ -1,1 +1,1 @@
-export default 'Choose an autolaunched flow that generates an output variable named isOrchestrationConditionMet that returns True to determine that this criteria passes.';
+export default 'An evaluation flow is an autolaunched flow with a defined output variable named isOrchestrationConditionMet that returns True when its criteria are met.';

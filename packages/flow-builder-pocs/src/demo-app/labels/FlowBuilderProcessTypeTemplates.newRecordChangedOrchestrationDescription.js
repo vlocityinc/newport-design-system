@@ -1,1 +1,1 @@
-export default 'Launches the orchestration when a record is created or updated.';
+export default 'Launches when a record is created or updated.';

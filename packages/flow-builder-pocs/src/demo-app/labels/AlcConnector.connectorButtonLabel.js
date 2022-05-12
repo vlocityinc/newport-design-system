@@ -1,1 +1,1 @@
-export default 'Add node';
+export default 'Add element';

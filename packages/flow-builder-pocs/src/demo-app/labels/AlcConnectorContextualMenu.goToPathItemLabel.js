@@ -1,1 +1,1 @@
-export default 'Add GoTo another component';
+export default 'Connect to element';

@@ -1,1 +1,1 @@
-export default 'Generates a set of choices by using a filtered list of records. ';
+export default 'Generate a set of choices using a filtered list of records.';

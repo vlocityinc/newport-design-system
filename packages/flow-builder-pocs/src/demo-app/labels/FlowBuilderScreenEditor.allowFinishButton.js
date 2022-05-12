@@ -1,1 +1,1 @@
-export default 'Next or Finish';
+export default 'Next or Finish Button';

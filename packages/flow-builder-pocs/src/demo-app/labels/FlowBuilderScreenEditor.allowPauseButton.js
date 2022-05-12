@@ -1,1 +1,1 @@
-export default 'Pause';
+export default 'Pause Button';

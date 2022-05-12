@@ -1,3 +1,7 @@
+:host {
+    display: inline-block;
+}
+
 .menu-fixed-height {
     /* TODO (W-10395435): This css will be updated in field input menu work item */
     display: flex;

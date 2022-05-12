@@ -1,1 +1,1 @@
-export default 'Manage a collection of steps';
+export default 'Manage a collection of steps.';

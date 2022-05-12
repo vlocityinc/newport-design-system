@@ -1,0 +1,1 @@
+export default 'Set the initial values for the record that triggers the test. If you convert the debug run to a test, the values are set from the debug run’s triggering record. After the test finishes, all transactions are rolled back, and record changes aren’t saved.';

@@ -1,1 +1,1 @@
-export default 'Start when the parent stage starts';
+export default 'When the stage starts, the step starts';

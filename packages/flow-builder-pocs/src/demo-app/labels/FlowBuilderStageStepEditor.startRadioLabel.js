@@ -1,1 +1,1 @@
-export default 'Triggering Event';
+export default 'Condition';

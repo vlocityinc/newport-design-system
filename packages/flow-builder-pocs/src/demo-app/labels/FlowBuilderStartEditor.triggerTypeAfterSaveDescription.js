@@ -1,1 +1,1 @@
-export default 'To build a richer flow that can access any record and perform actions, select this option. This flow can access most flow elements. The $Record global variable contains the Salesforce record that launches the flow.';
+export default 'Update any record and perform actions, like send an email. This more flexible flow runs <i>after</i> the record is saved to the database.';

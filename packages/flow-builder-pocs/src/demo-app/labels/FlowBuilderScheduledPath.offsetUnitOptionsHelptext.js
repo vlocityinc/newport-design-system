@@ -1,0 +1,1 @@
+export default 'Specify whether the path runs minutes, hours, or days before or after the selected time source. However, in some cases, a scheduled-path interview will not execute until after system resources become available.';

@@ -1,1 +1,1 @@
-export default 'To simply update the record that launches the flow, select this option to build a high-performance flow. Use an Update Records element to set the new field values.';
+export default 'Update fields on the record that triggers the flow to run. This high-performance flow runs <i>before</i> the record is saved to the database.';
