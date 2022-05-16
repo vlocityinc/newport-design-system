@@ -145,6 +145,7 @@
 
 .nds-read-only {
   .nds-slider__range {
+    filter: grayscale(1);
 
     &::-webkit-slider-thumb {
       background-color: $slider-color-background-disabled;
