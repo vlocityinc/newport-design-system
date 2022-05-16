@@ -264,6 +264,14 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
     }
     }
 
+.nds-read-only {
+  .nds-checkbox_custom-group {
+      .nds-img-item_select-container {
+        filter: grayscale(1);
+      }
+  }
+}
+
 .nds-checkbox_custom-group.nds-img-wrapper_cont label.nds-img_no-width-height {
   cursor: pointer;
 }

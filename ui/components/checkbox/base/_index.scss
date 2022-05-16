@@ -193,7 +193,7 @@
       +.nds-checkbox__label .nds-checkbox--faux {
         background-color: $color-background-input-disabled;
         border-color: $color-border-input-disabled;
-
+        filter: grayscale(1);
         &:after {
           border-color: $color-background-input;
         }
