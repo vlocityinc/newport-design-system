@@ -3,7 +3,7 @@ import deleteGoToPathItemLabel from '@salesforce/label/AlcConnectorContextualMen
 import goToPathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.goToPathItemLabel';
 import menuHeader from '@salesforce/label/AlcConnectorContextualMenu.menuHeader';
 import pasteMultiItemLabel from '@salesforce/label/AlcConnectorContextualMenu.pasteMultiItemLabel';
-import pasteOneItemLabel from '@salesforce/label/AlcConnectorContextualMenu.pasteOneActionItemLabel';
+import pasteOneItemLabel from '@salesforce/label/AlcConnectorContextualMenu.pasteOneItemLabel';
 import reRouteGoToPathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.reRouteGoToPathItemLabel';
 
 export const labelsMap = {
