@@ -717,6 +717,8 @@ export function createOrchestratedStageMetadataObject(
             actionType: step.action.actionType,
             inputParameters: inputParametersMetadata,
             description: step.description,
+            // @todo: hardcoded, fix in  W-11070622
+            stepSubtype: 'BackgroundStep',
             // Filter out any assignees on the UI side who don't actually have an assignee set
             assignees: step.assignees
                 .filter((assigneeUI) => assigneeUI?.assignee)
