@@ -364,7 +364,7 @@ export const componentInstanceScreenFieldsSelector = filteredElementsSelector(
 export const startSelector = (onlyGlobalAndSystemVariables) => {
     return !onlyGlobalAndSystemVariables
         ? writableElementsSelector
-        : filteredElementsSelector((element) => element.elementType === ELEMENT_TYPE.START_ELEMENT);
+        : filteredElementsSelector((element) => element.elementType === ELEMENT_TYPE.START_ELEMENT && element.object);
 };
 
 export const byElementTypeElementsSelector = (...elementType) =>

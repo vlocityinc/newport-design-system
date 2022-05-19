@@ -130,7 +130,7 @@ function addUncommittedElementsFromLocalStorage(elements) {
             // reopened  property editor: update the context object with value from current session
             elements[startElementIndex] = Object.assign({}, elements[startElementIndex], {
                 object: startElement?.object,
-                subtype: startElement?.object
+                subtype: startElement?.subtype
             });
         }
     }

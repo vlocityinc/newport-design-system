@@ -30,6 +30,7 @@ import {
     stringVariable,
     textTemplate1
 } from 'mock/storeData';
+import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import {
     byElementTypeElementsSelector,
@@ -927,17 +928,17 @@ describe('startSelector', () => {
         // @ts-ignore
         Store.resetStore();
     });
-    it('returns only the Start element when onlyGlobalAndSystemVariables is true', () => {
-        const result = startSelector(true)(flowWithAllElementsUIModel);
+    it('returns only the Start element when onlyGlobalAndSystemVariables is true and object selected', () => {
+        const result = startSelector(true)(recordTriggeredFlowUIModel);
 
         expect(result).toHaveLength(1);
         expect(result[0].elementType).toEqual('START_ELEMENT');
     });
     it('returns all writeable elements when onlyGlobalAndSystemVariables is false', () => {
-        const result = startSelector(false)(flowWithAllElementsUIModel);
+        const result = startSelector(false)(recordTriggeredFlowUIModel);
 
         const startElement = result.find((x) => x.elementType === 'START_ELEMENT');
-        expect(result.length).toBeGreaterThan(50);
-        expect(startElement).toBeUndefined();
+        expect(result.length).toBeGreaterThan(1);
+        expect(startElement).not.toBeNull();
     });
 });
