@@ -289,17 +289,11 @@ export default class ParameterItem extends LightningElement {
     }
 
     /**
-     * @typedef {Object} ParameterItemNewValue
-     * @property {string} value the new value
-     * @property {string} dataType the new value's data type
-     */
-    /**
      * dispatch UpdateParameterItemEvent
      *
-     * @param {ParameterItemNewValue} newValue event fired from the combobox
-     * @param value
-     * @param dataType
-     * @param {string} error error message
+     * @param {string} value - the new value
+     * @param {string} dataType - the new value's data type
+     * @param {string} error - error message
      */
     dispatchParameterEvent(value, dataType, error) {
         const itemUpdatedEvent = new UpdateParameterItemEvent(

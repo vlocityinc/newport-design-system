@@ -21,8 +21,8 @@ const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
  * b) there are no other data type mappings
  * c) each data type mappings has a row index (for validation)
  *
- * @param {DynamicTypeMappings} [dynamicTypeMappings]
  * @param {GenericType} [genericTypes]
+ * @param {DynamicTypeMappings} [dynamicTypeMappings]
  * @returns {DynamicTypeMapping}
  */
 function setDynamicTypeMappings(genericTypes = [], dynamicTypeMappings = []) {

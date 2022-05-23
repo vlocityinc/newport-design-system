@@ -98,9 +98,10 @@ const _getElementLocationRelativeToViewportCenter = (
  *
  * @param {Object[]} canvasElements - Array of canvas elements
  * @param {number} currentScale - Current scale of the inner canvas
- * @param {number[]} scaledOffsetsOnMarqueeStart - Scaled offsetLeft and offsetTop of the canvas when mouse down happens on the overlay
- * @param {number[]} marqueeStartPoint - Start point of the marquee box
- * @param {number[]} marqueeEndPoint - End point of the marquee box
+ * @param {Object} args
+ * @param {number[]} args.scaledOffsetsOnMarqueeStart - Scaled offsetLeft and offsetTop of the canvas when mouse down happens on the overlay
+ * @param {number[]} args.marqueeStartPoint - Start point of the marquee box
+ * @param {number[]} args.marqueeEndPoint - End point of the marquee box
  * @param {number[]} viewportCenterPoint - Center of the current canvas viewport ([canvasWidth / 2, canvasHeight / 2])
  * @returns {Object} Returns an object containing arrays of canvasElementGuidsToSelect and canvasElementGuidsToDeselect
  * @private

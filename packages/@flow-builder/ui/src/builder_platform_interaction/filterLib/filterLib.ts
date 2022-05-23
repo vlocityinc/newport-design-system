@@ -14,9 +14,7 @@ export * from './matchers';
  * Creates a filter function that finds objects containing the given pattern in
  * their label field.
  *
- * @param {string}
- *            pattern the substring to search for
- * @param pattern
+ * @param {string} pattern - the substring to search for
  * @returns {Function} a filter function that finds elements containing the given
  *         pattern in their label
  */
@@ -30,9 +28,7 @@ export const labelFilter = (pattern) => {
  * Creates a filter that finds resources (non canvas elements and elements in automatic handling mode) containing the
  * given pattern in their name.
  *
- * @param {string}
- *            pattern the substring to search for
- * @param pattern
+ * @param {string} pattern - the substring to search for
  * @returns {Function} a filter function that finds resources containing the given
  *         pattern in their label
  */
@@ -68,9 +64,7 @@ export const resourceFilter = (pattern) => {
 /**
  * Creates a filter that finds canvas elements containing the given pattern in their name.
  *
- * @param {string}
- *            pattern the substring to search for
- * @param pattern
+ * @param {string} pattern - the substring to search for
  * @returns {Function} a filter function that finds canvas elements containing the given
  *         pattern in their label
  */

@@ -276,8 +276,6 @@ export default class Canvas extends withKeyboardInteractions(LightningElement) {
 
     /**
      * Handling delete Node commmand when delete or backspace buttons are pressed
-     *
-     * @param {object} event - key down event
      */
     handleDeleteNodes = () => {
         if (canDelete(this.isCanvasMouseDown, this.isMarqueeModeOn, this.canvasConfig.disableDeleteElements)) {

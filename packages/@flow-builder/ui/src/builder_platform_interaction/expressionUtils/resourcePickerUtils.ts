@@ -7,11 +7,15 @@ import { ElementFilterConfig, getStoreElements } from './storeElementsFilter';
  * Retrieve fields of selected element
  *
  * @param {Function} populateParamTypesFn
- * @param {Object} parentItem the selected element
- * @param {Object} entityFields fields of selected
- * @param {boolean} [options.shouldBeWritable] true if fields must be writable
- * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
- * @param {Object}  [options.selectorConfig] if set, means that we need to select only element or element that contain fields which fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
+ * @param {Object} parentItem - the selected element
+ * @param {Object} entityFields - fields of selected
+ * @param {Object} options
+ * @param {boolean} options.allowSObjectFields
+ * @param {boolean} options.allowSObjectFieldsTraversal - true if sobject fields that are spannable can be traversed
+ * @param {boolean} options.allowElementFields
+ * @param {boolean} options.shouldBeWritable - true if fields must be writable
+ * @param {Object}  options.selectorConfig - if set, means that we need to select only element or element that contain fields which fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
+ * @param {boolean} options.showMultiPicklistGlobalVariables
  * @returns {MenuItem[]} array of alphabetized menu items
  */
 const getFieldMenuData = (

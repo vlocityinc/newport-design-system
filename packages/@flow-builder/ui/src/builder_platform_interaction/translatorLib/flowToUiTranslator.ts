@@ -98,9 +98,8 @@ function updateStoreConnectors(storeConnectors = [], newConnectors = []) {
  * Helper function to loop over storeElements and create devnameToGuid map and canvasElementsGuids array.
  * Also updates the location of the canvas elements if needed.
  *
- * @param {Object} elements element map with guid as key and element as value
- * @param {number} translateX amount by which elements need to be moved in the x-direction
- * @param {Object} properties flowProperties of a given flow
+ * @param {Object} elements - element map with guid as key and element as value
+ * @param {number} translateX - amount by which elements need to be moved in the x-direction
  * @returns {Object} Object containing nameToGuid map, CanvasElementGuids array and updatedElements
  */
 function updateCanvasElementGuidsAndNameToGuidMap(elements = {}, translateX = 0) {

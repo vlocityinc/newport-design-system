@@ -825,8 +825,7 @@ export function invokeFlowTestManager(attributes) {
  * @param cmpBody - Name of the body component to be created.
  * @param cmpFooter - Name of the footer component to be created.
  * @param popoverProps - Contains popover properties
- * @param createOrEditFlowTest- Callback after "Create New Test" or "Edit test" action is clicked
- * @param createOrEditFlowTest
+ * @param createOrEditFlowTest - Callback after "Create New Test" or "Edit test" action is clicked
  * @param handleLoadMoreTests - Callback that asks server for another page of tests. Used for infinite scroll
  * @param handleRunTests - Callback that executes selected tests
  * @param handleRunAndViewTestDetail - Callback that executes when "Run Test and View Test Detail" action is clicked

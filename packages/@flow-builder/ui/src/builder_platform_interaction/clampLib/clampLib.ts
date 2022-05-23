@@ -12,10 +12,8 @@
  * Adds the ellipsis character to the end of the label and sets the
  * innerText to the element and resets the height variable
  *
- * @param {string} label. Current label string that is being clamped
- * @param {string} character. The truncation character
- * @param label
- * @param character
+ * @param {string} label - current label string that is being clamped
+ * @param {string} character - the truncation character
  * @returns {string} Text string witth appended truncation character.
  */
 const textWithEllipsis = (label, character) => `${label}${character}`;
@@ -23,20 +21,16 @@ const textWithEllipsis = (label, character) => `${label}${character}`;
 /**
  * Sets the text content of the element to the label
  *
- * @param {HTMLElement} element. Element containing the text node to clamp.
- * @param {string} label. Current label string that is being clamped
- * @param element
- * @param label
+ * @param {HTMLElement} element - element containing the text node to clamp.
+ * @param {string} label - current label string that is being clamped
  */
 const setTextContent = (element, label) => (element.textContent = label);
 
 /**
  * Gets the max height of text block to truncate to.
  *
- * @param {number} lines. The number of lines to clamp to.
- * @param {number} lineHeight. The lineheight of the text.
- * @param lines
- * @param lineHeight
+ * @param {number} lines - the number of lines to clamp to.
+ * @param {number} lineHeight - the lineheight of the text.
  * @returns {number} Returns the total height of the text in px.
  */
 const getMaxHeight = (lines, lineHeight) => lines * lineHeight;
@@ -44,10 +38,8 @@ const getMaxHeight = (lines, lineHeight) => lines * lineHeight;
 /**
  * Gets the strings to possibly remove during truncation
  *
- * @param {string} label. What is left of truncated label
- * @param {string} splitChar. Character to split string on.
- * @param label
- * @param splitChar
+ * @param {string} label - what is left of truncated label
+ * @param {string} splitChar - character to split string on.
  * @returns {Array<string>} Returns an array of pieces of delimited text.
  */
 const getChunks = (label, splitChar) => label.split(splitChar);
@@ -55,8 +47,7 @@ const getChunks = (label, splitChar) => label.split(splitChar);
 /**
  * Gets the next string to use as a delimiter.
  *
- * @param {Array<string>} deimiters. Array of delimiters left to use;
- * @param delimiters
+ * @param {Array<string>} delimiters - array of delimiters left to use;
  * @returns {string} Returns the next delimiter or an empty string to split the label by.
  */
 const getNextDelimiter = (delimiters) => {
@@ -73,13 +64,13 @@ const getNextDelimiter = (delimiters) => {
 /**
  * Clamps a text node.
  *
- * @param {HTMLElement} element. Element containing the text node to clamp.
- * @param {Array<string>} delimiers. Array of string delimiters to split on. Default to array with space string.
- * @param {string} label. The text label to apply or clamp
- * @param {number} lineHeight. The lineheight of the text. Default 20px.
- * @param {number} lines. The number of lines to clamp to. Default 2 lines.
- * @param {string} truncationChar. The character to add to thte end of the truncated string. Default to ...
- * @param element
+ * @param {HTMLElement} element - element containing the text node to clamp.
+ * @param args
+ * @param {Array<string>} args.delimiters - array of string delimiters to split on. Default to array with space string.
+ * @param {string} args.label - the text label to apply or clamp
+ * @param {number} args.lineHeight - the lineheight of the text. Default 20px.
+ * @param {number} args.lines - the number of lines to clamp to. Default 2 lines.
+ * @param {string} args.truncationChar - the character to add to thte end of the truncated string. Default to ...
  */
 export const clamp = (element, { delimiters = [], label = '', lineHeight = 20, lines = 2, truncationChar = '...' }) => {
     if (!label) {

@@ -79,10 +79,9 @@ export const getOffsetValuesOnPan = ({ scaledOffsetsOnPanStart, mouseDownPoint, 
  * Checks if the user is trying to delete, i.e. checks if the delete shortcut is used during the event or not. The user
  * should not be able to delete when the mouse is down on the canvas or when the marquee mode is turned on.
  *
- * @param {Object} event - Any event that needs to be checked for deletion
  * @param {boolean} isCanvasMouseDown - Checks whether mouse is down on the canvas or not
  * @param {boolean} isMarqueeModeOn - Checks whether the marquee mode has been turned on or not
- * @param disableDeleteElements
+ * @param {boolean} disableDeleteElements - Checks whether elements can be deleted or not
  * @returns {boolean}  Returns true if deletion shortcut is used during the event
  */
 export const canDelete = (isCanvasMouseDown, isMarqueeModeOn, disableDeleteElements) => {

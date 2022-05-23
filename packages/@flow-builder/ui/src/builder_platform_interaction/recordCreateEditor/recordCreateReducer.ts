@@ -55,9 +55,10 @@ const hasRhsValueButNoLhs = (assignmentToUpdate, leftHandSide) => {
 /**
  * Update input assignments
  *
- * @param {Object }state - current state
- * @param {number} index - input assignment index
- * @param {Object} value - input assignment value
+ * @param {Object} state - current state
+ * @param {Ojbect} args
+ * @param {number} args.index - input assignment index
+ * @param {Object} args.value - input assignment value
  * @returns {Object} updated state
  */
 const updateRecordRecordFieldAssignment = (state, { index, value }) => {
@@ -116,11 +117,12 @@ const recordStoreOptionAndWayToStoreChanged = (state, { getFirstRecordOnly, wayT
  * Handle specific property change
  *
  * @param {Object} state - current element state
- * @param {string} propertyName - property to be updated
- * @param {boolean} ignoreValidate - true to bypass validation
- * @param {string} error - null if none
- * @param {string} oldValue - current value
- * @param {string} value - new value
+ * @param {Object} args
+ * @param {string} args.propertyName - property to be updated
+ * @param {boolean} args.ignoreValidate - true to bypass validation
+ * @param {string} args.error - null if none
+ * @param {string} args.oldValue - current value
+ * @param {string} args.value - new value
  * @param {boolean} isAutomaticOutputHandlingSupported - true if current process supports automatic output false otherwise
  * @returns {Object} updated element state
  */

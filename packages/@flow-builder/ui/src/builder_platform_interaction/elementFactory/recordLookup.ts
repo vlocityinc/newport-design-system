@@ -268,10 +268,10 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
 /**
  * @param recordLookup
  * @param recordLookup.element
- * @param newGuid
- * @param newName
  * @param recordLookup.newGuid
  * @param recordLookup.newName
+ * @param newGuid
+ * @param newName
  */
 export function createDuplicateRecordLookup(recordLookup, newGuid, newName) {
     const newRecordLookup = createRecordLookup(recordLookup);

@@ -406,7 +406,6 @@ function asStart(element: NodeModel): UI.Start {
  * Creates connectors for a parent's children and their descendents
  *
  * @param storeState - The free form state
- * @param elements - The elements
  * @param flowModel
  * @param loopElement  - The loop element
  * @param ancestorNext - The loop's ancestor next
@@ -463,11 +462,10 @@ function convertLoopElement(
  *
  * @param alcElementsMap - The alc elements
  * @param source - The source guid
- * @param target- The target guid
- * @param target
+ * @param target - The target guid
  * @param storeState - The ffc store
  * @param type - The connector type
- * @param isGoTo
+ * @param isGoTo - whether the connector is a goto
  */
 function addConnector(
     alcElementsMap: UI.Elements,

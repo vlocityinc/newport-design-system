@@ -61,8 +61,7 @@ export function sliceMenu(menuData, size) {
 /**
  * Computes a length of a grouped menu as if it was flat.
  *
- * @param {Array} - grouped or flat menu
- * @param menu
+ * @param {Array} menu - grouped or flat menu
  * @returns {number} - flattened menu length
  */
 export function getMenuLength(menu) {
@@ -90,9 +89,8 @@ export function setSelectableMenuItem(menu, index, callback) {
 /**
  * Finds a container and an index in the container of a selectable menu item, which is the closest to a menu item at a specified flat index.
  *
- * @param {Arrray} menu - grouped or flat menu
- * @param (number} index - index of a target menu item in a flattened menu
- * @param index
+ * @param {Array} menu - grouped or flat menu
+ * @param {number} index - index of a target menu item in a flattened menu
  * @returns {{container: Array, containerIndex: number}}
  */
 function findMenuItemContainer(menu, index) {

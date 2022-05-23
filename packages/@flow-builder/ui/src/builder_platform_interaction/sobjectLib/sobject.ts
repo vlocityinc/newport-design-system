@@ -212,8 +212,7 @@ export const getFieldsForEntity = (entityName) => {
 /**
  * Get the field with given api name (case-insensitive)
  *
- * @param {Object} map of properties (apiName -> field)
- * @param fields
+ * @param {Object} fields - map of properties (apiName -> field)
  * @param {string} fieldName
  * @returns {Object|undefined} the field with the api name or undefined if there is no field with this api name
  */

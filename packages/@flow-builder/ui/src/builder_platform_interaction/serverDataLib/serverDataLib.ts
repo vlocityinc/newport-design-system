@@ -167,15 +167,15 @@ export function getAuraCallback(fn) {
 /**
  * Makes the call to get server data and executes callback if component is still connected.
  *
- * @param {string} serverActionType type of action to be executed
- * @param {Function} callback function to be executed after getting response from server
- * @param {Object} params any parameters to make server call
- * @param storable.background
- * @param {Object} storable set to true if results need to be cached, Background set to true if request needs to be run as background action
- * @param storable.storable
- * @param storable.disableErrorModal
+ * @param {string} serverActionType - type of action to be executed
+ * @param {Function} callback - function to be executed after getting response from server
+ * @param {Object} params - any parameters to make server call
+ * @param {Object} storable
+ * @param {boolean} storable.background
+ * @param {boolean} storable.storable - set to true if results need to be cached, Background set to true if request needs to be run as background action
+ * @param {boolean} storable.disableErrorModal
  * @param storable.messageForErrorModal
- * @returns {Function} setComponentDisconnected this should be called in disconnected callback of a component
+ * @returns {Function} setComponentDisconnected - this should be called in disconnected callback of a component
  */
 export function fetch(
     serverActionType,
@@ -275,16 +275,12 @@ const fetchOnceCache = {};
 /**
  * Makes the call to get server data. Ensure call is only made once if successful.
  *
- * @param {string}
- *            serverActionType type of action to be executed
- * @param {Object}
- *            params any parameters to make server call
- * @param {{background: (boolean|undefined), disableErrorModal: (boolean|undefined), messageForErrorModal: (string|undefined)}} optionalParams
- *            background need to be set to true if request needs to be run as a background action
- *            disableErrorModal need to be set to true to disable the default error modal panel
- *            messageForErrorModal the message to use instead of the default error message
- * @param serverActionType
- * @param params
+ * @param {string} serverActionType - type of action to be executed
+ * @param {Object} params - any parameters to make server call
+ * @param {Object} args
+ * @param {boolean} args.background - background need to be set to true if request needs to be run as a background action
+ * @param {boolean} args.disableErrorModal - disableErrorModal need to be set to true to disable the default error modal panel
+ * @param {(string|undefined)} args.messageForErrorModal - the message to use instead of the default error message
  * @returns {Promise} Promise object represents the return value from the server
  *         side action
  */

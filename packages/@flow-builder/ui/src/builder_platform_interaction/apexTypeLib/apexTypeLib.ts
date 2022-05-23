@@ -90,8 +90,7 @@ export const getPropertiesForClass = (clazz: string) => {
 /**
  * Get the apex property with given api name (case-insensitive)
  *
- * @param {Object} map of properties (apiName -> field)
- * @param properties
+ * @param {Object} properties - map of properties (apiName -> field)
  * @param {string} propertyName
  * @returns {Object|undefined} the property with the api name or undefined if there is no property with this api name
  */

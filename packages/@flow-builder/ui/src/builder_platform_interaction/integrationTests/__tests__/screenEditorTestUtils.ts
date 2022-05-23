@@ -200,7 +200,6 @@ export class ScreenEditorAutomaticFieldsPaletteTestComponent extends TestCompone
     /**
      * Returns the array of fields links
      *
-     * @param {string} label - object's field label
      * @returns {Array<HTMLAnchorElement>} array of fields anchors
      */
     public getFieldsAnchorElements() {
@@ -255,7 +254,6 @@ export class ScreenCanvasTestComponent extends TestComponent<ScreenCanvas> {
     /**
      * Get the first ScreenEditorHighlight that has a screen field element that matches the predicate
      *
-     * @param canvasElement
      * @param predicate
      */
     public getScreenEditorHighlight(

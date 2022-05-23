@@ -32,10 +32,9 @@ const getNodeOutputsPropertyName = (elementType) => {
 /**
  * update parameter item
  *
- * @param {Object} state the original node
- * @param {Object} param the parameter that we want to update (see UpdateParameterItemEvent.detail)
- * @param {string} the property name for the parameters field
- * @param propertyName
+ * @param {Object} state - the original node
+ * @param {Object} param - the parameter that we want to update (see UpdateParameterItemEvent.detail)
+ * @param {string} propertyName - the property name for the parameters field
  * @returns {Object} the updated node
  */
 export const updateParameterItemByProperty = (state, param, propertyName) => {

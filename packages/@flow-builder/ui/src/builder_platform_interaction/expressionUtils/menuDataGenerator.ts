@@ -115,20 +115,21 @@ function getSubText(dataType, label, { subtype, isSystemGeneratedOutput, element
 /**
  * Create one menu item
  *
- * @param {string} type the type of the menu item
- * @param {string} text the text of the menu item
- * @param {string} subText  the subtext of the menu item
- * @param {string} displayText the display text of the menu item
- * @param {string} iconName the icon of the menu item
- * @param {string} iconAlternativeText alternativeText for the icon of the menu item
- * @param {string} value the value of the menu item
- * @param {Object} parent the parent flow element of the second level item in combobox shape
- * @param {boolean} isSystemVariableField true for fields if the root parent is $Record
- * @param {boolean} haveSystemVariableFields true for spannable sobject fields whose root parent is $Record
- * @param {string} dataType the data type for the menu item. eg: Date, Currency, SObject
- * @param {string} subtype the object type when data type is SObject otherwise null. eg: Account
- * @param {boolean} isCollection true if is a collection
- * @param {Function} optional function to be called to retrieve child items for the item
+ * @param {Object} args
+ * @param {string} args.type - the type of the menu item
+ * @param {string} args.text - the text of the menu item
+ * @param {string} args.subText - the subtext of the menu item
+ * @param {string} args.displayText - the display text of the menu item
+ * @param {string} args.iconName - the icon of the menu item
+ * @param {string} args.iconAlternativeText - alternativeText for the icon of the menu item
+ * @param {string} args.value - the value of the menu item
+ * @param {Object} args.parent - the parent flow element of the second level item in combobox shape
+ * @param {boolean} args.isSystemVariableField - true for fields if the root parent is $Record
+ * @param {boolean} args.haveSystemVariableFields - true for spannable sobject fields whose root parent is $Record
+ * @param {string} args.dataType - the data type for the menu item. eg: Date, Currency, SObject
+ * @param {string} args.subtype - the object type when data type is SObject otherwise null. eg: Account
+ * @param {boolean} args.isCollection - true if is a collection
+ * @param {Function} args.getChildrenItems - optional function to be called to retrieve child items for the item
  * @returns {MenuItem}  the generated menu item
  */
 const createMenuItem = ({
@@ -202,11 +203,10 @@ function getFieldSubText(parent, field) {
 /**
  * Get display text a field
  *
- * @param {Object} [parent] Parent object if field is a second level item
- * @param {string} fieldNameOrRelationshipName the field name or the relationship name
- * @param {string} [specificObjectName] the specific object name if field is polymorphic
- * @param {boolean} true to show the display text as field reference, otherwise return field name
- * @param showAsFieldReference
+ * @param {Object} parent - Parent object if field is a second level item
+ * @param {string} fieldNameOrRelationshipName - the field name or the relationship name
+ * @param {string} specificObjectName - the specific object name if field is polymorphic
+ * @param {boolean} showAsFieldReference - true to show the display text as field reference, otherwise return field name
  * @returns {string} the display text for the field
  */
 function getFieldDisplayText(parent, fieldNameOrRelationshipName, specificObjectName, showAsFieldReference) {
@@ -487,14 +487,13 @@ export function getMenuItemForField(
  * @param {Object} field Field for which to get the menu items
  * @param {Object} [parent] Parent object if field is a second level item
  * @param {Object} options
- * @param {Object} [options]
- * @param {boolean} [options.showAsFieldReference] true to show the display text as field reference on record variable, otherwise show the field's apiName
- * @param {boolean} [options.showSubText] true to show the sub text
- * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
- * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
- * @param {boolean} [options.allowSObjectFields] true to allow SObject traversal (1st level : SObject fields)
- * @param {boolean} [options.allowApexTypeFields] true to allow Apex type traversal (1st level : apex type fields)
- * @param options.allowElementFields
+ * @param {boolean} options.showAsFieldReference - true to show the display text as field reference on record variable, otherwise show the field's apiName
+ * @param {boolean} options.showSubText - true to show the sub text
+ * @param {boolean} options.allowSObjectFieldsTraversal - true if sobject fields that are spannable can be traversed
+ * @param {boolean} options.allowApexTypeFieldsTraversal - true if apex type fields can be traversed
+ * @param {boolean} options.allowSObjectFields - true to allow SObject traversal (1st level : SObject fields)
+ * @param {boolean} options.allowApexTypeFields - true to allow Apex type traversal (1st level : apex type fields)
+ * @param {boolean} options.allowElementFields
  * @returns {MenuItem[]} menu items for the field (possibly more than one for SObject fields that are spannable)
  */
 export function getMenuItemsForField(
@@ -754,12 +753,12 @@ export const getFlowOrchestrationVariableComboboxItem = () => {
 /**
  * Menu data for system and/or global variables.
  *
- * @param {boolean} showSystemVariables   should include the system variable category
- * @param {boolean} showGlobalVariables   should include the global variable categories
- * @param {boolean} forFormula   if we are retrieving menu data for formula editor
- * @param shouldBeWritable
- * @param {boolean} showFlowSystemVariable   should include the $Flow system variable
- * @param {boolean} hideFlowSystemVariable   should hide the $Flow system variable
+ * @param {Object} args
+ * @param {boolean} args.showSystemVariables - should include the system variable category
+ * @param {boolean} args.showGlobalVariables - should include the global variable categories
+ * @param {boolean} args.forFormula - if we are retrieving menu data for formula editor
+ * @param {boolean} args.shouldBeWritable
+ * @param {boolean} args.showFlowSystemVariable - should include the $Flow system variable
  * @returns {MenuData} menu data showing system variables and/or global variables
  */
 export const getSystemAndGlobalVariableMenuData = ({

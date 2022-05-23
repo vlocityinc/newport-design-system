@@ -14,11 +14,9 @@ import { MERGE_WARNING_TYPE, ParameterListRowItem } from 'builder_platform_inter
 /**
  * Get the warnings for the ParameterList component
  *
- * @param {ParameterItemWithWarnings[]} inputs the input parameters
- * @param {ParameterItemWithWarnings[]} outputs the output parameters
- * @param inputAssignments
- * @param outputAssignments
- * @param {LABELS} labels the labels
+ * @param {ParameterItemWithWarnings[]} inputAssignments - inputs the input parameters
+ * @param {ParameterItemWithWarnings[]} outputAssignments - outputs the output parameters
+ * @param {LABELS} labels - the labels
  * @returns {ParameterListWarnings} the warnings
  */
 export function getParameterListWarnings(
@@ -45,10 +43,8 @@ export function getParameterListWarnings(
 /**
  * Get the ParameterItem warning configuration corresponding to the given warning codes
  *
- * @param {MERGE_WARNING_TYPE[]} the warning codes
- * @param {Object} the labels
- * @param warnings
- * @param labels
+ * @param {MERGE_WARNING_TYPE[]} warnings - the warning codes
+ * @param {Object} labels - the labels
  * @returns {ParameterItemWarning} the ParameterItem warning configuration
  */
 export function getParameterItemWarning(warnings, labels) {

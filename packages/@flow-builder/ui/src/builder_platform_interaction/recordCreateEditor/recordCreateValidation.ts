@@ -32,11 +32,11 @@ export const recordCreateValidation = new Validation();
  * @param {Object} nodeElement the element that needs to be validated
  * @param {boolean} nodeElement.getFirstRecordOnly - current element's getFirstRecordOnly
  * @param {Object} nodeElement.object - current element's object
- * @param {Object[]} nodeElement.inputAssignments - current element's inputAssignments
- * @param {string} wayToStoreFields can be sObjectVariable or separateVariables
  * @param nodeElement.objectIndex
+ * @param {Object[]} nodeElement.inputAssignments - current element's inputAssignments
  * @param nodeElement.inputReferenceIndex
  * @param nodeElement.assignRecordIdToReferenceIndex
+ * @param wayToStoreFields
  * @returns {Object} the overridden rules
  */
 export const getRules = (

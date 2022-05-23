@@ -78,7 +78,6 @@ export function fetchDetailsForInvocableAction(
  *
  * @param {*} parameters - Screen field parameters
  * @param {*} dynamicTypeMappings - A mapping of generic types to concrete types
- * @param {*} genericTypes  - Generic types
  */
 export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
     if (!dynamicTypeMappings || dynamicTypeMappings.length === 0) {

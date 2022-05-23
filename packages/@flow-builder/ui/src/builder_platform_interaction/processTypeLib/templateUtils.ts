@@ -40,7 +40,6 @@ const createFlowEntryTilesForTemplate = ({ EnumOrID, Label, Description, Process
 });
 
 /**
- * @param data an array of FlowVersionDescriptor
  * @param templates
  * @returns (Template[]) an array of Template
  */

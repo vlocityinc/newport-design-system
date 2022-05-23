@@ -234,7 +234,6 @@ const specialCaseAllowed = (param, flag) => {
  *
  * @param {operatorRule} rule
  * @param {string} elementType
- * @param {boolean} true if rule is allowed, false if not
  */
 const ruleAllowedInElementEditor = (rule, elementType) => {
     return !rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementType]);
@@ -243,9 +242,8 @@ const ruleAllowedInElementEditor = (rule, elementType) => {
 /**
  * Adds param to map under type
  *
- * @param {Object.map<string, Object.set<param>>} map   dataType/elementType/subtype to parameters relating to that type
- * @param {param} param   Param to be stringified and added to the map
- * @param {string} type   dataTypeLib.FLOW_DATA_TYPE, flowMetadata.ELEMENT_TYPE, or sObject api name
+ * @param {Object.map<string, Object.set<param>>} map - dataType/elementType/subtype to parameters relating to that type
+ * @param {param} param - Param to be stringified and added to the map
  * @param types
  */
 const addParamToTypeMap = (map, param, types) => {
@@ -263,7 +261,6 @@ const addParamToTypeMap = (map, param, types) => {
 /**
  * Turns the passed in map into an allowedParamMap (see above typedef)
  *
- * @param {Object.map<string, Object.set<param>>} map   dataType/elementType/subtype to parameters relating to that type
  * @param stringifiedParamTypeMap
  */
 const convertToAllowedParamMap = (stringifiedParamTypeMap) => {

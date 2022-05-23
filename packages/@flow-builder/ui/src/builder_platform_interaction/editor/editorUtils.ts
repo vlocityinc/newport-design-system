@@ -869,9 +869,8 @@ export const setErrorMessage = (modal, message) => {
 /**
  * Whether user can run & debug without VAD.
  *
- * @param flow run in mode
- * @param runInMode
- * @param status
+ * @param runInMode - flow run in mode
+ * @param status - flow status
  */
 export const canRunDebugWith = (runInMode, status) => {
     return (

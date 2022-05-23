@@ -72,8 +72,8 @@ export const getStartElementFromState = ({ elements }: { elements: UI.Elements }
 /**
  * Fetches the Start element from the local variable or the store (in case one is not present in local variable)
  *
- * @param elements.elements
- * @param elements All elements in the flow
+ * @param {Object} elements
+ * @param elements.elements - All elements in the flow
  * @returns start element
  */
 export const getStartElement = ({ elements } = Store.getStore().getCurrentState()): UI.Start | undefined =>

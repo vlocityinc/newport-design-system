@@ -14,9 +14,7 @@ const { removePrefixFromCustomIcon } = customIconUtils;
  * are grouped by element category so that they can more easily be placed into
  * sections.
  *
- * @param {Object}
- *            elements list of all the elements
- * @param elements
+ * @param {Object} elements - list of all the elements
  * @param palette
  * @returns {Object} a mapping of element type to a list of
  *          lightning-tree-grid-items
@@ -133,9 +131,7 @@ const mutateElements = (elements, palette) =>
  * Combines elements into their respective groupings in a form that is usable by
  * lightning-tree-grid.
  *
- * @param {Object}
- *            elements list of all the elements
- * @param elements
+ * @param {Object} elements - list of all the elements
  * @param palette
  * @returns {Array} collection of lightning-tree-grid items
  */

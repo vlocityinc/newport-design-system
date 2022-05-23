@@ -186,10 +186,13 @@ function createScreen(name, fieldsProducer, config = {}) {
  *
  * @param {string} name - The name of the screen field
  * @param {string} typeName - The type of the screen field (see screen field types in screen-editor-utils)
- * @param {string} value - The defaultValue. If null is passed, a random default value will be generated. Pass SCREEN_NO_DEF_VALUE
- *   if the defaultValue should not be set.
+ * @param {string} value - The defaultValue. If null is passed, a random default value will be generated. Pass SCREEN_NO_DEF_VALUE if the defaultValue should not be set.
  * @param {object} config - {required = false, validation = true, defaultValueType = static, hydrateValues = true,
- * includeNonMDValues = true, valueType = STATIC, dataType = undefined, createChoices = false}
+ * @param {boolean} config.required
+ * @param {boolean} config.validation
+ * @param {boolean} config.defaultValueType
+ * @param {boolean} config.hydrateValues
+ * @param {boolean} config.dataType
  * @param {boolean} storeOutputAutomatically - Whether or not this field uses automatic output. Defaulted to false
  * @returns {object} - The screen field
  */

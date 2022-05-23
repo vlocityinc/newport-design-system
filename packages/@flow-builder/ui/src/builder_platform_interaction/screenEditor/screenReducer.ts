@@ -122,7 +122,6 @@ const findParentByAncestorPositions = (screen, ancestorPositions) => {
 /**
  * Update the visibilityRule condition logic
  *
- * @param {*} screen - The screen.
  * @param state
  * @param {*} field - The field
  * @param {*} event - The UpdateConditionLogicEvent

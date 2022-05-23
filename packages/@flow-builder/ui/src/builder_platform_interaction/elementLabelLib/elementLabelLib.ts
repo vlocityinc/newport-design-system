@@ -120,18 +120,10 @@ export function getElementTypeLabel({ elementType }) {
  * Get resource category label for the element (if possible, considered as a resource that can be used in a merge field)
  *
  * @param {Object} resource
- * @param {string}
- *            resource.elementType the element type of the element
- * @param {string}
- *            resource.dataType the datatype of the element
- * @param {boolean}
- *            [resource.isCollection=false] whether or not that element is a collection
- * @param {boolean}
- *            [resource.isSystemGeneratedOutput=false] whether or not that element is an anonymous output
- * @param resource.elementType
- * @param resource.dataType
- * @param resource.isCollection
- * @param resource.isSystemGeneratedOutput
+ * @param {string} resource.elementType - the element type of the element
+ * @param {string} resource.dataType - the datatype of the element
+ * @param {boolean} [resource.isCollection=false] - whether or not that element is a collection
+ * @param {boolean} [resource.isSystemGeneratedOutput=false] - whether or not that element is an anonymous output
  */
 export function getResourceCategory({
     elementType,
@@ -186,21 +178,11 @@ export function getResourceCategory({
  * Get resource type label for the element (if possible, considered as a resource that can be used in a merge field)
  *
  * @param {Object} resource
- * @param {string}
- *            resource.elementType the element type of the element
- * @param {string}
- *            resource.dataType the datatype of the element
- * @param {boolean}
- *            [resource.isCollection=false] whether or not that element is a collection
- * @param {boolean}
- *            resource.storeOutputAutomatically whether or not that element is in automatic output mode
- * @param {boolean}
- *            resource.isSystemGeneratedOutput whether or not it's an anonymous output
- * @param resource.elementType
- * @param resource.dataType
- * @param resource.isCollection
- * @param resource.storeOutputAutomatically
- * @param resource.isSystemGeneratedOutput
+ * @param {string} resource.elementType - the element type of the element
+ * @param {string} resource.dataType - the datatype of the element
+ * @param {boolean} [resource.isCollection=false] - whether or not that element is a collection
+ * @param {boolean} resource.storeOutputAutomatically - whether or not that element is in automatic output mode
+ * @param {boolean} resource.isSystemGeneratedOutput - whether or not it's an anonymous output
  * @returns {string} the type label for this element
  */
 export function getResourceTypeLabel({

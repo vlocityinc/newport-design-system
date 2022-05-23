@@ -42,9 +42,6 @@ export default class ProcessTypesTemplates extends LightningElement {
         this.updateTiles();
     }
 
-    /**
-     * @param newValue the selected process type to fetch the templates
-     */
     @api
     get processType() {
         return this.state.processType;

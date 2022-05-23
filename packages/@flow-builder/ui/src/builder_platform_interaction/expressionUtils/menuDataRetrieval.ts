@@ -279,10 +279,10 @@ type FilteredData = {
 /**
  * Filter the given menu data elements depending on the given allow param types and config
  *
- * @param menuDataElements the menu data elements to filter
- * @param allowedParamTypes the allowed param types (rule defined)
- * @param config the configuration specials
- * @param additionalFilter optional additional filter to apply
+ * @param menuDataElements - the menu data elements to filter
+ * @param config - the configuration specials
+ * @param allowedParamTypes - the allowed param types (rule defined)
+ * @param additionalFilter - optional additional filter to apply
  * @returns filtered menu data containing menu elements, start element and system/global variables
  */
 export function filterMenuData(

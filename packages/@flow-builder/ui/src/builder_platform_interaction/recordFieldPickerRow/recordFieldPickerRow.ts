@@ -26,7 +26,7 @@ export default class RecordFieldPickerRow extends LightningElement {
     _entityFields;
 
     /**
-     * @param {string} value the record entity name
+     * @param {string} name - the record entity name
      */
     set recordEntityName(name) {
         if (!this._entityFields && this._recordEntityName !== name) {

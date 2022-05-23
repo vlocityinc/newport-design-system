@@ -27,9 +27,8 @@ export default class RichLabel extends LightningElement {
      * Set the label. Label can contain strong html tags and include
      * placeholders.
      *
-     * @param {string}
-     *            value the label. Label can contain strong html tags and
-     *            include placeholders. (ex : 'record {0}')
+     * @param {string} value - the label. Label can contain strong html tags and
+     *                         include placeholders. (ex : 'record {0}')
      */
     set label(value) {
         this.state.label = value;
@@ -38,9 +37,8 @@ export default class RichLabel extends LightningElement {
     /**
      * The arguments for the label. Arguments will be interpreted as plain text, not HTML.
      *
-     * @param {string|string[]}
-     *            values the arguments. '{0}' in the label will be replaced by
-     *            values[0].
+     * @param {string|string[]} values - the arguments. '{0}' in the label will be replaced by
+     *                                   values[0].
      */
     set args(values) {
         if (Array.isArray(values)) {

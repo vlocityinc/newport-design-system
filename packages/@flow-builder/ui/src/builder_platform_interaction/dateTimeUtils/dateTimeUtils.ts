@@ -177,8 +177,7 @@ export const formatDateTime = (literal, isDateTime = false) => {
  * Formats a UTC datetime into the user's default locale format
  * Use this when you want to transform a UTC datetime into the user's locale format
  *
- * @param {Date} datetime to format
- * @param date
+ * @param {Date} date - datetime to format
  * @returns {string} datetime text in user's locale format.
  */
 export const formatDateTimeUTC = (date) => {
@@ -189,8 +188,7 @@ export const formatDateTimeUTC = (date) => {
  * Formats a UTC datetime into the user's default locale format and extracts the day of the week
  * Use this when you want to get the day of the week from a UTC datetime, according to the user's locale
  *
- * @param {Date} datetime to format
- * @param date
+ * @param {Date} date - datetime to format
  * @returns {string} text containing the abbreviated version of the day of the week, according to the
  * user's locale format.
  */

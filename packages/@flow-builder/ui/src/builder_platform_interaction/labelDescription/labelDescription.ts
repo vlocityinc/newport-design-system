@@ -285,10 +285,9 @@ export default class LabelDescription extends LightningElement {
      * We need to remove requiredness (our only constraint) and report validity
      * Then put the constraint back to its prevous state
      *
-     * @param {string} selector of the lightning-input
-     * @param element
-     * @param {string} error the current error of the element
-     * @param {boolean} currentRequiredState of the lightning-input
+     * @param {string} element - selector of the lightning-input
+     * @param {string} error - the current error of the element
+     * @param {boolean} currentRequiredState - of the lightning-input
      * @memberof LabelDescription
      */
     resetError(element, error, currentRequiredState) {

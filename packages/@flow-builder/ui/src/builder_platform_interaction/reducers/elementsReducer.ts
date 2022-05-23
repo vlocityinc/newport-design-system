@@ -399,8 +399,7 @@ function _updateRecordLookup(state, guid, element) {
  * Helper function to delete all selected canvas elements and to update the affected canvas elements with the new connector count
  *
  * @param {Object} elements - current state of elements in the store
- * @param {string[]} originalGUIDs - GUIDs of canvas elements that need to be deleted
- * @param originalElements
+ * @param {Object[]} originalElements - canvas elements that need to be deleted
  * @param {Object[]} connectorsToDelete - All connector objects that need to be deleted
  * @returns {Object} new state after reduction
  * @private

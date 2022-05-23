@@ -81,7 +81,7 @@ export default class SortOptionItem extends LightningElement {
     }
 
     /**
-     * @param ref sobject or apex class reference
+     * @param fields - ref sobject or apex class reference
      */
     set selectedFields(fields: string[]) {
         this._selectedFields = fields || [];

@@ -79,9 +79,7 @@ let context: Context = {
  * Sets the application context. This should be done before the editor is
  * rendered.
  *
- * @param {Object}
- *            obj the application context
- * @param obj
+ * @param {Context} obj - the application context
  */
 export function setContext(obj: Context) {
     context = obj;

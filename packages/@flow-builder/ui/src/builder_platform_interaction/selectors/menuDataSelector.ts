@@ -236,10 +236,8 @@ export const getCanContainSObjectElements = (elements: UI.StringKeyedMap<any>, r
 /**
  * Checks if a single element is or can contain Sobject element
  *
- * @param {Object} an element
- * @param {Object} a set of additional requirements on the SObject (e.g. isCollection, createable/queryable/deleteable/queryable, ...)
- * @param element
- * @param retrieveOptions
+ * @param {Object} element - an element
+ * @param {Object} retrieveOptions - a set of additional requirements on the SObject (e.g. isCollection, createable/queryable/deleteable/queryable, ...)
  */
 const canElementContainSObject = (element, retrieveOptions?: RetrieveOptions) => {
     const filterOnCanContainSObjectElement = getCanContainSObjectElements({ element }, retrieveOptions);
@@ -269,10 +267,8 @@ const getCanContainElements = (elements: UI.StringKeyedMap<any>, retrieveOptions
 /**
  * Checks if a single element is or can contain an element corresponding to the retrieve options
  *
- * @param {Object} an element
- * @param {Object} a requirements on the element (e.g. isCollection, dataType, createable/queryable/deleteable/queryable, ...)
- * @param element
- * @param retrieveOptions
+ * @param {Object} element - an element
+ * @param {Object} retrieveOptions
  */
 export const canElementContain = (element, retrieveOptions: RetrieveOptions) => {
     if (retrieveOptions && (retrieveOptions.dataType === FLOW_DATA_TYPE.SOBJECT.value || retrieveOptions.entityName)) {

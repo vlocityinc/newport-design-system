@@ -301,8 +301,6 @@ export default class Node extends LightningElement {
 
     /**
      * Handles the mouse down event on node div and fires off a node mousedown event.
-     *
-     * @param {object} event - node mousedown event
      */
     handleMouseDown = () => {
         const mouseDownEvent = new NodeMouseDownEvent(this.node.guid);

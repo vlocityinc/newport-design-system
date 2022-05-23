@@ -125,9 +125,8 @@ function getParametersForEventType(eventTypeApiName, paramType, callback) {
  * Check if the event type parameters exists in the cache, if yes call the callback
  * Only goes to the server if the parameters for that event type are not cached
  *
- * @param {string} eventTypeApiName Event Type Api Name
- * @param {string} paramType Parameter type to fetch. Either input or output.
- * @param {Function} callback function to call once the server call is complete
+ * @param {string} eventTypeApiName - Event Type Api Name
+ * @param {string} paramType - Parameter type to fetch. Either input or output.
  * @returns {boolean} returns true if event type in cache, false otherwise
  */
 function isEventTypeParamsInCache(eventTypeApiName, paramType) {

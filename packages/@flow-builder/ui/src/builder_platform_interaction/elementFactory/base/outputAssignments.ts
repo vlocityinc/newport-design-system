@@ -29,7 +29,6 @@ export const createOutputAssignment = (outputAssignment = {}, sObject) => {
  * Factory function for creating output assignment metadata object used in record lookup and recordChoiceSet
  *
  * @param {Object} outputAssignment
- * @param {string} sObject
  */
 export const createOutputAssignmentMetadataObject = (outputAssignment) => {
     if (!outputAssignment) {

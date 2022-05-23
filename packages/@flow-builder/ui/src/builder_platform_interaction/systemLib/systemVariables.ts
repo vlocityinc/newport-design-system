@@ -64,8 +64,8 @@ export const setSystemVariables = (data) => {
  * get the $Record__Prior system variable if available.
  * $Record__Prior is only available for Record Change trigger and the trigger fires on an Update or a Create/Update
  *
- * @param elements.elements
- * @param elements Elements in the flow
+ * @param {Object} elements
+ * @param elements.elements - elements in the flow
  * @returns $Record__Prior system variable
  */
 const getRecordPriorSystemVariable = ({ elements }) => {
