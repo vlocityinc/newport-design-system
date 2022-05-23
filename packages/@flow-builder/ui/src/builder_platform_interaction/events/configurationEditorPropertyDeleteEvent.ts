@@ -5,7 +5,6 @@ const eventName = 'configuration_editor_input_value_deleted';
  * notify invocable action editor regarding to
  * remove ("toggle off") a specific input parameter
  *
- * @export
  * @class ConfigurationEditorPropertyDeleteEvent
  */
 export class ConfigurationEditorPropertyDeleteEvent extends CustomEvent<any> {

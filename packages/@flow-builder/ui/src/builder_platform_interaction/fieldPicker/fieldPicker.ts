@@ -55,7 +55,7 @@ export default class FieldPicker extends LightningElement {
     /**
      * The combobox item that represents the value selected
      *
-     * @Param {itemOrDisplayText} the new item object (ComboboxItem) or the value of the text to display
+     * @param {itemOrDisplayText} the new item object (ComboboxItem) or the value of the text to display
      */
     set value(itemOrDisplayText: UI.ComboboxItem | string) {
         if (isObject(itemOrDisplayText)) {

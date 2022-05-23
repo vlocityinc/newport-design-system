@@ -79,10 +79,6 @@ const fieldLevelHelp = {
 
 /**
  * Variable/constant property editor for Flow Builder
- *
- * @ScrumTeam Process UI
- * @author Alejandro Lopez
- * @since 216
  */
 export default class VariableConstantEditor extends LightningElement {
     _ferovUniqueId = generateGuid();

@@ -61,8 +61,7 @@ function hasProcessTypeFeature(processType, feature) {
  * Unsupported - The processType does not support Automatic output handling
  * Required - The ProcessType only supports Automatic output handling
  *
- * @param processType
- * @params {string} processType
+ * @param {string} processType
  * @returns {FLOW_AUTOMATIC_OUTPUT_HANDLING} Supported, Unsupported or Required
  */
 export const getProcessTypeAutomaticOutPutHandlingSupport = (processType) => {
@@ -80,7 +79,6 @@ export const getProcessTypeAutomaticOutPutHandlingSupport = (processType) => {
  * supports transaction controlled actions.
  *
  * @param processType
- * @params processType
  * @returns True, False
  */
 export const getProcessTypeTransactionControlledActionsSupport = (processType) => {

@@ -33,10 +33,6 @@ const { format } = commonUtils;
 const { logInteraction } = loggingUtils;
 /**
  * Toolbar component for flow builder.
- *
- * @ScrumTeam Process UI
- * @author Ankush Bansal
- * @since 214
  */
 export default class Toolbar extends LightningElement {
     static delegatesFocus = true;

@@ -7,10 +7,6 @@ export type StoreReducer = (storeState: UI.StoreState, action: object) => UI.Sto
 
 /**
  * Library for UI state management
- *
- * @ScrumTeam Process UI
- * @author Ankush Bansal
- * @since 214
  */
 
 /**

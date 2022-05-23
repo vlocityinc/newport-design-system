@@ -1,10 +1,6 @@
 // @ts-nocheck
 /**
  * Library for using the flow operator rules
- *
- * @ScrumTeam Process UI Runtime
- * @author cnastasa
- * @since 214
  */
 
 /**

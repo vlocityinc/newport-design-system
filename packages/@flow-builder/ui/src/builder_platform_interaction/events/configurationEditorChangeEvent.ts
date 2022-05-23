@@ -3,7 +3,6 @@ const eventName = 'configuration_editor_input_value_changed';
 /**
  * This event can be used by partner teams to notify invocable action editor regarding a new value of an input parameter
  *
- * @export
  * @class ConfigurationEditorChangeEvent
  */
 export class ConfigurationEditorChangeEvent extends CustomEvent<any> {

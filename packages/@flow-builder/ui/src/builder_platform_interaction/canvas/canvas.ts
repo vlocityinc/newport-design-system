@@ -32,9 +32,6 @@ const { DeleteNodesCommand, FocusOnDockingPanelCommand } = commands;
 
 /**
  * Canvas component for flow builder.
- *
- * @ScrumTeam Process UI
- * @since 214
  */
 
 const canvas = 'canvas';

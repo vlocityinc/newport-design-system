@@ -5,10 +5,6 @@ import { LABELS } from './flowStatusLabels';
 
 /**
  * Flow status component (active, inactive, etc...)
- *
- * @ScrumTeam Process UI
- * @author Aaron Liebling
- * @since 218
  */
 export default class FlowStatus extends LightningElement {
     @api flowStatus;

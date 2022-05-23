@@ -19,7 +19,7 @@ const SELECTORS = {
 export default class LabelDescription extends LightningElement {
     labels = LABELS;
 
-    /** @track decorators */
+    /** track decorators */
     @track
     state = {
         label: { value: '', error: null },
@@ -30,7 +30,7 @@ export default class LabelDescription extends LightningElement {
     @track
     showErrorMessageIfBlank = LABELS.cannotBeBlank;
 
-    /** @api decorators */
+    /** api decorators */
     @api
     hideLabel;
     // TODO: Would prefer to use showLabel = true, but cannot due to public attributes not being able to have true as a default value.

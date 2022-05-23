@@ -29,9 +29,6 @@ const { logInteraction } = loggingUtils;
 
 /**
  * Node component for flow builder.
- *
- * @ScrumTeam Process UI
- * @since 214
  */
 
 const { NONE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;

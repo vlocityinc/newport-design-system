@@ -42,10 +42,6 @@ const { format } = commonUtils;
 
 /**
  * Flow Properties property editor for Flow Builder
- *
- * @ScrumTeam Process UI
- * @author Aniko van der Lee
- * @since 216
  */
 
 const TOGGLE_CLASS_SHOW = 'show-advanced-button';

@@ -6,10 +6,6 @@ const { format } = commonUtils;
 
 /**
  * Assignment Item List component for flow builder.
- *
- * @ScrumTeam Process UI
- * @author hcockburn
- * @since 214
  */
 export default class List extends LightningElement {
     @api items = [];

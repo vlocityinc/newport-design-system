@@ -6,10 +6,6 @@ import { api, LightningElement } from 'lwc';
 
 /**
  * Assignment Item List Row component for flow builder.
- *
- * @ScrumTeam Process UI
- * @author hcockburn
- * @since 214
  */
 export default class Row extends LightningElement {
     @api itemIndex;

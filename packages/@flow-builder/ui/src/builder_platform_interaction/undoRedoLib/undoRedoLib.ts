@@ -1,7 +1,6 @@
 // @ts-nocheck
 /**
- * @owner: Process UI Design Time team.
- * @design-doc: https://salesforce.quip.com/Ax4HAoPvhmAb
+ * Design doc: https://salesforce.quip.com/Ax4HAoPvhmAb
  */
 // Internal State Holder variables for past, present and future state of the app
 let past = [];

@@ -9,10 +9,6 @@ import { textTemplateReducer } from './textTemplateReducer';
 
 /**
  * Text template property editor for Flow Builder
- *
- * @ScrumTeam Process UI
- * @author cnastasa
- * @since 218
  */
 export default class TextTemplateEditor extends LightningElement {
     _rteId = generateGuid();
