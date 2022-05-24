@@ -33,6 +33,20 @@ export default class FieldInputMenuSection extends withKeyboardInteractions(Ligh
     }
 
     /**
+     * Indicate whether the item is expanded. Should be null if the item is not a parent.
+     *
+     * @returns value for aria-expanded
+     */
+    get expanded(): boolean | null {
+        return this.item.hasNext ? false : null;
+    }
+
+    get description() {
+        // TODO (W-11154930): replace with actual tooltip description
+        return 'description for tooltip';
+    }
+
+    /**
      * Fires an event to display tooltip
      *
      * @param event - Event fired when mouse hovers row and info icon

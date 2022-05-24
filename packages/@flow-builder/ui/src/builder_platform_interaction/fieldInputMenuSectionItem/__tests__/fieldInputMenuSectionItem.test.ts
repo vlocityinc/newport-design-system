@@ -311,4 +311,16 @@ describe('Field Input Menu Section Item Tests', () => {
         tooltip = menu.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FIELD_INPUT_RICH_HELP_POPUP);
         expect(tooltip).toBeNull();
     });
+
+    it('Should have aria-expanded="false" if item has chevron icon', async () => {
+        const menu = await createComponentUnderTest(defaultSectionItem);
+        const div = menu.shadowRoot.querySelector(selectors.row);
+        expect(div.hasAttribute('aria-expanded')).toBeTruthy();
+    });
+
+    it('Should not have aria-expanded if item does not have chevron icon', async () => {
+        const menu = await createComponentUnderTest(defaultSectionItemNoNext);
+        const div = menu.shadowRoot.querySelector(selectors.row);
+        expect(div.hasAttribute('aria-expanded')).toBeFalsy();
+    });
 });

@@ -9,7 +9,7 @@ const selectors = {
     popupSource: 'lightning-popup-source'
 };
 
-// TODO (W-10395435): popupData needs to be passed down from the parent component.
+// TODO (W-11154930): popupData needs to be passed down from the parent component.
 // Also need to implement focus/blur functionality to show and hide the popup on arrow or tab key.
 export default class FieldInputRichHelpPopup extends withKeyboardInteractions(LightningElement) {
     @api
