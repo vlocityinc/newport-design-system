@@ -1,6 +1,8 @@
+import { scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
 import { hasNext } from 'builder_platform_interaction/fieldInputUtils';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { LightningElement, track } from 'lwc';
+import { LABELS } from './fieldInputLabels';
 
 const selectors = { inputBox: 'builder_platform_interaction-field-input-box' };
 
@@ -9,7 +11,9 @@ const ALL_CONTEXT_ITEM: FieldInput.MenuContextItem = undefined;
 export default class FieldInput extends LightningElement {
     static delegatesFocus = true;
 
+    labels = LABELS;
     dom = lwcUtils.createDomProxy(this, selectors);
+    hasPendingHideMenu = false;
 
     @track
     contextItems: FieldInput.MenuContextItem[] = [ALL_CONTEXT_ITEM];
@@ -23,8 +27,8 @@ export default class FieldInput extends LightningElement {
     // TODO: use labels
     inputBoxConfig: FieldInput.MenuInputBoxConfig = {
         labels: {
-            inputLabel: 'Value',
-            inputPlaceholder: 'Search resources ...'
+            inputLabel: this.labels.inputLabel,
+            inputPlaceholder: this.labels.inputPlaceholder
         }
     };
 
@@ -51,10 +55,6 @@ export default class FieldInput extends LightningElement {
         this.selectedItem = undefined;
     }
 
-    handleToggleMenu() {
-        this.isMenuOpened = !this.isMenuOpened;
-    }
-
     handleShowMenu(event) {
         this.isMenuOpened = event.detail.show;
     }
@@ -62,8 +62,19 @@ export default class FieldInput extends LightningElement {
     renderedCallback(): void {
         this.dom.inputBox.focus();
     }
-}
 
-//   menuItem.hasNext =
-//         (!shouldDisableHasNext(dataType, traversalConfig) && supportsTraversalOfElement(resource)) ||
-//         (isComplexType(dataType) && !resource.isCollection);
+    handleFocusIn() {
+        this.isMenuOpened = true;
+        this.hasPendingHideMenu = false;
+    }
+
+    handleInputBoxFocusOut() {
+        this.hasPendingHideMenu = true;
+
+        scheduleTask(() => {
+            if (this.hasPendingHideMenu) {
+                this.isMenuOpened = false;
+            }
+        });
+    }
+}

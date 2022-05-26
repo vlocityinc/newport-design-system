@@ -62,12 +62,16 @@ export default class FieldInputBox extends withKeyboardInteractions(LightningEle
     }
 
     handleEnterKey = () => {
-        this.dispatchEvent(newCustomEvent('showmenu', { show: true }));
+        this.dispatchShowMenu(true);
     };
 
     handleEscape = () => {
-        this.dispatchEvent(newCustomEvent('showmenu', { show: false }));
+        this.dispatchShowMenu(false);
     };
+
+    dispatchShowMenu(show: boolean) {
+        this.dispatchEvent(newCustomEvent('showmenu', { show }));
+    }
 
     handleChange(evt) {
         this.searchText = evt.target.value;
@@ -85,11 +89,7 @@ export default class FieldInputBox extends withKeyboardInteractions(LightningEle
     }
 
     handleInputFocus() {
-        this.dispatchEvent(newCustomEvent('showmenu', { show: true }));
-    }
-
-    toggleMenu() {
-        this.dispatchEvent(newCustomEvent('togglemenu'));
+        this.dispatchShowMenu(true);
     }
 
     unselectItem() {
