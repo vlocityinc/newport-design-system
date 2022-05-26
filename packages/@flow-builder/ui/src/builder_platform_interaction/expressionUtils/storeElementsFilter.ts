@@ -19,7 +19,7 @@ export type ElementFilterConfig = {
     choices?: boolean;
     staticChoiceGuids?: UI.Guid[];
     dataType?: string;
-    allowsApexCollAnonymousAutoOutput?: boolean;
+    allowsApexCallAnonymousAutoOutput?: boolean;
     onlyGlobalAndSystemVariables?: boolean;
 };
 

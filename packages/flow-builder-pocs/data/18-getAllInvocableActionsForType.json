@@ -1,0 +1,1063 @@
+{
+    "actions": [
+        {
+            "id": "42;a",
+            "state": "SUCCESS",
+            "returnValue": [
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "activateSessionPermSet",
+                    "description": "Activates a session-based permission set for the running user.",
+                    "configurationEditor": null,
+                    "label": "Activate Session-Based Permission Set",
+                    "type": "activateSessionPermSet",
+                    "category": "Users",
+                    "genericTypes": [],
+                    "durableId": "activateSessionPermSet-activateSessionPermSet"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "CollaborationGroup.NewGroupMember",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "Add Member",
+                    "type": "quickAction",
+                    "category": "Group",
+                    "genericTypes": [],
+                    "durableId": "quickAction-CollaborationGroup.NewGroupMember"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "CollaborationGroup.NewGroupRecord",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "Add Record",
+                    "type": "quickAction",
+                    "category": "Group",
+                    "genericTypes": [],
+                    "durableId": "quickAction-CollaborationGroup.NewGroupRecord"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "invocableApplyLeadAssignmentRules",
+                    "description": "Apply Lead Assignment Rules",
+                    "configurationEditor": null,
+                    "label": "Apply Lead Assignment Rules",
+                    "type": "invocableApplyLeadAssignmentRules",
+                    "category": "Sales leads",
+                    "genericTypes": [],
+                    "durableId": "invocableApplyLeadAssignmentRules-invocableApplyLeadAssignmentRules"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "Task.Defer",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "Change Date",
+                    "type": "quickAction",
+                    "category": "Task",
+                    "genericTypes": [],
+                    "durableId": "quickAction-Task.Defer"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "Task.UpdatePriority",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "Change Priority",
+                    "type": "quickAction",
+                    "category": "Task",
+                    "genericTypes": [],
+                    "durableId": "quickAction-Task.UpdatePriority"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "Task.UpdateStatus",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "Change Status",
+                    "type": "quickAction",
+                    "category": "Task",
+                    "genericTypes": [],
+                    "durableId": "quickAction-Task.UpdateStatus"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "contactRequestAction",
+                    "description": "Request contact from support on behalf of the customer. Use a screen to let customers provide their contact details and describe their issue.",
+                    "configurationEditor": null,
+                    "label": "Create Customer Contact Request",
+                    "type": "contactRequestAction",
+                    "category": null,
+                    "genericTypes": [],
+                    "durableId": "contactRequestAction-contactRequestAction"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "FeedItem.NewTaskFromFeedItem",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "Create New Task",
+                    "type": "quickAction",
+                    "category": "Feed Item",
+                    "genericTypes": [],
+                    "durableId": "quickAction-FeedItem.NewTaskFromFeedItem"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "deactivateSessionPermSet",
+                    "description": "Deactivate a session-based permission set for the running user.",
+                    "configurationEditor": null,
+                    "label": "Deactivate Session-Based Permission Set",
+                    "type": "deactivateSessionPermSet",
+                    "category": "Users",
+                    "genericTypes": [],
+                    "durableId": "deactivateSessionPermSet-deactivateSessionPermSet"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "Task.EditDescription",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "Edit Comments",
+                    "type": "quickAction",
+                    "category": "Task",
+                    "genericTypes": [],
+                    "durableId": "quickAction-Task.EditDescription"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "Case.LogACall",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "Log a Call",
+                    "type": "quickAction",
+                    "category": "Case",
+                    "genericTypes": [],
+                    "durableId": "quickAction-Case.LogACall"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "LogACall",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "Log a Call",
+                    "type": "quickAction",
+                    "category": "Task",
+                    "genericTypes": [],
+                    "durableId": "quickAction-LogACall"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "manageRecurringSchedules",
+                    "description": "The caller for this InvocableAction typically is the cron job. The purpose of this invocable action is to receive a set of scheduler records and based on the processType, the business logic will identify the associated handler and delegate the request to that handler",
+                    "configurationEditor": null,
+                    "label": "Manage Recurring Schedule Records",
+                    "type": "manageRecurringSchedules",
+                    "category": "Manage Recurring Schedule Records",
+                    "genericTypes": [],
+                    "durableId": "manageRecurringSchedules-manageRecurringSchedules"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "NewAccount",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Account",
+                    "type": "quickAction",
+                    "category": "Account",
+                    "genericTypes": [],
+                    "durableId": "quickAction-NewAccount"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "NewCase",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Case",
+                    "type": "quickAction",
+                    "category": "Case",
+                    "genericTypes": [],
+                    "durableId": "quickAction-NewCase"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "Case.NewChildCase",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Child Case",
+                    "type": "quickAction",
+                    "category": "Case",
+                    "genericTypes": [],
+                    "durableId": "quickAction-Case.NewChildCase"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "NewContact",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Contact",
+                    "type": "quickAction",
+                    "category": "Contact",
+                    "genericTypes": [],
+                    "durableId": "quickAction-NewContact"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "NewEvent",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Event",
+                    "type": "quickAction",
+                    "category": "Event",
+                    "genericTypes": [],
+                    "durableId": "quickAction-NewEvent"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "NewGroup",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Group",
+                    "type": "quickAction",
+                    "category": "Group",
+                    "genericTypes": [],
+                    "durableId": "quickAction-NewGroup"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "NewLead",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Lead",
+                    "type": "quickAction",
+                    "category": "Lead",
+                    "genericTypes": [],
+                    "durableId": "quickAction-NewLead"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "NewNote",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Note",
+                    "type": "quickAction",
+                    "category": "Note",
+                    "genericTypes": [],
+                    "durableId": "quickAction-NewNote"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "NewOpportunity",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Opportunity",
+                    "type": "quickAction",
+                    "category": "Opportunity",
+                    "genericTypes": [],
+                    "durableId": "quickAction-NewOpportunity"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": false,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "NewTask",
+                    "description": null,
+                    "configurationEditor": null,
+                    "label": "New Task",
+                    "type": "quickAction",
+                    "category": "Task",
+                    "genericTypes": [],
+                    "durableId": "quickAction-NewTask"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "chatterPost",
+                    "description": "Post to the feed for a specific record, user, or Chatter group.",
+                    "configurationEditor": null,
+                    "label": "Post to Chatter",
+                    "type": "chatterPost",
+                    "category": "Messaging",
+                    "genericTypes": [],
+                    "durableId": "chatterPost-chatterPost"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "refreshDecisionTable",
+                    "description": "Refresh Decision Table",
+                    "configurationEditor": null,
+                    "label": "Refresh Decision Table",
+                    "type": "refreshDecisionTable",
+                    "category": "Decision Table",
+                    "genericTypes": [],
+                    "durableId": "refreshDecisionTable-refreshDecisionTable"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "customNotificationAction",
+                    "description": "Send custom notifications to recipients through desktop or mobile",
+                    "configurationEditor": null,
+                    "label": "Send Custom Notification",
+                    "type": "customNotificationAction",
+                    "category": "Notifications",
+                    "genericTypes": [],
+                    "durableId": "customNotificationAction-customNotificationAction"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "emailSimple",
+                    "description": "Send an email where you specify the subject, body, and recipients.",
+                    "configurationEditor": null,
+                    "label": "Send Email",
+                    "type": "emailSimple",
+                    "category": "Email",
+                    "genericTypes": [],
+                    "durableId": "emailSimple-emailSimple"
+                },
+                {
+                    "iconId": null,
+                    "isStandard": true,
+                    "allowsTransactionControl": false,
+                    "iconName": null,
+                    "name": "submit",
+                    "description": "Submit a Salesforce record for approval.",
+                    "configurationEditor": null,
+                    "label": "Submit for Approval",
+                    "type": "submit",
+                    "category": "Approvals",
+                    "genericTypes": [],
+                    "durableId": "submit-submit"
+                }
+            ],
+            "error": []
+        }
+    ],
+    "context": {
+        "mode": "PRODDEBUG",
+        "app": "builder_platform_interaction:flowBuilder",
+        "pathPrefix": "",
+        "fwuid": "xxGTkOcaST9igEx4yxgfKA",
+        "mlr": 1,
+        "uad": 1,
+        "descriptorUids": {},
+        "loaded": {
+            "APPLICATION@markup://builder_platform_interaction:flowBuilder": "ROqHexnGx_plnQd2OMfL6A"
+        },
+        "globalValueProviders": [
+            {
+                "type": "$Global",
+                "values": {
+                    "density": {
+                        "writable": true,
+                        "defaultValue": null,
+                        "value": "VIEW_ONE"
+                    }
+                }
+            }
+        ],
+        "enableAccessChecks": true,
+        "dns": "c",
+        "rns": ["devopsimpkg11"],
+        "lairn": [],
+        "laerc": [],
+        "lav": "56",
+        "csp": 1,
+        "mna": {
+            "lightning": "interop"
+        },
+        "lff": {
+            "ENABLE_MIXED_SHADOW_MODE": false
+        },
+        "arse": 1,
+        "acaf": 1,
+        "services": [
+            "markup://lightning:configProvider",
+            "markup://force:salesforceScopedModuleResolver",
+            "markup://force:ldsEngineCreator",
+            "markup://instrumentation:locatorService"
+        ]
+    },
+    "perf": {
+        "version": "1.0.0",
+        "calltree": [
+            {
+                "name": "http-request",
+                "attachment": {},
+                "startTime": 1652949813226,
+                "ownTime": 6,
+                "childTime": 253,
+                "totalTime": 259,
+                "children": [
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949813231,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "1$serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController/ACTION$getAllInvocableActionsForType",
+                            "id": "42;a"
+                        },
+                        "startTime": 1652949813238,
+                        "ownTime": 1,
+                        "childTime": 236,
+                        "totalTime": 238,
+                        "children": [
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "SELECT Metadata, Label FROM ProcessTypeDefinition WHERE Name = 'Flow' ORDER BY Label LIMIT 2000 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949813238,
+                                "ownTime": 3,
+                                "childTime": 17,
+                                "totalTime": 20,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813240,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cPackageExtension.get_base_packages(?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813245,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cPackageExtension.get_extension_members(?)}"
+                                        },
+                                        "startTime": 1652949813247,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813253,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813255,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "SELECT Metadata, Label FROM FlowTriggerTypeDefinition WHERE Name = 'None' ORDER BY Label LIMIT 2000 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949813259,
+                                "ownTime": 4,
+                                "childTime": 26,
+                                "totalTime": 31,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813260,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813262,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813265,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813267,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813270,
+                                        "ownTime": 3,
+                                        "childTime": 0,
+                                        "totalTime": 3
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cPackageExtension.get_base_packages(?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813276,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cPackageExtension.get_extension_members(?)}"
+                                        },
+                                        "startTime": 1652949813278,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813285,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813286,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "SELECT IsStandard, Type, AllowsTransactionControl, Description, Category, Label, Id, DurableId, ConfigurationEditor, Name, IconName FROM InvocableAction WHERE Type in ('apex','chatterPost','emailAlert','emailSimple','externalService','quickAction','submit','thanks','thunderResponse','sfdcOutputAction','invokeOrchOutputFlow','deactivateSessionPermSet','activateSessionPermSet','component','liveMessageNotification','skillsBasedRouting','addSkillRequirements','routeWork','insightFeedback','publishKnowledgeArticles','assignTargetToSalesCadence','removeTargetFromSalesCadence','modifyCadenceTrackerAttributes','invocableApplyLeadAssignmentRules','pauseSalesCadenceTracker','resumeSalesCadenceTracker','changeSalesCadenceTargetAssignee','sendSalesCadenceEvent','selectTemplateForSalesCadenceStepTracker','assignKnowledgeArticles','createDraftFromOnlineKnowledgeArticle','archiveKnowledgeArticles','restoreKnowledgeArticleVersion','customNotificationAction','contactRequestAction','saveAppointment','saveAppointmentInvitationDetails','deleteKnowledgeArticles','submitKnowledgeArticleForTranslation','cartToOrderAction','orderToCartAction','activateOrderAction','refreshActualsCalculation','cancelAppointment','recalculateForecast','getBenefitAndCalculateRebateAmount','upsertCustomRebatePayout','calculateRebateAmountAndUpsertPayout','processRebatesBatchCalculationJob','generateRebatePayoutPeriods','calculateAdvancedAccountForecast','processAccountForecasts','editQuipDocument','attachQuipDocumentToRecord','createQuipDocument','createQuipFolder','addUsersToQuipDocument','removeUsersFromQuipDocument','copyQuipDocument','addMessageToQuipDocument','addQuipDocumentToFolder','removeQuipDocumentFromFolder','createQuipChat','addMessageToQuipChat','addUsersToQuipChat','removeUsersFromQuipChat','copyQuipContent','lockQuipDocument','lockQuipSection','quipLivePaste','exportQuipDocumentToPdf','priceCart','cartInitiateAsyncStep','cartCompleteAsyncStep','cancelCartAsyncOperation','createCart','addCartItem','deleteCart','cancelFulfillmentOrderItem','createFulfillmentOrder','createInvoiceFromFulfillmentOrder','createFulfillmentOrders','createOrderPaymentSummary','cancelOrderItemSummariesPreview','cancelOrderItemSummariesSubmit','createCreditMemoOrderSummary','ensureFundsOrderSummaryAsync','ensureRefundsOrderSummaryAsync','returnOrderItemSummariesPreview','returnOrderItemSummariesSubmit','createReturnOrder','createOrderSummary','adjustOrderItemSummariesPreview','adjustOrderItemSummariesSubmit','addOrderItemSummarySubmit','changeFinancePeriodStatus','applyPayment','paymentSale','createInvoiceFromOrder','ociTransferReservation','ociReleaseReservation','ociGetAvailability','ociFulfillReservation','ociCreateReservation','orderRoutingRankByAverageDistance','orderRoutingFindRoutesWithFewestSplits','orderRoutingFindRoutesWithFewestSplitsUsingOCI','holdFulfillmentOrderCapacity','releaseHeldFulfillmentOrderCapacity','confirmHeldFulfillmentOrderCapacity','getFulfillmentOrderCapacityValues','print','checkoutSessionAction','checkCartInventoryAction','calcCartTaxesAction','calcCartShipmentAction','calcCartPromotionsAction','marketingEmail','updateCheckoutSessionStateAction','massUpdateAccountForecast','massUpdateSalesAgreement','decisionTableAction','decisionMatrix','createFinancialRecords','addWorkPlans','addWorkSteps','generateWorkPlans','deleteWorkPlans','getTier','changeTier','getPointsBalance','updateAcctMgrTarget','creditPoints','debitPoints','batchJobAction','dataProcessingEngineAction','addRebateMemberList','internalTestAction','performMultiLevelRollups','rebatesProcessCSV','processMemberBenefitAction','assignMemberTierBenefits','dynamicSendSurveyInvitation','issueVoucher','setCheckoutDeliveryMethod','refreshDecisionTable','generateKnowledgeLogData','submitFailedRecordsBatchJob','getEligibleProgramRebateTypes','returnReturnOrderItems','slackPostMessage','slackUpdateMessage','slackPinMessage','slackCreateChannel','slackInviteUsersToChannel','slackCheckUsersAreConnectedToSlack','slackArchiveChannel','slackGetConversationInfo','getLoyaltyPromotionBasedOnSalesforceCDP','transferMemberPointsToGroups','getLoyaltyPromotion','createServiceDocument','createArticleRecommendations','discoveryPredict','processProgramRebateTypeProducts','fetchCaseClassificationRecommendations','applyCaseClassificationRecommendations','updateProgressForCumulativePromotionUsage','updateAdvancedAccountForecastSetPartner','swarmingCollaborationToolSettings','getArticleSmartLinkUrl','performSurveySentimentAnalysis','calculateProjectedRebateAmount','runProgramProcessForTransactionJournal','buildIdentityVerification','getVerificationData','createEinsteinDocReaderLogic','sendNotification','uploadBlockchainData','saveMemberVerificationSteps','slackSendMessageToLaunchFlow','manageRecurringSchedules','importRecordsFromCsvFile','authorizePayment','getMemberActiveSegments','managedContentVariantSetReadyStatus','getAvailableSwarmObject','expressionSet') ORDER BY Label LIMIT 2000 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949813291,
+                                "ownTime": 4,
+                                "childTime": 179,
+                                "totalTime": 184,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813294,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813296,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813298,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813299,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813303,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813351,
+                                        "ownTime": 5,
+                                        "childTime": 0,
+                                        "totalTime": 5
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ *\nfrom (select t.namespace_prefix \"NamespacePrefix\",\nt.tl_setup_entity_data_id \"Id\"\nfrom core.tl_setup_entity_data t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.deleted = '0')\nand (t.key_prefix = ?))\nwhere (\"NamespacePrefix\" is not null)"
+                                        },
+                                        "startTime": 1652949813357,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call LightningComponents.get_lwc_bundle_namespaces_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813393,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813399,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813404,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ *\nfrom (select (SELECT (CASE WHEN versionnumber > 1 AND status = '1' THEN '3' else status end )                                  FROM DecisionMatrixDefVerSnpsht dm                                  where dm.organization_id = '00DRO0000009YRI'                                  AND dm.decisionMatrixDefinitionVer_id= t.tl_setup_entity_data_id                                   AND dm.versionnumber = (SELECT max(versionnumber) FROM                                  DecisionMatrixDefVerSnpsht dm1 where dm1.organization_id = '00DRO0000009YRI'                                  AND dm1.decisionMatrixDefinitionVer_id = t.tl_setup_entity_data_id )) \"Status\",\nt.std3 \"ActiveVersionSnapshotId\",\nt.std0 \"DecisionMatrixDefinitionId\",\nt.tl_setup_entity_data_id \"Id\"\nfrom core.tl_setup_entity_data t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.deleted = '0')\nand (t.key_prefix = ?))\nwhere (\"Status\" = ?)"
+                                        },
+                                        "startTime": 1652949813405,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813410,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ \"Id\",\n\"DeveloperName\",\n\"SetupName\",\n\"Description\",\n\"SourceObject\"\nfrom (select t.std5 \"Status\",\nt.tl_setup_entity_data_id \"Id\",\nt.developer_name \"DeveloperName\",\nt.std0 \"SetupName\",\nt.std25 \"Description\",\nt.std4 \"SourceObject\"\nfrom core.tl_setup_entity_data t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.deleted = '0')\nand (t.key_prefix = ?))\nwhere (\"Status\" = ?)"
+                                        },
+                                        "startTime": 1652949813411,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813414,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813417,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ *\nfrom (select t.tl_setup_entity_data_id \"Id\",\nt.std0 \"DecisionTableId\",\nt.developer_name \"DeveloperName\",\nt.std25 \"Description\",\nt.std1 \"SetupName\",\nt.std4 \"IsDefault\",\nt.std3 \"SourceObject\"\nfrom core.tl_setup_entity_data t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.deleted = '0')\nand (t.key_prefix = ?))"
+                                        },
+                                        "startTime": 1652949813419,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813421,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cActionEmail.get_available_actions(?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813424,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813432,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ \"ExpressionSetId\",\n\"ExpressionSetDefinitionVerId\",\n\"Name\",\n\"Id\"\nfrom (select t.std8 \"IsActive\",\nt.std0 \"ExpressionSetId\",\nt.std15 \"ExpressionSetDefinitionVerId\",\nt.name \"Name\",\nt.standard_entity_data_id \"Id\"\nfrom core.standard_entity_data t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.deleted = '0')\nand (t.key_prefix = ?))\nwhere (\"IsActive\" = '1')"
+                                        },
+                                        "startTime": 1652949813434,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL:degenerate*/ 1 \"Description\",\n1 \"ExpressionSetDefinitionId\",\n1 \"Id\",\n1 \"ApiName\",\n1 \"Name\"\nfrom dual\nwhere 1=0"
+                                        },
+                                        "startTime": 1652949813446,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ \"Id\"\nfrom (select TO_NUMBER(t.std9) \"SystemVersion\",\nt.tl_setup_entity_data_id \"Id\"\nfrom core.tl_setup_entity_data t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.deleted = '0')\nand (t.key_prefix = ?))\nwhere (\"SystemVersion\" > ?)"
+                                        },
+                                        "startTime": 1652949813450,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813455,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ \"Id\"\nfrom (select t.std1 \"Type\",\nt.parent_enum_or_id \"SobjectType\",\nupper(t.developer_name) \"_SORT_COL_0\",\nt.ent_setup_entity_data_id \"Id\"\nfrom core.ent_setup_entity_data t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.deleted = '0')\nand (t.key_prefix = ?))\nwhere (\"Type\" in (?, ?, ?))\norder by \"SobjectType\" asc nulls first, \"_SORT_COL_0\" asc nulls first"
+                                        },
+                                        "startTime": 1652949813456,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813462,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813471,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813473,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949813479,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949813481,
+                        "ownTime": 2,
+                        "childTime": 0,
+                        "totalTime": 2
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949813483,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949813484,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    }
+                ]
+            }
+        ],
+        "summary": {
+            "db-conn-wait": {
+                "totalTime": 0,
+                "totalCalls": 7
+            },
+            "soql": {
+                "totalTime": 250,
+                "totalCalls": 11
+            },
+            "db-exec": {
+                "totalTime": 66,
+                "totalCalls": 46
+            },
+            "cache-caas": {
+                "totalTime": 67,
+                "totalCalls": 73
+            },
+            "request-tracing-check": {
+                "totalTime": 0,
+                "totalCalls": 24
+            },
+            "action": {
+                "totalTime": 238,
+                "totalCalls": 1
+            },
+            "soap-api": {
+                "totalTime": 60,
+                "totalCalls": 8
+            },
+            "soap-api-serialization": {
+                "totalTime": 2,
+                "totalCalls": 3
+            },
+            "soap-api-network-write": {
+                "totalTime": 0,
+                "totalCalls": 3
+            },
+            "api": {
+                "totalTime": 235,
+                "totalCalls": 3
+            },
+            "http-request": {
+                "totalTime": 259,
+                "totalCalls": 1
+            },
+            "request-tracing-enable": {
+                "totalTime": 0,
+                "totalCalls": 2
+            }
+        }
+    },
+    "perfSummary": {
+        "version": "core",
+        "request": 260,
+        "actions": {
+            "42;a": {
+                "total": 238,
+                "db": 76
+            }
+        },
+        "actionsTotal": 238,
+        "overhead": 0
+    }
+}

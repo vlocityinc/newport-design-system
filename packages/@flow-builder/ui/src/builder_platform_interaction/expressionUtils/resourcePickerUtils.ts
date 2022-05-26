@@ -64,7 +64,7 @@ const getFerovMenuData = (
         ...config,
         filter: {
             ...config.filter,
-            allowsApexCollAnonymousAutoOutput: elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true,
+            allowsApexCallAnonymousAutoOutput: elementConfig ? elementConfig.allowsApexCallAnonymousAutoOutput : true,
             shouldBeWritable: elementConfig ? elementConfig.shouldBeWritable : false
         }
     });

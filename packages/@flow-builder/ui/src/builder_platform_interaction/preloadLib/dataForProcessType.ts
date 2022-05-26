@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { $LABEL, setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
 import {
@@ -24,7 +23,7 @@ import {
     getBuilderType,
     initVersioningInfoForProcessType,
     setGlobalVariables,
-    setProcessTypeFeature,
+    setProcessTypeFeatures,
     setSystemVariables,
     setVersioningDataInitialized
 } from 'builder_platform_interaction/systemLib';
@@ -105,7 +104,7 @@ export const loadGlobalVariables = (flowProcessType): Promise<any> => {
 
     globalVariablesPromise = fetchOnce(actionType, { flowProcessType }, { disableErrorModal: true }).then((data) => {
         setGlobalVariables(data);
-        getGlobalVariableTypeComboboxItems().forEach((item) => addToParentElementCache(item.displayText, item));
+        getGlobalVariableTypeComboboxItems().forEach((item: any) => addToParentElementCache(item.displayText, item));
     });
 
     // loads the global variable labels asynchronously
@@ -156,7 +155,7 @@ export const loadProcessTypeFeatures = (flowProcessType) =>
     fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES, {
         flowProcessType
     }).then((data) => {
-        setProcessTypeFeature(flowProcessType, data);
+        setProcessTypeFeatures(flowProcessType, data);
     });
 
 export const loadPalette = (flowProcessType, flowTriggerType) =>

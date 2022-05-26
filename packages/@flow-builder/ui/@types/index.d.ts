@@ -123,7 +123,7 @@ type MenuFilter = {
     // whether or not to include global variables
     showGlobalVariables?: boolean;
     // whether or not apex collection from anonymous automatic outputs are allowed
-    allowsApexCollAnonymousAutoOutput?: boolean;
+    allowsApexCallAnonymousAutoOutput?: boolean;
     // whether or not this request is coming from a formula editor
     forFormula?: boolean;
     // whether or not included values should be writable
@@ -134,20 +134,14 @@ type MenuFilter = {
     categoriesToInclude?: string[];
 };
 
+type SortField = 'label' | 'name';
 type MenuConfig = {
     newResourceTypeLabel?: string | null;
     traversalConfig?: MenuTraversalConfig;
     // the picklist values that will be appended to the menu data if picklist values are allowed
     activePicklistValues?: string[];
     filter: MenuFilter;
-    sortField?: 'label' | 'name';
-};
-
-type FieldInputBreadcrumb = {
-    label: string;
-    name: string;
-    id: string;
-    tooltip?: string;
+    sortField?: SortField;
 };
 
 type VariablesConfig = {
@@ -160,3 +154,61 @@ type SystemAndGlobalVariablesConfig = VariablesConfig & {
     hasLabelSubtypeParam?: boolean;
     hasDescriptionSubtypeParam?: boolean;
 };
+
+type Rule = {
+    canBeApexProperty: CanBe;
+    canBeSobjectField: CanBe;
+    canBeSystemVariable: CanBe;
+    cannotBeElements: ElementType[];
+    collection: boolean;
+    dataType: DataType;
+    mustBeElements: ElementType[];
+    null: boolean;
+    paramType: ParamType;
+};
+
+type RuleMap = { [key: string]: Rule[] };
+type CanBe = 'CanBe';
+type ElementType = any;
+type DataType = string;
+type ParamType = string;
+
+type ProcessTypeFeatures =
+    | 'StoreOutputAutomatically'
+    | 'ConfigurableStart'
+    | 'LookupTraversal'
+    | 'DynamicTypes'
+    | 'RollbackModeInDebug'
+    | 'IsDebugAsUserAllowedInNonPrd'
+    | 'GlobalVariables';
+
+type FlowProcessType =
+    | 'ActionCadenceFlow'
+    | 'ActionPlan'
+    | 'Appointments'
+    | 'AutoLaunchedFlow'
+    | 'Orchestrator'
+    | 'CheckoutFlow'
+    | 'ContactRequestFlow'
+    | 'CustomEvent'
+    | 'DigitalForm'
+    | 'FieldServiceMobile'
+    | 'FieldServiceWeb'
+    | 'Flow'
+    | 'Form'
+    | 'InvocableProcess'
+    | 'LoginFlow'
+    | 'JourneyBuilderIntegration'
+    | 'Journey'
+    | 'ManagedContentFlow'
+    | 'OrchestrationFlow'
+    | 'Survey'
+    | 'TransactionSecurityFlow'
+    | 'UserProvisioningFlow'
+    | 'Workflow'
+    | 'SalesEntryExperienceFlow'
+    | 'FSCLending'
+    | 'RoutingFlow'
+    | 'RecommendationStrategy'
+    | 'EvaluationFlow'
+    | 'CMSOrchestrator';

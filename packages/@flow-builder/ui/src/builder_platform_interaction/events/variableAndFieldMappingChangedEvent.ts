@@ -2,7 +2,11 @@
  * Used by recordLookupVariableAndFieldMapping and record lookup editor to indicate that the variableandfieldmapping value has changed.
  */
 
-import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
+enum VARIABLE_AND_FIELD_MAPPING_VALUES {
+    AUTOMATIC = 'automatic',
+    AUTOMATIC_WITH_FIELDS = 'manuallySelectFields',
+    MANUAL = 'manual'
+}
 
 const eventName = 'variableandfieldmappingchanged';
 

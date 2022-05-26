@@ -59,9 +59,7 @@ export { DeleteElementEvent } from './elementEvents/deleteElementEvent';
 export { EditElementEvent } from './elementEvents/editElementEvent';
 export { ToggleElementEvent } from './elementEvents/toggleElementEvent';
 export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';
-export { FetchFieldInputMenuDataEvent } from './fetchFieldInputMenuDataEvent';
 export { FetchMenuDataEvent } from './fetchMenuDataEvent';
-export { FieldInputBreadcrumbClickEvent } from './fieldInputBreadcrumbClickEvent';
 export { FilterMatchesEvent } from './filterMatchesEvent';
 export { FormulaChangedEvent } from './formulaChangedEvent';
 export { InputsOnNextNavToAssocScrnChangeEvent } from './inputsOnNextNavToAssocScrnChangeEvent';
@@ -140,3 +138,30 @@ export { WaitEventAddParameterEvent } from './waitEventAddParameterEvent';
 export { WaitEventDeleteParameterEvent } from './waitEventDeleteParameterEvent';
 export { WaitEventParameterChangedEvent } from './waitEventParameterChangedEvent';
 export { WaitEventPropertyChangedEvent } from './waitEventPropertyChangedEvent';
+
+type EventOptions = {
+    bubbles?: boolean;
+    cancelable?: boolean;
+    composed?: boolean;
+};
+
+/**
+ * Helper function to create Custom Events
+ *
+ * @param eventName - The event name
+ * @param detail - The event payload
+ * @param optionOverrides - The options to override
+ * @returns a new CustomEvent instance
+ */
+export function newCustomEvent<T>(eventName: string, detail?: T, optionOverrides?: EventOptions) {
+    const options = Object.assign(
+        {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            detail
+        },
+        optionOverrides
+    );
+    return new CustomEvent<T>(eventName, options);
+}

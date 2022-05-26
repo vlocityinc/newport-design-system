@@ -3,9 +3,18 @@ builder_platform_interaction-field-input {
 }
 
 .container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
     display: flex;
-    flex-direction: column;
+
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-direction: column;
     height: 100vh;
+}
+
+.item {
+    width: 316px;
 }

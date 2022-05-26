@@ -1,6 +1,0 @@
-:host {
-    background: var(--lwc-colorGray3);
-    box-shadow: 0px 1px 0px var(--lwc-colorGray6);
-    color: rgba(68, 68, 68, 1);
-    line-height: 18px;
-}

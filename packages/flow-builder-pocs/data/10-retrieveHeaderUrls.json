@@ -1,0 +1,309 @@
+{
+    "actions": [
+        {
+            "id": "24;a",
+            "state": "SUCCESS",
+            "returnValue": {
+                "lightningFlowUrl": "/lightning/setup/Flows/home",
+                "trailblazerCommunityUrl": "https://success.salesforce.com/_ui/core/chatter/groups/GroupProfilePage?g=0F9300000001rzcCAA",
+                "runDebugUrl": "/flow/",
+                "helpUrl": "https://help.salesforce.com/articleView?id=flow_ref.htm",
+                "flowUrl": "/300",
+                "trailheadUrl": "https://trailhead.salesforce.com/en/content/learn/trails/build-flows-with-flow-builder"
+            },
+            "error": []
+        },
+        {
+            "id": "29;a",
+            "state": "SUCCESS",
+            "returnValue": [
+                {
+                    "iconName": "utility:magicwand",
+                    "name": "AutoLaunchedFlow",
+                    "label": "Autolaunched Flow",
+                    "isListViewManaged": true
+                },
+                {
+                    "iconName": "utility:contact_request",
+                    "name": "ContactRequestFlow",
+                    "label": "Contact Request Flow",
+                    "isListViewManaged": false
+                },
+                {
+                    "iconName": "utility:magicwand",
+                    "name": "EvaluationFlow",
+                    "label": "Evaluation Flow",
+                    "isListViewManaged": true
+                },
+                {
+                    "iconName": "utility:orchestrator",
+                    "name": "Orchestrator",
+                    "label": "Orchestrator",
+                    "isListViewManaged": true
+                },
+                {
+                    "iconName": "utility:strategy",
+                    "name": "RecommendationStrategy",
+                    "label": "Recommendation Strategy",
+                    "isListViewManaged": true
+                },
+                {
+                    "iconName": "utility:desktop",
+                    "name": "Flow",
+                    "label": "Screen Flow",
+                    "isListViewManaged": true
+                },
+                {
+                    "iconName": "utility:user",
+                    "name": "UserProvisioningFlow",
+                    "label": "User Provisioning Flow",
+                    "isListViewManaged": true
+                }
+            ],
+            "error": []
+        }
+    ],
+    "context": {
+        "mode": "PRODDEBUG",
+        "app": "builder_platform_interaction:flowBuilder",
+        "pathPrefix": "",
+        "fwuid": "xxGTkOcaST9igEx4yxgfKA",
+        "mlr": 1,
+        "uad": 1,
+        "descriptorUids": {},
+        "loaded": {
+            "APPLICATION@markup://builder_platform_interaction:flowBuilder": "ROqHexnGx_plnQd2OMfL6A"
+        },
+        "globalValueProviders": [
+            {
+                "type": "$Global",
+                "values": {
+                    "density": {
+                        "writable": true,
+                        "defaultValue": null,
+                        "value": "VIEW_ONE"
+                    }
+                }
+            }
+        ],
+        "enableAccessChecks": true,
+        "dns": "c",
+        "rns": ["devopsimpkg11"],
+        "lairn": [],
+        "laerc": [],
+        "lav": "56",
+        "csp": 1,
+        "mna": {
+            "lightning": "interop"
+        },
+        "lff": {
+            "ENABLE_MIXED_SHADOW_MODE": false
+        },
+        "arse": 1,
+        "acaf": 1,
+        "services": [
+            "markup://lightning:configProvider",
+            "markup://force:salesforceScopedModuleResolver",
+            "markup://force:ldsEngineCreator",
+            "markup://instrumentation:locatorService"
+        ]
+    },
+    "perf": {
+        "version": "1.0.0",
+        "calltree": [
+            {
+                "name": "http-request",
+                "attachment": {},
+                "startTime": 1652949812257,
+                "ownTime": 6,
+                "childTime": 18,
+                "totalTime": 24,
+                "children": [
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949812261,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "1$serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController/ACTION$retrieveHeaderUrls",
+                            "id": "24;a"
+                        },
+                        "startTime": 1652949812265,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "2$serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController/ACTION$getProcessTypes",
+                            "id": "29;a"
+                        },
+                        "startTime": 1652949812265,
+                        "ownTime": 0,
+                        "childTime": 9,
+                        "totalTime": 10,
+                        "children": [
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "SELECT Label, Name, IsListViewManaged FROM ProcessTypeDefinition WHERE IsFlowManaged = true ORDER BY Label LIMIT 2000 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949812265,
+                                "ownTime": 2,
+                                "childTime": 7,
+                                "totalTime": 9,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949812268,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949812272,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949812273,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949812277,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949812278,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949812280,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949812280,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    }
+                ]
+            }
+        ],
+        "summary": {
+            "db-conn-wait": {
+                "totalTime": 0,
+                "totalCalls": 3
+            },
+            "soql": {
+                "totalTime": 4,
+                "totalCalls": 1
+            },
+            "db-exec": {
+                "totalTime": 4,
+                "totalCalls": 8
+            },
+            "cache-caas": {
+                "totalTime": 0,
+                "totalCalls": 6
+            },
+            "request-tracing-check": {
+                "totalTime": 0,
+                "totalCalls": 4
+            },
+            "action": {
+                "totalTime": 10,
+                "totalCalls": 2
+            },
+            "soap-api-serialization": {
+                "totalTime": 0,
+                "totalCalls": 1
+            },
+            "soap-api-network-write": {
+                "totalTime": 0,
+                "totalCalls": 1
+            },
+            "api": {
+                "totalTime": 9,
+                "totalCalls": 1
+            },
+            "http-request": {
+                "totalTime": 24,
+                "totalCalls": 1
+            },
+            "request-tracing-enable": {
+                "totalTime": 0,
+                "totalCalls": 2
+            }
+        }
+    },
+    "perfSummary": {
+        "version": "core",
+        "request": 24,
+        "actions": {
+            "24;a": {
+                "total": 0,
+                "db": 0
+            },
+            "29;a": {
+                "total": 10,
+                "db": 4
+            }
+        },
+        "actionsTotal": 10,
+        "overhead": 0
+    }
+}

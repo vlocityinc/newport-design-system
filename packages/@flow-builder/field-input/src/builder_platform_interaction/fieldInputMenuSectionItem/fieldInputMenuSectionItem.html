@@ -1,0 +1,46 @@
+<template>
+    <div
+        role="treeitem"
+        tabindex="-1"
+        class="slds-grid slds-listbox__option slds-p-vertical_xx-small"
+        onmouseenter={handleMouseEnter}
+        onmouseleave={handleMouseLeave}
+        onclick={handleItemClick}
+        aria-expanded={expanded}
+        aria-labelledby="text"
+        aria-description={description}
+    >
+        <div class={comboboxItemClass}>
+            <template if:true={item.iconName}>
+                <span class={iconContainerClass}>
+                    <lightning-icon
+                        class={iconClass}
+                        size={item.iconSize}
+                        alternative-text={item.iconAlternativeText}
+                        icon-name={item.iconName}
+                    ></lightning-icon>
+                </span>
+            </template>
+            <span class="slds-media__body">
+                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                    <span id="text" class="slds-truncate">{item.label}</span>
+                </span>
+            </span>
+            <template if:true={hasNext}>
+                <span class="slds-media__figure slds-media__figure_reverse">
+                    <lightning-icon
+                        size="x-small"
+                        alternative-text="Chevron Right"
+                        icon-name="utility:chevronright"
+                        class="chevron"
+                    ></lightning-icon>
+                </span>
+            </template>
+        </div>
+        <builder_platform_interaction-field-input-rich-help-popup
+            if:true={isHovering}
+            class="slds-col slds-size_1-of-12 slds-align_absolute-center"
+        >
+        </builder_platform_interaction-field-input-rich-help-popup>
+    </div>
+</template>

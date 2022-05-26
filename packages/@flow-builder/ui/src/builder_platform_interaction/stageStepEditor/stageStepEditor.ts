@@ -109,7 +109,7 @@ export default class StageStepEditor extends LightningElement {
     @track
     assigneeRecordIds: { id: string }[] | undefined = undefined;
 
-    rules = [];
+    rules: Rule[] = [];
 
     _assigneePickerGuid = generateGuid();
     get actorErrorMessage(): string {

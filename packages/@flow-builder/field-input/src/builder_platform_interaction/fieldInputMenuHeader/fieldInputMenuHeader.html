@@ -1,0 +1,18 @@
+<template>
+    <div if:true={showBreadcrumbs} class="slds-p-vertical_x-small slds-p-horizontal_small">
+        <builder_platform_interaction-field-input-breadcrumbs
+            breadcrumbs={breadcrumbs}
+        ></builder_platform_interaction-field-input-breadcrumbs>
+    </div>
+    <div if:false={showBreadcrumbs} class="slds-p-vertical_x-small slds-p-horizontal_small">
+        <span class="text">{text}</span>
+
+        <lightning-button-icon
+            if:true={showSettings}
+            icon-name="utility:settings"
+            alternative-text={labels.settingsAlt}
+            title={labels.settingsTitle}
+            variant="bare"
+        ></lightning-button-icon>
+    </div>
+</template>

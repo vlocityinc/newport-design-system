@@ -63,6 +63,12 @@ builder_platform_interaction-zoom-panel {
     bottom: 0;
 }
 
+builder_platform_interaction-field-input {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
 builder_platform_interaction-scoped-notification {
     position: absolute;
     width: 100%;

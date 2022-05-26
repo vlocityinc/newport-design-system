@@ -1,0 +1,150 @@
+{
+    "actions": [
+        {
+            "id": "71;a",
+            "state": "SUCCESS",
+            "returnValue": {
+                "InstrumentationResult :  ( RECEIVED = 10 , SUCCESS -> LOG = 10 , Topic = AILTN )  , TracingResponse : ( AsyncResults ) , TelemetryResponse : ( AsyncResults )O11yInstrumentationResult : O11y Logs successfully processed by instrumentation-processing": {
+                    "InstrumentationResult": {
+                        "AILTN": {
+                            "RECEIVED": 10,
+                            "SUCCESS -> LOG": 10
+                        }
+                    },
+                    "TracingResponse": {
+                        "SUCCESS": 0,
+                        "ERROR": 0
+                    },
+                    "TelemetryResponse": {
+                        "SUCCESS": 2,
+                        "ERROR": 0
+                    },
+                    "O11yInstrumentationResult": "O11y Logs successfully processed by instrumentation-processing"
+                }
+            },
+            "error": []
+        }
+    ],
+    "context": {
+        "mode": "PRODDEBUG",
+        "app": "builder_platform_interaction:flowBuilder",
+        "pathPrefix": "",
+        "fwuid": "xxGTkOcaST9igEx4yxgfKA",
+        "mlr": 1,
+        "uad": 1,
+        "descriptorUids": {},
+        "loaded": {
+            "APPLICATION@markup://builder_platform_interaction:flowBuilder": "ROqHexnGx_plnQd2OMfL6A"
+        },
+        "globalValueProviders": [
+            {
+                "type": "$Global",
+                "values": {
+                    "density": {
+                        "writable": true,
+                        "value": "VIEW_ONE"
+                    }
+                }
+            }
+        ],
+        "enableAccessChecks": true,
+        "dns": "c",
+        "rns": ["devopsimpkg11"],
+        "lairn": [],
+        "laerc": [],
+        "lav": "56",
+        "csp": 1,
+        "mna": {
+            "lightning": "interop"
+        },
+        "lff": {
+            "ENABLE_MIXED_SHADOW_MODE": false
+        },
+        "arse": 1,
+        "acaf": 1,
+        "services": [
+            "markup://lightning:configProvider",
+            "markup://force:salesforceScopedModuleResolver",
+            "markup://force:ldsEngineCreator",
+            "markup://instrumentation:locatorService"
+        ]
+    },
+    "perf": {
+        "version": "1.0.0",
+        "calltree": [
+            {
+                "name": "http-request",
+                "attachment": {},
+                "startTime": 1652949820046,
+                "ownTime": 711,
+                "childTime": 58,
+                "totalTime": 770,
+                "children": [
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949820756,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "1$serviceComponent://ui.instrumentation.components.beacon.InstrumentationBeaconController/ACTION$sendData",
+                            "id": "71;a"
+                        },
+                        "startTime": 1652949820765,
+                        "ownTime": 50,
+                        "childTime": 0,
+                        "totalTime": 50
+                    }
+                ]
+            }
+        ],
+        "summary": {
+            "db-conn-wait": {
+                "totalTime": 0,
+                "totalCalls": 1
+            },
+            "db-exec": {
+                "totalTime": 1,
+                "totalCalls": 1
+            },
+            "cache-caas": {
+                "totalTime": 4,
+                "totalCalls": 6
+            },
+            "request-tracing-check": {
+                "totalTime": 0,
+                "totalCalls": 2
+            },
+            "action": {
+                "totalTime": 50,
+                "totalCalls": 1
+            },
+            "http-request": {
+                "totalTime": 770,
+                "totalCalls": 1
+            },
+            "request-tracing-enable": {
+                "totalTime": 0,
+                "totalCalls": 2
+            }
+        }
+    },
+    "perfSummary": {
+        "version": "core",
+        "request": 770,
+        "actions": {
+            "71;a": {
+                "total": 50,
+                "db": 0
+            }
+        },
+        "actionsTotal": 50,
+        "overhead": 0
+    }
+}

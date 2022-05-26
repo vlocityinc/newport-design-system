@@ -1,12 +1,12 @@
-let processTypes: any[];
-const processTypesFeatures = new Map<string, any[]>();
+let processTypes: FlowProcessType[];
+const processTypesFeatures = new Map<FlowProcessType, ProcessTypeFeatures[]>();
 
 /**
  * Sets the process types. This should be done during app initialization.
  *
  * @param data The data returned by the service
  */
-export const setProcessTypes = (data: any[]) => {
+export const setProcessTypes = (data: FlowProcessType[]) => {
     if (Array.isArray(data)) {
         processTypes = data;
     }
@@ -22,17 +22,17 @@ export const getProcessTypes = (): any[] => {
 };
 
 /**
- * @param processTypeName - the name of the process type
+ * @param processType - the name of the process type
  * @param features - list of available features
  */
-export const setProcessTypeFeature = (processTypeName: string, features: any[]) => {
-    processTypesFeatures.set(processTypeName, features);
+export const setProcessTypeFeatures = (processType: FlowProcessType, features: ProcessTypeFeatures[]) => {
+    processTypesFeatures.set(processType, features);
 };
 
 /**
- * @param processTypeName - the name of the process type
+ * @param processType - the name of the process type
  * @returns List of available features for the process type
  */
-export const getProcessFeatures = (processTypeName: string): any | undefined => {
-    return processTypesFeatures.get(processTypeName);
+export const getProcessFeatures = (processType: FlowProcessType): ProcessTypeFeatures[] | undefined => {
+    return processTypesFeatures.get(processType);
 };

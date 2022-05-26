@@ -3954,6 +3954,11 @@ core-js-compat@^3.20.2, core-js-compat@^3.21.0:
     browserslist "^4.19.1"
     semver "7.0.0"
 
+core-js@^3.22.5:
+  version "3.22.5"
+  resolved "https://nexus-proxy-prd.soma.salesforce.com/nexus/content/groups/npm-all/core-js/-/core-js-3.22.5.tgz#a5f5a58e663d5c0ebb4e680cd7be37536fb2a9cf"
+  integrity sha512-VP/xYuvJ0MJWRAobcmQ8F2H6Bsn+s7zqAAjFaHGBMc5AQm7zaelhD1LGduFn2EehEcQcU+br6t+fwbpQ5d1ZWA==
+
 core-util-is@1.0.2:
   version "1.0.2"
   resolved "https://nexus-proxy-prd.soma.salesforce.com/nexus/content/groups/npm-all/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"

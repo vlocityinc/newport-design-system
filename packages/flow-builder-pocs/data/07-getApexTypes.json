@@ -1,0 +1,303 @@
+{
+    "actions": [
+        {
+            "id": "25;a",
+            "state": "SUCCESS",
+            "returnValue": [
+                {
+                    "durableId": "runtime_industries_recurrence_impl__RecurringSchedulesApexOutput",
+                    "fieldsToNull": [],
+                    "name": "runtime_industries_recurrence_impl.RecurringSchedulesApexOutput",
+                    "properties": {
+                        "done": true,
+                        "entityTypeName": "FlowApexClassPropertyDesc",
+                        "records": [
+                            {
+                                "durableId": "runtime_industries_recurrence_impl.RecurringSchedulesApexOutput.exceptionMessage",
+                                "fieldsToNull": [],
+                                "isCollection": false,
+                                "name": "exceptionMessage",
+                                "parentId": "runtime_industries_recurrence_impl.RecurringSchedulesApexOutput",
+                                "type": "String"
+                            },
+                            {
+                                "durableId": "runtime_industries_recurrence_impl.RecurringSchedulesApexOutput.identifier",
+                                "fieldsToNull": [],
+                                "isCollection": false,
+                                "name": "identifier",
+                                "parentId": "runtime_industries_recurrence_impl.RecurringSchedulesApexOutput",
+                                "type": "String"
+                            },
+                            {
+                                "durableId": "runtime_industries_recurrence_impl.RecurringSchedulesApexOutput.isSuccess",
+                                "fieldsToNull": [],
+                                "isCollection": false,
+                                "name": "isSuccess",
+                                "parentId": "runtime_industries_recurrence_impl.RecurringSchedulesApexOutput",
+                                "type": "Boolean"
+                            },
+                            {
+                                "durableId": "runtime_industries_recurrence_impl.RecurringSchedulesApexOutput.targetRecordIDs",
+                                "fieldsToNull": [],
+                                "isCollection": true,
+                                "name": "targetRecordIDs",
+                                "parentId": "runtime_industries_recurrence_impl.RecurringSchedulesApexOutput",
+                                "type": "String"
+                            }
+                        ],
+                        "size": 4,
+                        "totalSize": 4
+                    }
+                }
+            ],
+            "error": []
+        }
+    ],
+    "context": {
+        "mode": "PRODDEBUG",
+        "app": "builder_platform_interaction:flowBuilder",
+        "pathPrefix": "",
+        "fwuid": "xxGTkOcaST9igEx4yxgfKA",
+        "mlr": 1,
+        "uad": 1,
+        "descriptorUids": {},
+        "loaded": {
+            "APPLICATION@markup://builder_platform_interaction:flowBuilder": "ROqHexnGx_plnQd2OMfL6A"
+        },
+        "globalValueProviders": [
+            {
+                "type": "$Global",
+                "values": {
+                    "density": {
+                        "writable": true,
+                        "value": "VIEW_ONE"
+                    }
+                }
+            }
+        ],
+        "enableAccessChecks": true,
+        "dns": "c",
+        "rns": ["devopsimpkg11"],
+        "lairn": [],
+        "laerc": [],
+        "lav": "56",
+        "csp": 1,
+        "mna": {
+            "lightning": "interop"
+        },
+        "lff": {
+            "ENABLE_MIXED_SHADOW_MODE": false
+        },
+        "arse": 1,
+        "acaf": 1,
+        "services": [
+            "markup://lightning:configProvider",
+            "markup://force:salesforceScopedModuleResolver",
+            "markup://force:ldsEngineCreator",
+            "markup://instrumentation:locatorService"
+        ]
+    },
+    "perf": {
+        "version": "1.0.0",
+        "calltree": [
+            {
+                "name": "http-request",
+                "attachment": {},
+                "startTime": 1652949812276,
+                "ownTime": 9,
+                "childTime": 326,
+                "totalTime": 336,
+                "children": [
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949812280,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "api",
+                        "attachment": {
+                            "details": "",
+                            "api": "ApiUtilImpl#getAccessInfo",
+                            "version": "Winter '23",
+                            "outcome": "SUCCESS"
+                        },
+                        "startTime": 1652949812282,
+                        "ownTime": 0,
+                        "childTime": 6,
+                        "totalTime": 7,
+                        "children": []
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "1$serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController/ACTION$getApexTypes",
+                            "id": "25;a"
+                        },
+                        "startTime": 1652949812292,
+                        "ownTime": 6,
+                        "childTime": 305,
+                        "totalTime": 311,
+                        "children": [
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "details": "SELECT ParentId, (SELECT DurableId, Name, Type, ObjectType, ApexClass, IsCollection, ParentId FROM Properties), DurableId, (SELECT DurableId, Name, ParentId FROM InnerTypes), Name FROM FlowApexClassDescriptor ORDER BY DurableId LIMIT 200 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949812294,
+                                "ownTime": 13,
+                                "childTime": 292,
+                                "totalTime": 305,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949812303,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949812594,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949812594,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949812608,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949812609,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949812611,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949812611,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    }
+                ]
+            }
+        ],
+        "summary": {
+            "db-conn-wait": {
+                "totalTime": 0,
+                "totalCalls": 3
+            },
+            "soql": {
+                "totalTime": 288,
+                "totalCalls": 1
+            },
+            "cache-caas": {
+                "totalTime": 0,
+                "totalCalls": 42
+            },
+            "request-tracing-check": {
+                "totalTime": 0,
+                "totalCalls": 4
+            },
+            "soap-api-serialization": {
+                "totalTime": 0,
+                "totalCalls": 1
+            },
+            "http-request": {
+                "totalTime": 336,
+                "totalCalls": 1
+            },
+            "request-tracing-enable": {
+                "totalTime": 0,
+                "totalCalls": 2
+            },
+            "db-exec": {
+                "totalTime": 4,
+                "totalCalls": 8
+            },
+            "soap-api": {
+                "totalTime": 6,
+                "totalCalls": 1
+            },
+            "action": {
+                "totalTime": 311,
+                "totalCalls": 1
+            },
+            "soap-api-network-write": {
+                "totalTime": 0,
+                "totalCalls": 1
+            },
+            "api": {
+                "totalTime": 312,
+                "totalCalls": 2
+            },
+            "apex-class-compilation": {
+                "totalTime": 3,
+                "totalCalls": 1
+            }
+        }
+    },
+    "perfSummary": {
+        "version": "core",
+        "request": 336,
+        "actions": {
+            "25;a": {
+                "total": 311,
+                "db": 3
+            }
+        },
+        "actionsTotal": 311,
+        "overhead": 0
+    }
+}

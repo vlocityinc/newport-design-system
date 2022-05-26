@@ -1,0 +1,35 @@
+{
+    "name": "@flow-builder/field-input",
+    "version": "0.0.1",
+    "description": "Field Input Component",
+    "private": true,
+    "npm2lwc": {
+        "deployToCore": true,
+        "namespace": "builder_platform_interaction",
+        "ui": true
+    },
+    "dependencies": {
+        "@flow-builder/shared-utils": "0.0.1",
+        "@flow-builder/auto-layout-canvas-ui": "0.0.1"
+    },
+    "scripts": {
+        "build:ts": "tsc",
+        "build": "yarn build:ts",
+        "test": "jest src",
+        "test:update-snapshots": "jest --updateSnapshot",
+        "coverage": "yarn test --coverage",
+        "lint": "eslint --max-warnings 40 src/**/*.ts",
+        "ci:test": "yarn test --verbose false",
+        "ci:test:coverage": "yarn ci:test"
+    },
+    "files": [
+        "src/builder_platform_interaction"
+    ],
+    "lwc": {
+        "mapNamespaceFromPath": true,
+        "modules": [
+            "src"
+        ]
+    },
+    "devDependencies": {}
+}

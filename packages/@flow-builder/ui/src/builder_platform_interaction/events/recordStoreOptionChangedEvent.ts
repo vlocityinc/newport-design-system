@@ -1,4 +1,7 @@
-import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+enum WAY_TO_STORE_FIELDS {
+    SOBJECT_VARIABLE = 'sObjectVariable',
+    SEPARATE_VARIABLES = 'separateVariables'
+}
 
 const eventName = 'recordstoreoptionchanged';
 

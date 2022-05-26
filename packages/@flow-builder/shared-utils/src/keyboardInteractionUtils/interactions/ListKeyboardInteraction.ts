@@ -119,6 +119,7 @@ export class ListKeyboardInteraction extends BaseKeyboardInteraction {
 
         // init any items that have not been initialized (can happen if new items are added on subsequent renders)
         const items = this.getItems();
+
         items.filter((item) => !item.dataset.interactionItemId).forEach((item) => this.initInteractionItem(item));
 
         // on render, set tabindex = 0 on the active element, or on the first element if none

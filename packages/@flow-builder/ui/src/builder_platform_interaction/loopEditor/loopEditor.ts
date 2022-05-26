@@ -35,7 +35,7 @@ const LOOPVARIABLE_DISABLED = false;
 
 const COLLECTION_VAR_ELEMENT_CONFIG = {
     // whether or not apex collection from anonymous automatic outputs are allowed
-    allowsApexCollAnonymousAutoOutput: false,
+    allowsApexCallAnonymousAutoOutput: false,
     selectorConfig: {
         isCollection: true
     }

@@ -1,0 +1,569 @@
+{
+    "actions": [
+        {
+            "id": "11;a",
+            "state": "SUCCESS",
+            "returnValue": {
+                "brandLightActive": "rgba(221, 229, 252, 1)",
+                "brandHeaderContrastWarm": "rgba(214, 5, 1, 1)",
+                "brandAccessible": "rgba(1, 118, 211, 1)",
+                "brandHeaderContrastWeakDisabled": "rgba(145, 145, 145, 0.25)",
+                "brandPrimaryTransparent10": "rgba(65, 148, 249, 0.1)",
+                "brandPrimary": "rgba(65, 148, 249, 1)",
+                "brandPrimaryActive": "rgba(35, 118, 204, 1)",
+                "brandHeader": "rgba(255, 255, 255, 1)",
+                "brandHeaderContrastCool": "rgba(13, 112, 165, 1)",
+                "brandLogoImage": "url(/_slds/images/themes/lightning_blue/lightning_blue_logo_2x.png)",
+                "bannerUserDefaultImage": "url(/_slds/images/themes/lightning_blue/lightning_blue_profile.png)",
+                "brandLight": "rgba(240, 243, 253, 1)",
+                "brandTextLink": "rgba(1, 118, 211, 1)",
+                "brandAccessibleActive": "rgba(53, 93, 150, 1)",
+                "brandHeaderContrastWeak": "rgba(145, 145, 145, 1)",
+                "brandDark": "rgba(7, 47, 87, 1)",
+                "groupDefaultAvatar": "url(/_slds/images/themes/lightning_blue/lightning_blue_group_icon_200.png)",
+                "brandBandDefaultImage": "url(/_slds/images/themes/lightning_blue/lightning_blue_background.png)",
+                "brandHeaderContrastInverseActive": "rgba(238, 238, 238, 1)",
+                "brandDarkActive": "rgba(3, 24, 48, 1)",
+                "brandHeaderContrastInverse": "rgba(255, 255, 255, 1)",
+                "bannerGroupDefaultImage": "url(/_slds/images/themes/lightning_blue/lightning_blue_group.png)",
+                "brandPrimaryTransparent": "rgba(65, 148, 249, 0.1)",
+                "groupDefaultAvatarSmall": "url(/_slds/images/themes/lightning_blue/lightning_blue_group_icon_96.png)",
+                "brandPrimaryTransparent40": "rgba(65, 148, 249, 0.4)",
+                "brandTextLinkActive": "rgba(53, 93, 150, 1)",
+                "userDefaultAvatar": "url(/_slds/images/themes/lightning_blue/lightning_blue_profile_avatar_200.png)",
+                "groupDefaultAvatarMedium": "url(/_slds/images/themes/lightning_blue/lightning_blue_group_icon_160.png)",
+                "brandContrast": "rgba(252, 255, 255, 1)",
+                "brandBackgroundDarkTransparent": "rgba(160, 180, 206, 0.0)",
+                "brandBackgroundDark": "rgba(160, 180, 206, 1)",
+                "brandHeaderContrastActive": "rgba(92, 92, 92, 1)",
+                "brandHeaderContrastCoolActive": "rgba(0, 97, 149, 1)",
+                "brandHeaderContrastWeakActive": "rgba(129, 129, 129, 1)",
+                "brandHeaderContrastWarmActive": "rgba(194, 0, 0, 1)",
+                "brandBackgroundPrimaryTransparent": "rgba(176, 196, 223, 0.0)",
+                "userDefaultAvatarSmall": "url(/_slds/images/themes/lightning_blue/lightning_blue_profile_avatar_96.png)",
+                "brandBackgroundPrimary": "rgba(176, 196, 223, 1)",
+                "brandHeaderContrast": "rgba(106, 106, 106, 1)",
+                "brandContrastActive": "rgba(235, 238, 247, 1)",
+                "userDefaultAvatarMedium": "url(/_slds/images/themes/lightning_blue/lightning_blue_profile_avatar_160.png)"
+            },
+            "error": [],
+            "storable": true
+        },
+        {
+            "id": "13;a",
+            "state": "SUCCESS",
+            "returnValue": {
+                "access": {
+                    "orgHasFlowBuilderDebug": false,
+                    "orgHasComplianceBannerEnabled": false,
+                    "orgHasFlowFormulaBuilder": false,
+                    "orgHasScreenFlowsInSlack": false,
+                    "orgHasBeforeSaveEnabled": true,
+                    "orgHasFlowBuilderAutomaticFields": true,
+                    "orgHasFlowAutomaticFieldsUseRecordPageComponents": true,
+                    "orgHasFlowScreenSections": true,
+                    "orgHasComponentPreview": true,
+                    "orgHasFlowBuilderGuardrails": true
+                },
+                "devMode": false,
+                "testMode": false,
+                "orgId": "00DRO0000009YRI",
+                "canVAD": true,
+                "builderConfig": {
+                    "builderType": "FlowBuilder",
+                    "newFlowConfig": {
+                        "showRecommended": true,
+                        "showAll": true
+                    },
+                    "name": "Flow Builder",
+                    "icon": "utility:flow",
+                    "componentConfigs": {
+                        "editMode": {
+                            "rightPanelConfig": {
+                                "showTransactionBoundaries": false,
+                                "showDebugPanel": false
+                            },
+                            "toolbarConfig": {
+                                "showCopyPasteButton": true,
+                                "showViewAllTestsButton": true,
+                                "showDebugButton": true,
+                                "showRunTestButton": false,
+                                "showSaveAsButton": true,
+                                "showUndoRedoButton": true,
+                                "showCanvasModeToggle": true,
+                                "showRestartRunButton": false,
+                                "showEditFlowPropertiesButton": true,
+                                "showEditFlowButton": false,
+                                "showSaveButton": true,
+                                "showAddToTestButton": false,
+                                "showRunButton": true,
+                                "showFlowStatus": true,
+                                "showEditTestButton": false,
+                                "showActivateButton": true
+                            },
+                            "headerConfig": {
+                                "showDebugStatus": false,
+                                "showTestStatus": false,
+                                "showInterviewLabel": false,
+                                "showTestLabel": false
+                            },
+                            "leftPanelConfig": {
+                                "showLeftPanel": true
+                            },
+                            "canvasConfig": {
+                                "disableAddConnectors": false,
+                                "disableDeleteConnectors": false,
+                                "disableEditElements": false,
+                                "disableDeleteElements": false,
+                                "disableDragElements": false,
+                                "disableAddElements": false,
+                                "disableSelectConnectors": false,
+                                "disableMultiSelectElements": false
+                            }
+                        },
+                        "testMode": {
+                            "rightPanelConfig": {
+                                "showTransactionBoundaries": true,
+                                "showDebugPanel": true
+                            },
+                            "toolbarConfig": {
+                                "showCopyPasteButton": false,
+                                "showViewAllTestsButton": true,
+                                "showDebugButton": false,
+                                "showRunTestButton": false,
+                                "showSaveAsButton": false,
+                                "showUndoRedoButton": true,
+                                "showCanvasModeToggle": false,
+                                "showRestartRunButton": false,
+                                "showEditFlowPropertiesButton": false,
+                                "showEditFlowButton": true,
+                                "showSaveButton": false,
+                                "showAddToTestButton": false,
+                                "showRunButton": false,
+                                "showFlowStatus": false,
+                                "showEditTestButton": true,
+                                "showActivateButton": false
+                            },
+                            "headerConfig": {
+                                "showDebugStatus": false,
+                                "showTestStatus": true,
+                                "showInterviewLabel": false,
+                                "showTestLabel": true
+                            },
+                            "leftPanelConfig": {
+                                "showLeftPanel": false
+                            },
+                            "canvasConfig": {
+                                "disableAddConnectors": true,
+                                "disableDeleteConnectors": true,
+                                "disableEditElements": false,
+                                "disableDeleteElements": true,
+                                "disableDragElements": true,
+                                "disableAddElements": true,
+                                "disableSelectConnectors": true,
+                                "disableMultiSelectElements": true
+                            }
+                        },
+                        "debugMode": {
+                            "rightPanelConfig": {
+                                "showTransactionBoundaries": true,
+                                "showDebugPanel": true
+                            },
+                            "toolbarConfig": {
+                                "showCopyPasteButton": false,
+                                "showViewAllTestsButton": false,
+                                "showDebugButton": false,
+                                "showRunTestButton": false,
+                                "showSaveAsButton": true,
+                                "showUndoRedoButton": true,
+                                "showCanvasModeToggle": false,
+                                "showRestartRunButton": true,
+                                "showEditFlowPropertiesButton": false,
+                                "showEditFlowButton": true,
+                                "showSaveButton": true,
+                                "showAddToTestButton": true,
+                                "showRunButton": false,
+                                "showFlowStatus": false,
+                                "showEditTestButton": false,
+                                "showActivateButton": true
+                            },
+                            "headerConfig": {
+                                "showDebugStatus": true,
+                                "showTestStatus": false,
+                                "showInterviewLabel": true,
+                                "showTestLabel": false
+                            },
+                            "leftPanelConfig": {
+                                "showLeftPanel": false
+                            },
+                            "canvasConfig": {
+                                "disableAddConnectors": true,
+                                "disableDeleteConnectors": true,
+                                "disableEditElements": false,
+                                "disableDeleteElements": true,
+                                "disableDragElements": true,
+                                "disableAddElements": true,
+                                "disableSelectConnectors": true,
+                                "disableMultiSelectElements": true
+                            }
+                        }
+                    },
+                    "usePanelForPropertyEditor": false,
+                    "supportedProcessTypes": [
+                        "ActionCadenceFlow",
+                        "ActionPlan",
+                        "Appointments",
+                        "AutoLaunchedFlow",
+                        "CMSOrchestrator",
+                        "CartAsyncFlow",
+                        "CheckoutFlow",
+                        "ContactRequestFlow",
+                        "CustomEvent",
+                        "CustomerLifecycle",
+                        "DigitalForm",
+                        "EvaluationFlow",
+                        "FSCLending",
+                        "FieldServiceMobile",
+                        "FieldServiceWeb",
+                        "Flow",
+                        "InvocableProcess",
+                        "JourneyBuilderIntegration",
+                        "LoginFlow",
+                        "LoyaltyManagementFlow",
+                        "ManagedContentFlow",
+                        "OfflineFlow",
+                        "OrchestrationFlow",
+                        "Orchestrator",
+                        "RecommendationStrategy",
+                        "RoutingFlow",
+                        "ServiceCatalogItemFlow",
+                        "Survey",
+                        "SurveyEnrich",
+                        "TransactionSecurityFlow",
+                        "UserProvisioningFlow",
+                        "Workflow"
+                    ]
+                },
+                "preferredExperience": "LEX"
+            },
+            "error": []
+        }
+    ],
+    "context": {
+        "mode": "PRODDEBUG",
+        "app": "builder_platform_interaction:flowBuilder",
+        "pathPrefix": "",
+        "fwuid": "xxGTkOcaST9igEx4yxgfKA",
+        "mlr": 1,
+        "uad": 1,
+        "descriptorUids": {},
+        "loaded": {
+            "APPLICATION@markup://builder_platform_interaction:flowBuilder": "ROqHexnGx_plnQd2OMfL6A"
+        },
+        "globalValueProviders": [
+            {
+                "type": "$Global",
+                "values": {
+                    "eswConfigDeveloperName": {
+                        "writable": true,
+                        "defaultValue": "",
+                        "value": null
+                    },
+                    "isVoiceOver": {
+                        "writable": true,
+                        "defaultValue": false,
+                        "value": null
+                    },
+                    "setupAppContextId": {
+                        "writable": true,
+                        "defaultValue": "",
+                        "value": null
+                    },
+                    "density": {
+                        "writable": true,
+                        "defaultValue": null,
+                        "value": "VIEW_ONE"
+                    },
+                    "srcdoc": {
+                        "writable": false,
+                        "defaultValue": false,
+                        "value": null
+                    },
+                    "appContextId": {
+                        "writable": true,
+                        "defaultValue": "",
+                        "value": null
+                    },
+                    "dynamicTypeSize": {
+                        "writable": true,
+                        "defaultValue": "",
+                        "value": null
+                    }
+                }
+            }
+        ],
+        "enableAccessChecks": true,
+        "dns": "c",
+        "rns": ["devopsimpkg11"],
+        "lairn": [],
+        "laerc": [],
+        "lav": "56",
+        "csp": 1,
+        "mna": {
+            "lightning": "interop"
+        },
+        "lff": {
+            "ENABLE_MIXED_SHADOW_MODE": false
+        },
+        "arse": 1,
+        "acaf": 1,
+        "services": [
+            "markup://lightning:configProvider",
+            "markup://force:salesforceScopedModuleResolver",
+            "markup://force:ldsEngineCreator",
+            "markup://instrumentation:locatorService"
+        ]
+    },
+    "perf": {
+        "version": "1.0.0",
+        "calltree": [
+            {
+                "name": "http-request",
+                "attachment": {},
+                "startTime": 1652950567378,
+                "ownTime": 6,
+                "childTime": 148,
+                "totalTime": 155,
+                "children": [
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652950567384,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "api",
+                        "attachment": {
+                            "outcomeDetails": null,
+                            "details": "",
+                            "api": "ApiUtilImpl#getAccessInfo",
+                            "version": "Winter '23",
+                            "outcome": "SUCCESS"
+                        },
+                        "startTime": 1652950567386,
+                        "ownTime": 1,
+                        "childTime": 6,
+                        "totalTime": 7,
+                        "children": []
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "1$serviceComponent://ui.force.components.controllers.theme.ThemeCssVarLoaderController/ACTION$getThemeVariables",
+                            "id": "11;a"
+                        },
+                        "startTime": 1652950567397,
+                        "ownTime": 17,
+                        "childTime": 17,
+                        "totalTime": 35,
+                        "children": [
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "query: SELECT ValueString, ValueNumber, ValueBoolean, ValueDate, DurableId FROM OrganizationValueInfo WHERE DurableId = 'PreviewLexThemeId'",
+                                    "api": "ApiUtilImpl#query",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652950567398,
+                                "ownTime": 0,
+                                "childTime": 6,
+                                "totalTime": 7,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652950567399,
+                                        "ownTime": 3,
+                                        "childTime": 0,
+                                        "totalTime": 3
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "query: SELECT ValueString, ValueNumber, ValueBoolean, ValueDate, DurableId FROM OrganizationValueInfo WHERE DurableId = 'ActiveLexThemeId'",
+                                    "api": "ApiUtilImpl#query",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652950567405,
+                                "ownTime": 0,
+                                "childTime": 2,
+                                "totalTime": 2,
+                                "children": []
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "query: SELECT Value, Id, UserId FROM UserPreference WHERE UserId = '005RO000000UzBX' AND Preference = '108' LIMIT 1 OFFSET 0",
+                                    "api": "ApiUtilImpl#query",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652950567424,
+                                "ownTime": 0,
+                                "childTime": 5,
+                                "totalTime": 5,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ *\nfrom (select \"Value\",\n\"t.ID\",\n\"Id\",\n\"UserId\"\nfrom (select t.users_id \"UserId\",\nt.pref_enum \"Preference\",\nt.user_preference_id \"Id\",\nt.value \"Value\",\nt.user_preference_id \"t.ID\"\nfrom core.user_preference t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.pref_enum IN (57, 58, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 108, 109, 111, 112, 113, 114, 118, 119, 120)))\nwhere ((\"UserId\" = ?)\nAND (\"Preference\" = ?))\norder by \"Id\" asc nulls last)\nwhere rownum <= ?"
+                                        },
+                                        "startTime": 1652950567427,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "query: SELECT ValueString, ValueNumber, ValueBoolean, ValueDate, DurableId FROM OrganizationValueInfo WHERE DurableId = 'DensityValue'",
+                                    "api": "ApiUtilImpl#query",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652950567430,
+                                "ownTime": 0,
+                                "childTime": 2,
+                                "totalTime": 2,
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "2$serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController/ACTION$getContext",
+                            "id": "13;a"
+                        },
+                        "startTime": 1652950567433,
+                        "ownTime": 89,
+                        "childTime": 9,
+                        "totalTime": 99,
+                        "children": [
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "query: SELECT IsTemplate, Status, IsSwingFlow, ProcessType, Description, Label, FlowDefinitionViewId, DurableId, VersionNumber FROM FlowVersionView WHERE DurableId = 'setup_service_experience__Reset_Pwd-1' ORDER BY Label LIMIT 2000",
+                                    "api": "ApiUtilImpl#query",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652950567434,
+                                "ownTime": 0,
+                                "childTime": 4,
+                                "totalTime": 4,
+                                "children": []
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "outcomeDetails": null,
+                                    "query": null,
+                                    "details": "query: SELECT ProcessType, Description, Label, FlowDefinitionViewId FROM FlowVersionView WHERE DurableId = 'setup_service_experience__Reset_Pwd-1' ORDER BY Label LIMIT 2000",
+                                    "api": "ApiUtilImpl#query",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652950567438,
+                                "ownTime": 0,
+                                "childTime": 2,
+                                "totalTime": 2,
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "summary": {
+            "db-conn-wait": {
+                "totalTime": 0,
+                "totalCalls": 2
+            },
+            "soql": {
+                "totalTime": 19,
+                "totalCalls": 6
+            },
+            "db-exec": {
+                "totalTime": 5,
+                "totalCalls": 3
+            },
+            "cache-caas": {
+                "totalTime": 12,
+                "totalCalls": 16
+            },
+            "request-tracing-check": {
+                "totalTime": 0,
+                "totalCalls": 14
+            },
+            "soap-api": {
+                "totalTime": 27,
+                "totalCalls": 7
+            },
+            "action": {
+                "totalTime": 134,
+                "totalCalls": 2
+            },
+            "api": {
+                "totalTime": 29,
+                "totalCalls": 7
+            },
+            "http-request": {
+                "totalTime": 155,
+                "totalCalls": 1
+            },
+            "request-tracing-enable": {
+                "totalTime": 0,
+                "totalCalls": 2
+            }
+        }
+    },
+    "perfSummary": {
+        "version": "core",
+        "request": 155,
+        "actions": {
+            "11;a": {
+                "total": 35,
+                "db": 4
+            },
+            "13;a": {
+                "total": 99,
+                "db": 0
+            }
+        },
+        "actionsTotal": 134,
+        "overhead": 0
+    }
+}

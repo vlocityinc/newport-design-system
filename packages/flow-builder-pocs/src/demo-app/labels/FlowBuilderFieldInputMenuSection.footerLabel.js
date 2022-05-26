@@ -1,1 +1,1 @@
-export default 'New Resource';
+export default 'New Resources';

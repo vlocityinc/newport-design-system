@@ -11,6 +11,7 @@ const plugins = [];
 // resolve modules using jest.config.json
 // copied from https://git.soma.salesforce.com/aura/lightning-global/blob/master/ui-lightning-components/app_modules/resolver/module-name-mapper.js
 const moduleNameMapper = {
+    'lightning/uiObjectInfoApi': './src/demo-app/stubs/lightning/uiObjectInfoApi.js',
     '^lightning:IntlLibrary$': './src/demo-app/stubs/intlLibrary.js',
     '^builder_framework/command$': '../../node_modules/@lbf/command/dist/index.esNext.js',
     '^(demo)-(.+)$': './src/demo-app/modules/$1/$2/$2.js',
@@ -22,6 +23,8 @@ const moduleNameMapper = {
     '^siteforce:quarterbackLibrary$': './src/demo-app/stubs/siteforceQuarterbackLibrary.js',
     '^@salesforce/label/(.+)$': './src/demo-app/labels/$1.js',
     '^@salesforce/loader$': './src/demo-app/stubs/loader.js',
+    '^(builder_platform_interaction)/fieldInputMenuDataApi$':
+        './src/demo-app/modules/demo/fieldInputMenuDataApi/fieldInputMenuDataApi.js',
     '^(builder_platform_interaction)/(.+)$': '../../src/main/modules/$1/$2/$2.js',
     '^(contentbuilder)/(.+)$': './src/$1/$2/$2.js',
     '^lightning/(.+)$': '../../node_modules/lwc-components-lightning/src/lightning/$1/$1.js',

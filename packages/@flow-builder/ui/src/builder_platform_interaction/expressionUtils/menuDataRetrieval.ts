@@ -52,7 +52,7 @@ const { format } = commonUtils;
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
-const isPicklistFieldAllowed = (allowedTypes) => {
+export const isPicklistFieldAllowed = (allowedTypes) => {
     // we need a param to represent picklist values so we can check if they are allowed based on the given param types
     const picklistParam = {
         dataType: FLOW_DATA_TYPE.STRING.value,
@@ -224,7 +224,7 @@ export const PICKLIST_CATEGORY_SUBSTR = picklistValuesLabel.replace(/\(.*\)/, ''
  * @param {Object[]} picklist list of objects representing picklist values
  * @returns {module:menuDataGenerator.GroupMenuItems} menu data that has picklist values
  */
-const getPicklistMenuData = (picklist: any[]) => {
+export const getPicklistMenuData = (picklist: any[]) => {
     if (!Array.isArray(picklist)) {
         throw new Error(`Picklist field values must be an array but instead was: ${typeof picklist}`);
     }
@@ -237,7 +237,7 @@ const getPicklistMenuData = (picklist: any[]) => {
     return picklistGroup;
 };
 
-const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
+export const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
     return (
         menuItem.dataType === FLOW_DATA_TYPE.APEX.value &&
         menuItem.storeOutputAutomatically &&
@@ -246,7 +246,7 @@ const isApexCollectionAnonymousAutomaticOutput = (menuItem) => {
     );
 };
 
-const isSystemVariablesAllowed = (showSystemVariables: boolean | undefined, allowedParamTypes?) =>
+export const isSystemVariablesAllowed = (showSystemVariables: boolean | undefined, allowedParamTypes?) =>
     showSystemVariables && (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
 
 const defaultMenuConfig: MenuConfig = {
@@ -261,7 +261,7 @@ const defaultMenuConfig: MenuConfig = {
         allowGlobalConstants: false,
         showSystemVariables: true,
         showGlobalVariables: true,
-        allowsApexCollAnonymousAutoOutput: true,
+        allowsApexCallAnonymousAutoOutput: true,
         forFormula: false,
         shouldBeWritable: false,
         showFlowSystemVariable: true,
@@ -271,8 +271,8 @@ const defaultMenuConfig: MenuConfig = {
 
 type FilteredData = {
     picklistData: {};
-    menuElements: [];
-    systemAndGlobalVariables: [];
+    menuElements: UI.Element[];
+    systemAndGlobalVariables: FieldInput.MenuItem[];
     startElement: UI.FlowResource;
 };
 
@@ -286,7 +286,7 @@ type FilteredData = {
  * @returns filtered menu data containing menu elements, start element and system/global variables
  */
 export function filterMenuData(
-    menuDataElements = [],
+    menuDataElements: UI.Element[] = [],
     config: MenuConfig,
     allowedParamTypes?,
     additionalFilter?: (element, config: MenuConfig, allowedParamTypes?) => boolean
@@ -297,13 +297,13 @@ export function filterMenuData(
     }
 
     const isTraversalEnabled = config.traversalConfig?.isEnabled;
-    const allowsApexCollAnonymousAutoOutput = config.filter?.allowsApexCollAnonymousAutoOutput;
+    const allowsApexCallAnonymousAutoOutput = config.filter?.allowsApexCallAnonymousAutoOutput;
     const menuElements = menuDataElements.filter(
         (element) =>
             isElementAllowed(allowedParamTypes, element, isTraversalEnabled) &&
             // exclude the start element so that it is easier to add back as a global var below
             !isSystemElement(element.elementType) &&
-            (allowsApexCollAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element)) &&
+            (allowsApexCallAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element)) &&
             !isSectionOrColumn(element) &&
             !isScheduledPath(element) &&
             !isAutomaticField(element) &&
@@ -684,3 +684,4 @@ export const getApiVersionMenuData = () => {
         };
     });
 };
+export { getSystemAndGlobalVariableMenuData };

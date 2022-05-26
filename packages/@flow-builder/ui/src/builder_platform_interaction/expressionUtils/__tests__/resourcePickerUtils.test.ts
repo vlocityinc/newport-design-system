@@ -244,7 +244,7 @@ describe('resourcePickerUtils', () => {
                 filter: {
                     includeNewResource: true,
                     allowGlobalConstants: true,
-                    allowsApexCollAnonymousAutoOutput: true,
+                    allowsApexCallAnonymousAutoOutput: true,
                     shouldBeWritable: false
                 }
             });
@@ -278,7 +278,7 @@ describe('resourcePickerUtils', () => {
                     includeNewResource: false,
                     allowGlobalConstants: true,
                     shouldBeWritable: undefined,
-                    allowsApexCollAnonymousAutoOutput: undefined
+                    allowsApexCallAnonymousAutoOutput: undefined
                 }
             });
         });
@@ -310,7 +310,7 @@ describe('resourcePickerUtils', () => {
                 filter: {
                     includeNewResource: false,
                     allowGlobalConstants: true,
-                    allowsApexCollAnonymousAutoOutput: undefined,
+                    allowsApexCallAnonymousAutoOutput: undefined,
                     forFormula: true,
                     shouldBeWritable: undefined
                 }
@@ -344,7 +344,7 @@ describe('resourcePickerUtils', () => {
                 filter: {
                     includeNewResource: false,
                     allowGlobalConstants: true,
-                    allowsApexCollAnonymousAutoOutput: undefined,
+                    allowsApexCallAnonymousAutoOutput: undefined,
                     shouldBeWritable: undefined,
                     showGlobalVariables: false
                 }

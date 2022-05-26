@@ -1,0 +1,185 @@
+{
+    "extends": "../../../tsconfig.json",
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "declaration": false,
+        "noUnusedLocals": false,
+        "noImplicitAny": false,
+        "outDir": "./build/builder_platform_interaction",
+        "baseUrl": ".",
+        "paths": {
+            "builder_platform_interaction/autoLayoutCanvas": [
+                "../auto-layout-canvas/dist/types/index.d.js"
+            ],
+
+            "lightning/popupSource": [
+                "../../../node_modules/lwc-components-lightning/src/lightning/popupSource/popupSource.js"
+            ],
+            "lightning/utils": [
+                "../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"
+            ],
+            "lightning/focusTrap": [
+                "../../../node_modules/lwc-components-lightning/src/lightning/focusTrap/focusTrap.js"
+            ],
+            "builder_platform_interaction/events": [
+                "../ui/src/builder_platform_interaction/events/events.ts"
+            ],
+            "builder_platform_interaction/fieldInputBox": [
+                "./src/builder_platform_interaction/fieldInputBox/fieldInputBox.ts"
+            ],
+            "builder_platform_interaction/fieldInputBoxPill": [
+                "./src/builder_platform_interaction/fieldInputBoxPill/fieldInputBoxPill.ts"
+            ],
+            "builder_platform_interaction/fieldInputBreadcrumbs": [
+                "./src/builder_platform_interaction/fieldInputBreadcrumbs/fieldInputBreadcrumbs.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenu": [
+                "./src/builder_platform_interaction/fieldInputMenu/fieldInputMenu.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenuAllView": [
+                "./src/builder_platform_interaction/views/fieldInputMenuAllView/fieldInputMenuAllView.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenuDataApi": [
+                "./src/builder_platform_interaction/fieldInputMenuDataApi/fieldInputMenuDataApi.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenuDataLib": [
+                "./src/builder_platform_interaction/fieldInputMenuDataLib/fieldInputMenuDataLib.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenuHeader": [
+                "./src/builder_platform_interaction/fieldInputMenuHeader/fieldInputMenuHeader.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenuObjectFieldsView": [
+                "./src/builder_platform_interaction/fieldInputMenuObjectFieldsView/fieldInputMenuObjectFieldsView.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenuPicklistView": [
+                "./src/builder_platform_interaction/fieldInputMenuPicklistView/fieldInputMenuPicklistView.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenuSectionItem": [
+                "./src/builder_platform_interaction/fieldInputMenuSectionItem/fieldInputMenuSectionItem.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenuView": [
+                "./src/builder_platform_interaction/fieldInputMenuView/fieldInputMenuView.ts"
+            ],
+            "builder_platform_interaction/fieldInputMenuViewContainer": [
+                "./src/builder_platform_interaction/fieldInputMenuViewContainer/fieldInputMenuViewContainer.ts"
+            ],
+            "builder_platform_interaction/fieldInputRichHelpPopup": [
+                "./src/builder_platform_interaction/fieldInputRichHelpPopup/fieldInputRichHelpPopup.ts"
+            ],
+            "builder_platform_interaction/fieldInputUtils": [
+                "./src/builder_platform_interaction/fieldInputUtils/fieldInputUtils.ts"
+            ],
+            "builder_platform_interaction/sharedUtils": [
+                "../shared-utils/dist/types/index.d.js"
+            ],
+            "builder_platform_interaction/expressionUtils": [
+                "../ui/src/builder_platform_interaction/expressionUtils/expressionUtils.ts"
+            ],
+            "builder_platform_interaction/flowMetadata": [
+                "../ui/src/builder_platform_interaction/flowMetadata/flowMetadata.ts"
+            ],
+            "builder_platform_interaction/ruleLib": [
+                "../ui/src/builder_platform_interaction/ruleLib/ruleLib.ts"
+            ],
+            "builder_platform_interaction/storeLib": [
+                "../ui/src/builder_platform_interaction/storeLib/storeLib.ts"
+            ],
+            "builder_platform_interaction/sobjectLib": [
+                "../ui/src/builder_platform_interaction/sobjectLib/sobjectLib.ts"
+            ],
+            "builder_platform_interaction/elementConfig": [
+                "../ui/src/builder_platform_interaction/elementConfig/elementConfig.ts"
+            ],
+            "builder_platform_interaction/dataTypeLib": [
+                "../ui/src/builder_platform_interaction/dataTypeLib/dataTypeLib.ts"
+            ],
+            "builder_platform_interaction/selectors": [
+                "../ui/src/builder_platform_interaction/selectors/selectors.ts"
+            ],
+            "builder_platform_interaction/screenEditorUtils": [
+                "../ui/src/builder_platform_interaction/screenEditorUtils/screenEditorUtils.ts"
+            ],
+            "builder_platform_interaction/dataMutationLib": [
+                "../ui/src/builder_platform_interaction/dataMutationLib/dataMutationLib.ts"
+            ],
+            "builder_platform_interaction/elementFactory": [
+                "../ui/src/builder_platform_interaction/elementFactory/elementFactory.ts"
+            ],
+            "builder_platform_interaction/imageLib": [
+                "../ui/src/builder_platform_interaction/imageLib/imageLib.ts"
+            ],
+            "builder_platform_interaction/actions": [
+                "../ui/src/builder_platform_interaction/actions/actions.ts"
+            ],
+            "builder_platform_interaction/storeUtils": [
+                "../ui/src/builder_platform_interaction/storeUtils/storeUtils.ts"
+            ],
+            "builder_platform_interaction/systemVariableConstantsLib": [
+                "../ui/src/builder_platform_interaction/systemVariableConstantsLib/systemVariableConstantsLib.ts"
+            ],
+            "builder_platform_interaction/flowExtensionLib": [
+                "../ui/src/builder_platform_interaction/flowExtensionLib/flowExtensionLib.ts"
+            ],
+            "builder_platform_interaction/apexTypeLib": [
+                "../ui/src/builder_platform_interaction/apexTypeLib/apexTypeLib.ts"
+            ],
+            "builder_platform_interaction/collectionProcessorLib": [
+                "../ui/src/builder_platform_interaction/collectionProcessorLib/collectionProcessorLib.ts"
+            ],
+            "builder_platform_interaction/complexTypeLib": [
+                "../ui/src/builder_platform_interaction/complexTypeLib/complexTypeLib.ts"
+            ],
+            "builder_platform_interaction/filterTypeLib": [
+                "../ui/src/builder_platform_interaction/filterTypeLib/filterTypeLib.ts"
+            ],
+            "builder_platform_interaction/screenEditorI18nUtils": [
+                "../ui/src/builder_platform_interaction/screenEditorI18nUtils/screenEditorI18nUtils.ts"
+            ],
+            "builder_platform_interaction/serverDataLib": [
+                "../ui/src/builder_platform_interaction/serverDataLib/serverDataLib.ts"
+            ],
+            "builder_platform_interaction/systemLib": [
+                "../ui/src/builder_platform_interaction/systemLib/systemLib.ts"
+            ],
+            "builder_platform_interaction/processTypeLib": [
+                "../ui/src/builder_platform_interaction/processTypeLib/processTypeLib.ts"
+            ],
+            "builder_platform_interaction/triggerTypeLib": [
+                "../ui/src/builder_platform_interaction/triggerTypeLib/triggerTypeLib.ts"
+            ],
+            "builder_platform_interaction/commonUtils": [
+                "../ui/src/builder_platform_interaction/commonUtils/commonUtils.ts"
+            ],
+            "builder_platform_interaction/sortEditorLib": [
+                "../ui/src/builder_platform_interaction/sortEditorLib/sortEditorLib.ts"
+            ],
+            "builder_platform_interaction/invocableActionLib": [
+                "../ui/src/builder_platform_interaction/invocableActionLib/invocableActionLib.ts"
+            ],
+            "builder_platform_interaction/referenceToVariableUtil": [
+                "../ui/src/builder_platform_interaction/referenceToVariableUtil/referenceToVariableUtil.ts"
+            ],
+            "builder_platform_interaction/dateTimeUtils": [
+                "../ui/src/builder_platform_interaction/dateTimeUtils/dateTimeUtils.ts"
+            ],
+            "builder_platform_interaction/alcCanvasUtils": [
+                "../ui/src/builder_platform_interaction/alcCanvasUtils/alcCanvasUtils.ts"
+            ],
+            "builder_platform_interaction/mapEditorLib": [
+                "../ui/src/builder_platform_interaction/mapEditorLib/mapEditorLib.ts"
+            ],
+            "builder_platform_interaction/undoRedoLib": [
+                "../ui/src/builder_platform_interaction/undoRedoLib/undoRedoLib.ts"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*",
+        "@types/index.d.ts",
+        "../@types/index.d.ts",
+        "../ui/@types/index.d.ts",
+        "../ui/@types/uiModel.d.ts",
+        "../ui/@types/metadataModel.d.ts",
+        "../shared-utils/@types/index.d.ts"
+    ]
+}

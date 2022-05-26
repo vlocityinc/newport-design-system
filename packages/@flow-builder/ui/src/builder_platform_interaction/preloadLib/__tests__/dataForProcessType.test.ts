@@ -4,7 +4,7 @@ import { setInvocableActions } from 'builder_platform_interaction/invocableActio
 import { setOperators, setRules } from 'builder_platform_interaction/ruleLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { setEntities, setEventTypes, setWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
-import { setGlobalVariables, setProcessTypeFeature, setSystemVariables } from 'builder_platform_interaction/systemLib';
+import { setGlobalVariables, setProcessTypeFeatures, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import {
     loadActions,
     loadEntities,
@@ -46,7 +46,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
     return {
         setGlobalVariables: jest.fn(),
         setSystemVariables: jest.fn(),
-        setProcessTypeFeature: jest.fn()
+        setProcessTypeFeatures: jest.fn()
     };
 });
 
@@ -186,14 +186,14 @@ describe('dataForProcessType', () => {
             expect(fetchOnce).toBeCalledWith(SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES, {
                 flowProcessType: 'a'
             });
-            expect(setProcessTypeFeature).toBeCalledTimes(1);
-            expect(setProcessTypeFeature).toBeCalledWith('a', 'features');
+            expect(setProcessTypeFeatures).toBeCalledTimes(1);
+            expect(setProcessTypeFeatures).toBeCalledWith('a', 'features');
         });
 
         it('does not invoke call back on error', async () => {
             fetchOnce.mockRejectedValue('error');
             await expect(loadProcessTypeFeatures('a')).rejects.toEqual('error');
-            expect(setProcessTypeFeature).toBeCalledTimes(0);
+            expect(setProcessTypeFeatures).toBeCalledTimes(0);
         });
     });
 

@@ -165,7 +165,7 @@ declare namespace Metadata {
         outputReference: string;
         queriedFields: string[];
         sortField: string;
-        sortOrder: 'Asc' | 'Desc';
+        sortOrder: SortOrder;
         storeOutputAutomatically: boolean;
     }
 
@@ -242,7 +242,7 @@ declare namespace Metadata {
         noMoreValuesConnector: Connector;
         collectionReference: string;
         assignNextValueToReference: string;
-        iterationOrder: 'Asc' | 'Desc';
+        iterationOrder: SortOrder;
     }
 
     interface SubflowInputAssignment extends BaseElement {
@@ -311,4 +311,6 @@ declare namespace Metadata {
         label: string;
         testPoints: FlowTestPoint[];
     }
+
+    type SortOrder = 'Asc' | 'Desc';
 }

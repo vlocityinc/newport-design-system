@@ -3,7 +3,7 @@ const { printInfo, printHeader } = require('./utils');
 const INDENT_SIZE = 12;
 const pathPropertyIndent = () => ' '.repeat(INDENT_SIZE);
 
-const nestedFolders = ['fieldInput'];
+const nestedFolders = [];
 
 const EXCLUDED_FOLDERS = ['jest-report'];
 const FLOW_BUILDER_UI_PACKAGE_DIR = 'packages/@flow-builder/ui';

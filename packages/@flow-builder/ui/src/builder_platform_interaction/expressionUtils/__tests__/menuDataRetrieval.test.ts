@@ -23,7 +23,7 @@ import {
     GLOBAL_CONSTANTS as gcLabels,
     GLOBAL_CONSTANT_OBJECTS as gcObjects,
     setGlobalVariables,
-    setProcessTypeFeature,
+    setProcessTypeFeatures,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
 import {
@@ -580,7 +580,7 @@ describe('Menu data retrieval', () => {
         });
         it('defaults showGlobalVariables to true', () => {
             setGlobalVariables(globalVariablesForFlow);
-            setProcessTypeFeature('flow', ['GlobalVariables']);
+            setProcessTypeFeatures('flow', ['GlobalVariables']);
             Store.setMockState({
                 properties: {
                     processType: 'flow',
@@ -633,7 +633,7 @@ describe('Menu data retrieval', () => {
             expect(menuData).toHaveLength(0);
         });
         it('should sort global/system variables alphabetically', () => {
-            setProcessTypeFeature('Flow', ['GlobalVariables']);
+            setProcessTypeFeatures('Flow', ['GlobalVariables']);
             setGlobalVariables(globalVariablesForFlow);
             setSystemVariables(systemVariables);
             const menuData = filterAndMutateMenuData([]);

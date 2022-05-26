@@ -1,0 +1,10 @@
+{
+    "extends": ["../../../.eslintrc.json"],
+    "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "jest/no-alias-methods": "off",
+        "jest/valid-expect-in-promise": "off",
+        "jest/valid-expect": "off",
+        "jest/valid-describe": "off"
+    }
+}

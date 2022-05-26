@@ -1,0 +1,17 @@
+<template>
+    <builder_platform_interaction-field-input-box
+        selected-item={selectedItem}
+        onunselectitem={handleUnselectItem}
+        ontogglemenu={handleToggleMenu}
+        onshowmenu={handleShowMenu}
+        config={inputBoxConfig}
+    >
+    </builder_platform_interaction-field-input-box>
+    <builder_platform_interaction-field-input-menu
+        if:true={isMenuOpened}
+        context-items={contextItems}
+        onfieldinputbreadcrumbclick={handleFieldInputBreadcrumbClick}
+        onfieldinputmenuselectitem={handleFieldInputMenuSelectItem}
+    >
+    </builder_platform_interaction-field-input-menu>
+</template>

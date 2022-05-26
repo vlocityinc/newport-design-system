@@ -6,7 +6,7 @@ import { getResourceCategory } from 'builder_platform_interaction/elementLabelLi
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { getStartElement, getStartElementFromState } from 'builder_platform_interaction/storeUtils';
-import { setGlobalVariables, setProcessTypeFeature, setSystemVariables } from 'builder_platform_interaction/systemLib';
+import { setGlobalVariables, setProcessTypeFeatures, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import {
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_PREFIX
@@ -239,7 +239,7 @@ describe('menuDataGenerator', () => {
             const NUM_SYSTEM_VARIABLES = 1; // only $Flow
             beforeEach(() => {
                 setGlobalVariables(globalVariablesForFlow);
-                setProcessTypeFeature('flow', ['GlobalVariables']);
+                setProcessTypeFeatures('flow', ['GlobalVariables']);
             });
             it('should not return global variables if showGlobalVariables is false', () => {
                 const menuData = getSystemAndGlobalVariableMenuData({
@@ -263,7 +263,7 @@ describe('menuDataGenerator', () => {
                 );
             });
             it('should return global variables if not supported for process type but for formula', () => {
-                setProcessTypeFeature('flow', []);
+                setProcessTypeFeatures('flow', []);
                 const menuData = getSystemAndGlobalVariableMenuData({
                     showSystemVariables: true,
                     showGlobalVariables: true,
@@ -272,7 +272,7 @@ describe('menuDataGenerator', () => {
                 expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + NUM_SYSTEM_VARIABLES);
             });
             it('should not return global variables if not supported for process type and not for formula', () => {
-                setProcessTypeFeature('flow', []);
+                setProcessTypeFeatures('flow', []);
                 const menuData = getSystemAndGlobalVariableMenuData({
                     showSystemVariables: true,
                     showGlobalVariables: true

@@ -35,7 +35,7 @@ import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ChoiceDisplayOptions, ScreenFieldName } from 'builder_platform_interaction/screenEditorUtils';
 import { invokeModal } from 'builder_platform_interaction/sharedUtils';
-import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
+import { setProcessTypeFeatures } from 'builder_platform_interaction/systemLib';
 import * as usebyMock from 'builder_platform_interaction/usedByLib';
 import { createElement } from 'lwc';
 import { accountSObjectVariable, flowWithAllElementsUIModel as mockFlowWithAllElementsUIModel } from 'mock/storeData';
@@ -174,7 +174,7 @@ describe('Event handling on editor', () => {
             return actual.screenReducer(state, event, node);
         });
 
-        setProcessTypeFeature('flow', supportedFeaturesListForFlow);
+        setProcessTypeFeatures('flow', supportedFeaturesListForFlow);
         const screen = createTestScreen('Screen1', null);
         screen.showHeader = true;
         screen.elementType = ELEMENT_TYPE.SCREEN;

@@ -16,39 +16,6 @@ declare namespace UI {
         value: string | null;
     };
 
-    type FieldInputCategory =
-        | 'Action'
-        | 'Assignment'
-        | 'Variable'
-        | 'Collection'
-        | 'RecordVariable'
-        | 'RecordCollection'
-        | 'ApexVariable'
-        | 'ApexCollection'
-        | 'Decision'
-        | 'Choice'
-        | 'Constant'
-        | 'Formula'
-        | 'Stage'
-        | 'TextTemplate'
-        | 'Loop'
-        | 'Outcome'
-        | 'RecordCreate'
-        | 'RecordDelete'
-        | 'RecordLookup'
-        | 'RecordUpdate'
-        | 'RollBack'
-        | 'Screen'
-        | 'Subflow'
-        | 'Wait'
-        | 'WaitEvent'
-        | 'ScreenField'
-        | 'OrchestratedStage'
-        | 'StageStep'
-        | 'Sort'
-        | 'Filter'
-        | 'Map';
-
     interface CanvasElementConfig {
         isHighlighted: boolean;
         isSelectable: boolean;
@@ -470,29 +437,6 @@ declare namespace UI {
         elementSubtype?: ElementSubtype;
     }
 
-    interface FieldInputMenuItem {
-        name: string;
-        label: string;
-        description?: string;
-        type: string;
-        dataType?: string;
-        iconName?: string;
-        iconAlternativeText?: string;
-        iconSize?: string;
-        value: string;
-        hasNext?: boolean;
-        category?: string;
-        subtype?: string;
-        rightIconName?: string;
-        rightIconSize?: string;
-        isCollection?: boolean;
-    }
-
-    interface FieldInputMenuData {
-        label: string;
-        items: FieldInputMenuItem[];
-    }
-
     interface NewResourceInfo {
         userProvidedText?: string | null;
         resourceTypes?: string[] | null;
@@ -621,4 +565,37 @@ declare namespace UI {
         badgeLabel: string;
         cssClass: string;
     };
+
+    type FieldInputCategory =
+        | 'Action'
+        | 'Assignment'
+        | 'Variable'
+        | 'Collection'
+        | 'RecordVariable'
+        | 'RecordCollection'
+        | 'ApexVariable'
+        | 'ApexCollection'
+        | 'Decision'
+        | 'Choice'
+        | 'Constant'
+        | 'Formula'
+        | 'Stage'
+        | 'TextTemplate'
+        | 'Loop'
+        | 'Outcome'
+        | 'RecordCreate'
+        | 'RecordDelete'
+        | 'RecordLookup'
+        | 'RecordUpdate'
+        | 'RollBack'
+        | 'Screen'
+        | 'Subflow'
+        | 'Wait'
+        | 'WaitEvent'
+        | 'ScreenField'
+        | 'OrchestratedStage'
+        | 'StageStep'
+        | 'Sort'
+        | 'Filter'
+        | 'Map';
 }

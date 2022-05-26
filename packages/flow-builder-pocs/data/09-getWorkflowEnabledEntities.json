@@ -1,0 +1,883 @@
+{
+    "actions": [
+        {
+            "id": "62;a",
+            "state": "SUCCESS",
+            "returnValue": [
+                {
+                    "QualifiedApiName": "Account",
+                    "DurableId": "Account"
+                },
+                {
+                    "QualifiedApiName": "AccountContactRelation",
+                    "DurableId": "AccountContactRelation"
+                },
+                {
+                    "QualifiedApiName": "ActionPlan",
+                    "DurableId": "ActionPlan"
+                },
+                {
+                    "QualifiedApiName": "ActionPlanItemDependency",
+                    "DurableId": "ActionPlanItemDependency"
+                },
+                {
+                    "QualifiedApiName": "ActionPlanTmplItmAssessmentInd",
+                    "DurableId": "ActionPlanTmplItmAssessmentInd"
+                },
+                {
+                    "QualifiedApiName": "ActionPlnTmplItmDependency",
+                    "DurableId": "ActionPlnTmplItmDependency"
+                },
+                {
+                    "QualifiedApiName": "Address",
+                    "DurableId": "Address"
+                },
+                {
+                    "QualifiedApiName": "Assessment",
+                    "DurableId": "Assessment"
+                },
+                {
+                    "QualifiedApiName": "AssessmentIndDefinedValue",
+                    "DurableId": "AssessmentIndDefinedValue"
+                },
+                {
+                    "QualifiedApiName": "AssessmentIndicatorDefinition",
+                    "DurableId": "AssessmentIndicatorDefinition"
+                },
+                {
+                    "QualifiedApiName": "AssessmentIndValue",
+                    "DurableId": "AssessmentIndValue"
+                },
+                {
+                    "QualifiedApiName": "AssessmentQuestion",
+                    "DurableId": "AssessmentQuestion"
+                },
+                {
+                    "QualifiedApiName": "AssessmentQuestionAssignment",
+                    "DurableId": "AssessmentQuestionAssignment"
+                },
+                {
+                    "QualifiedApiName": "AssessmentQuestionResponse",
+                    "DurableId": "AssessmentQuestionResponse"
+                },
+                {
+                    "QualifiedApiName": "AssessmentQuestionSet",
+                    "DurableId": "AssessmentQuestionSet"
+                },
+                {
+                    "QualifiedApiName": "AssessmentQuestionVersion",
+                    "DurableId": "AssessmentQuestionVersion"
+                },
+                {
+                    "QualifiedApiName": "AssessmentTask",
+                    "DurableId": "AssessmentTask"
+                },
+                {
+                    "QualifiedApiName": "AssessmentTaskContentDocument",
+                    "DurableId": "AssessmentTaskContentDocument"
+                },
+                {
+                    "QualifiedApiName": "AssessmentTaskDefinition",
+                    "DurableId": "AssessmentTaskDefinition"
+                },
+                {
+                    "QualifiedApiName": "AssessmentTaskIndDefinition",
+                    "DurableId": "AssessmentTaskIndDefinition"
+                },
+                {
+                    "QualifiedApiName": "AssessmentTaskOrder",
+                    "DurableId": "AssessmentTaskOrder"
+                },
+                {
+                    "QualifiedApiName": "Asset",
+                    "DurableId": "Asset"
+                },
+                {
+                    "QualifiedApiName": "AssetRelationship",
+                    "DurableId": "AssetRelationship"
+                },
+                {
+                    "QualifiedApiName": "AuthApplicationAsset",
+                    "DurableId": "AuthApplicationAsset"
+                },
+                {
+                    "QualifiedApiName": "AuthApplicationPlace",
+                    "DurableId": "AuthApplicationPlace"
+                },
+                {
+                    "QualifiedApiName": "AuthFormRequestRecord",
+                    "DurableId": "AuthFormRequestRecord"
+                },
+                {
+                    "QualifiedApiName": "AuthLocationAccessSchedule",
+                    "DurableId": "AuthLocationAccessSchedule"
+                },
+                {
+                    "QualifiedApiName": "AuthorizationForm",
+                    "DurableId": "AuthorizationForm"
+                },
+                {
+                    "QualifiedApiName": "AuthorizationFormConsent",
+                    "DurableId": "AuthorizationFormConsent"
+                },
+                {
+                    "QualifiedApiName": "AuthorizationFormDataUse",
+                    "DurableId": "AuthorizationFormDataUse"
+                },
+                {
+                    "QualifiedApiName": "AuthorizationFormText",
+                    "DurableId": "AuthorizationFormText"
+                },
+                {
+                    "QualifiedApiName": "BusinessBrand",
+                    "DurableId": "BusinessBrand"
+                },
+                {
+                    "QualifiedApiName": "BusinessLicense",
+                    "DurableId": "BusinessLicense"
+                },
+                {
+                    "QualifiedApiName": "BusinessLicenseApplication",
+                    "DurableId": "BusinessLicenseApplication"
+                },
+                {
+                    "QualifiedApiName": "BusinessProfile",
+                    "DurableId": "BusinessProfile"
+                },
+                {
+                    "QualifiedApiName": "BusinessType",
+                    "DurableId": "BusinessType"
+                },
+                {
+                    "QualifiedApiName": "BusRegAuthorizationType",
+                    "DurableId": "BusRegAuthorizationType"
+                },
+                {
+                    "QualifiedApiName": "BusRegAuthTypeDependency",
+                    "DurableId": "BusRegAuthTypeDependency"
+                },
+                {
+                    "QualifiedApiName": "Case",
+                    "DurableId": "Case"
+                },
+                {
+                    "QualifiedApiName": "CaseComment",
+                    "DurableId": "CaseComment"
+                },
+                {
+                    "QualifiedApiName": "ChatterActivity",
+                    "DurableId": "ChatterActivity"
+                },
+                {
+                    "QualifiedApiName": "CollaborationGroup",
+                    "DurableId": "CollaborationGroup"
+                },
+                {
+                    "QualifiedApiName": "CollaborationGroupMember",
+                    "DurableId": "CollaborationGroupMember"
+                },
+                {
+                    "QualifiedApiName": "CommSubscription",
+                    "DurableId": "CommSubscription"
+                },
+                {
+                    "QualifiedApiName": "CommSubscriptionChannelType",
+                    "DurableId": "CommSubscriptionChannelType"
+                },
+                {
+                    "QualifiedApiName": "CommSubscriptionConsent",
+                    "DurableId": "CommSubscriptionConsent"
+                },
+                {
+                    "QualifiedApiName": "CommSubscriptionTiming",
+                    "DurableId": "CommSubscriptionTiming"
+                },
+                {
+                    "QualifiedApiName": "ComplaintCase",
+                    "DurableId": "ComplaintCase"
+                },
+                {
+                    "QualifiedApiName": "ComplaintParticipant",
+                    "DurableId": "ComplaintParticipant"
+                },
+                {
+                    "QualifiedApiName": "Contact",
+                    "DurableId": "Contact"
+                },
+                {
+                    "QualifiedApiName": "ContactPointAddress",
+                    "DurableId": "ContactPointAddress"
+                },
+                {
+                    "QualifiedApiName": "ContactPointConsent",
+                    "DurableId": "ContactPointConsent"
+                },
+                {
+                    "QualifiedApiName": "ContactPointEmail",
+                    "DurableId": "ContactPointEmail"
+                },
+                {
+                    "QualifiedApiName": "ContactPointPhone",
+                    "DurableId": "ContactPointPhone"
+                },
+                {
+                    "QualifiedApiName": "ContactPointTypeConsent",
+                    "DurableId": "ContactPointTypeConsent"
+                },
+                {
+                    "QualifiedApiName": "ContactRequest",
+                    "DurableId": "ContactRequest"
+                },
+                {
+                    "QualifiedApiName": "Contract",
+                    "DurableId": "Contract"
+                },
+                {
+                    "QualifiedApiName": "CourseOffering",
+                    "DurableId": "CourseOffering"
+                },
+                {
+                    "QualifiedApiName": "CrbnCreditProject",
+                    "DurableId": "CrbnCreditProject"
+                },
+                {
+                    "QualifiedApiName": "Customer",
+                    "DurableId": "Customer"
+                },
+                {
+                    "QualifiedApiName": "DataUseLegalBasis",
+                    "DurableId": "DataUseLegalBasis"
+                },
+                {
+                    "QualifiedApiName": "DataUsePurpose",
+                    "DurableId": "DataUsePurpose"
+                },
+                {
+                    "QualifiedApiName": "devopsimpkg11__DRBatchQueue__c",
+                    "DurableId": "01IRO0000009c26"
+                },
+                {
+                    "QualifiedApiName": "devopsimpkg11__DRBulkData__c",
+                    "DurableId": "01IRO0000009c27"
+                },
+                {
+                    "QualifiedApiName": "devopsimpkg11__Interface_DRGeneric__c",
+                    "DurableId": "01IRO0000009c2B"
+                },
+                {
+                    "QualifiedApiName": "devopsimpkg11__TestResult__c",
+                    "DurableId": "01IRO0000009c2C"
+                },
+                {
+                    "QualifiedApiName": "devopsimpkg11__VlocityDataPack__c",
+                    "DurableId": "01IRO0000009c2F"
+                },
+                {
+                    "QualifiedApiName": "devopsimpkg11__VlocityDocuSignTemplate__c",
+                    "DurableId": "01IRO0000009c2G"
+                },
+                {
+                    "QualifiedApiName": "devopsimpkg11__VlocityErrorLogEntry__c",
+                    "DurableId": "01IRO0000009c2H"
+                },
+                {
+                    "QualifiedApiName": "devopsimpkg11__VlocityScheduledJob__c",
+                    "DurableId": "01IRO0000009c2I"
+                },
+                {
+                    "QualifiedApiName": "devopsimpkg11__VlocityTrackingEntry__c",
+                    "DurableId": "01IRO0000009c2J"
+                },
+                {
+                    "QualifiedApiName": "DigitalSignature",
+                    "DurableId": "DigitalSignature"
+                },
+                {
+                    "QualifiedApiName": "DocumentChecklistItem",
+                    "DurableId": "DocumentChecklistItem"
+                },
+                {
+                    "QualifiedApiName": "DuplicateRecordItem",
+                    "DurableId": "DuplicateRecordItem"
+                },
+                {
+                    "QualifiedApiName": "DuplicateRecordSet",
+                    "DurableId": "DuplicateRecordSet"
+                },
+                {
+                    "QualifiedApiName": "EmailMessage",
+                    "DurableId": "EmailMessage"
+                },
+                {
+                    "QualifiedApiName": "EngagementChannelType",
+                    "DurableId": "EngagementChannelType"
+                },
+                {
+                    "QualifiedApiName": "Event",
+                    "DurableId": "Event"
+                },
+                {
+                    "QualifiedApiName": "Examination",
+                    "DurableId": "Examination"
+                },
+                {
+                    "QualifiedApiName": "ExternalEventMapping",
+                    "DurableId": "ExternalEventMapping"
+                },
+                {
+                    "QualifiedApiName": "FeedItem",
+                    "DurableId": "FeedItem"
+                },
+                {
+                    "QualifiedApiName": "GenericVisitTask",
+                    "DurableId": "GenericVisitTask"
+                },
+                {
+                    "QualifiedApiName": "GenericVisitTaskContext",
+                    "DurableId": "GenericVisitTaskContext"
+                },
+                {
+                    "QualifiedApiName": "GnrcVstKeyPerformanceInd",
+                    "DurableId": "GnrcVstKeyPerformanceInd"
+                },
+                {
+                    "QualifiedApiName": "GnrcVstTaskContextRelation",
+                    "DurableId": "GnrcVstTaskContextRelation"
+                },
+                {
+                    "QualifiedApiName": "Idea",
+                    "DurableId": "Idea"
+                },
+                {
+                    "QualifiedApiName": "Image",
+                    "DurableId": "Image"
+                },
+                {
+                    "QualifiedApiName": "Individual",
+                    "DurableId": "Individual"
+                },
+                {
+                    "QualifiedApiName": "IndividualApplication",
+                    "DurableId": "IndividualApplication"
+                },
+                {
+                    "QualifiedApiName": "InfoAuthorizationRequest",
+                    "DurableId": "InfoAuthorizationRequest"
+                },
+                {
+                    "QualifiedApiName": "InfoAuthRequestForm",
+                    "DurableId": "InfoAuthRequestForm"
+                },
+                {
+                    "QualifiedApiName": "InspectionAssessmentInd",
+                    "DurableId": "InspectionAssessmentInd"
+                },
+                {
+                    "QualifiedApiName": "InspectionType",
+                    "DurableId": "InspectionType"
+                },
+                {
+                    "QualifiedApiName": "Lead",
+                    "DurableId": "Lead"
+                },
+                {
+                    "QualifiedApiName": "Location",
+                    "DurableId": "Location"
+                },
+                {
+                    "QualifiedApiName": "LocationTrustMeasure",
+                    "DurableId": "LocationTrustMeasure"
+                },
+                {
+                    "QualifiedApiName": "MultipartyInfoAuthRequest",
+                    "DurableId": "MultipartyInfoAuthRequest"
+                },
+                {
+                    "QualifiedApiName": "OmniAssessmentTask",
+                    "DurableId": "OmniAssessmentTask"
+                },
+                {
+                    "QualifiedApiName": "OmniProcessAsmtQuestionVer",
+                    "DurableId": "OmniProcessAsmtQuestionVer"
+                },
+                {
+                    "QualifiedApiName": "Opportunity",
+                    "DurableId": "Opportunity"
+                },
+                {
+                    "QualifiedApiName": "OpportunityContactRole",
+                    "DurableId": "OpportunityContactRole"
+                },
+                {
+                    "QualifiedApiName": "OpportunityLineItem",
+                    "DurableId": "OpportunityLineItem"
+                },
+                {
+                    "QualifiedApiName": "Order",
+                    "DurableId": "Order"
+                },
+                {
+                    "QualifiedApiName": "OrderItem",
+                    "DurableId": "OrderItem"
+                },
+                {
+                    "QualifiedApiName": "OrgDeleteRequest",
+                    "DurableId": "OrgDeleteRequest"
+                },
+                {
+                    "QualifiedApiName": "OrgMetricScanResult",
+                    "DurableId": "OrgMetricScanResult"
+                },
+                {
+                    "QualifiedApiName": "OrgMetricScanSummary",
+                    "DurableId": "OrgMetricScanSummary"
+                },
+                {
+                    "QualifiedApiName": "PartyConsent",
+                    "DurableId": "PartyConsent"
+                },
+                {
+                    "QualifiedApiName": "PersonEducation",
+                    "DurableId": "PersonEducation"
+                },
+                {
+                    "QualifiedApiName": "PersonExamination",
+                    "DurableId": "PersonExamination"
+                },
+                {
+                    "QualifiedApiName": "Polygon",
+                    "DurableId": "Polygon"
+                },
+                {
+                    "QualifiedApiName": "PreliminaryApplicationRef",
+                    "DurableId": "PreliminaryApplicationRef"
+                },
+                {
+                    "QualifiedApiName": "ProcessException",
+                    "DurableId": "ProcessException"
+                },
+                {
+                    "QualifiedApiName": "Product2",
+                    "DurableId": "Product2"
+                },
+                {
+                    "QualifiedApiName": "ProductAvailabilityProjection",
+                    "DurableId": "ProductAvailabilityProjection"
+                },
+                {
+                    "QualifiedApiName": "ProductFulfillmentLocation",
+                    "DurableId": "ProductFulfillmentLocation"
+                },
+                {
+                    "QualifiedApiName": "ProfileSkill",
+                    "DurableId": "ProfileSkill"
+                },
+                {
+                    "QualifiedApiName": "ProfileSkillEndorsement",
+                    "DurableId": "ProfileSkillEndorsement"
+                },
+                {
+                    "QualifiedApiName": "ProfileSkillUser",
+                    "DurableId": "ProfileSkillUser"
+                },
+                {
+                    "QualifiedApiName": "PromptAction",
+                    "DurableId": "PromptAction"
+                },
+                {
+                    "QualifiedApiName": "PromptError",
+                    "DurableId": "PromptError"
+                },
+                {
+                    "QualifiedApiName": "PublicComplaint",
+                    "DurableId": "PublicComplaint"
+                },
+                {
+                    "QualifiedApiName": "QuickText",
+                    "DurableId": "QuickText"
+                },
+                {
+                    "QualifiedApiName": "QuickTextUsage",
+                    "DurableId": "QuickTextUsage"
+                },
+                {
+                    "QualifiedApiName": "ReceivedDocument",
+                    "DurableId": "ReceivedDocument"
+                },
+                {
+                    "QualifiedApiName": "RecurrenceSchedule",
+                    "DurableId": "RecurrenceSchedule"
+                },
+                {
+                    "QualifiedApiName": "RegAuthorizationTypeProduct",
+                    "DurableId": "RegAuthorizationTypeProduct"
+                },
+                {
+                    "QualifiedApiName": "RegulatoryAuthority",
+                    "DurableId": "RegulatoryAuthority"
+                },
+                {
+                    "QualifiedApiName": "RegulatoryAuthorizationType",
+                    "DurableId": "RegulatoryAuthorizationType"
+                },
+                {
+                    "QualifiedApiName": "RegulatoryCode",
+                    "DurableId": "RegulatoryCode"
+                },
+                {
+                    "QualifiedApiName": "RegulatoryCodeAssessmentInd",
+                    "DurableId": "RegulatoryCodeAssessmentInd"
+                },
+                {
+                    "QualifiedApiName": "RegulatoryCodeUse",
+                    "DurableId": "RegulatoryCodeUse"
+                },
+                {
+                    "QualifiedApiName": "RegulatoryCodeViolation",
+                    "DurableId": "RegulatoryCodeViolation"
+                },
+                {
+                    "QualifiedApiName": "RegulatoryTrxnFee",
+                    "DurableId": "RegulatoryTrxnFee"
+                },
+                {
+                    "QualifiedApiName": "RegulatoryTrxnFeeItem",
+                    "DurableId": "RegulatoryTrxnFeeItem"
+                },
+                {
+                    "QualifiedApiName": "Seller",
+                    "DurableId": "Seller"
+                },
+                {
+                    "QualifiedApiName": "SignatureTask",
+                    "DurableId": "SignatureTask"
+                },
+                {
+                    "QualifiedApiName": "SocialPersona",
+                    "DurableId": "SocialPersona"
+                },
+                {
+                    "QualifiedApiName": "SocialPost",
+                    "DurableId": "SocialPost"
+                },
+                {
+                    "QualifiedApiName": "StreamingChannel",
+                    "DurableId": "StreamingChannel"
+                },
+                {
+                    "QualifiedApiName": "Task",
+                    "DurableId": "Task"
+                },
+                {
+                    "QualifiedApiName": "TenantSecurityLogin",
+                    "DurableId": "TenantSecurityLogin"
+                },
+                {
+                    "QualifiedApiName": "TenantSecurityMonitorMetric",
+                    "DurableId": "TenantSecurityMonitorMetric"
+                },
+                {
+                    "QualifiedApiName": "TenantSecurityTenantInfo",
+                    "DurableId": "TenantSecurityTenantInfo"
+                },
+                {
+                    "QualifiedApiName": "Topic",
+                    "DurableId": "Topic"
+                },
+                {
+                    "QualifiedApiName": "TopicAssignment",
+                    "DurableId": "TopicAssignment"
+                },
+                {
+                    "QualifiedApiName": "TrainingCourseParticipant",
+                    "DurableId": "TrainingCourseParticipant"
+                },
+                {
+                    "QualifiedApiName": "TrnCourse",
+                    "DurableId": "TrnCourse"
+                },
+                {
+                    "QualifiedApiName": "User",
+                    "DurableId": "User"
+                },
+                {
+                    "QualifiedApiName": "UserProvisioningRequest",
+                    "DurableId": "UserProvisioningRequest"
+                },
+                {
+                    "QualifiedApiName": "ViolationEnforcementAction",
+                    "DurableId": "ViolationEnforcementAction"
+                },
+                {
+                    "QualifiedApiName": "ViolationType",
+                    "DurableId": "ViolationType"
+                },
+                {
+                    "QualifiedApiName": "ViolationTypeAssessmentInd",
+                    "DurableId": "ViolationTypeAssessmentInd"
+                },
+                {
+                    "QualifiedApiName": "ViolationTypeUse",
+                    "DurableId": "ViolationTypeUse"
+                },
+                {
+                    "QualifiedApiName": "Visit",
+                    "DurableId": "Visit"
+                },
+                {
+                    "QualifiedApiName": "VisitedParty",
+                    "DurableId": "VisitedParty"
+                },
+                {
+                    "QualifiedApiName": "Visitor",
+                    "DurableId": "Visitor"
+                },
+                {
+                    "QualifiedApiName": "WorkBadge",
+                    "DurableId": "WorkBadge"
+                },
+                {
+                    "QualifiedApiName": "WorkBadgeDefinition",
+                    "DurableId": "WorkBadgeDefinition"
+                },
+                {
+                    "QualifiedApiName": "WorkOrder",
+                    "DurableId": "WorkOrder"
+                },
+                {
+                    "QualifiedApiName": "WorkOrderLineItem",
+                    "DurableId": "WorkOrderLineItem"
+                },
+                {
+                    "QualifiedApiName": "WorkThanks",
+                    "DurableId": "WorkThanks"
+                }
+            ],
+            "error": []
+        }
+    ],
+    "context": {
+        "mode": "PRODDEBUG",
+        "app": "builder_platform_interaction:flowBuilder",
+        "pathPrefix": "",
+        "fwuid": "xxGTkOcaST9igEx4yxgfKA",
+        "mlr": 1,
+        "uad": 1,
+        "loaded": {
+            "APPLICATION@markup://builder_platform_interaction:flowBuilder": "ROqHexnGx_plnQd2OMfL6A"
+        },
+        "globalValueProviders": [
+            {
+                "type": "$Global",
+                "values": {
+                    "density": {
+                        "writable": true,
+                        "value": "VIEW_ONE"
+                    }
+                }
+            }
+        ],
+        "enableAccessChecks": true,
+        "dns": "c",
+        "rns": ["devopsimpkg11"],
+        "lairn": [],
+        "laerc": [],
+        "lav": "56",
+        "csp": 1,
+        "mna": {
+            "lightning": "interop"
+        },
+        "lff": {
+            "ENABLE_MIXED_SHADOW_MODE": false
+        },
+        "arse": 1,
+        "acaf": 1,
+        "services": [
+            "markup://lightning:configProvider",
+            "markup://force:salesforceScopedModuleResolver",
+            "markup://force:ldsEngineCreator",
+            "markup://instrumentation:locatorService"
+        ]
+    },
+    "perf": {
+        "version": "1.0.0",
+        "calltree": [
+            {
+                "name": "http-request",
+                "attachment": {},
+                "startTime": 1652949815497,
+                "ownTime": 7,
+                "childTime": 68,
+                "totalTime": 75,
+                "children": [
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949815502,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "1$serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController/ACTION$getWorkflowEnabledEntities",
+                            "id": "62;a"
+                        },
+                        "startTime": 1652949815508,
+                        "ownTime": 2,
+                        "childTime": 43,
+                        "totalTime": 45,
+                        "children": [
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "details": "SELECT QualifiedApiName, DurableId FROM EntityDefinition WHERE IsWorkflowEnabled = true AND (NOT QualifiedApiName in ('EnvironmentHubMemberRel','Organization','Site','Solution','SsoUserMapping')) ORDER BY QualifiedApiName LIMIT 200 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949815509,
+                                "ownTime": 6,
+                                "childTime": 36,
+                                "totalTime": 43,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949815512,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949815545,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949815547,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949815557,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949815559,
+                        "ownTime": 2,
+                        "childTime": 0,
+                        "totalTime": 2
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949815562,
+                        "ownTime": 8,
+                        "childTime": 0,
+                        "totalTime": 8
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949815570,
+                        "ownTime": 2,
+                        "childTime": 0,
+                        "totalTime": 2
+                    }
+                ]
+            }
+        ],
+        "summary": {
+            "db-conn-wait": {
+                "totalTime": 0,
+                "totalCalls": 3
+            },
+            "soql": {
+                "totalTime": 31,
+                "totalCalls": 1
+            },
+            "db-exec": {
+                "totalTime": 19,
+                "totalCalls": 8
+            },
+            "cache-caas": {
+                "totalTime": 5,
+                "totalCalls": 6
+            },
+            "request-tracing-check": {
+                "totalTime": 0,
+                "totalCalls": 4
+            },
+            "action": {
+                "totalTime": 45,
+                "totalCalls": 1
+            },
+            "soap-api-serialization": {
+                "totalTime": 0,
+                "totalCalls": 1
+            },
+            "soap-api-network-write": {
+                "totalTime": 0,
+                "totalCalls": 1
+            },
+            "api": {
+                "totalTime": 43,
+                "totalCalls": 1
+            },
+            "http-request": {
+                "totalTime": 75,
+                "totalCalls": 1
+            },
+            "request-tracing-enable": {
+                "totalTime": 0,
+                "totalCalls": 2
+            }
+        }
+    },
+    "perfSummary": {
+        "version": "core",
+        "request": 75,
+        "actions": {
+            "62;a": {
+                "total": 45,
+                "db": 6
+            }
+        },
+        "actionsTotal": 45,
+        "overhead": 0
+    }
+}

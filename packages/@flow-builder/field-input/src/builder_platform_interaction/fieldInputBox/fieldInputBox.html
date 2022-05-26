@@ -1,0 +1,36 @@
+<template>
+    <div class="slds-form-element">
+        <label class="slds-form-element__label" for="text-input-id">{labels.inputLabel}</label>
+        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+            <lightning-icon
+                if:false={pill}
+                icon-name="utility:search"
+                alternative-text={labels.iconAlt}
+                title={labels.iconTitle}
+                size="x-small"
+                class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+            >
+            </lightning-icon>
+            <input
+                if:false={pill}
+                type="text"
+                id="text-input-id"
+                placeholder={labels.inputPlaceholder}
+                class="slds-input"
+                onchange={handleChange}
+                value={searchText}
+                onfocus={handleInputFocus}
+            />
+        </div>
+    </div>
+    <builder_platform_interaction-field-input-box-pill
+        tabindex="0"
+        id="pill"
+        if:true={pill}
+        label={pill.label}
+        icon-name={pill.iconName}
+        onremove={handlePillRemove}
+        onclick={handlePillClick}
+    >
+    </builder_platform_interaction-field-input-box-pill>
+</template>

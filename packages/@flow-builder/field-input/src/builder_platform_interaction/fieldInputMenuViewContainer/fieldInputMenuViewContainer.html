@@ -1,0 +1,18 @@
+<template>
+    <div role="tree" aria-label={viewProps.ariaLabel} class="slds-scrollable_y menu-fixed-height">
+        <builder_platform_interaction-field-input-menu-all-view if:true={viewProps.isAllView}>
+        </builder_platform_interaction-field-input-menu-all-view>
+
+        <builder_platform_interaction-field-input-menu-object-fields-view
+            if:true={viewProps.isObjectFieldsView}
+            object-api-name={viewProps.objectApiName}
+        >
+        </builder_platform_interaction-field-input-menu-object-fields-view>
+        <builder_platform_interaction-field-input-menu-picklist-view
+            if:true={viewProps.isPicklistValuesView}
+            info={viewProps}
+        >
+        </builder_platform_interaction-field-input-menu-picklist-view>
+        <div if:true={viewProps.missingViewType}>Missing View of Type: {viewProps.missingViewType}</div>
+    </div>
+</template>

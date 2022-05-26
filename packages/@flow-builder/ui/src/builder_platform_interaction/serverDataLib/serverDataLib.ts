@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { readonly } from 'lwc';
 
 export const SERVER_ACTION_TYPE = {
@@ -64,7 +63,8 @@ export const SERVER_ACTION_TYPE = {
     RUN_FLOW_TESTS: 'runFlowTests',
     GET_FLOW_TEST: 'retrieveFlowTest',
     VALIDATE_FORMULA: 'validateFormulaSyntax',
-    GET_FLOW_IDS: 'getFlowIds'
+    GET_FLOW_IDS: 'getFlowIds',
+    SET_USER_PREFERENCES: 'setUserPreferences'
 };
 
 const actionConfig = {
@@ -318,6 +318,8 @@ export function fetchOnce(
                         Array.isArray(error) && error.length === 1 && error[0].message ? error[0].message : error;
                     const newError = new Error(errorMessage);
                     if (typeof error === 'object') {
+                        // TODO: please fix
+                        // @ts-ignore
                         newError.cause = error;
                     }
                     reject(newError);
@@ -355,7 +357,7 @@ export function fetchOnce(
 export function fetchPromise(
     serverActionType: string,
     params: Object = {},
-    { background = false, disableErrorModal = false, messageForErrorModal } = {}
+    { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
 ) {
     return new Promise((resolve, reject) => {
         fetch(

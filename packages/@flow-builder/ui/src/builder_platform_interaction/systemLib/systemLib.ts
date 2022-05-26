@@ -93,7 +93,7 @@ export {
     resetGlobalVariables,
     setGlobalVariables
 } from './globalVariables';
-export { getProcessFeatures, getProcessTypes, setProcessTypeFeature, setProcessTypes } from './processTypes';
+export { getProcessFeatures, getProcessTypes, setProcessTypeFeatures, setProcessTypes } from './processTypes';
 export { getRunInModes, setRunInModes } from './runInModes';
 export {
     getSystemVariables,

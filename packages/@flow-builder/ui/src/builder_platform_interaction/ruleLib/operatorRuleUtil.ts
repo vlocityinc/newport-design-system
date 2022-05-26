@@ -284,12 +284,12 @@ const convertToAllowedParamMap = (stringifiedParamTypeMap) => {
 /**
  * Get the allowed left hand side types based on the rule type
  *
- * @param {string} elementType      elementType where this rule is being used
- * @param {operatorRule[]} rules    list of rules we are checking for lhs types. These are taken from the FlowOperatorRuleUtil service
- * @param {string} ruleType     the rule type of the given rules eg: assignment/comparator
- * @returns {allowedParamMap}   map of data types & element types to allowed left hand side types
+ * @param elementType      elementType where this rule is being used
+ * @param rules    list of rules we are checking for lhs types. These are taken from the FlowOperatorRuleUtil service
+ * @param  ruleType     the rule type of the given rules eg: assignment/comparator
+ * @returns  map of data types & element types to allowed left hand side types
  */
-export const getLHSTypes = (elementType, rules, ruleType) => {
+export const getLHSTypes = (elementType: string, rules: Rule[], ruleType: string = undefined): RuleMap => {
     if (!Array.isArray(rules)) {
         throw new Error(`Rules must be an Array but instead was ${typeof rules}`);
     }

@@ -49,7 +49,7 @@
  *      ...
  *  }
  */
-import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { readonly } from 'lwc';
 
 let rulesInstance = {};
@@ -240,14 +240,15 @@ export const getOutputRules = () => {
 /**
  * The information needed to determine the appropriate set of rules for a given context
  *
- * @typedef {Object} contextConfig
- * @property {string} elementType    the property editor for which the rules are being retrieved
+ * @param ruleType - The rule type
+ * @param elementType - The element type
+ * @returns the rules
  */
 
-export const getRulesForElementType = (ruleType, elementType) => {
+export const getRulesForElementType = (ruleType: RULE_TYPES, elementType: ELEMENT_TYPE): Rule[] => {
     let rules = rulesInstance[ruleType];
     const ruleElementType = UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementType] || elementType;
-    if (rulesInstance[ruleElementType] && rulesInstance[ruleElementType][ruleType]) {
+    if (rulesInstance[ruleElementType]?.[ruleType]) {
         rules = rules.concat(rulesInstance[ruleElementType][ruleType]);
     }
     return rules;

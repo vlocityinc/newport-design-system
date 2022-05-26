@@ -1,0 +1,242 @@
+{
+    "actions": [
+        {
+            "id": "21;a",
+            "state": "SUCCESS",
+            "returnValue": [
+                {
+                    "id": "debugModeNotification_21_2022",
+                    "level": "info",
+                    "message": "You Have Lightning Components Debug Mode Enabled. Salesforce is slower in debug mode. Ask your admin how to disable it, or see",
+                    "icon": "info",
+                    "action": {
+                        "type": "url",
+                        "message": "Enable Debug Mode for Lightning Components.",
+                        "urlType": "SALESFORCE_HELP",
+                        "infoMap": {
+                            "docName": "aura_debug_mode",
+                            "label": "Enable Debug Mode for Lightning Components.",
+                            "title": "Enable Debug Mode for Lightning Components."
+                        }
+                    },
+                    "isClosable": true
+                }
+            ],
+            "error": []
+        }
+    ],
+    "context": {
+        "mode": "PRODDEBUG",
+        "app": "builder_platform_interaction:flowBuilder",
+        "pathPrefix": "",
+        "fwuid": "xxGTkOcaST9igEx4yxgfKA",
+        "mlr": 1,
+        "uad": 1,
+        "descriptorUids": {},
+        "loaded": {
+            "APPLICATION@markup://builder_platform_interaction:flowBuilder": "ROqHexnGx_plnQd2OMfL6A"
+        },
+        "globalValueProviders": [
+            {
+                "type": "$Global",
+                "values": {
+                    "density": {
+                        "writable": true,
+                        "value": "VIEW_ONE"
+                    }
+                }
+            }
+        ],
+        "enableAccessChecks": true,
+        "dns": "c",
+        "rns": ["devopsimpkg11"],
+        "lairn": [],
+        "laerc": [],
+        "lav": "56",
+        "csp": 1,
+        "mna": {
+            "lightning": "interop"
+        },
+        "lff": {
+            "ENABLE_MIXED_SHADOW_MODE": false
+        },
+        "arse": 1,
+        "acaf": 1,
+        "services": [
+            "markup://lightning:configProvider",
+            "markup://force:salesforceScopedModuleResolver",
+            "markup://force:ldsEngineCreator",
+            "markup://instrumentation:locatorService"
+        ]
+    },
+    "perf": {
+        "version": "1.0.0",
+        "calltree": [
+            {
+                "name": "http-request",
+                "attachment": {},
+                "startTime": 1652950567923,
+                "ownTime": 4,
+                "childTime": 34,
+                "totalTime": 39,
+                "children": [
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652950567928,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "api",
+                        "attachment": {
+                            "details": "",
+                            "api": "ApiUtilImpl#getAccessInfo",
+                            "version": "Winter '23",
+                            "outcome": "SUCCESS"
+                        },
+                        "startTime": 1652950567930,
+                        "ownTime": 0,
+                        "childTime": 4,
+                        "totalTime": 5,
+                        "children": []
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "1$serviceComponent://ui.global.components.one.systemMessage.SystemMessageController/ACTION$getSystemMessages",
+                            "id": "21;a"
+                        },
+                        "startTime": 1652950567939,
+                        "ownTime": 1,
+                        "childTime": 21,
+                        "totalTime": 22,
+                        "children": [
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "details": "query: SELECT ValueString, ValueNumber, ValueBoolean, ValueDate, DurableId FROM OrganizationValueInfo WHERE DurableId = 'TrialOrgEnabled'",
+                                    "api": "ApiUtilImpl#query",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652950567940,
+                                "ownTime": 0,
+                                "childTime": 6,
+                                "totalTime": 6,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652950567941,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "details": "query: SELECT UserPreferencesPreviewCustomTheme FROM User WHERE Id = '005RO000000UzBX'",
+                                    "api": "ApiUtilImpl#query",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652950567947,
+                                "ownTime": 0,
+                                "childTime": 12,
+                                "totalTime": 12,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ *\nfrom (select /*+ ordered index(t pkusers) use_nl(USER_CUSTOMIZATION) */\nt.users_id \"Id\",\nCASE WHEN BITAND(USER_CUSTOMIZATION.user_preferences13,16777216)<>0 THEN 1 ELSE 0 END \"UserPreferences_408\"\nfrom core.users t,\nCORE.USER_CUSTOMIZATION USER_CUSTOMIZATION\nwhere (t.users_id = USER_CUSTOMIZATION.users_id(+))\nand (t.organization_id = USER_CUSTOMIZATION.organization_id(+))\nand (t.organization_id = '00DRO0000009YRI')\nand (t.users_id != '000000000000000')\nand (t.users_id != '000000000000000')\nand (t.user_type NOT IN ('L','X','N','D')))\nwhere (\"Id\" = ?)"
+                                        },
+                                        "startTime": 1652950567957,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "details": "query: SELECT ValueString, ValueNumber, ValueBoolean, ValueDate, DurableId FROM OrganizationValueInfo WHERE DurableId = 'ReadOnlyOrgSuspended'",
+                                    "api": "ApiUtilImpl#query",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652950567960,
+                                "ownTime": 0,
+                                "childTime": 2,
+                                "totalTime": 2,
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "summary": {
+            "db-conn-wait": {
+                "totalTime": 0,
+                "totalCalls": 2
+            },
+            "soql": {
+                "totalTime": 17,
+                "totalCalls": 3
+            },
+            "db-exec": {
+                "totalTime": 4,
+                "totalCalls": 3
+            },
+            "cache-caas": {
+                "totalTime": 10,
+                "totalCalls": 15
+            },
+            "request-tracing-check": {
+                "totalTime": 0,
+                "totalCalls": 8
+            },
+            "soap-api": {
+                "totalTime": 24,
+                "totalCalls": 4
+            },
+            "action": {
+                "totalTime": 22,
+                "totalCalls": 1
+            },
+            "api": {
+                "totalTime": 25,
+                "totalCalls": 4
+            },
+            "http-request": {
+                "totalTime": 39,
+                "totalCalls": 1
+            },
+            "request-tracing-enable": {
+                "totalTime": 0,
+                "totalCalls": 2
+            }
+        }
+    },
+    "perfSummary": {
+        "version": "core",
+        "request": 39,
+        "actions": {
+            "21;a": {
+                "total": 22,
+                "db": 4
+            }
+        },
+        "actionsTotal": 22,
+        "overhead": 0
+    }
+}

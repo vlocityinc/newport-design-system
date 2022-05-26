@@ -8,7 +8,7 @@
         "lwcVersion": "1.9.7-232.0",
         "lwcApiVersion": "0.230.14",
         "branch": "main",
-        "copyPasteThreshold": "1.24"
+        "copyPasteThreshold": "1.27"
     },
     "scripts": {
         "check:goldFiles": "./scripts/checkGoldFiles.sh -b $npm_package_config_branch",
@@ -95,9 +95,9 @@
         "@salesforce/eslint-config-lwc": "^3.2.0",
         "@salesforce/eslint-plugin-lightning": "^1.0.0",
         "@salesforce/wire-service-jest-util": "^4.0.0",
+        "@types/aria-query": "^5.0.0",
         "@types/jest": "^27.0.3",
         "@types/node": "^16.11.11",
-        "@types/aria-query": "^5.0.0",
         "@typescript-eslint/eslint-plugin": "^5.5.0",
         "@typescript-eslint/parser": "^5.5.0",
         "await-exec": "^0.1.2",
@@ -122,6 +122,7 @@
         "lerna": "4.0.0",
         "lightning-components-stubs": "^1.0.11",
         "lint-staged": "^12.1.2",
+        "lwc": "^2.12.1",
         "node-watch": "^0.7.2",
         "npm-run-all": "^4.1.5",
         "p4api": "^3.4.0",
@@ -133,14 +134,14 @@
         "tslint": "^6.1.3",
         "typescript": "~4.5.2",
         "xml2js": "^0.4.23",
-        "yargs": "^17.3.0",
-        "lwc": "^2.12.1"
+        "yargs": "^17.3.0"
     },
     "workspaces": [
         "packages/@flow-builder/auto-layout-canvas",
         "packages/@flow-builder/auto-layout-canvas-ui",
         "packages/@flow-builder/shared-utils",
         "packages/@flow-builder/ui",
+        "packages/@flow-builder/field-input",
         "packages/flow-builder-pocs"
     ],
     "engines": {
@@ -161,5 +162,8 @@
         "!**/(scripts|__tests__|jest-modules)/**/*.ts": [
             "./scripts/check-ts.sh"
         ]
+    },
+    "dependencies": {
+        "core-js": "^3.22.5"
     }
 }

@@ -1,0 +1,720 @@
+{
+    "actions": [
+        {
+            "id": "54;a",
+            "state": "SUCCESS",
+            "returnValue": [
+                {
+                    "category": "Input",
+                    "description": "Address Component",
+                    "extensionType": "lwc",
+                    "fieldsToNull": [],
+                    "label": "Address",
+                    "qualifiedApiName": "flowruntime:address",
+                    "source": "Standard"
+                },
+                {
+                    "category": "Input",
+                    "description": "Dependent Picklists",
+                    "extensionType": "lwc",
+                    "fieldsToNull": [],
+                    "label": "Dependent Picklists",
+                    "qualifiedApiName": "flowruntime:dependentPicklists",
+                    "source": "Standard"
+                },
+                {
+                    "category": "Input",
+                    "description": "Email Component",
+                    "extensionType": "lwc",
+                    "fieldsToNull": [],
+                    "label": "Email",
+                    "qualifiedApiName": "flowruntime:email",
+                    "source": "Standard"
+                },
+                {
+                    "description": "Display Image",
+                    "extensionType": "aura",
+                    "fieldsToNull": [],
+                    "label": "Display Image",
+                    "qualifiedApiName": "flowruntime:image",
+                    "source": "Standard"
+                },
+                {
+                    "category": "Input",
+                    "description": "Lookup Component",
+                    "extensionType": "lwc",
+                    "fieldsToNull": [],
+                    "label": "Lookup",
+                    "qualifiedApiName": "flowruntime:lookup",
+                    "source": "Standard"
+                },
+                {
+                    "category": "Input",
+                    "description": "Name Component",
+                    "extensionType": "lwc",
+                    "fieldsToNull": [],
+                    "label": "Name",
+                    "qualifiedApiName": "flowruntime:name",
+                    "source": "Standard"
+                },
+                {
+                    "category": "Input",
+                    "description": "Phone",
+                    "extensionType": "lwc",
+                    "fieldsToNull": [],
+                    "label": "Phone",
+                    "qualifiedApiName": "flowruntime:phone",
+                    "source": "Standard"
+                },
+                {
+                    "category": "Input",
+                    "description": "Slider Component",
+                    "extensionType": "lwc",
+                    "fieldsToNull": [],
+                    "label": "Slider",
+                    "qualifiedApiName": "flowruntime:slider",
+                    "source": "Standard"
+                },
+                {
+                    "category": "Input",
+                    "description": "Toggle",
+                    "extensionType": "lwc",
+                    "fieldsToNull": [],
+                    "label": "Toggle",
+                    "qualifiedApiName": "flowruntime:toggle",
+                    "source": "Standard"
+                },
+                {
+                    "category": "Input",
+                    "description": "URL Component",
+                    "extensionType": "lwc",
+                    "fieldsToNull": [],
+                    "label": "URL",
+                    "qualifiedApiName": "flowruntime:url",
+                    "source": "Standard"
+                },
+                {
+                    "description": "Upload and attach files to records.",
+                    "extensionType": "aura",
+                    "fieldsToNull": [],
+                    "label": "File Upload",
+                    "qualifiedApiName": "forceContent:fileUpload",
+                    "source": "Standard"
+                },
+                {
+                    "description": "Adds primary/secondary visitors for a visit",
+                    "extensionType": "aura",
+                    "fieldsToNull": [],
+                    "label": "Add Visitors",
+                    "qualifiedApiName": "healthcloud:addVisitors",
+                    "source": "Standard"
+                },
+                {
+                    "description": "Create a script for agents to follow while talking on the phone with customers.",
+                    "extensionType": "aura",
+                    "fieldsToNull": [],
+                    "label": "Call Script",
+                    "qualifiedApiName": "lbpm:flowScript",
+                    "source": "Standard"
+                },
+                {
+                    "description": "Let users select an action plan for the visit.",
+                    "extensionType": "aura",
+                    "fieldsToNull": [],
+                    "label": "Action Plan Template",
+                    "qualifiedApiName": "runtime_industries_visit:addAPT",
+                    "source": "Standard"
+                },
+                {
+                    "description": "Get details about the date, time, location, and type of visit.",
+                    "extensionType": "aura",
+                    "fieldsToNull": [],
+                    "label": "Visit Details",
+                    "qualifiedApiName": "runtime_industries_visit:addVisitDetails",
+                    "source": "Standard"
+                },
+                {
+                    "description": "Get details about the participants of the visit",
+                    "extensionType": "aura",
+                    "fieldsToNull": [],
+                    "label": "Participants Involved",
+                    "qualifiedApiName": "runtime_industries_visit:addVisitors",
+                    "source": "Standard"
+                },
+                {
+                    "description": "Controls the action of the navigation buttons in a flow.",
+                    "extensionType": "aura",
+                    "fieldsToNull": [],
+                    "label": "Special Navigation Buttons",
+                    "qualifiedApiName": "runtime_industries_visit:flowFooter",
+                    "source": "Standard"
+                }
+            ],
+            "error": []
+        }
+    ],
+    "context": {
+        "mode": "PRODDEBUG",
+        "app": "builder_platform_interaction:flowBuilder",
+        "pathPrefix": "",
+        "fwuid": "xxGTkOcaST9igEx4yxgfKA",
+        "mlr": 1,
+        "uad": 1,
+        "descriptorUids": {},
+        "loaded": {
+            "APPLICATION@markup://builder_platform_interaction:flowBuilder": "ROqHexnGx_plnQd2OMfL6A"
+        },
+        "globalValueProviders": [
+            {
+                "type": "$Global",
+                "values": {
+                    "density": {
+                        "writable": true,
+                        "value": "VIEW_ONE"
+                    }
+                }
+            }
+        ],
+        "enableAccessChecks": true,
+        "dns": "c",
+        "rns": ["devopsimpkg11"],
+        "lairn": [],
+        "laerc": [],
+        "lav": "56",
+        "csp": 1,
+        "mna": {
+            "lightning": "interop"
+        },
+        "lff": {
+            "ENABLE_MIXED_SHADOW_MODE": false
+        },
+        "arse": 1,
+        "acaf": 1,
+        "services": [
+            "markup://lightning:configProvider",
+            "markup://force:salesforceScopedModuleResolver",
+            "markup://force:ldsEngineCreator",
+            "markup://instrumentation:locatorService"
+        ]
+    },
+    "perf": {
+        "version": "1.0.0",
+        "calltree": [
+            {
+                "name": "http-request",
+                "attachment": {},
+                "startTime": 1652949813498,
+                "ownTime": 8,
+                "childTime": 173,
+                "totalTime": 182,
+                "children": [
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949813501,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "action",
+                        "attachment": {
+                            "actionName": "1$serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController/ACTION$getFlowExtensions",
+                            "id": "54;a"
+                        },
+                        "startTime": 1652949813505,
+                        "ownTime": 6,
+                        "childTime": 158,
+                        "totalTime": 165,
+                        "children": [
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "details": "SELECT ProcessType, FlowExtension.QualifiedApiName FROM FlowExtensionProcessType WHERE ProcessType = 'Flow' ORDER BY DurableId LIMIT 2000 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949813508,
+                                "ownTime": 5,
+                                "childTime": 55,
+                                "totalTime": 60,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813510,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ *\nfrom (select t.namespace_prefix \"NamespacePrefix\",\nt.tl_setup_entity_data_id \"Id\"\nfrom core.tl_setup_entity_data t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.deleted = '0')\nand (t.key_prefix = ?))\nwhere (\"NamespacePrefix\" is not null)"
+                                        },
+                                        "startTime": 1652949813520,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call LightningComponents.get_lwc_bundle_namespaces_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813544,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813563,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813565,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "details": "SELECT Metadata, Label FROM FlowEnvironmentDefinition WHERE Name = 'Default' ORDER BY Label LIMIT 2000 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949813569,
+                                "ownTime": 4,
+                                "childTime": 20,
+                                "totalTime": 25,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813571,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813572,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813574,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813575,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813577,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cPackageExtension.get_base_packages(?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813584,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cPackageExtension.get_extension_members(?)}"
+                                        },
+                                        "startTime": 1652949813585,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813590,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813591,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "details": "SELECT Description, Category, ExtensionType, Label, QualifiedApiName, ConfigurationEditor, Source, (SELECT Name, Label, Description, SuperType FROM GenericTypes) FROM FlowExtension WHERE QualifiedApiName in ('flowruntime:address','flowruntime:dependentPicklists','flowruntime:email','flowruntime:image','flowruntime:lookup','flowruntime:name','flowruntime:phone','flowruntime:slider','flowruntime:toggle','flowruntime:url','forceContent:fileUpload','healthcloud:addVisitors','lbpm:flowScript','runtime_industries_visit:addAPT','runtime_industries_visit:addVisitDetails','runtime_industries_visit:addVisitors','runtime_industries_visit:flowFooter') ORDER BY QualifiedApiName LIMIT 2000 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949813595,
+                                "ownTime": 6,
+                                "childTime": 42,
+                                "totalTime": 48,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813601,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813602,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813604,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813605,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813608,
+                                        "ownTime": 2,
+                                        "childTime": 0,
+                                        "totalTime": 2
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "select /*SOQL*/ *\nfrom (select t.namespace_prefix \"NamespacePrefix\",\nt.tl_setup_entity_data_id \"Id\"\nfrom core.tl_setup_entity_data t\nwhere (t.organization_id = '00DRO0000009YRI')\nand (t.deleted = '0')\nand (t.key_prefix = ?))\nwhere (\"NamespacePrefix\" is not null)"
+                                        },
+                                        "startTime": 1652949813612,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call LightningComponents.get_lwc_bundle_namespaces_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813614,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813641,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813641,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "api",
+                                "attachment": {
+                                    "details": "SELECT Metadata, Label FROM ProcessTypeDefinition WHERE Name = 'Flow' ORDER BY Label LIMIT 2000 OFFSET 0",
+                                    "api": "AdminApiUtilImpl#queryWithStrongType",
+                                    "version": "Winter '23",
+                                    "outcome": "SUCCESS"
+                                },
+                                "startTime": 1652949813644,
+                                "ownTime": 4,
+                                "childTime": 19,
+                                "totalTime": 24,
+                                "children": [
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813646,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813647,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                                        },
+                                        "startTime": 1652949813649,
+                                        "ownTime": 0,
+                                        "childTime": 0,
+                                        "totalTime": 0
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813649,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813653,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cPackageExtension.get_base_packages(?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813657,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{?=call cPackageExtension.get_extension_members(?)}"
+                                        },
+                                        "startTime": 1652949813659,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.setInSystemMode(?,?)}"
+                                        },
+                                        "startTime": 1652949813664,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    },
+                                    {
+                                        "name": "db-exec",
+                                        "attachment": {
+                                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                                        },
+                                        "startTime": 1652949813665,
+                                        "ownTime": 1,
+                                        "childTime": 0,
+                                        "totalTime": 1
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949813675,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.setContextWithStatistics(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949813677,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{?=call cDistributedCache.init_master_version_nc(?,?)}"
+                        },
+                        "startTime": 1652949813678,
+                        "ownTime": 0,
+                        "childTime": 0,
+                        "totalTime": 0
+                    },
+                    {
+                        "name": "db-exec",
+                        "attachment": {
+                            "sql": "{call cContext.getOracleStatistics_nc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}"
+                        },
+                        "startTime": 1652949813679,
+                        "ownTime": 1,
+                        "childTime": 0,
+                        "totalTime": 1
+                    }
+                ]
+            }
+        ],
+        "summary": {
+            "db-conn-wait": {
+                "totalTime": 0,
+                "totalCalls": 9
+            },
+            "soql": {
+                "totalTime": 110,
+                "totalCalls": 6
+            },
+            "db-exec": {
+                "totalTime": 27,
+                "totalCalls": 37
+            },
+            "cache-caas": {
+                "totalTime": 8,
+                "totalCalls": 44
+            },
+            "request-tracing-check": {
+                "totalTime": 0,
+                "totalCalls": 14
+            },
+            "action": {
+                "totalTime": 165,
+                "totalCalls": 1
+            },
+            "soap-api": {
+                "totalTime": 5,
+                "totalCalls": 2
+            },
+            "soap-api-serialization": {
+                "totalTime": 2,
+                "totalCalls": 4
+            },
+            "soap-api-network-write": {
+                "totalTime": 0,
+                "totalCalls": 4
+            },
+            "api": {
+                "totalTime": 157,
+                "totalCalls": 4
+            },
+            "http-request": {
+                "totalTime": 182,
+                "totalCalls": 1
+            },
+            "request-tracing-enable": {
+                "totalTime": 0,
+                "totalCalls": 2
+            }
+        }
+    },
+    "perfSummary": {
+        "version": "core",
+        "request": 182,
+        "actions": {
+            "54;a": {
+                "total": 165,
+                "db": 39
+            }
+        },
+        "actionsTotal": 165,
+        "overhead": 0
+    }
+}

@@ -68,7 +68,7 @@ export const getGlobalVariable = mockSystemLib.getGlobalVariable;
 export const getGlobalVariables = mockSystemLib.getGlobalVariables;
 export const getGlobalVariableTypes = mockSystemLib.getGlobalVariableTypes;
 export const setGlobalVariables = mockSystemLib.setGlobalVariables;
-export const setProcessTypeFeature = mockSystemLib.setProcessTypeFeature;
+export const setProcessTypeFeatures = mockSystemLib.setProcessTypeFeatures;
 
 export const getSystemVariables = mockSystemLib.getSystemVariables;
 export const setSystemVariables = mockSystemLib.setSystemVariables;

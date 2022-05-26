@@ -62,7 +62,7 @@ export default class InputCollectionPicker extends LightningElement {
     get collectionVariableElementConfig() {
         let elementConfig = {
             // whether or not apex collection from anonymous automatic outputs are allowed
-            allowsApexCollAnonymousAutoOutput: false,
+            allowsApexCallAnonymousAutoOutput: false,
             selectorConfig: {
                 dataType: '',
                 entityName: '',

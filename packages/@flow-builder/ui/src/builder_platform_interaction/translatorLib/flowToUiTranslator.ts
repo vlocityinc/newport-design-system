@@ -208,6 +208,7 @@ const _getElementboxPoints = (locationX: number, locationY: number): object => {
  *
  * @param locationX X location of element
  * @param locationY Y location of element
+ * @returns the element box mid points
  */
 const _getElementboxMidPoints = (locationX: number, locationY: number): object => {
     const elementMidTop = [locationX + NODE_LENGTH / 2, locationY];

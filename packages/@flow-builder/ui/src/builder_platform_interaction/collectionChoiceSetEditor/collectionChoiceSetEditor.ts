@@ -364,7 +364,7 @@ export default class CollectionChoiceSetEditor extends LightningElement {
              * umcommitted screen components show up in the collection reference ferov resource picker.
              */
             choices: true,
-            allowsApexCollAnonymousAutoOutput: false,
+            allowsApexCallAnonymousAutoOutput: false,
             selectorConfig: {
                 dataType: 'SObject',
                 allowTraversal: true,
