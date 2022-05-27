@@ -26,11 +26,11 @@ const POM_PROPERTIES_TO_CHECK = [
 
 const PROPERTIES_FIELDS = { name: 'Property name', projectVersion: 'Project version', coreVersion: 'Core version' };
 const getCorePomXml = (branch) => {
-    return p4.cmd(`print -q //app/${branch}/core/pom.xml`).then((p4Response) => {
+    return p4.cmd(`print -q //app/${branch}/core/third_party/dependencies/com_salesforce.bzl`).then((p4Response) => {
         if (p4Response.error) {
             throw Error(p4Response.error[0].data);
         }
-        return getPomXml(p4Response.data);
+        return p4Response.data;
     });
 };
 const getPomXml = async (pomXml) => xml2js.parseStringPromise(pomXml, { explicitArray: false, ignoreAttrs: true });
@@ -58,20 +58,19 @@ const getProjectPomProperties = async () => {
 const getPomProperty = (propertyName, pomProperties) => pomProperties[propertyName];
 
 const getVersionsNotInSync = async (branch) => {
-    const {
-        project: {
-            properties: corePomProperties,
-            dependencyManagement: {
-                dependencies: { dependency: corePomDependency }
-            }
-        }
-    } = await getCorePomXml(branch);
-    const corePomDependencies = corePomDependency.sort(dependenciesSort).reduce(buildDependenciesMap, {});
+    const data = await getCorePomXml(branch);
+    const corePomProperties = data
+        .split('\n')
+        .filter((line) => line.startsWith('_'))
+        .map((line) => line.replace(/\"/g, '').split(' = '))
+        .reduce((acc, curr) => {
+            acc[curr[0]] = curr[1];
+            return acc;
+        }, {});
 
     const projectPomProperties = await getProjectPomProperties();
     return POM_PROPERTIES_TO_CHECK.map(([propertyName, groupId, artifactId]) => {
-        const coreVersion =
-            corePomProperties[propertyName] || corePomDependencies[toDependencyIdentifier(groupId, artifactId)];
+        const coreVersion = corePomProperties['_' + propertyName.toUpperCase().replace('.', '_')];
 
         if (coreVersion) {
             const projectVersion = getPomProperty(propertyName, projectPomProperties);
