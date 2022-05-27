@@ -109,7 +109,7 @@ export function addFlowTests(data: FlowTestAndResultDescriptor[]): void {
 
 /**
  * takes incoming test result data, matches them by id to tests in the store, and updates the store accordingly
-
+ *
  * @param incomingData incoming result data from a test run
  */
 export function updateFlowTestResults(incomingData): void {

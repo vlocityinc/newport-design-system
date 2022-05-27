@@ -27,9 +27,9 @@ export default class FieldInputMenu extends withKeyboardInteractions(LightningEl
 
     @track _contextItems: FieldInput.MenuContextItem[] = [undefined];
 
-    @track headerInfo: any = {
+    @track headerInfo = {
         mode: 'allResources',
-        breadcrumbs: []
+        breadcrumbs: [] as FieldInput.Breadcrumb[]
     };
 
     handleFocusIn() {

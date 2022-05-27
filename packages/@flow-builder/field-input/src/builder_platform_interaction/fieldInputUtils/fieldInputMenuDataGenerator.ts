@@ -23,12 +23,13 @@ const XS_ICON_SIZE = 'x-small';
  * @param resource element from flow
  * @returns True if the resource should support traversal
  */
-const supportsTraversalOfElement = (resource: UI.FlowResource): boolean => {
-    return (
-        resource.storeOutputAutomatically ||
-        (resource.elementType !== ELEMENT_TYPE.START_ELEMENT && !!resource.childReferences?.length)
-    );
-};
+// TODO: is this still needed?
+// const supportsTraversalOfElement = (resource: UI.FlowResource): boolean => {
+//     return (
+//         resource.storeOutputAutomatically ||
+//         (resource.elementType !== ELEMENT_TYPE.START_ELEMENT && !!resource.childReferences?.length)
+//     );
+// };
 
 /**
  * Gets the icon information for a canvas element field input item
@@ -55,7 +56,10 @@ const getCanvasElementIconInfo = (resource: UI.FlowResource): FieldInput.MenuIte
 };
 
 /**
- * @param iconName
+ * Get utility icon name
+ *
+ * @param iconName - The icon name with the utility namespace
+ * @returns the icon name with the utility namespace
  */
 function getUtilityIconName(iconName: string) {
     return `${UTILITY_ICON_TYPE}:${iconName}`;
@@ -168,10 +172,11 @@ const getResourceMenuItem = (resource: UI.FlowResource, dataType: UI.Datatype): 
     };
 };
 
-const shouldDisableHasNext = (
-    dataType: string,
-    { isEnabled = true, allowSObjectField = true }: MenuTraversalConfig = {}
-) => !isEnabled || (!allowSObjectField && dataType === FLOW_DATA_TYPE.SOBJECT.value);
+// TODO: is this still needed?
+// const shouldDisableHasNext = (
+//     dataType: string,
+//     { isEnabled = true, allowSObjectField = true }: MenuTraversalConfig = {}
+// ) => !isEnabled || (!allowSObjectField && dataType === FLOW_DATA_TYPE.SOBJECT.value);
 
 /**
  * Makes copy of a Flow Element with fields as needed by combobox

@@ -19,7 +19,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
  * @param config - The config for the adaptor api call
  * @returns A Promise with the api results
  */
-function invokeLdsAdaptor<T, S>(LdsAdaptor, config: S): WirePromise<T> {
+export function invokeLdsAdaptor<T, S>(LdsAdaptor, config: S): WirePromise<T> {
     let cb;
     const ldsPromise = new Promise<ApiResponse<T>>((resolve, reject) => {
         cb = function (res) {
@@ -93,15 +93,15 @@ function getObjectInfoApiLegacyDataAdapter(
 /**
  * Transforms the api results of the legacy getObjectInfo into the shape of the getObjectInfo API
  *
- * @param legacyApiResult - The legacy getPicklistValues API result
- * @param legacyData
+ * @param legacyData - The legacy data
  * @returns The getPicklistValues API result
  */
 function getPicklistValuesApiLegacyDataAdapter(
     legacyData: GetPicklistValuesLegacyApiData
 ): WirePromise<GetPicklistValuesApiData> {
+    // TODO: tansform the legacy data
     // @ts-ignore
-    return { data: null, error: null };
+    return { data: legacyData, error: null };
 }
 
 /**

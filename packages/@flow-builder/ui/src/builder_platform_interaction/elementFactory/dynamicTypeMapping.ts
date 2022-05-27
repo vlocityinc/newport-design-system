@@ -3,11 +3,16 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
- * @typedef {DynamicTypeMapping} Store representation of the dynamic type mapping.
- * @property {string|HydratedValue} typeName Generic type name.
- * @property {string|HydratedValue} typeValue Concrete type name.
+ * Store representation of the dynamic type mapping.
+ *
+ * @typedef {Object} DynamicTypeMapping
+ * @property {string} typeName Generic type name.
+ * @property {string} typeValue Concrete type name.
  * @property {string} rowIndex Row index for the combobox
- * @typedef {DynamicTypeMappingMetadataObject}
+ */
+
+/**
+ * @typedef {Object} DynamicTypeMappingMetadataObject
  * @property {string} typeName Generic type name
  * @property {string} typeValue Concrete type name
  */

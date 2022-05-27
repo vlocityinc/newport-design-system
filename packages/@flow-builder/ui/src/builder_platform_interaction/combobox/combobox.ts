@@ -249,7 +249,7 @@ export default class Combobox extends LightningElement {
     /**
      * Pass the error message on to lightning-grouped-combobox
      *
-     * @param {String | null } error - the new error message
+     * @param {string | null } error - the new error message
      */
     set errorMessage(error) {
         if (error || error === null || error === '') {

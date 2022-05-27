@@ -40,7 +40,7 @@ const firstLevelMenuFilteredTypes = [
  *
  * @param flowElements the menu data elements to filter
  * @param config the configuration specials
- * @param allowedParamTypes
+ * @param allowedParamTypes - The allowed param types
  * @returns filtered menu data containing menu elements, start element and system/global variables
  */
 function filterFlowElements(
@@ -167,11 +167,13 @@ const sortAndMapSystemVariables = (systemAndGlobalVariablesItems: FieldInput.Men
 };
 
 /**
+ * // TODO: rename this method
+ * Filter and map menu items
  *
- * @param flowElements
- * @param config
- * @param allowedParamTypes
- * @returns
+ * @param flowElements - The flow elements
+ * @param allowedParamTypes - The allowed param types
+ * @param config - The menu config
+ * @returns the MenuSection's for the filtered flow elements
  */
 export const filterAndMapToMenuItems = (
     flowElements: UI.Element[] = [],
@@ -205,6 +207,7 @@ export const filterAndMapToMenuItems = (
 /**
  * @param config
  * @param allowedParamTypes
+ * @returns The elements for the global constants
  */
 function getGlobalConstants(config: MenuConfig, allowedParamTypes: RuleMap): UI.Element[] | undefined {
     if (config.filter.allowGlobalConstants) {
@@ -216,10 +219,12 @@ function getGlobalConstants(config: MenuConfig, allowedParamTypes: RuleMap): UI.
 }
 
 /**
- * @param flowElements
- * @param config
- * @param allowedParamTypes
- * @param startElement
+ * Gets MenuSection for the system and global variables
+ *
+ * @param config - The menu config
+ * @param allowedParamTypes - The allowed param types
+ * @param startElement - The start element
+ * @returns the MenuSection for the system and global variables
  */
 function getSystemAndGlobalVariablesMenuSection(
     config: MenuConfig,
@@ -256,7 +261,6 @@ function getSystemAndGlobalVariablesMenuSection(
 
 /**
  * @param flowElements
- * @param config
  * @param sortField
  */
 function sortAndGroupFlowElements(

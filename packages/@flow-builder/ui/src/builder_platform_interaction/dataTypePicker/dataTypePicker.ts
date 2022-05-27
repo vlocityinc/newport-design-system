@@ -49,9 +49,9 @@ export default class DataTypePicker extends LightningElement {
 
     /**
      * @typedef {Object} SelectedDataType
-     * @property {string} newValue.dataType - the selected data type
-     * @property {number} [newValue.scale] - scale for the selected data type (only for Currency and Number)
-     * @property {boolean} [newValue.isCollection] - true if data type is a collection
+     * @property {string} dataType - the selected data type
+     * @property {number} scale - scale for the selected data type (only for Currency and Number)
+     * @property {boolean} isCollection - true if data type is a collection
      */
 
     /**
