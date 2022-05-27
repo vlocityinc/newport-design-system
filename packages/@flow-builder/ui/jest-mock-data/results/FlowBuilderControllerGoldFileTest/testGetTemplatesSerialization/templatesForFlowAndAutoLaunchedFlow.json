@@ -65,7 +65,7 @@
       "IsTemplate":true,
       "ProcessType":"Flow",
       "IsSwingFlow":false,
-      "Description":"Removed custom field references",
+      "Description":null,
       "EnumOrID":"setup_service_experience__Verify_Cust-1",
       "Label":"Verify Identity",
       "VersionNumber":1

@@ -148,7 +148,7 @@
       "masterLabel":"Verify Identity",
       "activeVersionId":"setup_service_experience__Verify_Cust-1",
       "fullName":"setup_service_experience__Verify_Cust",
-      "description":"Removed custom field references",
+      "description":null,
       "latestVersionId":"setup_service_experience__Verify_Cust-1",
       "isViewable":true
     }
