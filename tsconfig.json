@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
+        "experimentalDecorators": true,
         "allowJs": true,
         "strict": true,
-        "noUnusedLocals": true,        
+        "noUnusedLocals": true,
         "sourceMap": false,
         "module": "es2020",
         "moduleResolution": "node",

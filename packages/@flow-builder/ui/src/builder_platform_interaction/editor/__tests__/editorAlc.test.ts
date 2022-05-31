@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { AlcSelectionEvent, PasteOnCanvasEvent } from 'builder_platform_interaction/alcEvents';
 import {
     createComponent,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -6,6 +7,9 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     ClosePropertyEditorEvent,
+    CopyOnCanvasEvent,
+    CopySingleElementEvent,
+    CutElementsEvent,
     EditElementEvent,
     NewDebugFlowEvent,
     SelectNodeEvent,
@@ -13,8 +17,17 @@ import {
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
+import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import { Decision1, Decision2, orchestratorFlowUIModel } from 'mock/storeDataOrchestrator';
-import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import {
+    actionPostToChatter,
+    assign,
+    createAccountFromAnAccount,
+    createAccountManualOutput,
+    decision,
+    recordTriggeredFlowUIModel,
+    updateTriggeringRecord
+} from 'mock/storeDataRecordTriggered';
 
 const { Keys } = keyboardInteractionUtils;
 
@@ -143,7 +156,6 @@ describe('auto-layout', () => {
         const editorComponent = await createComponentUnderTest();
         const toggleModeEvent = new ToggleSelectionModeEvent();
         const escapeEvent = new KeyboardEvent('keydown', { key: Keys.Escape, bubbles: true });
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
         const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
 
         alcCanvasContainer.dispatchEvent(toggleModeEvent);
@@ -244,6 +256,154 @@ describe('auto-layout', () => {
 
                 await ticks(1);
                 expect(mockFocus).toHaveBeenCalledWith('elementGuid');
+            });
+        });
+
+        describe('auto-layout post notifications', () => {
+            beforeAll(() => {
+                Store.setMockState({
+                    ...recordTriggeredFlowUIModel,
+                    properties: { ...recordTriggeredFlowUIModel.properties, isAutoLayoutCanvas: true }
+                });
+            });
+            afterAll(() => {
+                Store.resetStore();
+            });
+
+            it('fires a show toast event when copying a single element', async () => {
+                const editorComponent = await createComponentUnderTest();
+                const copySingleElementEvent = new CopySingleElementEvent(assign.guid);
+
+                await ticks(1);
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+                // Mock handler for toast event
+                const handler = jest.fn();
+                // Add event listener to catch toast event
+                editorComponent.addEventListener(ShowToastEventName, handler);
+                await alcCanvasContainer.dispatchEvent(copySingleElementEvent);
+
+                // Check if toast event has been fired
+                await ticks(1);
+                expect(handler).toHaveBeenCalledTimes(1);
+                expect(handler.mock.calls[0][0].detail.variant).toBe('success');
+            });
+
+            it('fires a show toast event when cutting a single element', async () => {
+                const editorComponent = await createComponentUnderTest();
+                const cutElementsEvent = new CutElementsEvent([assign.guid]);
+
+                await ticks(1);
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+                // Mock handler for toast event
+                const handler = jest.fn();
+                // Add event listener to catch toast event
+                editorComponent.addEventListener(ShowToastEventName, handler);
+                await alcCanvasContainer.dispatchEvent(cutElementsEvent);
+
+                // Check if toast event has been fired
+                await ticks(1);
+                expect(handler).toHaveBeenCalledTimes(1);
+                expect(handler.mock.calls[0][0].detail.variant).toBe('success');
+            });
+
+            it('fires a show toast event when pasting a single element', async () => {
+                const editorComponent = await createComponentUnderTest();
+                const copySingleElementEvent = new CopySingleElementEvent(assign.guid);
+                const pasteOnCanvasEvent = new PasteOnCanvasEvent();
+
+                await ticks(1);
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+                // Mock handler for toast event
+                const handler = jest.fn();
+                // Add event listener to catch toast events
+                editorComponent.addEventListener(ShowToastEventName, handler);
+                alcCanvasContainer.dispatchEvent(copySingleElementEvent);
+                alcCanvasContainer.dispatchEvent(pasteOnCanvasEvent);
+
+                // Check if toast event has been fired twice (copy and paste)
+                await ticks(1);
+                expect(handler).toHaveBeenCalledTimes(2);
+                expect(handler.mock.calls[0][0].detail.variant).toBe('success');
+            });
+
+            it('fires a show toast event when copying multiple elements', async () => {
+                assign.config.isSelected = true;
+                actionPostToChatter.config.isSelected = true;
+
+                const editorComponent = await createComponentUnderTest();
+                const alcSelectionEvent = new AlcSelectionEvent(
+                    [assign.guid],
+                    [],
+                    [
+                        actionPostToChatter.guid,
+                        assign.guid,
+                        decision.guid,
+                        createAccountFromAnAccount.guid,
+                        createAccountManualOutput.guid,
+                        updateTriggeringRecord.guid
+                    ],
+                    actionPostToChatter.guid,
+                    false
+                );
+                const copyOnCanvasEvent = new CopyOnCanvasEvent();
+
+                await ticks(1);
+                const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+                // Mock handler for toast event
+                const handler = jest.fn();
+                // Add event listener to catch toast event
+                editorComponent.addEventListener(ShowToastEventName, handler);
+
+                alcCanvasContainer.dispatchEvent(alcSelectionEvent);
+                toolbar.dispatchEvent(copyOnCanvasEvent);
+                // Check if toast event has been fired once
+                await ticks(1);
+                expect(handler).toHaveBeenCalledTimes(1);
+                expect(handler.mock.calls[0][0].detail.variant).toBe('success');
+            });
+
+            it('fires a show toast event when pasting multiple elements', async () => {
+                assign.config.isSelected = true;
+                actionPostToChatter.config.isSelected = true;
+
+                const editorComponent = await createComponentUnderTest();
+                const alcSelectionEvent = new AlcSelectionEvent(
+                    [assign.guid],
+                    [],
+                    [
+                        actionPostToChatter.guid,
+                        assign.guid,
+                        decision.guid,
+                        createAccountFromAnAccount.guid,
+                        createAccountManualOutput.guid,
+                        updateTriggeringRecord.guid
+                    ],
+                    actionPostToChatter.guid,
+                    false
+                );
+                const copyOnCanvasEvent = new CopyOnCanvasEvent();
+                const pasteOnCanvasEvent = new PasteOnCanvasEvent();
+
+                const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+                const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+                // Mock handler for toast event
+                const handler = jest.fn();
+                // Add event listener to catch toast event
+                editorComponent.addEventListener(ShowToastEventName, handler);
+
+                alcCanvasContainer.dispatchEvent(alcSelectionEvent);
+                toolbar.dispatchEvent(copyOnCanvasEvent);
+                alcCanvasContainer.dispatchEvent(pasteOnCanvasEvent);
+                // Check if toast event has been fired twice (once when copying, once when pasting)
+                await ticks(1);
+                expect(handler).toHaveBeenCalledTimes(2);
+                expect(handler.mock.calls[0][0].detail.variant).toBe('success');
             });
         });
     });

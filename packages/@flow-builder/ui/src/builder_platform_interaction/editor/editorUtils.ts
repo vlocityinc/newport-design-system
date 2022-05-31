@@ -290,6 +290,7 @@ const debugBadgeClass = (debugInterviewStatus: string): string => {
  * @param elementType - Type of the element being deleted
  * @param childIndexToKeep - The child branch you want to persist when deleting a branch element in Auto-Layout Canvas
  * @param parentGUID
+ * @returns true if deleted, false if alert was invoked
  */
 const doDeleteOrInvokeAlert = (
     storeInstance: Store,
@@ -309,7 +310,8 @@ const doDeleteOrInvokeAlert = (
 
     const usedOnlyByParent: boolean = usedByElements.length === 1 && usedByElements[0].guid === parentGUID;
 
-    if (!usedByElements || usedByElements.length === 0 || usedOnlyByParent) {
+    const isValidDeleted = !usedByElements || usedByElements.length === 0 || usedOnlyByParent;
+    if (isValidDeleted) {
         // Deleting the elements that are not being referenced anywhere else
         storeInstance.dispatch(
             deleteElements({
@@ -324,6 +326,7 @@ const doDeleteOrInvokeAlert = (
         // Handling cases when the element/elements being deleted are being referenced somewhere in the flow
         invokeUsedByAlertModal(usedByElements, selectedElementGUIDs, elementType, storeElements);
     }
+    return isValidDeleted;
 };
 
 const resetStartElementIfNeeded = (storeInstance, processType, triggerType: UI.FlowTriggerType) => {
@@ -366,6 +369,7 @@ const resetStartElementIfNeeded = (storeInstance, processType, triggerType: UI.F
  * @param containing.selectedElementType
  * @param containing.childIndexToKeep
  * @param containing.parentGUID
+ * @returns true if deleted, false if alert was invoked
  */
 export const getElementsToBeDeleted = (
     storeInstance: Store,
@@ -381,11 +385,12 @@ export const getElementsToBeDeleted = (
 
     const connectorsToDelete = connectorsToBeDeleted(canvasElementGuidsToDelete, connectors, isMultiElementDelete);
 
+    let isDeleted = false;
     if (
         (canvasElementGuidsToDelete && canvasElementGuidsToDelete.length > 0) ||
         (connectorsToDelete && connectorsToDelete.length > 0)
     ) {
-        doDeleteOrInvokeAlert(
+        isDeleted = doDeleteOrInvokeAlert(
             storeInstance,
             canvasElementGuidsToDelete,
             connectorsToDelete,
@@ -394,6 +399,7 @@ export const getElementsToBeDeleted = (
             parentGUID
         );
     }
+    return isDeleted;
 };
 
 /**
@@ -1378,6 +1384,16 @@ export const isFlowTestingSupported = (processType: string, triggerType: UI.Flow
 };
 
 /**
+ * Returns the filtered elements from the UI elements
+ *
+ * @param elements - The UI elements
+ * @returns a new array with the UI elements that are canvas elements and not the end element
+ */
+export function filterElements(elements: UI.Elements) {
+    return Object.values(elements).filter((ele) => ele.isCanvasElement && ele.elementType !== ELEMENT_TYPE.END_ELEMENT);
+}
+
+/**
  * Returns whether to autofocus when opening an editor for an element type
  *
  * @param elementType - The element type
@@ -1395,4 +1411,14 @@ export function getEditorAutoFocusForElementType(elementType: ELEMENT_TYPE) {
  */
 export function isDebugInterviewInError(debugData) {
     return debugData?.interviewStatus === DEBUG_STATUS.ERROR;
+}
+
+/**
+ * Returns the number of cut or copied canvas elements
+ *
+ * @param cutOrCopiedCanvasElements cut or copied element objects from the editor
+ * @returns length of cut or copied canvas elements
+ */
+export function getNumberOfCutOrCopiedCanvasElements(cutOrCopiedCanvasElements) {
+    return Object.keys(cutOrCopiedCanvasElements).length;
 }

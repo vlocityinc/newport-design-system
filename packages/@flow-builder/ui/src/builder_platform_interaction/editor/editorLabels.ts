@@ -35,6 +35,14 @@ import runAsyncScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor
 import flowTestFeatureNotAvailable from '@salesforce/label/FlowBuilderTestEditor.flowTestFeatureNotAvailable';
 import flowTestRunFailureWhenGateClosedToast from '@salesforce/label/FlowBuilderTestEditor.flowTestRunFailureWhenGateClosedToast';
 import cantOpenSubflowUrl from '@salesforce/label/FlowBuilderToastLabels.cantOpenSubflowUrl';
+import multipleCopySuccess from '@salesforce/label/FlowBuilderToastLabels.multipleCopySuccess';
+import multipleCutSuccess from '@salesforce/label/FlowBuilderToastLabels.multipleCutSuccess';
+import multipleDeleteSuccess from '@salesforce/label/FlowBuilderToastLabels.multipleDeleteSuccess';
+import multiplePasteSuccess from '@salesforce/label/FlowBuilderToastLabels.multiplePasteSuccess';
+import singleCopySuccess from '@salesforce/label/FlowBuilderToastLabels.singleCopySuccess';
+import singleCutSuccess from '@salesforce/label/FlowBuilderToastLabels.singleCutSuccess';
+import singleDeleteSuccess from '@salesforce/label/FlowBuilderToastLabels.singleDeleteSuccess';
+import singlePasteSuccess from '@salesforce/label/FlowBuilderToastLabels.singlePasteSuccess';
 import ariaLabelToolbar from '@salesforce/label/FlowBuilderToolbar.ariaLabelToolbar';
 
 export const LABELS = {
@@ -66,6 +74,14 @@ export const LABELS = {
     debugToastMessageNoElementLabel,
     flowTestRunFailureWhenGateClosedToast,
     flowTestFeatureNotAvailable,
+    singleCopySuccess,
+    singleDeleteSuccess,
+    multipleDeleteSuccess,
+    singlePasteSuccess,
+    multipleCopySuccess,
+    multiplePasteSuccess,
+    multipleCutSuccess,
+    singleCutSuccess,
     interviewLabelTitle,
     testLabelTitle,
     testBadgePass,

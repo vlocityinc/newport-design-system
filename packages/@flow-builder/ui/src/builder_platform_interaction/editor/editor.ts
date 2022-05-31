@@ -201,6 +201,7 @@ import {
     createStartElement,
     cssClassForHeaderLabel,
     debugInterviewResponseCallback,
+    filterElements,
     flowPropertiesCallback,
     formattedHeaderLabel,
     getConnectorToDuplicate,
@@ -210,6 +211,7 @@ import {
     getEditorAutoFocusForElementType,
     getElementsMetadata,
     getElementsToBeDeleted,
+    getNumberOfCutOrCopiedCanvasElements,
     getPasteElementGuidMaps,
     getSaveType,
     getSelectedFlowEntry,
@@ -1557,6 +1559,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.topCutOrCopiedGuid = elementGuid;
         this.bottomCutOrCopiedGuid = elementGuid;
         this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
+
+        this.showToast(LABELS.singleCopySuccess, 'success');
     };
 
     /**
@@ -1577,6 +1581,24 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
         // Toggling out of the selection mode on Copy
         this.handleToggleSelectionMode();
+
+        // Get number of elements that were copied and show toast
+        this.showToastForCutCopyPasteOrDelete(
+            LABELS.singleCopySuccess,
+            LABELS.multipleCopySuccess,
+            this.numPasteElementsAvailable
+        );
+    };
+
+    /**
+     * Handles when elements are cut on canvas.
+     *
+     * @param event - The cut element event
+     */
+    handleCutElements = (event) => {
+        // TODO W-11145831
+        const { guids } = event.detail;
+        this.showToastForCutCopyPasteOrDelete(LABELS.singleCutSuccess, LABELS.multipleCutSuccess, guids.length);
     };
 
     /**
@@ -1602,6 +1624,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             source
         };
         storeInstance.dispatch(pasteOnFixedCanvas(payload));
+
+        const numberOfCutOrCopiedCanvasElements = getNumberOfCutOrCopiedCanvasElements(this.cutOrCopiedCanvasElements);
+        this.showToastForCutCopyPasteOrDelete(
+            LABELS.singlePasteSuccess,
+            LABELS.multiplePasteSuccess,
+            numberOfCutOrCopiedCanvasElements
+        );
     };
 
     /**
@@ -2580,7 +2609,16 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      */
     handleElementDelete = (event) => {
         if (event && event.detail) {
-            getElementsToBeDeleted(storeInstance, event.detail);
+            const elementsBeforeDelete = storeInstance.getCurrentState().elements;
+            if (getElementsToBeDeleted(storeInstance, event.detail)) {
+                const canvasElementsBeforeDelete = filterElements(elementsBeforeDelete);
+                const canvasElementsAfterDelete = filterElements(storeInstance.getCurrentState().elements);
+                this.showToastForCutCopyPasteOrDelete(
+                    LABELS.singleDeleteSuccess,
+                    LABELS.multipleDeleteSuccess,
+                    canvasElementsBeforeDelete.length - canvasElementsAfterDelete.length
+                );
+            }
             this.handleClosePropertyEditor();
         }
     };
@@ -2943,6 +2981,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             mode: mode ?? 'dismissible'
         });
         this.dispatchEvent(toastEvent);
+    }
+
+    showToastForCutCopyPasteOrDelete(singularLabel: string, pluralLabel: string, numberOfElements: number) {
+        const label = numberOfElements === 1 ? singularLabel : format(pluralLabel, numberOfElements);
+        this.showToast(label, 'success');
     }
 
     /**
