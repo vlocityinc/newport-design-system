@@ -63,9 +63,10 @@ type ToolbarConfig = {
     showViewAllTestsButton: boolean;
     showEditTestButton: boolean;
 };
-type HeaderConfig = {
+export type HeaderConfig = {
     showDebugStatus: boolean;
     showInterviewLabel: boolean;
+    showTestStatus: boolean;
 };
 type LeftPanelConfig = {
     showLeftPanel: boolean;

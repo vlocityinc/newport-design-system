@@ -17,15 +17,12 @@
                 builder-icon={builderIcon}
                 builder-name={builderName}
                 guardrails-params={guardrailsParams}
-                interview-label={interviewLabel}
-                show-interview-label={headerConfig.showInterviewLabel}
-                show-debug-status={headerConfig.showDebugStatus}
-                debug-interview-status={debugInterviewStatus}
-                test-status={testStatus}
-                test-label={testLabel}
-                show-test-status={headerConfig.showTestStatus}
                 overridden-flow={properties.overriddenFlow}
-            ></builder_platform_interaction-header>
+            >
+                <h1 if:true={showLabel} slot="headerLabel" class={cssClassForHeaderLabel}>{formattedHeaderLabel}</h1>
+                <lightning-badge if:true={showBadgeStatus} slot="badgeStatus" label={badgeStatus} class={badgeClass}>
+                </lightning-badge>
+            </builder_platform_interaction-header>
             <builder_platform_interaction-toolbar
                 role="banner"
                 aria-label={labels.ariaLabelToolbar}

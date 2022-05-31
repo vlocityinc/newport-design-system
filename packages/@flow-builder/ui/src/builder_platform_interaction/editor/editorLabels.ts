@@ -18,6 +18,15 @@ import debugToastMessage from '@salesforce/label/FlowBuilderDebugEditor.debugToa
 import debugToastMessageNoElementLabel from '@salesforce/label/FlowBuilderDebugEditor.debugToastMessageNoElementLabel';
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 import ariaLabelHeader from '@salesforce/label/FlowBuilderHeader.ariaLabelHeader';
+import debugBadgeCompleted from '@salesforce/label/FlowBuilderHeader.debugBadgeCompleted';
+import debugBadgeError from '@salesforce/label/FlowBuilderHeader.debugBadgeError';
+import debugBadgeNotTriggered from '@salesforce/label/FlowBuilderHeader.debugBadgeNotTriggered';
+import debugBadgePaused from '@salesforce/label/FlowBuilderHeader.debugBadgePaused';
+import interviewLabelTitle from '@salesforce/label/FlowBuilderHeader.interviewLabelTitle';
+import testBadgeError from '@salesforce/label/FlowBuilderHeader.testBadgeError';
+import testBadgeFail from '@salesforce/label/FlowBuilderHeader.testBadgeFail';
+import testBadgePass from '@salesforce/label/FlowBuilderHeader.testBadgePass';
+import testLabelTitle from '@salesforce/label/FlowBuilderHeader.testLabelTitle';
 import ariaLabelLeftPanel from '@salesforce/label/FlowBuilderLeftPanel.ariaLabelLeftPanel';
 import ariaLabelRightPanel from '@salesforce/label/FlowBuilderRightPanel.ariaLabelRightPanel';
 import cancel from '@salesforce/label/FlowBuilderScreenEditor.cancel';
@@ -56,5 +65,14 @@ export const LABELS = {
     debugToastMessage,
     debugToastMessageNoElementLabel,
     flowTestRunFailureWhenGateClosedToast,
-    flowTestFeatureNotAvailable
+    flowTestFeatureNotAvailable,
+    interviewLabelTitle,
+    testLabelTitle,
+    testBadgePass,
+    testBadgeFail,
+    testBadgeError,
+    debugBadgeCompleted,
+    debugBadgePaused,
+    debugBadgeError,
+    debugBadgeNotTriggered
 };

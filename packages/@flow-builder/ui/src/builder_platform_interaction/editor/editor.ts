@@ -194,11 +194,15 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './editorLabels';
 import {
+    badgeClass,
+    badgeStatus,
     canRunDebugWith,
     closeModalAndNavigateTo,
     createStartElement,
+    cssClassForHeaderLabel,
     debugInterviewResponseCallback,
     flowPropertiesCallback,
+    formattedHeaderLabel,
     getConnectorToDuplicate,
     getCopiedChildElements,
     getCopiedData,
@@ -220,6 +224,8 @@ import {
     screenFieldsReferencedByLoops,
     setErrorMessage,
     setFlowErrorsAndWarnings,
+    showBadgeStatus,
+    showLabel,
     updateStoreAfterSaveAsNewFlowIsFailed,
     updateStoreAfterSaveAsNewVersionIsFailed,
     updateStoreAfterSaveFlowIsSuccessful,
@@ -877,6 +883,30 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     get shouldAddToTestButtonBeDisabled() {
         return isDebugInterviewInError(this.debugData);
+    }
+
+    get showLabel() {
+        return showLabel(this.headerConfig);
+    }
+
+    get formattedHeaderLabel() {
+        return formattedHeaderLabel(this.headerConfig, this.interviewLabel, this.testLabel);
+    }
+
+    get cssClassForHeaderLabel() {
+        return cssClassForHeaderLabel(this.headerConfig);
+    }
+
+    get showBadgeStatus() {
+        return showBadgeStatus(this.headerConfig);
+    }
+
+    get badgeStatus() {
+        return badgeStatus(this.headerConfig, this.debugInterviewStatus, this.testStatus);
+    }
+
+    get badgeClass() {
+        return badgeClass(this.headerConfig, this.testStatus, this.debugInterviewStatus);
     }
 
     /**

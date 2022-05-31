@@ -9,7 +9,11 @@ import { SaveType } from 'builder_platform_interaction/saveType';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { HeaderConfig } from '../../contextLib/contextLib';
+import { LABELS } from '../editorLabels';
 import {
+    badgeClass,
+    badgeStatus,
     debugInterviewResponseCallback,
     flowPropertiesCallback,
     getConnectorsToHighlight,
@@ -29,6 +33,7 @@ import {
     setFlowErrorsAndWarnings,
     shiftFocusFromCanvas,
     shiftFocusFromToolbar,
+    showLabel,
     updateStoreAfterSaveAsNewFlowIsFailed,
     updateStoreAfterSaveAsNewVersionIsFailed,
     updateStoreAfterSaveFlowIsSuccessful,
@@ -504,6 +509,94 @@ describe('Editor Utils Test', () => {
             'return "$saveType" save type if flow event type is "$eventType", flowid is $flowId and canOnlySaveAsNewDefinition is $canOnlySaveAsNewDefinition',
             async ({ saveType, eventType, flowId, canOnlySaveAsNewDefinition }) => {
                 expect(getSaveType(eventType, flowId, canOnlySaveAsNewDefinition)).toBe(saveType);
+            }
+        );
+    });
+
+    describe('header badge and label functions', () => {
+        it('showLabel should return true when showInterviewLabel is true', () => {
+            const headerConfig: HeaderConfig = {
+                showDebugStatus: true,
+                showInterviewLabel: true,
+                showTestStatus: false
+            };
+            expect(showLabel(headerConfig)).toBe(true);
+        });
+
+        it('showLabel should return true when showTestStatus is true', () => {
+            const headerConfig: HeaderConfig = {
+                showDebugStatus: false,
+                showInterviewLabel: false,
+                showTestStatus: true
+            };
+            expect(showLabel(headerConfig)).toBe(true);
+        });
+
+        it.each`
+            debugInterviewStatus | expectedExtraCssClass
+            ${'FINISHED'}        | ${'slds-theme_success'}
+            ${'WAITING'}         | ${'slds-theme_warning'}
+            ${'ERROR'}           | ${'slds-theme_error'}
+            ${'STARTED'}         | ${'slds-theme_warning'}
+        `(
+            'return "$expectedExtraCssClass" css class if debugInterviewStatus is "$debugInterviewStatus"',
+            async ({ debugInterviewStatus, expectedExtraCssClass }) => {
+                const headerConfig: HeaderConfig = {
+                    showDebugStatus: true,
+                    showInterviewLabel: true,
+                    showTestStatus: false
+                };
+                expect(badgeClass(headerConfig, '', debugInterviewStatus)[expectedExtraCssClass]).toBe(true);
+            }
+        );
+        it.each`
+            debugInterviewStatus | expectedBadgeLabel
+            ${'FINISHED'}        | ${LABELS.debugBadgeCompleted}
+            ${'WAITING'}         | ${LABELS.debugBadgePaused}
+            ${'ERROR'}           | ${LABELS.debugBadgeError}
+            ${'STARTED'}         | ${LABELS.debugBadgeNotTriggered}
+        `(
+            'return "$expectedExtraCssClass" css class if debugInterviewStatus is "$debugInterviewStatus"',
+            async ({ debugInterviewStatus, expectedBadgeLabel }) => {
+                const headerConfig: HeaderConfig = {
+                    showDebugStatus: true,
+                    showInterviewLabel: true,
+                    showTestStatus: false
+                };
+                expect(badgeStatus(headerConfig, debugInterviewStatus, '')).toBe(expectedBadgeLabel);
+            }
+        );
+
+        it.each`
+            testStatus | expectedExtraCssClass
+            ${'Pass'}  | ${'slds-theme_success'}
+            ${'Fail'}  | ${'slds-theme_error'}
+            ${'Error'} | ${'slds-theme_error'}
+        `(
+            'return "$expectedExtraCssClass" css class if debugInterviewStatus is "$debugInterviewStatus"',
+            async ({ testStatus, expectedExtraCssClass }) => {
+                const headerConfig: HeaderConfig = {
+                    showDebugStatus: false,
+                    showInterviewLabel: false,
+                    showTestStatus: true
+                };
+                expect(badgeClass(headerConfig, testStatus, '')[expectedExtraCssClass]).toBe(true);
+            }
+        );
+        it.each`
+            testStatus | expectedBadgeLabel
+            ${'Pass'}  | ${LABELS.testBadgePass}
+            ${'Fail'}  | ${LABELS.testBadgeFail}
+            ${'Error'} | ${LABELS.testBadgeError}
+        `(
+            'return "$expectedExtraCssClass" css class if debugInterviewStatus is "$debugInterviewStatus"',
+            async ({ testStatus, expectedBadgeLabel }) => {
+                const headerConfig: HeaderConfig = {
+                    showDebugStatus: false,
+                    showInterviewLabel: false,
+                    showTestStatus: true
+                };
+                expect(badgeStatus(headerConfig, '', testStatus)).toBe(expectedBadgeLabel);
             }
         );
     });

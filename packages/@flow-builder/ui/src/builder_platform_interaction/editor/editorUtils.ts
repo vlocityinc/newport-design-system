@@ -16,6 +16,7 @@ import {
     canUserVAD,
     CLASSIC_EXPERIENCE,
     getPreferredExperience,
+    HeaderConfig,
     orgHasFlowBuilderGuardrails
 } from 'builder_platform_interaction/contextLib';
 import { getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
@@ -52,9 +53,12 @@ import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDa
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
+import { FlowTestResultStatusType } from 'builder_platform_interaction/systemLib';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { isFlowTestingSupportedForTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { invokeUsedByAlertModal, usedBy } from 'builder_platform_interaction/usedByLib';
+import { classSet } from 'lightning/utils';
+import { LABELS } from './editorLabels';
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 const BASE_URL = '/builder_platform_interaction/flowBuilder.app?';
 const { logPerfTransactionStart, logPerfTransactionEnd, logInteraction } = loggingUtils;
@@ -117,6 +121,163 @@ const selectedCanvasElementGuids = (canvasElements: UI.CanvasElement[] = []) => 
 const deletableCanvasElements = (canvasElements: UI.CanvasElement[] = []) => {
     return canvasElements.filter((canvasElement) => {
         return getPropertyOrDefaultToTrue(getConfigForElementType(canvasElement.elementType), 'isDeletable');
+    });
+};
+
+/**
+ * determines if a interview or flowTest label needs to be shown
+ *
+ * @param headerConfig is the config settings for the header
+ * @returns whether to show the test or debug api label
+ */
+export const showLabel = (headerConfig: HeaderConfig): boolean => {
+    return headerConfig.showInterviewLabel || headerConfig.showTestStatus;
+};
+
+/**
+ *
+ * @param headerConfig is the config settings for the header
+ * @param interviewLabel the debug label from the user
+ * @param testLabel the test label from the user
+ * @returns the formatted interview or FlowTest label
+ */
+export const formattedHeaderLabel = (headerConfig: HeaderConfig, interviewLabel: string, testLabel: string): string => {
+    if (headerConfig.showTestStatus) {
+        return formattedTestLabel(testLabel);
+    }
+    return formattedInterviewLabel(interviewLabel);
+};
+
+/**
+ *
+ * @param headerConfig is the config settings for the header
+ * @returns the formatted css class for the header label
+ */
+export const cssClassForHeaderLabel = (headerConfig: HeaderConfig): string => {
+    return classSet('slds-builder-header__item slds-p-horizontal_medium slds-truncate').add({
+        'test-flowTest-label': headerConfig.showTestStatus,
+        'test-interview-label': headerConfig.showInterviewLabel
+    });
+};
+
+/**
+ * @param interviewLabel the debug label from the user
+ * @returns the formatted interview label.
+ */
+const formattedInterviewLabel = (interviewLabel: string): string => {
+    return LABELS.interviewLabelTitle + interviewLabel;
+};
+
+/**
+ * @param testLabel the test label from the user
+ * @returns {string} the formatted test label
+ */
+const formattedTestLabel = (testLabel: string): string => {
+    return LABELS.testLabelTitle + testLabel;
+};
+
+/**
+ * @param headerConfig is the config settings for the header
+ * @returns {boolean} wheter a debug or test badge is to be displayed or not
+ */
+export const showBadgeStatus = (headerConfig: HeaderConfig): boolean => {
+    return headerConfig.showDebugStatus || headerConfig.showTestStatus;
+};
+
+/**
+ * @param headerConfig is the config settings for the header
+ * @param debugInterviewStatus the status of the debug run
+ * @param flowTestStatus the status of the flow test run
+ * @returns {string} the badge label for the badge which is displayed
+ */
+export const badgeStatus = (
+    headerConfig: HeaderConfig,
+    debugInterviewStatus: string,
+    flowTestStatus: string
+): string => {
+    if (headerConfig.showDebugStatus) {
+        return interviewStatus(debugInterviewStatus);
+    }
+    return testStatusLabel(flowTestStatus);
+};
+
+/**
+ *
+ * @param debugInterviewStatus the status of the debug run
+ * @returns the label for the flow debug run to be displayed
+ */
+const interviewStatus = (debugInterviewStatus: string): string => {
+    const interviewStatus = debugInterviewStatus;
+    if (interviewStatus === DEBUG_STATUS.FINISHED) {
+        return <string>LABELS.debugBadgeCompleted;
+    } else if (interviewStatus === DEBUG_STATUS.PAUSED) {
+        return <string>LABELS.debugBadgePaused;
+    } else if (interviewStatus === DEBUG_STATUS.ERROR) {
+        return <string>LABELS.debugBadgeError;
+    }
+
+    return <string>LABELS.debugBadgeNotTriggered;
+};
+
+/**
+ *
+ * @param flowTestStatus the status of the flow test run
+ * @returns the label for the flow test to be displayed
+ */
+const testStatusLabel = (flowTestStatus: string): string => {
+    const testStatus = flowTestStatus;
+    if (testStatus === FlowTestResultStatusType.PASS) {
+        return <string>LABELS.testBadgePass;
+    } else if (testStatus === FlowTestResultStatusType.FAIL) {
+        return <string>LABELS.testBadgeFail;
+    } else if (testStatus === FlowTestResultStatusType.ERROR) {
+        return <string>LABELS.testBadgeError;
+    }
+    return '';
+};
+
+/**
+ *
+ * @param headerConfig is the config settings for the header
+ * @param flowTestStatus the status of the flow test run
+ * @param debugInterviewStatus the status of the debug run
+ * @returns the class for the badge to be displayed for debugging and testing
+ */
+export const badgeClass = (
+    headerConfig: HeaderConfig,
+    flowTestStatus: string,
+    debugInterviewStatus: string
+): string => {
+    if (headerConfig.showDebugStatus) {
+        return debugBadgeClass(debugInterviewStatus);
+    }
+    return testBadgeClass(flowTestStatus);
+};
+
+/**
+ *
+ * @param flowTestStatus the status of the flow test run
+ * @returns the class for the test badge
+ */
+const testBadgeClass = (flowTestStatus: string): string => {
+    return classSet('slds-align-middle slds-m-left_xx-small test-flowtest-badge').add({
+        'slds-theme_success': flowTestStatus === FlowTestResultStatusType.PASS,
+        'slds-theme_error':
+            flowTestStatus === FlowTestResultStatusType.ERROR || flowTestStatus === FlowTestResultStatusType.FAIL
+    });
+};
+
+/**
+ *
+ * @param debugInterviewStatus the status of the debug run
+ * @returns the class for the flow debug badge
+ */
+const debugBadgeClass = (debugInterviewStatus: string): string => {
+    const interviewStatus = debugInterviewStatus;
+    return classSet('slds-align-middle slds-m-left_xx-small test-debug-badge').add({
+        'slds-theme_success': interviewStatus === DEBUG_STATUS.FINISHED,
+        'slds-theme_warning': interviewStatus === DEBUG_STATUS.PAUSED || interviewStatus === DEBUG_STATUS.STARTED,
+        'slds-theme_error': interviewStatus === DEBUG_STATUS.ERROR
     });
 };
 

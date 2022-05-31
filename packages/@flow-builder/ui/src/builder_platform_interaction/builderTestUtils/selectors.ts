@@ -70,6 +70,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     ALC_BUILDER: 'builder_platform_interaction-alc-canvas',
     ALC_BUILDER_CONTAINER: 'builder_platform_interaction-alc-canvas-container',
     GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',
+    HEADER: 'builder_platform_interaction-header',
     ILLUSTRATION: 'builder_platform_interaction-illustration',
     INPUT_COLLECTION: 'builder_platform_interaction-input-collection-picker',
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',

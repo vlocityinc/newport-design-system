@@ -54,8 +54,8 @@
         </div>
         <lightning-badge if:true={isSystemMode} label={systemModeLabel} title={systemModeLabel} class={badgeClasses}>
         </lightning-badge>
-        <h1 if:true={showLabel} class={cssClassForHeaderLabel}>{formattedHeaderLabel}</h1>
-        <lightning-badge if:true={showBadgeStatus} label={badgeStatus} class={badgeClass}> </lightning-badge>
+        <slot name="headerLabel"></slot>
+        <slot name="badgeStatus"></slot>
         <div class="slds-builder-header__item slds-builder-header__utilities">
             <template if:false={isGuardrailsEnabled}>
                 <div class="slds-builder-header__utilities-item">
