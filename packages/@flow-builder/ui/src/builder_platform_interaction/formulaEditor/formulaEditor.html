@@ -23,6 +23,7 @@
         </builder_platform_interaction-data-type-picker>
 
         <builder_platform_interaction-resourced-textarea
+            if:false={orgHasFlowFormulaBuilder}
             hide-new-resource={hideNewResourceButton}
             for-formula
             label={labels.formulaLabel}
@@ -34,5 +35,20 @@
             onchange={handleFormulaExpressionChanged}
         >
         </builder_platform_interaction-resourced-textarea>
+
+        <builder_platform_interaction-formula-builder
+            if:true={orgHasFlowFormulaBuilder}
+            label={labels.formulaLabel}
+            name={labels.formulaLabel}
+            required
+            flow-process-type={processType}
+            flow-trigger-type={triggerType}
+            record-trigger-type={recordTriggerType}
+            property-editor-element-type={elementType}
+            resource-picker-config={resourcePickerConfig}
+            value={formulaResource.expression}
+            onformulachanged={handleFormulaExpressionChanged}
+        >
+        </builder_platform_interaction-formula-builder>
     </div>
 </template>

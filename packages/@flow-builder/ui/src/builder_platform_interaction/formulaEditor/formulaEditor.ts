@@ -1,8 +1,10 @@
 // @ts-nocheck
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { orgHasFlowFormulaBuilder } from 'builder_platform_interaction/contextLib';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getProcessType, getRecordTriggerType, getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './formulaEditorLabels';
@@ -19,6 +21,14 @@ const dataTypes = [
 
 export default class FormulaEditor extends LightningElement {
     _formulaLabelId = generateGuid();
+    orgHasFlowFormulaBuilder = orgHasFlowFormulaBuilder();
+    resourcePickerConfig = {
+        filterOptions: {
+            forFormula: true,
+            hideGlobalConstants: true
+        }
+    };
+
     @track
     formulaResource;
 
@@ -63,6 +73,18 @@ export default class FormulaEditor extends LightningElement {
             dataType: getValueFromHydratedItem(this.formulaResource.dataType),
             scale: this.formulaResource.scale
         };
+    }
+
+    get processType() {
+        return getProcessType();
+    }
+
+    get triggerType() {
+        return getTriggerType();
+    }
+
+    get recordTriggerType() {
+        return getRecordTriggerType();
     }
 
     get isEditMode() {
