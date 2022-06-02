@@ -74,7 +74,7 @@ import {
     PROPERTY_EDITOR
 } from 'builder_platform_interaction/builderUtils';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import { removeOrgNamespace } from 'builder_platform_interaction/commonUtils';
+import { removeOrgNamespace, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import {
     CLASSIC_EXPERIENCE,
     getPreferredExperience,
@@ -204,6 +204,7 @@ import {
     filterElements,
     flowPropertiesCallback,
     formattedHeaderLabel,
+    generateDefaultLabel,
     getConnectorToDuplicate,
     getCopiedChildElements,
     getCopiedData,
@@ -2299,6 +2300,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     // For a panel, the element is created upon opening the property editor
                     // the parent guid is also passed in if a child element is being created
                     if (this.usePanelForPropertyEditor) {
+                        // It is necessary to close the property editor before adding a new node so the auto generated label number is correct
+                        await this.handleClosePropertyEditor(false);
                         await this.deMutateAndAddNodeCollection(node, parent, alcConnectionSource);
                         this.activeElementGuid = node.guid;
                     }
@@ -2554,6 +2557,22 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * @param clearActiveElement - indicates whether or not to clear the canvas element being actively edited
      */
     async handleClosePropertyEditor(clearActiveElement = true) {
+        // Set default label and api name when using a panelized property editor if empty
+        if (this.showPropertyEditorRightPanel && this.elementBeingEditedInPanel) {
+            const node = this.elementBeingEditedInPanel;
+            const elementLabel = getValueFromHydratedItem(node.label);
+            const elementName = getValueFromHydratedItem(node.name);
+            const parentGuid = getValueFromHydratedItem(node.parent);
+            if (!elementName || !elementLabel) {
+                const label: string = elementLabel || generateDefaultLabel(node.elementType, parentGuid);
+                const name: string = elementName || sanitizeDevName(label);
+                this.deMutateAndUpdateNodeCollection({
+                    ...node,
+                    label: label === elementLabel ? node.label : { value: label, error: null },
+                    name: name === elementName ? node.name : { value: name, error: null }
+                });
+            }
+        }
         await this.setElementBeingEditedInPanelAsNotNew();
         this.showPropertyEditorRightPanel = false;
         this.propertyEditorParams = null;

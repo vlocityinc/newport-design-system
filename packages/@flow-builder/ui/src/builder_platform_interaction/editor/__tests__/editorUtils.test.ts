@@ -6,7 +6,7 @@ import {
     FLOW_TRIGGER_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { SaveType } from 'builder_platform_interaction/saveType';
-import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { HeaderConfig } from '../../contextLib/contextLib';
@@ -16,6 +16,7 @@ import {
     badgeStatus,
     debugInterviewResponseCallback,
     flowPropertiesCallback,
+    generateDefaultLabel,
     getConnectorsToHighlight,
     getConnectorToDuplicate,
     getCopiedChildElements,
@@ -208,6 +209,24 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                 return {
                     areChildElementsSupported: true
                 };
+            } else if (elementType === mockElementType.ORCHESTRATED_STAGE) {
+                return {
+                    labels: {
+                        singular: 'Stage'
+                    }
+                };
+            } else if (elementType === mockElementType.STAGE_STEP) {
+                return {
+                    labels: {
+                        singular: 'Step'
+                    }
+                };
+            } else if (elementType === mockElementType.RECORD_CREATE) {
+                return {
+                    labels: {
+                        singular: 'Create Records'
+                    }
+                };
             }
             return {};
         })
@@ -226,7 +245,53 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 guid: 'startGuid'
             };
         }),
-        getProcessType: jest.fn()
+        getProcessType: jest.fn(),
+        getElementsForElementType: jest.fn().mockImplementation((elementType) => {
+            if (mockElementType.ORCHESTRATED_STAGE === elementType) {
+                // return empty object to stand in for created but unlabelled element to be auto labeled
+                return [
+                    { label: 'FlowBuilderElementConfig.defaultFlowElementName(Stage,9)' },
+                    { label: 'FlowBuilderElementConfig.defaultFlowElementName(Stage,10)' },
+                    { label: 'FlowBuilderElementConfig.defaultFlowElementName(Stage,11)' },
+                    { label: 'FlowBuilderElementConfig.defaultFlowElementName(Stage,17)' },
+                    { label: 'FlowBuilderElementConfig.defaultFlowElementName(Stage,19)' },
+                    { label: 'FlowBuilderElementConfig.defaultFlowElementName(Stage,26)' },
+                    {}
+                ];
+            }
+            if (mockElementType.RECORD_CREATE === elementType) {
+                return [{}];
+            }
+            return [];
+        }),
+        getElementByGuid: jest.fn().mockImplementation((parentGuid) => {
+            if (parentGuid === 'stage guid') {
+                return {
+                    // return empty object to stand in for created but unlabelled element to be auto labeled
+                    childReferences: [{}],
+                    label: 'Stage 1'
+                };
+            } else if (parentGuid === 'stage with children guid') {
+                return {
+                    label: 'Stage 2',
+                    childReferences: [
+                        {
+                            label: 'Step 1 of Stage 2'
+                        },
+                        {
+                            label: 'Step 2 of Stage 2'
+                        },
+                        {}
+                    ]
+                };
+            } else if (parentGuid === 'stage with children and long name guid') {
+                return {
+                    label: new Array(256).join('0'),
+                    childReferences: [{}]
+                };
+            }
+            return {};
+        })
     };
 });
 
@@ -1855,6 +1920,45 @@ describe('Editor Utils Test', () => {
             expect(logInteraction).toHaveBeenCalled();
             expect(logInteraction.mock.calls[0][0]).toBe(`add-node-of-type-Choice`);
             expect(logInteraction.mock.calls[0][2].isResourceQuickCreated).toBe(true);
+        });
+    });
+    describe('generateDefaultLabel function', () => {
+        it('Generates the correct label for the first of a particular element type for regular canvas elements', () => {
+            generateDefaultLabel(mockElementType.RECORD_CREATE, undefined);
+            expect(commonUtils.format).toHaveBeenCalledWith(
+                'FlowBuilderElementConfig.defaultFlowElementName',
+                'Create Records',
+                1
+            );
+        });
+        it('Generates the correct next label and avoids generating a duplicate label for a regular canvas element', () => {
+            const label = generateDefaultLabel(mockElementType.ORCHESTRATED_STAGE, undefined);
+            expect(label).toEqual('FlowBuilderElementConfig.defaultFlowElementName(Stage,27)');
+        });
+
+        it('Generates the correct label for a child canvas element', () => {
+            generateDefaultLabel(mockElementType.STAGE_STEP, 'stage guid');
+            expect(commonUtils.format).toHaveBeenCalledWith(
+                'FlowBuilderElementConfig.defaultChildFlowElementName',
+                'Step',
+                1,
+                'Stage 1'
+            );
+        });
+
+        it('Generates the correct label for a child canvas with other sibling elements', () => {
+            generateDefaultLabel(mockElementType.STAGE_STEP, 'stage with children guid');
+            expect(commonUtils.format).toHaveBeenCalledWith(
+                'FlowBuilderElementConfig.defaultChildFlowElementName',
+                'Step',
+                3,
+                'Stage 2'
+            );
+        });
+
+        it('Truncates labels to have a max length of 255 characters', () => {
+            const label = generateDefaultLabel(mockElementType.STAGE_STEP, 'stage with children and long name guid');
+            expect(label.length).toEqual(255);
         });
     });
 });

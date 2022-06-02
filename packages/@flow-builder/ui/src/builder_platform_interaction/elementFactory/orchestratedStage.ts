@@ -1,4 +1,3 @@
-import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
 import {
@@ -137,13 +136,6 @@ const elementType = ELEMENT_TYPE.ORCHESTRATED_STAGE;
 export function createOrchestratedStageWithItems(existingStage: OrchestratedStage): OrchestratedStage {
     const newStage: OrchestratedStage = baseCanvasElement(existingStage) as OrchestratedStage;
     const { childReferences = [] } = existingStage;
-
-    if (!existingStage.label) {
-        const orchestratedStageCount = getElementsForElementType(ELEMENT_TYPE.ORCHESTRATED_STAGE).length;
-
-        newStage.label = format(LABELS.defaultOrchestratedStageName, orchestratedStageCount + 1);
-        newStage.name = sanitizeDevName(newStage.label);
-    }
 
     newStage.stageSteps = childReferences.map((childReference: UI.ChildReference) => {
         return createStageStep(getElementByGuid(childReference.childReference) as any);
@@ -508,20 +500,6 @@ const createActionCallHelper = (
 
 const setupStepWithLabels = (step: StageStep): StageStep => {
     const baseStep = { ...step };
-
-    // Default label
-    // TODO: This is an incomplete version of the logic needed for full property editor
-    // in panel support.  for example, this does not currently prevent duplicate guids
-    // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000007Q6YUIA0/view
-    if (!baseStep.label && baseStep.parent) {
-        const orchestratedStage = getElementByGuid<OrchestratedStage>(baseStep.parent)!;
-        baseStep.label = format(
-            LABELS.defaultStageStepName,
-            orchestratedStage.childReferences.length + 1,
-            orchestratedStage.label
-        );
-        baseStep.name = sanitizeDevName(baseStep.label);
-    }
 
     // Determine the step type label using the action type.
     baseStep.stepTypeLabel = resolveStepTypeLabel(baseStep.actionType!);

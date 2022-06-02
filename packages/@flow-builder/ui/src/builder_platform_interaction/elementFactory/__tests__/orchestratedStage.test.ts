@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     ACTION_TYPE,
@@ -10,7 +9,6 @@ import {
     StageExitCriteria
 } from 'builder_platform_interaction/flowMetadata';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { getElementByGuid, getElementsForElementType } from 'builder_platform_interaction/storeUtils';
 import { createActionCall } from '../actionCall';
 import {
@@ -341,16 +339,6 @@ describe('OrchestratedStage', () => {
             expect(orchestratedStage.dataType).toEqual(FLOW_DATA_TYPE.ORCHESTRATED_STAGE.value);
         });
 
-        it('default name/label', () => {
-            const orchestratedStage = createOrchestratedStageWithItems({});
-
-            expect(getElementsForElementType).toHaveBeenCalledWith(ELEMENT_TYPE.ORCHESTRATED_STAGE);
-
-            const defaultLabel = 'FlowBuilderElementConfig.defaultOrchestratedStageName(1)';
-            expect(orchestratedStage.label).toEqual(defaultLabel);
-            expect(orchestratedStage.name).toEqual(sanitizeDevName(defaultLabel));
-        });
-
         describe('items', () => {
             it('includes items for all item references present', () => {
                 const childReferences = [{ childReference: 'a' }, { childReference: 'b' }, { childReference: 'c' }];
@@ -424,23 +412,6 @@ describe('OrchestratedStage', () => {
             createStageStep(mockItem);
 
             expect(baseChildElement.mock.calls[0][0]).toMatchObject(mockItem);
-        });
-
-        it('uses the default name and label if none provided', () => {
-            const mockItem = {
-                parent: existingOrchestratedStageWithChildren.guid,
-                assignees: []
-            };
-
-            const item = createStageStep(mockItem);
-
-            expect(getElementByGuid).toHaveBeenCalledWith(existingOrchestratedStageWithChildren.guid);
-            expect(commonUtils.format).toHaveBeenCalledWith(
-                'FlowBuilderElementConfig.defaultStageStepName',
-                existingOrchestratedStageWithChildren.childReferences.length + 1,
-                undefined
-            );
-            expect(item.label).toEqual('FlowBuilderElementConfig.defaultStageStepName(3,)');
         });
 
         it('uses existing action if provided', () => {

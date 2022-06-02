@@ -17,6 +17,8 @@ import ariaLabelCanvasContainer from '@salesforce/label/FlowBuilderCanvas.ariaLa
 import debugToastMessage from '@salesforce/label/FlowBuilderDebugEditor.debugToastMessage';
 import debugToastMessageNoElementLabel from '@salesforce/label/FlowBuilderDebugEditor.debugToastMessageNoElementLabel';
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
+import defaultChildFlowElementName from '@salesforce/label/FlowBuilderElementConfig.defaultChildFlowElementName';
+import defaultFlowElementName from '@salesforce/label/FlowBuilderElementConfig.defaultFlowElementName';
 import ariaLabelHeader from '@salesforce/label/FlowBuilderHeader.ariaLabelHeader';
 import debugBadgeCompleted from '@salesforce/label/FlowBuilderHeader.debugBadgeCompleted';
 import debugBadgeError from '@salesforce/label/FlowBuilderHeader.debugBadgeError';
@@ -74,6 +76,8 @@ export const LABELS = {
     debugToastMessageNoElementLabel,
     flowTestRunFailureWhenGateClosedToast,
     flowTestFeatureNotAvailable,
+    defaultChildFlowElementName,
+    defaultFlowElementName,
     singleCopySuccess,
     singleDeleteSuccess,
     multipleDeleteSuccess,

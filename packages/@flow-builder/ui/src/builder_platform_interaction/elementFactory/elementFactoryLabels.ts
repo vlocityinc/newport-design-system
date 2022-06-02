@@ -11,8 +11,6 @@ import loopEndComboBoxOption from '@salesforce/label/FlowBuilderConnectorPicker.
 import loopNextComboBoxOption from '@salesforce/label/FlowBuilderConnectorPicker.loopNextComboBoxOption';
 import emptyDefaultOutcomeLabel from '@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel';
 import backgroundStepLabel from '@salesforce/label/FlowBuilderElementConfig.backgroundStepLabel';
-import defaultOrchestratedStageName from '@salesforce/label/FlowBuilderElementConfig.defaultOrchestratedStageName';
-import defaultStageStepName from '@salesforce/label/FlowBuilderElementConfig.defaultStageStepName';
 import endElementSingularLabel from '@salesforce/label/FlowBuilderElementConfig.endElementSingularLabel';
 import interactiveStepLabel from '@salesforce/label/FlowBuilderElementConfig.interactiveStepLabel';
 import orchestratedStageStatus from '@salesforce/label/FlowBuilderElementConfig.orchestratedStageStatus';
@@ -41,8 +39,6 @@ export const LABELS = {
     startElementRecordUpdated,
     startElementRecordCreatedUpdated,
     endElementSingularLabel,
-    defaultOrchestratedStageName,
-    defaultStageStepName,
     interactiveStepLabel,
     backgroundStepLabel,
     immediateConnectorLabel,
