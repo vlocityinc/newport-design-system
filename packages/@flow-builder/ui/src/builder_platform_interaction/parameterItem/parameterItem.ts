@@ -1,7 +1,11 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { isUndefinedOrNull, sanitizeBoolean } from 'builder_platform_interaction/commonUtils';
-import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    getErrorFromHydratedItem,
+    getValueFromHydratedItem,
+    isItemHydrated
+} from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { DeleteParameterItemEvent, UpdateParameterItemEvent } from 'builder_platform_interaction/events';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
@@ -248,7 +252,7 @@ export default class ParameterItem extends LightningElement {
             error = null;
         if (!this.state.toggleStatus) {
             // from ON to OFF
-            if (this.state.parameterItem.hasOwnProperty('value')) {
+            if (isItemHydrated(this.state.parameterItem)) {
                 this.preservedValue = {
                     value: this.state.parameterItem.value,
                     valueDataType: this.state.parameterItem.valueDataType

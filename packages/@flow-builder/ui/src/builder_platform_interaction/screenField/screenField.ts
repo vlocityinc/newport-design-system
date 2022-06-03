@@ -1,5 +1,9 @@
 import { isObject, isReference } from 'builder_platform_interaction/commonUtils';
-import { getErrorsFromHydratedElement, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import {
+    getErrorsFromHydratedElement,
+    hydrateWithErrors,
+    isItemHydrated
+} from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
@@ -97,10 +101,9 @@ export default class ScreenField extends LightningElement {
     }
 
     get defaultValue() {
-        let defaultValue =
-            this.screenfield.defaultValue && this.screenfield.defaultValue.hasOwnProperty('value')
-                ? this.screenfield.defaultValue.value
-                : this.screenfield.defaultValue;
+        let defaultValue = isItemHydrated(this.screenfield.defaultValue)
+            ? this.screenfield.defaultValue.value
+            : this.screenfield.defaultValue;
 
         const shouldNotPreviewFERs =
             isCurrencyField(this.screenfield) ||

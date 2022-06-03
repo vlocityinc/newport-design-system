@@ -1,3 +1,4 @@
+import { isItemHydrated } from 'builder_platform_interaction/dataMutationLib';
 import {
     booleanValue,
     CURRENCY_FORMAT,
@@ -57,8 +58,7 @@ export default class ScreenInputField extends LightningElement {
     }
 
     get displayValue() {
-        const hydrated = this.value && this.value.hasOwnProperty('value');
-        const displayValue = hydrated ? this.value.value : this.value;
+        const displayValue = isItemHydrated(this.value) ? this.value.value : this.value;
 
         // The lightning components used to render canvas preview for date and dateTime need
         // to be ISO format in order to be previewed. Perform this translation for preview

@@ -1,4 +1,6 @@
 // @ts-nocheck
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { isItemHydrated } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 export * from './screenEditorExtensionUtils';
 export * from './screenEditorFieldTypeUtils';
@@ -114,10 +116,9 @@ export function booleanValue(value, name?) {
  * @param propertyName
  */
 function getNormalizedValue(value, propertyName = 'value') {
-    const hydrated = value && value.hasOwnProperty('value');
-    const val = hydrated ? value[propertyName] : value;
+    const val = isItemHydrated(value) ? value[propertyName] : value;
     // note: should differentiate boolean and number type
-    return val === undefined || val === null || val === '' ? null : val;
+    return isUndefinedOrNull(val) || val === '' ? null : val;
 }
 
 /**

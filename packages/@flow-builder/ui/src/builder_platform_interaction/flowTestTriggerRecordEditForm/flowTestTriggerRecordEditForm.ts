@@ -1,4 +1,5 @@
 import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { isItemHydrated } from 'builder_platform_interaction/dataMutationLib';
 import {
     FlowTestClearRecordFormEvent,
     FlowTestRecordSelectedEvent,
@@ -146,12 +147,11 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
     }
 
     getValue(data, key) {
-        if (data.hasOwnProperty('value') && data.value.hasOwnProperty(key)) {
-            return data.value[key].value;
-        } else if (data[key] && data[key].hasOwnProperty('value')) {
-            return data[key].value;
+        const fieldVal = isItemHydrated(data) ? data.value[key] : data[key];
+        if (isItemHydrated(fieldVal)) {
+            return fieldVal.value;
         }
-        return undefined;
+        return fieldVal;
     }
 
     onFieldChange(event) {
@@ -206,7 +206,7 @@ export default class FlowTestTriggerRecordEditForm extends LightningElement {
     }
 
     addUnmodifiableFieldValuesTo(objectFieldValuesObject) {
-        const fields = this.recordData.hasOwnProperty('value')
+        const fields = isItemHydrated(this.recordData)
             ? Object.keys(this.recordData.value)
             : Object.keys(this.recordData);
         fields.forEach((key) => {

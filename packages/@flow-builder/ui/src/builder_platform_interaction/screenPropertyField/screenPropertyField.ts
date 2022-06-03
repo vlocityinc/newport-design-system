@@ -1,6 +1,6 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
+import { hydrateIfNecessary, isItemHydrated } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
@@ -120,7 +120,7 @@ export default class ScreenPropertyField extends LightningElement {
         // Check for value like this because just doing this.value results in "false" when value is a number
         // set to 0, for example. Hence, perform the check like this.
         if (this.value !== undefined && this.value !== null) {
-            return this.value.hasOwnProperty('value') ? this.value.value : this.value;
+            return isItemHydrated(this.value) ? this.value.value : this.value;
         }
 
         return null;
@@ -220,7 +220,7 @@ export default class ScreenPropertyField extends LightningElement {
     get domValue() {
         const input = this.input;
         if (this.allowsResources) {
-            return input.value && input.value.hasOwnProperty('value') ? input.value.value : input.value;
+            return isItemHydrated(input.value) ? input.value.value : input.value;
         } else if (this.isLongString) {
             return input.value.value;
         } else if (this.isRichString) {

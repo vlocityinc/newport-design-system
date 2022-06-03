@@ -1,5 +1,6 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { isItemHydratedWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { TEXT_MODES } from 'builder_platform_interaction/richTextPlainTextSwitch';
@@ -90,7 +91,7 @@ export default class ResourcedTextarea extends LightningElement {
     }
 
     set value(val) {
-        this._hydrated = val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
+        this._hydrated = isItemHydratedWithErrors(val);
 
         if (this._hydrated) {
             this._value = val.value;

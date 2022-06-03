@@ -46,7 +46,7 @@ describe('FlowTestTriggerEditForm', () => {
         const rows = flowTestTriggerEditForm.shadowRoot.querySelectorAll(
             LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT_FIELD
         );
-        expect(rows.length).toEqual(2);
+        expect(rows.length).toEqual(3);
     });
     it('does not show record picker as a required field', async () => {
         const flowTestTriggerEditForm = await createComponentUnderTest();

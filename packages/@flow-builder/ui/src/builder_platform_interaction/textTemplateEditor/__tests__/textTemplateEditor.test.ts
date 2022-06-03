@@ -38,6 +38,7 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
     return {
         pick: actual.pick,
         getErrorsFromHydratedElement: jest.fn(),
+        isItemHydratedWithErrors: actual.isItemHydratedWithErrors,
         getValueFromHydratedItem: actual.getValueFromHydratedItem
     };
 });

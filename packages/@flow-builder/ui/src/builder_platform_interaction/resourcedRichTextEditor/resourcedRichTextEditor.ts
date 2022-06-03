@@ -1,6 +1,7 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getOrgId } from 'builder_platform_interaction/contextLib';
+import { isItemHydratedWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { booleanAttributeValue, LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
@@ -129,7 +130,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
     }
 
     set value(val) {
-        this.hydrated = val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
+        this.hydrated = isItemHydratedWithErrors(val);
 
         if (this.hydrated) {
             this.state.value = val.value;

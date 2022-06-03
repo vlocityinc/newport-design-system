@@ -1,5 +1,10 @@
 import { FlowTestMode, hidePopover } from 'builder_platform_interaction/builderUtils';
-import { dehydrate, getErrorsFromHydratedElement, pick } from 'builder_platform_interaction/dataMutationLib';
+import {
+    dehydrate,
+    getErrorsFromHydratedElement,
+    isItemHydrated,
+    pick
+} from 'builder_platform_interaction/dataMutationLib';
 import { FlowTestPointValidator } from 'builder_platform_interaction/elementFactory';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -192,7 +197,7 @@ export default class FlowTestEditor extends LightningElement {
      * @returns boolean if test data has modified or not
      */
     isTestDataModified(flowTestRecordData): boolean {
-        return flowTestRecordData.hasOwnProperty('value') && Object.keys(flowTestRecordData.value).length > 0;
+        return isItemHydrated(flowTestRecordData) && Object.keys(flowTestRecordData.value).length > 0;
     }
 
     handlePropertyChanged(event) {

@@ -27,11 +27,21 @@ const DEFAULT_BLACK_LIST = [
 /**
  * Returns true if the input item is hydrated with errors.
  *
- * @param {Object} item to evaluate if its hydrated
- * @returns {boolean} returns true if item has error and value property otherwise false
+ * @param item to evaluate if its hydrated
+ * @returns returns true if item has error and value property otherwise false
  */
-export const isItemHydratedWithErrors = (item) => {
-    return item && item.hasOwnProperty('value') && item.hasOwnProperty('error');
+export const isItemHydratedWithErrors = (item: Object) => {
+    return isItemHydrated(item) && item.hasOwnProperty('error');
+};
+
+/**
+ * Returns true if the input item is hydrated.
+ *
+ * @param item to evaluate if its hydrated
+ * @returns returns true if item has value property otherwise false
+ */
+export const isItemHydrated = (item: Object) => {
+    return item?.hasOwnProperty('value');
 };
 
 const doHydrateWithErrors = (element, blackList) => {
