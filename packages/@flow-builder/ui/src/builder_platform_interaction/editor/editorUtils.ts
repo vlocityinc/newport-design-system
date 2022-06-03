@@ -23,6 +23,7 @@ import { getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interac
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import {
     getConfigForElementType,
+    isChildElement,
     updateElementConfigMapWithSubtypes
 } from 'builder_platform_interaction/elementConfig';
 import {
@@ -1462,8 +1463,10 @@ function dedupeLabel(labels: (string | null | undefined)[], labelFunction: (coun
 export function generateDefaultLabel(elementType: string, parent?: string): string {
     const singularElementLabel: string = getConfigForElementType(elementType).labels!.singular;
     const parentElement: UI.CanvasElement = parent && getElementByGuid<any>(parent);
-
-    if (parentElement?.childReferences) {
+    if (isChildElement(elementType)) {
+        if (!parentElement?.childReferences) {
+            throw new Error('Parent element is misconfigured');
+        }
         const existingLabels = parentElement.childReferences.map((reference) => {
             const element = getElementByGuid<UI.Element>(reference.childReference);
             return element?.label;

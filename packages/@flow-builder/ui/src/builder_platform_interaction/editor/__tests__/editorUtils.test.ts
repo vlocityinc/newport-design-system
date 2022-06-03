@@ -229,6 +229,12 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                 };
             }
             return {};
+        }),
+        isChildElement: jest.fn().mockImplementation((elementType) => {
+            if (elementType === mockElementType.STAGE_STEP) {
+                return true;
+            }
+            return false;
         })
     };
 });
@@ -287,6 +293,11 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             } else if (parentGuid === 'stage with children and long name guid') {
                 return {
                     label: new Array(256).join('0'),
+                    childReferences: [{}]
+                };
+            } else if (parentGuid === 'decision guid') {
+                return {
+                    label: 'test',
                     childReferences: [{}]
                 };
             }
@@ -1944,6 +1955,11 @@ describe('Editor Utils Test', () => {
                 1,
                 'Stage 1'
             );
+        });
+
+        it('Generates the correct label for a non child canvas element with a parent guid', () => {
+            const label = generateDefaultLabel(mockElementType.ORCHESTRATED_STAGE, 'decision guid');
+            expect(label).toEqual('FlowBuilderElementConfig.defaultFlowElementName(Stage,27)');
         });
 
         it('Generates the correct label for a child canvas with other sibling elements', () => {

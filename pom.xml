@@ -7,8 +7,8 @@
     <version>240-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>1.5399</aura.version>
-        <lwc.version>2.13.3-240.3</lwc.version>
+        <aura.version>1.5404</aura.version>
+        <lwc.version>2.14.0-240.4</lwc.version>
         <spring.version>5.3.18</spring.version>
         <google.closure-compiler.version>v20130411-sfdc-patch1</google.closure-compiler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
