@@ -7,6 +7,7 @@ import { getViewProps } from './utils';
  * Renders the right Menu View for the given context.
  */
 export default class FieldInputMenuViewContainer extends LightningElement {
+    static delegatesFocus = true;
     labels = LABELS;
 
     @api contextItems!: FieldInput.MenuContextItem[];

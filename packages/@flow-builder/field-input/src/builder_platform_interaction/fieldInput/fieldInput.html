@@ -1,7 +1,6 @@
 <template>
-    <div class="container" onfocusin={handleFocusIn}>
+    <div class="container" onfocusin={handleFocusIn} onfocusout={handleFocusOut}>
         <builder_platform_interaction-field-input-box
-            onfocusout={handleInputBoxFocusOut}
             selected-item={selectedItem}
             onunselectitem={handleUnselectItem}
             onshowmenu={handleShowMenu}
@@ -13,6 +12,7 @@
             context-items={contextItems}
             onfieldinputbreadcrumbclick={handleFieldInputBreadcrumbClick}
             onfieldinputmenuselectitem={handleFieldInputMenuSelectItem}
+            tabindex="0"
         >
         </builder_platform_interaction-field-input-menu>
     </div>

@@ -4,3 +4,8 @@
     /* TODO: fix this */
     width: 320px;
 }
+
+builder_platform_interaction-field-input-menu:focus,
+builder_platform_interaction-field-input-menu:focus-visible {
+    outline: none;
+}

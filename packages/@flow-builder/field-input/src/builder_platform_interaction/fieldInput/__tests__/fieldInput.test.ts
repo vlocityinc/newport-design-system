@@ -28,6 +28,36 @@ function dispatch(cmp, eventName) {
     cmp.dispatchEvent(new CustomEvent(eventName, { bubbles: true, composed: true, cancelable: true }));
 }
 
+const focusIntoInputBoxAndAssert = async (cmp, dom) => {
+    dispatch(dom.fieldInputBox, 'focusin');
+    await ticks(1);
+    assertMenuDisplayed(cmp, true);
+};
+
+const waitFor = (timeout = 0) => {
+    return new Promise((resolve) => {
+        /* eslint-disable @lwc/lwc/no-async-operation */
+        setTimeout(() => resolve(), timeout);
+    });
+};
+
+const assertMenuDisplayed = (cmp, expectDisplayed = true) => {
+    const menu = cmp.shadowRoot.querySelector(selectors.fieldInputMenu);
+
+    if (expectDisplayed) {
+        expect(menu).not.toBeNull();
+    } else {
+        expect(menu).toBeNull();
+    }
+};
+
+async function focusOutOfInputBox(cmp, dom) {
+    dispatch(dom.fieldInputBox, 'focusout');
+    await waitFor(0);
+
+    assertMenuDisplayed(cmp, false);
+}
+
 describe('Field Input Tests', () => {
     let cmp;
     let dom;
@@ -37,56 +67,33 @@ describe('Field Input Tests', () => {
         dom = lwcUtils.createDomProxy(cmp, selectors);
     });
 
-    const focusOnInputBoxAndAssert = async () => {
-        dispatch(dom.fieldInputBox, 'focusin');
-        await ticks(1);
-        assertMenuDisplayed(true);
-    };
-
-    const waitFor = (timeout = 100) => {
-        return new Promise((resolve) => {
-            /* eslint-disable @lwc/lwc/no-async-operation */
-            setTimeout(() => resolve(), timeout);
-        });
-    };
-
-    const assertMenuDisplayed = (expectDisplayed = true) => {
-        const menu = cmp.shadowRoot.querySelector(selectors.fieldInputMenu);
-
-        if (expectDisplayed) {
-            expect(menu).not.toBeNull();
-        } else {
-            expect(menu).toBeNull();
-        }
-    };
-
     it('sanity', async () => {
         expect(cmp).toBeTruthy();
-        assertMenuDisplayed(false);
+        assertMenuDisplayed(cmp, false);
     });
 
-    it('Show menu when menu input box gets focus', async () => {
-        await focusOnInputBoxAndAssert();
-    });
+    describe('focus management', () => {
+        it('Show menu when menu input box gets focus', async () => {
+            await focusIntoInputBoxAndAssert(cmp, dom);
+        });
 
-    it('Hide menu when menu input box loses focus', async () => {
-        await focusOnInputBoxAndAssert();
+        describe('When input box loses focus', () => {
+            it('Hide menu', async () => {
+                await focusIntoInputBoxAndAssert(cmp, dom);
+                await focusOutOfInputBox(cmp, dom);
+            });
 
-        dispatch(dom.fieldInputBox, 'focusout');
-        await waitFor(0);
+            it('Dont hide menu when focus is moved to the menu', async () => {
+                const { fieldInputBox, fieldInputContainer } = dom;
+                await focusIntoInputBoxAndAssert(cmp, dom);
 
-        assertMenuDisplayed(false);
-    });
+                dispatch(fieldInputBox, 'focusout');
+                dispatch(fieldInputContainer, 'focusin');
 
-    it('Dont Hide menu when menu gets focus after input box loses focus', async () => {
-        const { fieldInputBox, fieldInputContainer } = dom;
-        await focusOnInputBoxAndAssert();
+                await waitFor(0);
 
-        dispatch(fieldInputBox, 'foucusout');
-        dispatch(fieldInputContainer, 'foucusin');
-
-        await waitFor(0);
-
-        assertMenuDisplayed();
+                assertMenuDisplayed(cmp);
+            });
+        });
     });
 });

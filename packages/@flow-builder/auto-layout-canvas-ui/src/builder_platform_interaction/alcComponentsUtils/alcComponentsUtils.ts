@@ -1415,7 +1415,7 @@ export function getDomElementGeometry(element: Element | LightningElement): Geom
  */
 export function scheduleTask(task: () => void) {
     // eslint-disable-next-line @lwc/lwc/no-async-operation
-    setTimeout(() => task(), 0);
+    setTimeout(() => task());
 }
 
 /**

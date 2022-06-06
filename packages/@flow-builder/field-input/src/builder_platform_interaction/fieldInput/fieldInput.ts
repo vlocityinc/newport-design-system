@@ -4,7 +4,10 @@ import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { LightningElement, track } from 'lwc';
 import { LABELS } from './fieldInputLabels';
 
-const selectors = { inputBox: 'builder_platform_interaction-field-input-box' };
+const selectors = {
+    inputBox: 'builder_platform_interaction-field-input-box',
+    menu: 'builder_platform_interaction-field-input-menu'
+};
 
 const ALL_CONTEXT_ITEM: FieldInput.MenuContextItem = undefined;
 
@@ -36,11 +39,11 @@ export default class FieldInput extends LightningElement {
         const menuItem = event.detail.item;
 
         if (hasNext(menuItem.viewType)) {
-            this.contextItems = [...this.contextItems, menuItem];
+            this.updateContextItems([...this.contextItems, menuItem]);
         } else {
             // otherwise set the selected item and close the menu
             this.selectedItem = menuItem;
-            this.isMenuOpened = false;
+            this.updateIsMenuOpened(false);
         }
     }
 
@@ -48,7 +51,29 @@ export default class FieldInput extends LightningElement {
         const { index } = event.detail;
 
         // remove trailing breadcrumbs from index
-        this.contextItems = this.contextItems.slice(0, index + 2);
+        this.updateContextItems(this.contextItems.slice(0, index + 2));
+    }
+
+    updateContextItems(newContextItems: FieldInput.MenuContextItem[]) {
+        this.contextItems = newContextItems;
+
+        // after updating the context items we need to restore the focus to the menu
+        scheduleTask(() => {
+            this.resetPendingHideMenu();
+            this.dom.menu.focus();
+        });
+    }
+
+    updateIsMenuOpened(newIsMenuOpened) {
+        this.isMenuOpened = newIsMenuOpened;
+
+        if (!newIsMenuOpened) {
+            // when hidding the menu, reset the context to all
+            this.contextItems = [ALL_CONTEXT_ITEM];
+        } else {
+            // otherwise dismiss any pending hide menu
+            this.resetPendingHideMenu();
+        }
     }
 
     handleUnselectItem() {
@@ -56,24 +81,35 @@ export default class FieldInput extends LightningElement {
     }
 
     handleShowMenu(event) {
-        this.isMenuOpened = event.detail.show;
-    }
-
-    renderedCallback(): void {
-        this.dom.inputBox.focus();
+        this.updateIsMenuOpened(event.detail.show);
     }
 
     handleFocusIn() {
-        this.isMenuOpened = true;
+        this.updateIsMenuOpened(true);
+    }
+
+    resetPendingHideMenu() {
         this.hasPendingHideMenu = false;
     }
 
-    handleInputBoxFocusOut() {
+    handleFocusOut(event: FocusEvent) {
+        // @ts-ignore
+        const tagName = event.relatedTarget?.tagName;
+
+        // if the focus is moved to another part of the field-input, ignore the focusout
+        if (
+            tagName === 'BUILDER_PLATFORM_INTERACTION-FIELD-INPUT-MENU' ||
+            tagName === 'BUILDER_PLATFORM_INTERACTION-FIELD-INPUT-BOX'
+        ) {
+            return;
+        }
+
+        // otherwise schedule a hide menu action
         this.hasPendingHideMenu = true;
 
         scheduleTask(() => {
             if (this.hasPendingHideMenu) {
-                this.isMenuOpened = false;
+                this.updateIsMenuOpened(false);
             }
         });
     }

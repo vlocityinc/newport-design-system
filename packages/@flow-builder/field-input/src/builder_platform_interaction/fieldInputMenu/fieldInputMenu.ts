@@ -1,13 +1,17 @@
 import { NewResourceEvent } from 'builder_platform_interaction/events';
-import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
+import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './fieldInputMenuLabels';
 
 const { withKeyboardInteractions } = keyboardInteractionUtils;
 
+const selectors = {
+    viewContainer: 'builder_platform_interaction-field-input-menu-view-container'
+};
 export default class FieldInputMenu extends withKeyboardInteractions(LightningElement) {
     static delegatesFocus = true;
 
+    dom = lwcUtils.createDomProxy(this, selectors);
     labels = LABELS;
 
     isFocusTrapEnabled = false;
@@ -68,5 +72,10 @@ export default class FieldInputMenu extends withKeyboardInteractions(LightningEl
 
     get contextItems() {
         return this._contextItems;
+    }
+
+    @api focus() {
+        // skip the header when moving focusing on the menu
+        this.dom.viewContainer.focus();
     }
 }

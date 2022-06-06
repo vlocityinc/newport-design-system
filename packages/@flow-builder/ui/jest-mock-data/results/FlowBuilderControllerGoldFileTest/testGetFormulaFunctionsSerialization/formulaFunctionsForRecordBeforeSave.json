@@ -612,6 +612,13 @@
         "categoryId":"ADVANCED"
       },
       {
+        "exampleString":"ISCLONE()",
+        "name":"ISCLONE",
+        "description":"Checks if the record is a clone of another record, and returns TRUE if it is a clone.  Otherwise, returns FALSE",
+        "label":"ISCLONE",
+        "categoryId":"LOGICAL"
+      },
+      {
         "exampleString":"ISNEW()",
         "name":"ISNEW",
         "description":"Checks if the record is new, and returns TRUE if it is new.  Otherwise, returns FALSE",
