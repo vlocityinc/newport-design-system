@@ -244,6 +244,8 @@ export default class FlowTestManager extends LightningElement {
         try {
             const results = await deleteFlowTest([flowTestId]);
             this._deleteFlowTestResults(results);
+        } catch (exception) {
+            // Catch unhandled promise reject error
         } finally {
             this.showLoadingSpinner = false;
             logPerfTransactionEnd(DELETE_FLOW_TEST_FROM_LIST, { flowTestId });
@@ -259,6 +261,9 @@ export default class FlowTestManager extends LightningElement {
                 deleteFlowTestFromCache(result.id);
                 isFlowTestDeleted = true;
                 this.showToast(format(LABELS.flowTestDeleteActionSuccessToast, testName), 'success');
+            } else if (result.errorMessage) {
+                // Delete operation was unsuccessful. Show message returned from server.
+                this.showToast(result.errorMessage, 'error', 'sticky');
             } else {
                 // Delete operation was unsuccessful. No change in FlowTest data.
                 this.showToast(format(LABELS.flowTestDeleteActionFailureToast, testName), 'error', 'sticky');
