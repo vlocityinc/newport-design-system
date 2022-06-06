@@ -480,7 +480,9 @@ export enum FlowComparisonOperator {
     WasSet = 'WasSet',
     WasSelected = 'WasSelected',
     WasVisited = 'WasVisited',
-    IsChanged = 'IsChanged'
+    IsChanged = 'IsChanged',
+    In = 'In',
+    NotIn = 'NotIn'
 }
 
 export enum EntryCriteria {
