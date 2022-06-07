@@ -397,6 +397,11 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
                 offsetNumberAsNumber *= -1;
             } else if (offsetUnit === TIME_OPTION.MINUTES_AFTER) {
                 offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.MINUTES;
+            } else if (offsetUnit === TIME_OPTION.MONTHS_BEFORE) {
+                offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.MONTHS;
+                offsetNumberAsNumber *= -1;
+            } else if (offsetUnit === TIME_OPTION.MONTHS_AFTER) {
+                offsetUnit = SCHEDULED_PATH_OFFSET_UNIT.MONTHS;
             }
 
             if (timeSource !== SCHEDULED_PATH_TIME_SOURCE_TYPE.RECORD_TRIGGER_EVENT) {
@@ -529,6 +534,13 @@ export function createScheduledPath(scheduledPath: UI.ScheduledPath | Metadata.S
                 offsetUnit = TIME_OPTION.MINUTES_AFTER;
             } else {
                 offsetUnit = TIME_OPTION.MINUTES_BEFORE;
+                offsetNumberAsNumber *= -1;
+            }
+        } else if (offsetUnit === SCHEDULED_PATH_OFFSET_UNIT.MONTHS) {
+            if (offsetNumberAsNumber >= 0) {
+                offsetUnit = TIME_OPTION.MONTHS_AFTER;
+            } else {
+                offsetUnit = TIME_OPTION.MONTHS_BEFORE;
                 offsetNumberAsNumber *= -1;
             }
         }

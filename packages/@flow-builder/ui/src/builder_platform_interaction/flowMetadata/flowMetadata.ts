@@ -243,7 +243,9 @@ export const TIME_OPTION = {
     HOURS_AFTER: 'HoursAfter',
     HOURS_BEFORE: 'HoursBefore',
     MINUTES_AFTER: 'MinutesAfter',
-    MINUTES_BEFORE: 'MinutesBefore'
+    MINUTES_BEFORE: 'MinutesBefore',
+    MONTHS_AFTER: 'MonthsAfter',
+    MONTHS_BEFORE: 'MonthsBefore'
 };
 
 /**
@@ -254,7 +256,8 @@ export const TIME_OPTION = {
 export const SCHEDULED_PATH_OFFSET_UNIT = {
     DAYS: 'Days',
     HOURS: 'Hours',
-    MINUTES: 'Minutes'
+    MINUTES: 'Minutes',
+    MONTHS: 'Months'
 };
 
 export const SCHEDULED_PATH_TIME_SOURCE_TYPE = {

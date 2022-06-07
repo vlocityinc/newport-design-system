@@ -54,6 +54,14 @@ export default class ScheduledPath extends LightningElement {
         {
             label: this.labels.timeOptionMinutesBeforeLabel,
             value: TIME_OPTION.MINUTES_BEFORE
+        },
+        {
+            label: this.labels.timeOptionMonthsAfterLabel,
+            value: TIME_OPTION.MONTHS_AFTER
+        },
+        {
+            label: this.labels.timeOptionMonthsBeforeLabel,
+            value: TIME_OPTION.MONTHS_BEFORE
         }
     ];
 

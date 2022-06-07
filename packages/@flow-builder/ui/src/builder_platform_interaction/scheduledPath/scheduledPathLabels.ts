@@ -20,6 +20,8 @@ import timeOptionHoursAfterLabel from '@salesforce/label/FlowBuilderScheduledPat
 import timeOptionHoursBeforeLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionHoursBeforeLabel';
 import timeOptionMinutesAfterLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionMinutesAfterLabel';
 import timeOptionMinutesBeforeLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionMinutesBeforeLabel';
+import timeOptionMonthsAfterLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionMonthsAfterLabel';
+import timeOptionMonthsBeforeLabel from '@salesforce/label/FlowBuilderScheduledPath.timeOptionMonthsBeforeLabel';
 import timeSourceComboboxLabel from '@salesforce/label/FlowBuilderScheduledPath.timeSourceComboboxLabel';
 import timeSourcePlaceholderLabel from '@salesforce/label/FlowBuilderScheduledPath.timeSourcePlaceholderLabel';
 
@@ -37,6 +39,8 @@ export const LABELS = {
     timeOptionHoursBeforeLabel,
     timeOptionMinutesAfterLabel,
     timeOptionMinutesBeforeLabel,
+    timeOptionMonthsAfterLabel,
+    timeOptionMonthsBeforeLabel,
     offsetUnitOptionsHelptext,
     startElementRecordCreated,
     startElementRecordUpdated,
