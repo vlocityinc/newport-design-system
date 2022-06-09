@@ -6,7 +6,7 @@ import { ELEMENT_TYPE, FORMULA_TYPE } from 'builder_platform_interaction/flowMet
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchOnce, fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { loggingUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { shouldNotBeBlank } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track } from 'lwc';
@@ -29,6 +29,8 @@ export interface FormulaResourcePickerConfig {
     };
     rules?: string[] | null;
 }
+
+const { logInteraction } = loggingUtils;
 
 const selectors = {
     textArea: 'textarea',
@@ -265,6 +267,7 @@ export default class FormulaBuilder extends LightningElement {
     }
 
     checkSyntax() {
+        logInteraction('formula-check-syntax', 'formula-builder-component', null, 'click');
         // validate formula when clicking on check syntax button
         const syntaxValidationCmp = this.dom.as<any>().syntaxValidation;
         // check merge field at client side

@@ -12,6 +12,7 @@ import {
     FORMULA_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { createElement } from 'lwc';
 import { formulaFunctionsForNoTrigger as mockFormulaFunctions } from 'serverData/GetFormulaFunctions/formulaFunctionsForNoTrigger.json';
 import { formulaFunctionsForRecordBeforeSave as mockFormulaFunctionsRecordBeforeSave } from 'serverData/GetFormulaFunctions/formulaFunctionsForRecordBeforeSave.json';
@@ -22,6 +23,8 @@ import FormulaBuilder from '../formulaBuilder';
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
+
+const { logInteraction } = loggingUtils;
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-formula-builder', {
@@ -67,6 +70,8 @@ jest.mock('builder_platform_interaction/mergeFieldLib', () => {
         validateTextWithMergeFields: jest.fn().mockReturnValue([])
     };
 });
+
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const selectors = {
     label: 'label',
@@ -666,6 +671,19 @@ describe('Formula builder', () => {
             await ticks(1);
             expect(syntaxBtn.validationResult.isValidSyntax).toBeFalsy();
             expect(getErrorMessage(formulaBuilder).textContent).toEqual('FlowBuilderValidation.cannotBeBlank');
+        });
+        it('Should write log when check syntax button is clicked', async () => {
+            logInteraction.mockClear();
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType,
+                required: true
+            });
+            const syntaxBtn = getSyntaxValidation(formulaBuilder);
+            syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
+            await ticks(1);
+            expect(logInteraction).toHaveBeenCalled();
+            expect(logInteraction.mock.calls[0][0]).toBe(`formula-check-syntax`);
+            expect(logInteraction.mock.calls[0][1]).toBe(`formula-builder-component`);
         });
     });
 });
