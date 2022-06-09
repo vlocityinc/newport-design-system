@@ -209,6 +209,9 @@ export default class RecordFilter extends LightningElement {
         return this.title ?? format(this.labels.findRecords, this.entityLabel);
     }
 
+    @api
+    hideRecordSystemVariable = false;
+
     /**
      * handle event when adding the new filter
      *

@@ -55,4 +55,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
     @api
     required;
+
+    @api
+    hideRecordSystemVariable = false;
 }

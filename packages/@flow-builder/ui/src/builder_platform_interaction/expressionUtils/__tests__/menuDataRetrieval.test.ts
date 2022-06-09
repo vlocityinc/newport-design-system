@@ -666,6 +666,45 @@ describe('Menu data retrieval', () => {
             expect(element.rightIconName).toBeDefined();
             expect(element.rightIconName).toEqual('');
         });
+
+        it.each`
+            filter
+            ${null}
+            ${undefined}
+            ${{ hideRecordSystemVariable: false }}
+        `('should have $Record entry with filter: "$filter"', ({ filter }) => {
+            const menuData = filterAndMutateMenuData([startElement], undefined, {
+                filter
+            });
+
+            expect(menuData[0].items).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        value: '$Record'
+                    })
+                ])
+            );
+        });
+
+        it('should NOT have the $Record entry with "hideRecordSystemVariable" true', () => {
+            const menuData = filterAndMutateMenuData([startElement], undefined, {
+                filter: {
+                    hideRecordSystemVariable: true
+                }
+            });
+
+            expect(
+                menuData.find(({ label }) => label === 'FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory')
+                    .items
+            ).not.toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        value: '$Record'
+                    })
+                ])
+            );
+        });
+
         it('should have New Resource as first element and the label should reflect the newResourceTypeLabel provided', () => {
             const menuData = filterAndMutateMenuData([], undefined, {
                 newResourceTypeLabel: 'test resource type',

@@ -446,6 +446,9 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     variant;
 
+    @api
+    hideRecordSystemVariable = false;
+
     _containerElement;
     _objectType;
     _rules;
@@ -991,7 +994,8 @@ export default class BaseExpressionBuilder extends LightningElement {
                     showSystemVariables: !this.hideSystemVariables,
                     showGlobalVariables: !this.hideGlobalVariables && !shouldBeWritable,
                     shouldBeWritable,
-                    categoriesToInclude
+                    categoriesToInclude,
+                    ...(this.hideRecordSystemVariable && { hideRecordSystemVariable: true })
                 }
             });
             updateState({

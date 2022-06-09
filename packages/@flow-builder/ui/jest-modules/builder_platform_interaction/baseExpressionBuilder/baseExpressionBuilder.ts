@@ -82,4 +82,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     @api
     required;
+
+    @api
+    hideRecordSystemVariable = false;
 }

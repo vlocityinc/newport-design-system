@@ -948,6 +948,32 @@ describe('base expression builder', () => {
                 }
             });
         });
+        it('should call "filterAndMutateMenuData" with "hideRecordSystemVariable" true passed as config filter parameter when the corresponding API ("hideRecordSystemVariable") is true', () => {
+            createComponentForTest({
+                hideRecordSystemVariable: true,
+                rules: [],
+                containerElement: ELEMENT_TYPE.START_ON_DML,
+                lhsFields: null,
+                lhsDisplayOption: expressionUtilsMock.LHS_DISPLAY_OPTION.NOT_FIELD,
+                lhsMustBeWritable: true
+            });
+            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(expect.anything(), undefined, {
+                traversalConfig: {
+                    isEnabled: true
+                },
+                activePicklistValues: [],
+                filter: {
+                    includeNewResource: true,
+                    allowGlobalConstants: false,
+                    showSystemVariables: true,
+                    showGlobalVariables: false,
+                    shouldBeWritable: true,
+                    categoriesToInclude: [],
+                    hideRecordSystemVariable: true
+                }
+            });
+        });
+
         it('should not return global variables in LHS menu data if hideGlobalVariables is true', async () => {
             createComponentForTest({
                 rules: [],

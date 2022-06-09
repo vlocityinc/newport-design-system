@@ -35,6 +35,17 @@ export const getRecordCombobox = (parentElement) =>
         ])
     );
 
+/*
+ * Get RHS combobox from parent component having a record filter
+ * @param parentElement parent component of the record filter
+ * @param filterIndex index of the condition filter (by default 0: first filter condition)
+ * @return RHS combobox
+ */
+export const getRHSCombobox = (parentElement, filterIndex = 0) =>
+    getFieldToFerovExpressionBuilders(
+        parentElement.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER)
+    )[filterIndex].getRhsCombobox();
+
 export const emptyFilterItem = {
     leftHandSide: { error: null, value: '' },
     operator: { error: null, value: '' },

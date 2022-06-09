@@ -355,15 +355,13 @@ export function filterAndMutateMenuData(menuDataElements = [], allowedParamTypes
 
     // Create menu items from flow elements, sort them and group by their category.
     let menuData = filteredData.menuElements
-        .map((element) => {
-            return mutateFlowResourceToComboboxShape(element, initializedConfig.traversalConfig);
-        })
+        .map((element) => mutateFlowResourceToComboboxShape(element, initializedConfig.traversalConfig))
         .sort(compareElementsByCategoryThenDevName)
         .reduce(sortIntoCategories, []);
 
     const { startElement, systemAndGlobalVariables, picklistData } = filteredData;
-    if (startElement) {
-        // Create a menu item for the start element
+    if (!initializedConfig.filter.hideRecordSystemVariable && startElement) {
+        // Create a menu item for the start element (ie: $Record system variable entry)
         systemAndGlobalVariables.push(
             mutateFlowResourceToComboboxShape(startElement, initializedConfig.traversalConfig)
         );

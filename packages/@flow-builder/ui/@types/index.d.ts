@@ -132,6 +132,8 @@ type MenuFilter = {
     showFlowSystemVariable?: boolean;
     // list of category labels that defines which categories to show. an empty array means nothing is filtered
     categoriesToInclude?: string[];
+    // whether or not the $Record system variable should be filtered out
+    hideRecordSystemVariable?: boolean;
 };
 
 type SortField = 'label' | 'name';

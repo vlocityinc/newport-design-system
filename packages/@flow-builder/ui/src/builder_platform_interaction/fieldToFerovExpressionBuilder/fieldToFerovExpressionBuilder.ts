@@ -178,6 +178,9 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
      */
     @api hideGlobalVariables = false;
 
+    @api
+    hideRecordSystemVariable = false;
+
     /**
      * Populates the state values for the LHS of the expression such as the display value
      * and what fields should show up in the menudata.
