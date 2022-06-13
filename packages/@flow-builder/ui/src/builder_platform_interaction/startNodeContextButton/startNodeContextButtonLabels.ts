@@ -1,6 +1,7 @@
 // @ts-nocheck
 import startElementChooseAudience from '@salesforce/label/FlowBuilderCanvasElement.startElementChooseAudience';
 import startElementChooseObject from '@salesforce/label/FlowBuilderCanvasElement.startElementChooseObject';
+import startElementChooseSegment from '@salesforce/label/FlowBuilderCanvasElement.startElementChooseSegment';
 import startElementEdit from '@salesforce/label/FlowBuilderCanvasElement.startElementEdit';
 import startElementObject from '@salesforce/label/FlowBuilderCanvasElement.startElementObject';
 import startElementOptional from '@salesforce/label/FlowBuilderCanvasElement.startElementOptional';
@@ -12,5 +13,6 @@ export const LABELS = {
     startElementOptional,
     startElementEdit,
     startElementObject,
-    startElementRecordConditions
+    startElementRecordConditions,
+    startElementChooseSegment
 };

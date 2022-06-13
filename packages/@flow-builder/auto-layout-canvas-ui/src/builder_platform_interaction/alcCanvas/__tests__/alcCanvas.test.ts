@@ -521,28 +521,6 @@ describe('Auto Layout Canvas', () => {
             // check that the EditElementEvent was fired
             expect(editElementCallback).toHaveBeenCalled();
         });
-
-        /* Skip this test, we are using the zoomEnd event to open the menu
-        we need to find a way to dispatch this event
-        it.skip('opening a menu zooms out', async () => {
-            await closeStartMenu();
-
-            const flow = getFlow();
-
-            const zoomPanel = getZoomPanel();
-
-            // first zoom-in
-            await dispatchEvent(zoomPanel, new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT));
-            expect(zoomPanel.isZoomInDisabled).toEqual(false);
-            expect(zoomPanel.isZoomOutDisabled).toEqual(false);
-            expect(zoomPanel.isZoomToView).toEqual(false);
-
-            await dispatchEvent(flow, connectorToggleMenuEvent);
-            checkMenusOpened(!NODE_MENU_OPENED, CONNECTOR_MENU_OPENED);
-
-            // check that opening a menu zooms out
-            checkZoomToView();
-        });*/
     });
 
     describe('spinner', () => {

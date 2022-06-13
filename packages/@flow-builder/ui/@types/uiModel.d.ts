@@ -201,6 +201,7 @@ declare namespace UI {
         | 'RecordBeforeDelete'
         | 'RecordAfterSave'
         | 'PlatformEvent'
+        | 'Segment'
         | 'None';
 
     interface Start extends BaseCanvasElementWithFilter, Schedule {

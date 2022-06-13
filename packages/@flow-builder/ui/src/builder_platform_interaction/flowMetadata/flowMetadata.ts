@@ -382,6 +382,7 @@ export enum FLOW_TRIGGER_TYPE {
     BEFORE_DELETE = 'RecordBeforeDelete',
     AFTER_SAVE = 'RecordAfterSave',
     PLATFORM_EVENT = 'PlatformEvent',
+    SEGMENT = 'Segment',
     NONE = 'None'
 }
 

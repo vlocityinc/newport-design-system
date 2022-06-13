@@ -25,7 +25,7 @@ import { contextReducer } from './contextRecordReducer';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
-export default class contextRecordEditor extends LightningElement {
+export default class ContextRecordEditor extends LightningElement {
     @track requireRecordChangeOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
 
     /**

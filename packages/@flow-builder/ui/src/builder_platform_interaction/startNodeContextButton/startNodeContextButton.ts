@@ -1,4 +1,5 @@
 import {
+    EDIT_SEGMENT_CONTEXT,
     EDIT_START_JOURNEY_CONTEXT,
     EDIT_START_RECORD_CHANGE_CONTEXT,
     EDIT_START_SCHEDULE_CONTEXT
@@ -9,7 +10,7 @@ import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction
 import StartNodeButton from 'builder_platform_interaction/startNodeButton';
 import { LABELS } from './startNodeContextButtonLabels';
 
-const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
+const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY, SEGMENT } = FLOW_TRIGGER_TYPE;
 
 export default class StartNodeContextButton extends StartNodeButton {
     get chooseContext() {
@@ -23,6 +24,8 @@ export default class StartNodeContextButton extends StartNodeButton {
                 return LABELS.startElementChooseObject;
             case SCHEDULED_JOURNEY:
                 return LABELS.startElementChooseAudience;
+            case SEGMENT:
+                return LABELS.startElementChooseSegment;
             default:
                 return '';
         }
@@ -85,6 +88,8 @@ export default class StartNodeContextButton extends StartNodeButton {
                 return EDIT_START_SCHEDULE_CONTEXT;
             case SCHEDULED_JOURNEY:
                 return EDIT_START_JOURNEY_CONTEXT;
+            case SEGMENT:
+                return EDIT_SEGMENT_CONTEXT;
             default:
                 return undefined;
         }

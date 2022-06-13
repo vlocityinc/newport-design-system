@@ -128,6 +128,7 @@ import { LABELS } from './elementConfigLabels';
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
 export const EDIT_START_RECORD_CHANGE_CONTEXT = 'editStartRecordChangeContext';
 export const EDIT_START_JOURNEY_CONTEXT = 'editStartJourneyContext';
+export const EDIT_SEGMENT_CONTEXT = 'editSegmentContext';
 export const EDIT_START_SCHEDULED_PATHS = 'editStartScheduledPaths';
 
 /**
@@ -199,10 +200,12 @@ export const elementTypeToConfigMap: {
             [FLOW_TRIGGER_TYPE.AFTER_SAVE]: 'builder_platform_interaction:recordChangeTriggerEditor',
             [FLOW_TRIGGER_TYPE.SCHEDULED]: 'builder_platform_interaction:scheduleTriggerEditor',
             [FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY]: 'builder_platform_interaction:scheduleTriggerEditor',
+            [FLOW_TRIGGER_TYPE.SEGMENT]: 'builder_platform_interaction:scheduleTriggerEditor',
             [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: 'builder_platform_interaction:platformEventEditor',
             [EDIT_START_RECORD_CHANGE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_SCHEDULE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_JOURNEY_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
+            [EDIT_SEGMENT_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_SCHEDULED_PATHS]: 'builder_platform_interaction:scheduledPathsEditor'
         },
         modalSize: {

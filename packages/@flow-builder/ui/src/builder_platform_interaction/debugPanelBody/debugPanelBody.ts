@@ -24,7 +24,7 @@ const { format } = commonUtils;
 const ERROR_OCCURRED = LABELS.faultMess.replace('{0}', '');
 const ELEMENT_ERR_TITLE = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim();
 
-export default class debugPanelBody extends LightningElement {
+export default class DebugPanelBody extends LightningElement {
     @api lines;
 
     @api error;

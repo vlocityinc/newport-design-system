@@ -8,7 +8,7 @@ import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './platformEventEditorLabels';
 import { platformEventReducer } from './platformEventEditorReducer';
 
-export default class platformEventEditor extends LightningElement {
+export default class PlatformEventEditor extends LightningElement {
     /**
      * Internal state for the platform event trigger editor
      */
