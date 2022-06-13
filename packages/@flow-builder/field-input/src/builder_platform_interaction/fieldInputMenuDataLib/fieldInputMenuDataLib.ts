@@ -16,19 +16,25 @@ export const globalConstants: GlobalConstant[] = [
         label: LABELS.globalValueTrue,
         name: '$GlobalConstant.True',
         description: LABELS.globalValueTrueDescription,
-        iconName: 'icon'
+        iconName: 'toggle'
     },
     {
         label: LABELS.globalValueFalse,
         name: '$GlobalConstant.False',
         description: LABELS.globalValueFalseDescription,
-        iconName: 'icon'
+        iconName: 'toggle'
     },
     {
         label: LABELS.globalValueEmptyString,
         name: '$GlobalConstant.EmptyString',
         description: LABELS.globalValueEmptyStringDescription,
-        iconName: 'icon'
+        iconName: 'text'
+    },
+    {
+        label: LABELS.globalValueNull,
+        name: '$GlobalConstant.Null',
+        description: LABELS.globalValueNullDescription,
+        iconName: 'steps'
     }
 ];
 
@@ -41,7 +47,7 @@ export const systemAndGlobalVariables: SystemAndGlobalVariables[] = [
         hasLabelSubtypeParam: true,
         description: LABELS.globalRecordDescription,
         hasDescriptionSubtypeParam: true,
-        iconName: 'system_and_global_variable'
+        iconName: 'sobject'
     },
 
     {
@@ -50,45 +56,45 @@ export const systemAndGlobalVariables: SystemAndGlobalVariables[] = [
         hasLabelSubtypeParam: true,
         description: LABELS.globalRecordPriorValueDescription,
         hasDescriptionSubtypeParam: true,
-        iconName: 'system_and_global_variable'
+        iconName: 'sobject'
     },
     {
         label: LABELS.globalFlowLabel,
         name: '$Flow',
         description: LABELS.globalFlowDescription,
-        iconName: 'system_and_global_variable'
+        iconName: 'flow'
     },
 
     {
         label: LABELS.globalOrgLabel,
         name: '$Organization',
         description: LABELS.globalOrgDescription,
-        iconName: 'system_and_global_variable'
+        iconName: 'company'
     },
-    { label: '$Label', description: 'tbd', iconName: 'system_and_global_variable', name: '$Label' },
+    { label: '$Label', description: 'tbd', iconName: 'world', name: '$Label' },
 
-    { label: '$Setup', name: '$Setup', description: 'tbd', iconName: 'system_and_global_variable' },
+    { label: '$Setup', name: '$Setup', description: 'tbd', iconName: 'hierarchy' },
     {
         label: LABELS.globalUserLabel,
         name: '$User',
         description: LABELS.globalUserDescription,
-        iconName: 'system_and_global_variable'
+        iconName: 'user'
     },
 
     {
         label: LABELS.globalUserRoleLabel,
         name: '$UserRole',
         description: LABELS.globalUserRoleDescription,
-        iconName: 'system_and_global_variable'
+        iconName: 'user_role'
     },
     {
         label: LABELS.globalUserProfileLabel,
         name: '$Profile',
         description: LABELS.globalUserProfileDescription,
-        iconName: 'system_and_global_variable'
+        iconName: 'user_role'
     },
-    { label: '$Permission', name: '$Permission', description: 'tbd', iconName: 'system_and_global_variable' },
-    { label: '$Client', name: '$Client', description: 'tbd', iconName: 'system_and_global_variable' },
+    { label: '$Permission', name: '$Permission', description: 'tbd', iconName: 'user_role' },
+    { label: '$Client', name: '$Client', description: 'tbd', iconName: 'desktop_and_phone' },
     {
         label: LABELS.globalApiLabel,
         name: '$Api',
@@ -100,6 +106,12 @@ export const systemAndGlobalVariables: SystemAndGlobalVariables[] = [
         name: '$System',
         description: LABELS.globalSystemDescription,
         iconName: 'system_and_global_variable'
+    },
+    {
+        label: LABELS.globalOrchestrationLabel,
+        name: '$Orchestration',
+        description: LABELS.globalOrchestrationDescription,
+        iconName: 'orchestrator'
     }
 ];
 

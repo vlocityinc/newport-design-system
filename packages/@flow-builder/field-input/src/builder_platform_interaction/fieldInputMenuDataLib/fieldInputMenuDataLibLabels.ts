@@ -26,6 +26,8 @@ import globalUserProfileDescription from '@salesforce/label/FlowBuilderFieldInpu
 import globalUserProfileLabel from '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalUserProfileLabel';
 import globalUserRoleDescription from '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalUserRoleDescription';
 import globalUserRoleLabel from '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalUserRoleLabel';
+import globalValueNull from '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalValueNull';
+import globalValueNullDescription from '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalValueNullDescription';
 import globalValueEmptyString from '@salesforce/label/FlowBuilderFieldInputGlobalValues.globalValueEmptyString';
 import globalValueEmptyStringDescription from '@salesforce/label/FlowBuilderFieldInputGlobalValues.globalValueEmptyStringDescription';
 import globalValueFalse from '@salesforce/label/FlowBuilderFieldInputGlobalValues.globalValueFalse';
@@ -131,6 +133,8 @@ export const LABELS = {
     globalValueFalseDescription,
     globalValueEmptyString,
     globalValueEmptyStringDescription,
+    globalValueNull,
+    globalValueNullDescription,
     filter,
     map,
     sort

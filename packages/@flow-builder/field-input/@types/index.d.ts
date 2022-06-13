@@ -166,7 +166,11 @@ declare namespace FieldInput {
         | '$Record__Prior';
 
     // from where?
-    type GlobalConstantsName = '$GlobalConstant.True' | '$GlobalConstant.False' | '$GlobalConstant.EmptyString';
+    type GlobalConstantsName =
+        | '$GlobalConstant.True'
+        | '$GlobalConstant.False'
+        | '$GlobalConstant.EmptyString'
+        | '$GlobalConstant.Null';
 }
 
 // TODO: define proper types here
