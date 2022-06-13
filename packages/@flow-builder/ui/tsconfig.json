@@ -276,6 +276,7 @@
             "builder_platform_interaction/systemVariableConstantsLib": ["./src/builder_platform_interaction/systemVariableConstantsLib/systemVariableConstantsLib.ts"],
             "builder_platform_interaction/testPanelBody": ["./src/builder_platform_interaction/testPanelBody/testPanelBody.ts"],
             "builder_platform_interaction/textTemplateEditor": ["./src/builder_platform_interaction/textTemplateEditor/textTemplateEditor.ts"],
+            "builder_platform_interaction/timeZonePicker": ["./src/builder_platform_interaction/timeZonePicker/timeZonePicker.ts"],
             "builder_platform_interaction/toolbar": ["./src/builder_platform_interaction/toolbar/toolbar.ts"],
             "builder_platform_interaction/toolbarStatusIcons": ["./src/builder_platform_interaction/toolbarStatusIcons/toolbarStatusIcons.ts"],
             "builder_platform_interaction/transactionControlPicker": ["./src/builder_platform_interaction/transactionControlPicker/transactionControlPicker.ts"],

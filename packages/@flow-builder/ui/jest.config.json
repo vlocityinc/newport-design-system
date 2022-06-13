@@ -47,7 +47,8 @@
         "lightning/(inputUtils|utilsPrivate)": "<rootDir>/../../../node_modules/lwc-components-lightning/src/lightning/$1/$1",
         "^lightning/(.+)$": "<rootDir>/../../../node_modules/lightning-components-stubs/modules/lightning-stubs/core/$1/$1",
         "^analyzer_framework/(.+)$": "<rootDir>/jest-modules/analyzer_framework/$1/$1",
-        "^formula/(.+)$": "<rootDir>/jest-modules/formula/$1/$1"
+        "^formula/(.+)$": "<rootDir>/jest-modules/formula/$1/$1",
+        "@salesforce/apex/interaction.FlowBuilderController.getTimeZones": "<rootDir>/jest-modules/apex/interaction/getTimeZones.js"
     },
     "setupFilesAfterEnv": ["<rootDir>/jestSetup.js"],
     "clearMocks": true,
