@@ -3,7 +3,13 @@ export * from './actionCall';
 export * from './apexCall';
 export * from './apexPlugin';
 export * from './assignment';
-export { baseCanvasElement, createCondition, INCOMPLETE_ELEMENT } from './base/baseElement';
+export {
+    baseCanvasElement,
+    createCondition,
+    INCOMPLETE_ELEMENT,
+    MAX_API_NAME_LENGTH,
+    MAX_LABEL_LENGTH
+} from './base/baseElement';
 export * from './base/baseList';
 export { createFilter } from './base/baseRecordElement';
 export * from './base/dynamicChoiceSet';

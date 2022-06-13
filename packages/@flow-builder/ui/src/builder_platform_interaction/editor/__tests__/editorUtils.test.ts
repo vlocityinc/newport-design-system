@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import {
     CONNECTOR_TYPE,
@@ -14,7 +15,9 @@ import { LABELS } from '../editorLabels';
 import {
     badgeClass,
     badgeStatus,
+    childElementLabelToNameConverter,
     debugInterviewResponseCallback,
+    dedupeLabel,
     flowPropertiesCallback,
     generateDefaultLabel,
     getConnectorsToHighlight,
@@ -201,11 +204,14 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                     canBeDuplicated: false,
                     isDeletable: false
                 };
-            } else if (
-                elementType === mockElementType.DECISION ||
-                elementType === mockElementType.WAIT ||
-                elementType === mockElementType.SCREEN
-            ) {
+            } else if (elementType === mockElementType.DECISION) {
+                return {
+                    areChildElementsSupported: true,
+                    labels: {
+                        singular: 'Decision'
+                    }
+                };
+            } else if (elementType === mockElementType.WAIT || elementType === mockElementType.SCREEN) {
                 return {
                     areChildElementsSupported: true
                 };
@@ -268,41 +274,21 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             if (mockElementType.RECORD_CREATE === elementType) {
                 return [{}];
             }
+            if (mockElementType.DECISION === elementType) {
+                return [
+                    {
+                        label: 'FlowBuilderElementConfig.defaultFlowElementName(Decision,1)',
+                        name: 'FlowBuilderElementConfig.defaultFlowElementName(Decision,1)'
+                    },
+                    {
+                        label: 'over written label',
+                        name: 'FlowBuilderElementConfig.defaultFlowElementName(Decision,3)'
+                    }
+                ];
+            }
             return [];
         }),
-        getElementByGuid: jest.fn().mockImplementation((parentGuid) => {
-            if (parentGuid === 'stage guid') {
-                return {
-                    // return empty object to stand in for created but unlabelled element to be auto labeled
-                    childReferences: [{}],
-                    label: 'Stage 1'
-                };
-            } else if (parentGuid === 'stage with children guid') {
-                return {
-                    label: 'Stage 2',
-                    childReferences: [
-                        {
-                            label: 'Step 1 of Stage 2'
-                        },
-                        {
-                            label: 'Step 2 of Stage 2'
-                        },
-                        {}
-                    ]
-                };
-            } else if (parentGuid === 'stage with children and long name guid') {
-                return {
-                    label: new Array(256).join('0'),
-                    childReferences: [{}]
-                };
-            } else if (parentGuid === 'decision guid') {
-                return {
-                    label: 'test',
-                    childReferences: [{}]
-                };
-            }
-            return {};
-        })
+        getElementByGuid: jest.fn().mockImplementation(() => {})
     };
 });
 
@@ -1933,9 +1919,24 @@ describe('Editor Utils Test', () => {
             expect(logInteraction.mock.calls[0][2].isResourceQuickCreated).toBe(true);
         });
     });
+    describe('childElementLabelToNameConverter function', () => {
+        it('Generates the correct api name', () => {
+            expect(childElementLabelToNameConverter('test label', 'test name')('test of test label')).toEqual(
+                'test_of_test_name'
+            );
+        });
+
+        it('Works with max length labels', () => {
+            const parentLabel = new Array(256).join('0');
+            const label = ('Step 1 of ' + parentLabel).substring(0, 255);
+            expect(childElementLabelToNameConverter(parentLabel, 'parent name')(label)).toEqual(
+                'Step_1_of_parent_name'
+            );
+        });
+    });
     describe('generateDefaultLabel function', () => {
         it('Generates the correct label for the first of a particular element type for regular canvas elements', () => {
-            generateDefaultLabel(mockElementType.RECORD_CREATE, undefined);
+            generateDefaultLabel(mockElementType.RECORD_CREATE, sanitizeDevName, undefined);
             expect(commonUtils.format).toHaveBeenCalledWith(
                 'FlowBuilderElementConfig.defaultFlowElementName',
                 'Create Records',
@@ -1943,12 +1944,16 @@ describe('Editor Utils Test', () => {
             );
         });
         it('Generates the correct next label and avoids generating a duplicate label for a regular canvas element', () => {
-            const label = generateDefaultLabel(mockElementType.ORCHESTRATED_STAGE, undefined);
+            const label = generateDefaultLabel(mockElementType.ORCHESTRATED_STAGE, sanitizeDevName, undefined);
             expect(label).toEqual('FlowBuilderElementConfig.defaultFlowElementName(Stage,27)');
         });
 
         it('Generates the correct label for a child canvas element', () => {
-            generateDefaultLabel(mockElementType.STAGE_STEP, 'stage guid');
+            generateDefaultLabel(mockElementType.STAGE_STEP, (label) => label, {
+                // return empty object to stand in for created but unlabelled element to be auto labeled
+                childReferences: [{}],
+                label: 'Stage 1'
+            });
             expect(commonUtils.format).toHaveBeenCalledWith(
                 'FlowBuilderElementConfig.defaultChildFlowElementName',
                 'Step',
@@ -1958,12 +1963,23 @@ describe('Editor Utils Test', () => {
         });
 
         it('Generates the correct label for a non child canvas element with a parent guid', () => {
-            const label = generateDefaultLabel(mockElementType.ORCHESTRATED_STAGE, 'decision guid');
+            const label = generateDefaultLabel(mockElementType.ORCHESTRATED_STAGE, sanitizeDevName, {});
             expect(label).toEqual('FlowBuilderElementConfig.defaultFlowElementName(Stage,27)');
         });
 
         it('Generates the correct label for a child canvas with other sibling elements', () => {
-            generateDefaultLabel(mockElementType.STAGE_STEP, 'stage with children guid');
+            generateDefaultLabel(mockElementType.STAGE_STEP, (label) => label, {
+                label: 'Stage 2',
+                childReferences: [
+                    {
+                        label: 'Step 1 of Stage 2'
+                    },
+                    {
+                        label: 'Step 2 of Stage 2'
+                    },
+                    {}
+                ]
+            });
             expect(commonUtils.format).toHaveBeenCalledWith(
                 'FlowBuilderElementConfig.defaultChildFlowElementName',
                 'Step',
@@ -1973,8 +1989,42 @@ describe('Editor Utils Test', () => {
         });
 
         it('Truncates labels to have a max length of 255 characters', () => {
-            const label = generateDefaultLabel(mockElementType.STAGE_STEP, 'stage with children and long name guid');
+            const label = generateDefaultLabel(mockElementType.STAGE_STEP, (label) => label, {
+                label: new Array(256).join('0'),
+                childReferences: [{}]
+            });
             expect(label.length).toEqual(255);
+        });
+
+        it('Avoids making a duplciate api name and goes to the next open spot', () => {
+            generateDefaultLabel(mockElementType.DECISION, sanitizeDevName, undefined);
+            expect(commonUtils.format).toHaveBeenCalledWith(
+                'FlowBuilderElementConfig.defaultFlowElementName',
+                'Decision',
+                4
+            );
+        });
+    });
+
+    describe('dedupeLabel function', () => {
+        it('Avoids an infinite loop when the same api name is generated every time', () => {
+            const label = dedupeLabel(
+                new Set(['test label 0', 'test label 1']),
+                new Set(['truncated api name']),
+                (counter) => 'test label ' + counter,
+                () => 'truncated api name'
+            );
+            expect(label).toEqual('test label 2');
+        });
+
+        it('Avoids an infinite loop when the same label is generated every time', () => {
+            const label = dedupeLabel(
+                new Set(['truncated label']),
+                new Set(['test']),
+                () => 'truncated label',
+                (label) => 'api name ' + label
+            );
+            expect(label).toEqual('truncated label');
         });
     });
 });

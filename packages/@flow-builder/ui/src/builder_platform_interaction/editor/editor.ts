@@ -82,13 +82,14 @@ import {
 } from 'builder_platform_interaction/contextLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
+import { getConfigForElement, isChildElement } from 'builder_platform_interaction/elementConfig';
 import {
     AUTO_LAYOUT_CANVAS,
     CANVAS_MODE,
     createEndElement,
     createFlowTestData,
     createVariable,
+    MAX_API_NAME_LENGTH,
     shouldSupportScheduledPaths
 } from 'builder_platform_interaction/elementFactory';
 import {
@@ -197,6 +198,7 @@ import {
     badgeClass,
     badgeStatus,
     canRunDebugWith,
+    childElementLabelToNameConverter,
     closeModalAndNavigateTo,
     createStartElement,
     cssClassForHeaderLabel,
@@ -2564,8 +2566,20 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const elementName = getValueFromHydratedItem(node.name);
             const parentGuid = getValueFromHydratedItem(node.parent);
             if (!elementName || !elementLabel) {
-                const label: string = elementLabel || generateDefaultLabel(node.elementType, parentGuid);
-                const name: string = elementName || sanitizeDevName(label);
+                const parentElement: UI.CanvasElement =
+                    parentGuid && isChildElement(node.elementType) && getElementByGuid(parentGuid);
+                const labelToNameConverter: (string) => string =
+                    parentElement && parentElement.label && parentElement.name
+                        ? childElementLabelToNameConverter(parentElement.label, parentElement.name)
+                        : sanitizeDevName;
+                const label: string =
+                    elementLabel || generateDefaultLabel(node.elementType, labelToNameConverter, parentElement);
+                const name: string =
+                    elementName ||
+                    (label === elementLabel ? sanitizeDevName(label) : labelToNameConverter(label)).substring(
+                        0,
+                        MAX_API_NAME_LENGTH
+                    );
                 this.deMutateAndUpdateNodeCollection({
                     ...node,
                     label: label === elementLabel ? node.label : { value: label, error: null },

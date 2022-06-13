@@ -12,6 +12,10 @@ import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './baseL
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
+// Constant values for the max lengths of element label and api name fields
+export const MAX_LABEL_LENGTH = 255;
+export const MAX_API_NAME_LENGTH = 80;
+
 // Used to mark an element as incomplete. An element is incomplete when it cannot fully be created because the factory needs information from an element that has
 // not yet been created. translatorLib.translateFlowToUIModel uses this information to create the ui model in 2 passes
 export const INCOMPLETE_ELEMENT = Symbol('incomplete');
