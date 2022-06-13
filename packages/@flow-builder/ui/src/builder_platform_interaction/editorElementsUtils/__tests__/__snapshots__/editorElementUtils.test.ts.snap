@@ -23,6 +23,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "QuickLinksLabelAndDescription.recordUpdateLabel",
+        "supportsBranching": undefined,
       },
       Object {
         "actionIconName": undefined,
@@ -43,6 +44,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "QuickLinksLabelAndDescription.emailAlertLabel",
+        "supportsBranching": undefined,
       },
     ],
     "guid": "testGUID",
@@ -69,6 +71,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "FlowBuilderLeftPanelElements.screenComponentLabel",
+        "supportsBranching": undefined,
       },
       Object {
         "actionIconName": undefined,
@@ -89,6 +92,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "FlowBuilderLeftPanelElements.actionFlowComponentLabel",
+        "supportsBranching": undefined,
       },
     ],
     "guid": "testGUID",
@@ -115,6 +119,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "FlowBuilderLeftPanelElements.assignmentLogicLabel",
+        "supportsBranching": undefined,
       },
       Object {
         "actionIconName": undefined,
@@ -135,6 +140,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "FlowBuilderLeftPanelElements.waitLogicLabel",
+        "supportsBranching": undefined,
       },
       Object {
         "actionIconName": undefined,
@@ -155,6 +161,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "Marketing E-Mail",
+        "supportsBranching": undefined,
       },
     ],
     "guid": "testGUID",
@@ -181,6 +188,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "FlowBuilderLeftPanelElements.createDataOperationLabel",
+        "supportsBranching": undefined,
       },
       Object {
         "actionIconName": undefined,
@@ -201,6 +209,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "FlowBuilderLeftPanelElements.updateDataOperationLabel",
+        "supportsBranching": undefined,
       },
       Object {
         "actionIconName": undefined,
@@ -221,6 +230,7 @@ Array [
         "iconShape": undefined,
         "iconSize": undefined,
         "label": "FlowBuilderLeftPanelElements.lookupDataOperationLabel",
+        "supportsBranching": undefined,
       },
     ],
     "guid": "testGUID",

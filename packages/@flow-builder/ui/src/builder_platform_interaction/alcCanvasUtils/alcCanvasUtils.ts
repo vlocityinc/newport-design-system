@@ -43,9 +43,9 @@ export function getElementsMetadata() {
  * @returns the number of children an element has, or null
  */
 export function getChildCount(element: ParentNodeModel | UI.CanvasElement): number | null {
-    const { elementType, childReferences } = element;
+    const { childReferences } = element;
 
-    const nodeType = getAlcElementType(elementType);
+    const nodeType = getAlcElementType(element);
     if (nodeType === NodeType.LOOP) {
         return 1;
     } else if (
@@ -70,13 +70,16 @@ export function supportsChildren(element: UI.CanvasElement) {
 }
 
 /**
- * Maps a flow ELEMENT_TYPE to an ALC ElementType
+ * Maps a flow ELEMENT to an ALC ElementType
  *
- * @param elementType - The current element type
+ * @param element - The current element
  * @returns - The alc Element type
  */
-export function getAlcElementType(elementType) {
-    switch (elementType) {
+export function getAlcElementType(element) {
+    if (element.supportsBranching) {
+        return NodeType.BRANCH;
+    }
+    switch (element.elementType) {
         case ELEMENT_TYPE.DECISION:
         case ELEMENT_TYPE.WAIT:
             return NodeType.BRANCH;
@@ -176,9 +179,7 @@ export const hasContext = (triggerType) => {
  * @returns the start element
  */
 export function findStartElement(elements: UI.Elements | FlowModel): BranchHeadNodeModel {
-    return Object.values(elements).find(
-        (ele) => getAlcElementType(ele.elementType) === NodeType.START
-    ) as BranchHeadNodeModel;
+    return Object.values(elements).find((ele) => getAlcElementType(ele) === NodeType.START) as BranchHeadNodeModel;
 }
 
 /**

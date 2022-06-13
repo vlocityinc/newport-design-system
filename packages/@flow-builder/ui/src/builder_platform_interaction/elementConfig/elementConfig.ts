@@ -1313,6 +1313,7 @@ export const updateElementConfigMapWithSubtypes = (elements: any[]) => {
             elementToUpdate.nodeConfig!.dragImageSrc = ICONS_LARGE[element.name];
             elementToUpdate.configComponent = element.configComponent;
             elementToUpdate.fieldInputCategory = fieldInputCategory;
+            elementToUpdate.supportsBranching = element.supportsBranching;
         }
     }
 };

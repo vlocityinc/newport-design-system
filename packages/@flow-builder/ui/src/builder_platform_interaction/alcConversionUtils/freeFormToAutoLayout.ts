@@ -415,7 +415,7 @@ function createAutoLayoutElements(elements: UI.Elements): FlowModel {
         elementsMap[element.guid] = canvasElement;
 
         if (canvasElement.isCanvasElement) {
-            canvasElement.nodeType = getAlcElementType(element.elementType);
+            canvasElement.nodeType = getAlcElementType(element);
 
             // Resetting the config for all Canvas Elements
             canvasElement.config = { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false };

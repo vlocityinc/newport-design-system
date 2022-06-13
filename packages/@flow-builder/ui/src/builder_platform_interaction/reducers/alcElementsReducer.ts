@@ -135,7 +135,7 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case ADD_PARENT_WITH_CHILDREN: {
             const element = _getElementFromActionPayload(action.payload);
-            element.nodeType = getAlcElementType(element.elementType);
+            element.nodeType = getAlcElementType(element);
 
             if (!nextState[element.guid]) {
                 nextState[element.guid] = element;

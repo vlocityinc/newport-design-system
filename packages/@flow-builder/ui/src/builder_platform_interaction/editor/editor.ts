@@ -2275,7 +2275,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const editResourceCallback = this.editResourceCallback;
             const processType = this.properties.processType;
             const triggerType = getTriggerType();
-
+            const elementConfig = getConfigForElement({ elementSubtype }) || getConfigForElement({ elementType });
+            const supportsBranching = elementConfig.supportsBranching;
             // skip the editor for elements that don't need one
             if (elementType === ELEMENT_TYPE.END_ELEMENT) {
                 const endElement = createEndElement();
@@ -2297,7 +2298,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         actionName,
                         actionIsStandard,
                         parent,
-                        isNew: true
+                        isNew: true,
+                        supportsBranching
                     });
                     // For a panel, the element is created upon opening the property editor
                     // the parent guid is also passed in if a child element is being created

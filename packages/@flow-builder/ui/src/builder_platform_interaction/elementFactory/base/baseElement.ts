@@ -77,7 +77,8 @@ export function baseCanvasElement(
         locationY = 0,
         connectorCount = 0,
         elementSubtype,
-        canHaveFaultConnector
+        canHaveFaultConnector,
+        supportsBranching
     } = <UI.BaseCanvasElement>canvasElement;
     let { config } = <UI.BaseCanvasElement>canvasElement;
     config = createCanvasElementConfig(config);
@@ -95,7 +96,8 @@ export function baseCanvasElement(
         config,
         elementSubtype,
         canHaveFaultConnector: canHaveFaultConnectorBool,
-        isNew: canvasElement.isNew
+        isNew: canvasElement.isNew,
+        supportsBranching
     });
 }
 

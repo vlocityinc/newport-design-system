@@ -82,7 +82,6 @@ export default class AlcConnectorMenu extends AlcMenu {
                 break;
             default: {
                 const alcConnectionSource = source;
-
                 this.dispatchEvent(
                     new AddElementEvent({
                         elementType: value!,

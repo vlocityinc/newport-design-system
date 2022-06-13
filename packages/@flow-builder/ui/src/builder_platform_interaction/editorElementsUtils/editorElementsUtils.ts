@@ -73,6 +73,7 @@ const mutateElements = (elements, palette) =>
                             const actionName = element.actionName;
                             const actionIsStandard = element.actionIsStandard;
                             const actionIconName = element.actionIconName;
+                            const supportsBranching = element.supportsBranching;
                             const {
                                 iconName,
                                 dragImageSrc,
@@ -113,7 +114,8 @@ const mutateElements = (elements, palette) =>
                                 iconSize,
                                 dynamicNodeComponent,
                                 dynamicNodeComponentSelector,
-                                freeformVisible: headerFreeformVisibility
+                                freeformVisible: headerFreeformVisibility,
+                                supportsBranching
                             };
                             acc[headerLabel].push(item);
                         });

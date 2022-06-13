@@ -45,7 +45,7 @@ export function augmentElementsMetadata(elementsMetadata: UI.ElementConfig[], st
     const alcElementsMetadata: ElementMetadata[] = elementsMetadata.map((metadata) => ({
         ...metadata,
         canHaveFaultConnector: canHaveFaultConnector(startElement, metadata),
-        type: getAlcElementType(metadata.elementType)
+        type: getAlcElementType(metadata)
     }));
 
     getChildElementTypesWithOverridenProperties().forEach((elementType) => {
@@ -60,7 +60,7 @@ export function augmentElementsMetadata(elementsMetadata: UI.ElementConfig[], st
             iconBackgroundColor: iconBackgroundColor!,
             label: labels.singular,
             elementType,
-            type: getAlcElementType(elementType),
+            type: getAlcElementType({ elementType }),
             // @ts-ignore  TODO: do we need this in the metadata?
             canHaveFaultConnector: elementConfig.canHaveFaultConnector,
             menuComponent: 'builder_platform_interaction/alcNodeMenu'
@@ -80,7 +80,7 @@ export function augmentElementsMetadata(elementsMetadata: UI.ElementConfig[], st
         label: endElement.labels!.singular,
         value: END_ELEMENT,
         elementType: END_ELEMENT,
-        type: getAlcElementType(END_ELEMENT),
+        type: getAlcElementType({ elementType: END_ELEMENT }),
         canHaveFaultConnector: false
     };
 
@@ -96,7 +96,7 @@ export function augmentElementsMetadata(elementsMetadata: UI.ElementConfig[], st
         label: startElementConfig.labels!.singular,
         value: START_ELEMENT,
         elementType: START_ELEMENT,
-        type: getAlcElementType(START_ELEMENT),
+        type: getAlcElementType(startElement),
         canHaveFaultConnector: false,
         hasTrigger: hasTrigger(startElement.triggerType),
         hasContext: hasContext(startElement.triggerType),
@@ -112,7 +112,7 @@ export function augmentElementsMetadata(elementsMetadata: UI.ElementConfig[], st
             label: '',
             elementType: ROOT_ELEMENT,
             value: ROOT_ELEMENT,
-            type: getAlcElementType(ROOT_ELEMENT),
+            type: getAlcElementType({ elementType: ROOT_ELEMENT }),
             canHaveFaultConnector: false
         },
         startElementConfig,

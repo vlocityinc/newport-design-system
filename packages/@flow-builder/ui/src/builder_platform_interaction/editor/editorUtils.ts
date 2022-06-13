@@ -1120,7 +1120,8 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                 iconShape,
                 iconSize,
                 dynamicNodeComponent,
-                dynamicNodeComponentSelector
+                dynamicNodeComponentSelector,
+                supportsBranching
             }) => {
                 const newElementMetadata: ElementMetadata = {
                     section: section.label,
@@ -1141,7 +1142,8 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
                     value: elementType, // TODO: ALC remove this property and just use elementType
                     menuComponent: getConfigForElementType(elementType).canvasElement
                         ? 'builder_platform_interaction/alcNodeMenu'
-                        : undefined
+                        : undefined,
+                    supportsBranching
                 };
                 if (elementSubtype) {
                     newElementMetadata.elementSubtype = elementSubtype;

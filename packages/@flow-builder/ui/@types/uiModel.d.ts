@@ -49,6 +49,7 @@ declare namespace UI {
         storeOutputAutomatically?: boolean;
         actionName?: string;
         actionType?: ActionType;
+        supportsBranching?: boolean;
     }
 
     interface HydratedValue {
@@ -82,6 +83,7 @@ declare namespace UI {
         config: CanvasElementConfig;
         elementSubtype: ElementSubtype;
         canHaveFaultConnector: boolean;
+        supportsBranching?: boolean;
     }
 
     interface CanvasElement extends BaseCanvasElement {
@@ -344,6 +346,7 @@ declare namespace UI {
         hasOwnPropertyEditor?: boolean;
         propertyEditorPanelSize?: string;
         fieldInputCategory?: FieldInputCategory;
+        supportsBranching?: boolean;
     }
 
     interface LabelsObject {
