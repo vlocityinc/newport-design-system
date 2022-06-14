@@ -3,6 +3,7 @@ import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interacti
 import { orgHasFlowFormulaBuilder } from 'builder_platform_interaction/contextLib';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getProcessType, getRecordTriggerType, getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
@@ -33,6 +34,8 @@ export default class FormulaEditor extends LightningElement {
     formulaResource;
 
     labels = LABELS;
+
+    elementType = ELEMENT_TYPE.FORMULA;
 
     // used to keep track of whether this is an existing formula resource
     @api

@@ -5,6 +5,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { createFormula } from 'builder_platform_interaction/elementFactory';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createElement } from 'lwc';
 import FormulaEditor from '../formulaEditor';
 
@@ -149,6 +150,9 @@ describe('formula-editor', () => {
 
         it('should NOT render resourced textarea component', () => {
             expect(formulaTextArea).toBeNull();
+        });
+        it('Should pass along elementType setting to propertyEditorElementType in formula builder component', () => {
+            expect(formulaBuilder.propertyEditorElementType).toBe(ELEMENT_TYPE.FORMULA);
         });
     });
 });
