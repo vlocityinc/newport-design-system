@@ -1,3 +1,4 @@
+export * as appGuidanceUtils from './appGuidanceUtils';
 export * from './auraUtils';
 export * as commands from './commands';
 export * as commonUtils from './commonUtils';

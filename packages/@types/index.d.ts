@@ -1,6 +1,7 @@
 declare module '@salesforce*';
 declare module 'instrumentation/service';
 declare module 'o11y/client';
+declare module 'force/onboardingManagerLib';
 
 type Labels<T> = Record<keyof T, string>;
 

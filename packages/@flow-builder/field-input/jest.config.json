@@ -84,7 +84,8 @@
         "^(builder_platform_interaction)/stageStepMenu$": "<rootDir>/../ui/src/builder_platform_interaction/stageStepMenu/stageStepMenu",
         "^(builder_platform_interaction)/(fieldInput.*)$": "<rootDir>/src/builder_platform_interaction/$2/$2",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/../ui/src/$1/$2/$2",
-        "^lightning/(.+)$": "<rootDir>/../../../node_modules/lightning-components-stubs/modules/lightning-stubs/core/$1/$1"
+        "^lightning/(.+)$": "<rootDir>/../../../node_modules/lightning-components-stubs/modules/lightning-stubs/core/$1/$1",
+        "^(force)/(.+)$": "<rootDir>/../ui/jest-modules/$1/$2/$2"
     },
     "clearMocks": true,
     "coverageDirectory": "../../../coverage",

@@ -67,5 +67,24 @@
                 }
             }
         });
+    },
+    handleInitOnboarding: function (cmp, event, helper) {
+        var appDefinition = {
+            id: 'flowBuilder_app'
+        };
+
+        cmp.set('v.appDefinition', appDefinition);
+        helper.initializeOnboardingManager(cmp);
+    },
+    initializeOnboardingManager: function (cmp) {
+        var onboardingMgr = cmp.get('v.onboardingMgr')[0];
+        if (!cmp.get('v.onboardingManagerInitialized')) {
+            cmp.set('v.onboardingManagerInitialized', true);
+            onboardingMgr && onboardingMgr.init(cmp.get('v.appDefinition'));
+        } else if (cmp.get('v.isOnboardingManagerPaused')) {
+            // restart processing
+            cmp.set('v.isOnboardingManagerPaused', false);
+            onboardingMgr && onboardingMgr.resume(cmp.get('v.appDefinition'));
+        }
     }
 });

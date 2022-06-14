@@ -30,6 +30,20 @@
 
     <aura:attribute name="ready" type="Boolean" access="private" description="Flag used to render the editor." />
 
+     <!-- onboarding manager attributes -->
+     <aura:attribute name="onboardingManagerInitialized" type="Boolean" default="false" description="Is true if onboarding manager is initialized"/>
+     <aura:attribute name="onboardingMgr" type="Aura.Component[]" description="Attribute for onboarding manager wrapper component">
+         <one:onboardingManagerWrapper>
+             <aura:set attribute="serviceComponent">
+                 <builder_platform_interaction:onboardingManagerService pageReference="{!v.pageRefObject}"/>
+             </aura:set>
+         </one:onboardingManagerWrapper>
+     </aura:attribute>
+     <aura:attribute name="appDefinition" type="Map" description="Holds the app definition for onboarding manager"/>
+     <!-- Currently unused, but can be used for context-specific prompts and timings by setting this object's properties and consuming
+          in Onboarding Manager Service's getGlobalDelayKey method. -->
+     <aura:attribute name="pageRefObject" type="Map" description="Holds the page reference object for onboarding manager"/>
+
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
     <aura:handler event="aura:systemError" action="{!c.handleSystemError}"/>
     <aura:handler event="aura:customerError" action="{!c.handleCustomerError}"/>
@@ -46,6 +60,8 @@
     <builder_platform_interaction:imageLib aura:id="imageLib"></builder_platform_interaction:imageLib>
 
     <aura:if isTrue="{!v.ready}">
+        {!v.onboardingMgr}
+
         <builder_platform_interaction:guardrailsManager consumerId="flowbuilder">
             <builder_platform_interaction:container
                 flowId="{!v.flowId}"
