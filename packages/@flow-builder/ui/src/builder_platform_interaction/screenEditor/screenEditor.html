@@ -28,12 +28,7 @@
                 aria-label={labels.leftPanelAriaLabel}
             >
                 <lightning-tabset active-tab-value={activeTab}>
-                    <lightning-tab
-                        value="componentsTab"
-                        label={labels.componentsTabLabel}
-                        class="slds-p-around_none"
-                        onactive={handleAutomaticFieldsLegalNotice}
-                    >
+                    <lightning-tab value="componentsTab" label={labels.componentsTabLabel} class="slds-p-around_none">
                         <div class="tab-container-components">
                             <builder_platform_interaction-screen-editor-palette
                                 screen-field-types={screenFieldTypes}
@@ -43,12 +38,7 @@
                             </builder_platform_interaction-screen-editor-palette>
                         </div>
                     </lightning-tab>
-                    <lightning-tab
-                        value="fieldsTab"
-                        label={labels.fieldsTabLabel}
-                        class="slds-p-around_none"
-                        onactive={handleAutomaticFieldsLegalNotice}
-                    >
+                    <lightning-tab value="fieldsTab" label={labels.fieldsTabLabel} class="slds-p-around_none">
                         <div class="slds-scrollable_y tab-container-automaticfields">
                             <builder_platform_interaction-screen-editor-automatic-field-palette
                                 onaddautomaticscreenfield={handleAddScreenField}
@@ -57,12 +47,6 @@
                         </div>
                     </lightning-tab>
                 </lightning-tabset>
-                <builder_platform_interaction-legal-popover
-                    if:true={showLegalNotice}
-                    notices={noticesToLegalPopover}
-                    onlegalnoticedismissed={handleLegalNoticeDismissed}
-                >
-                </builder_platform_interaction-legal-popover>
             </div>
         </template>
 

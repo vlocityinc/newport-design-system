@@ -1,8 +1,4 @@
-import {
-    hidePopover,
-    modalBodyVariant,
-    updateLegalNoticesStateAfterDismiss
-} from 'builder_platform_interaction/builderUtils';
+import { modalBodyVariant } from 'builder_platform_interaction/builderUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
 import { getErrorsFromHydratedElement, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -37,15 +33,12 @@ import { invokeUsedByAlertModal, usedByStoreAndElementState } from 'builder_plat
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track, unwrap } from 'lwc';
 import { screenReducer } from './screenReducer';
+
 const { format } = commonUtils;
 export enum ScreenEditorTab {
     Components = 'componentsTab',
     Fields = 'fieldsTab'
 }
-
-const LEGAL_NOTICE_HEADERS = {
-    AUTOMATIC_FIELDS: LABELS.automaticFieldsLegalNoticeHeader
-};
 
 const SELECTORS = {
     SCREEN_PROPERTIES_EDITOR_CONTAINER: 'builder_platform_interaction-screen-properties-editor-container',
@@ -69,13 +62,6 @@ export default class ScreenEditor extends LightningElement {
     shift = false;
     // this determines that the initial focus is only set once, when we have the screen object
     initialFocusSet = false;
-
-    @track legalNotices: UI.LegalNotice[] = [
-        { header: LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS, shown: false, dismissed: false }
-    ];
-
-    @track
-    noticesToLegalPopover: UI.LegalNotice[] = [];
 
     labels = LABELS;
 
@@ -120,7 +106,6 @@ export default class ScreenEditor extends LightningElement {
      * @returns {object} list of errors
      */
     @api validate() {
-        this.hidePopover();
         const event = { type: VALIDATE_ALL };
         processRequiredParamsForExtensionsInScreen(unwrap(this.screen));
         this.screen = screenReducer(this.screen, event);
@@ -194,10 +179,6 @@ export default class ScreenEditor extends LightningElement {
 
     set processType(newValue) {
         this.processTypeValue = newValue;
-    }
-
-    get showLegalNotice() {
-        return this.legalNotices.some((notice) => notice.shown && !notice.dismissed);
     }
 
     get automaticFieldsEnabled() {
@@ -497,7 +478,6 @@ export default class ScreenEditor extends LightningElement {
      * @param {event} event - The event
      */
     handleSelectScreenElement = (event) => {
-        this.hidePopover();
         if (event.detail.fromKeyboard) {
             const screenPropertiesEditorContainer = this.template.querySelector(
                 SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
@@ -530,7 +510,6 @@ export default class ScreenEditor extends LightningElement {
      * Handler for the deselect screen element event, sets the selected node to the screen and clears the selection in the canvas
      */
     handleDeselectScreenElement = (/* event */) => {
-        this.hidePopover();
         this.setSelectedNode(this.screen);
         this.selectedItemGuid = null;
     };
@@ -555,36 +534,4 @@ export default class ScreenEditor extends LightningElement {
         const section = this.screen.getFieldByGUID(event.sectionGuid);
         this.setSelectedNode(section);
     };
-
-    handleAutomaticFieldsLegalNotice(event) {
-        event.stopPropagation();
-        const tab = event.srcElement.value;
-        if (tab === ScreenEditorTab.Fields) {
-            if (!this.legalNotices[0].shown && !this.legalNotices[0].dismissed) {
-                this.noticesToLegalPopover = [
-                    ...this.noticesToLegalPopover,
-                    { header: LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS }
-                ];
-                this.legalNotices[0].shown = true;
-            }
-        } else {
-            this.noticesToLegalPopover = this.noticesToLegalPopover.filter(
-                (notice) => notice.header !== LEGAL_NOTICE_HEADERS.AUTOMATIC_FIELDS
-            );
-            this.legalNotices[0].shown = false;
-        }
-    }
-
-    handleLegalNoticeDismissed(event) {
-        event.stopPropagation();
-        this.legalNotices = updateLegalNoticesStateAfterDismiss(this.legalNotices, this.noticesToLegalPopover);
-        this.noticesToLegalPopover = [];
-    }
-
-    /**
-     * Hide the popover on actions that results in it losing focus
-     */
-    hidePopover() {
-        hidePopover({ closedBy: 'closeOnClickOut' });
-    }
 }

@@ -1,8 +1,8 @@
-import agreementUrlLabel from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.agreementUrlLabel';
-import badgeLabel from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.badgeLabel';
-import closeButtonAssistiveText from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.closeButtonAssistiveText';
-import closeButtonTitle from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.closeButtonTitle';
-import legalText from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.legalText';
+import agreementUrlLabel from '@salesforce/label/FlowBuilderLegalPopover.agreementUrlLabel';
+import badgeLabel from '@salesforce/label/FlowBuilderLegalPopover.badgeLabel';
+import closeButtonAssistiveText from '@salesforce/label/FlowBuilderLegalPopover.closeButtonAssistiveText';
+import closeButtonTitle from '@salesforce/label/FlowBuilderLegalPopover.closeButtonTitle';
+import legalText from '@salesforce/label/FlowBuilderLegalPopover.legalText';
 
 export const LABELS = {
     badgeLabel,

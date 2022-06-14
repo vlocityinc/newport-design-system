@@ -30,7 +30,6 @@ import automaticFieldIsUpdateableFalse from '@salesforce/label/FlowBuilderAutoma
 import automaticFieldIsUpdateableTrue from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isUpdateableTrue';
 import automaticFieldObject from '@salesforce/label/FlowBuilderAutomaticFieldEditor.object';
 import automaticFieldPropertyEditorPanelTitle from '@salesforce/label/FlowBuilderAutomaticFieldEditor.panelTitle';
-import automaticFieldsLegalNoticeHeader from '@salesforce/label/FlowBuilderAutomaticFieldLegalPopover.headerText';
 import booleanDataType from '@salesforce/label/FlowBuilderDataTypes.booleanDataTypeLabel';
 import currencyDataType from '@salesforce/label/FlowBuilderDataTypes.currencyDataTypeLabel';
 import dateDataType from '@salesforce/label/FlowBuilderDataTypes.dateDataTypeLabel';
@@ -360,7 +359,6 @@ export const LABELS = {
     automaticFieldDeleteConfirmation,
     automaticFieldDeleteConsequence,
     automaticFieldPropertyEditorPanelTitle,
-    automaticFieldsLegalNoticeHeader,
     picklistChoiceSetChoiceLabel,
     recordChoiceSetChoiceLabel,
     collectionChoiceSetChoiceLabel,

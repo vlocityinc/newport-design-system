@@ -36,9 +36,7 @@ import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { createElement } from 'lwc';
-import LegalPopover from 'src/builder_platform_interaction/legalPopover/legalPopover';
 import { ComboboxTestComponent, getSObjectOrSObjectCollectionPickerCombobox } from './comboboxTestUtils';
-import { LegalPopoverTestComponent } from './integrationTestUtils';
 import { TestComponent } from './testComponent';
 
 const { format } = commonUtils;
@@ -125,7 +123,7 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         return new ScreenEditorAutomaticFieldsPaletteTestComponent(paletteElement);
     }
 
-    public getAutomaticFieldBetaDisclaimer() {
+    public getAutomaticFieldDisclaimer() {
         const tabset = this.getTabsetElement();
         const automaticFieldsTab = tabset!.shadowRoot!.querySelector('slot')!.assignedNodes()[1] as HTMLElement;
         const paletteElement = (
@@ -133,20 +131,10 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
         ).querySelector(
             INTERACTION_COMPONENTS_SELECTORS.SCREEN_AUTOMATIC_FIELD_PALETTE
         ) as ScreenEditorAutomaticFieldPalette & HTMLElement;
-        const betaDisclaimer = paletteElement.shadowRoot!.querySelector(
+        const disclaimer = paletteElement.shadowRoot!.querySelector(
             INTERACTION_COMPONENTS_SELECTORS.LEARN_MORE_CARD
         ) as LearnMoreCard & HTMLElement;
-        return new ScreenEditorAutomaticFieldBetaDisclaimerTestComponent(betaDisclaimer);
-    }
-
-    public getLegalPopover() {
-        const popoverElement = this.element.shadowRoot!.querySelector(
-            INTERACTION_COMPONENTS_SELECTORS.LEGAL_POPOVER
-        ) as LegalPopover & HTMLElement;
-        if (!popoverElement) {
-            return undefined;
-        }
-        return new LegalPopoverTestComponent(popoverElement);
+        return new ScreenEditorAutomaticFieldDisclaimerTestComponent(disclaimer);
     }
 
     public getPropertiesEditorContainer() {
@@ -157,7 +145,7 @@ export class ScreenEditorTestComponent extends TestComponent<ScreenEditor> {
     }
 }
 
-export class ScreenEditorAutomaticFieldBetaDisclaimerTestComponent extends TestComponent<LearnMoreCard> {
+export class ScreenEditorAutomaticFieldDisclaimerTestComponent extends TestComponent<LearnMoreCard> {
     public getPopupElement = () =>
         this.element.shadowRoot!.querySelector(SELECTORS.LIGHTNING_POPUP) as HTMLElement & {
             isVisible: () => boolean;

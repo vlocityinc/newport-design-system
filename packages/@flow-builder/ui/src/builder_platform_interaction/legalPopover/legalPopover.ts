@@ -68,8 +68,8 @@ export default class LegalPopover extends LightningElement {
     }
 
     connectedCallback() {
-        fetchOnce(SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS).then(
-            ({ automaticFieldLegalAgreements }) => (this.agreementUrl = automaticFieldLegalAgreements)
+        fetchOnce(SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_URLS).then(
+            ({ legalAgreements }) => (this.agreementUrl = legalAgreements)
         );
     }
 

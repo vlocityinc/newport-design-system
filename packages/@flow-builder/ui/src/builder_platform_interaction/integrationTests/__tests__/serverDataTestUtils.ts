@@ -11,7 +11,7 @@ import { invocableActionsForAutoLaunchedFlow } from 'serverData/GetAllInvocableA
 import { invocableActionsForFlow } from 'serverData/GetAllInvocableActionsForType/invocableActionsForFlow.json';
 import { invocableActionsForOrchestrator } from 'serverData/GetAllInvocableActionsForType/invocableActionsForOrchestrator.json';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { automaticFieldBetaUrls } from 'serverData/GetAutomaticFieldBetaUrls/automaticFieldBetaUrls.json';
+import { automaticFieldUrls } from 'serverData/GetAutomaticFieldUrls/automaticFieldUrls.json';
 import { context } from 'serverData/GetContext/context.json';
 import { allEntities } from 'serverData/GetEntities/allEntities.json';
 import { eventTypes } from 'serverData/GetEventTypes/eventTypes.json';
@@ -272,7 +272,7 @@ const allAuraActions = {
     }),
     'c.getTriggerTypeInfo': createGetter([]),
     'c.getObjectManagerUrls': createGetter(objectManagerUrls),
-    'c.getAutomaticFieldBetaUrls': createGetter(automaticFieldBetaUrls),
+    'c.getAutomaticFieldUrls': createGetter(automaticFieldUrls),
     'c.getContext': createGetter(context)
 };
 

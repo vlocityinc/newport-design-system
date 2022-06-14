@@ -33,6 +33,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     showSpinner = false;
     labels = LABELS;
     knowledgeArticleLink = '';
+
     crudFilter: CrudFilter = ({ createable, updateable }) => createable || updateable;
 
     _searchPattern?: string | null;
@@ -101,7 +102,7 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
     }
 
     connectedCallback() {
-        fetchOnce(SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS).then(({ automaticFieldKnowledgeArticle }) => {
+        fetchOnce(SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_URLS).then(({ automaticFieldKnowledgeArticle }) => {
             this.knowledgeArticleLink = automaticFieldKnowledgeArticle;
         });
     }

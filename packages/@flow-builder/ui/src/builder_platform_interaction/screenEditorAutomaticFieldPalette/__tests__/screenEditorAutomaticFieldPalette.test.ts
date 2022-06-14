@@ -22,7 +22,7 @@ import {
     flowWithAllElementsUIModel,
     objectWithAllPossibleFieldsVariable
 } from 'mock/storeData';
-import { automaticFieldBetaUrls as mockAutomaticFieldBetaUrls } from 'serverData/GetAutomaticFieldBetaUrls/automaticFieldBetaUrls.json';
+import { automaticFieldUrls as mockAutomaticFieldUrls } from 'serverData/GetAutomaticFieldUrls/automaticFieldUrls.json';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { objectWithAllPossibleFieldsFields as mockObjectWithAllPossibleFieldsVariableFields } from 'serverData/GetFieldsForEntity/objectWithAllPossibleFieldsFields.json';
 import ScreenEditorAutomaticFieldPalette from '../screenEditorAutomaticFieldPalette';
@@ -83,14 +83,15 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         SERVER_ACTION_TYPE,
         fetchOnce: (serverActionType) => {
             switch (serverActionType) {
-                case SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_BETA_URLS:
-                    return Promise.resolve(mockAutomaticFieldBetaUrls);
+                case SERVER_ACTION_TYPE.GET_AUTOMATIC_FIELD_URLS:
+                    return Promise.resolve(mockAutomaticFieldUrls);
                 default:
                     return Promise.reject().catch();
             }
         }
     };
 });
+
 const SUPPORTED_FIELDS_IN_ACCOUNT = Object.values<FieldDefinition>(mockAccountFields).filter(
     (field) => field.supportedByAutomaticField
 );
@@ -171,7 +172,7 @@ describe('Screen editor automatic field palette', () => {
             expect(getSpinner(element)).toBeNull();
         });
         test('should have received the expected knowledge article URL from the backend', () => {
-            expect(element.knowledgeArticleUrl).toEqual(mockAutomaticFieldBetaUrls.automaticFieldKnowledgeArticle);
+            expect(element.knowledgeArticleUrl).toEqual(mockAutomaticFieldUrls.automaticFieldKnowledgeArticle);
         });
     });
 

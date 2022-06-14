@@ -20,7 +20,6 @@ import {
 import {
     createComponentUnderTest,
     ScreenCanvasTestComponent,
-    ScreenEditorAutomaticFieldBetaDisclaimerTestComponent,
     ScreenEditorTestComponent
 } from '../../screenEditorTestUtils';
 
@@ -90,24 +89,6 @@ describe('ScreenEditor automatic fields', () => {
                 expect(
                     screenEditor.getPropertiesEditorContainer().getAutomaticFieldPropertiesEditorElement
                 ).toBeTruthy();
-            });
-        });
-        describe('Beta status disclaimer', () => {
-            let disclaimer: ScreenEditorAutomaticFieldBetaDisclaimerTestComponent;
-            beforeAll(async () => {
-                screenEditor = await createScreenEditor('screenWithAutomaticFields');
-                disclaimer = screenEditor.getAutomaticFieldBetaDisclaimer();
-            });
-            it('should be displayed in the Fields palette', () => {
-                expect(disclaimer).toBeTruthy();
-            });
-            it('should have its popup visible when its trigger is clicked', async () => {
-                await disclaimer.clickOnTriggerButton();
-                expect(disclaimer.isPopupVisible()).toEqual(true);
-            });
-            it('should have its popup hidden when its close button is clicked', async () => {
-                await disclaimer.clickOnCloseButton();
-                expect(disclaimer.isPopupVisible()).toEqual(false);
             });
         });
         describe('"Select Object" combobox', () => {
