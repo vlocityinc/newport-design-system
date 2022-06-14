@@ -65,7 +65,7 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_LC_EMAIL_IN_AUTO_MODE = [
         apiName: 'disabled',
         label: 'Disabled',
         description: 'Prevents the user from modifying or copying the value.',
-        typeIconName: 'utility:toggle'
+        typeIconName: 'utility:crossfilter'
     },
     {
         apiName: 'label',
@@ -84,13 +84,13 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_LC_EMAIL_IN_AUTO_MODE = [
         apiName: 'readonly',
         label: 'Read Only',
         description: 'Prevents the user from modifying the value, but not from copying it.',
-        typeIconName: 'utility:toggle'
+        typeIconName: 'utility:crossfilter'
     },
     {
         apiName: 'required',
         label: 'Required',
         description: 'Requires the user to enter a value.',
-        typeIconName: 'utility:toggle'
+        typeIconName: 'utility:crossfilter'
     },
     {
         apiName: 'value',

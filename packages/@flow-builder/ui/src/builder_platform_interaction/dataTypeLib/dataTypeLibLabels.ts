@@ -9,14 +9,11 @@ import lightningComponentOutputDataTypeLabel from '@salesforce/label/FlowBuilder
 import multiPicklistDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.multiPicklistDataTypeLabel';
 import numberDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.numberDataTypeLabel';
 import orchestratedStageDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.orchestratedStageDataTypeLabel';
-import outcomeDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.outcomeDataTypeLabel';
 import picklistDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.picklistDataTypeLabel';
 import sObjectDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.sObjectDataTypeLabel';
-import sObjectCollectionDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.sObjectionCollectionDataTypeLabel';
 import stageStepDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.stageStepDataTypeLabel';
 import subflowOutputDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.subflowOutputDataTypeLabel';
 import textDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.textDataTypeLabel';
-import pauseConfigurationDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes/pauseConfigurationDataTypeLabel';
 
 export const LABELS = {
     textDataTypeLabel,
@@ -33,8 +30,5 @@ export const LABELS = {
     actionOutputDataTypeLabel,
     subflowOutputDataTypeLabel,
     stageStepDataTypeLabel,
-    orchestratedStageDataTypeLabel,
-    sObjectCollectionDataTypeLabel,
-    outcomeDataTypeLabel,
-    pauseConfigurationDataTypeLabel
+    orchestratedStageDataTypeLabel
 };

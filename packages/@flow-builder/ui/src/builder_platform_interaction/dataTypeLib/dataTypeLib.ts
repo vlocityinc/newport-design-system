@@ -91,7 +91,7 @@ const FLOW_DATA_TYPE = {
         label: DATA_TYPE_LABELS.booleanDataTypeLabel,
         value: 'Boolean',
         iconName: 'standard:cms',
-        utilityIconName: 'utility:toggle',
+        utilityIconName: 'utility:crossfilter',
         supportedForVariables: true,
         supportedForConstants: true
     },
@@ -162,27 +162,6 @@ const FLOW_DATA_TYPE = {
         iconName: 'standard:output',
         utilityIconName: 'utility:jump_to_right',
         elementType: ELEMENT_TYPE.ORCHESTRATED_STAGE
-    },
-    SOBJECT_COLLECTION: {
-        label: DATA_TYPE_LABELS.sObjectCollectionDataTypeLabel,
-        value: 'SOBJECT_COLLECTION',
-        iconName: 'standard:sobject_collection',
-        utilityIconName: 'utility:sobject_collection',
-        elementType: ELEMENT_TYPE.SOBJECT_COLLECTION
-    },
-    OUTCOME: {
-        label: DATA_TYPE_LABELS.outcomeDataTypeLabel,
-        value: 'OUTCOME',
-        iconName: 'standard:toggle',
-        utilityIconName: 'utility:toggle',
-        elementType: ELEMENT_TYPE.OUTCOME
-    },
-    PAUSE_CONFIGURATION: {
-        label: DATA_TYPE_LABELS.pauseConfigurationDataTypeLabel,
-        value: 'PAUSE_CONFIGURATION',
-        iconName: 'standard:toggle',
-        utilityIconName: 'utility:toggle',
-        elementType: ELEMENT_TYPE.PAUSE_CONFIGURATION
     }
 };
 
