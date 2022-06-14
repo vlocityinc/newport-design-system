@@ -70,6 +70,8 @@
     <aura:dependency resource="markup://builder_platform_interaction:contextRecordEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:scheduledPathEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:scheduleTriggerEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:scheduleSelectionEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:repeatSchedule" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:platformEventEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:rollbackEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:modalHeaderForAutoLayout" type="MODULE" />

@@ -85,6 +85,7 @@ export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';
 export { RecordStoreOptionChangedEvent } from './recordStoreOptionChangedEvent';
 export { RemoveMergeFieldPillEvent } from './removeMergeFieldPillEvent';
 export { ReorderListEvent } from './reorderListEvent';
+export { RepeatScheduleFrequencyChangedEvent } from './repeatScheduleFrequencyChangedEvent';
 export { RequiresAsyncProcessingChangedEvent } from './requiresAsyncProcessingChangedEvent';
 export { RichTextPlainTextSwitchChangedEvent } from './richTextPlainTextSwitchChangedEvent';
 export { RowContentsChangedEvent } from './rowContentsChangedEvent';

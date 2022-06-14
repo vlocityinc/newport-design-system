@@ -570,6 +570,15 @@ declare namespace UI {
         cssClass: string;
     };
 
+    type FlowTriggerFrequency = 'Weekly' | 'Daily' | 'Once';
+
+    type RepeatScheduleOptions = RepeatScheduleOption[];
+
+    type RepeatScheduleOption = {
+        label: string;
+        value: FlowTriggerFrequency;
+    };
+
     type FieldInputCategory =
         | 'Action'
         | 'Assignment'

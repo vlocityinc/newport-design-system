@@ -152,6 +152,16 @@ export const isOrchestrator = (processType?: string): boolean => {
 };
 
 /**
+ * Utility method to determine if the flow is of process type: FlowProcessType.Journey
+ *
+ * @param processType - eg: Flow, Orchestrator, Workflow, etc...
+ * @returns whether or not the flow is Journey
+ */
+export const isJourney = (processType?: string): boolean => {
+    return processType === FLOW_PROCESS_TYPE.JOURNEY;
+};
+
+/**
  * Scheduled Paths are supported exclusively for Auto Launched Flows. Returns true iff process type is auto launched.
  *
  * @param processType

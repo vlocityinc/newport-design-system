@@ -30,7 +30,11 @@ export const isLookupTraversalSupported = (triggerType: UI.FlowTriggerType): boo
  */
 export const isScheduledTriggerType = (triggerType: UI.FlowTriggerType): boolean => {
     // TODO this information should eventually just come from the trigger type service
-    return triggerType === FLOW_TRIGGER_TYPE.SCHEDULED || triggerType === FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY;
+    return (
+        triggerType === FLOW_TRIGGER_TYPE.SCHEDULED ||
+        triggerType === FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY ||
+        triggerType === FLOW_TRIGGER_TYPE.SEGMENT
+    );
 };
 
 /**

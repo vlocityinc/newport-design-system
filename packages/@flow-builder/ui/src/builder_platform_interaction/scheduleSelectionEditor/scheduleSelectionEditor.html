@@ -1,0 +1,93 @@
+<template>
+    <div if:true={startElement} class="slds-panel__header slds-text-heading_medium slds-is-relative">
+        <builder_platform_interaction-element-icon
+            if:true={iconName}
+            icon-name={iconName}
+            icon-size="small"
+            icon-shape={iconShape}
+            background-color={iconBackgroundColor}
+            class="slds-is-absolute"
+        >
+        </builder_platform_interaction-element-icon>
+        <div class="slds-m-left_xx-large">
+            <span class="slds-p-bottom_small slds-panel__header-title">{editorHeader}</span>
+        </div>
+    </div>
+    <div class="choose-schedule-type slds-border_top slds-p-horizontal_medium slds-p-around_medium">
+        <div class="slds-form">
+            <fieldset class="slds-form-element">
+                <div class="select-schedule-type-title">
+                    <abbr class="slds-required" title={labels.requiredLabel}>*</abbr>{labels.selectScheduleType}
+                </div>
+                <div class="slds-form-element__control">
+                    <div class="slds-p-top_small">
+                        <builder_platform_interaction-visual-picker-list
+                            items={scheduleTypes}
+                            focus-on-rerendering="false"
+                            radio-group-name="ScheduleTypes"
+                            onvisualpickerlistchanged={handleScheduleTypeSelection}
+                        >
+                        </builder_platform_interaction-visual-picker-list>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="choose-frequency slds-p-horizontal_medium slds-p-around_medium slds-form">
+        <div if:true={isRecurring} class="recurring-label-desc">
+            <div class="slds-text-heading_small">{labels.defineRecurringSchedule}</div>
+            <div
+                class="test-context-object-description slds-text-body_medium slds-text-color_weak slds-p-vertical_x-small"
+            >
+                {labels.defineRecurringScheduleDesc}
+            </div>
+        </div>
+        <div if:true={isRunOnce} class="run-once-label-desc">
+            <div class="slds-text-heading_small">{labels.defineRunOnceSchedule}</div>
+            <div
+                class="test-context-object-description slds-text-body_medium slds-text-color_weak slds-p-vertical_x-small"
+            >
+                {labels.defineRunOnceScheduleDesc}
+            </div>
+            <lightning-radio-group name="radioGroup" options={runOnceOptions} value={value} type="radio" disabled>
+            </lightning-radio-group>
+        </div>
+
+        <fieldset class="slds-form-element">
+            <div
+                class="slds-form-element__control slds-p-top_small slds-form slds-grid slds-gutters slds-gutters_xx-small"
+            >
+                <lightning-input
+                    class="start-date slds-col slds-form-element slds-p-right_medium"
+                    label={labels.startDateInputLabel}
+                    name="startDate"
+                    placeholder={labels.startDateInputPlaceholder}
+                    required
+                    type="date"
+                    value={startDate}
+                    onchange={handleStartDateChange}
+                >
+                </lightning-input>
+
+                <lightning-input
+                    class="start-time slds-col slds-form-element slds-p-right_medium"
+                    label={labels.startTimeInputLabel}
+                    name="startTime"
+                    placeholder={labels.startTimeInputPlaceholder}
+                    required
+                    type="time"
+                    value={startTime}
+                    onchange={handleStartTimeChange}
+                >
+                </lightning-input>
+            </div>
+            <div if:true={isRecurring}>
+                <builder_platform_interaction-repeat-schedule
+                    repeat-schedule-options={repeatScheduleOptions}
+                    value={frequency}
+                    onrepeatschedulefrequencychanged={handleFrequencyChange}
+                ></builder_platform_interaction-repeat-schedule>
+            </div>
+        </fieldset>
+    </div>
+</template>

@@ -133,6 +133,7 @@ import {
 import {
     isAutoLayoutCanvasOnly,
     isConfigurableStartSupported,
+    isJourney,
     isNonOrchestratorRecordTriggeredFlow,
     isOrchestrator
 } from 'builder_platform_interaction/processTypeLib';
@@ -580,7 +581,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     get isRightPanelVariableWidth() {
         // Hardcoded for App Process PoC
         // TODO:  W-8146747 - remove in 234
-        return isOrchestrator(this.properties.processType) && this.showPropertyEditorRightPanel;
+        return (
+            (isOrchestrator(this.properties.processType) || isJourney(this.properties.processType)) &&
+            this.showPropertyEditorRightPanel
+        );
     }
 
     get useNewDebugExperience() {

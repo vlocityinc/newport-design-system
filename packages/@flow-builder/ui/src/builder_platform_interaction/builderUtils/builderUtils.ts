@@ -157,6 +157,7 @@ const getTitleForModalHeader = (mode: string, elementMetadata: Object, processTy
             break;
         case FLOW_TRIGGER_TYPE.SCHEDULED:
         case FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY:
+        case FLOW_TRIGGER_TYPE.SEGMENT:
             label = elementConfig.labels.editSchedule;
             break;
         case FLOW_TRIGGER_TYPE.PLATFORM_EVENT:

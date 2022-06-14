@@ -1,0 +1,17 @@
+<template>
+    <!--     This component looks like just a wrapper of radio button group because we only support frequency selection in 240.
+    In 242+, we'll add a Repeat Every counter to make this a real custom component. -->
+    <div class="slds-p-top_small">
+        <lightning-radio-group
+            name="radioGroup"
+            label={labels.repeatSchedule}
+            required
+            options={repeatScheduleOptions}
+            type="button"
+            value={value}
+            onchange={handleFrequencyChange}
+        >
+        </lightning-radio-group>
+    </div>
+    <!-- TBD in future release: repeat every counter here -->
+</template>

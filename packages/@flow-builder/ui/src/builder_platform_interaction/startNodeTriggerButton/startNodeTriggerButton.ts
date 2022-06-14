@@ -1,7 +1,7 @@
 import { FLOW_TRIGGER_SAVE_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 import StartNodeButton from 'builder_platform_interaction/startNodeButton';
-import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { isRecordChangeTriggerType, isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { LABELS } from './startNodeTriggerButtonLabels';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
@@ -9,10 +9,11 @@ const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
 
 export default class StartNodeTriggerButton extends StartNodeButton {
     get chooseScheduleOrEvent() {
-        switch (this.node.triggerType) {
-            case SCHEDULED:
-            case SCHEDULED_JOURNEY:
-                return LABELS.startElementSetSchedule;
+        const { triggerType } = this.node;
+        if (isScheduledTriggerType(triggerType)) {
+            return LABELS.startElementSetSchedule;
+        }
+        switch (triggerType) {
             case PLATFORM_EVENT:
                 return LABELS.startElementAddEvent;
             default:
