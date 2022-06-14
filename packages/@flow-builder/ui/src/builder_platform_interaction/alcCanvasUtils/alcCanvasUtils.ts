@@ -76,8 +76,8 @@ export function supportsChildren(element: UI.CanvasElement) {
  * @returns - The alc Element type
  */
 export function getAlcElementType(element) {
-    if (element.supportsBranching) {
-        return NodeType.BRANCH;
+    if (element.supportsBranching !== undefined && element.supportsBranching !== null) {
+        return element.supportsBranching ? NodeType.BRANCH : NodeType.DEFAULT;
     }
     switch (element.elementType) {
         case ELEMENT_TYPE.DECISION:
