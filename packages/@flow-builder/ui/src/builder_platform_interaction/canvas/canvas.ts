@@ -71,6 +71,9 @@ export default class Canvas extends withKeyboardInteractions(LightningElement) {
     @api
     canvasConfig: CanvasConfig = defaultCanvasConfig;
 
+    @api
+    showLeftPanel;
+
     @track
     isMarqueeModeOn = false;
 
@@ -175,6 +178,10 @@ export default class Canvas extends withKeyboardInteractions(LightningElement) {
             this.dispatchEvent(connectorSelectedEvent);
         }
     };
+
+    get zoomPanelClass(): string {
+        return this.showLeftPanel ? 'zoom-panel-offset' : '';
+    }
 
     /* ********************** */
     /*     Event handlers     */

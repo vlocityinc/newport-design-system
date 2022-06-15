@@ -24,6 +24,10 @@
     transform: translateX(0px);
 }
 
+.left-panel-header .close-button {
+    margin-left: auto;
+}
+
 .left-panel.show-details .flow-resource-list {
     opacity: 0;
     margin-left: -320px;

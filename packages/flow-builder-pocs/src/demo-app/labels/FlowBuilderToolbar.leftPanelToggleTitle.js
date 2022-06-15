@@ -1,0 +1,1 @@
+export default 'Toggle Toolbox';

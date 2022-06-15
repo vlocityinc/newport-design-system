@@ -39,6 +39,7 @@
                 onaddtoflowtest={handleAddToTestFlow}
                 onsaveas={handleSaveFlow}
                 onsave={handleSaveFlow}
+                ontoggleleftpanel={handleToggleLeftPanel}
                 onundo={handleUndo}
                 onredo={handleRedo}
                 onviewalltests={handleViewAllTests}
@@ -50,6 +51,7 @@
                 show-edit-flow-properties-button={toolbarConfig.showEditFlowPropertiesButton}
                 show-canvas-mode-combobox={showCanvasModeCombobox}
                 show-edit-flow-button={toolbarConfig.showEditFlowButton}
+                show-left-panel-toggle={leftPanelConfig.showLeftPanel}
                 show-run-button={showRunButton}
                 show-debug-button={showDebugButton}
                 show-add-to-test-button={showAddToTestButton}
@@ -73,6 +75,7 @@
                 is-save-disabled={disableSave}
                 is-save-as-disabled={hasNotBeenSaved}
                 is-selection-mode={isSelectionMode}
+                is-left-panel-toggled={isLeftPanelToggled}
                 is-cut-copy-disabled={isCutCopyDisabled}
                 is-undo-disabled={isUndoDisabled}
                 is-redo-disabled={isRedoDisabled}
@@ -91,13 +94,15 @@
         <div class="slds-col slds-grow slds-grid slds-is-relative">
             <builder_platform_interaction-left-panel
                 aria-label={labels.ariaLabelLeftPanel}
-                if:true={showLeftPanel}
+                if:true={leftPanelConfig.showLeftPanel}
+                class={panelClasses}
                 onaddnewresource={handleAddResourceElement}
                 onaddelement={handleAddCanvasElement}
                 onclick={handleLeftPanelAndToolbarInteraction}
                 oneditelement={handleEditElement}
                 ondeleteelement={handleElementDelete}
                 onlocatoriconclicked={handleHighlightOnCanvas}
+                ontoggleleftpanel={handleToggleLeftPanel}
                 elements={toolboxElements}
                 palette={palette}
                 show-elements-tab={showLeftPanelElementsTab}
@@ -124,6 +129,7 @@
                     onclosepropertyeditor={handleClosePropertyEditor}
                     onnodeselected={handleNodeSelected}
                     role="region"
+                    show-left-panel={showLeftPanel}
                 >
                 </builder_platform_interaction-canvas-container>
                 <builder_platform_interaction-alc-canvas-container
@@ -155,6 +161,7 @@
                     onopensubflow={handleOpenSubflow}
                     role="region"
                     disable-add-elements={canvasConfig.disableAddElements}
+                    show-left-panel={showLeftPanel}
                 >
                 </builder_platform_interaction-alc-canvas-container>
             </div>

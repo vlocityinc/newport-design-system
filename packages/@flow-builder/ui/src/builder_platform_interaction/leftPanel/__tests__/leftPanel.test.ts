@@ -37,7 +37,7 @@ const createComponentUnderTest = () => {
 const selectors = {
     panel: '.slds-panel',
     panelHeader: '.slds-panel__header',
-    panelHeaderBackButton: 'lightning-button-icon',
+    panelHeaderBackButton: '.slds-panel__back',
     panelBody: '.slds-panel__body',
     resourceDetailsBody: 'builder_platform_interaction-resource-details',
     footer: '.panel-footer',

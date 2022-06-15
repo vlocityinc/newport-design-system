@@ -23,6 +23,7 @@ import {
     SaveFlowEvent,
     ToggleCanvasModeEvent,
     ToggleFlowStatusEvent,
+    ToggleLeftPanelEvent,
     ToggleSelectionModeEvent,
     ToolbarFocusOutEvent
 } from 'builder_platform_interaction/events';
@@ -49,7 +50,8 @@ const createComponentUnderTest = (props = {}) => {
         showActivateButton: getPropertyOrDefaultToTrue(props, 'showActivateButton'),
         showSaveButton: getPropertyOrDefaultToTrue(props, 'showSaveButton'),
         showSaveAsButton: getPropertyOrDefaultToTrue(props, 'showSaveAsButton'),
-        showUndoRedoButton: getPropertyOrDefaultToTrue(props, 'showUndoRedoButton')
+        showUndoRedoButton: getPropertyOrDefaultToTrue(props, 'showUndoRedoButton'),
+        showLeftPanelToggle: getPropertyOrDefaultToTrue(props, 'showLeftPanelToggle')
     });
 
     setDocumentBodyChildren(el);
@@ -58,6 +60,7 @@ const createComponentUnderTest = (props = {}) => {
 
 const SELECTORS = {
     select: '.test-toolbar-select',
+    leftPanelToggle: '.test-toolbar-left-panel-toggle',
     undoRedo: '.test-undo-redo',
     cut: '.test-toolbar-cut',
     copy: '.test-toolbar-copy',
@@ -104,6 +107,37 @@ describe('toolbar', () => {
         toolbarComponent.addEventListener(EditFlowPropertiesEvent.EVENT_NAME, eventCallback);
         toolbarComponent.shadowRoot.querySelector(SELECTORS.editflowproperties).click();
         expect(eventCallback).toHaveBeenCalled();
+    });
+
+    it('Left panel toggle should be present', () => {
+        const toolbarComponent = createComponentUnderTest();
+        const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
+        expect(leftPanelToggle).not.toBeNull();
+    });
+
+    it('Left panel toggle fires toggle left panel event when clicked', () => {
+        const toolbarComponent = createComponentUnderTest();
+        const eventCallback = jest.fn();
+        toolbarComponent.addEventListener(ToggleLeftPanelEvent.EVENT_NAME, eventCallback);
+        const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
+        leftPanelToggle.click();
+        expect(eventCallback).toHaveBeenCalled();
+    });
+
+    it('Left panel toggle should be hidden if toolbar config is set as such', () => {
+        const toolbarComponent = createComponentUnderTest({
+            showLeftPanelToggle: false
+        });
+        const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
+        expect(leftPanelToggle).toBeNull();
+    });
+
+    it('Left panel toggle should be disabled if isSelectionMode is true', () => {
+        const toolbarComponent = createComponentUnderTest({
+            isSelectionMode: true
+        });
+        const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
+        expect(leftPanelToggle).toHaveProperty('disabled');
     });
 
     it('Undo Redo should be present', () => {
@@ -758,6 +792,7 @@ describe('toolbar', () => {
         it('does not dispatch a toolbarFocusOut event if the toolbar is focusable', () => {
             const toolbarComponent = createComponentUnderTest({
                 showCopyPasteButton: false,
+                showLeftPanelToggle: false,
                 showEditFlowPropertiesButton: false,
                 showCanvasModeCombobox: false,
                 showFlowStatus: false,
@@ -783,6 +818,7 @@ describe('toolbar', () => {
         it('dispatches an event if the toolbar is not focusable', () => {
             const toolbarComponent = createComponentUnderTest({
                 showCopyPasteButton: false,
+                showLeftPanelToggle: false,
                 showEditFlowPropertiesButton: false,
                 showCanvasModeCombobox: false,
                 showFlowStatus: false,
@@ -808,6 +844,7 @@ describe('toolbar', () => {
         it('dispatches an event if the toolbar is not focusable and no param is provided to the focus call', () => {
             const toolbarComponent = createComponentUnderTest({
                 showCopyPasteButton: false,
+                showLeftPanelToggle: false,
                 showEditFlowPropertiesButton: false,
                 showCanvasModeCombobox: false,
                 showFlowStatus: false,

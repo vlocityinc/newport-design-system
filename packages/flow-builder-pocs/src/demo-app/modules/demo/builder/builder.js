@@ -513,6 +513,10 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
         this.init();
     }
 
+    get showLeftPanel() {
+        return !this.isSelectionMode;
+    }
+
     stopTestMonkey(message, e) {
         clearInterval(this.testMonkeyHandle);
         this.testMonkeyHandle = null;
@@ -562,6 +566,9 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
         ];
     }
 
+    get leftPanelClass() {
+        return this.isSelectionMode ? 'left-panel-hide' : '';
+    }
     handleSelectFlowType(event) {
         console.log({ ...storeInstance.getCurrentState().elements });
 

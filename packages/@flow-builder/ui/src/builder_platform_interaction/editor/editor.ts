@@ -496,6 +496,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     @track
     palette = null;
 
+    @track
+    isLeftPanelToggled;
+
     processTypeLoading = false;
 
     requiredVariablesLoading = false;
@@ -507,6 +510,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     labels = LABELS;
 
     flowTestManagerBlockerCalls = [];
+
+    get panelClasses() {
+        return this.showLeftPanel ? 'left-panel-show' : 'left-panel-hide';
+    }
 
     /**
      * @returns true Whether canvas elements are available. Don't render the canvas until then.
@@ -759,7 +766,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     }
 
     get showLeftPanel() {
-        return !!this.leftPanelConfig.showLeftPanel && !this.isSelectionMode;
+        return !!this.leftPanelConfig.showLeftPanel && this.isLeftPanelToggled && !this.isSelectionMode;
     }
 
     get showDebugPanel() {
@@ -1136,6 +1143,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         updateUrl();
                     }
                     this.isFlowServerCallInProgress = false;
+                    this.isLeftPanelToggled = !this.properties.isAutoLayoutCanvas;
                 });
             } catch (e) {
                 writeMetrics(EDITOR, time() - this.loadFlowBuilderStartTime, true, { logLocation: 'getFlowCallback' });
@@ -1960,6 +1968,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     };
 
     /**
+     * Handles the left panel toggle event fired by a toolbar element. Displays or hides the left panel.
+     */
+    handleToggleLeftPanel = () => {
+        this.isLeftPanelToggled = !this.isLeftPanelToggled;
+    };
+
+    /**
      * Handles the toggle flow status event fired by a toolbar. Changes the flow status from obsolete or
      * draft to active or vice versa.
      */
@@ -2436,6 +2451,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             this.clearUndoRedoStack();
 
             this.spinners.showAutoLayoutSpinner = false;
+
+            this.isLeftPanelToggled = !setupInAutoLayoutCanvas;
 
             logPerfTransactionEnd(TOGGLE_CANVAS_MODE, {
                 isSuccess: true,
@@ -3163,7 +3180,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         return [
             this._getHeaderComponent(),
             this._getToolbarComponent(),
-            this._getLeftPanelComponent(),
+            this.showLeftPanel ? this._getLeftPanelComponent() : null,
             ...canvasSections,
             this._getRightPanelComponent()
         ];

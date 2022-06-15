@@ -16,3 +16,20 @@ builder_platform_interaction-right-panel {
     max-width: calc(100% - 20rem);
     z-index: 501;
 }
+
+builder_platform_interaction-left-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 501;
+}
+
+.left-panel-show {
+    transition: all 0.25s cubic-bezier(0, 0.3, 0.15, 1);
+}
+
+.left-panel-hide {
+    transition: all 0.25s cubic-bezier(0.7, 0, 0.5, 1);
+    transform: translateX(-100%);
+}

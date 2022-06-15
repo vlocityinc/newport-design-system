@@ -59,3 +59,17 @@ builder_platform_interaction-alc-canvas-container {
     overflow: hidden;
     flex: 1 1 0;
 }
+
+builder_platform_interaction-left-panel {
+    position: absolute;
+    left: 0;
+
+    bottom: 0;
+    z-index: 501;
+    transition: all 0.25s cubic-bezier(0, 0.3, 0.15, 1);
+}
+
+.left-panel-hide {
+    transition: all 0.25s cubic-bezier(0.7, 0, 0.5, 1);
+    transform: translateX(-100%);
+}

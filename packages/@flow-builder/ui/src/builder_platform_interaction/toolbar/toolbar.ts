@@ -17,6 +17,7 @@ import {
     SaveFlowEvent,
     ToggleCanvasModeEvent,
     ToggleFlowStatusEvent,
+    ToggleLeftPanelEvent,
     ToggleSelectionModeEvent,
     ToolbarFocusOutEvent,
     UndoEvent,
@@ -153,6 +154,12 @@ export default class Toolbar extends LightningElement {
 
     @api
     showEditTestButton;
+
+    @api
+    showLeftPanelToggle;
+
+    @api
+    isLeftPanelToggled;
 
     labels = LABELS;
 
@@ -403,6 +410,13 @@ export default class Toolbar extends LightningElement {
         const duplicateEvent = new DuplicateEvent();
         this.dispatchEvent(duplicateEvent);
         logInteraction(`duplicate-button`, 'toolbar', null, 'click');
+    }
+
+    handleToggleLeftPanelButtonClick(event) {
+        event.preventDefault();
+        const toggleLeftPanelEvent = new ToggleLeftPanelEvent();
+        this.dispatchEvent(toggleLeftPanelEvent);
+        logInteraction(`toggle-left-panel-button`, `toolbar`, null, `click`);
     }
 
     handleEditFlowProperties(event) {

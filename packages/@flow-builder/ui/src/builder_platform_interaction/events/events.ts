@@ -113,6 +113,7 @@ export { RunFlowEvent } from './toolbarEvents/runFlowEvent';
 export { SaveFlowEvent } from './toolbarEvents/saveFlowEvent';
 export { ToggleCanvasModeEvent } from './toolbarEvents/toggleCanvasModeEvent';
 export { ToggleFlowStatusEvent } from './toolbarEvents/toggleFlowStatusEvent';
+export { ToggleLeftPanelEvent } from './toolbarEvents/toggleLeftPanelEvent';
 export { ToggleSelectionModeEvent } from './toolbarEvents/toggleSelectionModeEvent';
 export { ToolbarFocusOutEvent } from './toolbarEvents/toolbarFocusOutEvent';
 export { UndoEvent } from './toolbarEvents/undoEvent';

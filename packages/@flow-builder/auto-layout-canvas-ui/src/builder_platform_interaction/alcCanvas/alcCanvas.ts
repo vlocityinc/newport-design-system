@@ -102,8 +102,6 @@ const selectors = {
 
 const DOUBLE_CLICK_THRESHOLD = 250;
 
-// TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
-const LEFT_PANEL_WIDTH = 320;
 const defaultConfig = getDefaultLayoutConfig();
 const NODE_ICON_SIZE = defaultConfig.node.icon.w;
 const CONNECTOR_ICON_SIZE = defaultConfig.connector.icon.w;
@@ -651,11 +649,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                 this.dispatchEvent(alcSelectionEvent);
             }
         }
+    }
 
-        if (this._panzoom) {
-            const offsetX = this.isSelectionMode ? LEFT_PANEL_WIDTH : -LEFT_PANEL_WIDTH;
-            this.panAndResetPanningVariable(offsetX, 0);
-        }
+    get zoomPanelStyle() {
+        return `left: ${this.offsets[0]}px`;
     }
 
     /**

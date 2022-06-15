@@ -39,6 +39,9 @@ export default class CanvasContainer extends LightningElement {
     @api
     canvasConfig = {};
 
+    @api
+    showLeftPanel;
+
     /** Component lifecycle hooks */
     connectedCallback() {
         storeInstance = Store.getStore();

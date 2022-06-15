@@ -17,6 +17,7 @@ import duplicateTitle from '@salesforce/label/FlowBuilderToolbar.duplicateTitle'
 import editFlowTitle from '@salesforce/label/FlowBuilderToolbar.editFlowTitle';
 import editTestTitle from '@salesforce/label/FlowBuilderToolbar.editTestTitle';
 import flowPropertiesTitle from '@salesforce/label/FlowBuilderToolbar.flowPropertiesTitle';
+import leftPanelToggleTitle from '@salesforce/label/FlowBuilderToolbar.leftPanelToggleTitle';
 import newdebugTitle from '@salesforce/label/FlowBuilderToolbar.newdebugTitle';
 import redoTitle from '@salesforce/label/FlowBuilderToolbar.redoTitle';
 import restartRunTitle from '@salesforce/label/FlowBuilderToolbar.restartRunTitle';
@@ -72,5 +73,6 @@ export const LABELS = {
     copyTitle,
     viewTestEditorModeTitle,
     viewTestTestingModeTitle,
-    editTestTitle
+    editTestTitle,
+    leftPanelToggleTitle
 };

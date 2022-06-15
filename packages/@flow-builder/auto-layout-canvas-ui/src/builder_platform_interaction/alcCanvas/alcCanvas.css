@@ -60,7 +60,9 @@ builder_platform_interaction-alc-flow {
 
 builder_platform_interaction-zoom-panel {
     position: fixed;
+    left: 0;
     bottom: 0;
+    transition: left 0.25s cubic-bezier(0.7, 0, 0.5, 1);
 }
 
 builder_platform_interaction-field-input {

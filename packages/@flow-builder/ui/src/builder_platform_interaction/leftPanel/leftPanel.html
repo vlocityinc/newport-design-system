@@ -11,6 +11,14 @@
                 alternative-text={labels.backButtonAltText}
             ></lightning-button-icon>
             <h2 class="slds-text-heading_small slds-truncate" title={getPanelTitle}>{getPanelTitle}</h2>
+            <lightning-button-icon
+                variant="bare"
+                size="large"
+                icon-name="utility:close"
+                class="close-button slds-panel__close slds-shrink-none"
+                onclick={handleClosePanelButtonClicked}
+                alternative-text={labels.closeButtonAltText}
+            ></lightning-button-icon>
         </div>
         <div class="slds-panel__body slds-p-around_none slds-grid">
             <div class={flowResourceListClass}>

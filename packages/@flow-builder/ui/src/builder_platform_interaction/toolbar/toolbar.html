@@ -3,10 +3,24 @@
         <!--Left Hand Side -->
         <!--TODO: Uncomment sections as we work on them-->
 
+        <!-- Toggle Left Panel -->
+        <lightning-button-icon-stateful
+            if:true={showLeftPanelToggle}
+            disabled={isSelectionMode}
+            variant="border-filled"
+            icon-name="utility:toggle_panel_left"
+            title={labels.leftPanelToggleTitle}
+            alternative-text={labels.leftPanelToggleTitle}
+            selected={isLeftPanelToggled}
+            onclick={handleToggleLeftPanelButtonClick}
+            class="slds-builder-toolbar__item-group test-toolbar-left-panel-toggle"
+        >
+        </lightning-button-icon-stateful>
+
         <!-- Select Button in ALC -->
         <lightning-button
             if:true={showSelectionButton}
-            class="test-toolbar-select slds-m-right_xx-small"
+            class="test-toolbar-select slds-m-right_xx-small slds-m-left_xx-small"
             icon-name="utility:multi_select_checkbox"
             label={labels.selectLabel}
             title={labels.selectTitle}
@@ -76,12 +90,6 @@
             class="slds-builder-toolbar__item-group test-toolbar-duplicate"
         >
         </lightning-button-icon>
-
-        <!-- Toggle Left Panel -->
-        <!--<div class="slds-builder-toolbar__item-group">-->
-        <!--<lightning-button-icon-stateful variant="border-filled" icon-name="utility:toggle_panel_left" title="Toggle Left Panel" alternative-text="Toggle Left Panel">-->
-        <!--</lightning-button-icon-stateful>-->
-        <!--</div>-->
 
         <!-- Flow Properties -->
         <lightning-button-icon

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import closeButtonAltText from '@salesforce/label/FlowBuilderLeftPanel.closeButtonAltText';
 import elementTabText from '@salesforce/label/FlowBuilderLeftPanel.elementTabText';
 import headerText from '@salesforce/label/FlowBuilderLeftPanel.headerText';
 import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText';
@@ -12,6 +13,7 @@ export const LABELS = {
     elementTabText,
     resourceTabText,
     backButtonAltText,
+    closeButtonAltText,
     newResourceButtonText,
     resourceSearchLabel,
     resourceSearchPlaceholder

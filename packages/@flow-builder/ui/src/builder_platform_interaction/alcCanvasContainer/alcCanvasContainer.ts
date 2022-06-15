@@ -106,6 +106,9 @@ export default class AlcCanvasContainer extends LightningElement {
     isSelectionMode;
 
     @api
+    showLeftPanel;
+
+    @api
     customIconMap;
 
     @api
@@ -147,7 +150,7 @@ export default class AlcCanvasContainer extends LightningElement {
 
     get canvasOffsets() {
         // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
-        return this.isSelectionMode
+        return this.showLeftPanel
             ? [LEFT_PANE_WIDTH, NODE_ICON_HALF_HEIGHT_WITH_PADDING]
             : [0, NODE_ICON_HALF_HEIGHT_WITH_PADDING];
     }

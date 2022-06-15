@@ -53,6 +53,7 @@ import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import { createElement } from 'lwc';
+import * as mockFlowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { LABELS } from '../../toolbar/toolbarLabels';
 import Editor from '../editor';
 import { isGuardrailsEnabled } from '../editorUtils';
@@ -67,6 +68,8 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
         loadAllSupportedFeatures: jest.fn(),
         loadFieldsForComplexTypesInFlow: jest.fn(),
         loadParametersForInvocableApexActionsInFlowFromMetadata: jest.fn(),
+        loadFieldsForExtensionsInFlowFromMetadata: jest.fn(),
+        loadFieldsForSubflowsInFlowFromMetadata: jest.fn(),
         loadOnStart: jest.fn().mockResolvedValue({}),
         loadOnProcessTypeChange: jest.fn().mockImplementation(() => {
             return {
@@ -175,7 +178,8 @@ jest.mock('builder_platform_interaction/triggerTypeLib', () => {
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 jest.mock('builder_platform_interaction/translatorLib', () => {
     return {
-        translateUIModelToFlow: jest.fn()
+        translateUIModelToFlow: jest.fn(),
+        translateFlowToUIModel: jest.fn()
     };
 });
 
@@ -192,6 +196,12 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                     callback({
                         error: { error: 'Something Wrong' }
                     });
+                } else {
+                    jest.fn().mockResolvedValue({});
+                }
+            } else if (actionType === actual.SERVER_ACTION_TYPE.GET_FLOW) {
+                if (params?.id === 'leftPanel') {
+                    callback({ data: mockFlowWithAllElements });
                 } else {
                     jest.fn().mockResolvedValue({});
                 }
@@ -373,6 +383,7 @@ const selectors = {
     root: '.editor',
     save: '.test-toolbar-save',
     addnewresource: '.test-left-panel-add-resource',
+    leftPanelToggle: '.test-toolbar-left-panel-toggle',
     canvasCombobox: '.canvas-mode-combobox',
     debug: '.test-toolbar-debug',
     test: '.test-toolbar-addToTest',
@@ -880,6 +891,41 @@ describe('editor', () => {
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(connectorElement);
+        });
+    });
+});
+
+describe('Left panel', () => {
+    let editorComponent;
+    let leftPanel;
+
+    beforeEach(() => {
+        editorComponent = createComponentUnderTest();
+        editorComponent.flowId = 'leftPanel';
+        leftPanel = editorComponent.shadowRoot.querySelector(selectors.LEFT_PANEL);
+    });
+
+    describe('in free-form mode', () => {
+        it('is present by default', async () => {
+            expect(leftPanel.classList).toContain('left-panel-show');
+            expect(leftPanel.classList).not.toContain('left-panel-hide');
+        });
+
+        it('is hidden after clicking close button', async () => {
+            const closeButton = leftPanel.shadowRoot.querySelector('.close-button');
+            closeButton.click();
+            await ticks(1);
+            expect(leftPanel.classList).toContain('left-panel-hide');
+            expect(leftPanel.classList).not.toContain('left-panel-show');
+        });
+
+        it('is hidden after clicking left panel toggle', async () => {
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+            const leftPanelToggle = toolbar.shadowRoot.querySelector(selectors.leftPanelToggle);
+            leftPanelToggle.click();
+            await ticks(1);
+            expect(leftPanel.classList).toContain('left-panel-hide');
+            expect(leftPanel.classList).not.toContain('left-panel-show');
         });
     });
 });

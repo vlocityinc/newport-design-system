@@ -230,7 +230,7 @@ describe('alc canvas container', () => {
     it('offsets when in selection mode', async () => {
         expect(getAlcCanvas().offsets).toEqual([0, 58]);
 
-        cmp.isSelectionMode = true;
+        cmp.showLeftPanel = true;
         await ticks(1);
         expect(getAlcCanvas().offsets).toEqual([320, 58]);
     });

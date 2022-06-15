@@ -10,7 +10,8 @@ import {
     AddElementEvent,
     DeleteElementEvent,
     EditElementEvent,
-    NewResourceEvent
+    NewResourceEvent,
+    ToggleLeftPanelEvent
 } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loggingUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
@@ -182,6 +183,12 @@ export default class LeftPanel extends LightningElement {
     handleResourceDetailsBackLinkClicked() {
         this.showResourceDetailsPanel = false;
         this.elementToFocus = 'leftPanelResources';
+    }
+
+    handleClosePanelButtonClicked() {
+        const toggleLeftPanelEvent = new ToggleLeftPanelEvent();
+        this.dispatchEvent(toggleLeftPanelEvent);
+        logInteraction(`close-panel-button`, 'left panel', null, 'click');
     }
 
     handleDeleteButtonClicked() {

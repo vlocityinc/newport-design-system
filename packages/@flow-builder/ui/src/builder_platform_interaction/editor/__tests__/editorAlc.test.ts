@@ -189,7 +189,33 @@ describe('auto-layout', () => {
             const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
             expect(alcCanvasContainer).not.toBeNull();
         });
-
+        describe('in left panel', () => {
+            let leftPanel, toolbar, leftPanelToggle;
+            beforeEach(async () => {
+                leftPanel = editorComponent.shadowRoot.querySelector(selectors.LEFT_PANEL);
+                expect(leftPanel).not.toBeNull();
+                toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+                leftPanelToggle = toolbar.shadowRoot.querySelector('.test-toolbar-left-panel-toggle');
+            });
+            it('is hidden by default', async () => {
+                expect(leftPanel.classList).toContain('left-panel-hide');
+                expect(leftPanel.classList).not.toContain('left-panel-show');
+            });
+            it('should be present after clicking left panel toggle', async () => {
+                leftPanelToggle.click();
+                await ticks(2);
+                expect(leftPanel.classList).toContain('left-panel-show');
+                expect(leftPanel.classList).not.toContain('left-panel-hide');
+            });
+            it('should be hidden after clicking left panel toggle and then clicking close button', async () => {
+                leftPanelToggle.click();
+                const closeButton = leftPanel.shadowRoot.querySelector('.close-button');
+                closeButton.click();
+                await ticks(2);
+                expect(leftPanel.classList).toContain('left-panel-hide');
+                expect(leftPanel.classList).not.toContain('left-panel-show');
+            });
+        });
         describe('in right panel', () => {
             let rightPanel;
             beforeEach(async () => {

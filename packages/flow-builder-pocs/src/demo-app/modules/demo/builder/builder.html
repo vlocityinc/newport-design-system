@@ -70,13 +70,13 @@
         </div>
 
         <div class="container">
-            <div class="left-pane" if:false={isSelectionMode}>
-                <builder_platform_interaction-left-panel
-                    onlocatoriconclicked={handleHighlightOnCanvas}
-                    elements={toolboxElements}
-                    palette={palette}
-                ></builder_platform_interaction-left-panel>
-            </div>
+            <builder_platform_interaction-left-panel
+                onlocatoriconclicked={handleHighlightOnCanvas}
+                elements={toolboxElements}
+                palette={palette}
+                class={leftPanelClass}
+            ></builder_platform_interaction-left-panel>
+
             <builder_platform_interaction-alc-canvas-container
                 oncanvasready={handleCanvasReady}
                 if:true={elementsMetadata}
@@ -96,6 +96,7 @@
                 oncopysingleelement={handleCopySingleElement}
                 onpasteoncanvas={handlePasteOnCanvas}
                 oneditelement={handleEditElement}
+                show-left-panel={showLeftPanel}
             >
             </builder_platform_interaction-alc-canvas-container>
         </div>
