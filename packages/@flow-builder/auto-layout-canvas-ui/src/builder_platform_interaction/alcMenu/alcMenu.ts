@@ -15,6 +15,8 @@ export default abstract class AlcMenu extends withKeyboardInteractions(Lightning
     protected isFirstRender = true;
     protected listKeyboardInteraction;
 
+    showSpinner = false;
+
     getKeyboardInteractions() {
         const listKeyboardInteraction = new ListKeyboardInteraction(this.template);
         this.listKeyboardInteraction = listKeyboardInteraction;

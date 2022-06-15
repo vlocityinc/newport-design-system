@@ -28,12 +28,13 @@ import {
     setVersioningDataInitialized
 } from 'builder_platform_interaction/systemLib';
 
-export const loadActions = (flowProcessType, flowTriggerType) =>
-    fetchOnce(
+export const loadActions = (flowProcessType, flowTriggerType) => {
+    return fetchOnce(
         SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS,
         { flowProcessType, flowTriggerType },
         { background: true }
     ).then(setInvocableActions);
+};
 
 export const loadApexPlugins = () => fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, {}, { background: true });
 

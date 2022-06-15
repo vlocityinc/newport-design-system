@@ -1,6 +1,6 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { isObject, isUndefinedOrNull, memoize } from 'builder_platform_interaction/commonUtils';
+import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     apexClassesMenuDataSelector,
@@ -8,9 +8,12 @@ import {
     getEventTypesMenuDataManagedSetup,
     getEventTypesMenuDataRunTime
 } from 'builder_platform_interaction/expressionUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './entityResourcePickerLabels';
+
+const { memoize } = commonUtils;
 
 const ENTITY_MODE = {
     SOBJECT: 'sobject',

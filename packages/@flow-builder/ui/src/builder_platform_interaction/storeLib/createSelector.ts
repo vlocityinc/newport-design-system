@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { memoize } from 'builder_platform_interaction/commonUtils';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+const { memoize } = commonUtils;
 
 /**
  * This is used to derive data from a state in the store.

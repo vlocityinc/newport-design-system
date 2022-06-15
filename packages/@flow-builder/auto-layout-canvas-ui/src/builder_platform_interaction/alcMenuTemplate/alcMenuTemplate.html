@@ -9,5 +9,17 @@
         <div if:true={showFooter} class="footer slds-border_top slds-p-around_small">
             <slot name="footer" onslotchange={handleSlotChange}></slot>
         </div>
+        <div if:true={showSpinner} class="spinner_top slds-border_top slds-p-around_small">
+            <div style="position: relative; background-color: transparent; display: inline-block; margin-left: 6em">
+                <div role="status" class="slds-spinner slds-spinner_small slds-spinner_brand">
+                    <span class="slds-assistive-text">{labels.loadingResultsText}</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+            <div style="display: inline; padding-left: 2em" class="color-text-brand">
+                <span>{labels.loadingResultsText}</span>
+            </div>
+        </div>
     </div>
 </template>

@@ -5,20 +5,35 @@ import { shortcuts } from 'builder_platform_interaction/app';
 import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
+import { DEFAULT_ACTION_ICON } from 'builder_platform_interaction/invocableActionLib';
+import { customIconUtils, lwcUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { api, LightningElement, track } from 'lwc';
 import { augmentElementsMetadata } from './alcCanvasContainerUtils';
 
+const { generateGuid } = storeUtils;
+const { removePrefixFromCustomIcon } = customIconUtils;
+
 // TODO: W-9613981 [Trust] Remove hardcoded alccanvas offsets
 const LEFT_PANE_WIDTH = 320;
 const NODE_ICON_HALF_HEIGHT_WITH_PADDING = 58;
-
+const SLDS_ICON_PREFIX = 'slds';
 let storeInstance;
+
+// Indicates for each category if data loading is in progress
+// true means it's still loading, false means it's completed
+const dataLoadingIndicator = {
+    actions: true,
+    subflows: false, // TODO: Change this to true when adding subflows
+    elementSubtypes: false // TODO: Change this to true when adding elementSubtypes
+};
+type ConnectorMenuMetadataCategory = keyof typeof dataLoadingIndicator;
 
 const defaultConnectorMenuMetadata: ConnectorMenuMetadata = {
     elementTypes: new Set<string>(),
-    menuComponent: 'builder_platform_interaction/alcConnectorMenu'
+    menuComponent: 'builder_platform_interaction/alcConnectorMenu',
+    isLoading: true,
+    menuItems: []
 };
 
 const selectors = {
@@ -41,6 +56,8 @@ export default class AlcCanvasContainer extends LightningElement {
     @track
     _elementsMetadata;
 
+    _invocableActions = [];
+
     _startElement!: UI.Start;
 
     @track
@@ -62,6 +79,18 @@ export default class AlcCanvasContainer extends LightningElement {
 
     get elementsMetadata() {
         return this._elementsMetadata;
+    }
+
+    @api
+    set invocableActions(actions) {
+        const menuItems = actions?.map(this.augmentActionToMenuItem);
+        this._invocableActions = actions;
+        const category: ConnectorMenuMetadataCategory = 'actions';
+        this.addConnectorMenuItems(menuItems, category);
+    }
+
+    get invocableActions() {
+        return this._invocableActions;
     }
 
     /**
@@ -192,6 +221,56 @@ export default class AlcCanvasContainer extends LightningElement {
         this._connectorMenuMetadata = {
             ...this._connectorMenuMetadata,
             elementTypes: new Set(connectorMenuElementTypes) // TODO: do we still need this? Can we just use elementsMetadata in alc canvas?
+        };
+    }
+
+    addConnectorMenuItems(menuItems: ConnectorMenuItem[], itemCategory: ConnectorMenuMetadataCategory) {
+        const connectorMenuElementTypes = this._elementsMetadata?.map(({ elementType }) => elementType);
+        const elementTypes = connectorMenuElementTypes ? new Set<string>(connectorMenuElementTypes) : new Set<string>();
+        const isLoading = this.checkIfDataIsStillLoading(itemCategory);
+        this._connectorMenuMetadata = {
+            ...this._connectorMenuMetadata,
+            elementTypes,
+            isLoading,
+            menuItems
+        };
+    }
+
+    checkIfDataIsStillLoading(itemCategory: ConnectorMenuMetadataCategory) {
+        // We need to set to false for the cagtegory to indicate data loading is no longer in progress
+        dataLoadingIndicator[itemCategory] = false;
+        // If any category is still loading, data is marked as still loading
+        return Object.values(dataLoadingIndicator).includes(true);
+    }
+
+    augmentActionToMenuItem(action): ConnectorMenuItem {
+        // Do augmentation from action descriptor to ConnectorMenuItem data format
+        let icon, iconSrc, iconClass;
+        if (action.iconName) {
+            const prefix = action.iconName.split(':')[0];
+            const resource = removePrefixFromCustomIcon(action.iconName);
+            ({ icon, iconSrc } =
+                prefix === SLDS_ICON_PREFIX ? { icon: resource, iconSrc: null } : { icon: null, iconSrc: resource });
+        } else {
+            ({ icon, iconClass } = DEFAULT_ACTION_ICON);
+        }
+        return {
+            guid: generateGuid(),
+            description: action.description,
+            label: action.label,
+            elementType: ELEMENT_TYPE.ACTION_CALL,
+            actionType: action.type,
+            actionName: action.name,
+            actionIsStandard: action.isStandard,
+            icon,
+            iconSrc,
+            iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+            iconClass,
+            iconSize: 'small',
+            iconVariant: '',
+            rowClass: 'slds-listbox__item',
+            elementSubtype: null,
+            tooltip: action.description ? action.label + ': ' + action.description : action.label
         };
     }
 

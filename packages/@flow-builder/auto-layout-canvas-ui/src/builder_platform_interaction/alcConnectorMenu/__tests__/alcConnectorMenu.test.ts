@@ -5,6 +5,7 @@ import {
     GoToPathEvent,
     PasteOnCanvasEvent
 } from 'builder_platform_interaction/alcEvents';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { removeDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
@@ -110,6 +111,19 @@ const selectors = {
     decisionIcon: '.rotate-icon-svg',
     endIcon: '.background-red.end-element-svg'
 };
+
+const changeSearchInput = (cmp, inputChange) => {
+    const lightningInput = cmp.shadowRoot.querySelector('lightning-input');
+    lightningInput.dispatchEvent(
+        new CustomEvent('change', {
+            detail: {
+                value: inputChange
+            }
+        })
+    );
+};
+
+const getAlcMenuTemplate = (cmp) => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-menu-template');
 
 const defaultOptions = {
     source: {}
@@ -427,5 +441,37 @@ describe('Alc Connector Menu', () => {
         listItems[0].focus();
         cmp.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
         expect(callback).toHaveBeenCalled();
+    });
+
+    it('should show a spinner when the dataLoading is not complete and there is search input', async () => {
+        const cmp = await createComponentUnderTest({
+            metadata: {
+                elementTypes: new Set(),
+                isLoading: true,
+                menuItems: []
+            }
+        });
+        const noInputSpinnerValue = getAlcMenuTemplate(cmp).showSpinner;
+        // No input yet so spinner should not show
+        expect(noInputSpinnerValue).toBeFalsy();
+        changeSearchInput(cmp, 'some input');
+        await ticks(3);
+        // After putting input spinner should start showing
+        const withInputSpinnerValue = getAlcMenuTemplate(cmp).showSpinner;
+        expect(withInputSpinnerValue).toBeTruthy();
+    });
+
+    it('should not show a spinner when the dataLoading is complete', async () => {
+        const cmp = await createComponentUnderTest({
+            metadata: {
+                elementTypes: new Set(),
+                isLoading: false,
+                menuItems: []
+            }
+        });
+        changeSearchInput(cmp, 'some input');
+        await ticks(2);
+        const spinnerValue = getAlcMenuTemplate(cmp).showSpinner;
+        expect(spinnerValue).toBeFalsy();
     });
 });

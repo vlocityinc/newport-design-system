@@ -2,11 +2,12 @@
 import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { getChildElementTypesWithOverridenProperties } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { DEFAULT_ACTION_ICON } from 'builder_platform_interaction/invocableActionLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { augmentElementsMetadata } from '../alcCanvasContainerUtils';
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
-
+jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 jest.mock('builder_platform_interaction/storeLib');
 
 const elementsMetadata = [
@@ -134,6 +135,48 @@ const elementsMetadata = [
     }
 ];
 
+const invocableActions = [
+    {
+        isStandard: false,
+        allowsTransactionControl: true,
+        iconName: 'resource:/resource/1653591244000/customsvg#top',
+        name: 'CustomSVGIconAction',
+        description: 'Test Action with Static Resource',
+        configurationEditor: null,
+        label: 'Action with Static Resource Icon',
+        type: 'apex',
+        category: 'Static',
+        genericTypes: [],
+        durableId: 'apex-CustomSVGIconAction'
+    },
+    {
+        isStandard: false,
+        allowsTransactionControl: true,
+        iconName: 'slds:standard:feed',
+        name: 'ActionWithSldsIcon',
+        description: 'Test Action with Slds Icon',
+        configurationEditor: null,
+        label: 'Action with Slds Icon',
+        type: 'apex',
+        category: 'SLDS',
+        genericTypes: [],
+        durableId: 'apex-ActionWithSldsIcon'
+    },
+    {
+        isStandard: true,
+        allowsTransactionControl: false,
+        iconName: null,
+        name: 'chatterPost',
+        description: 'Post to the feed for a specific record, user, or Chatter group.',
+        configurationEditor: null,
+        label: 'Post to Chatter',
+        type: 'chatterPost',
+        category: 'Messaging',
+        genericTypes: [],
+        durableId: 'chatterPost-chatterPost'
+    }
+];
+
 const startElement = {
     elementType: 'START_ELEMENT'
 };
@@ -143,7 +186,8 @@ const createComponentForTest = async (optionsOverrides = {}) => {
         {
             elementsMetadata,
             isSelectionMode: false,
-            numPasteElementsAvailable: 0
+            numPasteElementsAvailable: 0,
+            invocableActions
         },
         optionsOverrides
     );
@@ -231,11 +275,69 @@ describe('alc canvas container', () => {
             'ApexPlugin',
             'EXTERNAL_SERVICE'
         ]);
+        const expectedMenuItems = [
+            {
+                guid: 'random_guid',
+                description: 'Test Action with Static Resource',
+                label: 'Action with Static Resource Icon',
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: 'apex',
+                actionName: 'CustomSVGIconAction',
+                actionIsStandard: false,
+                icon: null,
+                iconSrc: '/resource/1653591244000/customsvg#top',
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: undefined,
+                iconSize: 'small',
+                iconVariant: '',
+                rowClass: 'slds-listbox__item',
+                elementSubtype: null,
+                tooltip: 'Action with Static Resource Icon: Test Action with Static Resource'
+            },
+            {
+                guid: 'random_guid',
+                description: 'Test Action with Slds Icon',
+                label: 'Action with Slds Icon',
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: 'apex',
+                actionName: 'ActionWithSldsIcon',
+                actionIsStandard: false,
+                icon: 'standard:feed',
+                iconSrc: null,
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: undefined,
+                iconSize: 'small',
+                iconVariant: '',
+                rowClass: 'slds-listbox__item',
+                elementSubtype: null,
+                tooltip: 'Action with Slds Icon: Test Action with Slds Icon'
+            },
+            {
+                guid: 'random_guid',
+                description: 'Post to the feed for a specific record, user, or Chatter group.',
+                label: 'Post to Chatter',
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: 'chatterPost',
+                actionName: 'chatterPost',
+                actionIsStandard: true,
+                icon: DEFAULT_ACTION_ICON.icon,
+                iconSrc: undefined,
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: DEFAULT_ACTION_ICON.iconClass,
+                iconSize: 'small',
+                iconVariant: '',
+                rowClass: 'slds-listbox__item',
+                elementSubtype: null,
+                tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.'
+            }
+        ];
+        const expectedIsLoading = false;
 
-        const { menuComponent, elementTypes } = getAlcCanvas().connectorMenuMetadata;
-
+        const { menuComponent, elementTypes, isLoading, menuItems } = getAlcCanvas().connectorMenuMetadata;
         expect(menuComponent).toEqual('builder_platform_interaction/alcConnectorMenu');
         expect(elementTypes).toEqual(expectedElementTypes);
+        expect(isLoading).toEqual(expectedIsLoading);
+        expect(menuItems).toEqual(expectedMenuItems);
     });
 
     it('augments the metadata', () => {

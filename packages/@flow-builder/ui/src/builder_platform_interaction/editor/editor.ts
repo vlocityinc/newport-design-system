@@ -110,7 +110,7 @@ import {
     SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
-import { getActionIconMap } from 'builder_platform_interaction/invocableActionLib';
+import { getActionIconMap, getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import {
     initializeLoader,
@@ -376,6 +376,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     @track
     _customIconMap = {};
+
+    invocableActions = [];
 
     topSelectedGuid = null;
     cutOrCopiedCanvasElements = {};
@@ -1015,6 +1017,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             if (actionsTriggerTypePromise || actionsProcessTypePromise) {
                 Promise.all([actionsTriggerTypePromise, actionsProcessTypePromise]).then(() => {
                     this._customIconMap = getActionIconMap();
+                    this.invocableActions = getInvocableActions();
                 });
             }
 

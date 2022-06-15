@@ -19,6 +19,11 @@ export type InvocableAction = {
     displayText?: string | ValueWithError;
 };
 
+export const DEFAULT_ACTION_ICON = {
+    icon: 'standard:custom_notification',
+    iconClass: 'background-navy'
+};
+
 /**
  * @param actions
  */

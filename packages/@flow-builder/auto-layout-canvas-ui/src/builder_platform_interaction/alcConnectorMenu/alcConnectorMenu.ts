@@ -18,8 +18,13 @@ import { LABELS } from './alcConnectorMenuLabels';
 export default class AlcConnectorMenu extends AlcMenu {
     static className = 'connector-menu';
 
-    @api
-    metadata!: ConnectorMenuMetadata;
+    _searchableMenuData = {};
+
+    _metadata!: ConnectorMenuMetadata;
+
+    searchInput = '';
+
+    actionsLoaded = [];
 
     @api
     source!: ConnectionSource;
@@ -40,9 +45,22 @@ export default class AlcConnectorMenu extends AlcMenu {
     @api
     isGoToConnector!: boolean;
 
+    @api
+    set metadata(metadata) {
+        // We need to change Spinner Indicator
+        // whenever metadata is changed
+        this._metadata = metadata;
+        this.showSpinner = this.shouldShowSpinner();
+    }
+
+    get metadata() {
+        return this._metadata;
+    }
+
     get menuConfiguration() {
         return configureMenu(
-            this.metadata,
+            this.searchInput,
+            this._metadata,
             this.elementsMetadata,
             this.canAddEndElement,
             this.numPasteElementsAvailable,
@@ -53,6 +71,24 @@ export default class AlcConnectorMenu extends AlcMenu {
 
     get labels() {
         return LABELS;
+    }
+
+    shouldShowSpinner() {
+        return (this.searchInput && this._metadata.isLoading) as boolean;
+    }
+
+    handleElementSearchInputChange(event) {
+        event.stopPropagation();
+        this.searchInput = event.detail.value;
+        this.showSpinner = this.shouldShowSpinner();
+    }
+
+    handleInputClick(event) {
+        event.stopPropagation();
+    }
+
+    handleInputKeydown(event) {
+        event.stopPropagation();
     }
 
     /**

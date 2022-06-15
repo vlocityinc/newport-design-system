@@ -1,5 +1,6 @@
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { LightningElement, track } from 'lwc';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './alcMenuTemplateLabels';
 
 const selectors = {
     slot: (slotName) => `slot[name="${slotName}"]`
@@ -19,6 +20,13 @@ export default class AlcMenuTemplate extends LightningElement {
 
     @track
     showFooter = true;
+
+    @api
+    showSpinner = false;
+
+    get labels() {
+        return LABELS;
+    }
 
     connectedCallback(): void {
         this.classList.add('menu', 'overlay', 'slds-dropdown');
