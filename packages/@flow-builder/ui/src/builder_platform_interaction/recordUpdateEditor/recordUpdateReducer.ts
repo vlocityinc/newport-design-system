@@ -119,7 +119,10 @@ const resetRecordUpdate = (state, resetObject) => {
     state = resetFilter(state);
 
     // reset FilterLogic
-    if (state.wayToFindRecords.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD) {
+    if (
+        state.wayToFindRecords.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD ||
+        state.wayToFindRecords.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP
+    ) {
         state = set(state, 'filterLogic', { value: CONDITION_LOGIC.NO_CONDITIONS, error: null });
     } else {
         state = set(state, 'filterLogic', { value: CONDITION_LOGIC.AND, error: null });

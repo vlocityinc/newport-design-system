@@ -18,13 +18,17 @@ import searchRecords from '@salesforce/label/FlowBuilderRecordEditor.searchRecor
 import selectRecordsToUpdate from '@salesforce/label/FlowBuilderRecordEditor.selectRecordsToUpdate';
 import updateRecordOfThisObject from '@salesforce/label/FlowBuilderRecordEditor.updateRecordOfThisObject';
 import usingCriteriaLabel from '@salesforce/label/FlowBuilderRecordEditor.usingCriteriaLabel';
+import filterCriteriaRelatedRecords from '@salesforce/label/FlowBuilderRecordUpdateEditor.filterCriteriaRelatedRecords';
 import filterNoCriteriaUpdateTriggering from '@salesforce/label/FlowBuilderRecordUpdateEditor.filterNoCriteriaUpdateTriggering';
 import findRecordsLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.findRecords';
 import recordPluralLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordPluralLabel';
 import recordSingularLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordSingularLabel';
+import relatedRecordsPickerPlaceholder from '@salesforce/label/FlowBuilderRecordUpdateEditor.relatedRecordsPickerPlaceholder';
+import selectRelatedRecords from '@salesforce/label/FlowBuilderRecordUpdateEditor.selectRelatedRecords';
 import setFieldValuesForTheRecordsFormat from '@salesforce/label/FlowBuilderRecordUpdateEditor.setFieldValuesForTheRecordsFormat';
 import triggeringRecordLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.triggeringRecordLabel';
 import triggeringScheduledRecordLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.triggeringScheduledRecordLabel';
+import updateRecordsRelatedToTriggeredFlow from '@salesforce/label/FlowBuilderRecordUpdateEditor.updateRecordsRelatedToTriggeredFlow';
 import wayToFindRecordsInfoMessage from '@salesforce/label/FlowBuilderRecordUpdateEditor.wayToFindRecordsInfoMessage';
 
 export const LABELS = {
@@ -53,5 +57,9 @@ export const LABELS = {
     wayToFindRecordsInfoMessage,
     recordSingularLabel,
     recordPluralLabel,
-    findRecordsLabel
+    findRecordsLabel,
+    updateRecordsRelatedToTriggeredFlow,
+    selectRelatedRecords,
+    filterCriteriaRelatedRecords,
+    relatedRecordsPickerPlaceholder
 };

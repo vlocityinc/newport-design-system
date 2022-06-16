@@ -467,7 +467,8 @@ export enum FlowScreenFieldType {
 export enum RECORD_UPDATE_WAY_TO_FIND_RECORDS {
     TRIGGERING_RECORD = 'triggeringRecord',
     SOBJECT_REFERENCE = 'sObjectReference',
-    RECORD_LOOKUP = 'recordLookup'
+    RECORD_LOOKUP = 'recordLookup',
+    RELATED_RECORD_LOOKUP = 'relatedRecordLookup'
 }
 
 export enum FlowComparisonOperator {

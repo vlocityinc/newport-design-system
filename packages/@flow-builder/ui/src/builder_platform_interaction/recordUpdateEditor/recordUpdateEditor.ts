@@ -103,10 +103,9 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get recordFilterOptions() {
-        let noCriteria = format(LABELS.filterNoCriteriaUpdate, this.recordEntityName);
-        if (this.isTriggeringRecord) {
-            noCriteria = LABELS.filterNoCriteriaUpdateTriggering;
-        }
+        const noCriteria = this.isTriggeringOrRelatedRecord
+            ? LABELS.filterNoCriteriaUpdateTriggering
+            : format(LABELS.filterNoCriteriaUpdate, this.recordEntityName);
 
         return [
             {
@@ -128,8 +127,8 @@ export default class RecordUpdateEditor extends LightningElement {
         ];
     }
 
-    get showWarningMessage(): boolean {
-        return !this.isTriggeringRecord;
+    get showWarningMessage() {
+        return !this.isTriggeringOrRelatedRecord;
     }
 
     get wayToFindRecordOptions() {
@@ -153,8 +152,12 @@ export default class RecordUpdateEditor extends LightningElement {
                     : LABELS.triggeringRecordLabel;
             return [
                 {
-                    label: format(label, getEntity(this.dollarRecordName())?.entityLabel?.toLowerCase()),
+                    label: this.formatWithEntityLabel(label),
                     value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
+                },
+                {
+                    label: this.formatWithEntityLabel(LABELS.updateRecordsRelatedToTriggeredFlow),
+                    value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP
                 },
                 ...opts
             ];
@@ -167,7 +170,7 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get recordFilterTitle() {
-        return this.isTriggeringRecord ? this.labels.findRecordsLabel : undefined;
+        return this.isTriggeringOrRelatedRecord ? this.labels.findRecordsLabel : undefined;
     }
 
     /**
@@ -198,16 +201,31 @@ export default class RecordUpdateEditor extends LightningElement {
         );
     }
 
+    get isRelatedRecordLookup() {
+        return (
+            getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords) ===
+            RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP
+        );
+    }
+
     get objectName(): string {
         return getValueFromHydratedItem(this.state.recordUpdateElement.object);
     }
 
-    get showConditionsAndAssignments(): boolean {
-        return this.isTriggeringRecord || (this.isRecordLookup && this.objectName !== '');
+    get showConditionsAndAssignments() {
+        return this.isTriggeringOrRelatedRecord || (this.isRecordLookup && this.objectName !== '');
+    }
+
+    get showSobjectPicker() {
+        return this.isRelatedRecordLookup || this.isSobjectReference;
     }
 
     get recordEntityName(): string {
-        return this.isTriggeringRecord ? this.dollarRecordName() : this.objectName;
+        return this.isTriggeringOrRelatedRecord ? this.dollarRecordName() : this.objectName;
+    }
+
+    get isTriggeringOrRelatedRecord() {
+        return this.isTriggeringRecord || this.isRelatedRecordLookup;
     }
 
     get showSobjectLookup() {
@@ -238,6 +256,28 @@ export default class RecordUpdateEditor extends LightningElement {
             return entityToDisplay.entityLabel;
         }
         return '';
+    }
+
+    get filterCriteriaRelatedRecordsLabel() {
+        return format(LABELS.filterCriteriaRelatedRecords, this.entityLabel);
+    }
+
+    get sObjectPickerHeader() {
+        return this.isRelatedRecordLookup ? LABELS.selectRelatedRecords : LABELS.selectRecordsToUpdate;
+    }
+
+    get sObjectPickerLabel() {
+        return this.isRelatedRecordLookup
+            ? this.filterCriteriaRelatedRecordsLabel
+            : LABELS.recordVariableOrRecordCollectionVariable;
+    }
+
+    get sObjectPickerPlaceholder() {
+        return this.isRelatedRecordLookup ? LABELS.relatedRecordsPickerPlaceholder : LABELS.searchRecords;
+    }
+
+    get entityLabel() {
+        return getEntity(this.dollarRecordName())?.entityLabel ?? '';
     }
 
     /**
@@ -301,7 +341,10 @@ export default class RecordUpdateEditor extends LightningElement {
         event.stopPropagation();
         this.updateProperty('wayToFindRecords', event.detail.value, event.detail.error);
 
-        if (event.detail.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD) {
+        if (
+            event.detail.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD ||
+            event.detail.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP
+        ) {
             this.updateFields(this.recordEntityName);
         }
     }
@@ -337,5 +380,9 @@ export default class RecordUpdateEditor extends LightningElement {
         const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
         this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, propChangedEvent);
+    }
+
+    formatWithEntityLabel(label: string) {
+        return format(label, this.entityLabel.toLowerCase());
     }
 }

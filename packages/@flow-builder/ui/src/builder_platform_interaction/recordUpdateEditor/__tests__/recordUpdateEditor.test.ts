@@ -217,6 +217,71 @@ const triggeringRecordElement = {
     }
 };
 
+const relatedRecordLookupElement = {
+    guid: '574474cf-2e90-43e4-8f04-95a03e87dd8d',
+    name: {
+        value: '',
+        error: null
+    },
+    description: {
+        value: '',
+        error: null
+    },
+    label: {
+        value: '',
+        error: null
+    },
+    locationX: 444,
+    locationY: 63.3125,
+    isCanvasElement: true,
+    connectorCount: 0,
+    config: {
+        isSelected: false,
+        isHighlighted: false,
+        isSelectable: true
+    },
+    elementSubtype: {
+        value: null,
+        error: null
+    },
+    inputReference: {
+        value: '',
+        error: null
+    },
+    inputReferenceIndex: {
+        value: '8fd8d550-7478-4411-93ab-3c844fb93cfc',
+        error: null
+    },
+    maxConnections: 2,
+    availableConnections: [
+        {
+            type: 'REGULAR'
+        },
+        {
+            type: 'FAULT'
+        }
+    ],
+    elementType: 'RecordUpdate',
+    inputAssignments: [],
+    filters: [],
+    filterLogic: {
+        value: CONDITION_LOGIC.NO_CONDITIONS,
+        error: null
+    },
+    object: {
+        value: '',
+        error: null
+    },
+    objectIndex: {
+        value: '0d5629a2-48b2-4ea0-9603-a7a43e0a0ca6',
+        error: null
+    },
+    wayToFindRecords: {
+        value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP,
+        error: null
+    }
+};
+
 const getSObjectOrSObjectCollectionPicker = (recordUpdateEditor) =>
     recordUpdateEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 
@@ -311,7 +376,7 @@ describe('record-update-editor', () => {
             it('has a visible radioGroup', () => {
                 const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
                 expect(wayToFindRecords).not.toBeNull();
-                expect(wayToFindRecords.options).toHaveLength(3);
+                expect(wayToFindRecords.options).toHaveLength(4);
                 expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD);
             });
             it('has visible recordFilters where filter logic is NO_CONDITIONS and filters are empty', () => {
@@ -321,6 +386,36 @@ describe('record-update-editor', () => {
             });
             it('has visible inputAssignments', () => {
                 expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
+            });
+        });
+        describe('using relatedRecordLookup', () => {
+            let recordUpdateEditor: RecordUpdateEditor;
+            beforeAll(() => {
+                (getTriggerType as jest.Mock).mockReturnValue(MOCK_AFTER_SAVE);
+            });
+            beforeEach(() => {
+                recordUpdateEditor = createComponentForTest(relatedRecordLookupElement);
+            });
+            it('contains an entity resource picker for sobject', () => {
+                const sObjectPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
+                expect(sObjectPicker).not.toBeNull();
+            });
+            it('has a visible radioGroup', () => {
+                const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
+                expect(wayToFindRecords).not.toBeNull();
+                expect(wayToFindRecords.options).toHaveLength(4);
+                expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP);
+            });
+            it('has visible recordFilters where filter logic is NO_CONDITIONS and filters are empty', () => {
+                const recordFilter = getRecordFilter(recordUpdateEditor);
+                expect(recordFilter).not.toBeNull();
+                expect(recordFilter.filterLogic.value).toBe(CONDITION_LOGIC.NO_CONDITIONS);
+            });
+            it('has visible inputAssignments', () => {
+                expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
+            });
+            it('does not have a visible entity picker', () => {
+                expect(getEntityResourcePicker(recordUpdateEditor)).toBeNull();
             });
         });
     });
@@ -411,14 +506,17 @@ describe('record-update-editor', () => {
                 expect(wayToFindRecords).not.toBeNull();
                 expect(wayToFindRecords.disabled).toBeFalsy();
             });
-            it('has a radioGroup with 3 options', () => {
+            it('has a radioGroup with 4 options', () => {
                 const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
-                expect(wayToFindRecords.options).toHaveLength(3);
+                expect(wayToFindRecords.options).toHaveLength(4);
                 expect(wayToFindRecords.options[0].label).toBe('FlowBuilderRecordUpdateEditor.triggeringRecordLabel');
                 expect(wayToFindRecords.options[1].label).toBe(
+                    'FlowBuilderRecordUpdateEditor.updateRecordsRelatedToTriggeredFlow'
+                );
+                expect(wayToFindRecords.options[2].label).toBe(
                     'FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel'
                 );
-                expect(wayToFindRecords.options[2].label).toBe('FlowBuilderRecordEditor.usingCriteriaLabel');
+                expect(wayToFindRecords.options[3].label).toBe('FlowBuilderRecordEditor.usingCriteriaLabel');
             });
             it('has visible recordFilters', () => {
                 const recordFilter = getRecordFilter(recordUpdateEditor);
@@ -563,14 +661,17 @@ describe('record-update-editor', () => {
                 const recordUpdateNode = getElementForPropertyEditor(updateElement);
                 recordUpdateEditor = createComponentForTest(recordUpdateNode);
             });
-            it('has a radioGroup with 3 options', () => {
+            it('has a radioGroup with 4 options', () => {
                 const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
-                expect(wayToFindRecords.options).toHaveLength(3);
+                expect(wayToFindRecords.options).toHaveLength(4);
                 expect(wayToFindRecords.options[0].label).toBe('FlowBuilderRecordUpdateEditor.triggeringRecordLabel');
                 expect(wayToFindRecords.options[1].label).toBe(
+                    'FlowBuilderRecordUpdateEditor.updateRecordsRelatedToTriggeredFlow'
+                );
+                expect(wayToFindRecords.options[2].label).toBe(
                     'FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel'
                 );
-                expect(wayToFindRecords.options[2].label).toBe('FlowBuilderRecordEditor.usingCriteriaLabel');
+                expect(wayToFindRecords.options[3].label).toBe('FlowBuilderRecordEditor.usingCriteriaLabel');
             });
         });
         describe('using triggeringRecord for scheduled flow', () => {
@@ -589,16 +690,19 @@ describe('record-update-editor', () => {
                 const recordUpdateNode = getElementForPropertyEditor(updateElement);
                 recordUpdateEditor = createComponentForTest(recordUpdateNode);
             });
-            it('has a radioGroup with 3 options', () => {
+            it('has a radioGroup with 4 options', () => {
                 const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
-                expect(wayToFindRecords.options).toHaveLength(3);
+                expect(wayToFindRecords.options).toHaveLength(4);
                 expect(wayToFindRecords.options[0].label).toBe(
                     'FlowBuilderRecordUpdateEditor.triggeringScheduledRecordLabel'
                 );
                 expect(wayToFindRecords.options[1].label).toBe(
+                    'FlowBuilderRecordUpdateEditor.updateRecordsRelatedToTriggeredFlow'
+                );
+                expect(wayToFindRecords.options[2].label).toBe(
                     'FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel'
                 );
-                expect(wayToFindRecords.options[2].label).toBe('FlowBuilderRecordEditor.usingCriteriaLabel');
+                expect(wayToFindRecords.options[3].label).toBe('FlowBuilderRecordEditor.usingCriteriaLabel');
             });
         });
         describe('using fields', () => {
