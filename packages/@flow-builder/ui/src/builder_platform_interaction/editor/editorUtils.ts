@@ -405,7 +405,7 @@ export const getElementsToBeDeleted = (
             canvasElementGuidsToDelete,
             connectorsToDelete,
             selectedElementType,
-            childIndexToKeep || undefined,
+            childIndexToKeep,
             parentGUID
         );
     }

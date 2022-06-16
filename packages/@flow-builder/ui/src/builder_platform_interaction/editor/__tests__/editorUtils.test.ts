@@ -433,6 +433,29 @@ describe('Editor Utils Test', () => {
             });
         });
 
+        it('dispatch deleteElement action when childIndexToKeep is 0 results in the dispatch also having childIndexToKeep as 0 W-11296861', () => {
+            const selectedElementGUID = ['canvasElement1'];
+            const selectedElementType = mockElementType.DECISION;
+
+            const payload = {
+                selectedElements: [canvasElement1],
+                connectorsToDelete: [],
+                elementType: mockElementType.DECISION,
+                childIndexToKeep: 0
+            };
+
+            getElementsToBeDeleted(storeInstance, {
+                selectedElementGUID,
+                selectedElementType,
+                childIndexToKeep: 0
+            });
+
+            expect(dispatch).toHaveBeenCalledWith({
+                type: 'deleteElement',
+                payload
+            });
+        });
+
         it('dispatch deleteElement action when isMultiElementDelete is false and all connectors are involved', () => {
             const selectedElementGUID = ['canvasElement2'];
             const selectedElementType = mockElementType.ASSIGNMENT;
