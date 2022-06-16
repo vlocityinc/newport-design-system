@@ -18,7 +18,10 @@ const { loggingUtils, storeUtils, commonUtils } = sharedUtils;
 const Keys = keyboardInteractionUtils.Keys;
 
 const focusUtils = {
-    getElementWithFocus: jest.fn()
+    getElementWithFocus: jest.fn(),
+    restoreFocus: jest.fn(),
+    clearStashFocus: jest.fn(),
+    stashFocus: jest.fn()
 };
 
 const appGuidanceUtils = jest.requireActual('builder_platform_interaction/sharedUtils/appGuidanceUtils');

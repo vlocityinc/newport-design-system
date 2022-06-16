@@ -23,8 +23,7 @@ import {
     EditElementEvent,
     ZOOM_ACTION
 } from 'builder_platform_interaction/events';
-import { commands, invokeModal } from 'builder_platform_interaction/sharedUtils';
-import { findNode } from '../alcCanvasUtils';
+import { commands, focusUtils, invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { elementsMetadata, flowModel, flowModelForCutPaste } from './mockData';
 
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
@@ -246,6 +245,8 @@ describe('Auto Layout Canvas', () => {
         } else if (isConnectorMenuOpened) {
             expectedType = MenuType.CONNECTOR;
         }
+
+        expect(focusUtils.stashFocus).toHaveBeenCalled();
 
         if (expectedType != null) {
             expect(menu.type).toBe(expectedType);
@@ -1052,46 +1053,19 @@ describe('Auto Layout Canvas', () => {
     });
 
     describe('Handling CloseMenuEvent', () => {
-        describe('When node menu is closed', () => {
-            test.each`
-                menu                                                            | moveFocusToTrigger | shouldFocusOnNode
-                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${undefined}       | ${false}
-                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${null}            | ${false}
-                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${false}           | ${false}
-                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${true}            | ${false}
-                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${undefined}       | ${true}
-                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${null}            | ${false}
-                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${false}           | ${false}
-                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${true}            | ${true}
-            `(
-                'should call focus on node: $shouldFocusOnNode',
-                async ({ menu, moveFocusToTrigger, shouldFocusOnNode }) => {
-                    await dispatchEvent(getFlow(), new ToggleMenuEvent(menu));
-                    await dispatchEvent(getFlow(), new CloseMenuEvent(moveFocusToTrigger));
-
-                    if (shouldFocusOnNode) {
-                        expect(findNode.mock.calls[0][0]).toEqual(menu.source.guid);
-                    } else {
-                        expect(findNode).not.toHaveBeenCalled();
-                    }
-                }
-            );
-        });
-
-        describe('When connector menu is closed', () => {
-            test.each`
-                menu                                                            | shouldFocusOnConnector
-                ${{ type: MenuType.CONNECTOR, source: { guid: 'screen-one' } }} | ${true}
-                ${{ type: MenuType.NODE, source: { guid: 'screen-one' } }}      | ${false}
-            `('should call focus on connector: $shouldFocusOnConnector', async ({ menu, shouldFocusOnConnector }) => {
-                await dispatchEvent(getFlow(), new ToggleMenuEvent(menu));
+        describe('When menu is closed', () => {
+            it('restores to focus', async () => {
                 await dispatchEvent(getFlow(), new CloseMenuEvent());
 
-                if (shouldFocusOnConnector) {
-                    expect(cmp.focusOnConnector).toHaveBeenCalledWith({ guid: 'screen-one' });
-                } else {
-                    expect(cmp.focusOnConnector).not.toHaveBeenCalled();
-                }
+                expect(focusUtils.restoreFocus).toHaveBeenCalled();
+                expect(focusUtils.clearStashFocus).not.toHaveBeenCalled();
+            });
+
+            it('clears the focus when restore focus is false', async () => {
+                const restoreFocus = false;
+                await dispatchEvent(getFlow(), new CloseMenuEvent(restoreFocus));
+                expect(focusUtils.restoreFocus).not.toHaveBeenCalled();
+                expect(focusUtils.clearStashFocus).toHaveBeenCalled();
             });
         });
     });

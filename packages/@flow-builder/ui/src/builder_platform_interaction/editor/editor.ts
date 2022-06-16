@@ -1614,7 +1614,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     handleUpdateAutolayoutCanvasMode = (event) => {
         this.autolayoutCanvasMode = event.detail.mode;
         this.handleClosePropertyEditor();
-        this.template.querySelector<HTMLElement>(PANELS.TOOLBAR)?.focus();
     };
 
     /**
