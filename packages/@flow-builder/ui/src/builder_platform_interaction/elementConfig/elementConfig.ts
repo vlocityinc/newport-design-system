@@ -580,6 +580,10 @@ export const elementTypeToConfigMap: {
         areChildElementsSupported: true,
         canHaveDefaultConnector: true,
         propertyEditorPanelSize: PROPERTY_EDITOR_PANEL_SIZE.FULL,
+        childReferenceKey: {
+            singular: 'outcome',
+            plural: 'outcomes'
+        },
         factory: {
             propertyEditor: createDecisionWithOutcomes,
             closePropertyEditor: createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
@@ -800,7 +804,8 @@ export const elementTypeToConfigMap: {
         },
         labels: {
             singular: LABELS.outcomeSingularLabel,
-            plural: LABELS.outcomePluralLabel
+            plural: LABELS.outcomePluralLabel,
+            short: LABELS.outcomeShortLabel
         },
         isChildElement: true,
         factory: {

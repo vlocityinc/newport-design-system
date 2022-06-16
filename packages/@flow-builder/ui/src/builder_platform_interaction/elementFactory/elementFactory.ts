@@ -5,6 +5,7 @@ export * from './apexPlugin';
 export * from './assignment';
 export {
     baseCanvasElement,
+    CHILD_REFERENCES,
     createCondition,
     INCOMPLETE_ELEMENT,
     MAX_API_NAME_LENGTH,

@@ -110,6 +110,7 @@ import newWaitLabel from '@salesforce/label/FlowBuilderElementConfig.newWaitLabe
 import orchestratedStagePluralLabel from '@salesforce/label/FlowBuilderElementConfig.orchestratedStagePluralLabel';
 import orchestratedStageSingularLabel from '@salesforce/label/FlowBuilderElementConfig.orchestratedStageSingularLabel';
 import outcomePluralLabel from '@salesforce/label/FlowBuilderElementConfig.outcomePluralLabel';
+import outcomeShortLabel from '@salesforce/label/FlowBuilderElementConfig.outcomeShortLabel';
 import outcomeSingularLabel from '@salesforce/label/FlowBuilderElementConfig.outcomeSingularLabel';
 import picklistChoiceSetPluralLabel from '@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetPluralLabel';
 import picklistChoiceSetSingularLabel from '@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetSingularLabel';
@@ -258,6 +259,7 @@ export const LABELS = {
     formulaPluralLabel,
     outcomeSingularLabel,
     outcomePluralLabel,
+    outcomeShortLabel,
     scheduledPathSingularLabel,
     scheduledPathPluralLabel,
     flowPropertiesSingularLabel,

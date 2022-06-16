@@ -365,6 +365,7 @@ declare namespace UI {
         connectorPickerHeader?: string;
         connectorPickerBodyText?: string;
         comboBoxLabel?: string;
+        short?: string;
 
         [propName: string]: any;
     }

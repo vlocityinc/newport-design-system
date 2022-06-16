@@ -28,6 +28,7 @@ import {
 } from 'builder_platform_interaction/elementConfig';
 import {
     baseCanvasElement,
+    CHILD_REFERENCES,
     createStartElementWhenUpdatingFromPropertyEditor as createBasicStartElement,
     createVariable,
     getConnectionProperties,
@@ -1485,35 +1486,45 @@ export function dedupeLabel(
  * @param elementType element type string
  * @param labelToNameConverter function which returns api name given a label
  * @param parentElement parent element
+ * @param childReferenceKey property on parentElement that contains children array
  * @returns unique label string
  */
 export function generateDefaultLabel(
     elementType: string,
     labelToNameConverter: (string) => string,
-    parentElement?: UI.CanvasElement
+    parentElement?: UI.HydratedElement,
+    childReferenceKey?: string
 ): string {
-    const singularElementLabel: string = getConfigForElementType(elementType).labels!.singular;
-
+    const elementLabels = getConfigForElementType(elementType).labels;
+    const elementLabel: string | undefined = elementLabels?.short || elementLabels?.singular;
     const existingLabels: Set<string | undefined | null> = new Set();
     const existingApiNames: Set<string | undefined | null> = new Set();
     if (isChildElement(elementType)) {
-        if (!parentElement?.childReferences) {
+        if (!parentElement || !childReferenceKey || !parentElement[childReferenceKey]) {
             throw new Error('Parent element is misconfigured');
         }
-        parentElement.childReferences.forEach((reference) => {
-            const element = getElementByGuid<UI.Element>(reference.childReference);
+        const siblings: UI.Element[] =
+            childReferenceKey === CHILD_REFERENCES
+                ? parentElement[childReferenceKey]?.map((reference) => getElementByGuid(reference?.childReference))
+                : parentElement[childReferenceKey];
+        siblings?.forEach((element) => {
             existingLabels.add(element?.label);
             existingApiNames.add(element?.name);
         });
+        const parentLabel = getValueFromHydratedItem(parentElement.label);
+        const startingLabelNumber =
+            siblings?.filter(
+                (sibling) => getValueFromHydratedItem(sibling?.label) && getValueFromHydratedItem(sibling?.name)
+            ).length + 1;
         return dedupeLabel(
             existingLabels,
             existingApiNames,
             (counter) => {
                 return format(
                     LABELS.defaultChildFlowElementName,
-                    singularElementLabel,
-                    parentElement.childReferences!.length + counter,
-                    parentElement.label
+                    elementLabel,
+                    startingLabelNumber + counter,
+                    parentLabel
                 );
             },
             labelToNameConverter
@@ -1527,7 +1538,7 @@ export function generateDefaultLabel(
     return dedupeLabel(
         existingLabels,
         existingApiNames,
-        (counter) => format(LABELS.defaultFlowElementName, singularElementLabel, elements.length + counter),
+        (counter) => format(LABELS.defaultFlowElementName, elementLabel, elements.length + counter),
         labelToNameConverter
     );
 }
@@ -1535,8 +1546,8 @@ export function generateDefaultLabel(
 /**
  * Helper function to create a function object for converting a child element's default label to the corresponding api name
  *
- * @param parentElementLabel
- * @param parentElementName
+ * @param parentElementLabel label of parent element
+ * @param parentElementName api name of parent element
  * @returns converter function
  */
 export function childElementLabelToNameConverter(
@@ -1552,6 +1563,46 @@ export function childElementLabelToNameConverter(
                 parentElementName
             )
         );
+}
+
+/**
+ * Generates a label or api name for the node/element if needed
+ *
+ * @param node element to be updated if needed
+ * @param parentElement parent element of node parameter
+ * @param childReferenceKey key on the node which maps to the array of child elements
+ * @returns same node if no labels are updated otherwise a new updated version
+ */
+export function decorateLabelsAndApiNames(
+    node: UI.HydratedElement,
+    parentElement?: UI.HydratedElement,
+    childReferenceKey?: string
+): UI.HydratedElement {
+    const elementLabel = getValueFromHydratedItem(node.label);
+    const elementName = getValueFromHydratedItem(node.name);
+    if (!elementName || !elementLabel) {
+        const parentLabel = getValueFromHydratedItem(parentElement?.label);
+        const parentName = getValueFromHydratedItem(parentElement?.name);
+        const labelToNameConverter: (string) => string =
+            parentElement && parentLabel && parentName && isChildElement(node.elementType!)
+                ? childElementLabelToNameConverter(parentLabel, parentName)
+                : sanitizeDevName;
+        const nodeLabel: string =
+            elementLabel ||
+            generateDefaultLabel(node.elementType!, labelToNameConverter, parentElement, childReferenceKey);
+        const nodeName: string =
+            elementName ||
+            (nodeLabel === elementLabel ? sanitizeDevName(nodeLabel) : labelToNameConverter(nodeLabel)).substring(
+                0,
+                MAX_API_NAME_LENGTH
+            );
+        return {
+            ...node,
+            label: nodeLabel === elementLabel ? node.label : { value: nodeLabel, error: null },
+            name: nodeName === elementName ? node.name : { value: nodeName, error: null }
+        };
+    }
+    return node;
 }
 
 /**

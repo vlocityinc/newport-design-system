@@ -16,6 +16,10 @@ export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 export const MAX_LABEL_LENGTH = 255;
 export const MAX_API_NAME_LENGTH = 80;
 
+// constant value for childReferences key on parent element when children are edited in their own property editor
+// currently used on orchestrated stage
+export const CHILD_REFERENCES = 'childReferences';
+
 // Used to mark an element as incomplete. An element is incomplete when it cannot fully be created because the factory needs information from an element that has
 // not yet been created. translatorLib.translateFlowToUIModel uses this information to create the ui model in 2 passes
 export const INCOMPLETE_ELEMENT = Symbol('incomplete');

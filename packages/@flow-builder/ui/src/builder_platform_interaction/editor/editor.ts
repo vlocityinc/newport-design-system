@@ -77,7 +77,7 @@ import {
     PROPERTY_EDITOR
 } from 'builder_platform_interaction/builderUtils';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import { removeOrgNamespace, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { removeOrgNamespace } from 'builder_platform_interaction/commonUtils';
 import {
     CLASSIC_EXPERIENCE,
     getPreferredExperience,
@@ -89,10 +89,10 @@ import { getConfigForElement, isChildElement } from 'builder_platform_interactio
 import {
     AUTO_LAYOUT_CANVAS,
     CANVAS_MODE,
+    CHILD_REFERENCES,
     createEndElement,
     createFlowTestData,
     createVariable,
-    MAX_API_NAME_LENGTH,
     shouldSupportScheduledPaths
 } from 'builder_platform_interaction/elementFactory';
 import {
@@ -202,15 +202,14 @@ import {
     badgeClass,
     badgeStatus,
     canRunDebugWith,
-    childElementLabelToNameConverter,
     closeModalAndNavigateTo,
     createStartElement,
     cssClassForHeaderLabel,
     debugInterviewResponseCallback,
+    decorateLabelsAndApiNames,
     filterElements,
     flowPropertiesCallback,
     formattedHeaderLabel,
-    generateDefaultLabel,
     getConnectorToDuplicate,
     getCopiedChildElements,
     getCopiedData,
@@ -2603,28 +2602,33 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         // Set default label and api name when using a panelized property editor if empty
         if (this.showPropertyEditorRightPanel && this.elementBeingEditedInPanel) {
             const node = this.elementBeingEditedInPanel;
-            const elementLabel = getValueFromHydratedItem(node.label);
-            const elementName = getValueFromHydratedItem(node.name);
             const parentGuid = getValueFromHydratedItem(node.parent);
-            if (!elementName || !elementLabel) {
-                const parentElement: UI.CanvasElement =
-                    parentGuid && isChildElement(node.elementType) && getElementByGuid(parentGuid);
-                const labelToNameConverter: (string) => string =
-                    parentElement && parentElement.label && parentElement.name
-                        ? childElementLabelToNameConverter(parentElement.label, parentElement.name)
-                        : sanitizeDevName;
-                const label: string =
-                    elementLabel || generateDefaultLabel(node.elementType, labelToNameConverter, parentElement);
-                const name: string =
-                    elementName ||
-                    (label === elementLabel ? sanitizeDevName(label) : labelToNameConverter(label)).substring(
-                        0,
-                        MAX_API_NAME_LENGTH
-                    );
-                this.deMutateAndUpdateNodeCollection({
-                    ...node,
-                    label: label === elementLabel ? node.label : { value: label, error: null },
-                    name: name === elementName ? node.name : { value: name, error: null }
+            const parentElement: UI.HydratedElement =
+                parentGuid && isChildElement(node.elementType) && getElementByGuid(parentGuid);
+            const pluralChildReferenceKey = getConfigForElement(parentElement ? parentElement : node).childReferenceKey
+                ?.plural;
+            let updatedNode = decorateLabelsAndApiNames(node, parentElement, pluralChildReferenceKey);
+            if (node !== updatedNode) {
+                this.deMutateAndUpdateNodeCollection(updatedNode);
+            }
+            // Process labels for children elements edited in same property editor as parent element
+            // When the reference key is equal to CHILD_REFERENCES we assume the children are edited in their own property editor and skip this step
+            if (
+                pluralChildReferenceKey &&
+                pluralChildReferenceKey !== CHILD_REFERENCES &&
+                node[pluralChildReferenceKey]?.length
+            ) {
+                updatedNode[pluralChildReferenceKey].forEach((childElement) => {
+                    const updatedChild = decorateLabelsAndApiNames(childElement, updatedNode, pluralChildReferenceKey);
+                    if (childElement !== updatedChild) {
+                        updatedNode = {
+                            ...updatedNode
+                        };
+                        updatedNode[pluralChildReferenceKey] = updatedNode[pluralChildReferenceKey].map((child) =>
+                            child.guid === updatedChild.guid ? updatedChild : child
+                        );
+                        this.deMutateAndUpdateNodeCollection(updatedChild);
+                    }
                 });
             }
         }

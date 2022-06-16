@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { CHILD_REFERENCES, MAX_API_NAME_LENGTH, MAX_LABEL_LENGTH } from 'builder_platform_interaction/elementFactory';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import {
     CONNECTOR_TYPE,
@@ -17,6 +18,7 @@ import {
     badgeStatus,
     childElementLabelToNameConverter,
     debugInterviewResponseCallback,
+    decorateLabelsAndApiNames,
     dedupeLabel,
     flowPropertiesCallback,
     generateDefaultLabel,
@@ -1950,8 +1952,8 @@ describe('Editor Utils Test', () => {
         });
 
         it('Works with max length labels', () => {
-            const parentLabel = new Array(256).join('0');
-            const label = ('Step 1 of ' + parentLabel).substring(0, 255);
+            const parentLabel = new Array(MAX_LABEL_LENGTH + 1).join('0');
+            const label = ('Step 1 of ' + parentLabel).substring(0, MAX_LABEL_LENGTH);
             expect(childElementLabelToNameConverter(parentLabel, 'parent name')(label)).toEqual(
                 'Step_1_of_parent_name'
             );
@@ -1972,11 +1974,16 @@ describe('Editor Utils Test', () => {
         });
 
         it('Generates the correct label for a child canvas element', () => {
-            generateDefaultLabel(mockElementType.STAGE_STEP, (label) => label, {
-                // return empty object to stand in for created but unlabelled element to be auto labeled
-                childReferences: [{}],
-                label: 'Stage 1'
-            });
+            generateDefaultLabel(
+                mockElementType.STAGE_STEP,
+                (label) => label,
+                {
+                    // return empty object to stand in for created but unlabelled element to be auto labeled
+                    childReferences: [{}],
+                    label: 'Stage 1'
+                },
+                CHILD_REFERENCES
+            );
             expect(commonUtils.format).toHaveBeenCalledWith(
                 'FlowBuilderElementConfig.defaultChildFlowElementName',
                 'Step',
@@ -1991,18 +1998,23 @@ describe('Editor Utils Test', () => {
         });
 
         it('Generates the correct label for a child canvas with other sibling elements', () => {
-            generateDefaultLabel(mockElementType.STAGE_STEP, (label) => label, {
-                label: 'Stage 2',
-                childReferences: [
-                    {
-                        label: 'Step 1 of Stage 2'
-                    },
-                    {
-                        label: 'Step 2 of Stage 2'
-                    },
-                    {}
-                ]
-            });
+            generateDefaultLabel(
+                mockElementType.STAGE_STEP,
+                (label) => label,
+                {
+                    label: 'Stage 2',
+                    childReferences: [
+                        {
+                            label: 'Step 1 of Stage 2'
+                        },
+                        {
+                            label: 'Step 2 of Stage 2'
+                        },
+                        {}
+                    ]
+                },
+                CHILD_REFERENCES
+            );
             expect(commonUtils.format).toHaveBeenCalledWith(
                 'FlowBuilderElementConfig.defaultChildFlowElementName',
                 'Step',
@@ -2012,11 +2024,16 @@ describe('Editor Utils Test', () => {
         });
 
         it('Truncates labels to have a max length of 255 characters', () => {
-            const label = generateDefaultLabel(mockElementType.STAGE_STEP, (label) => label, {
-                label: new Array(256).join('0'),
-                childReferences: [{}]
-            });
-            expect(label.length).toEqual(255);
+            const label = generateDefaultLabel(
+                mockElementType.STAGE_STEP,
+                (label) => label,
+                {
+                    label: new Array(MAX_LABEL_LENGTH + 1).join('0'),
+                    childReferences: [{}]
+                },
+                CHILD_REFERENCES
+            );
+            expect(label.length).toEqual(MAX_LABEL_LENGTH);
         });
 
         it('Avoids making a duplciate api name and goes to the next open spot', () => {
@@ -2048,6 +2065,47 @@ describe('Editor Utils Test', () => {
                 (label) => 'api name ' + label
             );
             expect(label).toEqual('truncated label');
+        });
+    });
+
+    describe('decorateLabelsAndApiNames function', () => {
+        it('Returns an unchanged element if the api name and label are both present', () => {
+            const node = {
+                label: { value: 'test' },
+                name: { value: 'test' }
+            };
+            const updatedNode = decorateLabelsAndApiNames(node);
+            expect(node).toEqual(updatedNode);
+        });
+
+        it('Only updates label when api name is filled out', () => {
+            const node = {
+                elementType: mockElementType.ORCHESTRATED_STAGE,
+                label: { value: '', error: null },
+                name: { value: 'test_api_name', error: null }
+            };
+            const updatedNode = decorateLabelsAndApiNames(node);
+            expect(updatedNode.name.value === 'test_api_name' && updatedNode.label.value).toBeTruthy();
+        });
+
+        it('Only updates api name when label is filled out', () => {
+            const node = {
+                elementType: mockElementType.ORCHESTRATED_STAGE,
+                label: { value: 'test label', error: null },
+                name: { value: '', error: null }
+            };
+            const updatedNode = decorateLabelsAndApiNames(node);
+            expect(updatedNode.label.value === 'test label' && updatedNode.name.value).toBeTruthy();
+        });
+
+        it('truncates api name to max length', () => {
+            const node = {
+                elementType: mockElementType.ORCHESTRATED_STAGE,
+                label: { value: new Array(MAX_LABEL_LENGTH + 1).join('0'), error: null },
+                name: { value: '', error: null }
+            };
+            const updatedNode = decorateLabelsAndApiNames(node);
+            expect(updatedNode.name.value.length).toEqual(MAX_API_NAME_LENGTH);
         });
     });
 });
