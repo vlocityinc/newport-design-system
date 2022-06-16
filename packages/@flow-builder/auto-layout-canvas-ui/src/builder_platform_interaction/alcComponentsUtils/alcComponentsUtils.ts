@@ -84,7 +84,8 @@ interface CanvasElementSelectionData {
 enum AutoLayoutCanvasMode {
     DEFAULT = 'default',
     SELECTION = 'selection',
-    RECONNECTION = 'reconnection'
+    RECONNECTION = 'reconnection',
+    CUT = 'cut'
 }
 
 enum ICON_SHAPE {
@@ -1437,12 +1438,52 @@ export function areSourcesEqual(source1: ConnectionSource, source2: ConnectionSo
  * @param canvasContext - The canvas context
  * @param menuType - The menu type
  * @param source - The menu location
- * @returns true iff the specified menu is opened
+ * @returns true if the specified menu is opened
  */
 export function isMenuOpened(canvasContext: CanvasContext, menuType: MenuType, source: ConnectionSource) {
     const { menu } = canvasContext;
 
     return menu?.type === menuType && areSourcesEqual(menu.source, source);
+}
+
+/**
+ * Checks if in the canvas CUT mode
+ *
+ * @param mode - current canvasContext mode
+ * @returns true if in CUT mode
+ */
+export function isCutMode(mode: AutoLayoutCanvasMode) {
+    return mode === AutoLayoutCanvasMode.CUT;
+}
+
+/**
+ * Checks if in the canvas DEFAULT mode
+ *
+ * @param mode - current canvasContext mode
+ * @returns true if in DEFAULT mode
+ */
+export function isDefaultMode(mode: AutoLayoutCanvasMode) {
+    return mode === AutoLayoutCanvasMode.DEFAULT;
+}
+
+/**
+ * Checks if in the canvas SELECTION mode
+ *
+ * @param mode - current canvasContext mode
+ * @returns true if in SELECTION mode
+ */
+export function isSelectionMode(mode: AutoLayoutCanvasMode) {
+    return mode === AutoLayoutCanvasMode.SELECTION;
+}
+
+/**
+ * Checks if in the canvas RECONNECTION mode
+ *
+ * @param mode - current canvasContext mode
+ * @returns true if in RECONNECTION mode
+ */
+export function isReconnectionMode(mode: AutoLayoutCanvasMode) {
+    return mode === AutoLayoutCanvasMode.RECONNECTION;
 }
 
 export {

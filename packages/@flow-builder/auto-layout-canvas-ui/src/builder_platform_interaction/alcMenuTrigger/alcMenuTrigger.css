@@ -13,6 +13,14 @@ button.connector {
     transition: none;
 }
 
+button.cut-paste-connector {
+    background-color: white;
+    border: 2px solid var(--lwc-colorGray8);
+    border-radius: 50%;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
 /* Beware that changing the order of hover and focus can break the current styles  */
 button:hover {
     transform: scale(1.05);
@@ -35,6 +43,15 @@ button.node-to-be-deleted {
 button.connector:hover {
     background-color: #f4f6f9;
     transform: scale(1);
+}
+
+button.cut-paste-connector:hover,
+button.cut-paste-connector:focus {
+    background-color: #f4f6f9;
+    border-radius: 4px;
+    border: 2px dashed;
+    width: var(--node-icon-width);
+    height: var(--node-icon-height);
 }
 
 button:focus {

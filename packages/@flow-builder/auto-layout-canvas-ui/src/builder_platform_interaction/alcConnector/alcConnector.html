@@ -28,15 +28,26 @@
                 aria-label={labels.connectorButtonLabel}
                 connector-aria-info={connectorAriaInfo}
             >
-                <lightning-icon
-                    slot="trigger"
-                    alternative-text={labels.addElementIconAltText}
-                    class="circle-text"
-                    icon-name="utility:add"
-                    size="x-small"
-                    title={labels.addElementIconAltText}
-                    variant={addIconVariant}
-                ></lightning-icon>
+                <div slot="trigger">
+                    <!-- Uses css to show and hide the different icons in Cut mode-->
+                    <lightning-icon
+                        alternative-text={labels.addElementIconAltText}
+                        class={addIconClasses}
+                        icon-name="utility:add"
+                        size="x-small"
+                        title={labels.addElementIconAltText}
+                        variant={addIconVariant}
+                    ></lightning-icon>
+                    <lightning-icon
+                        if:true={isCutMode}
+                        alternative-text={labels.pasteElementIconAltText}
+                        class="secondary-paste-icon"
+                        icon-name="utility:paste"
+                        size="x-small"
+                        title={labels.pasteElementIconAltText}
+                        variant={addIconVariant}
+                    ></lightning-icon>
+                </div>
             </builder_platform_interaction-alc-menu-trigger>
             <x-lazy
                 if:true={menu}

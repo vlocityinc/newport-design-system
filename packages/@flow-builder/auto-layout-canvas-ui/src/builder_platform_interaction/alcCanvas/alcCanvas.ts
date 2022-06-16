@@ -7,7 +7,11 @@ import {
     getCanvasElementSelectionData,
     getFirstSelectableElementGuid,
     getZoomKeyboardInteraction,
-    importComponent
+    importComponent,
+    isCutMode,
+    isDefaultMode,
+    isReconnectionMode,
+    isSelectionMode
 } from 'builder_platform_interaction/alcComponentsUtils';
 import {
     AlcSelectionEvent,
@@ -17,7 +21,8 @@ import {
     GoToPathEvent,
     MenuRenderedEvent,
     NodeResizeEvent,
-    ToggleMenuEvent
+    ToggleMenuEvent,
+    UpdateAutolayoutCanvasModeEvent
 } from 'builder_platform_interaction/alcEvents';
 import AlcFlow from 'builder_platform_interaction/alcFlow';
 import { processConnectorMenuMetadata } from 'builder_platform_interaction/alcMenuUtils';
@@ -55,7 +60,6 @@ import {
     ClosePropertyEditorEvent,
     DeleteElementEvent,
     EditElementEvent,
-    ToggleSelectionModeEvent,
     ZOOM_ACTION
 } from 'builder_platform_interaction/events';
 import {
@@ -265,7 +269,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     @api
     shortcuts: { [key: string]: ShortcutKey } = {};
 
-    @api set connectorMenuMetadata(nextMenuMetadata: ConnectorMenuMetadata) {
+    @api
+    set connectorMenuMetadata(nextMenuMetadata: ConnectorMenuMetadata) {
         const prevMenuMetadata = this.canvasContext.connectorMenuMetadata;
         processConnectorMenuMetadata(prevMenuMetadata, nextMenuMetadata).then(() =>
             this.updateCanvasContext({ connectorMenuMetadata: nextMenuMetadata })
@@ -309,17 +314,13 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         return this.canvasContext.elementsMetadata!;
     }
 
-    // This will be true when we are selecting or reconnecting
     @api
-    set isSelectionMode(isSelectionMode) {
-        this.handleSelectionModeChange(isSelectionMode);
+    set canvasMode(canvasMode) {
+        this.handleUpdateAutolayoutMode(canvasMode);
     }
 
-    get isSelectionMode() {
-        return (
-            this.canvasContext.mode === AutoLayoutCanvasMode.SELECTION ||
-            this.canvasContext.mode === AutoLayoutCanvasMode.RECONNECTION
-        );
+    get canvasMode() {
+        return this.canvasContext.mode;
     }
 
     @api
@@ -416,6 +417,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      */
     get showSpinner(): boolean {
         return !this._flowRenderContext || this.shouldHideFlow();
+    }
+
+    get displayScopedNotification(): boolean {
+        return !isDefaultMode(this.canvasMode);
     }
 
     getStartElementGuid() {
@@ -602,34 +607,16 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     }
 
     /**
-     * Helper function to update the mode in canvas context
-     *
-     * @param isEnteringSelectionMode - true in selection/reconnection mode, false otherwise
-     */
-    updateModeInCanvasContext(isEnteringSelectionMode: boolean) {
-        if (isEnteringSelectionMode) {
-            // Reconnection Mode is updated in handleAddOrRerouteGoToItemSelection
-            // so we don't need to update it again.
-            if (this.canvasContext.mode !== AutoLayoutCanvasMode.RECONNECTION) {
-                this.updateCanvasContext({ mode: AutoLayoutCanvasMode.SELECTION });
-            }
-        } else {
-            this.updateCanvasContext({ mode: AutoLayoutCanvasMode.DEFAULT });
-        }
-    }
-
-    /**
      * Handles a elements selection change
      *
-     * @param isEnteringSelectionMode - true in selection/reconnection mode, false otherwise
+     * @param canvasMode - current mode for alc
      */
-    handleSelectionModeChange(isEnteringSelectionMode: boolean) {
+    handleUpdateAutolayoutMode(canvasMode) {
         // Updating the canvas context with the right mode
-        this.updateModeInCanvasContext(isEnteringSelectionMode);
-
-        if (this.isSelectionMode) {
+        this.updateCanvasContext({ mode: canvasMode });
+        if (!isDefaultMode(canvasMode)) {
             this.closeNodeOrConnectorMenu();
-            if (this.canvasContext.mode === AutoLayoutCanvasMode.RECONNECTION) {
+            if (isReconnectionMode(this.canvasContext.mode)) {
                 const firstSelectableElementGuid = getFirstSelectableElementGuid(this.flowModel, 'root');
                 if (firstSelectableElementGuid) {
                     // Setting _elementGuidToFocus to firstSelectableElementGuid so that
@@ -796,7 +783,15 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         this.updateFlowRenderContext({ interactionState });
     }
 
+    fireEventOnCanvasModeChange(mode: AutoLayoutCanvasMode | undefined) {
+        // Make sure we always fire an event when we update the mode
+        if (mode && this.canvasContext.mode !== mode) {
+            this.dispatchEvent(new UpdateAutolayoutCanvasModeEvent(mode));
+        }
+    }
+
     updateCanvasContext(canvasContext: Partial<CanvasContext>) {
+        this.fireEventOnCanvasModeChange(canvasContext.mode);
         this.canvasContext = { ...this.canvasContext, ...canvasContext };
     }
 
@@ -825,7 +820,6 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             ? [...mergeableGuids, ...goToableGuids, firstMergeableNonNullNext]
             : [...mergeableGuids, ...goToableGuids];
 
-        this.dispatchEvent(new ToggleSelectionModeEvent());
         const alcSelectionEvent = new AlcSelectionEvent([], [], selectableGuids, null, true);
         this.dispatchEvent(alcSelectionEvent);
     };
@@ -876,9 +870,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             this._elementGuidToFocus = event.detail.canvasElementGUID;
 
             this.dispatchEvent(new CreateGoToConnectionEvent(goToSource, target, this._isReroutingGoto));
-
-            this.dispatchEvent(new ToggleSelectionModeEvent());
-
+            this.updateCanvasContext({ mode: AutoLayoutCanvasMode.DEFAULT });
             const connectionType = this._goToableGuids.includes(event.detail.canvasElementGUID) ? 'GoTo' : 'Merge';
             logInteraction('create-goto-or-merge', AUTOLAYOUT_CANVAS, { connectionType }, 'click', 'user');
         } else {
@@ -1239,7 +1231,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         // We need the this.isPanInProgress check here so that we don't deselect elements when the user ends panning
         const target = <HTMLElement>event.currentTarget;
         if (
-            this.canvasContext.mode !== AutoLayoutCanvasMode.SELECTION &&
+            !isSelectionMode(this.canvasContext.mode) &&
+            !isCutMode(this.canvasContext.mode) &&
             !this.isPanInProgress &&
             target &&
             (target.classList.contains('canvas') || target.classList.contains('flow-container'))
@@ -1299,6 +1292,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         if (this._flowRenderContext.dynamicNodeDimensionMap.size >= this.dynamicNodeCountAtLoad) {
             this.updateFlowRenderContext();
         }
+    };
+
+    handleCutElements = () => {
+        this.updateCanvasContext({ mode: AutoLayoutCanvasMode.CUT });
     };
 
     handleDeleteElement = (event) => {

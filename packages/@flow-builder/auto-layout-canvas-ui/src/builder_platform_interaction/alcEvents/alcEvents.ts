@@ -20,3 +20,4 @@ export { PopoverToggledEvent } from './popoverToggledEvent';
 export { PrivateItemRegisterEvent } from './privateItemRegisterEvent';
 export { SelectMenuItemEvent } from './selectMenuItemEvent';
 export { ToggleMenuEvent } from './toggleMenuEvent';
+export { UpdateAutolayoutCanvasModeEvent } from './updateAutolayoutCanvasModeEvent';

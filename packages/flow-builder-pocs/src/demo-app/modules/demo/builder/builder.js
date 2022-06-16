@@ -12,8 +12,10 @@ import {
     updateIsAutoLayoutCanvasProperty
 } from 'builder_platform_interaction/actions';
 import {
+    AutoLayoutCanvasMode,
     getEscapeKeyInteraction,
-    getShiftFocusKeyboardInteraction
+    getShiftFocusKeyboardInteraction,
+    isDefaultMode
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { createEndElement, createStartElementForPropertyEditor } from 'builder_platform_interaction/elementFactory';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
@@ -442,9 +444,6 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
     flowsGenerated = 0;
 
     @track
-    isSelectionMode = false;
-
-    @track
     testMonkeyHandle;
 
     @track
@@ -452,6 +451,9 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
 
     @track
     selectedTestCase = '';
+
+    @track
+    autolayoutCanvasMode = AutoLayoutCanvasMode.DEFAULT;
 
     handleCanvasReady() {
         const sections = [
@@ -465,9 +467,13 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
         ]);
     }
 
+    newUpdatedALCMode(mode) {
+        return new CustomEvent('updateautolayoutcanvasmode', { detail: { mode } });
+    }
+
     handleEscape = () => {
-        if (this.isSelectionMode) {
-            this.handleToggleSelectionMode();
+        if (!isDefaultMode(this.autolayoutCanvasMode)) {
+            this.handleUpdateAutolayoutCanvasMode(this.newUpdatedALCMode(AutoLayoutCanvasMode.DEFAULT));
         }
     };
 
@@ -495,6 +501,10 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
         return palette;
     }
 
+    get showLeftPanel() {
+        return isDefaultMode(this.autolayoutCanvasMode);
+    }
+
     numPasteElementsAvailable = 0;
 
     constructor() {
@@ -511,10 +521,6 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
         });
 
         this.init();
-    }
-
-    get showLeftPanel() {
-        return !this.isSelectionMode;
     }
 
     stopTestMonkey(message, e) {
@@ -567,8 +573,9 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
     }
 
     get leftPanelClass() {
-        return this.isSelectionMode ? 'left-panel-hide' : '';
+        return !isDefaultMode(this.autolayoutCanvasMode) ? 'left-panel-hide' : '';
     }
+
     handleSelectFlowType(event) {
         console.log({ ...storeInstance.getCurrentState().elements });
 
@@ -744,7 +751,15 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
     }
 
     handleToggleSelectionMode() {
-        this.isSelectionMode = !this.isSelectionMode;
+        if (isDefaultMode(this.autolayoutCanvasMode)) {
+            this.autolayoutCanvasMode = AutoLayoutCanvasMode.SELECTION;
+        } else {
+            this.autolayoutCanvasMode = AutoLayoutCanvasMode.DEFAULT;
+        }
+    }
+
+    handleUpdateAutolayoutCanvasMode(event) {
+        this.autolayoutCanvasMode = event.detail.mode;
     }
 
     handleAddElementFault(event) {
@@ -841,7 +856,7 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
         this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
 
         // Toggling out of the selection mode on Copy
-        this.handleToggleSelectionMode();
+        this.handleUpdateAutolayoutCanvasMode(this.newUpdatedALCMode(AutoLayoutCanvasMode.DEFAULT));
     };
     handleEditElement(event) {
         const guid = event.detail.canvasElementGUID;

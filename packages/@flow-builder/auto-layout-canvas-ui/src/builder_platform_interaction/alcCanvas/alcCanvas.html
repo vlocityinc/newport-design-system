@@ -13,7 +13,7 @@
         onmouseup={handleCanvasMouseUp}
     >
         <builder_platform_interaction-scoped-notification
-            if:true={isSelectionMode}
+            if:true={displayScopedNotification}
             canvas-mode={canvasContext.mode}
         ></builder_platform_interaction-scoped-notification>
         <template if:true={flow}>
@@ -37,6 +37,7 @@
                     onhighlightpathstodelete={handleHighlightPathsToDelete}
                     ondeletebranchelement={handleBranchElementDeletion}
                     ondeleteelement={handleDeleteElement}
+                    oncutelements={handleCutElements}
                     onclearhighlightedpath={handleClearHighlightedPath}
                 >
                 </builder_platform_interaction-alc-flow>

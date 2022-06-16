@@ -1,7 +1,9 @@
 import {
     AutoLayoutCanvasMode,
     getEnterKeyInteraction,
-    ICON_SHAPE
+    ICON_SHAPE,
+    isCutMode,
+    isDefaultMode
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { CloseMenuEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import { ConnectionSource, MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -102,8 +104,9 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
             'slds-button_icon': true,
             'border-none': !isConnectorVariant,
             'is-end-element': !isConnectorVariant && this.elementMetadata.type === NodeType.END,
-            'node-in-selection-mode': !this.isDefaultCanvasMode(),
-            connector: isConnectorVariant,
+            'node-in-selection-mode': !isDefaultMode(this.canvasMode),
+            connector: isConnectorVariant && !isCutMode(this.canvasMode),
+            'cut-paste-connector': this.isConnectorInPasteMode(),
             'node-to-be-deleted': this.isNodeGettingDeleted,
             'has-error': this.hasError,
             'circular-icon': !isConnectorVariant && this.elementMetadata.iconShape === ICON_SHAPE.CIRCLE,
@@ -114,9 +117,11 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
     }
 
     get computedTabIndex() {
-        return !this.isDefaultCanvasMode() || (this.elementMetadata && this.elementMetadata.type === NodeType.END)
-            ? -1
-            : 0;
+        return !this.isCanvasTabable() || (this.elementMetadata && this.elementMetadata.type === NodeType.END) ? -1 : 0;
+    }
+
+    isCanvasTabable() {
+        return isDefaultMode(this.canvasMode) || this.isConnectorInPasteMode();
     }
 
     /**
@@ -176,7 +181,7 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
         event.stopPropagation();
         event.preventDefault();
 
-        if (this.isDefaultCanvasMode()) {
+        if (isDefaultMode(this.canvasMode)) {
             this.toggleMenuVisibility();
 
             // Focus on the button even if the browser doesn't do it by default
@@ -185,6 +190,9 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
             if (this.isConnectorVariant() || this.elementMetadata.type !== NodeType.END) {
                 this.focusOnButton();
             }
+        } else if (this.isConnectorInPasteMode()) {
+            // TODO W-11145903 uncomment this and make cut paste work
+            // this.dispatchEvent(new PasteOnCanvasEvent(this.source));
         }
     }
 
@@ -193,14 +201,17 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
         event.preventDefault();
     }
 
-    isDefaultCanvasMode() {
-        return this.canvasMode === AutoLayoutCanvasMode.DEFAULT;
+    isConnectorInPasteMode() {
+        return isCutMode(this.canvasMode) && this.isConnectorVariant();
     }
 
     handleSpaceOrEnter() {
-        if (this.isDefaultCanvasMode()) {
+        if (isDefaultMode(this.canvasMode)) {
             // Opening and closing the current selected element
             this.toggleMenuVisibility(true);
+        } else if (this.isConnectorInPasteMode()) {
+            // TODO W-11145903 uncomment this and make cut paste work
+            // this.dispatchEvent(new PasteOnCanvasEvent(this.source));
         } else {
             // Checking and unchecking the element when in selection mode
             // The checkbox is in a slot being filled by alcnode

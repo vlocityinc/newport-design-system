@@ -6,7 +6,7 @@
         <!-- Toggle Left Panel -->
         <lightning-button-icon-stateful
             if:true={showLeftPanelToggle}
-            disabled={isSelectionMode}
+            disabled={isLeftPanelButtonDisabled}
             variant="border-filled"
             icon-name="utility:toggle_panel_left"
             title={labels.leftPanelToggleTitle}
@@ -67,7 +67,7 @@
             >
             </lightning-button-icon> -->
         <lightning-button-icon
-            if:true={isSelectionMode}
+            if:true={showCopyClipboard}
             alternative-text={labels.copyAltText}
             class="slds-builder-toolbar__item-group test-toolbar-copy"
             disabled={isCutCopyDisabled}

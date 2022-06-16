@@ -37,8 +37,11 @@ import {
 } from 'builder_platform_interaction/actions';
 import AlcCanvasContainer from 'builder_platform_interaction/alcCanvasContainer';
 import {
+    AutoLayoutCanvasMode,
     getEscapeKeyInteraction,
-    getShiftFocusKeyboardInteraction
+    getShiftFocusKeyboardInteraction,
+    isCutMode,
+    isDefaultMode
 } from 'builder_platform_interaction/alcComponentsUtils';
 import {
     addEndElementsAndConnectorsTransform,
@@ -491,7 +494,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     numPasteElementsAvailable = 0;
 
     @track
-    isSelectionMode = false;
+    autolayoutCanvasMode = AutoLayoutCanvasMode.DEFAULT;
 
     @track
     palette = null;
@@ -766,7 +769,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     }
 
     get showLeftPanel() {
-        return !!this.leftPanelConfig.showLeftPanel && this.isLeftPanelToggled && !this.isSelectionMode;
+        return (
+            !!this.leftPanelConfig.showLeftPanel && this.isLeftPanelToggled && isDefaultMode(this.autolayoutCanvasMode)
+        );
+    }
+
+    get hideSelectionButton() {
+        return this.canvasConfig.disableMultiSelectElements || isCutMode(this.autolayoutCanvasMode);
     }
 
     get showDebugPanel() {
@@ -1446,7 +1455,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     }
                 }
 
-                this.isSelectionMode = false;
+                this.autolayoutCanvasMode = AutoLayoutCanvasMode.DEFAULT;
 
                 this.queueOpenFlowDebugEditor(() => {
                     return {
@@ -1516,11 +1525,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     };
 
     /**
-     * Handles the toggleSelectionMode event and toggles the isSelectionMode
-     * Toggle selection mode also closes the property editor panel
+     * Handles the updateAutolayoutCanvasMode event and assigns the local autolayoutCanvasMode
+     * Controls selection and left panel also closes the property editor panel
+     *
+     * @param event UpdateAutolayoutCanvasMode event coming from alcCanvas
      */
-    handleToggleSelectionMode = () => {
-        this.isSelectionMode = !this.isSelectionMode;
+    handleUpdateAutolayoutCanvasMode = (event) => {
+        this.autolayoutCanvasMode = event.detail.mode;
         this.handleClosePropertyEditor();
         this.template.querySelector<HTMLElement>(PANELS.TOOLBAR)?.focus();
     };
@@ -1581,6 +1592,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.showToast(LABELS.singleCopySuccess, 'success');
     };
 
+    newUpdatedALCMode(mode: AutoLayoutCanvasMode) {
+        return new CustomEvent('updateautolayoutcanvasmode', { detail: { mode } });
+    }
+
     /**
      * Handles the copy event from the toolbar and updates the appropriate properties
      */
@@ -1598,7 +1613,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
 
         // Toggling out of the selection mode on Copy
-        this.handleToggleSelectionMode();
+        this.handleUpdateAutolayoutCanvasMode(this.newUpdatedALCMode(AutoLayoutCanvasMode.DEFAULT));
 
         // Get number of elements that were copied and show toast
         this.showToastForCutCopyPasteOrDelete(
@@ -2749,8 +2764,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     };
 
     handleEscape = () => {
-        if (this.isSelectionMode) {
-            this.handleToggleSelectionMode();
+        if (!isDefaultMode(this.autolayoutCanvasMode)) {
+            if (isCutMode(this.autolayoutCanvasMode)) {
+                this._resetSelectionState();
+            }
+            this.handleUpdateAutolayoutCanvasMode(this.newUpdatedALCMode(AutoLayoutCanvasMode.DEFAULT));
         }
     };
 
@@ -3571,7 +3589,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         // update tracked properties
         this.isCutCopyDisabled = true;
         this.numPasteElementsAvailable = 0;
-        this.isSelectionMode = false;
+        this.autolayoutCanvasMode = AutoLayoutCanvasMode.DEFAULT;
 
         // reset cut/copy variables
         this.bottomCutOrCopiedGuid = null;

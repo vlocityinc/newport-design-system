@@ -103,7 +103,7 @@ export default class AlcCanvasContainer extends LightningElement {
     numPasteElementsAvailable;
 
     @api
-    isSelectionMode;
+    autolayoutCanvasMode;
 
     @api
     showLeftPanel;

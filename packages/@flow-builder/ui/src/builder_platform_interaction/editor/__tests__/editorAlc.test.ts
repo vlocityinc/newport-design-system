@@ -1,5 +1,10 @@
 // @ts-nocheck
-import { AlcSelectionEvent, PasteOnCanvasEvent } from 'builder_platform_interaction/alcEvents';
+import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
+import {
+    AlcSelectionEvent,
+    PasteOnCanvasEvent,
+    UpdateAutolayoutCanvasModeEvent
+} from 'builder_platform_interaction/alcEvents';
 import {
     createComponent,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -12,8 +17,7 @@ import {
     CutElementsEvent,
     EditElementEvent,
     NewDebugFlowEvent,
-    SelectNodeEvent,
-    ToggleSelectionModeEvent
+    SelectNodeEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
@@ -134,16 +138,16 @@ describe('auto-layout', () => {
             properties: { ...recordTriggeredFlowUIModel.properties, isAutoLayoutCanvas: true }
         });
         const editorComponent = await createComponentUnderTest();
-        const event = new ToggleSelectionModeEvent();
+        const event = new UpdateAutolayoutCanvasModeEvent(AutoLayoutCanvasMode.SELECTION);
         const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
 
         toolbar.dispatchEvent(event);
         await ticks(1);
-        expect(toolbar.isSelectionMode).toBeTruthy();
+        expect(toolbar.autolayoutCanvasMode).toBe(AutoLayoutCanvasMode.SELECTION);
 
         toolbar.dispatchEvent(new NewDebugFlowEvent());
         await ticks(1);
-        expect(toolbar.isSelectionMode).toBeFalsy();
+        expect(toolbar.autolayoutCanvasMode).toBe(AutoLayoutCanvasMode.DEFAULT);
 
         Store.resetStore();
     });
@@ -154,17 +158,17 @@ describe('auto-layout', () => {
             properties: { ...recordTriggeredFlowUIModel.properties, isAutoLayoutCanvas: true }
         });
         const editorComponent = await createComponentUnderTest();
-        const toggleModeEvent = new ToggleSelectionModeEvent();
+        const toggleModeEvent = new UpdateAutolayoutCanvasModeEvent(AutoLayoutCanvasMode.SELECTION);
         const escapeEvent = new KeyboardEvent('keydown', { key: Keys.Escape, bubbles: true });
         const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
 
         alcCanvasContainer.dispatchEvent(toggleModeEvent);
         await ticks(1);
-        expect(alcCanvasContainer.isSelectionMode).toBeTruthy();
+        expect(alcCanvasContainer.autolayoutCanvasMode).toBe(AutoLayoutCanvasMode.SELECTION);
 
         alcCanvasContainer.dispatchEvent(escapeEvent);
         await ticks(1);
-        expect(alcCanvasContainer.isSelectionMode).toBeFalsy();
+        expect(alcCanvasContainer.autolayoutCanvasMode).toBe(AutoLayoutCanvasMode.DEFAULT);
 
         Store.resetStore();
     });
@@ -233,7 +237,7 @@ describe('auto-layout', () => {
             });
 
             it('closes the property editor on when toolbar fires toggle selection mode event', async () => {
-                const event = new ToggleSelectionModeEvent();
+                const event = new UpdateAutolayoutCanvasModeEvent(AutoLayoutCanvasMode.SELECTION);
                 const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
                 toolbar.dispatchEvent(event);
 

@@ -1,4 +1,11 @@
 // @ts-nocheck
+import {
+    AutoLayoutCanvasMode,
+    isDefaultMode,
+    isReconnectionMode,
+    isSelectionMode
+} from 'builder_platform_interaction/alcComponentsUtils';
+import { UpdateAutolayoutCanvasModeEvent } from 'builder_platform_interaction/alcEvents';
 import { CanvasMode } from 'builder_platform_interaction/builderUtils';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import {
@@ -18,7 +25,6 @@ import {
     ToggleCanvasModeEvent,
     ToggleFlowStatusEvent,
     ToggleLeftPanelEvent,
-    ToggleSelectionModeEvent,
     ToolbarFocusOutEvent,
     UndoEvent,
     ViewAllTestsEvent
@@ -84,7 +90,7 @@ export default class Toolbar extends LightningElement {
     flowErrorsAndWarnings;
 
     @api
-    isSelectionMode;
+    autolayoutCanvasMode;
 
     @api
     isUndoDisabled;
@@ -230,7 +236,11 @@ export default class Toolbar extends LightningElement {
     }
 
     get selectButtonVariant() {
-        return this.isSelectionMode ? 'brand' : 'neutral';
+        return !isDefaultMode(this.autolayoutCanvasMode) ? 'brand' : 'neutral';
+    }
+
+    get showCopyClipboard() {
+        return isSelectionMode(this.autolayoutCanvasMode) || isReconnectionMode(this.autolayoutCanvasMode);
     }
 
     get showLastSavedPill() {
@@ -334,9 +344,13 @@ export default class Toolbar extends LightningElement {
         return 'neutral';
     }
 
+    get isLeftPanelButtonDisabled() {
+        return !isDefaultMode(this.autolayoutCanvasMode);
+    }
+
     /** Logic is based off the builder config AND selection mode status */
     get showUndoRedoButtonComposed() {
-        return !this.isSelectionMode && this.showUndoRedoButton;
+        return isDefaultMode(this.autolayoutCanvasMode) && this.showUndoRedoButton;
     }
 
     /**
@@ -362,8 +376,10 @@ export default class Toolbar extends LightningElement {
 
     handleSelectButtonClick(event) {
         event.stopPropagation();
-        const toggleSelectionModeEvent = new ToggleSelectionModeEvent();
-        this.dispatchEvent(toggleSelectionModeEvent);
+        const mode = !isDefaultMode(this.autolayoutCanvasMode)
+            ? AutoLayoutCanvasMode.DEFAULT
+            : AutoLayoutCanvasMode.SELECTION;
+        this.dispatchEvent(new UpdateAutolayoutCanvasModeEvent(mode));
     }
 
     handleUndo(event) {

@@ -9,7 +9,8 @@ import {
     DeleteBranchElementEvent,
     GoToPathEvent,
     HighlightPathsToDeleteEvent,
-    ToggleMenuEvent
+    ToggleMenuEvent,
+    UpdateAutolayoutCanvasModeEvent
 } from 'builder_platform_interaction/alcEvents';
 import { MenuType, updateDeletionPathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
@@ -18,7 +19,6 @@ import {
     ClickToZoomEvent,
     DeleteElementEvent,
     EditElementEvent,
-    ToggleSelectionModeEvent,
     ZOOM_ACTION
 } from 'builder_platform_interaction/events';
 import { commands, invokeModal } from 'builder_platform_interaction/sharedUtils';
@@ -753,42 +753,30 @@ describe('Auto Layout Canvas', () => {
     });
 
     describe('AutoLayout Canvas Mode', () => {
-        it('isSelectionMode should be false when canvasContext.mode is default', async () => {
-            // Tests the getter for isSelectionMode
-            expect(cmp.isSelectionMode).toBeFalsy();
-        });
-
-        it('isSelectionMode should be true when canvasContext.mode is selection', async () => {
-            // Calls the setter and sets canvasContext.mode to AutoLayoutCanvasMode.SELECTION
-            cmp.isSelectionMode = true;
-            // Tests the getter for isSelectionMode
-            expect(cmp.isSelectionMode).toBeTruthy();
-        });
-
-        it('isSelectionMode should be true when canvasContext.mode is reconnection', async () => {
+        it('canvasMode should be RECONNECTION when canvasContext.mode is reconnection', async () => {
             const goToPathEvent = new GoToPathEvent({ guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5' }, true);
             // Sets the canvasContext.mode to AutoLayoutCanvasMode.RECONNECTION
             await dispatchEvent(getFlow(), goToPathEvent);
-            // Tests the getter for isSelectionMode
-            expect(cmp.isSelectionMode).toBeTruthy();
+            // Tests the getter for canvasMode
+            expect(cmp.canvasMode).toBe(AutoLayoutCanvasMode.RECONNECTION);
         });
 
-        it('canvasContext.mode should be reconnection when creating a GoTo and ensuring isSelectionMode is true', async () => {
+        it('canvasContext.mode should be reconnection when creating a GoTo', async () => {
             const goToPathEvent = new GoToPathEvent({ guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5' }, true);
             await dispatchEvent(getFlow(), goToPathEvent);
-            cmp.isSelectionMode = true;
             // Ensure we wait for alcFlow to rerender with the updated canvasContext in case handleSelectionModeChange updates it
             await ticks(1);
             const flow = getFlow();
             expect(flow.canvasContext.mode).toEqual(AutoLayoutCanvasMode.RECONNECTION);
         });
 
-        it('Should dispatch ToggleSelectionModeEvent when handling GoToPathEvent', async () => {
+        it('Should dispatch UpdateAutolayoutCanvasModeEvent with RECONNECTION when handling GoToPathEvent', async () => {
             const eventCallback = jest.fn();
-            cmp.addEventListener(ToggleSelectionModeEvent.EVENT_NAME, eventCallback);
+            cmp.addEventListener(UpdateAutolayoutCanvasModeEvent.EVENT_NAME, eventCallback);
             const goToPathEvent = new GoToPathEvent({ guid: 'eb01a710-d341-4ba0-81d2-f7ef03300db5' }, true);
             await dispatchEvent(getFlow(), goToPathEvent);
             expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail.mode).toEqual(AutoLayoutCanvasMode.RECONNECTION);
         });
 
         it('Should dispatch AlcSelectionEvent when handling GoToPathEvent', async () => {
@@ -833,12 +821,13 @@ describe('Auto Layout Canvas', () => {
 
             it('Should dispatch ToggleSelectionModeEvent event when reconnecting', async () => {
                 const eventCallback = jest.fn();
-                cmp.addEventListener(ToggleSelectionModeEvent.EVENT_NAME, eventCallback);
+                cmp.addEventListener(UpdateAutolayoutCanvasModeEvent.EVENT_NAME, eventCallback);
                 const alcSelectDeselectNodeEvent = new AlcSelectDeselectNodeEvent({
                     canvasElementGUID: 'eb01a710-d341-4ba0-81d2-f7ef03300db5'
                 });
                 await dispatchEvent(getFlow(), alcSelectDeselectNodeEvent);
                 expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0].detail.mode).toEqual(AutoLayoutCanvasMode.DEFAULT);
             });
         });
     });

@@ -1,10 +1,12 @@
 import {
-    AutoLayoutCanvasMode,
     CanvasContext,
     getEnterKeyInteraction,
     ICON_SHAPE,
     importComponent,
+    isCutMode,
+    isDefaultMode,
     isMenuOpened,
+    isReconnectionMode,
     scheduleTask
 } from 'builder_platform_interaction/alcComponentsUtils';
 import {
@@ -144,8 +146,8 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
         return LABELS;
     }
 
-    get isDefaultMode() {
-        return this.canvasContext.mode === AutoLayoutCanvasMode.DEFAULT;
+    get isDefaultCanvasMode() {
+        return isDefaultMode(this.canvasContext.mode);
     }
 
     get canvasMode() {
@@ -235,10 +237,10 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
         const { mode } = this.canvasContext;
 
         const isValidType =
-            (mode === AutoLayoutCanvasMode.RECONNECTION && type === NodeType.END) ||
+            (isReconnectionMode(this.canvasContext.mode) && type === NodeType.END) ||
             ![NodeType.START, NodeType.END, NodeType.ROOT].includes(type);
 
-        return mode !== AutoLayoutCanvasMode.DEFAULT && isValidType;
+        return !isDefaultMode(mode) && !isCutMode(mode) && isValidType;
     }
 
     get shouldDisableCheckbox() {
@@ -364,7 +366,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
 
     @api
     focus() {
-        const element = !this.isDefaultMode ? this.dom.checkbox : this.dom.menuTrigger;
+        const element = !isDefaultMode(this.canvasContext.mode) ? this.dom.checkbox : this.dom.menuTrigger;
         element?.focus();
     }
 
@@ -389,7 +391,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
         event.stopPropagation();
 
         const { type } = this.nodeInfo.metadata;
-        if (this.isDefaultMode && type !== NodeType.END) {
+        if (isDefaultMode(this.canvasContext.mode) && type !== NodeType.END) {
             const node = this.getNode();
             const nodeSelectedEvent = new SelectNodeEvent(this.nodeInfo.guid, undefined, node.config.isSelected);
             this.dispatchEvent(nodeSelectedEvent);
@@ -404,7 +406,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
     handleOnDblClick(event: Event) {
         event.stopPropagation();
         const { type } = this.nodeInfo.metadata;
-        if (type !== NodeType.START && type !== NodeType.END && this.isDefaultMode) {
+        if (type !== NodeType.START && type !== NodeType.END && isDefaultMode(this.canvasContext.mode)) {
             this.dispatchEvent(new EditElementEvent(this.nodeInfo.guid));
         }
     }

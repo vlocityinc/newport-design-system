@@ -8,7 +8,7 @@ export default class AlcCanvas extends LightningElement {
     elementsMetadata;
 
     @api
-    isSelectionMode;
+    canvasMode;
 
     @api
     flowModel;

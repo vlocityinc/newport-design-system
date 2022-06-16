@@ -1,9 +1,10 @@
 import {
-    AutoLayoutCanvasMode,
     CanvasContext,
     getCssStyle,
     getEnterKeyInteraction,
     getStyleFromGeometry,
+    isCutMode,
+    isDefaultMode,
     isMenuOpened,
     scheduleTask
 } from 'builder_platform_interaction/alcComponentsUtils';
@@ -97,9 +98,20 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
     get showAddElementButton() {
         return (
             this.connectorInfo.addInfo &&
-            this.canvasContext.mode === AutoLayoutCanvasMode.DEFAULT &&
+            (isDefaultMode(this.canvasContext.mode) || isCutMode(this.canvasContext.mode)) &&
             !this.disableAddElements
         );
+    }
+
+    get isCutMode() {
+        return isCutMode(this.canvasContext.mode);
+    }
+
+    get addIconClasses() {
+        return classSet({
+            'circle-text': true,
+            'primary-add-icon': isCutMode(this.canvasContext.mode)
+        });
     }
 
     /**

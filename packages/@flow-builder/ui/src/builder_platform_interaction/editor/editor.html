@@ -26,7 +26,7 @@
             <builder_platform_interaction-toolbar
                 role="banner"
                 aria-label={labels.ariaLabelToolbar}
-                ontoggleselectionmode={handleToggleSelectionMode}
+                onupdateautolayoutcanvasmode={handleUpdateAutolayoutCanvasMode}
                 oncopyoncanvas={handleCopy}
                 onclick={handleLeftPanelAndToolbarInteraction}
                 onduplicate={handleDuplicate}
@@ -74,7 +74,7 @@
                 is-run-debug-disabled={isRunDebugDisabled}
                 is-save-disabled={disableSave}
                 is-save-as-disabled={hasNotBeenSaved}
-                is-selection-mode={isSelectionMode}
+                autolayout-canvas-mode={autolayoutCanvasMode}
                 is-left-panel-toggled={isLeftPanelToggled}
                 is-cut-copy-disabled={isCutCopyDisabled}
                 is-undo-disabled={isUndoDisabled}
@@ -85,7 +85,7 @@
                 is-lightning-flow-builder={properties.isLightningFlowBuilder}
                 can-only-save-as-new-definition={properties.canOnlySaveAsNewDefinition}
                 has-unsaved-changes={properties.hasUnsavedChanges}
-                hide-selection-button={canvasConfig.disableMultiSelectElements}
+                hide-selection-button={hideSelectionButton}
                 ontogglecanvasmode={handleToggleCanvasMode}
                 is-auto-layout-canvas={properties.isAutoLayoutCanvas}
                 builder-mode={builderMode}
@@ -137,8 +137,8 @@
                     aria-label={labels.ariaLabelCanvasContainer}
                     if:true={properties.isAutoLayoutCanvas}
                     elements-metadata={elementsMetadata}
+                    autolayout-canvas-mode={autolayoutCanvasMode}
                     invocable-actions={invocableActions}
-                    is-selection-mode={isSelectionMode}
                     custom-icon-map={customIconMap}
                     disable-delete-elements={canvasConfig.disableDeleteElements}
                     disable-edit-elements={canvasConfig.disableEditElements}
@@ -147,7 +147,7 @@
                     oncopysingleelement={handleCopySingleElement}
                     ondeleteelement={handleElementDelete}
                     oneditelement={handleEditElement}
-                    ontoggleselectionmode={handleToggleSelectionMode}
+                    onupdateautolayoutcanvasmode={handleUpdateAutolayoutCanvasMode}
                     onalcselection={handleSelectionOnFixedCanvas}
                     onpasteoncanvas={handlePasteOnCanvas}
                     oncutelements={handleCutElements}

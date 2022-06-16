@@ -1,5 +1,7 @@
 // @ts-nocheck
 import { setup } from '@sa11y/jest';
+import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
+import { UpdateAutolayoutCanvasModeEvent } from 'builder_platform_interaction/alcEvents';
 import {
     ACCESSIBILITY_TEST_TIMEOUT_IN_MS,
     changeEvent,
@@ -24,7 +26,6 @@ import {
     ToggleCanvasModeEvent,
     ToggleFlowStatusEvent,
     ToggleLeftPanelEvent,
-    ToggleSelectionModeEvent,
     ToolbarFocusOutEvent
 } from 'builder_platform_interaction/events';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
@@ -51,6 +52,7 @@ const createComponentUnderTest = (props = {}) => {
         showSaveButton: getPropertyOrDefaultToTrue(props, 'showSaveButton'),
         showSaveAsButton: getPropertyOrDefaultToTrue(props, 'showSaveAsButton'),
         showUndoRedoButton: getPropertyOrDefaultToTrue(props, 'showUndoRedoButton'),
+        autolayoutCanvasMode: getPropertyOrDefaultToTrue(props, 'autolayoutCanvasMode'),
         showLeftPanelToggle: getPropertyOrDefaultToTrue(props, 'showLeftPanelToggle')
     });
 
@@ -132,16 +134,40 @@ describe('toolbar', () => {
         expect(leftPanelToggle).toBeNull();
     });
 
-    it('Left panel toggle should be disabled if isSelectionMode is true', () => {
+    it('Left panel toggle should be disabled if AutoLayoutCanvasMode is in RECONNECTION', () => {
         const toolbarComponent = createComponentUnderTest({
-            isSelectionMode: true
+            autolayoutCanvasMode: AutoLayoutCanvasMode.RECONNECTION
         });
         const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
-        expect(leftPanelToggle).toHaveProperty('disabled');
+        expect(leftPanelToggle.disabled).toBe(true);
+    });
+
+    it('Left panel toggle should be disabled if AutoLayoutCanvasMode is in SELECTION', () => {
+        const toolbarComponent = createComponentUnderTest({
+            autolayoutCanvasMode: AutoLayoutCanvasMode.SELECTION
+        });
+        const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
+        expect(leftPanelToggle.disabled).toBe(true);
+    });
+
+    it('Left panel toggle should be disabled if AutoLayoutCanvasMode is in CUT', () => {
+        const toolbarComponent = createComponentUnderTest({
+            autolayoutCanvasMode: AutoLayoutCanvasMode.CUT
+        });
+        const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
+        expect(leftPanelToggle.disabled).toBe(true);
+    });
+
+    it('Left panel toggle should not be disabled if AutoLayoutCanvasMode is in DEFAULT', () => {
+        const toolbarComponent = createComponentUnderTest({
+            autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT
+        });
+        const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
+        expect(leftPanelToggle.disabled).toBe(false);
     });
 
     it('Undo Redo should be present', () => {
-        const toolbarComponent = createComponentUnderTest();
+        const toolbarComponent = createComponentUnderTest({ autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT });
         const undoRedoGroup = toolbarComponent.shadowRoot.querySelector(SELECTORS.undoRedo);
         expect(undoRedoGroup).not.toBeNull();
     });
@@ -368,14 +394,14 @@ describe('toolbar', () => {
     it('Undo/redo button should be hidden if toolbar config is set as such, regardless of selection mode', () => {
         let toolbarComponent = createComponentUnderTest({
             showUndoRedoButton: false,
-            isSelectionMode: true
+            autolayoutCanvasMode: AutoLayoutCanvasMode.SELECTION
         });
         let undoRedoButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.undoRedo);
         expect(undoRedoButton).toBeNull();
 
         toolbarComponent = createComponentUnderTest({
             showUndoRedoButton: false,
-            isSelectionMode: true
+            autolayoutCanvasMode: AutoLayoutCanvasMode.SELECTION
         });
         undoRedoButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.undoRedo);
         expect(undoRedoButton).toBeNull();
@@ -552,7 +578,10 @@ describe('toolbar', () => {
 
         describe('Base Mode', () => {
             beforeEach(() => {
-                toolbarComponent = createComponentUnderTest({ isAutoLayoutCanvas: true });
+                toolbarComponent = createComponentUnderTest({
+                    isAutoLayoutCanvas: true,
+                    autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT
+                });
             });
 
             it('Displays Select Button with right configuration when in Base Mode', () => {
@@ -591,11 +620,12 @@ describe('toolbar', () => {
                 expect(copyButton).toBeNull();
             });
 
-            it('Click on the Select Button should fire the ToggleSelectionModeEvent', () => {
+            it('Click on the Select Button should fire the UpdateAutolayoutCanvasModeEvent', () => {
                 const eventCallback = jest.fn();
-                toolbarComponent.addEventListener(ToggleSelectionModeEvent.EVENT_NAME, eventCallback);
+                toolbarComponent.addEventListener(UpdateAutolayoutCanvasModeEvent.EVENT_NAME, eventCallback);
                 toolbarComponent.shadowRoot.querySelector(SELECTORS.select).click();
                 expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0].detail.mode).toEqual(AutoLayoutCanvasMode.SELECTION);
             });
         });
 
@@ -603,8 +633,8 @@ describe('toolbar', () => {
             beforeEach(() => {
                 toolbarComponent = createComponentUnderTest({
                     isCutCopyDisabled: true,
-                    isSelectionMode: true,
-                    isAutoLayoutCanvas: true
+                    isAutoLayoutCanvas: true,
+                    autolayoutCanvasMode: AutoLayoutCanvasMode.SELECTION
                 });
             });
 
@@ -617,11 +647,12 @@ describe('toolbar', () => {
                 expect(selectButton.variant).toBe('brand');
             });
 
-            it('Click on the Select Button should fire the ToggleSelectionModeEvent', () => {
+            it('Click on the Select Button should fire the UpdateAutolayoutCanvasModeEvent', () => {
                 const eventCallback = jest.fn();
-                toolbarComponent.addEventListener(ToggleSelectionModeEvent.EVENT_NAME, eventCallback);
+                toolbarComponent.addEventListener(UpdateAutolayoutCanvasModeEvent.EVENT_NAME, eventCallback);
                 toolbarComponent.shadowRoot.querySelector(SELECTORS.select).click();
                 expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0].detail.mode).toEqual(AutoLayoutCanvasMode.DEFAULT);
             });
 
             it('Does not display the undo redo group in Selection Mode', () => {
@@ -661,7 +692,10 @@ describe('toolbar', () => {
             });
 
             it('The copy button should be enabled when isCutCopyDisabled is false', () => {
-                toolbarComponent = createComponentUnderTest({ isCutCopyDisabled: false, isSelectionMode: true });
+                toolbarComponent = createComponentUnderTest({
+                    isCutCopyDisabled: false,
+                    autolayoutCanvasMode: AutoLayoutCanvasMode.SELECTION
+                });
                 const copyButton = toolbarComponent.shadowRoot.querySelector(SELECTORS.copy);
                 expect(copyButton.disabled).toBeFalsy();
             });

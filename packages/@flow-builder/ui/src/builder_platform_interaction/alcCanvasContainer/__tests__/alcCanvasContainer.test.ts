@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { getChildElementTypesWithOverridenProperties } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -185,7 +186,7 @@ const createComponentForTest = async (optionsOverrides = {}) => {
         'builder_platform_interaction-alc-canvas-container',
         {
             elementsMetadata,
-            isSelectionMode: false,
+            autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT,
             numPasteElementsAvailable: 0,
             invocableActions
         },
@@ -230,6 +231,7 @@ describe('alc canvas container', () => {
     it('offsets when in selection mode', async () => {
         expect(getAlcCanvas().offsets).toEqual([0, 58]);
 
+        cmp.autolayoutCanvasMode = AutoLayoutCanvasMode.SELECTION;
         cmp.showLeftPanel = true;
         await ticks(1);
         expect(getAlcCanvas().offsets).toEqual([320, 58]);

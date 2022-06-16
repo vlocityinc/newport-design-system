@@ -1,5 +1,5 @@
-import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
-import { ToggleSelectionModeEvent } from 'builder_platform_interaction/events';
+import { AutoLayoutCanvasMode, isCutMode, isReconnectionMode } from 'builder_platform_interaction/alcComponentsUtils';
+import { UpdateAutolayoutCanvasModeEvent } from 'builder_platform_interaction/alcEvents';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './scopedNotificationLabels';
 
@@ -10,14 +10,16 @@ export default class ScopedNotification extends LightningElement {
     labels = LABELS;
 
     get bodyText() {
-        return this.canvasMode === AutoLayoutCanvasMode.RECONNECTION
+        return isReconnectionMode(this.canvasMode)
             ? this.labels.connectBodyText
+            : isCutMode(this.canvasMode)
+            ? this.labels.cutBodyText
             : this.labels.selectBodyText;
     }
 
     handleCancel(event) {
         event.preventDefault();
-        const toggleSelectionModeEvent = new ToggleSelectionModeEvent();
-        this.dispatchEvent(toggleSelectionModeEvent);
+        const updateAutolayoutCanvasModeEvent = new UpdateAutolayoutCanvasModeEvent(AutoLayoutCanvasMode.DEFAULT);
+        this.dispatchEvent(updateAutolayoutCanvasModeEvent);
     }
 }
