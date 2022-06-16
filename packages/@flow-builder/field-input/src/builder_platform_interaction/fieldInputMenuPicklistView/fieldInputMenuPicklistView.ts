@@ -20,7 +20,9 @@ export default class FieldInputMenuPicklistView extends FieldInputMenuView<GetPi
     @api set info(info: Props) {
         this._info = info;
         const { recordTypeId, fieldApiName } = info;
-        getPicklistValuesApi({ recordTypeId, fieldApiName }).then(this.updateSections.bind(this));
+        getPicklistValuesApi({ recordTypeId, fieldApiName }).then((apiResponse) => {
+            this.updateSections(apiResponse);
+        });
     }
 
     get info(): Props {

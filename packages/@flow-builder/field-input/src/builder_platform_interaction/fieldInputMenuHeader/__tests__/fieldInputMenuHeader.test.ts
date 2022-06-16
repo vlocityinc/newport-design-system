@@ -1,11 +1,15 @@
-// @ts-nocheck
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
-import { createComponent, updateComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { createComponent, updateComponent } from 'builder_platform_interaction/builderTestUtils';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { MOCK_BREADCRUMBS } from 'mock/fieldInputBreadcrumbData';
+import { MOCK_BREADCRUMBS } from 'mock-data/fieldInputBreadcrumbData';
 import { LABELS } from '../fieldInputMenuHeaderLabels';
 
-jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+jest.mock('builder_platform_interaction/sharedUtils', () =>
+    jest.requireActual('builder_platform_interaction_mocks/sharedUtils')
+);
+
+jest.mock('builder_platform_interaction/fieldInputBreadcrumbs', () =>
+    jest.requireActual('builder_platform_interaction_mocks/fieldInputBreadcrumbs')
+);
 
 const tag = 'builder_platform_interaction-field-input-menu-header';
 
@@ -13,15 +17,16 @@ const defaultProps = {
     mode: 'allResources'
 };
 
-const createComponentUnderTest = async (overrideProps) => {
+const createComponentUnderTest = async (overrideProps = {}) => {
     return createComponent(tag, defaultProps, overrideProps);
 };
 
 function assertTextAndBreadcrumb(dom, { text, hasBreadcrumb }) {
+    const breadcrumbs = dom.breadcrumbs;
     if (hasBreadcrumb) {
-        expect(dom.breadcrumb).not.toBeNull();
+        expect(breadcrumbs).not.toBeNull();
     } else {
-        expect(dom.breadcrumb).toBeNull();
+        expect(breadcrumbs).toBeNull();
     }
 
     if (text != null) {
@@ -33,7 +38,7 @@ function assertTextAndBreadcrumb(dom, { text, hasBreadcrumb }) {
 
 const selectors = {
     text: '.text',
-    breadcrumb: INTERACTION_COMPONENTS_SELECTORS.FIELD_INPUT_BREADCRUMBS
+    breadcrumbs: 'builder_platform_interaction-field-input-breadcrumbs'
 };
 
 async function updateComponentMode(cmp, mode) {

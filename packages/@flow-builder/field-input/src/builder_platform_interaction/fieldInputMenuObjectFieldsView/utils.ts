@@ -8,8 +8,7 @@ export function getObjectFieldsViewSections(apiData: GetObjectInfoApiData): Fiel
         ...field,
         type: field.dataType,
         name: field.apiName,
-        value: field.apiName,
-        viewType: 'None'
+        value: field.apiName
     }));
 
     return [{ items: menuItems, key: 'section-default', label: undefined }];

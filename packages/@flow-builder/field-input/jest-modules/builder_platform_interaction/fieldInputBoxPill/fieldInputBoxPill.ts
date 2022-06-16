@@ -1,3 +1,6 @@
-import { LightningElement } from 'lwc';
+import { api, LightningElement } from 'lwc';
 
-export default class AlcCanvas extends LightningElement {}
+export default class FieldInputBoxPill extends LightningElement {
+    @api label;
+    @api iconName;
+}

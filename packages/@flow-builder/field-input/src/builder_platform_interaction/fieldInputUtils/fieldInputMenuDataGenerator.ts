@@ -10,6 +10,10 @@ import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/syst
 import { LABELS } from './expressionUtilsLabels';
 const { format } = commonUtils;
 
+const viewTBD: FieldInput.MenuItemViewTBD = {
+    type: 'MenuItemViewTypeTbd'
+};
+
 // make type from t FLOW_DATA_TYPE
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
@@ -123,7 +127,10 @@ const getNonCanvasElementIconInfo = (
  * @param dataType dataType associated with the resource
  * @returns representation of the $Record global resource in the shape combobox needs
  */
-const getGlobalRecordMenuItem = (resource: UI.FlowResource, dataType: UI.Datatype): FieldInput.MenuItem => {
+const getGlobalRecordMenuItem = (
+    resource: UI.FlowResource,
+    dataType: UI.Datatype
+): FieldInput.MenuItem<FieldInput.MenuItemViewObjectFields> => {
     const iconInfo = getNonCanvasElementIconInfo(dataType, resource.isCollection, resource.elementType);
 
     return {
@@ -131,7 +138,7 @@ const getGlobalRecordMenuItem = (resource: UI.FlowResource, dataType: UI.Datatyp
         label: format(LABELS.globalRecordLabel, resource.subtype),
         value: SYSTEM_VARIABLE_RECORD_PREFIX,
         description: format(LABELS.globalRecordDescription, resource.subtype),
-        viewType: 'ObjectFields',
+        view: { type: 'ObjectFields', objectApiName: resource.subtype! },
         category: LABELS.globalResources,
         subtype: resource.subtype,
         ...iconInfo
@@ -156,14 +163,14 @@ const getResourceMenuItem = (resource: UI.FlowResource, dataType: UI.Datatype): 
         ? getCanvasElementIconInfo(resource)
         : getNonCanvasElementIconInfo(dataType, resource.isCollection, resource.elementType, resource.actionType);
 
-    const viewType = resource.isCanvasElement ? 'FlowElement' : 'MenuItemViewTypeTbd';
+    const view = resource.isCanvasElement ? ({ type: 'FlowElement' } as FieldInput.MenuItemView) : viewTBD;
     const { label, guid, description, category, subtype } = resource;
 
     return {
         name,
         label: label || name,
         value: guid,
-        viewType,
+        view,
         // Adding description for Global values like True, False etc.
         description,
         category: category || elementCategory,
@@ -184,7 +191,7 @@ const getResourceMenuItem = (resource: UI.FlowResource, dataType: UI.Datatype): 
  * @param resource element from flow or global constants
  * @returns representation of the passed in resource in shape combobox needs
  */
-export function mutateFlowResourceToComboboxShape(resource: UI.FlowResource): FieldInput.MenuItem {
+export function mutateFlowResourceToComboboxShape(resource: UI.FlowResource): FieldInput.MenuItem<any> {
     const dataType: UI.Datatype = getDataType(resource);
 
     const menuItem =
@@ -207,7 +214,7 @@ export const mutateEntitiesToComboboxShape = (entities: UI.EntityDefinition[]): 
         const iconInfo = getNonCanvasElementIconInfo(SOBJECT_TYPE, isCollection);
 
         return {
-            viewType: 'MenuItemViewTypeTbd',
+            view: viewTBD,
             label: entityLabel || apiName,
             name: apiName,
             value: apiName,
@@ -238,7 +245,7 @@ const mutateApexClassesToComboboxShape = (classes: UI.EntityDefinition[]): Field
             dataType: APEX_TYPE,
             isCollection,
             subtype: durableId,
-            viewType: 'MenuItemViewTypeTbd',
+            view: viewTBD,
             ...iconInfo
         };
     });
@@ -267,7 +274,7 @@ export const mutatePicklistValue = (picklistOption: PicklistOption): FieldInput.
     const iconInfo = getNonCanvasElementIconInfo(FLOW_DATA_TYPE.STRING.value);
 
     return {
-        viewType: 'MenuItemViewTypeTbd',
+        view: viewTBD,
         label: label || value,
         name: value,
         dataType: FLOW_DATA_TYPE.STRING.value,
@@ -293,7 +300,7 @@ export const mutateEventTypesToComboboxShape = (eventTypes: FieldInput.EventType
             name: qualifiedApiName,
             value: qualifiedApiName,
             dataType: SOBJECT_TYPE,
-            viewType: 'MenuItemViewTypeTbd',
+            view: viewTBD,
             subtype: qualifiedApiName,
             ...iconInfo
         };
@@ -327,8 +334,10 @@ export const mutateSystemAndGlobalVariablesToComboboxShape = ({
 }): FieldInput.MenuItem => {
     const { hasLabelSubtypeParam, description, label, iconName, hasDescriptionSubtypeParam } = config;
 
+    const viewType = globalVariablesViewMap[name];
+
     return {
-        viewType: globalVariablesViewMap[name] || 'MenuItemViewTypeTbd',
+        view: viewType != null ? { type: viewType } : viewTBD,
         value: name,
         dataType,
         subtype,

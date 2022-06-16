@@ -25,7 +25,9 @@ import {
 import { getResourceCategoryLabel, getResourceName } from '../fieldInputMenuDataLib';
 import { LABELS } from '../fieldInputMenuDataLibLabels';
 
-jest.mock('builder_platform_interaction/sobjectLib', () => require('builder_platform_interaction_mocks/sobjectLib'));
+jest.mock('builder_platform_interaction/sobjectLib', () =>
+    jest.requireActual('builder_platform_interaction_mocks/sobjectLib')
+);
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
     () => {
@@ -91,7 +93,7 @@ const createElement = (elementType, dataType, isCollection, storeOutputAutomatic
     elementSubtype
 });
 
-describe('Tests for getResourceCategory', () => {
+describe('Field Input Menu Data Lib Tests', () => {
     it('Automatic output associated with "Create Records" should be under Record Create category', () => {
         expect(
             getResourceCategoryLabel(createElement(ELEMENT_TYPE.RECORD_CREATE, FLOW_DATA_TYPE.STRING.value, false))

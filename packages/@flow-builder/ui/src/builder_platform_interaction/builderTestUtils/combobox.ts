@@ -1,13 +1,14 @@
-import Combobox from 'builder_platform_interaction/combobox';
-import { clickEvent, LIGHTNING_COMPONENTS_SELECTORS, removeEvent, ticks } from './builderTestUtils';
+import { ticks } from './commonTestUtils';
+import { clickEvent, removeEvent } from './events';
+import { LIGHTNING_COMPONENTS_SELECTORS } from './selectors';
 
 /**
  * Return the pill component corresponding to the given combobox
  *
- * @param {Combobox} combobox - combobox component
- * @returns {HTMLElement | null} lightning pill component
+ * @param combobox - combobox component
+ * @returns lightning pill component
  */
-export const getComboboxPill = (combobox: any): any | null => {
+export const getComboboxPill = (combobox: HTMLElement): HTMLElement | null => {
     const { shadowRoot } = combobox;
     if (!shadowRoot) {
         throw new Error('combobox shadowRoot must not be null');
@@ -18,11 +19,9 @@ export const getComboboxPill = (combobox: any): any | null => {
 /**
  * Click on pill to switch to merge field notation combobox mode
  *
- * @param {Combobox} combobox - current combobox
- * @returns {Promise<void>}
+ * @param combobox - current combobox
  */
-// eslint-disable-next-line @lwc/lwc/no-async-await
-export const clickPill = async (combobox: Combobox): Promise<void> => {
+export const clickPill = async (combobox: HTMLElement) => {
     const pill = getComboboxPill(combobox);
     if (pill) {
         pill.dispatchEvent(clickEvent());
@@ -33,11 +32,9 @@ export const clickPill = async (combobox: Combobox): Promise<void> => {
 /**
  * Remove pill to switch to merge field notation combobox mode and reset combobox menu data
  *
- * @param {Combobox} combobox - current combobox
- * @returns {Promise<void>}
+ * @param combobox - current combobox
  */
-// eslint-disable-next-line @lwc/lwc/no-async-await
-export const removePill = async (combobox: Combobox): Promise<void> => {
+export const removePill = async (combobox: HTMLElement): Promise<void> => {
     const pill = getComboboxPill(combobox);
     if (pill) {
         pill.dispatchEvent(removeEvent());

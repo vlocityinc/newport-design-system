@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Field Input Menu Picklist View Tests utils > getPicklistViewSection 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "key": "Advertisement",
+      "label": "Advertisement",
+      "name": "Advertisement",
+      "value": "Advertisement",
+    },
+    Object {
+      "key": "Employee Referral",
+      "label": "Employee Referral",
+      "name": "Employee Referral",
+      "value": "Employee Referral",
+    },
+  ],
+  "key": "section-default",
+}
+`;

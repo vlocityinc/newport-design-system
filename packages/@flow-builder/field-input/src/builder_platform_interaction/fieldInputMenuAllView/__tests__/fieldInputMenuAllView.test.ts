@@ -1,9 +1,15 @@
-// @ts-nocheck
-import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    jest.requireActual('builder_platform_interaction_mocks/storeLib')
+);
+
+jest.mock('builder_platform_interaction/fieldInputMenuSectionItem', () =>
+    jest.requireActual('builder_platform_interaction_mocks/fieldInputMenuSectionItem')
+);
+
 jest.mock('builder_platform_interaction/ruleLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/ruleLib');
 
@@ -27,6 +33,7 @@ describe('Field Input Menu All View Tests', () => {
     let cmp;
 
     beforeAll(() => {
+        // @ts-ignore
         Store.setMockState(flowWithAllElementsUIModel);
     });
 

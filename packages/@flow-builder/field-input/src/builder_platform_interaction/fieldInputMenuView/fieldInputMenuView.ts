@@ -24,8 +24,9 @@ export default abstract class FieldInputMenuView<T> extends withKeyboardInteract
      *
      * @param apiResponse - The api result
      */
-    updateSections(apiResponse: ApiResponse<T>): void {
+    updateSections(apiResponse: WireResponse<T>): void {
         const { error, data } = apiResponse;
+        console.log(apiResponse);
 
         if (error != null) {
             // TODO: fix error handling

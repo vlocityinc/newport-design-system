@@ -1,10 +1,4 @@
-/**
- * @param viewType - The view type
- * @returns true if there is a next view for the view type
- */
-export function hasNext(viewType: FieldInput.MenuItemViewType): boolean {
-    return viewType !== 'None' && viewType !== 'MenuItemViewTypeTbd';
-}
+import { newCustomEvent } from 'builder_platform_interaction/events';
 
 // TODO: look into this:
 //   menuItem.hasNext =
@@ -13,3 +7,18 @@ export function hasNext(viewType: FieldInput.MenuItemViewType): boolean {
 
 export * from './fieldInputMenuDataGenerator';
 export * from './fieldInputMenuDataRetrieval';
+
+/**
+ * Creates a new MenuSelectItemEvent
+ *
+ * @param item - A menu item
+ * @returns A new MenuSelectItemEvent
+ */
+export function newMenuSelectItemEvent(item: FieldInput.MenuItem) {
+    return newCustomEvent<FieldInput.MenuSelectItemEventDetail>('fieldinputmenuselectitem', { item });
+}
+
+/**
+ * The "All" menu context item
+ */
+export const menuContextItemAll: FieldInput.MenuContextItem = { type: 'All' } as const;

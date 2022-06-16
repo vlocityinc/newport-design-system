@@ -1,6 +1,7 @@
 import { NewResourceEvent } from 'builder_platform_interaction/events';
+import { menuContextItemAll } from 'builder_platform_interaction/fieldInputUtils';
 import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { api, LightningElement, track } from 'lwc';
+import { api, LightningElement } from 'lwc';
 import { LABELS } from './fieldInputMenuLabels';
 
 const { withKeyboardInteractions } = keyboardInteractionUtils;
@@ -24,54 +25,42 @@ export default class FieldInputMenu extends withKeyboardInteractions(LightningEl
         return [];
     }
 
-    handleFooterClick(event) {
-        event.preventDefault();
-        this.dispatchEvent(new NewResourceEvent(null, false));
+    @api contextItems: FieldInput.MenuContextItem[] = [menuContextItemAll];
+
+    get currentView() {
+        return this.contextItems.at(-1);
     }
 
-    @track _contextItems: FieldInput.MenuContextItem[] = [undefined];
+    get headerMode() {
+        return this.isAllResources() ? 'allResources' : 'traversal';
+    }
 
-    @track headerInfo = {
-        mode: 'allResources',
-        breadcrumbs: [] as FieldInput.Breadcrumb[]
-    };
+    get breadcrumbs(): FieldInput.Breadcrumb[] {
+        if (this.isAllResources()) {
+            return [];
+        }
+
+        return this.contextItems.slice(1).map((contextItem: FieldInput.MenuContextItem, index: number) => {
+            const { label } = contextItem;
+
+            return {
+                id: `${index}`,
+                label: label || ''
+            };
+        });
+    }
 
     handleFocusIn() {
         this.isFocusTrapEnabled = true;
     }
 
-    getBreadcrumbs(): FieldInput.Breadcrumb[] {
-        return this._contextItems.slice(1).map((contextItem: FieldInput.MenuContextItem) => {
-            const { label, value } = contextItem!;
-
-            // TODO: find better expressions for name and id
-            return {
-                label,
-                name: value || label,
-                id: value || label
-            };
-        });
+    handleFooterClick(event) {
+        event.preventDefault();
+        this.dispatchEvent(new NewResourceEvent(null, false));
     }
 
-    updateHeaderInfo() {
-        const isAllResources = this._contextItems.length === 1;
-        const breadcrumbs = !isAllResources ? this.getBreadcrumbs() : [];
-
-        const headerInfoMode = isAllResources ? 'allResources' : 'traversal';
-
-        this.headerInfo = {
-            mode: headerInfoMode,
-            breadcrumbs
-        };
-    }
-
-    @api set contextItems(contextItems: FieldInput.MenuContextItem[]) {
-        this._contextItems = contextItems;
-        this.updateHeaderInfo();
-    }
-
-    get contextItems() {
-        return this._contextItems;
+    isAllResources() {
+        return this.contextItems.length === 1;
     }
 
     @api focus() {

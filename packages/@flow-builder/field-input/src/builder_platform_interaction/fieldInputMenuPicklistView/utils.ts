@@ -10,7 +10,6 @@ export function getPicklistViewSection(apiData: GetPicklistValuesApiData): Field
             ...value,
             label: value.value,
             name: value.value,
-            viewType: 'None',
             key: value.value
         }))
     };

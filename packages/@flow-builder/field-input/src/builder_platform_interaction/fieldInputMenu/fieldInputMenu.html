@@ -3,18 +3,15 @@
         <div
             role="dialog"
             aria-label={labels.menuAriaLabel}
-            class="menu-fixed-height slds-dropdown slds-is-relative slds-p-around_none"
+            class="container menu-fixed-height slds-dropdown slds-is-relative slds-p-around_none"
         >
-            <builder_platform_interaction-field-input-menu-header
-                mode={headerInfo.mode}
-                breadcrumbs={headerInfo.breadcrumbs}
-            >
+            <builder_platform_interaction-field-input-menu-header mode={headerMode} breadcrumbs={breadcrumbs}>
             </builder_platform_interaction-field-input-menu-header>
 
-            <builder_platform_interaction-field-input-menu-view-container context-items={_contextItems}>
+            <builder_platform_interaction-field-input-menu-view-container view={currentView}>
             </builder_platform_interaction-field-input-menu-view-container>
 
-            <div if:true={showFooter} class="slds-border_top slds-p-around_small test-footer">
+            <div if:true={showFooter} class="footer slds-border_top slds-p-around_small">
                 <button
                     type="button"
                     onclick={handleFooterClick}
@@ -27,7 +24,7 @@
                         title={labels.addUtilityLabel}
                     >
                     </lightning-icon>
-                    <span class="slds-p-left_small">{labels.footerLabel}</span>
+                    <span id="footer-text" class="footer-text slds-p-left_small">{labels.footerLabel}</span>
                 </button>
             </div>
         </div>

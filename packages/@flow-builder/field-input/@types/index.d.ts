@@ -10,32 +10,36 @@ declare namespace FieldInput {
 
     type MenuItemCategory = string;
 
-    interface MenuItem {
+    interface MenuContextItem extends MenuItemView {
+        label?: string;
+        name?: string;
+    }
+
+    interface MenuItem<V extends MenuItemView | undefined = MenuItemView> {
         name: string;
         label: string;
         description?: string;
 
-        // the view type to transition to when clicking on the item
-        viewType: MenuItemViewType;
-
+        // TODO: try to get rid of these 3 fields
         dataType?: UI.Datatype;
         subtype?: string;
-
         value: string;
+
         // TODO: FF this is denormalized from MenuSection, should remove
         category?: MenuItemCategory;
 
+        // TODO: try to get rid of this
         isCollection?: boolean;
 
         iconName?: string;
         iconAlternativeText?: string;
         iconSize?: string;
-        iconShape?: string;
+        iconShape?: IconShape;
         iconBackgroundColor?: string;
-    }
 
-    // MenuContextItem is undefined only for 'All Resources'
-    type MenuContextItem = MenuItem | undefined;
+        // the view to transition to when clicking on the item, or undefined if none
+        view?: V;
+    }
 
     type MenuSelectItemEventDetail = {
         item: MenuItem;
@@ -91,39 +95,41 @@ declare namespace FieldInput {
         | 'Map';
 
     type Breadcrumb = {
-        label: string;
-        name: string;
         id: string;
+        label: string;
         tooltip?: string;
     };
 
-    type MenuItemViewType = 'All' | 'ObjectFields' | 'PicklistValues' | 'FlowElement' | 'None' | 'MenuItemViewTypeTbd';
-    type MenuViewProps = AllViewProps | ObjectFieldsViewProps | PicklistValuesViewProps | MissingViewProps;
+    type MenuItemViewType = 'All' | 'ObjectFields' | 'PicklistValues' | 'FlowElement' | 'MenuItemViewTypeTbd';
+    interface MenuItemView {
+        type: MenuItemViewType;
+    }
 
-    type ViewProps = {
-        ariaLabel: string;
-    };
+    interface MenuItemViewAll extends MenuItemView {
+        type: 'All';
+    }
 
-    type AllViewProps = {
-        isAllView: true;
-    } & ViewProps;
+    interface MenuItemViewTBD extends MenuItemView {
+        type: 'MenuItemViewTypeTbd';
+    }
 
-    type ObjectFieldsViewProps = {
-        isObjectFieldsView: true;
+    interface MenuItemViewFlowElement extends MenuItemView {
+        type: 'FlowElement';
+    }
+
+    interface MenuItemViewObjectFields extends MenuItemView {
+        type: 'ObjectFields';
         objectApiName: string;
-    } & ViewProps;
+    }
 
-    type PicklistValuesViewProps = {
-        isPicklistValuesView: true;
+    interface MenuItemViewPicklistValues extends MenuItemView {
+        type: 'PicklistValues';
         fieldApiName: string;
         recordTypeId: string;
-    } & ViewProps;
-
-    type MissingViewProps = {
-        missingViewType: MenuItemViewType;
-    };
+    }
 
     type MenuHeaderMode = 'allResources' | 'traversal' | 'resource' | 'entityFields';
+    type IconShape = string;
 
     type IconSize = 'small' | 'x-small';
 
@@ -132,7 +138,7 @@ declare namespace FieldInput {
         iconAlternativeText?: string;
         iconSize?: IconSize; // do we need icon size?
         iconBackgroundColor?: string;
-        iconShape?: string;
+        iconShape?: IconShape;
     };
 
     type EventType = {
@@ -176,23 +182,19 @@ declare namespace FieldInput {
 // TODO: define proper types here
 // Should have the same shape as the ui-api's response
 type GetObjectInfoApiData = {
-    fields: [
-        {
-            label: string;
-            apiName: string;
-            dataType: string;
-        }
-    ];
+    fields: {
+        label: string;
+        apiName: string;
+        dataType: string;
+    }[];
 };
 
 // Should have the same shape as the ui-api's response
 type GetPicklistValuesApiData = {
-    values: [
-        {
-            label: string;
-            value: string;
-        }
-    ];
+    values: {
+        label: string;
+        value: string;
+    }[];
 };
 
 type GetPicklistValuesApiConfig = {
@@ -204,5 +206,7 @@ type GetObjectInfoApiConfig = {
     objectApiName: string;
 };
 
-type ApiResponse<T> = { data?: T; error?: any };
-type WirePromise<T> = Promise<ApiResponse<T>>;
+// shape returned by @wire decorators
+type WireResponse<T> = { data: T | null; error?: any };
+
+type WirePromise<T> = Promise<WireResponse<T>>;

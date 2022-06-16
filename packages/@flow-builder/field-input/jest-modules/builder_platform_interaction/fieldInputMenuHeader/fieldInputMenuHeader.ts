@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { api, LightningElement } from 'lwc';
 
 // make mock util?

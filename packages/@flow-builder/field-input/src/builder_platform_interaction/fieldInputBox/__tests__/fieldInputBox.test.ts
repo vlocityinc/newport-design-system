@@ -1,8 +1,13 @@
-// @ts-nocheck
-import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 
 const tag = 'builder_platform_interaction-field-input-box';
+
+jest.mock('builder_platform_interaction/fieldInputBoxPill', () =>
+    jest.requireActual('builder_platform_interaction_mocks/fieldInputBoxPill')
+);
+
+jest.mock('lightning/icon', () => jest.requireActual('lightning/icon'));
 
 const createComponentUnderTest = async (props) => {
     const overrideProps = {};

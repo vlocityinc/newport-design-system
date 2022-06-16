@@ -1,13 +1,13 @@
-// @ts-nocheck
-import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { createComponent, tick } from 'builder_platform_interaction/builderTestUtils';
+import { newMenuSelectItemEvent } from 'builder_platform_interaction/fieldInputUtils';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 
 jest.mock('builder_platform_interaction/fieldInputBox', () =>
-    require('builder_platform_interaction_mocks/fieldInputBox')
+    jest.requireActual('builder_platform_interaction_mocks/fieldInputBox')
 );
 
 jest.mock('builder_platform_interaction/fieldInputMenu', () =>
-    require('builder_platform_interaction_mocks/fieldInputMenu')
+    jest.requireActual('builder_platform_interaction_mocks/fieldInputMenu')
 );
 
 const tag = 'builder_platform_interaction-field-input';
@@ -30,14 +30,14 @@ function dispatch(cmp, eventName) {
 
 const focusIntoInputBoxAndAssert = async (cmp, dom) => {
     dispatch(dom.fieldInputBox, 'focusin');
-    await ticks(1);
+    await tick();
     assertMenuDisplayed(cmp, true);
 };
 
 const waitFor = (timeout = 0) => {
     return new Promise((resolve) => {
         /* eslint-disable @lwc/lwc/no-async-operation */
-        setTimeout(() => resolve(), timeout);
+        setTimeout(() => resolve(undefined), timeout);
     });
 };
 
@@ -58,6 +58,11 @@ async function focusOutOfInputBox(cmp, dom) {
     assertMenuDisplayed(cmp, false);
 }
 
+async function selectMenuItem(dom, item) {
+    dom.fieldInputMenu.dispatchEvent(newMenuSelectItemEvent(item));
+    await tick();
+}
+
 describe('Field Input Tests', () => {
     let cmp;
     let dom;
@@ -73,19 +78,22 @@ describe('Field Input Tests', () => {
     });
 
     describe('focus management', () => {
+        beforeEach(async () => {
+            await focusIntoInputBoxAndAssert(cmp, dom);
+        });
+
         it('Show menu when menu input box gets focus', async () => {
             await focusIntoInputBoxAndAssert(cmp, dom);
+            assertContextItems(dom, [{ type: 'All' }]);
         });
 
         describe('When input box loses focus', () => {
             it('Hide menu', async () => {
-                await focusIntoInputBoxAndAssert(cmp, dom);
                 await focusOutOfInputBox(cmp, dom);
             });
 
             it('Dont hide menu when focus is moved to the menu', async () => {
                 const { fieldInputBox, fieldInputContainer } = dom;
-                await focusIntoInputBoxAndAssert(cmp, dom);
 
                 dispatch(fieldInputBox, 'focusout');
                 dispatch(fieldInputContainer, 'focusin');
@@ -96,4 +104,37 @@ describe('Field Input Tests', () => {
             });
         });
     });
+
+    describe('menu navigation', () => {
+        const item = { view: undefined, label: 'Account', value: 'account', name: 'account' };
+        const view: FieldInput.MenuItemView = { type: 'ObjectFields' };
+        const itemWithView = { ...item, view };
+
+        beforeEach(async () => {
+            await focusIntoInputBoxAndAssert(cmp, dom);
+        });
+
+        it('when a menu item with no view is selected', async () => {
+            dom.fieldInputMenu.dispatchEvent(newMenuSelectItemEvent(item));
+            await tick();
+
+            assertMenuDisplayed(cmp, false);
+        });
+
+        it('when a menu item with a view is selected', async () => {
+            await selectMenuItem(dom, itemWithView);
+            assertMenuDisplayed(cmp);
+
+            const contextItems = [{ type: 'All' }, { type: 'ObjectFields', label: 'Account', name: 'account' }];
+            assertContextItems(dom, contextItems);
+        });
+
+        it('when a breadcrumb is selected', async () => {
+            await selectMenuItem(dom, itemWithView);
+        });
+    });
 });
+
+function assertContextItems(dom, contextItems) {
+    expect(dom.fieldInputMenu.contextItems).toEqual(contextItems);
+}

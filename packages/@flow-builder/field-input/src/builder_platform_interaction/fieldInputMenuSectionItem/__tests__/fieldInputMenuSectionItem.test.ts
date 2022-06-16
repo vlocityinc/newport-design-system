@@ -7,6 +7,12 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 
+jest.mock('builder_platform_interaction/fieldInputRichHelpPopup', () =>
+    jest.requireActual('builder_platform_interaction_mocks/fieldInputRichHelpPopup')
+);
+
+jest.mock('lightning/icon', () => jest.requireActual('lightning/icon'));
+
 const defaultSectionItem = {
     item: {
         dataType: undefined,
@@ -21,7 +27,7 @@ const defaultSectionItem = {
 
         value: '23a963ec-f168-4151-804b-9541689dc879',
         text: 'ScreenWithSection',
-        viewType: 'FlowElement'
+        view: { type: 'FlowElement' }
     }
 };
 
@@ -40,7 +46,7 @@ const defaultSectionItemDiamondIcon = {
 
         value: 'DecisionGuid',
         text: 'Decision',
-        viewType: 'FlowElement'
+        view: { type: 'FlowElement' }
     }
 };
 
@@ -62,7 +68,7 @@ const defaultSectionItemIconWithBackgroundColor = {
 
         value: 'RecordCreate',
         text: 'RecordCreate',
-        viewType: 'FlowElement'
+        view: { type: 'FlowElement' }
     }
 };
 
@@ -78,8 +84,7 @@ const defaultSectionItemNoNext = {
         name: 'ScreenWithSection',
 
         value: '23a963ec-f168-4151-804b-9541689dc879',
-        text: 'ScreenWithSection',
-        viewType: 'None'
+        text: 'ScreenWithSection'
     }
 };
 
@@ -94,7 +99,7 @@ const defaultSectionItemNoIcon = {
 
         value: '23a963ec-f168-4151-804b-9541689dc879',
         text: 'ScreenWithSection',
-        viewType: 'FlowElement'
+        view: { type: 'FlowElement' }
     }
 };
 
@@ -111,8 +116,7 @@ const defaultSectionItemNoChevronIcon = {
         name: 'ScreenWithSection',
 
         value: '23a963ec-f168-4151-804b-9541689dc879',
-        text: 'ScreenWithSection',
-        viewType: 'None'
+        text: 'ScreenWithSection'
     }
 };
 

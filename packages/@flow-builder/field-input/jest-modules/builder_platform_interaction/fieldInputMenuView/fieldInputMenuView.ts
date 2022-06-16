@@ -1,3 +1,3 @@
 import { LightningElement } from 'lwc';
 
-export default class AlcCanvas extends LightningElement {}
+export default class FieldInputMenuView extends LightningElement {}

@@ -21,7 +21,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
  */
 export function invokeLdsAdaptor<T, S>(LdsAdaptor, config: S): WirePromise<T> {
     let cb;
-    const ldsPromise = new Promise<ApiResponse<T>>((resolve, reject) => {
+    const ldsPromise = new Promise<WireResponse<T>>((resolve, reject) => {
         cb = function (res) {
             if (res.error != null) {
                 reject(res.error);
@@ -38,43 +38,36 @@ export function invokeLdsAdaptor<T, S>(LdsAdaptor, config: S): WirePromise<T> {
     return ldsPromise;
 }
 
-type ApiConfig<T, S, L> = {
-    legacyApi: (config: S) => WirePromise<L>;
-    legacyApiAdaptor: (legacyApiResults: L) => WirePromise<T>;
+type LegacyApiConfig<C, L, R> = {
+    legacyApi: (config: C) => Promise<L>;
+    legacyApiAdaptor: (legacyApiResults: L) => R;
 };
 
 // TODO: define proper types
 type GetObjectInfoLegacyApiData = {};
 type GetPicklistValuesLegacyApiData = {};
 
-type ApisConfig = {
-    getEntityInfo: ApiConfig<GetObjectInfoApiData, GetObjectInfoApiConfig, GetObjectInfoLegacyApiData>;
-    getPicklistValues: ApiConfig<GetPicklistValuesApiData, GetPicklistValuesApiConfig, GetPicklistValuesLegacyApiData>;
-};
-
-// The config for the apis
-const apisConfig: ApisConfig = {
-    getEntityInfo: {
-        legacyApi: (config) => fetchFieldsForEntity(config.objectApiName),
-        legacyApiAdaptor: getObjectInfoApiLegacyDataAdapter
-    },
-
-    getPicklistValues: {
-        legacyApi: (/* config*/) => Promise.resolve({}), // TODO
-        legacyApiAdaptor: getPicklistValuesApiLegacyDataAdapter
-    }
-};
+type GetEntityInfoLegacyApiConfig = LegacyApiConfig<
+    GetObjectInfoApiConfig,
+    GetObjectInfoLegacyApiData,
+    GetObjectInfoApiData
+>;
+type GetPicklistValueLegacyApiConfig = LegacyApiConfig<
+    GetPicklistValuesApiConfig,
+    GetPicklistValuesLegacyApiData,
+    GetPicklistValuesApiData
+>;
 
 /**
  * Invokes a legacy API and transforms its results with a legacy API adapter so that the results have the shape of the API.
  *
- * @param apiName - The api name
+ * @param legacyApiConfig - The api name
  * @param config - The api cnfig
  * @returns The api results
  */
-function invokeLegacyApi<T, S>(apiName: string, config: S): WirePromise<T> {
-    const { legacyApi, legacyApiAdaptor } = apisConfig[apiName];
-    return legacyApi<T>(config).then(legacyApiAdaptor);
+function invokeLegacyApi<C, L, R>(legacyApiConfig: LegacyApiConfig<C, L, R>, config: C): WirePromise<R> {
+    const { legacyApi, legacyApiAdaptor } = legacyApiConfig;
+    return legacyApi(config).then((data) => makeWireResponse(legacyApiAdaptor(data)));
 }
 
 /**
@@ -83,11 +76,9 @@ function invokeLegacyApi<T, S>(apiName: string, config: S): WirePromise<T> {
  * @param legacyApiResult - The legacy getObjectInfo API result
  * @returns The getObjectInfo API result
  */
-function getObjectInfoApiLegacyDataAdapter(
-    legacyApiResult: GetObjectInfoLegacyApiData
-): WirePromise<GetObjectInfoApiData> {
+function getObjectInfoApiLegacyDataAdapter(legacyApiResult: GetObjectInfoLegacyApiData): GetObjectInfoApiData {
     // @ts-ignore
-    return { data: { fields: legacyApiResult } };
+    return { fields: legacyApiResult };
 }
 
 /**
@@ -96,13 +87,16 @@ function getObjectInfoApiLegacyDataAdapter(
  * @param legacyData - The legacy data
  * @returns The getPicklistValues API result
  */
-function getPicklistValuesApiLegacyDataAdapter(
-    legacyData: GetPicklistValuesLegacyApiData
-): WirePromise<GetPicklistValuesApiData> {
+function getPicklistValuesApiLegacyDataAdapter(legacyData: GetPicklistValuesLegacyApiData): GetPicklistValuesApiData {
     // TODO: tansform the legacy data
     // @ts-ignore
-    return { data: legacyData, error: null };
+    return legacyData;
 }
+
+const apisConfigGetEntityInfo: GetEntityInfoLegacyApiConfig = {
+    legacyApi: (config: GetObjectInfoApiConfig) => fetchFieldsForEntity(config.objectApiName),
+    legacyApiAdaptor: getObjectInfoApiLegacyDataAdapter
+};
 
 /**
  * Invokes the getObjectInfo legacy API
@@ -111,8 +105,13 @@ function getPicklistValuesApiLegacyDataAdapter(
  * @returns The getObjectInfo API result
  */
 function legacyGetObjectInfoApi(config: GetObjectInfoApiConfig): WirePromise<GetObjectInfoApiData> {
-    return invokeLegacyApi<GetObjectInfoApiData, GetObjectInfoApiConfig>('getEntityInfo', config);
+    return invokeLegacyApi(apisConfigGetEntityInfo, config);
 }
+
+const apisConfigGetPicklistValues: GetPicklistValueLegacyApiConfig = {
+    legacyApi: (/* config*/) => Promise.resolve({}), // TODO
+    legacyApiAdaptor: getPicklistValuesApiLegacyDataAdapter
+};
 
 /**
  * Invokes the getPicklistValues legacy API
@@ -121,7 +120,7 @@ function legacyGetObjectInfoApi(config: GetObjectInfoApiConfig): WirePromise<Get
  * @returns The getPicklistValues API result
  */
 function legacyPicklistValuesApi(config: GetPicklistValuesApiConfig): WirePromise<GetPicklistValuesApiData> {
-    return invokeLegacyApi<GetPicklistValuesApiData, GetPicklistValuesApiConfig>('getPicklistValues', config);
+    return invokeLegacyApi(apisConfigGetPicklistValues, config);
 }
 
 /**
@@ -166,4 +165,14 @@ export function getFlowElementsApi(): UI.Element[] {
  */
 export function getRulesApi(ruleType, elementType): Rule[] {
     return getRulesForElementType(ruleType, elementType);
+}
+
+/**
+ * Make a wire response from data
+ *
+ * @param data - The data
+ * @returns The wire response
+ */
+export function makeWireResponse<T>(data: T): WireResponse<T> {
+    return { data, error: null };
 }

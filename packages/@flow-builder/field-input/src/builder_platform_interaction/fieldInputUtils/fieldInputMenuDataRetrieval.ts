@@ -80,7 +80,7 @@ const convertPicklistItems = (picklistItems: PicklistItem[]): FieldInput.MenuIte
 
         return {
             ...picklistItem,
-            viewType: 'PicklistValues',
+            view: { type: 'PicklistValues' },
             name: displayText,
             label: displayText,
             value: displayText
@@ -112,7 +112,6 @@ const getGlobalConstantsMenuSection = (
                 const globalConstantMenuElement = globalConstantsMenuElements[globalConstant.name];
 
                 const { label, description, iconName, name } = globalConstant;
-                const viewType: FieldInput.MenuItemViewType = 'MenuItemViewTypeTbd';
 
                 return {
                     // TODO: should pick what to include
@@ -121,7 +120,7 @@ const getGlobalConstantsMenuSection = (
                     name,
                     description,
                     iconName,
-                    viewType,
+                    view: { type: 'MenuItemViewTypeTbd' },
                     value: ''
                 } as FieldInput.MenuItem;
             });

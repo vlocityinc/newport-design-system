@@ -10,9 +10,9 @@ export default class FieldInputMenuViewContainer extends LightningElement {
     static delegatesFocus = true;
     labels = LABELS;
 
-    @api contextItems!: FieldInput.MenuContextItem[];
+    @api view!: FieldInput.MenuItemView;
 
-    get viewProps(): FieldInput.MenuViewProps {
-        return getViewProps(this.contextItems);
+    get viewProps() {
+        return getViewProps(this.view);
     }
 }

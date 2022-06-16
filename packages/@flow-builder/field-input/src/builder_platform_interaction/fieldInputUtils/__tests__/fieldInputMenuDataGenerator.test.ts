@@ -1,4 +1,3 @@
-// @ts-nocheck
 import actions from '@salesforce/label/FlowBuilderFieldInputMenuCategories.actions';
 import assignments from '@salesforce/label/FlowBuilderFieldInputMenuCategories.assignments';
 import decisions from '@salesforce/label/FlowBuilderFieldInputMenuCategories.decisions';
@@ -50,7 +49,9 @@ import {
     mutateSystemAndGlobalVariablesToComboboxShape
 } from '../fieldInputMenuDataGenerator';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    jest.requireActual('builder_platform_interaction_mocks/storeLib')
+);
 jest.mock(
     '@salesforce/label/FlowBuilderFieldInputGlobalResources.globalRecordLabel',
     () => ({ default: 'Triggering {0}' }),
@@ -83,15 +84,12 @@ describe('fieldInputMenuDataGenerator', () => {
             expect(mutateFlowResourceToComboboxShape(globalRecordVariable)).toMatchObject({
                 category: LABELS.globalResources,
                 description: 'The Account record that triggered the flow.',
-
                 iconAlternativeText: FLOW_DATA_TYPE.SOBJECT.value,
                 iconName: FLOW_DATA_TYPE.SOBJECT.utilityIconName,
                 iconSize: 'x-small',
                 label: 'Triggering Account',
                 name: '$Record',
-
                 subtype: 'Account',
-
                 value: '$Record'
             });
         });
@@ -100,7 +98,6 @@ describe('fieldInputMenuDataGenerator', () => {
             expect(mutateFlowResourceToComboboxShape(assignmentElement)).toMatchObject({
                 category: assignments,
                 description: '',
-
                 iconAlternativeText: assignmentElement.elementType,
                 iconBackgroundColor: undefined,
                 iconName: 'standard:assignment',
@@ -115,7 +112,6 @@ describe('fieldInputMenuDataGenerator', () => {
             expect(mutateFlowResourceToComboboxShape(decision1)).toMatchObject({
                 category: decisions,
                 description: '',
-
                 iconAlternativeText: decision1.elementType,
                 iconBackgroundColor: undefined,
                 iconName: 'standard:decision',
@@ -130,7 +126,6 @@ describe('fieldInputMenuDataGenerator', () => {
             expect(mutateFlowResourceToComboboxShape(textTemplate1)).toMatchObject({
                 category: textTemplates,
                 description: '',
-
                 iconAlternativeText: FLOW_DATA_TYPE.STRING.value,
                 iconName: 'utility:text_template',
                 iconSize: 'x-small',
@@ -142,7 +137,6 @@ describe('fieldInputMenuDataGenerator', () => {
         it('Should return the right icon info when passing in a stage resource', () => {
             expect(mutateFlowResourceToComboboxShape(stageElement)).toMatchObject({
                 category: stages,
-
                 iconAlternativeText: stageElement.elementType,
                 iconName: 'utility:stage',
                 iconSize: 'x-small'
@@ -170,7 +164,6 @@ describe('fieldInputMenuDataGenerator', () => {
         it('Should return right shape for filter collection processor', () => {
             expect(mutateFlowResourceToComboboxShape(filterCollectionProcessor)).toMatchObject({
                 category: filter,
-
                 iconAlternativeText: filterCollectionProcessor.elementType,
                 iconName: 'standard:filter',
                 iconSize: 'small',
@@ -181,7 +174,6 @@ describe('fieldInputMenuDataGenerator', () => {
         it('Should return right shape for map collection processor', () => {
             expect(mutateFlowResourceToComboboxShape(mapCollectionProcessor)).toMatchObject({
                 category: map,
-
                 iconAlternativeText: mapCollectionProcessor.elementType,
                 iconName: 'standard:data_mapping',
                 iconSize: 'small',
@@ -192,7 +184,6 @@ describe('fieldInputMenuDataGenerator', () => {
         it('Should return right shape for sort collection processor', () => {
             expect(mutateFlowResourceToComboboxShape(sortCollectionProcessor)).toMatchObject({
                 category: sort,
-
                 iconAlternativeText: sortCollectionProcessor.elementType,
                 iconName: 'standard:sort',
                 iconSize: 'small',
@@ -203,7 +194,6 @@ describe('fieldInputMenuDataGenerator', () => {
         it('Should return the right icon info when passing in a boolean variable (has no label)', () => {
             expect(mutateFlowResourceToComboboxShape(booleanVariable)).toMatchObject({
                 category: simpleVariables,
-
                 iconAlternativeText: FLOW_DATA_TYPE.BOOLEAN.value,
                 iconName: 'utility:toggle',
                 iconSize: 'x-small',
@@ -216,7 +206,6 @@ describe('fieldInputMenuDataGenerator', () => {
             expect(mutateFlowResourceToComboboxShape(stringVariable)).toMatchObject({
                 category: simpleVariables,
                 description: 'random description',
-
                 iconAlternativeText: FLOW_DATA_TYPE.STRING.value,
                 iconName: FLOW_DATA_TYPE.STRING.utilityIconName,
                 iconSize: 'x-small',
@@ -231,14 +220,12 @@ describe('fieldInputMenuDataGenerator', () => {
             ).toMatchObject({
                 category: LABELS.globalConstantCategory,
                 description: trueMetaLine,
-
                 iconAlternativeText: 'Boolean',
                 iconName: 'utility:toggle',
                 iconSize: 'x-small',
                 label: GLOBAL_CONSTANT_OBJECTS[GLOBAL_CONSTANTS.BOOLEAN_TRUE].label,
                 name: GLOBAL_CONSTANT_OBJECTS[GLOBAL_CONSTANTS.BOOLEAN_TRUE].name,
                 subtype: undefined,
-
                 value: '$GlobalConstant.True'
             });
         });
@@ -288,13 +275,11 @@ describe('fieldInputMenuDataGenerator', () => {
         it('hasNext should be true when passing in a record variable (has no label)', () => {
             expect(mutateFlowResourceToComboboxShape(accountSObjectVariable)).toMatchObject({
                 category: recordVariables,
-
                 iconAlternativeText: FLOW_DATA_TYPE.SOBJECT.value,
                 iconName: FLOW_DATA_TYPE.SOBJECT.utilityIconName,
                 iconSize: 'x-small',
                 label: accountSObjectVariable.name,
                 name: accountSObjectVariable.name,
-
                 subtype: 'Account'
             });
         });
@@ -302,7 +287,6 @@ describe('fieldInputMenuDataGenerator', () => {
         it('hasNext should be false when passing in a record collection variable (has no label)', () => {
             expect(mutateFlowResourceToComboboxShape(accountSObjectCollectionVariable)).toMatchObject({
                 category: recordCollections,
-
                 iconAlternativeText: FLOW_DATA_TYPE.SOBJECT.value,
                 iconName: 'utility:sobject_collection',
                 iconSize: 'x-small',
@@ -315,7 +299,6 @@ describe('fieldInputMenuDataGenerator', () => {
         it('hasNext should be true when passing when passing in a screen with screen fields', () => {
             expect(mutateFlowResourceToComboboxShape(screenElement)).toMatchObject({
                 category: screens,
-
                 iconAlternativeText: screenElement.elementType,
                 iconBackgroundColor: undefined,
                 iconName: 'standard:screen',
@@ -330,7 +313,6 @@ describe('fieldInputMenuDataGenerator', () => {
             const emptyScreen = { ...screenElement, childReferences: [] };
             expect(mutateFlowResourceToComboboxShape(emptyScreen)).toMatchObject({
                 category: screens,
-
                 iconAlternativeText: emptyScreen.elementType,
                 iconBackgroundColor: undefined,
                 iconName: 'standard:screen',
@@ -344,7 +326,6 @@ describe('fieldInputMenuDataGenerator', () => {
         it('hasNext should be true when passing in a subflow without automatic outputs', () => {
             expect(mutateFlowResourceToComboboxShape(subflowWithAllVariableTypes)).toMatchObject({
                 category: subflows,
-
                 iconAlternativeText: subflowWithAllVariableTypes.elementType,
                 iconBackgroundColor: 'background-navy',
                 iconName: 'standard:flow',
@@ -359,7 +340,6 @@ describe('fieldInputMenuDataGenerator', () => {
             expect(mutateFlowResourceToComboboxShape(apexCallAutomaticAnonymousApexTypeCollectionOutput)).toMatchObject(
                 {
                     category: actions,
-
                     iconAlternativeText: apexCallAutomaticAnonymousApexTypeCollectionOutput.elementType,
                     iconBackgroundColor: 'background-navy',
                     iconName: 'standard:apex',
@@ -384,7 +364,7 @@ describe('fieldInputMenuDataGenerator', () => {
                     apiName: 'name2',
                     isCollection: false
                 }
-            ];
+            ] as any;
 
             const mutatedValue = mutateEntitiesToComboboxShape(entities);
             expect(mutatedValue).toEqual([
@@ -399,7 +379,7 @@ describe('fieldInputMenuDataGenerator', () => {
                     subtype: 'name1',
                     isCollection: true,
                     iconBackgroundColor: undefined,
-                    viewType: 'MenuItemViewTypeTbd'
+                    view: { type: 'MenuItemViewTypeTbd' }
                 },
                 {
                     value: 'name2',
@@ -412,7 +392,7 @@ describe('fieldInputMenuDataGenerator', () => {
                     subtype: 'name2',
                     isCollection: false,
                     iconBackgroundColor: undefined,
-                    viewType: 'MenuItemViewTypeTbd'
+                    view: { type: 'MenuItemViewTypeTbd' }
                 }
             ]);
         });
@@ -443,7 +423,7 @@ describe('fieldInputMenuDataGenerator', () => {
                     iconAlternativeText: FLOW_DATA_TYPE.APEX.value,
                     iconName: FLOW_DATA_TYPE.APEX.utilityIconName,
                     iconSize: 'x-small',
-                    viewType: 'MenuItemViewTypeTbd',
+                    view: { type: 'MenuItemViewTypeTbd' },
                     iconBackgroundColor: undefined
                 },
                 {
@@ -456,7 +436,7 @@ describe('fieldInputMenuDataGenerator', () => {
                     iconAlternativeText: FLOW_DATA_TYPE.APEX.value,
                     iconName: FLOW_DATA_TYPE.APEX.utilityIconName,
                     iconSize: 'x-small',
-                    viewType: 'MenuItemViewTypeTbd',
+                    view: { type: 'MenuItemViewTypeTbd' },
                     iconBackgroundColor: undefined
                 }
             ]);
@@ -466,7 +446,7 @@ describe('fieldInputMenuDataGenerator', () => {
     describe('Tests for mutatePicklistValue', () => {
         it('Should use value as the label when no label is provided', () => {
             const value = 'Pick1';
-            const picklistValue = { value };
+            const picklistValue = { value } as any;
             const mutatedValue = mutatePicklistValue(picklistValue);
             expect(mutatedValue).toEqual({
                 value,
@@ -476,7 +456,7 @@ describe('fieldInputMenuDataGenerator', () => {
                 iconSize: 'x-small',
                 label: 'Pick1',
                 name: 'Pick1',
-                viewType: 'MenuItemViewTypeTbd',
+                view: { type: 'MenuItemViewTypeTbd' },
                 iconBackgroundColor: undefined
             });
         });
@@ -494,7 +474,7 @@ describe('fieldInputMenuDataGenerator', () => {
                 iconSize: 'x-small',
                 label: 'PickLabel',
                 name: 'Pick1',
-                viewType: 'MenuItemViewTypeTbd',
+                view: { type: 'MenuItemViewTypeTbd' },
                 iconBackgroundColor: undefined
             });
         });
@@ -510,7 +490,7 @@ describe('fieldInputMenuDataGenerator', () => {
                 {
                     qualifiedApiName: 'name2'
                 }
-            ];
+            ] as any;
 
             const mutatedValue = mutateEventTypesToComboboxShape(eventTypes);
             expect(mutatedValue).toEqual([
@@ -523,7 +503,7 @@ describe('fieldInputMenuDataGenerator', () => {
                     label: 'label1',
                     name: 'name1',
                     subtype: 'name1',
-                    viewType: 'MenuItemViewTypeTbd',
+                    view: { type: 'MenuItemViewTypeTbd' },
                     iconBackgroundColor: undefined
                 },
                 {
@@ -535,7 +515,7 @@ describe('fieldInputMenuDataGenerator', () => {
                     label: 'name2',
                     name: 'name2',
                     subtype: 'name2',
-                    viewType: 'MenuItemViewTypeTbd',
+                    view: { type: 'MenuItemViewTypeTbd' },
                     iconBackgroundColor: undefined
                 }
             ]);

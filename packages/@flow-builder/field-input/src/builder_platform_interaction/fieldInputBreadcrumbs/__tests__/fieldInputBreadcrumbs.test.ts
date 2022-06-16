@@ -5,7 +5,7 @@ import { clickEvent, keydownEvent } from 'builder_platform_interaction/builderTe
 import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { Keys } from 'builder_platform_interaction/sharedUtils/keyboardInteractionUtils';
 import type { LightningElement } from 'lwc';
-import { MOCK_BREADCRUMBS, MOCK_NEW_BREADCRUMB } from 'mock/fieldInputBreadcrumbData';
+import { MOCK_BREADCRUMBS, MOCK_NEW_BREADCRUMB } from 'mock-data/fieldInputBreadcrumbData';
 import FieldInputBreadcrumbs from '../fieldInputBreadcrumbs';
 import {
     ARIA_CURRENT_LOCATION,

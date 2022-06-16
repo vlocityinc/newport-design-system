@@ -1,9 +1,7 @@
 import { ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
-import { newCustomEvent } from 'builder_platform_interaction/events';
-import { hasNext } from 'builder_platform_interaction/fieldInputUtils';
+import { newMenuSelectItemEvent } from 'builder_platform_interaction/fieldInputUtils';
 import { keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
-
 const { withKeyboardInteractions } = keyboardInteractionUtils;
 const defaultComboboxItemClass = 'slds-media slds-media_center slds-col slds-listbox__option_entity slds-p-right_none';
 const defaultIconContainerClass = 'slds-media__figure slds-listbox__option-icon';
@@ -64,12 +62,11 @@ export default class FieldInputMenuSectionItem extends withKeyboardInteractions(
         event.preventDefault();
         event.stopPropagation();
 
-        const detail = { item: this.item };
-        this.dispatchEvent(newCustomEvent<FieldInput.MenuSelectItemEventDetail>('fieldinputmenuselectitem', detail));
+        this.dispatchEvent(newMenuSelectItemEvent(this.item));
     }
 
     get hasNext() {
-        return hasNext(this.item.viewType);
+        return this.item.view != null;
     }
 
     /**

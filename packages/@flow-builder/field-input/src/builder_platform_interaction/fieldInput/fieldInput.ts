@@ -1,5 +1,5 @@
 import { scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
-import { hasNext } from 'builder_platform_interaction/fieldInputUtils';
+import { menuContextItemAll } from 'builder_platform_interaction/fieldInputUtils';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { LightningElement, track } from 'lwc';
 import { LABELS } from './fieldInputLabels';
@@ -9,8 +9,6 @@ const selectors = {
     menu: 'builder_platform_interaction-field-input-menu'
 };
 
-const ALL_CONTEXT_ITEM: FieldInput.MenuContextItem = undefined;
-
 export default class FieldInput extends LightningElement {
     static delegatesFocus = true;
 
@@ -19,7 +17,7 @@ export default class FieldInput extends LightningElement {
     hasPendingHideMenu = false;
 
     @track
-    contextItems: FieldInput.MenuContextItem[] = [ALL_CONTEXT_ITEM];
+    contextItems: FieldInput.MenuContextItem[] = [menuContextItemAll];
 
     /* The currently selected item, as shown in a the pill */
     @track selectedItem: FieldInput.MenuItem | undefined;
@@ -35,11 +33,19 @@ export default class FieldInput extends LightningElement {
         }
     };
 
+    /**
+     * Handles the fieldinputmenuselectitem event dispatched from the menu
+     *
+     * @param event - The menu item selection event
+     */
     handleFieldInputMenuSelectItem(event: FieldInput.MenuSelectItemEvent) {
         const menuItem = event.detail.item;
 
-        if (hasNext(menuItem.viewType)) {
-            this.updateContextItems([...this.contextItems, menuItem]);
+        if (menuItem.view != null) {
+            this.updateContextItems([
+                ...this.contextItems,
+                { ...menuItem.view, label: menuItem.label, name: menuItem.name }
+            ]);
         } else {
             // otherwise set the selected item and close the menu
             this.selectedItem = menuItem;
@@ -47,6 +53,11 @@ export default class FieldInput extends LightningElement {
         }
     }
 
+    /**
+     * Handles the breakcrumbclick event dispatched from the input box
+     *
+     * @param event - The breakcrumb click event
+     */
     handleFieldInputBreadcrumbClick(event: FieldInput.BreadcrumbClickEvent) {
         const { index } = event.detail;
 
@@ -69,7 +80,7 @@ export default class FieldInput extends LightningElement {
 
         if (!newIsMenuOpened) {
             // when hidding the menu, reset the context to all
-            this.contextItems = [ALL_CONTEXT_ITEM];
+            this.contextItems = [menuContextItemAll];
         } else {
             // otherwise dismiss any pending hide menu
             this.resetPendingHideMenu();

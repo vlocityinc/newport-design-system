@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
+import { createComponent } from 'builder_platform_interaction/builderTestUtils';
 
 const tag = 'builder_platform_interaction-field-input-box';
 

@@ -80,7 +80,7 @@ export function createDomProxy<P extends string, T extends HTMLElement = HTMLEle
                 return new Proxy(component, {
                     get(target: LightningElement, prop: P) {
                         const selector = resolveSelector(prop);
-                        return Array.from(target.template!.querySelectorAll(selector));
+                        return Array.from(getQueryable(target).querySelectorAll(selector));
                     }
                 });
             } else if (prop === 'as') {

@@ -1,10 +1,9 @@
-// @ts-nocheck
 import {
+    createComponent,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { LABELS } from '../fieldInputRichHelpPopupLabels';
 
 const createComponentUnderTest = (props) => {

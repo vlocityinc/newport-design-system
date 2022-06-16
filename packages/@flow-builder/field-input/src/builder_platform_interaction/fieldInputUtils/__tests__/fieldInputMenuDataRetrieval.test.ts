@@ -27,7 +27,9 @@ import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { filterAndMapToMenuItems } from '../fieldInputMenuDataRetrieval';
 
 const mockedProcessType = FLOW_PROCESS_TYPE.FLOW;
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    jest.requireActual('builder_platform_interaction_mocks/storeLib')
+);
 jest.mock('builder_platform_interaction/storeUtils', () => ({
     getProcessType: jest.fn().mockImplementation(() => mockedProcessType),
     getStartElementFromState: jest.fn().mockImplementation(() => undefined),

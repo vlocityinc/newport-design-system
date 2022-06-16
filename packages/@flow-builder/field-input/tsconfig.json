@@ -111,6 +111,9 @@
             "builder_platform_interaction/actions": [
                 "../ui/src/builder_platform_interaction/actions/actions.ts"
             ],
+             "builder_platform_interaction/builderTestUtils": [
+                "../ui/src/builder_platform_interaction/builderTestUtils/builderTestUtils.ts"
+            ],
             "builder_platform_interaction/storeUtils": [
                 "../ui/src/builder_platform_interaction/storeUtils/storeUtils.ts"
             ],
@@ -173,8 +176,12 @@
             ]
         }
     },
+    "exclude": [
+        "src/builder_platform_interaction/fieldInputBreadcrumbs/__tests__/"
+    ],
     "include": [
         "src/**/*",
+        "jest-modules/**/*",
         "@types/index.d.ts",
         "../@types/index.d.ts",
         "../ui/@types/index.d.ts",
