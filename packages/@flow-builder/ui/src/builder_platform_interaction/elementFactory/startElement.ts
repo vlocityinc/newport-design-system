@@ -470,18 +470,52 @@ function getscheduledLabel(startDate, startTime, frequency) {
             startDateTime.setUTCHours(parts[0]);
             startDateTime.setUTCMinutes(parts[1]);
         }
-        let frequencyLabel;
-        if (frequency === FLOW_TRIGGER_FREQUENCY.ONCE) {
-            frequencyLabel = LABELS.triggerFrequencyOnce;
-        } else if (frequency === FLOW_TRIGGER_FREQUENCY.DAILY) {
-            frequencyLabel = LABELS.triggerFrequencyDaily;
-        } else if (frequency === FLOW_TRIGGER_FREQUENCY.WEEKLY) {
-            frequencyLabel = LABELS.triggerFrequencyWeekly;
-        }
-        label = getDayOfTheWeek(startDateTime) + ', ' + formatDateTimeUTC(startDateTime) + ', ' + frequencyLabel;
+        label =
+            getDayOfTheWeek(startDateTime) +
+            ', ' +
+            formatDateTimeUTC(startDateTime) +
+            ', ' +
+            getFrequencyLabel(frequency);
     }
 
     return label;
+}
+
+/**
+ * Get corresponding frequency label
+ *
+ * @param {string} frequency of start element schedule
+ * @returns {string} label of start element frequency
+ */
+export function getFrequencyLabel(frequency: UI.FlowTriggerFrequency): string {
+    switch (frequency) {
+        case FLOW_TRIGGER_FREQUENCY.ONCE:
+            return LABELS.triggerFrequencyOnce;
+        case FLOW_TRIGGER_FREQUENCY.DAILY:
+            return LABELS.triggerFrequencyDaily;
+        case FLOW_TRIGGER_FREQUENCY.WEEKLY:
+            return LABELS.triggerFrequencyWeekly;
+        default:
+            return '';
+    }
+}
+
+/**
+ * Get corresponding schedule type label
+ *
+ * @param {UI.FlowTriggerFrequency} frequency of start element schedule
+ * @returns {string} label of start element schedule type
+ */
+export function getScheduleTypeLabel(frequency: UI.FlowTriggerFrequency): string {
+    switch (frequency) {
+        case FLOW_TRIGGER_FREQUENCY.ONCE:
+            return LABELS.scheduleTypeOnce;
+        case FLOW_TRIGGER_FREQUENCY.DAILY:
+        case FLOW_TRIGGER_FREQUENCY.WEEKLY:
+            return LABELS.scheduleTypeRecurring;
+        default:
+            return '';
+    }
 }
 
 /**

@@ -1,108 +1,102 @@
-import { FLOW_TRIGGER_SAVE_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getFrequencyLabel, getScheduleTypeLabel } from 'builder_platform_interaction/elementFactory';
+import { FLOW_TRIGGER_FREQUENCY, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 import StartNodeButton from 'builder_platform_interaction/startNodeButton';
-import { isRecordChangeTriggerType, isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { isPlatformEvent, isScheduledTriggerType, isSegment } from 'builder_platform_interaction/triggerTypeLib';
 import { LABELS } from './startNodeTriggerButtonLabels';
 
-const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
-const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
+const { SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT, SEGMENT } = FLOW_TRIGGER_TYPE;
 
 export default class StartNodeTriggerButton extends StartNodeButton {
+    labels = LABELS;
+
     get chooseScheduleOrEvent() {
         const { triggerType } = this.node;
         if (isScheduledTriggerType(triggerType)) {
-            return LABELS.startElementSetSchedule;
+            return this.labels.startElementSetSchedule;
         }
         switch (triggerType) {
             case PLATFORM_EVENT:
-                return LABELS.startElementAddEvent;
+                return this.labels.startElementAddEvent;
             default:
                 return '';
         }
     }
 
     get isSetTrigger() {
-        switch (this.node.triggerType) {
-            case AFTER_SAVE:
-            case BEFORE_DELETE:
-            case BEFORE_SAVE:
-                return true;
+        const { triggerType } = this.node;
+        switch (triggerType) {
             case SCHEDULED:
             case SCHEDULED_JOURNEY:
                 return !!this.node.startDate;
             case PLATFORM_EVENT:
                 return !!this.node.object;
+            case SEGMENT:
+                return (
+                    !!(this.node.startDate || this.node.startTime) ||
+                    this.node.frequency !== FLOW_TRIGGER_FREQUENCY.ONCE
+                );
             default:
                 return false;
         }
     }
 
     get selectedTriggerLabel() {
-        // Record Change
-        if (isRecordChangeTriggerType(this.node.triggerType)) {
-            switch (this.node.recordTriggerType) {
-                case CREATE:
-                    return LABELS.recordTriggerTypeCreated;
-                case UPDATE:
-                    return LABELS.recordTriggerTypeUpdated;
-                case CREATE_AND_UPDATE:
-                    return LABELS.recordTriggerTypeCreatedOrUpdated;
-                case DELETE:
-                    return LABELS.recordTriggerTypeDeleted;
-                default:
-                    return '';
-            }
-        }
         // Platform Event
-        if (this.node.triggerType === PLATFORM_EVENT) {
+        if (this.isPlatformEvent) {
             const item = getEventTypes(MANAGED_SETUP).find(
                 (menuItem) => menuItem.qualifiedApiName === this.node.object
             );
             return item ? item.label : this.node.object;
+        }
+        // Segment Journey
+        if (this.isSegment) {
+            return getScheduleTypeLabel(this.node.frequency);
         }
         // Scheduled Flow
         return this.node.label;
     }
 
     get triggerLabel() {
-        return isRecordChangeTriggerType(this.node.triggerType)
-            ? LABELS.startElementTrigger
-            : this.node.triggerType === PLATFORM_EVENT
-            ? LABELS.startElementEvent
-            : LABELS.startElementFlowStarts;
+        return this.isPlatformEvent
+            ? this.labels.startElementEvent
+            : this.isSegment
+            ? this.labels.scheduleType
+            : this.labels.startElementFlowStarts;
     }
 
     get isPlatformEvent() {
-        return this.node.triggerType === PLATFORM_EVENT;
+        return isPlatformEvent(this.node.triggerType);
+    }
+
+    get isSegment() {
+        return isSegment(this.node.triggerType);
     }
 
     get runFlowLabel() {
         switch (this.node.triggerType) {
-            case BEFORE_SAVE:
-            case BEFORE_DELETE:
-            case AFTER_SAVE:
-                return LABELS.startElementRunFlow;
             case SCHEDULED:
             case SCHEDULED_JOURNEY:
-                return LABELS.startElementFrequency;
+                return this.labels.startElementFrequency;
+            case SEGMENT:
+                return this.labels.repeatSchedule;
             default:
                 return '';
         }
     }
 
     get selectedRunFlowLabel() {
-        switch (this.node.triggerType) {
-            case BEFORE_SAVE:
-                return LABELS.triggerTypeBeforeSave;
-            case AFTER_SAVE:
-                return LABELS.triggerTypeAfterSave;
-            case BEFORE_DELETE:
-                return LABELS.triggerTypeBeforeDelete;
-            case SCHEDULED:
-            case SCHEDULED_JOURNEY:
-                return this.node.frequency;
-            default:
-                return '';
+        if (isScheduledTriggerType(this.node.triggerType)) {
+            return getFrequencyLabel(this.node.frequency);
         }
+        return '';
+    }
+
+    get startDateString() {
+        return this.node.startDate?.split('T')[0];
+    }
+
+    get startTime() {
+        return this.node.startTime;
     }
 }

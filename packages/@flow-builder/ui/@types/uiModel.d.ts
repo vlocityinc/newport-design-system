@@ -226,7 +226,7 @@ declare namespace UI {
         startDate: string;
         startTime: StartTime;
         recordTriggerType?: string;
-        frequency: string;
+        frequency: UI.FlowTriggerFrequency;
     }
 
     type StartTime = {

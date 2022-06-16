@@ -62,6 +62,16 @@ export const isPlatformEvent = (triggerType: UI.FlowTriggerType): boolean => {
 };
 
 /**
+ * Utility method to determine if the flow is Segment triggered
+ *
+ * @param triggerType - The trigger type
+ * @returns whether flow is Segment Triggered
+ */
+export const isSegment = (triggerType: UI.FlowTriggerType): boolean => {
+    return triggerType === FLOW_TRIGGER_TYPE.SEGMENT;
+};
+
+/**
  * Whether or not this trigger type supports a triggering record update
  * NOTE: Delete this method in favor of getTriggerHasCriteria if and when we support ScheduledJourneys
  *

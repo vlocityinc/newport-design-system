@@ -1,5 +1,7 @@
 // @ts-nocheck
 import startElementLabel from '@salesforce/label/FlowBuilderCanvas.startElementLabel';
+import scheduleTypeOnce from '@salesforce/label/FlowBuilderCanvasElement.scheduleTypeOnce';
+import scheduleTypeRecurring from '@salesforce/label/FlowBuilderCanvasElement.scheduleTypeRecurring';
 import startElementRecordCreated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreated';
 import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreatedUpdated';
 import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordUpdated';
@@ -44,5 +46,7 @@ export const LABELS = {
     immediateConnectorLabel,
     stageStepStatus,
     stageStepOutput,
-    orchestratedStageStatus
+    orchestratedStageStatus,
+    scheduleTypeOnce,
+    scheduleTypeRecurring
 };
