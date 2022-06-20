@@ -141,16 +141,20 @@ const filterByRetrieveOptions = (elements: UI.StringKeyedMap<any>, retrieveOptio
                     ))
         );
     } else if (retrieveOptions.dataType) {
+        const dataTypes = retrieveOptions.dataType
+            ? Array.isArray(retrieveOptions.dataType)
+                ? retrieveOptions.dataType
+                : [retrieveOptions.dataType]
+            : [];
         filteredElements = filteredElements.filter(
             (element) =>
-                element.dataType === retrieveOptions.dataType ||
+                dataTypes.includes(element.dataType) ||
                 (allowTraversal &&
                     isApexTypeElement(element) &&
                     apexClassHasSomePropertyMatching(
                         element.apexClass,
                         (apexProperty) =>
-                            apexProperty.type === retrieveOptions.dataType ||
-                            apexProperty.dataType === retrieveOptions.dataType
+                            dataTypes.includes(apexProperty.type) || dataTypes.includes(apexProperty.dataType)
                     ))
         );
     }

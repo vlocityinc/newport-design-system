@@ -1,4 +1,5 @@
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -84,7 +85,7 @@ export default class CollectionChoiceSetEditor extends LightningElement {
             }
             this.collectionChoiceSet = newValue;
             if (this._objectType) {
-                this.getEntityFields();
+                this.retrieveFields(collectionObj?.dataType, this._objectType);
                 this.showSecondSection = true;
             }
         }
@@ -160,33 +161,55 @@ export default class CollectionChoiceSetEditor extends LightningElement {
     }
 
     /**
-     * Helper method to get entityFields based on the selected recordChoiceSetObject
+     * Helper method to get fields based on the selected collection
+     *
+     * @param dataType - dataType of the collection field
+     * @param subtype - subtype of the collection
      */
-    getEntityFields() {
-        sobjectLib
-            .fetchFieldsForEntity(this._objectType)
-            .then((fields) => {
-                this.menuDataFields = fields;
-                if (!this.menuDataFields) {
-                    return;
-                }
+    retrieveFields(dataType: string, subtype: string) {
+        if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+            sobjectLib
+                .fetchFieldsForEntity(this._objectType)
+                .then((fields) => {
+                    this.setFields(fields);
+                })
+                .catch(() => {
+                    // fetchFieldsForEntity displays an error message
+                });
+        } else if (dataType === FLOW_DATA_TYPE.APEX.value) {
+            Promise.resolve(apexTypeLib.getPropertiesForClass(subtype))
+                .then((fields) => {
+                    const dataTypeList = this.dataTypeList.map((dataType) => dataType?.value);
+                    const primitiveFields = Object.keys(fields).reduce((filteredFields, fieldName) => {
+                        if (dataTypeList.includes(fields[fieldName]?.dataType)) {
+                            filteredFields[fieldName] = fields[fieldName];
+                        }
+                        return filteredFields;
+                    }, {});
+                    this.setFields(primitiveFields);
+                })
+                .catch(() => {
+                    // getPropertiesForClass displays an error message
+                });
+        }
+    }
 
-                // Filtering the menudata based on the selected dataType(if any) for the Choice Value Field Picker
-                if (this.collectionChoiceSet.dataType && this.collectionChoiceSet.dataType.value) {
-                    // keep in object not collectionChoiceSet
-                    this.filterEntityFields();
-                }
-            })
-            .catch(() => {
-                // fetchFieldsForEntity displays an error message
-            });
+    /**
+     * Helper method to set display fields and filtered value fields
+     *
+     * @param fields - all the fields
+     */
+    setFields(fields) {
+        this.menuDataFields = fields;
+        this.filterFields();
     }
 
     /**
      * Helper method to filter entityFields based on the selected dataType
      */
-    filterEntityFields() {
-        if (!this.menuDataFields) {
+    filterFields() {
+        // If menuData fields are empty or data type is not selected, skip filtering
+        if (!this.menuDataFields || !this.collectionChoiceSet?.dataType?.value) {
             return;
         }
 
@@ -210,15 +233,16 @@ export default class CollectionChoiceSetEditor extends LightningElement {
 
         this.updateProperty(COLLECTION_CHOICE_SET_FIELDS.COLLECTION_REFERENCE, collectionReferenceValue, error);
         const subtype = event.detail?.item?.subtype;
-
         if (subtype && this._objectType !== subtype) {
             this._objectType = subtype;
             this.menuDataFields = {};
             this.filteredMenuDataFields = {};
 
+            const dataType = event.detail?.item?.dataType;
             if (!error) {
-                this.getEntityFields();
+                this.retrieveFields(dataType, subtype);
             }
+
             this.updateProperty(COLLECTION_CHOICE_SET_FIELDS.DISPLAY_FIELD, null, null, false);
             this.updateProperty(COLLECTION_CHOICE_SET_FIELDS.VALUE_FIELD, null, null, false);
 
@@ -289,7 +313,7 @@ export default class CollectionChoiceSetEditor extends LightningElement {
         if (value.dataType !== this.dataType) {
             this.updateProperty(COLLECTION_CHOICE_SET_FIELDS.DATA_TYPE, value.dataType, event.detail.error);
             // Filtering entityFields based on selected dataType
-            this.filterEntityFields();
+            this.filterFields();
             // Resetting picklistField to null and ensuring that it doesn't get hydrated yet.
             // todo: be sure this is needed in this use case
             this.updateProperty(COLLECTION_CHOICE_SET_FIELDS.VALUE_FIELD, null, null, false);
@@ -366,7 +390,7 @@ export default class CollectionChoiceSetEditor extends LightningElement {
             choices: true,
             allowsApexCallAnonymousAutoOutput: false,
             selectorConfig: {
-                dataType: 'SObject',
+                dataType: [FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.APEX.value],
                 allowTraversal: true,
                 isCollection: true
             }

@@ -63,7 +63,8 @@ describe('collection-choice-set-editor', () => {
                 SELECTORS.LIGHTNING_GROUPED_COMBOBOX
             ]);
             expect(groupedCombobox.items.length).toBeGreaterThan(2);
-            expect(groupedCombobox.items[2].items).toHaveLength(2);
+            expect(groupedCombobox.items[1].items).toHaveLength(2);
+            expect(groupedCombobox.items[4].items).toHaveLength(5);
         });
     });
 });

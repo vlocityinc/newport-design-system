@@ -6,6 +6,7 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     ComboboxStateChangedEvent,
     PropertyChangedEvent,
@@ -33,7 +34,7 @@ const IAMERRORED = 'IAMERRORED';
 
 const MENU_ITEM: UI.ComboboxItem = {
     iconSize: 'size',
-    dataType: 'dataType',
+    dataType: FLOW_DATA_TYPE.SOBJECT.value,
     type: 'type',
     displayText: 'displayText',
     value: 'value'
@@ -116,7 +117,8 @@ jest.mock('builder_platform_interaction/referenceToVariableUtil', () => {
         getVariableOrField: jest.fn().mockImplementation((collRef) => {
             if (collRef) {
                 return {
-                    subtype: 'Account'
+                    subtype: 'Account',
+                    dataType: 'SObject'
                 };
             }
             return {};

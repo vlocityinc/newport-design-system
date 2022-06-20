@@ -139,7 +139,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
                 SObject: [
                     {
                         paramType: 'Data',
-                        dataType: 'SObject',
+                        dataType: FLOW_DATA_TYPE.SOBJECT.value,
                         canBeSobjectField: 'CannotBe',
                         canBeSystemVariable: 'CanBe',
                         canBeApexProperty: 'CanBe'
@@ -147,7 +147,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
                 ]
             },
             selectorConfig: {
-                dataType: 'SObject',
+                dataType: FLOW_DATA_TYPE.SOBJECT.value,
                 sobjectCollectionCriterion: this.sobjectCollectionCriterion,
                 entityName: this.recordEntityName,
                 crudFilter: this.crudFilter
