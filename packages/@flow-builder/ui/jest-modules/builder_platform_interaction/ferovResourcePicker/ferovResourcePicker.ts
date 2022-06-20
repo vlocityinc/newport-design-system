@@ -63,4 +63,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     @api
     hideFlowSystemVariable;
+
+    @api
+    newResourceInfo;
 }

@@ -212,6 +212,12 @@ export default class FerovResourcePicker extends LightningElement {
     @api
     hideFlowSystemVariable = false;
 
+    /**
+     * Define the configuration for when a new resource is created inline
+     */
+    @api
+    newResourceInfo: UI.NewResourceInfo = {};
+
     get parentItem() {
         return this.value && this.value.parent;
     }
@@ -343,11 +349,15 @@ export default class FerovResourcePicker extends LightningElement {
      */
     handleAddInlineResource = (event: NewResourceEvent) => {
         if (event && event.detail && event.detail.position && typeof event.detail.position === 'string') {
+            let newResourceConfig: UI.NewResourceInfo = this.newResourceInfo;
             if (this.includeQuickCreateResourceOption && this._quickCreateResourceText) {
-                event.detail.newResourceInfo = {
+                newResourceConfig = {
+                    ...this.newResourceInfo,
                     userProvidedText: this._quickCreateResourceText
                 };
             }
+            event.detail.newResourceInfo = newResourceConfig;
+
             storeInstance.dispatch(
                 updateInlineResourceProperties({
                     lastInlineResourceRowIndex: event.detail.position

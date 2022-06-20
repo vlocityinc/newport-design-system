@@ -127,6 +127,12 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
         );
     }
 
+    /**
+     * Define the configuration for when a new resource is created inline
+     */
+    @api
+    newResourceInfo: UI.NewResourceInfo = {};
+
     get sobjectVariableElementConfig(): ElementFilterConfig {
         return {
             allowedParamTypes: {

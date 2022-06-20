@@ -1,9 +1,11 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import Combobox from 'builder_platform_interaction/combobox';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createAddAutomaticScreenFieldEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 import { containsMatcher } from 'builder_platform_interaction/filterLib';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getFieldByGuid,
     getScreenFieldName,
@@ -268,6 +270,18 @@ export default class ScreenEditorAutomaticFieldPalette extends LightningElement 
         event.dataTransfer.effectAllowed = 'copy';
         event.dataTransfer.setData('dragStartLocation', SCREEN_EDITOR_GUIDS.PALETTE); // Needed for safari browser. effectAllowed always resolves to 'all' and it is not supported by safari.
         setDragFieldValue(fieldTypeName);
+    }
+
+    /**
+     * The configuration for when a new resource needs to be created for automatic fields
+     *
+     * @returns config for new resource with dataType and resourceType defined
+     */
+    get newResourceInfo(): UI.NewResourceInfo {
+        return {
+            dataType: FLOW_DATA_TYPE.SOBJECT.value,
+            resourceTypes: [ELEMENT_TYPE.VARIABLE]
+        };
     }
 
     /**
