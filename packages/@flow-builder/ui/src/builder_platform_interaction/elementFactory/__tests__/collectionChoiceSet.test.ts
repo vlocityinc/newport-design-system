@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from '../base/baseElement';
 import {
@@ -27,9 +28,15 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 jest.mock('builder_platform_interaction/referenceToVariableUtil', () => {
     return {
         getVariableOrField: jest.fn().mockImplementation((collRef) => {
-            if (collRef) {
+            if (collRef === 'mockCollectionReferenceSObject') {
                 return {
-                    subtype: 'Account'
+                    subtype: 'Account',
+                    dataType: 'SObject'
+                };
+            } else if (collRef === 'mockCollectionReferenceApex') {
+                return {
+                    dataType: 'Apex',
+                    subtype: 'xyz'
                 };
             }
             return {};
@@ -64,13 +71,17 @@ const mockDefaultValuesForCollectionChoiceSet = {
     elementType: ELEMENT_TYPE.COLLECTION_CHOICE_SET,
     collectionReference: null
 };
-const paramElementForCollectionChoiceSet = {
-    collectionReference: 'mockCollectionReference',
+const paramElementForSObjectCollectionChoiceSet = {
+    collectionReference: 'mockCollectionReferenceSObject',
     object: 'Account'
+};
+const paramElementForApexCollectionChoiceSet = {
+    collectionReference: 'mockCollectionReferenceApex',
+    dataType: FLOW_DATA_TYPE.APEX.value
 };
 const mockCollectionChoiceSetResult = {
     elementType: ELEMENT_TYPE.COLLECTION_CHOICE_SET,
-    collectionReference: 'mockCollectionReference'
+    collectionReference: 'mockCollectionReferenceSObject'
 };
 describe('createCollectionChoiceSet', () => {
     it('with empty param produces default value object', () => {
@@ -78,7 +89,7 @@ describe('createCollectionChoiceSet', () => {
         expect(result).toMatchObject(mockDefaultValuesForCollectionChoiceSet);
     });
     describe('with a valid element', () => {
-        const result = createCollectionChoiceSet(paramElementForCollectionChoiceSet);
+        const result = createCollectionChoiceSet(paramElementForSObjectCollectionChoiceSet);
         it('result object matches the mockCollectionChoiceSetResult object', () => {
             expect(result).toMatchObject(mockCollectionChoiceSetResult);
         });
@@ -92,9 +103,17 @@ describe('createCollectionChoiceSetMetadataObject', () => {
         }).toThrow();
     });
     describe('when a valid element is passed as param', () => {
-        const result = createCollectionChoiceSetMetadataObject(paramElementForCollectionChoiceSet);
-        it('result object matches the paramElementForCollectionChoiceSet object', () => {
-            expect(result).toEqual(paramElementForCollectionChoiceSet);
+        it('result matches the expected metadata shape for SObject CCS and object is set', () => {
+            paramElementForSObjectCollectionChoiceSet.dataType = FLOW_DATA_TYPE.SOBJECT.value;
+            const result = createCollectionChoiceSetMetadataObject(paramElementForSObjectCollectionChoiceSet);
+            delete paramElementForSObjectCollectionChoiceSet.dataType;
+            expect(result).toEqual(paramElementForSObjectCollectionChoiceSet);
+        });
+        it('result matches the expected metadata shape for Apex CCS and object is set to null', () => {
+            const result = createCollectionChoiceSetMetadataObject(paramElementForApexCollectionChoiceSet);
+            delete paramElementForApexCollectionChoiceSet.dataType;
+            paramElementForApexCollectionChoiceSet.object = null;
+            expect(result).toEqual(paramElementForApexCollectionChoiceSet);
         });
     });
 });

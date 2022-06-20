@@ -1,3 +1,4 @@
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getVariableOrField } from 'builder_platform_interaction/referenceToVariableUtil';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
@@ -60,7 +61,7 @@ export const createCollectionChoiceSetMetadataObject = (
     const collectionObj = collectionReference
         ? getVariableOrField(collectionReference, Store.getStore().getCurrentState().elements)
         : null;
-    const object = collectionObj ? collectionObj?.subtype : null;
+    const object = collectionObj?.dataType === FLOW_DATA_TYPE.SOBJECT.value ? collectionObj?.subtype : null;
 
     return Object.assign(baseDynamicChoiceMetadataObject, {
         collectionReference,
