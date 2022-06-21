@@ -58,7 +58,7 @@ import {
 } from 'builder_platform_interaction/alcEvents';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { shortcuts } from 'builder_platform_interaction/app';
-import { ConnectionSource, getConnectionTarget } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectionSource, ElementMetadata, getConnectionTarget } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     CanvasMode,
     FlowTestMode,
@@ -113,7 +113,7 @@ import {
     SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
-import { getActionIconMap, getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
+import { getActionIconMap, getActionKey, getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import {
     initializeLoader,
@@ -208,6 +208,7 @@ import {
     debugInterviewResponseCallback,
     decorateLabelsAndApiNames,
     filterElements,
+    findActionMetadata,
     flowPropertiesCallback,
     formattedHeaderLabel,
     getConnectorToDuplicate,
@@ -374,7 +375,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     flowStatus;
 
     @track
-    elementsMetadata;
+    elementsMetadata!: ElementMetadata[];
 
     @track
     _customIconMap = {};
@@ -505,7 +506,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     requiredVariablesLoading = false;
 
-    supportedElements = [];
+    supportedElements: UI.ElementConfig[] = [];
 
     flowInitDefinitionId;
 
@@ -1038,11 +1039,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
             Promise.all([toolboxPromise, palettePromise]).then(() => {
                 if (this.palette) {
-                    this.elementsMetadata = getElementsMetadata(
-                        this.toolboxElements,
-                        this.palette,
-                        this.elementsMetadata
-                    );
+                    this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
                     this.spinners.showAutoLayoutSpinner = false;
                 }
             });
@@ -2284,7 +2281,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 locationY,
                 actionType,
                 actionName,
-                actionIsStandard,
                 parent,
                 designateFocus,
 
@@ -2293,6 +2289,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 // @flow-builder/auto-layout-canvas-ui code, which can then take care of connection source stuff.
                 alcConnectionSource
             } = event.detail;
+
+            const actionKey = getActionKey(actionName, actionType);
+
+            const actionIsStandard: boolean | undefined =
+                actionKey != null ? findActionMetadata(this.elementsMetadata, actionKey)?.actionIsStandard : undefined;
 
             // If displaying in a modal then the element is added at the end via nodeUpdate.
             // In a panel, the element is added upon opening and nodeUpdate updates

@@ -38,7 +38,6 @@ Object {
       "heading": "Interaction",
       "items": Array [
         Object {
-          "actionIsStandard": undefined,
           "actionName": undefined,
           "actionType": undefined,
           "description": "Collect information from",
@@ -56,13 +55,13 @@ Object {
         },
       ],
       "label": "Interaction",
+      "separator": false,
     },
     Object {
       "guid": 1,
       "heading": "Logic",
       "items": Array [
         Object {
-          "actionIsStandard": true,
           "actionName": "testActionName",
           "actionType": "testActionType",
           "description": "Create Decision",
@@ -80,6 +79,7 @@ Object {
         },
       ],
       "label": "Logic",
+      "separator": false,
     },
   ],
 }

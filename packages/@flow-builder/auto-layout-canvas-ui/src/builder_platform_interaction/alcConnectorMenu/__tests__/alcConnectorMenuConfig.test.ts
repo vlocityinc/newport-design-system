@@ -46,8 +46,7 @@ const elementsMetadata = [
         description: 'Create Decision',
 
         actionType: 'testActionType',
-        actionName: 'testActionName',
-        actionIsStandard: true
+        actionName: 'testActionName'
     },
     {
         section: 'Logic',

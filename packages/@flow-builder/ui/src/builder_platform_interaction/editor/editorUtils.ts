@@ -46,6 +46,7 @@ import {
     METADATA_KEY
 } from 'builder_platform_interaction/flowMetadata';
 import { DEBUG_STATUS } from 'builder_platform_interaction/header';
+import { getActionKey } from 'builder_platform_interaction/invocableActionLib';
 import {
     isConfigurableStartSupported,
     isFlowTestingSupportedForProcessType
@@ -1067,10 +1068,11 @@ export const isGuardrailsEnabled = () => {
 /**
  * Get the alc left-pane toolbox / alc connector menu elements
  *
- * @param {string} flowProcessType
- * @param {string} flowTriggerType
+ * @param flowProcessType - The flow process type
+ * @param  flowTriggerType - The flow trigger type
+ * @returns the toolbox elements
  */
-export function getToolboxElements(flowProcessType, flowTriggerType) {
+export function getToolboxElements(flowProcessType: string, flowTriggerType: string): Promise<UI.ElementConfig[]> {
     logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
     return new Promise((resolve) => {
         // TODO: fetch should return a promise
@@ -1099,10 +1101,9 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
  *
  * @param toolboxElements
  * @param palette
- * @param existingMetadata
  * @returns the elements metadata
  */
-export function getElementsMetadata(toolboxElements, palette, existingMetadata = []) {
+export function getElementsMetadata(toolboxElements, palette): ElementMetadata[] {
     const newElementsMetadata: ElementMetadata[] = [];
     getElementSections(toolboxElements, palette).forEach((section: any) => {
         (section._children || []).forEach(
@@ -1153,9 +1154,6 @@ export function getElementsMetadata(toolboxElements, palette, existingMetadata =
             }
         );
     });
-    if (existingMetadata.length === 0) {
-        return newElementsMetadata;
-    }
 
     return newElementsMetadata;
 }
@@ -1613,4 +1611,20 @@ export function decorateLabelsAndApiNames(
  */
 export function getNumberOfCutOrCopiedCanvasElements(cutOrCopiedCanvasElements) {
     return Object.keys(cutOrCopiedCanvasElements).length;
+}
+
+/**
+ * Find the metadata for an action
+ *
+ * @param elementsMetadata
+ * @param actionKey - The action key
+ * @returns the action element metadata, or undefined if not found
+ */
+export function findActionMetadata(
+    elementsMetadata: ElementMetadata[],
+    actionKey: string
+): ElementMetadata | undefined {
+    return elementsMetadata?.find((metadata) => {
+        return actionKey === getActionKey(metadata.actionName, metadata.actionType);
+    });
 }

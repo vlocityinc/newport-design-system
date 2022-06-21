@@ -63,7 +63,8 @@ export function fetchDetailsForInvocableAction(
     { actionName, actionType },
     { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
 ) {
-    const key = `${actionName}-${actionType}`;
+    const key = getActionKey(actionName, actionType);
+
     if (cachedDetails[key]) {
         return Promise.resolve(cachedDetails[key]);
     }
@@ -76,6 +77,21 @@ export function fetchDetailsForInvocableAction(
         cachedDetails[key] = details;
         return details;
     });
+}
+
+/**
+ * Get the key for an action
+ *
+ * @param actionName - The action name
+ * @param actionType - The action type
+ * @returns  the action key, or undefined if not a valid action
+ */
+export function getActionKey(actionName?: string, actionType?: string): string | undefined {
+    if (actionName == null || actionType == null) {
+        return undefined;
+    }
+
+    return `${actionName}-${actionType}`;
 }
 
 /**
@@ -116,7 +132,7 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
  * @returns {Object} the action parameters
  */
 export function getParametersForInvocableAction({ actionName, actionType, dataTypeMappings }) {
-    const key = `${actionName}-${actionType}`;
+    const key = getActionKey(actionName, actionType);
     const params = cachedDetails[key] && cachedDetails[key].parameters;
     return applyDynamicTypeMappings(params, dataTypeMappings);
 }

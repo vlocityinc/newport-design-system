@@ -11,7 +11,6 @@ interface AddElementEventDetail {
     locationY?: number;
     actionType?: string;
     actionName?: string;
-    actionIsStandard?: boolean;
     parent?: string;
     // connection source information for the alc when adding an element
     alcConnectionSource?: ConnectionSource;

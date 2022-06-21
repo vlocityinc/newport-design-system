@@ -1,5 +1,5 @@
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
-import type { ElementMetadata, MenuItem, MenuSection } from 'builder_platform_interaction/autoLayoutCanvas';
+import type { ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commonUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
 import { LABELS } from './alcConnectorMenuLabels';
@@ -20,7 +20,7 @@ const actionSection: MenuSection = {
     separator: true
 };
 
-const pasteActionItem = {
+const pasteActionItem: MenuItem = {
     guid: generateGuid(),
     icon: 'utility:paste',
     iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
@@ -32,7 +32,7 @@ const pasteActionItem = {
     rowClass: 'slds-listbox__item action-row-line-height'
 };
 
-const addGoToActionItem = {
+const addGoToActionItem: MenuItem = {
     guid: generateGuid(),
     icon: 'utility:level_down',
     iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
@@ -44,7 +44,7 @@ const addGoToActionItem = {
     rowClass: 'slds-listbox__item action-row-line-height'
 };
 
-const rerouteGoToActionItem = {
+const rerouteGoToActionItem: MenuItem = {
     guid: generateGuid(),
     icon: 'utility:level_down',
     iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
@@ -56,7 +56,7 @@ const rerouteGoToActionItem = {
     rowClass: 'slds-listbox__item action-row-line-height'
 };
 
-const deleteGoToActionItem = {
+const deleteGoToActionItem: MenuItem = {
     guid: generateGuid(),
     icon: 'utility:delete',
     iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
@@ -86,7 +86,7 @@ const configureElementMenu = (
     numPasteElementsAvailable: number,
     canAddGoto: boolean,
     isGoToConnector: boolean
-) => {
+): { sections: MenuSection[] } => {
     const sectionDefinitionsMap = {};
 
     let extraSections: MenuSection[] = [];
@@ -111,7 +111,7 @@ const configureElementMenu = (
         extraSections = [actionSection];
     }
 
-    const sections = elementsMetadata.reduce(
+    const sections: MenuSection[] = elementsMetadata.reduce(
         (
             acc,
             {
@@ -125,7 +125,6 @@ const configureElementMenu = (
                 elementSubtype,
                 actionType,
                 actionName,
-                actionIsStandard,
                 type
             }
         ) => {
@@ -133,13 +132,16 @@ const configureElementMenu = (
                 return acc;
             }
 
-            let sectionDefinition = sectionDefinitionsMap[section];
+            let sectionDefinition: MenuSection = sectionDefinitionsMap[section];
+
             if (!sectionDefinition) {
                 sectionDefinitionsMap[section] = sectionDefinition = {
                     guid: generateGuid(),
+                    // TODO: refactor
                     heading: type === NodeType.ORCHESTRATED_STAGE ? null : section,
                     label: section,
-                    items: []
+                    items: [],
+                    separator: false
                 };
 
                 acc.push(sectionDefinition);
@@ -166,14 +168,13 @@ const configureElementMenu = (
             const isSupported = metadata.elementTypes.has(elementType);
 
             if (isSupported) {
-                const item = {
+                const item: MenuItem = {
                     guid: generateGuid(),
                     description,
                     label,
                     elementType,
                     actionType,
                     actionName,
-                    actionIsStandard,
                     icon,
                     iconContainerClass,
                     iconClass,
@@ -194,6 +195,7 @@ const configureElementMenu = (
     const updatedSections = sections.filter((section) => {
         return section.items?.length > 0;
     });
+
     return { sections: updatedSections };
 };
 
@@ -263,7 +265,7 @@ export const configureMenu = (
 const flattenIntoSearchResultsSection = (existingMenuSections) => {
     const searchSectionName = LABELS.searchSectionHeading;
 
-    const items: MenuItem[] = [];
+    const items: ConnectorMenuItem[] = [];
 
     const searchResultsSection = {
         guid: generateGuid(),

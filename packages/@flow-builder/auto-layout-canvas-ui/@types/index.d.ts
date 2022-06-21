@@ -23,3 +23,35 @@ interface ConnectorMenuItem {
     elementSubtype: string | null;
     tooltip: string;
 }
+
+interface MenuItem {
+    guid: string;
+    icon: string;
+    iconContainerClass: string;
+    iconClass: string;
+    iconSize: string;
+    iconVariant: string;
+    label: string;
+    elementType: string;
+    rowClass: string;
+    value?: string;
+    dataType?: string;
+    description?: string;
+
+    // TODO: get rid of this
+    actionType?: string;
+    actionName?: string;
+    elementSubtype?: string;
+    tooltip?: string;
+}
+
+interface MenuSection {
+    guid: string;
+    heading: string | null;
+
+    items: MenuItem[];
+    label: string;
+
+    // TODO: what is this?
+    separator: boolean;
+}

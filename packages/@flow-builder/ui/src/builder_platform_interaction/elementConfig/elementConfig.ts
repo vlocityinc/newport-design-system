@@ -1295,7 +1295,7 @@ export const elementTypeToConfigMap: {
  *
  * @param elements - Array of elements retrieved from Service API to populate toolbox elements list in left panel
  */
-export const updateElementConfigMapWithSubtypes = (elements: any[]) => {
+export const updateElementConfigMapWithSubtypes = (elements: UI.ElementConfig[]) => {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         if (element && element.isElementSubtype) {
@@ -1315,7 +1315,7 @@ export const updateElementConfigMapWithSubtypes = (elements: any[]) => {
             elementToUpdate.nodeConfig!.iconBackgroundColor = element.color;
             elementToUpdate.nodeConfig!.iconName = element.icon!;
             elementToUpdate.nodeConfig!.description = element.description;
-            elementToUpdate.nodeConfig!.dragImageSrc = ICONS_LARGE[element.name];
+            elementToUpdate.nodeConfig!.dragImageSrc = ICONS_LARGE[element.name!];
             elementToUpdate.configComponent = element.configComponent;
             elementToUpdate.fieldInputCategory = fieldInputCategory;
             elementToUpdate.supportsBranching = element.supportsBranching;

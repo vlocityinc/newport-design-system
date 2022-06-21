@@ -316,6 +316,7 @@ declare namespace UI {
     }
 
     interface ElementConfig {
+        // TODO: what should be a key here?
         bodyCssClass?: string;
         canBeDuplicated?: boolean;
         canHaveDefaultConnector?: boolean;
@@ -347,6 +348,10 @@ declare namespace UI {
         propertyEditorPanelSize?: string;
         fieldInputCategory?: FieldInputCategory;
         supportsBranching?: boolean;
+
+        labelPlural?: string;
+        labelNew?: string;
+        labelEdit?: string;
     }
 
     interface LabelsObject {

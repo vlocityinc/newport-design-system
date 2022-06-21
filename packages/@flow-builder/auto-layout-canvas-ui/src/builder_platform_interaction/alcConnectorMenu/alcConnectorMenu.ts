@@ -99,7 +99,7 @@ export default class AlcConnectorMenu extends AlcMenu {
     override doSelectMenuItem(currentTarget: HTMLElement) {
         super.doSelectMenuItem(currentTarget);
 
-        const { value, subType, actionType, actionName, actionIsStandard } = currentTarget.dataset;
+        const { value, subType, actionType, actionName } = currentTarget.dataset;
 
         const source = this.source;
 
@@ -124,7 +124,6 @@ export default class AlcConnectorMenu extends AlcMenu {
                         elementSubtype: subType!,
                         actionType: actionType!,
                         actionName: actionName!,
-                        actionIsStandard: actionIsStandard === 'true',
                         locationX: 0,
                         locationY: 0,
                         alcConnectionSource,

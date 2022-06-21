@@ -94,28 +94,6 @@ export interface ElementsMetadata {
     [key: string]: ElementMetadata;
 }
 
-export interface MenuItem {
-    guid: string;
-    icon: string;
-    iconContainerClass: string;
-    iconClass: string;
-    iconSize: string;
-    iconVariant: string;
-    label: string;
-    elementType: string;
-    rowClass: string;
-    value?: string;
-    dataType?: string;
-}
-
-export interface MenuSection {
-    guid: string;
-    heading: string;
-    items: MenuItem[];
-    label: string;
-    separator: boolean;
-}
-
 export interface ElementMetadata {
     type: NodeType;
     icon: string;

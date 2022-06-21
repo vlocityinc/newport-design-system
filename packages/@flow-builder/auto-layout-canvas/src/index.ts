@@ -39,8 +39,6 @@ export {
     GOTO_CONNECTION_SUFFIX,
     Guid,
     HighlightInfo,
-    MenuItem,
-    MenuSection,
     NodeModel,
     NodeRef,
     ParentNodeModel,
