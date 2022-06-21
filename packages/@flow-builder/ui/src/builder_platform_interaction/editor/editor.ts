@@ -3295,7 +3295,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         // Show New Flow modal.
         // Hiding (!this.showNewFlowDialog && this.newFlowModalActive) is done in
         // the modal callbacks since the editor does not hold a reference to the modal.
-        if (this.showNewFlowDialog && !this.newFlowModalActive) {
+        if (this.showNewFlowDialog && !this.newFlowModalActive && !this.isFlowServerCallInProgress) {
             this.newFlowModalActive = true;
             let hasError = false;
             invokeNewFlowModal(
