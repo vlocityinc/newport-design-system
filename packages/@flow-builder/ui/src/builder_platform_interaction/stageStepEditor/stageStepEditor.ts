@@ -169,7 +169,13 @@ export default class StageStepEditor extends LightningElement {
         }
     ];
 
+    baseAssigneeRecordPickerAttributes = {
+        source: 'FlowOrchestrationWorkItem',
+        field: 'Assignee'
+    };
+
     userRecordPickerAttributes = {
+        ...this.baseAssigneeRecordPickerAttributes,
         label: LABELS.actorSelectorUserLabel,
         entities: [
             {
@@ -185,6 +191,7 @@ export default class StageStepEditor extends LightningElement {
      * are returned
      */
     groupRecordPickerAttributes = {
+        ...this.baseAssigneeRecordPickerAttributes,
         label: LABELS.actorSelectorGroupLabel,
         contextId: 'orchestratorGroup',
         entities: [
@@ -201,6 +208,7 @@ export default class StageStepEditor extends LightningElement {
      * are returned
      */
     queueRecordPickerAttributes = {
+        ...this.baseAssigneeRecordPickerAttributes,
         label: LABELS.actorSelectorQueueLabel,
         contextId: 'orchestratorQueue',
         entities: [

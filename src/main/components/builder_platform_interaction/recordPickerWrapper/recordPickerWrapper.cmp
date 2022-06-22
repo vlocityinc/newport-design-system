@@ -14,6 +14,8 @@
     <aura:attribute name="priv_convertedValues" type="List" default="[]" required="false" description="The values associated with the input converted in to an aura friendly form"/>
     <aura:attribute name="errors" type="List" default="[]" required="false" description="The errors associated with the input"/>
     <aura:attribute name="required" type="Boolean" default="true" description="If this field is required"/>
+    <aura:attribute name="source" type="String" description="The source entity used to customize filters during lookup"/>
+    <aura:attribute name="field" type="String" description="The field on source entity used to customize filters during lookup"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler name="valueAdded" event="ui:change" action="{!c.handleSelected}"/>
@@ -31,5 +33,7 @@
         required="{!v.required}"
         requiredIndicatorClass="slds-required slds-float_left"
         labelClass="slds-form-element__label"
+        source="{!v.source}"
+        field="{!v.field}"
     ></forceSearch:inputLookupDesktop>
 </aura:component>
