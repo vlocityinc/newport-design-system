@@ -1,3 +1,4 @@
+import getDefaultTimeZone from '@salesforce/apex/interaction.FlowBuilderController.getDefaultTimeZone';
 import getTimeZones from '@salesforce/apex/interaction.FlowBuilderController.getTimeZones';
 import { ValueChangedEvent } from 'builder_platform_interaction/events';
 import { api, LightningElement, wire } from 'lwc';
@@ -18,6 +19,15 @@ export default class TimeZonePicker extends LightningElement {
 
     @wire(getTimeZones)
     timeZoneData;
+
+    @wire(getDefaultTimeZone)
+    wiredDefaultTimeZone({ data: defaultTimeZone }) {
+        // the picker does not have a value, use the default time zone instead
+        if (defaultTimeZone && !this.value) {
+            const defaultTimeZoneId = defaultTimeZone.apiValue;
+            this.dispatchEvent(new ValueChangedEvent(defaultTimeZoneId));
+        }
+    }
 
     get label() {
         return LABELS.timeZoneLabel;

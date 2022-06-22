@@ -49,7 +49,8 @@
         "^analyzer_framework/(.+)$": "<rootDir>/jest-modules/analyzer_framework/$1/$1",
         "^formula/(.+)$": "<rootDir>/jest-modules/formula/$1/$1",
         "^(force)/(.+)$": "<rootDir>/jest-modules/$1/$2/$2",
-        "@salesforce/apex/interaction.FlowBuilderController.getTimeZones": "<rootDir>/jest-modules/apex/interaction/getTimeZones.js"
+        "@salesforce/apex/interaction.FlowBuilderController.getTimeZones": "<rootDir>/jest-modules/apex/interaction/getTimeZones.js",
+        "@salesforce/apex/interaction.FlowBuilderController.getDefaultTimeZone": "<rootDir>/jest-modules/apex/interaction/getDefaultTimeZone.js"
     },
     "setupFilesAfterEnv": ["<rootDir>/jestSetup.js"],
     "clearMocks": true,
