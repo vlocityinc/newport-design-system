@@ -949,7 +949,7 @@ export const invokeNewFlowModal = (
     return invokeModalWithComponents(
         {
             bodyClass: 'slds-p-around_none slds-is-relative slds-scrollable_none',
-            flavor: MODAL_SIZE.LARGE,
+            flavor: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM,
             closeCallback: closeFlowModalAction,
             closeModalCallback: createFlowFromTemplateCallback
         },

@@ -136,7 +136,8 @@ export const EDIT_START_SCHEDULED_PATHS = 'editStartScheduledPaths';
  * @type {string} MODAL_SIZE large or medium (default)
  */
 export const MODAL_SIZE = {
-    LARGE: 'large restrictWidthToSldsMedium', // To be used by screen and decision elementType
+    LARGE_RESTRICT_TO_MEDIUM: 'large restrictWidthToSldsMedium',
+    LARGE: 'large', // To be used by screen elementType
     MEDIUM: 'medium slds-modal_medium',
     SMALL: 'small'
 };
@@ -209,16 +210,16 @@ export const elementTypeToConfigMap: {
             [EDIT_START_SCHEDULED_PATHS]: 'builder_platform_interaction:scheduledPathsEditor'
         },
         modalSize: {
-            [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: MODAL_SIZE.LARGE,
-            [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: MODAL_SIZE.LARGE,
-            [FLOW_TRIGGER_TYPE.AFTER_SAVE]: MODAL_SIZE.LARGE,
+            [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM,
+            [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM,
+            [FLOW_TRIGGER_TYPE.AFTER_SAVE]: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM,
             [FLOW_TRIGGER_TYPE.SCHEDULED]: MODAL_SIZE.MEDIUM,
             [FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY]: MODAL_SIZE.MEDIUM,
             [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: MODAL_SIZE.MEDIUM,
             [EDIT_START_RECORD_CHANGE_CONTEXT]: MODAL_SIZE.MEDIUM,
             [EDIT_START_SCHEDULE_CONTEXT]: MODAL_SIZE.MEDIUM,
             [EDIT_START_JOURNEY_CONTEXT]: MODAL_SIZE.MEDIUM,
-            [EDIT_START_SCHEDULED_PATHS]: MODAL_SIZE.LARGE
+            [EDIT_START_SCHEDULED_PATHS]: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM
         },
         nodeConfig: {
             iconName: 'utility:right',
@@ -564,7 +565,7 @@ export const elementTypeToConfigMap: {
             description: LABELS.decisionLogicDescription,
             orchestratorDescription: LABELS.orchestratorDecisionLogicDescription
         },
-        modalSize: MODAL_SIZE.LARGE,
+        modalSize: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM,
         metadataKey: METADATA_KEY.DECISIONS,
         labels: {
             singular: LABELS.decisionSingularLabel,
@@ -603,7 +604,7 @@ export const elementTypeToConfigMap: {
             section: LABELS.flowControlLogicLabel,
             description: LABELS.waitLogicDescription
         },
-        modalSize: MODAL_SIZE.LARGE,
+        modalSize: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM,
         metadataKey: METADATA_KEY.WAITS,
         labels: {
             singular: LABELS.waitSingularLabel,
@@ -1127,7 +1128,7 @@ export const elementTypeToConfigMap: {
             description: LABELS.orchestratedStageComponentDescription,
             iconBackgroundColor: 'background-dark-blue'
         },
-        modalSize: MODAL_SIZE.LARGE,
+        modalSize: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM,
         metadataKey: METADATA_KEY.ORCHESTRATED_STAGES,
         labels: {
             singular: LABELS.orchestratedStageSingularLabel,
