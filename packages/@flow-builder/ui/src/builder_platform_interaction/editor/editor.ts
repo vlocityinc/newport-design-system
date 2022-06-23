@@ -3484,6 +3484,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      */
     createFlowFromTemplateCallback = (modal) => {
         const item = getSelectedFlowEntry(modal);
+        let isAutoLayoutCanvas: boolean = isAutoLayoutCanvasEnabled();
         if (typeof item === 'string') {
             // Create a new flow from a template referenced by a salesforce id
             logInteraction(`create-new-flow-button`, 'editor-component', { devNameOrId: item }, 'click', 'user');
@@ -3503,12 +3504,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     'user'
                 );
                 // Remove isAutoLayoutCanvas after completion of W-9866226
-                const isAutoLayoutCanvas: boolean = isAutoLayoutCanvasEnabled() || isAutoLayoutCanvasOnly(processType);
+                isAutoLayoutCanvas = isAutoLayoutCanvasEnabled() || isAutoLayoutCanvasOnly(processType);
                 this.setupCanvas(processType, defaultTriggerType, isAutoLayoutCanvas);
             }
             modal.close();
             this.newFlowModalActive = false;
         }
+        this.isLeftPanelToggled = !isAutoLayoutCanvas;
     };
 
     setupCanvas = (processType, triggerType, setupInAutoLayoutCanvas) => {
