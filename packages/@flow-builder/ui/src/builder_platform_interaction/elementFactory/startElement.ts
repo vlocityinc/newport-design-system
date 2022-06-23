@@ -120,7 +120,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
         filters = [],
         filterFormula
     } = startElement;
-    const { objectIndex = generateGuid(), objectContainer } = <UI.Start>startElement;
+    const { objectIndex = generateGuid(), objectContainer, segment } = <UI.Start>startElement;
     const maxConnections = calculateMaxConnections(startElement);
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = (startElement as Metadata.Start).schedule || startElement;
@@ -183,6 +183,7 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
         label,
         filterFormula,
         objectContainer,
+        segment,
         // If the start element is linked to an sobject, then make the element look like a data element.
         name: object ? SYSTEM_VARIABLE_RECORD_PREFIX : undefined,
         // used to mark $Record.field as system variable
@@ -344,6 +345,7 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
     const {
         object,
         objectContainer,
+        segment,
         triggerType,
         startDate,
         recordTriggerType,
@@ -438,6 +440,7 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
         schedule,
         object: object === '' ? undefined : object,
         objectContainer,
+        segment,
         recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
         doesRequireRecordChangedToMeetCriteria,
         filterLogic,

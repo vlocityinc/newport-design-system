@@ -32,7 +32,7 @@ export default class ContextRecordEditor extends LightningElement {
      * Internal state for the record change trigger editor
      */
     @track
-    startElement;
+    startElement: UI.Start;
 
     @track
     fields;
@@ -226,6 +226,10 @@ export default class ContextRecordEditor extends LightningElement {
             {
                 name: 'objectContainer',
                 value: this.startElement.objectContainer && this.startElement.objectContainer.value
+            },
+            {
+                name: 'segment',
+                value: this.startElement.segment?.value
             }
         ];
     }
@@ -236,6 +240,7 @@ export default class ContextRecordEditor extends LightningElement {
     handleValueChanged(event) {
         event.stopPropagation();
         this.startElement = contextReducer(this.startElement, event);
+        this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
 
     /**

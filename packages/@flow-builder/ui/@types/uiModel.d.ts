@@ -213,6 +213,7 @@ declare namespace UI {
         object: string;
         objectIndex?: string;
         objectContainer?: string;
+        segment?: string;
         isAssignable?: boolean;
         recordTriggerType?: string;
         scheduledPaths?: ScheduledPath[];
