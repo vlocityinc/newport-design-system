@@ -7,6 +7,8 @@ export const SERVER_ACTION_TYPE = {
     GET_SUPPORTED_ELEMENTS: 'getElements',
     GET_SUPPORTED_SCREEN_FIELD_TYPES: 'getScreenFieldTypes',
     GET_INVOCABLE_ACTIONS: 'getInvocableActions',
+    GET_STANDARD_INVOCABLE_ACTIONS: 'getStandardInvocableActions',
+    GET_DYNAMIC_INVOCABLE_ACTIONS: 'getDynamicInvocableActions',
     GET_APEX_PLUGINS: 'getApexPlugins',
     GET_SUBFLOWS: 'getSubflows',
     GET_INVOCABLE_ACTION_PARAMETERS: 'getInvocableActionParameters',
@@ -74,6 +76,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_SUPPORTED_ELEMENTS]: 'c.getSupportedElements',
     [SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES]: 'c.getSupportedScreenFields',
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: 'c.getAllInvocableActionsForType',
+    [SERVER_ACTION_TYPE.GET_STANDARD_INVOCABLE_ACTIONS]: 'c.getStandardInvocableActionsForType',
+    [SERVER_ACTION_TYPE.GET_DYNAMIC_INVOCABLE_ACTIONS]: 'c.getDynamicInvocableActionsForType',
     [SERVER_ACTION_TYPE.GET_APEX_PLUGINS]: 'c.getApexPlugins',
     [SERVER_ACTION_TYPE.GET_SUBFLOWS]: 'c.getSubflows',
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: 'c.getInvocableActionParameters',
@@ -238,6 +242,10 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_RECORD_DEV_NAME_BY_ID]: (params) => `${params.entity}-${params.recordId}`,
     [SERVER_ACTION_TYPE.GET_SUBFLOWS]: (params) => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: (params) => `${params.flowProcessType}-${params.flowTriggerType}`,
+    [SERVER_ACTION_TYPE.GET_STANDARD_INVOCABLE_ACTIONS]: (params) =>
+        `${params.flowProcessType}-${params.flowTriggerType}`,
+    [SERVER_ACTION_TYPE.GET_DYNAMIC_INVOCABLE_ACTIONS]: (params) =>
+        `${params.flowProcessType}-${params.flowTriggerType}`,
     [SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES]: (params) =>
         `${params.flowProcessType}-${params.flowEnvironmentKey}`,
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: (params) => `${params.actionName}-${params.actionType}`,

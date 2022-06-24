@@ -5,7 +5,10 @@ import {
     getGlobalVariableTypeComboboxItems
 } from 'builder_platform_interaction/expressionUtils';
 import { getAllCachedExtensionTypes, setFlowExtensions } from 'builder_platform_interaction/flowExtensionLib';
-import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
+import {
+    setDynamicInvocableActions,
+    setStandardInvocableActions
+} from 'builder_platform_interaction/invocableActionLib';
 import { setOperators, setRules } from 'builder_platform_interaction/ruleLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import {
@@ -28,13 +31,33 @@ import {
     setVersioningDataInitialized
 } from 'builder_platform_interaction/systemLib';
 
-export const loadActions = (flowProcessType, flowTriggerType) => {
-    return fetchOnce(
-        SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS,
+/**
+ * Returns standard actions.
+ *
+ * @param flowProcessType - flow process type
+ * @param flowTriggerType - flow trigger type
+ * @returns standard actions
+ */
+export const loadStandardActions = (flowProcessType, flowTriggerType) =>
+    fetchOnce(
+        SERVER_ACTION_TYPE.GET_STANDARD_INVOCABLE_ACTIONS,
         { flowProcessType, flowTriggerType },
         { background: true }
-    ).then(setInvocableActions);
-};
+    ).then(setStandardInvocableActions);
+
+/**
+ * Returns dynamic actions.
+ *
+ * @param flowProcessType - flow process type
+ * @param flowTriggerType - flow trigger type
+ * @returns dynamic actions
+ */
+export const loadDynamicActions = (flowProcessType, flowTriggerType) =>
+    fetchOnce(
+        SERVER_ACTION_TYPE.GET_DYNAMIC_INVOCABLE_ACTIONS,
+        { flowProcessType, flowTriggerType },
+        { background: true }
+    ).then(setDynamicInvocableActions);
 
 export const loadApexPlugins = () => fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, {}, { background: true });
 

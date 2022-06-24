@@ -8,7 +8,8 @@ import {
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 
 let cachedDetails = [];
-let invocableActions = [];
+let standardInvocableActions = [];
+let dynamicInvocableActions = [];
 
 export type InvocableAction = {
     elementType: ELEMENT_TYPE;
@@ -25,24 +26,50 @@ export const DEFAULT_ACTION_ICON = {
 };
 
 /**
- * @param actions
+ * Set standard invocable actions.
+ *
+ * @param actions - The standard actions to set
  */
-export function setInvocableActions(actions) {
-    invocableActions = actions;
+export function setStandardInvocableActions(actions) {
+    standardInvocableActions = actions;
 }
 
 /**
+ * Set dynamic invocable actions.
  *
+ * @param actions - The dynamic actions to set
+ */
+export function setDynamicInvocableActions(actions) {
+    dynamicInvocableActions = actions;
+}
+
+/**
+ * @returns standard invocable actions
+ */
+export function getStandardInvocableActions() {
+    return standardInvocableActions;
+}
+
+/**
+ * @returns dynamic invocable actions
+ */
+export function getDynamicInvocableActions() {
+    return dynamicInvocableActions;
+}
+
+/**
+ * @returns invocable actions
  */
 export function getInvocableActions() {
-    return invocableActions;
+    return standardInvocableActions.concat(dynamicInvocableActions);
 }
 
 /**
  * @returns invocable actions and corresponding custom icon resource
  */
 export function getActionIconMap() {
-    return invocableActions
+    return standardInvocableActions
+        .concat(dynamicInvocableActions)
         .filter((action) => action.iconName)
         .reduce((acc, action) => {
             acc[action.name] = action.iconName;

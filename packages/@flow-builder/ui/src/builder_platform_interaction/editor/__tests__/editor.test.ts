@@ -73,7 +73,8 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
         loadOnStart: jest.fn().mockResolvedValue({}),
         loadOnProcessTypeChange: jest.fn().mockImplementation(() => {
             return {
-                loadActionsPromise: Promise.resolve({}),
+                loadStandardActionsPromise: Promise.resolve({}),
+                loadDynamicActionsPromise: Promise.resolve({}),
                 loadPeripheralMetadataPromise: Promise.resolve({}),
                 loadPalettePromise: Promise.resolve({})
             };

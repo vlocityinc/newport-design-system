@@ -136,7 +136,23 @@ const elementsMetadata = [
     }
 ];
 
-const invocableActions = [
+const standardInvocableActions = [
+    {
+        isStandard: true,
+        allowsTransactionControl: false,
+        iconName: null,
+        name: 'chatterPost',
+        description: 'Post to the feed for a specific record, user, or Chatter group.',
+        configurationEditor: null,
+        label: 'Post to Chatter',
+        type: 'chatterPost',
+        category: 'Messaging',
+        genericTypes: [],
+        durableId: 'chatterPost-chatterPost'
+    }
+];
+
+const dynamicInvocableActions = [
     {
         isStandard: false,
         allowsTransactionControl: true,
@@ -162,19 +178,6 @@ const invocableActions = [
         category: 'SLDS',
         genericTypes: [],
         durableId: 'apex-ActionWithSldsIcon'
-    },
-    {
-        isStandard: true,
-        allowsTransactionControl: false,
-        iconName: null,
-        name: 'chatterPost',
-        description: 'Post to the feed for a specific record, user, or Chatter group.',
-        configurationEditor: null,
-        label: 'Post to Chatter',
-        type: 'chatterPost',
-        category: 'Messaging',
-        genericTypes: [],
-        durableId: 'chatterPost-chatterPost'
     }
 ];
 
@@ -188,7 +191,8 @@ const createComponentForTest = async (optionsOverrides = {}) => {
             elementsMetadata,
             autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT,
             numPasteElementsAvailable: 0,
-            invocableActions
+            standardInvocableActions,
+            dynamicInvocableActions
         },
         optionsOverrides
     );
@@ -280,6 +284,24 @@ describe('alc canvas container', () => {
         const expectedMenuItems = [
             {
                 guid: 'random_guid',
+                description: 'Post to the feed for a specific record, user, or Chatter group.',
+                label: 'Post to Chatter',
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: 'chatterPost',
+                actionName: 'chatterPost',
+                actionIsStandard: true,
+                icon: DEFAULT_ACTION_ICON.icon,
+                iconSrc: undefined,
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: DEFAULT_ACTION_ICON.iconClass,
+                iconSize: 'small',
+                iconVariant: '',
+                rowClass: 'slds-listbox__item',
+                elementSubtype: null,
+                tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.'
+            },
+            {
+                guid: 'random_guid',
                 description: 'Test Action with Static Resource',
                 label: 'Action with Static Resource Icon',
                 elementType: ELEMENT_TYPE.ACTION_CALL,
@@ -313,24 +335,6 @@ describe('alc canvas container', () => {
                 rowClass: 'slds-listbox__item',
                 elementSubtype: null,
                 tooltip: 'Action with Slds Icon: Test Action with Slds Icon'
-            },
-            {
-                guid: 'random_guid',
-                description: 'Post to the feed for a specific record, user, or Chatter group.',
-                label: 'Post to Chatter',
-                elementType: ELEMENT_TYPE.ACTION_CALL,
-                actionType: 'chatterPost',
-                actionName: 'chatterPost',
-                actionIsStandard: true,
-                icon: DEFAULT_ACTION_ICON.icon,
-                iconSrc: undefined,
-                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
-                iconClass: DEFAULT_ACTION_ICON.iconClass,
-                iconSize: 'small',
-                iconVariant: '',
-                rowClass: 'slds-listbox__item',
-                elementSubtype: null,
-                tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.'
             }
         ];
         const expectedIsLoading = false;

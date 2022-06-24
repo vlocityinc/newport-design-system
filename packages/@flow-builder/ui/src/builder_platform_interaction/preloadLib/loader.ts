@@ -9,8 +9,8 @@ import { arraysCompare } from 'builder_platform_interaction/builderUtils';
 import { fetchOnce, getAuraCallback, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { commonUtils, invokeModal, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import {
-    loadActions,
     loadApexPlugins,
+    loadDynamicActions,
     loadEntities,
     loadEventTypes,
     loadFlowExtensions,
@@ -20,6 +20,7 @@ import {
     loadProcessTypeFeatures,
     loadResourceTypes,
     loadRules,
+    loadStandardActions,
     loadSubflows,
     loadSystemVariables,
     loadWorkflowEnabledEntities
@@ -155,9 +156,12 @@ class Loader {
     ) {
         // currently, we prefetch actions, apex plugins and subflows for performance reasons but we don't need them to be loaded
         // before we can open a Property Editor
-        let loadActionsProcessTypePromise: Promise<any>;
+        let loadStandardActionsProcessTypePromise: Promise<any>;
+        let loadDynamicActionsProcessTypePromise: Promise<any>;
+
         if (flowTriggerType != null) {
-            loadActionsProcessTypePromise = loadActions(flowProcessType, flowTriggerType);
+            loadStandardActionsProcessTypePromise = loadStandardActions(flowProcessType, flowTriggerType);
+            loadDynamicActionsProcessTypePromise = loadDynamicActions(flowProcessType, flowTriggerType);
         }
         loadApexPlugins();
         const loadSubflowsPromise = loadSubflows(flowProcessType, flowDefinitionId);
@@ -172,7 +176,8 @@ class Loader {
             loadPeripheralMetadataPromise,
             loadPalettePromise,
             loadSubflowsPromise,
-            loadActionsProcessTypePromise
+            loadStandardActionsProcessTypePromise,
+            loadDynamicActionsProcessTypePromise
         };
     }
 
@@ -185,7 +190,8 @@ class Loader {
      * @returns Object with promises
      */
     public loadOnTriggerTypeChange(flowProcessType, flowTriggerType, recordTriggerType) {
-        const loadActionsTriggerTypePromise = loadActions(flowProcessType, flowTriggerType);
+        const loadStandardActionsTriggerTypePromise = loadStandardActions(flowProcessType, flowTriggerType);
+        const loadDynamicActionsTriggerTypePromise = loadDynamicActions(flowProcessType, flowTriggerType);
         const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(
             flowProcessType,
             flowTriggerType,
@@ -193,7 +199,8 @@ class Loader {
         );
         const loadPalettePromise = loadPalette(flowProcessType, flowTriggerType);
         return {
-            loadActionsTriggerTypePromise,
+            loadStandardActionsTriggerTypePromise,
+            loadDynamicActionsTriggerTypePromise,
             loadPeripheralMetadataPromise,
             loadPalettePromise
         };

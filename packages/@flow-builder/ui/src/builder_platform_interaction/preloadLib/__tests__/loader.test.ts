@@ -5,8 +5,8 @@ import { FLOW_ENVIRONMENT } from 'builder_platform_interaction/flowMetadata';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { invokeModal, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import {
-    loadActions,
     loadApexPlugins,
+    loadDynamicActions,
     loadEntities,
     loadEventTypes,
     loadFlowExtensions,
@@ -16,6 +16,7 @@ import {
     loadProcessTypeFeatures,
     loadResourceTypes,
     loadRules,
+    loadStandardActions,
     loadSystemVariables,
     loadWorkflowEnabledEntities
 } from '../dataForProcessType';
@@ -47,7 +48,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 jest.mock('../dataForProcessType', () => {
     return {
-        loadActions: jest.fn().mockResolvedValue('actions'),
+        loadStandardActions: jest.fn().mockResolvedValue('actions'),
+        loadDynamicActions: jest.fn().mockResolvedValue('actions'),
         loadApexPlugins: jest.fn().mockResolvedValue('apexplugins'),
         loadRules: jest.fn().mockResolvedValue('rules'),
         loadOperators: jest.fn().mockResolvedValue('operators'),
@@ -251,7 +253,8 @@ describe('Loader', () => {
                 expect(logPerfTransactionStart).toBeCalledWith(
                     SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
                 );
-                expect(loadActions).toBeCalledWith(processType, triggerType);
+                expect(loadStandardActions).toBeCalledWith(processType, triggerType);
+                expect(loadDynamicActions).toBeCalledWith(processType, triggerType);
                 expect(loadApexPlugins).toBeCalledTimes(1);
                 expect(loadRules).toBeCalledTimes(1);
                 expect(loadRules).toBeCalledWith(processType, triggerType, recordTriggerType);
@@ -308,8 +311,10 @@ describe('Loader', () => {
             const recordTriggerType = 'update';
             it('initiates loading of invocable actions and palette', () => {
                 loadOnTriggerTypeChange(processType, triggerType, recordTriggerType);
-                expect(loadActions).toBeCalledTimes(1);
-                expect(loadActions).toBeCalledWith(processType, triggerType);
+                expect(loadStandardActions).toBeCalledTimes(1);
+                expect(loadStandardActions).toBeCalledWith(processType, triggerType);
+                expect(loadDynamicActions).toBeCalledTimes(1);
+                expect(loadDynamicActions).toBeCalledWith(processType, triggerType);
                 expect(loadPalette).toBeCalledTimes(1);
                 expect(loadPalette).toBeCalledWith(processType, triggerType);
             });

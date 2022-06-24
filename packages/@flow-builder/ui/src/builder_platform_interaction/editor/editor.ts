@@ -113,7 +113,12 @@ import {
     SCHEDULED_PATH_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
-import { getActionIconMap, getActionKey, getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
+import {
+    getActionIconMap,
+    getActionKey,
+    getDynamicInvocableActions,
+    getStandardInvocableActions
+} from 'builder_platform_interaction/invocableActionLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import {
     initializeLoader,
@@ -380,7 +385,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     @track
     _customIconMap = {};
 
-    invocableActions = [];
+    standardInvocableActions = [];
+    dynamicInvocableActions = [];
 
     topSelectedGuid = null;
     cutOrCopiedCanvasElements = {};
@@ -973,15 +979,16 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 this.supportedElements = supportedElements;
             });
             let palettePromise;
-            let actionsProcessTypePromise;
-            let actionsTriggerTypePromise;
+            let standardActionsPromise;
+            let dynamicActionsPromise;
 
             if (flowProcessTypeChanged) {
                 const {
                     loadPeripheralMetadataPromise,
                     loadPalettePromise,
                     loadSubflowsPromise,
-                    loadActionsProcessTypePromise
+                    loadStandardActionsProcessTypePromise,
+                    loadDynamicActionsProcessTypePromise
                 } = loadOnProcessTypeChange(
                     flowProcessType,
                     flowTriggerType,
@@ -991,7 +998,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 );
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
 
-                actionsProcessTypePromise = loadActionsProcessTypePromise;
+                standardActionsPromise = loadStandardActionsProcessTypePromise;
+                dynamicActionsPromise = loadDynamicActionsProcessTypePromise;
 
                 this.openSubflowBlockerPromise = loadSubflowsPromise;
 
@@ -1020,9 +1028,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     this.propertyEditorBlockerCalls.push(loadEventTypesManagedSetup);
                 }
                 if (!flowProcessTypeChanged) {
-                    const { loadActionsTriggerTypePromise, loadPeripheralMetadataPromise, loadPalettePromise } =
-                        loadOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType);
-                    actionsTriggerTypePromise = loadActionsTriggerTypePromise;
+                    const {
+                        loadStandardActionsTriggerTypePromise,
+                        loadDynamicActionsTriggerTypePromise,
+                        loadPeripheralMetadataPromise,
+                        loadPalettePromise
+                    } = loadOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType);
+                    standardActionsPromise = loadStandardActionsTriggerTypePromise;
+                    dynamicActionsPromise = loadDynamicActionsTriggerTypePromise;
                     this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
                     palettePromise = loadPalettePromise.then((data) => {
                         this.palette = data;
@@ -1030,12 +1043,15 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 }
             }
 
-            if (actionsTriggerTypePromise || actionsProcessTypePromise) {
-                Promise.all([actionsTriggerTypePromise, actionsProcessTypePromise]).then(() => {
-                    this._customIconMap = getActionIconMap();
-                    this.invocableActions = getInvocableActions();
-                });
-            }
+            standardActionsPromise?.then(() => {
+                this._customIconMap = getActionIconMap();
+                this.standardInvocableActions = getStandardInvocableActions();
+            });
+
+            dynamicActionsPromise?.then(() => {
+                this._customIconMap = getActionIconMap();
+                this.dynamicInvocableActions = getDynamicInvocableActions();
+            });
 
             Promise.all([toolboxPromise, palettePromise]).then(() => {
                 if (this.palette) {

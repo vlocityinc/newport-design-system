@@ -23,7 +23,8 @@ let storeInstance;
 // Indicates for each category if data loading is in progress
 // true means it's still loading, false means it's completed
 const dataLoadingIndicator = {
-    actions: true,
+    standardActions: true,
+    dynamicActions: true,
     subflows: false, // TODO: Change this to true when adding subflows
     elementSubtypes: false // TODO: Change this to true when adding elementSubtypes
 };
@@ -56,7 +57,8 @@ export default class AlcCanvasContainer extends LightningElement {
     @track
     _elementsMetadata;
 
-    _invocableActions = [];
+    _standardInvocableActions = [];
+    _dynamicInvocableActions = [];
 
     _startElement!: UI.Start;
 
@@ -82,15 +84,25 @@ export default class AlcCanvasContainer extends LightningElement {
     }
 
     @api
-    set invocableActions(actions) {
+    set dynamicInvocableActions(actions) {
         const menuItems = actions?.map(this.augmentActionToMenuItem);
-        this._invocableActions = actions;
-        const category: ConnectorMenuMetadataCategory = 'actions';
-        this.addConnectorMenuItems(menuItems, category);
+        this._dynamicInvocableActions = actions;
+        this.setAndCheckConnectorMenuItems(menuItems, 'dynamicActions');
     }
 
-    get invocableActions() {
-        return this._invocableActions;
+    get dynamicInvocableActions() {
+        return this._dynamicInvocableActions;
+    }
+
+    @api
+    set standardInvocableActions(actions) {
+        const menuItems = actions?.map(this.augmentActionToMenuItem);
+        this._standardInvocableActions = actions;
+        this.setAndCheckConnectorMenuItems(menuItems, 'standardActions');
+    }
+
+    get standardInvocableActions() {
+        return this._standardInvocableActions;
     }
 
     /**
@@ -227,15 +239,19 @@ export default class AlcCanvasContainer extends LightningElement {
         };
     }
 
-    addConnectorMenuItems(menuItems: ConnectorMenuItem[], itemCategory: ConnectorMenuMetadataCategory) {
+    setAndCheckConnectorMenuItems(menuItems: ConnectorMenuItem[], itemCategory: ConnectorMenuMetadataCategory) {
         const connectorMenuElementTypes = this._elementsMetadata?.map(({ elementType }) => elementType);
         const elementTypes = connectorMenuElementTypes ? new Set<string>(connectorMenuElementTypes) : new Set<string>();
+        // check if this ever turns false after process type change.
         const isLoading = this.checkIfDataIsStillLoading(itemCategory);
+        // concat newly added items to existing items instead of overwriting.
+        const existingMenuItems = this._connectorMenuMetadata ? this._connectorMenuMetadata.menuItems : [];
+        const newMenuItems = existingMenuItems.concat(menuItems);
         this._connectorMenuMetadata = {
             ...this._connectorMenuMetadata,
             elementTypes,
             isLoading,
-            menuItems
+            menuItems: newMenuItems
         };
     }
 

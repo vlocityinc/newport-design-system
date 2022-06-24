@@ -1,18 +1,22 @@
 // @ts-nocheck
 import { getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
-import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
+import {
+    setDynamicInvocableActions,
+    setStandardInvocableActions
+} from 'builder_platform_interaction/invocableActionLib';
 import { setOperators, setRules } from 'builder_platform_interaction/ruleLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { setEntities, setEventTypes, setWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
 import { setGlobalVariables, setProcessTypeFeatures, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import {
-    loadActions,
+    loadDynamicActions,
     loadEntities,
     loadEventTypes,
     loadGlobalVariables,
     loadOperators,
     loadProcessTypeFeatures,
     loadRules,
+    loadStandardActions,
     loadSystemVariables,
     loadWorkflowEnabledEntities
 } from '../dataForProcessType';
@@ -38,7 +42,8 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => {
     return {
-        setInvocableActions: jest.fn()
+        setDynamicInvocableActions: jest.fn(),
+        setStandardInvocableActions: jest.fn()
     };
 });
 
@@ -71,23 +76,43 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 });
 
 describe('dataForProcessType', () => {
-    describe('load actions', () => {
+    describe('load standard actions', () => {
         it('invokes call out and call back', async () => {
             fetchOnce.mockResolvedValue('actions');
-            await loadActions('a');
+            await loadStandardActions('a');
             expect(fetchOnce).toBeCalledWith(
-                SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS,
+                SERVER_ACTION_TYPE.GET_STANDARD_INVOCABLE_ACTIONS,
                 { flowProcessType: 'a' },
                 expect.anything()
             );
-            expect(setInvocableActions).toBeCalledTimes(1);
-            expect(setInvocableActions).toBeCalledWith('actions');
+            expect(setStandardInvocableActions).toBeCalledTimes(1);
+            expect(setStandardInvocableActions).toBeCalledWith('actions');
         });
 
         it('does not invoke call back on error', async () => {
             fetchOnce.mockRejectedValue('error');
-            await expect(loadActions('a')).rejects.toEqual('error');
-            expect(setInvocableActions).toBeCalledTimes(0);
+            await expect(loadStandardActions('a')).rejects.toEqual('error');
+            expect(setStandardInvocableActions).toBeCalledTimes(0);
+        });
+    });
+
+    describe('load dynamic actions', () => {
+        it('invokes call out and call back', async () => {
+            fetchOnce.mockResolvedValue('actions');
+            await loadDynamicActions('a');
+            expect(fetchOnce).toBeCalledWith(
+                SERVER_ACTION_TYPE.GET_DYNAMIC_INVOCABLE_ACTIONS,
+                { flowProcessType: 'a' },
+                expect.anything()
+            );
+            expect(setDynamicInvocableActions).toBeCalledTimes(1);
+            expect(setDynamicInvocableActions).toBeCalledWith('actions');
+        });
+
+        it('does not invoke call back on error', async () => {
+            fetchOnce.mockRejectedValue('error');
+            await expect(loadDynamicActions('a')).rejects.toEqual('error');
+            expect(setDynamicInvocableActions).toBeCalledTimes(0);
         });
     });
 
