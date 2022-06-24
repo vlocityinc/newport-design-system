@@ -54,6 +54,7 @@ import { translateUIModelToFlow } from 'builder_platform_interaction/translatorL
 import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import { createElement } from 'lwc';
 import * as mockFlowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { supportedElements as mockSupportedElements } from 'serverData/GetSupportedElements/supportedElements.json';
 import { LABELS } from '../../toolbar/toolbarLabels';
 import Editor from '../editor';
 import { isGuardrailsEnabled } from '../editorUtils';
@@ -119,13 +120,17 @@ jest.mock('builder_platform_interaction/builderUtils', () => {
 });
 
 let mockDebugInterviewIsFailed = false;
+const mockSupportedElementsForAutoLaunchedFlow = mockSupportedElements.AutoLaunchedFlow__None;
 jest.mock('../editorUtils', () => {
     return Object.assign(jest.requireActual('../editorUtils'), {
         isGuardrailsEnabled: jest.fn(),
         getElementsMetadata: () => [],
         isDebugInterviewInError: jest.fn().mockImplementation(() => {
             return mockDebugInterviewIsFailed;
-        })
+        }),
+        getAllSupportedElements: () => {
+            return Promise.resolve(mockSupportedElementsForAutoLaunchedFlow);
+        }
     });
 });
 
@@ -904,6 +909,16 @@ describe('Left panel', () => {
         editorComponent = createComponentUnderTest();
         editorComponent.flowId = 'leftPanel';
         leftPanel = editorComponent.shadowRoot.querySelector(selectors.LEFT_PANEL);
+    });
+
+    it('receives correct toolbox elements', () => {
+        const expectedToolboxElements = mockSupportedElementsForAutoLaunchedFlow.filter((e) => {
+            return e.classification === 'Node';
+        });
+        expect(leftPanel.elements).toHaveLength(expectedToolboxElements.length);
+        expectedToolboxElements.forEach((expectedElement) => {
+            expect(leftPanel.elements).toContainEqual(expectedElement);
+        });
     });
 
     describe('in free-form mode', () => {

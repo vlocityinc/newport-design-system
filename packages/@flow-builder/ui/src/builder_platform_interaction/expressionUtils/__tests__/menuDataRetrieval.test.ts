@@ -9,7 +9,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { PICKLIST_CATEGORY_SUBSTR } from 'builder_platform_interaction/expressionUtils';
 import { createExtensionDescription } from 'builder_platform_interaction/flowExtensionLib';
-import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import {
     ENTITY_TYPE,
     fetchFieldsForEntity,
@@ -58,9 +58,10 @@ import {
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
     const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+    const { ELEMENT_TYPE } = require('builder_platform_interaction/flowMetadata');
 
     const elementTypeToConfigMap = actual.elementTypeToConfigMap;
-    elementTypeToConfigMap.STAGE_STEP.getChildrenItems = jest.fn().mockReturnValue({ a: 2 });
+    elementTypeToConfigMap[ELEMENT_TYPE.STAGE_STEP].getChildrenItems = jest.fn().mockReturnValue({ a: 2 });
     return Object.assign({}, actual, {
         elementTypeToConfigMap
     });
@@ -864,7 +865,7 @@ describe('Menu data retrieval', () => {
                     value: '40c11213-36c0-451e-a5aa-8790aee06666'
                 };
                 const items = getChildrenItems(parent);
-                const mockCall = elementTypeToConfigMap.STAGE_STEP.getChildrenItems;
+                const mockCall = elementTypeToConfigMap[ELEMENT_TYPE.STAGE_STEP].getChildrenItems;
                 expect(mockCall).toHaveBeenCalledWith(getElementByGuid(parent.value));
                 expect(items).toEqual(mockCall());
             });

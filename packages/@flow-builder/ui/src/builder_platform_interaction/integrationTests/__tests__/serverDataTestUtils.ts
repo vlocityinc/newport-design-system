@@ -52,9 +52,7 @@ import { paletteForFlow } from 'serverData/GetPalette/paletteForFlow.json';
 import { resourceTypesForAutoLaunchedFlow } from 'serverData/GetResourceTypes/resourceTypesForAutoLaunchedFlow.json';
 import { resourceTypesForFlow } from 'serverData/GetResourceTypes/resourceTypesForFlow.json';
 import { runInModes } from 'serverData/GetRunInModes/runInModes.json';
-import { supportedElementsForAutoLaunchedFlow } from 'serverData/GetSupportedElements/supportedElementsForAutoLaunchedFlow.json';
-import { supportedElementsForFlow } from 'serverData/GetSupportedElements/supportedElementsForFlow.json';
-import { supportedElementsForRecommendationFlow } from 'serverData/GetSupportedElements/supportedElementsForRecommendationFlow.json';
+import { supportedElements } from 'serverData/GetSupportedElements/supportedElements.json';
 import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForAutoLaunchedFlow.json';
 import { supportedFeaturesListForContactRequestFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForContactRequestFlow.json';
 import { supportedFeaturesListForFieldServiceMobileFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFieldServiceMobileFlow.json';
@@ -266,9 +264,9 @@ const allAuraActions = {
         [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: paletteForAutoLaunchedFlow
     }),
     'c.getSupportedElements': createGetterByProcessType({
-        [FLOW_PROCESS_TYPE.FLOW]: supportedElementsForFlow,
-        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedElementsForAutoLaunchedFlow,
-        [FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY]: supportedElementsForRecommendationFlow
+        [FLOW_PROCESS_TYPE.FLOW]: supportedElements.Flow__RecordBeforeSave,
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedElements.AutoLaunchedFlow__RecordBeforeSave,
+        [FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY]: supportedElements.RecommendationStrategy__None
     }),
     'c.getTriggerTypeInfo': createGetter([]),
     'c.getObjectManagerUrls': createGetter(objectManagerUrls),

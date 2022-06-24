@@ -20,6 +20,7 @@ import {
     orgHasFlowBuilderGuardrails
 } from 'builder_platform_interaction/contextLib';
 import { getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { FlowElementTypeBaseDescriptor } from 'builder_platform_interaction/dataTypeLib';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import {
     getConfigForElementType,
@@ -1066,13 +1067,13 @@ export const isGuardrailsEnabled = () => {
 };
 
 /**
- * Get the alc left-pane toolbox / alc connector menu elements
+ * Get all supported elements for a given flowProcessType and flowTriggerType
  *
  * @param flowProcessType - The flow process type
  * @param  flowTriggerType - The flow trigger type
  * @returns the toolbox elements
  */
-export function getToolboxElements(flowProcessType: string, flowTriggerType: string): Promise<UI.ElementConfig[]> {
+export function getAllSupportedElements(flowProcessType, flowTriggerType) {
     logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
     return new Promise((resolve) => {
         // TODO: fetch should return a promise
@@ -1103,7 +1104,7 @@ export function getToolboxElements(flowProcessType: string, flowTriggerType: str
  * @param palette
  * @returns the elements metadata
  */
-export function getElementsMetadata(toolboxElements, palette): ElementMetadata[] {
+export function getElementsMetadata(toolboxElements: FlowElementTypeBaseDescriptor[], palette): ElementMetadata[] {
     const newElementsMetadata: ElementMetadata[] = [];
     getElementSections(toolboxElements, palette).forEach((section: any) => {
         (section._children || []).forEach(

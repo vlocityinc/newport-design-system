@@ -98,7 +98,7 @@ describe('Actions', () => {
 
         it('handles modify error state of OrchestratedStageStep', () => {
             const payload = {
-                elementType: 'STAGE_STEP'
+                elementType: ELEMENT_TYPE.STAGE_STEP
             };
 
             const action = updateElementErrorState(payload);

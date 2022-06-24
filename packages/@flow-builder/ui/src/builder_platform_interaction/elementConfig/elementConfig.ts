@@ -1,4 +1,5 @@
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FlowElementSubtypeDescriptor, FlowElementTypeBaseDescriptor } from 'builder_platform_interaction/dataTypeLib';
 import {
     createActionCall,
     createActionCallForStore,
@@ -118,6 +119,7 @@ import {
     ACTION_TYPE,
     COLLECTION_PROCESSOR_SUB_TYPE,
     ELEMENT_TYPE,
+    FLOW_ELEMENT_SUBTYPE,
     FLOW_TRIGGER_TYPE,
     ICONS,
     METADATA_KEY
@@ -1251,6 +1253,30 @@ export const elementTypeToConfigMap: {
         },
         fieldInputCategory: 'Map'
     },
+    [FLOW_ELEMENT_SUBTYPE.InteractiveStep]: {
+        nodeConfig: {
+            iconName: ICONS.interactiveStep,
+            iconBackgroundColor: 'background-navy'
+        },
+        canvasElement: true,
+        labels: {
+            singular: LABELS.interactiveStepSingularLabel,
+            plural: LABELS.interactiveStepPluralLabel
+        },
+        fieldInputCategory: 'StageStep'
+    },
+    [FLOW_ELEMENT_SUBTYPE.BackgroundStep]: {
+        nodeConfig: {
+            iconName: ICONS.backgroundStep,
+            iconBackgroundColor: 'background-navy'
+        },
+        canvasElement: true,
+        labels: {
+            singular: LABELS.backgroundStepSingularLabel,
+            plural: LABELS.backgroundStepPluralLabel
+        },
+        fieldInputCategory: 'StageStep'
+    },
     [ELEMENT_TYPE.ROLLBACK]: {
         descriptor: 'builder_platform_interaction:rollbackEditor',
         nodeConfig: {
@@ -1296,30 +1322,31 @@ export const elementTypeToConfigMap: {
  *
  * @param elements - Array of elements retrieved from Service API to populate toolbox elements list in left panel
  */
-export const updateElementConfigMapWithSubtypes = (elements: UI.ElementConfig[]) => {
+export const updateElementConfigMapWithSubtypes = (elements: FlowElementTypeBaseDescriptor[]) => {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         if (element && element.isElementSubtype) {
-            const fieldInputCategory = elementTypeToConfigMap[element.name!]?.fieldInputCategory;
-            elementTypeToConfigMap[element.name!] = JSON.parse(
-                JSON.stringify(elementTypeToConfigMap[element.elementType!])
+            const subtypeElement = element as FlowElementSubtypeDescriptor;
+            const fieldInputCategory = elementTypeToConfigMap[subtypeElement.name!]?.fieldInputCategory;
+            elementTypeToConfigMap[subtypeElement.name!] = JSON.parse(
+                JSON.stringify(elementTypeToConfigMap[subtypeElement.elementType!])
             );
 
-            const elementToUpdate = elementTypeToConfigMap[element.name!];
-            elementToUpdate.elementSubtype = element.name;
-            elementToUpdate.factory = elementTypeToConfigMap[element.elementType!].factory;
-            elementToUpdate.labels!.singular = element.label!;
-            elementToUpdate.labels!.plural = element.labelPlural!;
-            elementToUpdate.labels!.leftPanel = element.label!;
-            elementToUpdate.labels!.newModal = element.labelNew!;
-            elementToUpdate.labels!.editModal = element.labelEdit!;
-            elementToUpdate.nodeConfig!.iconBackgroundColor = element.color;
-            elementToUpdate.nodeConfig!.iconName = element.icon!;
-            elementToUpdate.nodeConfig!.description = element.description;
-            elementToUpdate.nodeConfig!.dragImageSrc = ICONS_LARGE[element.name!];
-            elementToUpdate.configComponent = element.configComponent;
+            const elementToUpdate = elementTypeToConfigMap[subtypeElement.name!];
+            elementToUpdate.elementSubtype = subtypeElement.name;
+            elementToUpdate.factory = elementTypeToConfigMap[subtypeElement.elementType!].factory;
+            elementToUpdate.labels!.singular = subtypeElement.label!;
+            elementToUpdate.labels!.plural = subtypeElement.labelPlural!;
+            elementToUpdate.labels!.leftPanel = subtypeElement.label!;
+            elementToUpdate.labels!.newModal = subtypeElement.labelNew!;
+            elementToUpdate.labels!.editModal = subtypeElement.labelEdit!;
+            elementToUpdate.nodeConfig!.iconBackgroundColor = subtypeElement.color;
+            elementToUpdate.nodeConfig!.iconName = subtypeElement.icon!;
+            elementToUpdate.nodeConfig!.description = subtypeElement.description;
+            elementToUpdate.nodeConfig!.dragImageSrc = ICONS_LARGE[subtypeElement.name];
+            elementToUpdate.configComponent = subtypeElement.configComponent;
             elementToUpdate.fieldInputCategory = fieldInputCategory;
-            elementToUpdate.supportsBranching = element.supportsBranching;
+            elementToUpdate.supportsBranching = subtypeElement.supportsBranching;
         }
     }
 };

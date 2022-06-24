@@ -1186,7 +1186,7 @@ describe('StageStepEditor', () => {
                     const userReferenceCombobox = editor.shadowRoot.querySelector(selectors.USER_REFERENCE_SELECTOR);
 
                     expect(userReferenceCombobox).toBeDefined();
-                    expect(userReferenceCombobox.propertyEditorElementType).toBe('STAGE_STEP');
+                    expect(userReferenceCombobox.propertyEditorElementType).toBe(ELEMENT_TYPE.STAGE_STEP);
                     expect(userReferenceCombobox.elementParam).toEqual({ collection: false, dataType: 'String' });
                     expect(userReferenceCombobox.comboboxConfig).toEqual({
                         allowSObjectFields: true,
@@ -1255,7 +1255,7 @@ describe('StageStepEditor', () => {
             it('sets combobox config correctly', () => {
                 const recordSelector = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
                 expect(recordSelector).toBeDefined();
-                expect(recordSelector.propertyEditorElementType).toBe('STAGE_STEP');
+                expect(recordSelector.propertyEditorElementType).toBe(ELEMENT_TYPE.STAGE_STEP);
                 expect(recordSelector.elementParam).toEqual({ collection: false, dataType: 'String' });
                 expect(recordSelector.comboboxConfig).toEqual({
                     allowSObjectFields: true,

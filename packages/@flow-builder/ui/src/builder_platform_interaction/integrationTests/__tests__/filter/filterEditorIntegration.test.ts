@@ -22,7 +22,7 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { createElement } from 'lwc';
 import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
 import { context } from 'serverData/GetContext/context.json';
-import { getToolboxElements } from '../../../editor/editorUtils';
+import { getAllSupportedElements } from '../../../editor/editorUtils';
 import { ComboboxTestComponent } from '../comboboxTestUtils';
 import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
 import {
@@ -202,7 +202,7 @@ describe('Filter Editor', () => {
     let store;
     beforeAll(async () => {
         store = await setupStateForProcessType(processType);
-        await getToolboxElements(processType, null);
+        await getAllSupportedElements(processType, null);
         translateFlowToUIAndDispatch(recommendationFlow, store);
     });
     afterAll(() => {

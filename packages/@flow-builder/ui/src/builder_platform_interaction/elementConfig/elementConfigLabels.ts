@@ -1,5 +1,8 @@
 // @ts-nocheck
 /* Labels */
+import backgroundStepDescription from '@salesforce/label/BackgroundStep.Description';
+import backgroundStepSingularLabel from '@salesforce/label/BackgroundStep.Label';
+import backgroundStepPluralLabel from '@salesforce/label/BackgroundStep.LabelPlural';
 import filterDescription from '@salesforce/label/CollectionFilter.Description';
 import filterSingularLabel from '@salesforce/label/CollectionFilter.Label';
 import filterPluralLabel from '@salesforce/label/CollectionFilter.LabelPlural';
@@ -208,6 +211,9 @@ import variableLabel from '@salesforce/label/FlowBuilderNewResource.variableLabe
 import editButtonLabel from '@salesforce/label/FlowBuilderResourceDetailsPanel.editButtonLabel';
 import recordChangeTriggerEditorHeader from '@salesforce/label/FlowBuilderStartEditor.recordChangeTriggerEditorHeader';
 import emptyDefaultWaitPathLabel from '@salesforce/label/FlowBuilderWaitEditor.emptyDefaultWaitPathLabel';
+import interactiveStepDescription from '@salesforce/label/InteractiveStep.Description';
+import interactiveStepSingularLabel from '@salesforce/label/InteractiveStep.Label';
+import interactiveStepPluralLabel from '@salesforce/label/InteractiveStep.LabelPlural';
 
 export const LABELS = {
     subflowSingularLabel,
@@ -411,6 +417,12 @@ export const LABELS = {
     mapDescription,
     collectionProcessorSingularLabel,
     collectionProcessorPluralLabel,
+    interactiveStepSingularLabel,
+    interactiveStepPluralLabel,
+    interactiveStepDescription,
+    backgroundStepSingularLabel,
+    backgroundStepPluralLabel,
+    backgroundStepDescription,
     rollbackSingularLabel,
     rollbackPluralLabel,
     rollbackDataLabel,

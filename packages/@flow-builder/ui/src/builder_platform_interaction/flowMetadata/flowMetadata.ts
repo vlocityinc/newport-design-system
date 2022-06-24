@@ -83,7 +83,7 @@ export enum ELEMENT_TYPE {
     SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS = 'SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS',
     ORCHESTRATED_STAGE = 'OrchestratedStage',
     ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS = 'ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS',
-    STAGE_STEP = 'STAGE_STEP',
+    STAGE_STEP = 'StageStep',
     ROLLBACK = 'RecordRollback',
     DEFAULT = 'defaultElement',
     FLOW_TEST_EDITOR = 'FLOW_TEST_EDITOR'
@@ -436,6 +436,11 @@ export enum COLLECTION_PROCESSOR_SUB_TYPE {
     SORT = 'SortCollectionProcessor',
     MAP = 'RecommendationMapCollectionProcessor',
     FILTER = 'FilterCollectionProcessor'
+}
+
+export enum FLOW_ELEMENT_SUBTYPE {
+    InteractiveStep = 'InteractiveStep',
+    BackgroundStep = 'BackgroundStep'
 }
 
 export const SCHEDULED_PATH_TYPE = {

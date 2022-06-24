@@ -145,7 +145,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return the right icon info when passing in a interactive step', () => {
             expect(mutateFlowResourceToComboboxShape(step1OfStage1)).toMatchObject({
-                iconAlternativeText: step1OfStage1.elementType,
+                iconAlternativeText: step1OfStage1.dataType,
                 iconName: 'standard:marketing_actions',
                 iconSize: 'small',
                 iconBackgroundColor: 'background-navy'
@@ -154,7 +154,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return the right icon info when passing in a background step', () => {
             expect(mutateFlowResourceToComboboxShape(step2OfStage1)).toMatchObject({
-                iconAlternativeText: step2OfStage1.elementType,
+                iconAlternativeText: step2OfStage1.dataType,
                 iconName: 'standard:flow',
                 iconSize: 'small',
                 iconBackgroundColor: 'background-navy'

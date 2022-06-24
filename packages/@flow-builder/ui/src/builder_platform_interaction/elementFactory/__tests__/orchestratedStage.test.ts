@@ -383,7 +383,7 @@ describe('OrchestratedStage', () => {
         beforeEach(() => {
             baseChildElement.mockClear();
         });
-        it('calls baseChildElement with elementType = STAGE_STEP', () => {
+        it('calls baseChildElement with elementType = StageStep', () => {
             createStageStep({
                 assignees: []
             });

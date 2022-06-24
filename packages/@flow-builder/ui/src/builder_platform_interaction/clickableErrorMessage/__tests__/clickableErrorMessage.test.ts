@@ -2,6 +2,7 @@
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
 import { childElementTypeToParentDescriptorKeyMap } from 'builder_platform_interaction/elementConfig';
 import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { pubSub } from 'builder_platform_interaction/pubSub';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -32,7 +33,7 @@ const mockOrchestratorStep = {
     guid: '5e63f991-9032-4184-9816-eb0032eb18e5',
     name: 'step1',
     dataType: 'STAGE_STEP',
-    elementType: 'STAGE_STEP',
+    elementType: ELEMENT_TYPE.STAGE_STEP,
     label: 'step1'
 };
 
@@ -321,7 +322,7 @@ describe('clickableErrorMessage', () => {
             expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
             expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
         });
-        it('opens the property editor of STAGE_STEP when error is from STAGE_STEP', () => {
+        it('opens the property editor of StageStep when error is from StageStep', () => {
             const errorMsgComponentParentChild = createComponentUnderTest({
                 info: {
                     message: {

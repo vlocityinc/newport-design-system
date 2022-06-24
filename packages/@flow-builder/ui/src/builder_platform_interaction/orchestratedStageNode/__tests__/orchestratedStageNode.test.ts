@@ -178,7 +178,7 @@ describe('Stepped-Stage-Node', () => {
             expect(cb.mock.calls[0][0].detail).toEqual({
                 canvasElementGUID: itemGuid,
                 designateFocus: false,
-                elementType: 'STAGE_STEP',
+                elementType: ELEMENT_TYPE.STAGE_STEP,
                 mode: 'editelement'
             });
         });
@@ -208,7 +208,7 @@ describe('Stepped-Stage-Node', () => {
             expect(cb.mock.calls[0][0].detail).toEqual({
                 canvasElementGUID: itemGuid,
                 designateFocus: true,
-                elementType: 'STAGE_STEP',
+                elementType: ELEMENT_TYPE.STAGE_STEP,
                 mode: 'editelement'
             });
         });

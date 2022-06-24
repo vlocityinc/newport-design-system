@@ -1,3 +1,5 @@
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+
 // To update orchestratorFlowUIModel from orchestratorFlow.json, run flowTranslator.test.js and follow instructions
 export const orchestratorFlowUIModel = {
     elements: {
@@ -247,7 +249,7 @@ export const orchestratorFlowUIModel = {
             processMetadataValues: [],
             requiresAsyncProcessing: false,
             guid: '7f4ddba5-e41b-456b-b686-94b257cc9914',
-            elementType: 'STAGE_STEP',
+            elementType: ELEMENT_TYPE.STAGE_STEP,
             dataType: 'STAGE_STEP',
             action: {
                 guid: '7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be',
@@ -386,7 +388,7 @@ export const orchestratorFlowUIModel = {
             processMetadataValues: [],
             requiresAsyncProcessing: false,
             guid: 'a35e28e0-3d3b-44b1-9638-9caba6ef3820',
-            elementType: 'STAGE_STEP',
+            elementType: ELEMENT_TYPE.STAGE_STEP,
             dataType: 'STAGE_STEP',
             action: {
                 guid: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',

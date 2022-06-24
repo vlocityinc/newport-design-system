@@ -23,7 +23,7 @@ import { createElement } from 'lwc';
 import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { recommendationFields } from 'serverData/GetFieldsForEntity/recommendationFields.json';
-import { getToolboxElements } from '../../../editor/editorUtils';
+import { getAllSupportedElements } from '../../../editor/editorUtils';
 import { ComboboxTestComponent } from '../comboboxTestUtils';
 import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
 import { getLabelDescriptionElement, LabelDescriptionComponentTest } from '../labelDescriptionTestUtils';
@@ -120,7 +120,7 @@ describe('Map Editor', () => {
     let store;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.RECOMMENDATION_STRATEGY);
-        await getToolboxElements(processType, null);
+        await getAllSupportedElements(processType, null);
         translateFlowToUIAndDispatch(recommendationFlow, store);
     });
     afterAll(() => {

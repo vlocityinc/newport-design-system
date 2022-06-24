@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { FlowElementTypeBaseDescriptor } from 'builder_platform_interaction/dataTypeLib';
 import { getConfigForElement, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ACTION_TYPE_TO_ELEMENT_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
@@ -19,7 +20,7 @@ const { removePrefixFromCustomIcon } = customIconUtils;
  * @returns {Object} a mapping of element type to a list of
  *          lightning-tree-grid-items
  */
-const mutateElements = (elements, palette) =>
+const mutateElements = (elements: FlowElementTypeBaseDescriptor[], palette) =>
     palette.headers.reduce((acc, { headerLabel, headerItems, headerFreeformVisibility }) => {
         try {
             if (headerLabel && headerItems) {
@@ -137,7 +138,7 @@ const mutateElements = (elements, palette) =>
  * @param palette
  * @returns {Array} collection of lightning-tree-grid items
  */
-export const getElementSections = (elements, palette) => {
+export const getElementSections = (elements: FlowElementTypeBaseDescriptor[], palette) => {
     if (!elements || Object.keys(elements).length === 0) {
         return [];
     }

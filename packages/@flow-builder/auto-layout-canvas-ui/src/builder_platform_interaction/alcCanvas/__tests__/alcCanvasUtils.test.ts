@@ -1,5 +1,6 @@
 import AlcNode from 'builder_platform_interaction/alcNode';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createElement } from 'lwc';
 import { getBoundingBoxForElements, getNodePath, getSanitizedNodeGeo } from '../alcCanvasUtils';
 
@@ -167,7 +168,7 @@ const orchestratorModel = {
         processMetadataValues: [],
         guid: 'step1Guid',
         fault: null,
-        elementType: 'STAGE_STEP',
+        elementType: ELEMENT_TYPE.STAGE_STEP,
         dataType: 'STAGE_STEP',
         parent: 'stageGuid',
         childIndex: 0,
@@ -181,7 +182,7 @@ const orchestratorModel = {
         processMetadataValues: [],
         guid: 'step2Guid',
         fault: null,
-        elementType: 'STAGE_STEP',
+        elementType: ELEMENT_TYPE.STAGE_STEP,
         dataType: 'STAGE_STEP',
         parent: 'stageGuid',
         childIndex: 1,

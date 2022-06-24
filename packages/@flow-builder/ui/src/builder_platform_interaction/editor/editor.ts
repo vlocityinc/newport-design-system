@@ -84,7 +84,11 @@ import {
     isAutoLayoutCanvasEnabled
 } from 'builder_platform_interaction/contextLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    ELEMENT_CLASSIFICATION,
+    FlowElementTypeBaseDescriptor,
+    FLOW_DATA_TYPE
+} from 'builder_platform_interaction/dataTypeLib';
 import { getConfigForElement, isChildElement } from 'builder_platform_interaction/elementConfig';
 import {
     AUTO_LAYOUT_CANVAS,
@@ -216,6 +220,7 @@ import {
     findActionMetadata,
     flowPropertiesCallback,
     formattedHeaderLabel,
+    getAllSupportedElements,
     getConnectorToDuplicate,
     getCopiedChildElements,
     getCopiedData,
@@ -227,7 +232,6 @@ import {
     getPasteElementGuidMaps,
     getSaveType,
     getSelectedFlowEntry,
-    getToolboxElements,
     highlightCanvasElement,
     isDebugInterviewInError,
     isFlowTestingSupported,
@@ -512,7 +516,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     requiredVariablesLoading = false;
 
-    supportedElements: UI.ElementConfig[] = [];
+    @track
+    toolboxElements: FlowElementTypeBaseDescriptor[] = [];
 
     flowInitDefinitionId;
 
@@ -746,10 +751,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         return this.hasNotBeenSaved || !this.retrievedHeaderUrls || !this.canRunDebugWithVAD;
     }
 
-    get toolboxElements() {
-        return [...this.supportedElements];
-    }
-
     get headerConfig() {
         return this.getConfig(EDITOR_COMPONENT_CONFIGS.HEADER_CONFIG);
     }
@@ -975,9 +976,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
         if (flowProcessTypeChanged || triggerTypeChanged) {
             this.spinners.showAutoLayoutSpinner = true;
-            const toolboxPromise = getToolboxElements(flowProcessType, flowTriggerType).then((supportedElements) => {
-                this.supportedElements = supportedElements;
-            });
+            const toolboxPromise = getAllSupportedElements(flowProcessType, flowTriggerType).then(
+                (supportedElements: FlowElementTypeBaseDescriptor[]) => {
+                    this.toolboxElements = supportedElements.filter((element) => {
+                        return element.classification === ELEMENT_CLASSIFICATION.NODE;
+                    });
+                }
+            );
             let palettePromise;
             let standardActionsPromise;
             let dynamicActionsPromise;

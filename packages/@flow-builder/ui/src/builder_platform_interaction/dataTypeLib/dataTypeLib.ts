@@ -2,13 +2,35 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS as SCREEN_LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { LABELS as DATA_TYPE_LABELS } from './dataTypeLibLabels';
 
-type ResourceType = {
+export enum ELEMENT_CLASSIFICATION {
+    NODE = 'Node',
+    CHILD = 'Child',
+    RESOURCE = 'Resource',
+    STATIC_RESOURCE = 'StaticResource'
+}
+export interface FlowElementTypeBaseDescriptor {
     isElementSubtype: boolean;
     name: string;
-    attributes: [];
-    classification: string;
+    classification: ELEMENT_CLASSIFICATION;
     elementType: ELEMENT_TYPE;
-};
+}
+
+export interface FlowElementTypeDescriptor extends FlowElementTypeBaseDescriptor {
+    attributes: [];
+}
+
+export interface FlowElementSubtypeDescriptor extends FlowElementTypeBaseDescriptor {
+    labelSection: string;
+    label: string;
+    labelPlural: string;
+    labelNew: string;
+    labelEdit: string;
+    color: string | undefined;
+    icon: string;
+    description: string | undefined;
+    configComponent: string | undefined;
+    supportsBranching: boolean | undefined;
+}
 
 export enum FieldDataType {
     String = 'STRING',
@@ -229,7 +251,7 @@ export const STAGE_ORDER_RANGE = {
     max: 99999999
 };
 
-let resourceTypes: ResourceType[];
+let resourceTypes: FlowElementTypeDescriptor[];
 
 export { FLOW_DATA_TYPE };
 
@@ -276,7 +298,7 @@ export const INPUT_FIELD_DATA_TYPE = {
  * @param {Array} unsortedResourceTypes unsorted resource type list
  * @returns {Array} sorted resource type list based on custom ordering
  */
-function sortResourceTypes(unsortedResourceTypes: ResourceType[]) {
+function sortResourceTypes(unsortedResourceTypes: FlowElementTypeDescriptor[]) {
     const resourceOrderedList: String[] = [
         ELEMENT_TYPE.VARIABLE,
         ELEMENT_TYPE.CONSTANT,
