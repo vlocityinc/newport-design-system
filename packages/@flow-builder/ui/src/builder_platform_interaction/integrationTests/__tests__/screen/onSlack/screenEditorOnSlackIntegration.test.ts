@@ -18,11 +18,11 @@ const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS
 };
 
-export const getPaletteAccordionSectionList = (screenEditor) => {
+export const getPaletteSectionList = (screenEditor) => {
     const leftPaletteSub = screenEditor
         .getComponentsPaletteElement()
         .shadowRoot.querySelector(SELECTORS.LEFT_PANEL_PALETTE);
-    return leftPaletteSub.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_ACCORDION_SECTION);
+    return leftPaletteSub.shadowRoot.querySelectorAll(SELECTORS.PALETTE_SECTION);
 };
 
 describe('ScreenEditor with Flow On Slack', () => {
@@ -56,10 +56,22 @@ describe('ScreenEditor with Flow On Slack', () => {
             expect(palette!.shadowRoot!.querySelector('div')!.className).toContain('slds-panel_docked-left');
         });
     });
-    describe('Flow extensions', () => {
-        it('Should have compatible flow extentions only', async () => {
-            const section = getPaletteAccordionSectionList(screenEditor);
-            expect(section).toHaveLength(supportedScreenFieldsForFlowOnSlack.length);
+    describe('Flow native screen fields', () => {
+        it('Should have compatible native screen fields only', async () => {
+            const sections = getPaletteSectionList(screenEditor);
+            let nativeScreenFieldCount = 0;
+            sections.forEach((section) => {
+                const items = section.shadowRoot.querySelectorAll(SELECTORS.PALETTE_ITEM);
+                items.forEach((item) => {
+                    if (item.label.startsWith('FlowBuilderScreenEditor.fieldTypeLabel')) {
+                        nativeScreenFieldCount++;
+                    }
+                });
+            });
+            expect(nativeScreenFieldCount).toEqual(supportedScreenFieldsForFlowOnSlack.length);
         });
     });
+    // TODO: We should add a text that verifies that we don't support any extensions when a flow is
+    // marked for Slack. However, at this time it looks like the mock data for this is not set up
+    // correctly.
 });
