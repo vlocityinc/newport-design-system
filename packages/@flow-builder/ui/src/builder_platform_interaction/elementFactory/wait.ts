@@ -184,7 +184,14 @@ export const createWaitEventOutputParameters = (eventType, outputParameters = []
 export function createWaitWithWaitEvents(wait = {}) {
     const newWait = baseCanvasElementWithFault(wait);
     let { waitEvents } = wait;
-    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, childReferences } = wait;
+    const {
+        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel,
+        childReferences,
+        durationOffset,
+        durationUnit,
+        timeValue,
+        timeZone
+    } = wait;
 
     if (childReferences && childReferences.length > 0) {
         // Decouple waitEvent from store.
@@ -201,7 +208,11 @@ export function createWaitWithWaitEvents(wait = {}) {
         waitEvents,
         defaultConnectorLabel,
         maxConnections,
-        elementType
+        elementType,
+        durationOffset,
+        durationUnit,
+        timeValue,
+        timeZone
     });
 }
 
@@ -306,7 +317,14 @@ export function createWaitMetadataObject(wait, config = {}) {
         throw new Error('Wait is not defined');
     }
     const newWait = baseCanvasElementMetadataObject(wait, config);
-    const { childReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel } = wait;
+    const {
+        childReferences,
+        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel,
+        durationOffset,
+        durationUnit,
+        timeValue,
+        timeZone
+    } = wait;
     let waitEvents;
     if (childReferences && childReferences.length > 0) {
         waitEvents = childReferences.map(({ childReference }) => {
@@ -341,7 +359,11 @@ export function createWaitMetadataObject(wait, config = {}) {
     }
     return Object.assign(newWait, {
         waitEvents,
-        defaultConnectorLabel
+        defaultConnectorLabel,
+        durationOffset,
+        durationUnit,
+        timeValue,
+        timeZone
     });
 }
 
@@ -358,7 +380,14 @@ export function createWaitMetadataObject(wait, config = {}) {
 // TODO: this code is almost identical to the code in decision.ts, need to refactor
 export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait) {
     const newWait = baseCanvasElementWithFault(wait);
-    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents } = wait;
+    const {
+        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel,
+        waitEvents,
+        durationOffset,
+        durationUnit,
+        timeValue,
+        timeZone
+    } = wait;
     let childReferences = [];
     let newWaitEvents = [];
 
@@ -408,7 +437,11 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         defaultConnectorLabel,
         maxConnections,
         connectorCount,
-        availableConnections
+        availableConnections,
+        durationOffset,
+        durationUnit,
+        timeValue,
+        timeZone
     });
 
     return {

@@ -2090,7 +2090,7 @@ export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: F
         return false;
     }
 
-    return getNonTerminalBranchIndexes(parentElement, state).length === 0;
+    return getNonTerminalBranchIndexes(parentElement, state)?.length === 0;
 }
 
 /**
@@ -2104,7 +2104,7 @@ export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: F
 function inlineBranches(state: FlowModel, parentElement: ParentNodeModel) {
     const nonTerminalBranchIndexes = getNonTerminalBranchIndexes(parentElement, state);
 
-    if (nonTerminalBranchIndexes.length === 1) {
+    if (nonTerminalBranchIndexes && nonTerminalBranchIndexes.length === 1) {
         // We have exactly one non-terminal branch, so we can inline.
 
         const isGoToOnNext = hasGoToOnNext(state, parentElement.guid);
@@ -2167,7 +2167,7 @@ function inlineBranches(state: FlowModel, parentElement: ParentNodeModel) {
  */
 export function getNonTerminalBranchIndexes(parentElement: ParentNodeModel, state: FlowModel): number[] {
     return parentElement.children
-        .map((child: NodeRef, index: number) => {
+        ?.map((child: NodeRef, index: number) => {
             // A branch is not terminal if the child guid is null or
             // if there's a regular connection between the parent and child and the child element's isTerminal is false
             if (!isBranchTerminal(state, parentElement, index)) {
@@ -2273,7 +2273,7 @@ function getUpdatedChildren(
     if (parentElement.nodeType === NodeType.START) {
         updatedChildren[START_IMMEDIATE_INDEX] = parentElement.children[START_IMMEDIATE_INDEX];
     } else {
-        updatedChildren[updatedChildren.length - 1] = parentElement.children[parentElement.children.length - 1];
+        updatedChildren[updatedChildren.length - 1] = parentElement.children[parentElement.children?.length - 1];
     }
 
     updatedChildReferences.forEach((childReferenceObject, i) => {
@@ -2320,33 +2320,35 @@ export function updateChildren(
         updatedChildReferences
     );
 
-    // Calculating the new children [] based on the updated childReferences
-    // and after GoTos have been cleaned up
-    parentElement.children = getUpdatedChildren(parentElement, updatedChildReferences);
-    parentElement.childReferences = updatedChildReferences;
+    if (parentElement.children) {
+        // Calculating the new children [] based on the updated childReferences
+        // and after GoTos have been cleaned up
+        parentElement.children = getUpdatedChildren(parentElement, updatedChildReferences);
+        parentElement.childReferences = updatedChildReferences;
 
-    // Recompute childIndex for the remaining branches
-    parentElement.children.forEach((child, i) => {
-        if (child && !hasGoToOnBranchHead(flowModel, parentElement.guid, i)) {
-            const branchHead = resolveBranchHead(flowModel, child);
-            branchHead.childIndex = i;
-        }
-    });
+        // Recompute childIndex for the remaining branches
+        parentElement.children.forEach((child, i) => {
+            if (child && !hasGoToOnBranchHead(flowModel, parentElement.guid, i)) {
+                const branchHead = resolveBranchHead(flowModel, child);
+                branchHead.childIndex = i;
+            }
+        });
 
-    // If all the branches were terminating before the update, or if there's a GoTo
-    // from parent element's next to the parentElement itself (self-loop) then make any
-    // new branch terminate as well by adding an end element
-    if (
-        allTerminalsBeforeUpdate ||
-        getFirstParentWithNonNullNext(flowModel, parentElement).next === parentElement.guid
-    ) {
-        for (let i = 0; i < parentElement.children.length; i++) {
-            const child = parentElement.children[i];
-            if (child == null) {
-                flowModel = createAndConnectEndElement(elementService, flowModel, {
-                    guid: parentElementGuid,
-                    childIndex: i
-                });
+        // If all the branches were terminating before the update, or if there's a GoTo
+        // from parent element's next to the parentElement itself (self-loop) then make any
+        // new branch terminate as well by adding an end element
+        if (
+            allTerminalsBeforeUpdate ||
+            getFirstParentWithNonNullNext(flowModel, parentElement).next === parentElement.guid
+        ) {
+            for (let i = 0; i < parentElement.children.length; i++) {
+                const child = parentElement.children[i];
+                if (child == null) {
+                    flowModel = createAndConnectEndElement(elementService, flowModel, {
+                        guid: parentElementGuid,
+                        childIndex: i
+                    });
+                }
             }
         }
     }

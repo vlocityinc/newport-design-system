@@ -47,6 +47,8 @@ import constantPluralLabel from '@salesforce/label/FlowBuilderElementConfig.cons
 import constantSingularLabel from '@salesforce/label/FlowBuilderElementConfig.constantSingularLabel';
 import decisionPluralLabel from '@salesforce/label/FlowBuilderElementConfig.decisionPluralLabel';
 import decisionSingularLabel from '@salesforce/label/FlowBuilderElementConfig.decisionSingularLabel';
+import durationWaitPluralLabel from '@salesforce/label/FlowBuilderElementConfig.durationWaitPluralLabel';
+import durationWaitSingularLabel from '@salesforce/label/FlowBuilderElementConfig.durationWaitSingularLabel';
 import editActionLabel from '@salesforce/label/FlowBuilderElementConfig.editActionLabel';
 import editApexActionLabel from '@salesforce/label/FlowBuilderElementConfig.editApexActionLabel';
 import editApexActionPluginLabel from '@salesforce/label/FlowBuilderElementConfig.editApexActionPluginLabel';
@@ -429,5 +431,7 @@ export const LABELS = {
     editRollbackLabel,
     newRollbackLabel,
     rollbackDescription,
-    recordChangeTriggerEditorHeader
+    recordChangeTriggerEditorHeader,
+    durationWaitPluralLabel,
+    durationWaitSingularLabel
 };

@@ -122,7 +122,8 @@ import {
     FLOW_ELEMENT_SUBTYPE,
     FLOW_TRIGGER_TYPE,
     ICONS,
-    METADATA_KEY
+    METADATA_KEY,
+    WAIT_SUB_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
@@ -1252,6 +1253,19 @@ export const elementTypeToConfigMap: {
             plural: LABELS.mapPluralLabel
         },
         fieldInputCategory: 'Map'
+    },
+    [WAIT_SUB_TYPE.DURATION_WAIT]: {
+        nodeConfig: {
+            iconName: 'standard:today',
+            utilityIconName: 'utility:today',
+            iconBackgroundColor: 'background-orange'
+        },
+        canvasElement: true,
+        labels: {
+            singular: LABELS.durationWaitSingularLabel,
+            plural: LABELS.durationWaitPluralLabel
+        },
+        fieldInputCategory: 'DurationWait'
     },
     [FLOW_ELEMENT_SUBTYPE.InteractiveStep]: {
         nodeConfig: {

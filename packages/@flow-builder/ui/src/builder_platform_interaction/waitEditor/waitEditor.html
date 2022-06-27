@@ -1,16 +1,23 @@
 <template>
-    <div if:true={waitElement}>
-        <div class="slds-border_top slds-p-horizontal_small slds-p-top_small">
-            <builder_platform_interaction-label-description
-                label={waitElement.label}
-                dev-name={waitElement.name}
-                description={waitElement.description}
-                guid={waitElement.guid}
-                onpropertychanged={handleEvent}
-                mode={mode}
-            >
-            </builder_platform_interaction-label-description>
-        </div>
+    <div class="label-description slds-border_top slds-p-horizontal_small slds-p-top_small">
+        <builder_platform_interaction-label-description
+            label={waitElement.label}
+            dev-name={waitElement.name}
+            description={waitElement.description}
+            guid={waitElement.guid}
+            onpropertychanged={handleValueChanged}
+            mode={mode}
+        >
+        </builder_platform_interaction-label-description>
+    </div>
+    <div if:true={hasConfigurationEditor} class="slds-m-bottom_small slds-border_top">
+        <builder_platform_interaction-custom-property-editor
+            configuration-editor={configurationEditor}
+            configuration-editor-input-variables={configurationEditorInputVariables}
+            onconfiguration_editor_input_value_changed={handleValueChanged}
+        ></builder_platform_interaction-custom-property-editor>
+    </div>
+    <div if:false={hasConfigurationEditor}>
         <div
             class="slds-p-top_x-small slds-border_top slds-p-horizontal_small slds-shrink-none slds-grid_vertical-align-start slds-text-color_weak slds-text-body_small slds-p-left_small slds-m-vertical_x-small"
         >

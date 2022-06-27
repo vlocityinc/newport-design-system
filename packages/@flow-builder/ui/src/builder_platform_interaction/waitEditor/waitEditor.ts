@@ -1,14 +1,16 @@
 // @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './waitEditorLabels';
 import { resetDeletedGuids, waitReducer } from './waitReducer';
 
 const SELECTORS = {
-    WAIT_EVENT: 'builder_platform_interaction-wait-event'
+    WAIT_EVENT: 'builder_platform_interaction-wait-event',
+    CUSTOM_PROPERTY_EDITOR: 'builder_platform_interaction-custom-property-editor'
 };
 
 const DEFAULT_WAIT_EVENT_ID = 'defaultWaitEvent';
@@ -24,8 +26,11 @@ export default class WaitEditor extends LightningElement {
     /**
      * internal state for the wait editor
      */
-    @track waitElement;
+    waitElement;
+
     @track activeWaitEventId;
+    configurationEditor;
+    @track configurationEditorInputVariables = [];
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -43,10 +48,17 @@ export default class WaitEditor extends LightningElement {
         return this.waitElement;
     }
 
+    get hasConfigurationEditor() {
+        return !!this.configurationEditor?.name;
+    }
+
     set node(newValue) {
         this.waitElement = newValue || {};
-
+        this.configurationEditor = {
+            name: elementTypeToConfigMap[this.waitElement.elementSubtype?.value]?.configComponent
+        };
         this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
+        this.setConfigurationEditorInputVariables();
     }
 
     /**
@@ -64,9 +76,17 @@ export default class WaitEditor extends LightningElement {
      * @returns {object} list of errors
      */
     @api validate() {
+        let errors: ElementOrComponentError[] = [];
+        // validate the inner editor
+        const editor = this.template.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR) as CustomPropertyEditor;
+        if (editor) {
+            errors = editor.validate();
+        }
         const event = { type: VALIDATE_ALL };
         this.waitElement = waitReducer(this.waitElement, event);
-        return getErrorsFromHydratedElement(this.waitElement);
+        const waitErrors = getErrorsFromHydratedElement(this.waitElement);
+        errors = [...errors, ...waitErrors];
+        return errors;
     }
 
     get showDeleteWaitEvent() {
@@ -163,8 +183,30 @@ export default class WaitEditor extends LightningElement {
         }
     }
 
+    handleValueChanged(event) {
+        event.stopPropagation();
+        this.waitElement = waitReducer(this.waitElement, event);
+        this.dispatchEvent(new UpdateNodeEvent(this.waitElement));
+    }
+
     addWaitEvent() {
         const event = { type: PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT };
         this.waitElement = waitReducer(this.waitElement, event);
+    }
+
+    /**
+     * set input variables for sub editor
+     */
+    setConfigurationEditorInputVariables() {
+        this.configurationEditorInputVariables = [];
+        for (const prop in this.waitElement) {
+            if (this.waitElement[prop]) {
+                const inputVar = {
+                    name: prop,
+                    value: getValueFromHydratedItem(this.waitElement[prop])
+                };
+                this.configurationEditorInputVariables.push(inputVar);
+            }
+        }
     }
 }

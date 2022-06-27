@@ -237,6 +237,10 @@ export const WAIT_TIME_EVENT_OFFSET_UNIT = {
     DAYS: 'Days'
 };
 
+export enum WAIT_SUB_TYPE {
+    DURATION_WAIT = 'DurationWait'
+}
+
 export const TIME_OPTION = {
     DAYS_AFTER: 'DaysAfter',
     DAYS_BEFORE: 'DaysBefore',

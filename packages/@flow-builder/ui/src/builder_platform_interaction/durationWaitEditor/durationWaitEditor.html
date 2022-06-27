@@ -1,0 +1,43 @@
+<template>
+    <div class="container slds-grid slds-grid_vertical slds-m-around_medium">
+        <div class="dateUnitPicker slds-col slds-grid slds-grid_horizontal">
+            <builder_platform_interaction-counter
+                id="durationOffset"
+                class="slds-size_5-of-12 slds-p-bottom_medium"
+                onvaluechanged={handleValueChanged}
+                count={durationOffset}
+            ></builder_platform_interaction-counter>
+            <lightning-combobox
+                id="durationUnit"
+                class="slds-size_7-of-12 slds-p-left_medium slds-p-top_xx-small"
+                options={durationUnitOptions}
+                value={durationUnit}
+                onchange={handleValueChanged}
+            ></lightning-combobox>
+        </div>
+        <lightning-input
+            label={extendUntilTimeCheckboxLabel}
+            type="checkbox"
+            checked={showExtendUntilTime}
+            onchange={toggleExtendUntilTime}
+            class="slds-col slds-p-left_medium slds-p-bottom_medium"
+        >
+        </lightning-input>
+        <div if:true={showExtendUntilTime}>
+            <lightning-input
+                id="timeValue"
+                type="time"
+                name="extendUntilTime"
+                value={timeValue}
+                label={timeLabel}
+                onchange={handleValueChanged}
+                required
+            ></lightning-input>
+            <builder_platform_interaction-time-zone-picker
+                id="timeZone"
+                value={timeZone}
+                onvaluechanged={handleValueChanged}
+            ></builder_platform_interaction-time-zone-picker>
+        </div>
+    </div>
+</template>

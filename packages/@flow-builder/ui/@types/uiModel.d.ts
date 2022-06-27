@@ -253,6 +253,11 @@ declare namespace UI {
         childReference: Guid;
     }
 
+    export interface ConfigurationEditorInputVariable {
+        name: string;
+        value: any;
+    }
+
     interface Connector {
         guid: Guid;
         source: Guid;
@@ -596,6 +601,7 @@ declare namespace UI {
         | 'ApexVariable'
         | 'ApexCollection'
         | 'Decision'
+        | 'DurationWait'
         | 'Choice'
         | 'Constant'
         | 'Formula'

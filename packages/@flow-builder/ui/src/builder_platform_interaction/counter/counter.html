@@ -1,0 +1,31 @@
+<template>
+    <div class="slds-form-element">
+        <label class="slds-form-element__label slds-m-right_none">
+            <abbr class="slds-required" title="required">* </abbr>{labels.durationLabel}</label
+        >
+        <div class="slds-form-element__control">
+            <lightning-button-icon
+                icon-name="utility:ban"
+                title={labels.decrementCounterTitleLabel}
+                onclick={handleDecrement}
+                variant="bare"
+                class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement"
+            ></lightning-button-icon>
+            <input
+                type="number"
+                placeholder="1"
+                value={count}
+                required
+                class="slds-input slds-input_counter"
+                aria-invalid="true"
+            />
+            <lightning-button-icon
+                icon-name="utility:new"
+                title={labels.incrementCounterTitleLabel}
+                variant="bare"
+                onclick={handleIncrement}
+                class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment"
+            ></lightning-button-icon>
+        </div>
+    </div>
+</template>

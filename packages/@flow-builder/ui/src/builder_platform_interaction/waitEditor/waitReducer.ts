@@ -23,6 +23,7 @@ import {
 } from 'builder_platform_interaction/elementFactory';
 import {
     AddConditionEvent,
+    ConfigurationEditorChangeEvent,
     DeleteConditionEvent,
     DeleteWaitEventEvent,
     PropertyChangedEvent,
@@ -496,6 +497,13 @@ export const waitReducer = (state, event) => {
             return reorderWaitEvents(state, event);
         case DeleteWaitEventEvent.EVENT_NAME:
             return deleteWaitEvent(state, event);
+        case ConfigurationEditorChangeEvent.EVENT_NAME:
+            return updateProperties(state, {
+                [event.detail.name]: {
+                    error: null,
+                    value: event.detail.newValue
+                }
+            });
         default:
             return state;
     }
