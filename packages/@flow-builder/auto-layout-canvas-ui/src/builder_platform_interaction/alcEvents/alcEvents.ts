@@ -9,7 +9,7 @@ export { DeleteElementFaultEvent } from './deleteElementFaultEvent';
 export { DeleteGoToConnectionEvent } from './deleteGoToConnectionEvent';
 export { FocusOutEvent } from './focusOutEvent';
 export { GoToPathEvent } from './goToPathEvent';
-export { HighlightPathsToDeleteEvent } from './highlightPathsToDeleteEvent';
+export { HighlightPathsToDeleteOrCutEvent } from './highlightPathsToDeleteOrCutEvent';
 export { IncomingGoToStubClickEvent } from './incomingGoToStubClickEvent';
 export { MenuRenderedEvent } from './menuRenderedEvent';
 export { NodeResizeEvent } from './nodeResizeEvent';

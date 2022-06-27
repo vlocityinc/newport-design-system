@@ -1,4 +1,4 @@
-import { FlowInteractionState, getBranchLayoutKey } from './flowRendererUtils';
+import { FlowInteractionState, getBranchLayoutKey, NodeOperationType } from './flowRendererUtils';
 import MenuType from './MenuType';
 import { ConnectionSource, Guid } from './model';
 
@@ -77,18 +77,21 @@ function closeFlowMenu(interactionState: FlowInteractionState): FlowInteractionS
  * @param childIndexToKeep - The child index to keep
  * @param interactionState - The flow interaction state
  * @param shouldDeleteBeyondMergingPoint - true if the element beyoud the merge point should be deleted
+ * @param operationType - The operation type
  * @returns - The updated path info
  */
 function updateDeletionPathInfo(
     elementGuidToDelete: Guid,
     childIndexToKeep: number,
     interactionState: FlowInteractionState,
-    shouldDeleteBeyondMergingPoint: boolean
+    shouldDeleteBeyondMergingPoint: boolean,
+    operationType: NodeOperationType
 ): FlowInteractionState {
     const deletionPathInfo = {
         elementGuidToDelete,
         childIndexToKeep,
-        shouldDeleteBeyondMergingPoint
+        shouldDeleteBeyondMergingPoint,
+        operationType
     };
     return { ...interactionState, deletionPathInfo };
 }

@@ -264,7 +264,8 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
      */
     get svgClassName() {
         return classSet(this.connectorInfo.isFault ? 'fault' : this.connectorInfo.type).add({
-            'connector-to-be-deleted': this.connectorInfo.toBeDeleted,
+            'connector-to-be-deleted': this.connectorInfo.operationType === 'delete',
+            'connector-to-be-cut': this.connectorInfo.operationType === 'cut',
             'connector-highlighted': this.connectorInfo.isHighlighted
         });
     }

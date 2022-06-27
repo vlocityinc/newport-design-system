@@ -11,6 +11,7 @@ jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_pla
 
 const selectors = {
     connectorToBeDeletedSVG: '.connector-to-be-deleted',
+    connectorToBeCutSVG: '.connector-to-be-cut',
     addElementButton: '.circle-text',
     defaultConnectorBadge: '.connector-badge span',
     faultConnectorBadge: '.connector-badge.fault-badge span',
@@ -60,7 +61,7 @@ const getRegularConnectorInfo = () => {
         },
         isFault: false,
         labelOffsetY,
-        toBeDeleted: false
+        operationType: undefined
     };
 };
 
@@ -77,7 +78,7 @@ const defaultFlowModel = {
     }
 };
 
-const getDefaultConnectorInfo = (toBeDeleted = false) => {
+const getDefaultConnectorInfo = () => {
     return {
         type: 'straight',
         geometry,
@@ -89,7 +90,24 @@ const getDefaultConnectorInfo = (toBeDeleted = false) => {
         },
         isFault: false,
         labelOffsetY,
-        toBeDeleted,
+        operationType: 'delete',
+        labelType: ConnectorLabelType.BRANCH
+    };
+};
+
+const getDefaultConnectorInfoForCut = () => {
+    return {
+        type: 'straight',
+        geometry,
+        svgInfo,
+        addInfo,
+        source: {
+            guid: 'parentGuid1',
+            childIndex: 1
+        },
+        isFault: false,
+        labelOffsetY,
+        operationType: 'cut',
         labelType: ConnectorLabelType.BRANCH
     };
 };
@@ -116,7 +134,7 @@ const getFaultConnectorInfo = () => {
         },
         isFault: true,
         labelOffsetY,
-        toBeDeleted: false,
+        operationType: undefined,
         labelType: ConnectorLabelType.FAULT
     };
 };
@@ -133,7 +151,7 @@ const goToFlowModel = {
     }
 };
 
-const getGoToConnectorInfo = (toBeDeleted = false) => {
+const getGoToConnectorInfo = (operationType = undefined) => {
     return {
         type: 'goTo',
         geometry,
@@ -145,7 +163,7 @@ const getGoToConnectorInfo = (toBeDeleted = false) => {
         },
         isFault: false,
         labelOffsetY,
-        toBeDeleted,
+        operationType,
         labelType: ConnectorLabelType.BRANCH
     };
 };
@@ -178,7 +196,7 @@ const getImmediateBranchConnectorInfo = () => {
         },
         isFault: false,
         labelOffsetY,
-        toBeDeleted: false,
+        operationType: undefined,
         labelType: ConnectorLabelType.BRANCH
     };
 };
@@ -205,7 +223,7 @@ const getImmediateStraightConnectorInfo = () => {
         },
         isFault: false,
         labelOffsetY,
-        toBeDeleted: false,
+        operationType: undefined,
         labelType: ConnectorLabelType.BRANCH
     };
 };
@@ -222,7 +240,7 @@ const getScheduledPathConnectorInfo = () => {
         },
         isFault: false,
         labelOffsetY,
-        toBeDeleted: false,
+        operationType: undefined,
         labelType: ConnectorLabelType.BRANCH
     };
 };
@@ -230,7 +248,8 @@ const getScheduledPathConnectorInfo = () => {
 const defaultCanvasContext = {
     mode: AutoLayoutCanvasMode.DEFAULT,
     incomingStubGuid: null,
-    connectorMenuMetadata: {}
+    connectorMenuMetadata: {},
+    operationType: 'delete'
 };
 
 const defaultOptions = {
@@ -242,12 +261,21 @@ const createComponentUnderTest = async (overrideOptions) => {
 };
 
 describe('Auto-Layout connector tests', () => {
-    it('Should add connector-to-be-deleted class to the connector svg when toBeDeleted is true', async () => {
+    it('Should add connector-to-be-deleted class to the connector svg when in Delete operation type', async () => {
         const defaultConnector = await createComponentUnderTest({
-            connectorInfo: getDefaultConnectorInfo(true),
+            connectorInfo: getDefaultConnectorInfo(),
             flowModel: defaultFlowModel
         });
         const connectorSVG = defaultConnector.shadowRoot.querySelector(selectors.connectorToBeDeletedSVG);
+        expect(connectorSVG).not.toBeNull();
+    });
+
+    it('Should add connector-to-be-cut class to the connector svg when in Cut operation type', async () => {
+        const defaultConnector = await createComponentUnderTest({
+            connectorInfo: getDefaultConnectorInfoForCut(),
+            flowModel: defaultFlowModel
+        });
+        const connectorSVG = defaultConnector.shadowRoot.querySelector(selectors.connectorToBeCutSVG);
         expect(connectorSVG).not.toBeNull();
     });
 

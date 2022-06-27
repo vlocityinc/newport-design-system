@@ -15,6 +15,7 @@ import {
     getBranchLayoutKey,
     InteractionMenuInfo,
     NodeDimensionMap,
+    NodeOperationType,
     NodeRenderInfo
 } from './flowRendererUtils';
 import { clearDeletionPathInfo, closeFlowMenu, toggleFlowMenu, updateDeletionPathInfo } from './interactionUtils';
@@ -107,6 +108,7 @@ export {
     panzoom,
     ConnectorRenderInfo,
     NodeRenderInfo,
+    NodeOperationType,
     FlowRenderInfo,
     Geometry,
     FlowRenderContext,

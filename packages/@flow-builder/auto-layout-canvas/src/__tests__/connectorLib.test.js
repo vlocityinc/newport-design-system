@@ -26,7 +26,7 @@ describe('connectorLib', () => {
             getDefaultLayoutConfig(),
             false,
             false,
-            false
+            undefined
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -38,10 +38,10 @@ describe('connectorLib', () => {
             { x: -88, y: 0, w: 88, h: 168 },
             getDefaultLayoutConfig(),
             false,
-            false,
             48,
             88,
-            true
+            false,
+            'delete'
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -55,8 +55,7 @@ describe('connectorLib', () => {
             getDefaultLayoutConfig(),
             false,
             true,
-            true,
-            2
+            'delete'
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -70,7 +69,7 @@ describe('connectorLib', () => {
             getDefaultLayoutConfig(),
             false,
             true,
-            true
+            'delete'
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -87,10 +86,10 @@ describe('connectorLib', () => {
             getDefaultLayoutConfig(),
             false,
             ConnectorVariant.DEFAULT,
-            false,
             0,
             48,
-            false
+            false,
+            undefined
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -107,10 +106,10 @@ describe('connectorLib', () => {
             getDefaultLayoutConfig(),
             false,
             [ConnectorVariant.BRANCH_HEAD],
-            false,
             84,
             48,
-            false
+            false,
+            undefined
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -127,10 +126,10 @@ describe('connectorLib', () => {
             getDefaultLayoutConfig(),
             false,
             [ConnectorVariant.DEFAULT, ConnectorVariant.CENTER],
-            false,
             60,
             48,
-            false
+            false,
+            undefined
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -147,10 +146,10 @@ describe('connectorLib', () => {
             getDefaultLayoutConfig(),
             false,
             [ConnectorVariant.POST_MERGE, ConnectorVariant.CENTER],
-            false,
             36,
             48,
-            false
+            false,
+            undefined
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();
@@ -167,10 +166,10 @@ describe('connectorLib', () => {
             getDefaultLayoutConfig(),
             false,
             [ConnectorVariant.FAULT, ConnectorVariant.CENTER],
-            false,
             60,
             24,
-            false
+            false,
+            undefined
         );
 
         expect(connectorRenderInfo).toMatchSnapshot();

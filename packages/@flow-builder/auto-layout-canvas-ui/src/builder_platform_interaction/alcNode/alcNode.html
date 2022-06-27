@@ -5,9 +5,9 @@
                 element-metadata={nodeInfo.metadata}
                 source={source}
                 menu-opened={menu}
-                is-node-getting-deleted={nodeInfo.toBeDeleted}
                 has-error={nodeHasError}
                 canvas-mode={canvasMode}
+                operation-type={nodeInfo.operationType}
                 onclick={handleButtonClick}
                 ondblclick={handleOnDblClick}
                 active-element-guid={activeElementGuid}
@@ -93,7 +93,6 @@
             guid={menu.source.guid}
             class="menu"
             auto-focus={menu.autoFocus}
-            condition-options={menu.conditionOptions}
             element-metadata={elementMetadata}
             flow-model={flowModel}
             disable-delete-elements={disableDeleteElements}

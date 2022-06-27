@@ -40,6 +40,13 @@ button.node-to-be-deleted {
     transform: scale(1.05);
 }
 
+button.node-to-be-cut {
+    background-color: #f4f6f9;
+    border-color: var(--lwc-brandAccessible);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-brandAccessible);
+    transform: scale(1.05);
+}
+
 button.connector:hover {
     background-color: #f4f6f9;
     transform: scale(1);

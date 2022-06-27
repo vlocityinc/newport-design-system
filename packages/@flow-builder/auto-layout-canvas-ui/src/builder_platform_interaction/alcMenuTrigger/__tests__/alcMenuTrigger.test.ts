@@ -64,8 +64,8 @@ const endMetadata = {
 
 const defaultOptions = {
     elementMetadata: screenMetadata,
-    isNodeGettingDeleted: false,
     canvasMode: AutoLayoutCanvasMode.DEFAULT,
+    operationType: 'delete',
     variant: '',
     source: {},
     hasError: false
@@ -83,6 +83,7 @@ const selectors = {
     triggerButton: 'button',
     circularTriggerButton: '.circular-icon',
     toBeDeletedButton: '.node-to-be-deleted',
+    toBeCutButton: '.node-to-be-cut',
     endElement: '.is-end-element',
     nodeInSelectionMode: '.node-in-selection-mode',
     hasError: '.has-error',
@@ -173,14 +174,22 @@ describe('AlcMenuTrigger', () => {
         expect(button).not.toBeNull();
     });
 
-    it('should add "node-to-be-deleted" class when isNodeGettingDeleted is true', async () => {
-        const cmp = await createComponentUnderTest({ isNodeGettingDeleted: true });
+    it('should add "node-to-be-deleted" class when in Delete operation type', async () => {
+        const cmp = await createComponentUnderTest();
         const button = cmp.shadowRoot.querySelector(selectors.toBeDeletedButton);
         expect(button).not.toBeNull();
     });
 
+    it('should add "node-to-be-cut" class when in Cut operation type', async () => {
+        const cmp = await createComponentUnderTest({
+            operationType: 'cut'
+        });
+        const button = cmp.shadowRoot.querySelector(selectors.toBeCutButton);
+        expect(button).not.toBeNull();
+    });
+
     it('should add "has-error" class when hasError is specified in node config', async () => {
-        const cmp = await createComponentUnderTest({ isNodeGettingDeleted: true, hasError: true });
+        const cmp = await createComponentUnderTest({ hasError: true });
         const button = cmp.shadowRoot.querySelector(selectors.hasError);
         expect(button).not.toBeNull();
     });

@@ -2,13 +2,11 @@
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getConnectorMenuInfo, getNodeMenuInfo } from '../alcMenuUtils';
 
-jest.mock('builder_platform_interaction/alcComponentsUtils', () => {
-    return {
-        getComponent(componentName) {
-            return componentName;
-        }
-    };
-});
+jest.mock('builder_platform_interaction/alcComponentsUtils', () =>
+    Object.assign({}, jest.requireActual('builder_platform_interaction/alcComponentsUtils'), {
+        getComponent: jest.fn((componentName) => componentName)
+    })
+);
 
 const ELEMENT_TYPE_ASSIGNMENT = 'Assignment';
 const ELEMENT_TYPE_DECISION = 'Decision';
@@ -173,29 +171,7 @@ describe('ALC Menu Utils', () => {
             expect(nodeMenuInfo).toEqual({
                 ctor: 'alcNodeMenu',
                 autoFocus: false,
-                source: menu.source,
-                conditionOptions: [
-                    {
-                        label: 'o1',
-                        value: 'o1'
-                    },
-                    {
-                        label: 'o2',
-                        value: 'o2'
-                    },
-                    {
-                        label: 'o3',
-                        value: 'o3'
-                    },
-                    {
-                        label: 'Default Outcome',
-                        value: 'DEFAULT_PATH'
-                    },
-                    {
-                        label: 'AlcNodeContextualMenu.deleteAllPathsComboboxLabel',
-                        value: 'NO_PATH'
-                    }
-                ]
+                source: menu.source
             });
         });
     });

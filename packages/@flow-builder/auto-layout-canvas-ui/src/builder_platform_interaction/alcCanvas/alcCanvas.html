@@ -19,26 +19,26 @@
         <template if:true={flow}>
             <div class={flowContainerClass}>
                 <builder_platform_interaction-alc-flow
+                    active-element-guid={activeElementGuid}
                     canvas-context={canvasContext}
                     class={flow.class}
                     disable-delete-elements={disableDeleteElements}
                     disable-edit-elements={disableEditElements}
                     flow={flow.flowInfo}
-                    style={flow.style}
+                    flow-model={flow.flowModel}
                     onalcselectdeselectnode={handleNodeSelectionDeselection}
                     onnoderesize={handleDynamicNodeRender}
                     onmenurendered={handleMenuRendered}
                     ontogglemenu={handleToggleMenu}
                     onclosemenu={handleCloseMenu}
-                    active-element-guid={activeElementGuid}
-                    flow-model={flow.flowModel}
                     onincominggotostubclick={handleHighlightAllOutgoingStubs}
                     ongotopath={handleAddOrRerouteGoToItemSelection}
-                    onhighlightpathstodelete={handleHighlightPathsToDelete}
+                    onhighlightpathstodeleteorcut={handleHighlightPathsToDeleteOrCut}
                     ondeletebranchelement={handleBranchElementDeletion}
                     ondeleteelement={handleDeleteElement}
                     oncutelements={handleCutElements}
                     onclearhighlightedpath={handleClearHighlightedPath}
+                    style={flow.style}
                 >
                 </builder_platform_interaction-alc-flow>
             </div>

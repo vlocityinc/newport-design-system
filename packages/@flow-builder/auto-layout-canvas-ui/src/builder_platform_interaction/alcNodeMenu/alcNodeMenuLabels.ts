@@ -3,8 +3,10 @@ import backButtonAlternativeText from '@salesforce/label/AlcNodeContextualMenu.b
 import backButtonTitle from '@salesforce/label/AlcNodeContextualMenu.backButtonTitle';
 import copyActionLabel from '@salesforce/label/AlcNodeContextualMenu.copyActionLabel';
 import cutActionLabel from '@salesforce/label/AlcNodeContextualMenu.cutActionLabel';
+import cutFooterActionLabel from '@salesforce/label/AlcNodeContextualMenu.cutFooterActionLabel';
+import cutFooterActionTitle from '@salesforce/label/AlcNodeContextualMenu.cutFooterActionTitle';
+import cutOrDeleteBranchElementComboboxLabel from '@salesforce/label/AlcNodeContextualMenu.cutOrDeleteBranchElementComboboxLabel';
 import deleteActionLabel from '@salesforce/label/AlcNodeContextualMenu.deleteActionLabel';
-import deleteBranchElementComboboxLabel from '@salesforce/label/AlcNodeContextualMenu.deleteBranchElementComboboxLabel';
 import deleteFaultActionLabel from '@salesforce/label/AlcNodeContextualMenu.deleteFaultActionLabel';
 import deleteFooterActionLabel from '@salesforce/label/AlcNodeContextualMenu.deleteFooterActionLabel';
 import deleteFooterActionTitle from '@salesforce/label/AlcNodeContextualMenu.deleteFooterActionTitle';
@@ -15,10 +17,12 @@ import openReferenceFlowTitle from '@salesforce/label/AlcNodeContextualMenu.open
 export const labelsMap = {
     copyActionLabel,
     cutActionLabel,
+    cutFooterActionLabel,
+    cutFooterActionTitle,
     deleteActionLabel,
     backButtonAlternativeText,
     backButtonTitle,
-    deleteBranchElementComboboxLabel,
+    cutOrDeleteBranchElementComboboxLabel,
     addFaultActionLabel,
     deleteFaultActionLabel,
     editDetailsFooterActionLabel,

@@ -4,7 +4,7 @@
             <div class="slds-grid">
                 <div class="slds-col slds-size_1-of-6">
                     <lightning-button-icon
-                        if:true={isDeleteBranchElementMode}
+                        if:true={isSelectingBranchElementMode}
                         alternative-text={labels.backButtonAlternativeText}
                         class="slds-float_left back-button"
                         icon-name="utility:back"
@@ -44,9 +44,9 @@
                 </template>
             </ul>
 
-            <div if:true={isDeleteBranchElementMode} class="slds-p-around_x-small">
+            <div if:true={isSelectingBranchElementMode} class="slds-p-around_x-small">
                 <lightning-combobox
-                    label={labels.deleteBranchElementComboboxLabel}
+                    label={labels.cutOrDeleteBranchElementComboboxLabel}
                     options={conditionOptions}
                     value={selectedConditionValue}
                     onchange={handleComboboxChange}

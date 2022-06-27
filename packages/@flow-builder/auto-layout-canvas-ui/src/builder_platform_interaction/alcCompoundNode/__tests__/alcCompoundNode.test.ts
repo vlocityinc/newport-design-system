@@ -29,7 +29,7 @@ const getLoopNodeRenderInfo: NodeRenderInfo = () => {
                     guid: 'loop'
                 },
                 isHighlighted: true,
-                toBeDeleted: true
+                operationType: 'delete'
             },
             {
                 geometry: {},
@@ -42,7 +42,7 @@ const getLoopNodeRenderInfo: NodeRenderInfo = () => {
                 },
                 type: 'loopBack',
                 isHighlighted: false,
-                toBeDeleted: false
+                operationType: undefined
             }
         ],
         nextConnector: {
@@ -110,9 +110,9 @@ describe('alcCompoundNode tests', () => {
             expect(afterLastConnector.classList.value.includes('is-highlighted')).toBeTruthy();
         });
 
-        it('After Last connector should not have the to-be-deleted class', async () => {
+        it('After Last connector should not have the to-be-deleted-or-cut class', async () => {
             const afterLastConnector = alcConnectors[0];
-            expect(afterLastConnector.classList.value.includes('to-be-deleted')).toBeTruthy();
+            expect(afterLastConnector.classList.value.includes('to-be-deleted-or-cut')).toBeTruthy();
         });
 
         it('Loop Back Connector should have the loop back class', async () => {
@@ -125,9 +125,9 @@ describe('alcCompoundNode tests', () => {
             expect(loopBackConnector.classList.value.includes('is-highlighted')).toBeFalsy();
         });
 
-        it('Loop Back Connector should not have to-be-deleted class', async () => {
+        it('Loop Back Connector should not have to-be-deleted-or-cut class', async () => {
             const loopBackConnector = alcConnectors[1];
-            expect(loopBackConnector.classList.value.includes('to-be-deleted')).toBeFalsy();
+            expect(loopBackConnector.classList.value.includes('to-be-deleted-or-cut')).toBeFalsy();
         });
 
         it('Next connector should have the right classes', async () => {

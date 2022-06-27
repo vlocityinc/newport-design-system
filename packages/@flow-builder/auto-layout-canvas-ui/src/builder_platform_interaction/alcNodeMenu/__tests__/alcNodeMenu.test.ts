@@ -1,9 +1,11 @@
 // @ts-nocheck
+import cutAllPathsComboboxLabel from '@salesforce/label/AlcNodeContextualMenu.cutAllPathsComboboxLabel';
+import deleteAllPathsComboboxLabel from '@salesforce/label/AlcNodeContextualMenu.deleteAllPathsComboboxLabel';
 import {
     ClearHighlightedPathEvent,
     CloseMenuEvent,
     DeleteBranchElementEvent,
-    HighlightPathsToDeleteEvent
+    HighlightPathsToDeleteOrCutEvent
 } from 'builder_platform_interaction/alcEvents';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
@@ -53,25 +55,48 @@ const dummyBranchElement = {
     section: 'Dummy_Section',
     icon: 'standard:lightning_component',
     description: 'Dummy Description',
-    label: 'Dummy_Label',
+    label: 'outcome1',
     value: 'Dummy_Value',
     elementType: 'Decision',
-    type: NodeType.BRANCH
+    type: NodeType.BRANCH,
+    defaultConnectorLabel: 'Default Outcome',
+    childReferences: [
+        {
+            childReference: 'branchElementGuid'
+        }
+    ]
 };
-const conditionOptions = [
+
+const conditionOptionsForDelete = [
+    {
+        label: deleteAllPathsComboboxLabel,
+        value: 'NO_PATH'
+    },
     {
         label: 'outcome1',
-        value: 'outcome1Guid'
+        value: 'branchElementGuid'
     },
     {
         label: 'Default Outcome',
         value: 'DEFAULT_PATH'
-    },
-    {
-        label: 'None: Delete All Outcomes',
-        value: 'NO_PATH'
     }
 ];
+
+const conditionOptionsForCut = [
+    {
+        label: cutAllPathsComboboxLabel,
+        value: 'NO_PATH'
+    },
+    {
+        label: 'outcome1',
+        value: 'branchElementGuid'
+    },
+    {
+        label: 'Default Outcome',
+        value: 'DEFAULT_PATH'
+    }
+];
+
 const dummySubflowElement = {
     guid: 'subflowElementGuid',
     section: 'Dummy_Section',
@@ -515,13 +540,13 @@ describe('Node Menu', () => {
         });
     });
 
-    describe('Element Action Node Menu for a Branch Element', () => {
+    describe('Element Action Node Menu for a Branch Element for delete menu mode', () => {
         const highlightPathCallback = jest.fn();
         const closeMenuCallback = jest.fn();
 
         beforeEach(async () => {
-            menu = await createComponentUnderTest(dummyBranchElement, conditionOptions);
-            menu.addEventListener(HighlightPathsToDeleteEvent.EVENT_NAME, highlightPathCallback);
+            menu = await createComponentUnderTest(dummyBranchElement, conditionOptionsForDelete);
+            menu.addEventListener(HighlightPathsToDeleteOrCutEvent.EVENT_NAME, highlightPathCallback);
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, closeMenuCallback);
 
             const thirdMenuItem = getMenuActionRowMenuItems(menu)[2];
@@ -529,14 +554,15 @@ describe('Node Menu', () => {
             thirdMenuItem.click();
         });
 
-        test('Clicking the Delete Action should dispatch HighlightPathsToDeleteEvent', () => {
+        test('Clicking the Delete Action should dispatch HighlightPathsToDeleteOrCutEvent', () => {
             expect(highlightPathCallback).toHaveBeenCalled();
         });
 
-        test('HighlightPathsToDeleteEvent should be dispatched with the right details', () => {
+        test('HighlightPathsToDeleteOrCutEvent should be dispatched with the right details', () => {
             expect(getDetailPassedToEvent(highlightPathCallback)).toEqual({
-                childIndexToKeep: 0,
-                elementGuidToDelete: dummyBranchElement.guid
+                childIndexToKeep: undefined,
+                elementGuid: dummyBranchElement.guid,
+                operationType: 'delete'
             });
         });
 
@@ -605,9 +631,9 @@ describe('Node Menu', () => {
         test('connectors combobox label, options, value should be correctly set', () => {
             const connectorCombobox = getConditionPickerCombobox(menu);
             expect(connectorCombobox).toMatchObject({
-                label: LABELS.deleteBranchElementComboboxLabel,
-                options: conditionOptions,
-                value: conditionOptions[0].value
+                label: LABELS.cutOrDeleteBranchElementComboboxLabel,
+                options: conditionOptionsForDelete,
+                value: conditionOptionsForDelete[0].value
             });
         });
 
@@ -656,7 +682,7 @@ describe('Node Menu', () => {
                 expect(getDetailPassedToEvent(callback)).toEqual({
                     selectedElementGUID: [dummyBranchElement.guid],
                     selectedElementType: dummyBranchElement.elementType,
-                    childIndexToKeep: 0
+                    childIndexToKeep: undefined
                 });
             });
 
@@ -667,7 +693,7 @@ describe('Node Menu', () => {
                 expect(getDetailPassedToEvent(callback)).toEqual({
                     selectedElementGUID: [dummyBranchElement.guid],
                     selectedElementType: dummyBranchElement.elementType,
-                    childIndexToKeep: 0
+                    childIndexToKeep: undefined
                 });
             });
 
@@ -690,6 +716,187 @@ describe('Node Menu', () => {
             test('Clicking the Delete Button should dispatch CloseMenuEvent', () => {
                 menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                 deleteButton.click();
+                expect(callback).toHaveBeenCalled();
+            });
+        });
+    });
+
+    describe('Element Action Node Menu for a Branch Element for cut menu mode', () => {
+        const highlightPathCallback = jest.fn();
+        const closeMenuCallback = jest.fn();
+
+        beforeEach(async () => {
+            menu = await createComponentUnderTest(dummyBranchElement, conditionOptionsForCut);
+            menu.addEventListener(HighlightPathsToDeleteOrCutEvent.EVENT_NAME, highlightPathCallback);
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, closeMenuCallback);
+
+            const secondMenuItem = getMenuActionRowMenuItems(menu)[1];
+            menu.getListKeyboardInteraction().setActiveElement(secondMenuItem);
+            secondMenuItem.click();
+        });
+
+        test('Clicking the Cut Action should dispatch HighlightPathsToDeleteOrCutEvent', () => {
+            expect(highlightPathCallback).toHaveBeenCalled();
+        });
+
+        test('HighlightPathsToDeleteOrCutEvent should be dispatched with the right details', () => {
+            expect(getDetailPassedToEvent(highlightPathCallback)).toEqual({
+                childIndexToKeep: undefined,
+                elementGuid: dummyBranchElement.guid,
+                operationType: 'cut'
+            });
+        });
+
+        test('Clicking the Cut Action should not dispatch CloseMenuEvent', () => {
+            expect(closeMenuCallback).not.toHaveBeenCalled();
+        });
+
+        test('Clicking on the Cut Action should reveal the back button', () => {
+            const backButton = getBackButton(menu);
+            expect(backButton).not.toBeNull();
+        });
+
+        test('Back button should have the right alternativeText, icon name, title, variant', () => {
+            const backButton = getBackButton(menu);
+            expect(backButton).toMatchObject({
+                alternativeText: LABELS.backButtonAlternativeText,
+                iconName: 'utility:back',
+                title: LABELS.backButtonTitle,
+                variant: 'bare'
+            });
+        });
+
+        test('Clicking on the Back Button should dispatch ClearHighlightedPathEvent with proper arguments', () => {
+            const backButton = getBackButton(menu);
+            const clearHighlightedPathCallback = jest.fn();
+            menu.addEventListener(ClearHighlightedPathEvent.EVENT_NAME, clearHighlightedPathCallback);
+            backButton.click();
+            expect(clearHighlightedPathCallback).toHaveBeenCalled();
+        });
+
+        test('Clicking on the Back Button should go back to base menu and reveal the list of action rows', async () => {
+            const backButton = getBackButton(menu);
+            await backButton.click();
+            const actionList = menu.shadowRoot.querySelector(selectors.menuActionList);
+            expect(actionList).not.toBeNull();
+        });
+
+        test('Clicking on the Back Button should go back to base footer', async () => {
+            const backButton = getBackButton(menu);
+            await backButton.click();
+            const editButton = getFooterButton(getFooter(menu));
+            expect(editButton.label).toBe(ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonTextLabel);
+        });
+
+        test('Pressing escape while focus is on the Back Button fires the CloseMenuEvent with proper arguments', () => {
+            const backButton = getBackButton(menu);
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            backButton.focus();
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+            expect(getDetailPassedToEvent(callback)).toEqual({ moveFocusToTrigger: true });
+        });
+
+        test('Pressing escape while focus is on the combobox fires the CloseMenuEvent with proper arguments', () => {
+            const combobox = getConditionPickerCombobox(menu);
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            combobox.focus();
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+            expect(getDetailPassedToEvent(callback)).toEqual({ moveFocusToTrigger: true });
+        });
+
+        test('Clicking on the Cut Action should reveal the path picking combobox', () => {
+            const connectorCombobox = getConditionPickerCombobox(menu);
+            expect(connectorCombobox).not.toBeNull();
+        });
+
+        test('connectors combobox label, options, value should be correctly set', () => {
+            const connectorCombobox = getConditionPickerCombobox(menu);
+            expect(connectorCombobox).toMatchObject({
+                label: LABELS.cutOrDeleteBranchElementComboboxLabel,
+                options: conditionOptionsForCut,
+                value: conditionOptionsForCut[0].value
+            });
+        });
+
+        describe('Footer area for Branch Element', () => {
+            let footer: LightningElement;
+            let cutButton: LightningElement;
+
+            beforeEach(() => {
+                footer = getFooter(menu);
+                cutButton = getFooterButton(footer);
+            });
+
+            it('Should have a footer area', () => {
+                expect(footer).not.toBeNull();
+            });
+
+            it('Should have cut button in the Footer', () => {
+                expect(cutButton).not.toBeNull();
+            });
+
+            test.each`
+                elementAttributeName | configPropertyKey
+                ${'label'}           | ${'buttonTextLabel'}
+                ${'title'}           | ${'buttonTextTitle'}
+                ${'iconName'}        | ${'buttonIcon'}
+                ${'iconPosition'}    | ${'buttonIconPosition'}
+                ${'variant'}         | ${'buttonVariant'}
+            `(
+                'Cut button "$elementAttributeName" should be as set in the config',
+                ({
+                    elementAttributeName,
+                    configPropertyKey
+                }: {
+                    elementAttributeName: string;
+                    configPropertyKey: string;
+                }) => {
+                    expect(cutButton[elementAttributeName]).toBe(
+                        ELEMENT_ACTION_CONFIG.CUT_BRANCH_ELEMENT_ACTION[configPropertyKey]
+                    );
+                }
+            );
+
+            test('Clicking the Cut Button should dispatch CutElementsEvent with right details', () => {
+                menu.addEventListener(CutElementsEvent.EVENT_NAME, callback);
+                cutButton.click();
+                expect(getDetailPassedToEvent(callback)).toEqual({
+                    guids: [dummyBranchElement.guid],
+                    childIndexToKeep: undefined,
+                    parentGUID: undefined
+                });
+            });
+
+            test('once focus is set to the cut footer button, enter key down should dispatch "CutElementsEvent" with proper arguments', () => {
+                menu.addEventListener(CutElementsEvent.EVENT_NAME, callback);
+                menu.getListKeyboardInteraction().setActiveElement(cutButton);
+                cutButton.dispatchEvent(keydownEvent(Keys.Enter));
+                expect(getDetailPassedToEvent(callback)).toEqual({
+                    guids: [dummyBranchElement.guid],
+                    childIndexToKeep: undefined,
+                    parentGUID: undefined
+                });
+            });
+
+            test('Pressing escape while focus is on the Cut Button fires the CloseMenuEvent with proper arguments', () => {
+                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                cutButton.focus();
+                menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+                expect(getDetailPassedToEvent(callback)).toEqual({
+                    moveFocusToTrigger: true
+                });
+            });
+
+            test('Pressing escape while focus is on the Cut Button does not fire the CutElementsEvent', () => {
+                menu.addEventListener(CutElementsEvent.EVENT_NAME, callback);
+                cutButton.focus();
+                menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+                expect(callback).not.toHaveBeenCalled();
+            });
+
+            test('Clicking the Cut Button should dispatch CloseMenuEvent', () => {
+                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+                cutButton.click();
                 expect(callback).toHaveBeenCalled();
             });
         });

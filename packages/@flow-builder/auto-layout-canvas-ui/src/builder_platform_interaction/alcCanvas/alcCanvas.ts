@@ -890,24 +890,25 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     /**
      * Highlights the path to be deleted
      *
-     * @param event - The HighlightPathsToDelete event
+     * @param event - The HighlightPathsToDeleteOrCut event
      */
-    handleHighlightPathsToDelete = (event) => {
-        const { elementGuidToDelete, childIndexToKeep } = event.detail;
-        const elementToDelete = resolveParent(this.flowModel, elementGuidToDelete);
+    handleHighlightPathsToDeleteOrCut = (event) => {
+        const { elementGuid, childIndexToKeep, operationType } = event.detail;
+        const elementToDeleteOrCut = resolveParent(this.flowModel, elementGuid);
 
         const shouldHighlightBeyondMergingPoint = !!(
-            shouldDeleteGoToOnNext(this.flowModel, elementToDelete, childIndexToKeep) ||
-            (elementToDelete.next &&
+            shouldDeleteGoToOnNext(this.flowModel, elementToDeleteOrCut, childIndexToKeep) ||
+            (elementToDeleteOrCut.next &&
                 childIndexToKeep != null &&
-                isBranchTerminal(this.flowModel, elementToDelete, childIndexToKeep))
+                isBranchTerminal(this.flowModel, elementToDeleteOrCut, childIndexToKeep))
         );
 
         const interactionState = updateDeletionPathInfo(
-            event.detail.elementGuidToDelete,
+            event.detail.elementGuid,
             event.detail.childIndexToKeep,
             this._flowRenderContext.interactionState,
-            shouldHighlightBeyondMergingPoint
+            shouldHighlightBeyondMergingPoint,
+            operationType
         );
         this.updateFlowRenderContext({ interactionState });
     };
@@ -1294,7 +1295,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         }
     };
 
-    handleCutElements = () => {
+    handleCutElements = (event) => {
+        const { guids } = event.detail;
+        const elementToCut = this.flowModel[guids[0]];
+        this.focusOnConnector(getConnectionSource(elementToCut));
         this.updateCanvasContext({ mode: AutoLayoutCanvasMode.CUT });
     };
 

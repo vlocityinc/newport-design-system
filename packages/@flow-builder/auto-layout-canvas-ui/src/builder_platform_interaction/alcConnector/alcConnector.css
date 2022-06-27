@@ -21,6 +21,15 @@ svg.fault.connector-to-be-deleted {
     stroke-width: 6;
 }
 
+svg.connector-to-be-cut {
+    stroke: var(--lwc-brandAccessible);
+}
+
+svg.fault.connector-to-be-cut {
+    stroke-dasharray: none;
+    stroke-width: 6;
+}
+
 svg.goTo {
     stroke-dasharray: 1 11;
     stroke-linecap: round;

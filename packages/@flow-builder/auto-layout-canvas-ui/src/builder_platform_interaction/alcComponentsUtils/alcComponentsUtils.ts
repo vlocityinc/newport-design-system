@@ -590,7 +590,7 @@ function getAlcConnectorData(flowModel: FlowModel, connectorInfo: ConnectorRende
         .add({
             [connectorInfo.type]: true,
             'is-highlighted': connectorInfo.isHighlighted,
-            'to-be-deleted': connectorInfo.toBeDeleted
+            'to-be-deleted-or-cut': !!connectorInfo.operationType
         })
         .toString();
 

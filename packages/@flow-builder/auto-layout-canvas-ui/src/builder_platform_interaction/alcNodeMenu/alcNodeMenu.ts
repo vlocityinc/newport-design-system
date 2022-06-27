@@ -1,3 +1,5 @@
+import cutAllPathsComboboxLabel from '@salesforce/label/AlcNodeContextualMenu.cutAllPathsComboboxLabel';
+import deleteAllPathsComboboxLabel from '@salesforce/label/AlcNodeContextualMenu.deleteAllPathsComboboxLabel';
 import { scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
 import {
     AddElementFaultEvent,
@@ -5,10 +7,18 @@ import {
     CloseMenuEvent,
     DeleteBranchElementEvent,
     DeleteElementFaultEvent,
-    HighlightPathsToDeleteEvent
+    HighlightPathsToDeleteOrCutEvent
 } from 'builder_platform_interaction/alcEvents';
 import AlcMenu from 'builder_platform_interaction/alcMenu';
-import { FOR_EACH_INDEX, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    FlowModel,
+    FOR_EACH_INDEX,
+    Guid,
+    NodeOperationType,
+    NodeType,
+    ParentNodeModel,
+    resolveParent
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     CopySingleElementEvent,
     CutElementsEvent,
@@ -19,13 +29,23 @@ import {
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { api, LightningElement, track } from 'lwc';
-import { ELEMENT_ACTION_CONFIG, getMenuConfiguration, NodeMenuMode } from './alcNodeMenuConfig';
+import { ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './alcNodeMenuConfig';
 import { LABELS } from './alcNodeMenuLabels';
 
 const selectors = {
     backButton: '.back-button',
     footerButton: '.footer lightning-button'
 };
+
+export enum ConditionOptions {
+    DEFAULT_PATH = 'DEFAULT_PATH',
+    NO_PATH = 'NO_PATH'
+}
+
+export interface Option {
+    label: string;
+    value: Guid;
+}
 
 /**
  * The node menu overlay, displayed when clicking on a node.
@@ -34,9 +54,6 @@ export default class AlcNodeMenu extends AlcMenu {
     static className = 'node-menu';
 
     dom = lwcUtils.createDomProxy(this, selectors);
-
-    @api
-    conditionOptions;
 
     @api
     elementMetadata;
@@ -54,15 +71,15 @@ export default class AlcNodeMenu extends AlcMenu {
     flowModel;
 
     @track
-    contextualMenuMode = NodeMenuMode.Default;
+    operationType: NodeOperationType = undefined;
 
     _selectedConditionValue;
-    _childIndexToKeep: number | undefined = 0;
+    _childIndexToKeep: number | undefined = undefined;
 
     get bodyClass() {
         return classSet({
             'slds-dropdown__divst': true,
-            'slds-hide': this.isDeleteBranchElementMode
+            'slds-hide': this.isSelectingBranchElementMode
         }).toString();
     }
 
@@ -77,7 +94,7 @@ export default class AlcNodeMenu extends AlcMenu {
 
         return getMenuConfiguration(
             this.elementMetadata,
-            this.contextualMenuMode,
+            this.operationType,
             canHaveFaultConnector,
             elementHasFault,
             this.disableDeleteElements
@@ -85,11 +102,11 @@ export default class AlcNodeMenu extends AlcMenu {
     }
 
     get isBaseActionMode() {
-        return this.contextualMenuMode === NodeMenuMode.Default;
+        return !this.operationType;
     }
 
-    get isDeleteBranchElementMode() {
-        return this.contextualMenuMode === NodeMenuMode.Delete;
+    get isSelectingBranchElementMode() {
+        return this.operationType === 'delete' || this.operationType === 'cut';
     }
 
     get selectedConditionValue() {
@@ -104,8 +121,59 @@ export default class AlcNodeMenu extends AlcMenu {
         return this.flowModel[this.guid];
     }
 
+    get conditionOptions() {
+        return this.getConditionOptionsForNode(this.flowModel, this.guid, this.operationType);
+    }
+
     /**
-     * Handles the onclick event on the back button, and updates the contextualMenuMode to base mode.
+     * Creates the condition options for a branching node
+     *
+     * @param flowModel - The flow model
+     * @param node - The node
+     * @returns The condition options
+     */
+    createConditionOptionsForNode(flowModel: FlowModel, node: ParentNodeModel): Option[] | undefined {
+        const childReferences = node.childReferences;
+
+        return childReferences?.map((reference) => {
+            const value = reference.childReference;
+            return {
+                label: flowModel[value].label,
+                value
+            };
+        });
+    }
+
+    /**
+     * Get the menu condition options for a node
+     *
+     * @param flowModel - The flow model
+     * @param guid - The node guid
+     * @param operationType - The operation type
+     * @returns The condition options
+     */
+    getConditionOptionsForNode(flowModel: FlowModel, guid: Guid, operationType: NodeOperationType) {
+        const node = resolveParent(flowModel, guid);
+        let conditionOptionsForNode = this.createConditionOptionsForNode(flowModel, node);
+
+        if (conditionOptionsForNode != null) {
+            conditionOptionsForNode = [
+                {
+                    label: operationType === 'delete' ? deleteAllPathsComboboxLabel : cutAllPathsComboboxLabel,
+                    value: ConditionOptions.NO_PATH
+                },
+                ...conditionOptionsForNode,
+                {
+                    label: node.defaultConnectorLabel!,
+                    value: ConditionOptions.DEFAULT_PATH
+                }
+            ];
+        }
+        return conditionOptionsForNode;
+    }
+
+    /**
+     * Handles the onclick event on the back button, and updates the operationType to base mode.
      * Also, dispatches the ClearHighlightedPathEvent to remove the highlight from nodes and connectors
      * on the deletion path.
      *
@@ -118,7 +186,8 @@ export default class AlcNodeMenu extends AlcMenu {
 
         scheduleTask(() => this.focus());
 
-        this.contextualMenuMode = NodeMenuMode.Default;
+        this.operationType = undefined;
+        this._childIndexToKeep = undefined;
         this.dispatchEvent(new ClearHighlightedPathEvent());
     };
 
@@ -139,25 +208,29 @@ export default class AlcNodeMenu extends AlcMenu {
             case ELEMENT_ACTION_CONFIG.COPY_ACTION.value:
                 this.dispatchEvent(new CopySingleElementEvent(this.guid));
                 break;
+            case ELEMENT_ACTION_CONFIG.CUT_ACTION.value:
             case ELEMENT_ACTION_CONFIG.DELETE_ACTION.value:
                 if (this.elementMetadata.type === NodeType.BRANCH) {
-                    this.contextualMenuMode = NodeMenuMode.Delete;
-                    this._selectedConditionValue = this.conditionOptions[0].value;
-                    this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
+                    this.operationType = actionType === ELEMENT_ACTION_CONFIG.CUT_ACTION.value ? 'cut' : 'delete';
+
+                    this._selectedConditionValue = ConditionOptions.NO_PATH;
+                    this.dispatchEvent(new HighlightPathsToDeleteOrCutEvent(this.guid, this.operationType, undefined));
                     closeMenu = false;
                     scheduleTask(() => this.dom.backButton.focus());
                 } else if (this.elementMetadata.type === NodeType.LOOP) {
                     this.dispatchEvent(
-                        new DeleteElementEvent([this.guid], this.elementMetadata.elementType, FOR_EACH_INDEX)
+                        actionType === ELEMENT_ACTION_CONFIG.CUT_ACTION.value
+                            ? new CutElementsEvent([this.guid], FOR_EACH_INDEX)
+                            : new DeleteElementEvent([this.guid], this.elementMetadata.elementType, FOR_EACH_INDEX)
                     );
                 } else {
-                    this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
+                    this.dispatchEvent(
+                        actionType === ELEMENT_ACTION_CONFIG.CUT_ACTION.value
+                            ? new CutElementsEvent([this.guid])
+                            : new DeleteElementEvent([this.guid], this.elementMetadata.elementType)
+                    );
                 }
                 moveFocusToTrigger = false;
-                break;
-            case ELEMENT_ACTION_CONFIG.CUT_ACTION.value:
-                // TODO (W-11022933): Handle specific use cases. Should be similar to delete
-                this.dispatchEvent(new CutElementsEvent([this.guid]));
                 break;
             case ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION.value:
                 this.dispatchEvent(new AddElementFaultEvent(this.guid));
@@ -185,13 +258,13 @@ export default class AlcNodeMenu extends AlcMenu {
     handleComboboxChange = (event: CustomEvent) => {
         event.stopPropagation();
         this._selectedConditionValue = event.detail.value;
-        this._childIndexToKeep = this.conditionOptions.findIndex(
-            (option) => option.value === this._selectedConditionValue
-        );
-        if (this._childIndexToKeep === this.conditionOptions.length - 1) {
+        this._childIndexToKeep =
+            this.conditionOptions!.findIndex((option) => option.value === this._selectedConditionValue) - 1;
+
+        if (this._childIndexToKeep === -1) {
             this._childIndexToKeep = undefined;
         }
-        this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
+        this.dispatchEvent(new HighlightPathsToDeleteOrCutEvent(this.guid, this.operationType, this._childIndexToKeep));
     };
 
     /**
@@ -204,12 +277,14 @@ export default class AlcNodeMenu extends AlcMenu {
             event.stopPropagation();
         }
         this.dispatchEvent(new CloseMenuEvent());
-        if (this.contextualMenuMode === NodeMenuMode.Default) {
+        if (this.operationType === undefined) {
             this.dispatchEvent(new EditElementEvent(this.guid, undefined, undefined, true));
-        } else if (this.contextualMenuMode === NodeMenuMode.Delete) {
+        } else if (this.operationType === 'delete') {
             this.dispatchEvent(
                 new DeleteBranchElementEvent([this.guid], this.elementMetadata.elementType, this._childIndexToKeep)
             );
+        } else if (this.operationType === 'cut') {
+            this.dispatchEvent(new CutElementsEvent([this.guid], this._childIndexToKeep));
         }
     };
 

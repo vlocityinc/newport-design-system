@@ -36,11 +36,12 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
     elementMetadata;
     @api
     variant = MenuType.NODE;
-    @api
-    isNodeGettingDeleted;
 
     @api
     hasError;
+
+    @api
+    operationType!: string;
 
     @api
     canvasMode: AutoLayoutCanvasMode = AutoLayoutCanvasMode.DEFAULT;
@@ -107,7 +108,8 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
             'node-in-selection-mode': !isDefaultMode(this.canvasMode),
             connector: isConnectorVariant && !isCutMode(this.canvasMode),
             'cut-paste-connector': this.isConnectorInPasteMode(),
-            'node-to-be-deleted': this.isNodeGettingDeleted,
+            'node-to-be-deleted': this.operationType === 'delete',
+            'node-to-be-cut': this.operationType === 'cut',
             'has-error': this.hasError,
             'circular-icon': !isConnectorVariant && this.elementMetadata.iconShape === ICON_SHAPE.CIRCLE,
             'slds-button_icon-xx-small': this.iconSize === 'xx-small',

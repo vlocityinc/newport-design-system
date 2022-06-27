@@ -1,4 +1,3 @@
-import deleteAllPathsComboboxLabel from '@salesforce/label/AlcNodeContextualMenu.deleteAllPathsComboboxLabel';
 import {
     CanvasContext,
     deleteComponent,
@@ -15,24 +14,15 @@ import {
     FlowModel,
     getConnectionTarget,
     getTargetGuidsForReconnection,
-    Guid,
     hasGoTo,
-    NodeType,
-    ParentNodeModel,
-    resolveParent
+    NodeType
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LightningElement } from 'lwc';
-
-enum ConditionOptions {
-    DEFAULT_PATH = 'DEFAULT_PATH',
-    NO_PATH = 'NO_PATH'
-}
 
 export interface NodeMenuInfo {
     ctor: AlcNodeMenu;
     source: ConnectionSource;
     autoFocus: boolean;
-    conditionOptions?: Option[];
 }
 export interface ConnectorMenuInfo {
     ctor: AlcConnectorMenu;
@@ -79,56 +69,6 @@ export function getConnectorMenuConstructor(
     return menuComponent ? getComponent<AlcConnectorMenu>(menuComponent) : undefined;
 }
 
-export interface Option {
-    label: string;
-    value: Guid;
-}
-/**
- * Creates the condition options for a branching node
- *
- * @param flowModel - The flow model
- * @param node - The node
- * @returns The condition options
- */
-function createConditionOptionsForNode(flowModel: FlowModel, node: ParentNodeModel): Option[] | undefined {
-    const childReferences = node.childReferences;
-
-    return childReferences?.map((reference) => {
-        const value = reference.childReference;
-        return {
-            label: flowModel[value].label,
-            value
-        };
-    });
-}
-
-/**
- * Get the menu condition options for a node
- *
- * @param flowModel - The flow model
- * @param guid - The node guid
- * @returns The condition options
- */
-function getConditionOptionsForNode(flowModel: FlowModel, guid: Guid) {
-    const node = resolveParent(flowModel, guid);
-    let conditionOptionsForNode = createConditionOptionsForNode(flowModel, node);
-
-    if (conditionOptionsForNode != null) {
-        conditionOptionsForNode = [
-            ...conditionOptionsForNode,
-            {
-                label: node.defaultConnectorLabel!,
-                value: ConditionOptions.DEFAULT_PATH
-            },
-            {
-                label: deleteAllPathsComboboxLabel,
-                value: ConditionOptions.NO_PATH
-            }
-        ];
-    }
-    return conditionOptionsForNode;
-}
-
 /**
  * Get the node menu data used to render the alcNodeMenu
  *
@@ -156,8 +96,7 @@ export function getNodeMenuInfo(
         return {
             ctor,
             autoFocus,
-            source,
-            conditionOptions: getConditionOptionsForNode(flowModel, menu.source.guid)
+            source
         };
     }
 

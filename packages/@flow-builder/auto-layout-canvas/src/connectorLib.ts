@@ -1,6 +1,12 @@
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import ConnectorType from './ConnectorTypeEnum';
-import { ConnectorRenderInfo, ConnectorVariant, getConnectorConfig, LayoutConfig } from './flowRendererUtils';
+import {
+    ConnectorRenderInfo,
+    ConnectorVariant,
+    getConnectorConfig,
+    LayoutConfig,
+    NodeOperationType
+} from './flowRendererUtils';
 import { ConnectionSource } from './model';
 import {
     createOffsetLocation,
@@ -109,10 +115,10 @@ function createGoToConnectorSvgInfo(
  * @param layoutConfig - The layout configuration
  * @param isFault - Whether this is part of a fault connector
  * @param variants - The variants for the connector
- * @param isBranchGettingDeleted - True if the current branch is getting deleted
  * @param addOffset - offset to add
  * @param labelOffset - offset label
  * @param isHighlighted - Whether this connector is highlighted
+ * @param operationType - The operation type
  * @returns The ConnectorRenderInfo for the connector
  */
 function createConnectorToNextNode(
@@ -125,10 +131,10 @@ function createConnectorToNextNode(
     layoutConfig: LayoutConfig,
     isFault: boolean,
     variants: ConnectorVariant[],
-    isBranchGettingDeleted: boolean,
     addOffset: number | undefined,
     labelOffset: number | undefined,
-    isHighlighted: boolean
+    isHighlighted: boolean,
+    operationType: NodeOperationType
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
 
@@ -152,7 +158,7 @@ function createConnectorToNextNode(
         labelOffsetY: labelOffset,
         type: connectorType,
         isFault,
-        toBeDeleted: isBranchGettingDeleted,
+        operationType,
         isHighlighted
     };
 
@@ -236,8 +242,8 @@ function getBranchSvgInfo(
  * @param connectorType - The branch type: left or right
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
- * @param toBeDeleted - True if the connector is going to get deleted
  * @param isHighlighted - Whether this connector is highlighted
+ * @param operationType - The operation type
  * @returns a ConnectorRenderInfo for the branch connector
  */
 function createBranchConnector(
@@ -246,8 +252,8 @@ function createBranchConnector(
     connectorType: ConnectorType.BRANCH_LEFT | ConnectorType.BRANCH_RIGHT,
     layoutConfig: LayoutConfig,
     isFault: boolean,
-    toBeDeleted: boolean,
-    isHighlighted: boolean
+    isHighlighted: boolean,
+    operationType: NodeOperationType
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     const svgInfo = getBranchSvgInfo(w, h, connectorType, layoutConfig);
@@ -259,7 +265,7 @@ function createBranchConnector(
         svgInfo,
         isFault,
         source,
-        toBeDeleted,
+        operationType,
         isHighlighted
     };
 }
@@ -273,8 +279,8 @@ function createBranchConnector(
  * @param connectorType - The merge type: left or right
  * @param layoutConfig  - The layout config
  * @param isFault - Whether this is part of a fault connector
- * @param toBeDeleted - True if the connector is going to get deleted
  * @param isHighlighted - True if the connector is highlighted
+ * @param operationType - The operation type
  * @returns a ConnectorRenderInfo for the merge connector
  */
 function createMergeConnector(
@@ -283,8 +289,8 @@ function createMergeConnector(
     connectorType: ConnectorType.MERGE_LEFT | ConnectorType.MERGE_RIGHT,
     layoutConfig: LayoutConfig,
     isFault: boolean,
-    toBeDeleted: boolean,
-    isHighlighted: boolean
+    isHighlighted: boolean,
+    operationType: NodeOperationType
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     return {
@@ -294,7 +300,7 @@ function createMergeConnector(
         labelType: ConnectorLabelType.NONE,
         isFault,
         source,
-        toBeDeleted,
+        operationType,
         isHighlighted
     };
 }
@@ -307,10 +313,10 @@ function createMergeConnector(
  * @param geometry - The geometry for the connector
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
- * @param toBeDeleted - True if the connector is going to get deleted
  * @param labelOffsetY - Label offset Y
  * @param labelOffsetX - Label offset X
  * @param isHighlighted - Whether this connector is highlighted
+ * @param operationType - The operation type
  * @returns a ConnectorRenderInfo for the loop connector
  */
 function createLoopAfterLastConnector(
@@ -318,10 +324,10 @@ function createLoopAfterLastConnector(
     geometry: Geometry,
     layoutConfig: LayoutConfig,
     isFault: boolean,
-    toBeDeleted: boolean,
     labelOffsetY: number,
     labelOffsetX: number,
-    isHighlighted: boolean
+    isHighlighted: boolean,
+    operationType: NodeOperationType
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     const connectorType = ConnectorType.LOOP_AFTER_LAST;
@@ -335,7 +341,7 @@ function createLoopAfterLastConnector(
         isFault,
         labelOffsetY,
         labelOffsetX,
-        toBeDeleted,
+        operationType,
         isHighlighted
     };
 }
@@ -348,8 +354,8 @@ function createLoopAfterLastConnector(
  * @param geometry - The geometry for the connector
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
- * @param toBeDeleted - True if the connector is going to get deleted
  * @param isHighlighted - Whether this connector is highlighted
+ * @param operationType - The operation type
  * @returns a ConnectorRenderInfo for the loop connector
  */
 function createLoopBackConnector(
@@ -357,8 +363,8 @@ function createLoopBackConnector(
     geometry: Geometry,
     layoutConfig: LayoutConfig,
     isFault: boolean,
-    toBeDeleted: boolean,
-    isHighlighted: boolean
+    isHighlighted: boolean,
+    operationType: NodeOperationType
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     const connectorType = ConnectorType.LOOP_BACK;
@@ -370,7 +376,7 @@ function createLoopBackConnector(
         type: connectorType,
         labelType: ConnectorLabelType.NONE,
         isFault,
-        toBeDeleted,
+        operationType,
         isHighlighted
     };
 }

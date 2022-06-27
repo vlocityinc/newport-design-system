@@ -21,12 +21,12 @@ builder_platform_interaction-alc-connector.branchLeft.is-highlighted,
 builder_platform_interaction-alc-connector.branchRight.is-highlighted,
 builder_platform_interaction-alc-connector.mergeLeft.is-highlighted,
 builder_platform_interaction-alc-connector.mergeRight.is-highlighted,
-builder_platform_interaction-alc-connector.loopBack.to-be-deleted,
-builder_platform_interaction-alc-connector.loopAfterLast.to-be-deleted,
-builder_platform_interaction-alc-connector.branchLeft.to-be-deleted,
-builder_platform_interaction-alc-connector.branchRight.to-be-deleted,
-builder_platform_interaction-alc-connector.mergeLeft.to-be-deleted,
-builder_platform_interaction-alc-connector.mergeRight.to-be-deleted {
+builder_platform_interaction-alc-connector.loopBack.to-be-deleted-or-cut,
+builder_platform_interaction-alc-connector.loopAfterLast.to-be-deleted-or-cut,
+builder_platform_interaction-alc-connector.branchLeft.to-be-deleted-or-cut,
+builder_platform_interaction-alc-connector.branchRight.to-be-deleted-or-cut,
+builder_platform_interaction-alc-connector.mergeLeft.to-be-deleted-or-cut,
+builder_platform_interaction-alc-connector.mergeRight.to-be-deleted-or-cut {
     z-index: var(--z-index-alc-connector-branch-is-highlighted);
 }
 

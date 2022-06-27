@@ -45,12 +45,15 @@ export interface InteractionMenuInfo {
     geometry?: Geometry;
 }
 
+export type NodeOperationType = 'cut' | 'delete' | undefined;
+
 export interface FlowInteractionState {
     menuInfo: InteractionMenuInfo | null;
     deletionPathInfo: {
         childIndexToKeep: number;
         elementGuidToDelete: Guid;
         shouldDeleteBeyondMergingPoint: boolean;
+        operationType: NodeOperationType;
     } | null;
 }
 
@@ -73,7 +76,7 @@ export interface NodeRenderInfo {
     guid: string;
     menuOpened: boolean;
     isTerminal: boolean;
-    toBeDeleted: boolean;
+    operationType?: NodeOperationType;
     dynamicNodeComponent?: string;
     dynamicNodeComponentSelector?: Function;
 }
@@ -161,7 +164,7 @@ export interface ConnectorRenderInfo {
     labelOffsetY?: number;
     labelOffsetX?: number;
     isNew?: boolean;
-    toBeDeleted: boolean;
+    operationType: NodeOperationType;
     isHighlighted: boolean;
 }
 

@@ -44,10 +44,10 @@ const flowWithFault = {
                     geometry: {},
                     path: 'M 3, 0\nL 3, 120'
                 },
-                toBeDeleted: false,
+                operationType: undefined,
                 type: 'straight'
             },
-            toBeDeleted: false
+            operationType: undefined
         },
         {
             flows: [
@@ -69,7 +69,7 @@ const flowWithFault = {
                             geometry: {},
                             path: 'M 3, 24↵L 3, 96'
                         },
-                        toBeDeleted: false,
+                        operationType: undefined,
                         type: 'straight'
                     }
                 },
@@ -91,7 +91,7 @@ const flowWithFault = {
                             geometry: {},
                             path: 'M 3, 24\nL 3, 96'
                         },
-                        toBeDeleted: false,
+                        operationType: undefined,
                         type: 'straight'
                     }
                 }
@@ -133,10 +133,10 @@ const flowWithFault = {
                     geometry: {},
                     path: 'M 3, 24\nL 3, 144'
                 },
-                toBeDeleted: false,
+                operationType: undefined,
                 type: 'straight'
             },
-            toBeDeleted: false
+            operationType: undefined
         },
         {
             faultFlow: {
@@ -183,10 +183,10 @@ const flowWithFault = {
                                 geometry: {},
                                 path: 'M 3, 0\nL 3, 120'
                             },
-                            toBeDeleted: false,
+                            operationType: undefined,
                             type: 'straight'
                         },
-                        toBeDeleted: false
+                        operationType: undefined
                     },
                     {
                         flows: [],
@@ -210,7 +210,7 @@ const flowWithFault = {
                             type: 'end',
                             value: 'END_ELEMENT'
                         },
-                        toBeDeleted: false
+                        operationType: undefined
                     }
                 ],
                 preConnector: {
@@ -226,7 +226,7 @@ const flowWithFault = {
                         geometry: {},
                         path: 'M 3, 24\nL 3, 120'
                     },
-                    toBeDeleted: false,
+                    operationType: undefined,
                     type: 'straight'
                 }
             },
@@ -247,7 +247,7 @@ const flowWithFault = {
                         geometry: {},
                         path: 'M 3, 3\nL 251, 3\nA 16 16 0 0 1, 267, 19\nL 267, 27'
                     },
-                    toBeDeleted: false,
+                    operationType: undefined,
                     type: 'branchRight'
                 }
             ],
@@ -283,10 +283,10 @@ const flowWithFault = {
                     geometry: {},
                     path: 'M 3, 0\nL 3, 120'
                 },
-                toBeDeleted: false,
+                operationType: undefined,
                 type: 'straight'
             },
-            toBeDeleted: false
+            operationType: undefined
         },
         {
             flows: [],
@@ -310,7 +310,7 @@ const flowWithFault = {
                 type: 'end',
                 value: 'END_ELEMENT'
             },
-            toBeDeleted: false
+            operationType: undefined
         }
     ]
 };

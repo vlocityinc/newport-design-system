@@ -1,13 +1,14 @@
+import { NodeOperationType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './alcNodeMenuLabels';
 
 const SUBFLOW = 'Subflow';
 
-export enum NodeMenuMode {
-    Default,
-    Delete
-}
-
 export const ELEMENT_ACTION_CONFIG = {
+    ADD_FAULT_ACTION: {
+        icon: 'utility:level_down',
+        label: LABELS.addFaultActionLabel,
+        value: 'ADD_FAULT_ACTION'
+    },
     COPY_ACTION: {
         icon: 'utility:copy_to_clipboard',
         label: LABELS.copyActionLabel,
@@ -18,16 +19,27 @@ export const ELEMENT_ACTION_CONFIG = {
         label: LABELS.cutActionLabel,
         value: 'CUT_ACTION'
     },
+    CUT_BRANCH_ELEMENT_ACTION: {
+        buttonIcon: 'utility:cut',
+        buttonIconPosition: 'left',
+        buttonTextLabel: LABELS.cutFooterActionLabel,
+        buttonTextTitle: LABELS.cutFooterActionTitle,
+        buttonVariant: 'brand',
+        value: 'CUT_ELEMENT_ACTION'
+    },
     DELETE_ACTION: {
         icon: 'utility:delete',
         iconVariant: 'error',
         label: LABELS.deleteActionLabel,
         value: 'DELETE_ACTION'
     },
-    ADD_FAULT_ACTION: {
-        icon: 'utility:level_down',
-        label: LABELS.addFaultActionLabel,
-        value: 'ADD_FAULT_ACTION'
+    DELETE_BRANCH_ELEMENT_ACTION: {
+        buttonIcon: 'utility:delete',
+        buttonIconPosition: 'left',
+        buttonTextLabel: LABELS.deleteFooterActionLabel,
+        buttonTextTitle: LABELS.deleteFooterActionTitle,
+        buttonVariant: 'destructive',
+        value: 'DELETE_BRANCH_ELEMENT_ACTION'
     },
     DELETE_FAULT_ACTION: {
         icon: 'utility:level_down',
@@ -41,14 +53,6 @@ export const ELEMENT_ACTION_CONFIG = {
         buttonVariant: 'brand',
         value: 'EDIT_DETAILS_ACTION'
     },
-    DELETE_BRANCH_ELEMENT_ACTION: {
-        buttonIcon: 'utility:delete',
-        buttonIconPosition: 'left',
-        buttonTextLabel: LABELS.deleteFooterActionLabel,
-        buttonTextTitle: LABELS.deleteFooterActionTitle,
-        buttonVariant: 'destructive',
-        value: 'DELETE_BRANCH_ELEMENT_ACTION'
-    },
     OPEN_SUBFLOW_ACTION: {
         icon: 'utility:new_window',
         label: LABELS.openReferenceFlowTitle,
@@ -56,15 +60,17 @@ export const ELEMENT_ACTION_CONFIG = {
     }
 };
 
-const getFooterData = (nodeMenuMode: NodeMenuMode) => {
-    return nodeMenuMode === NodeMenuMode.Delete
+const getFooterData = (operationType: NodeOperationType) => {
+    return operationType === 'cut'
+        ? ELEMENT_ACTION_CONFIG.CUT_BRANCH_ELEMENT_ACTION
+        : operationType === 'delete'
         ? ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION
         : ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION;
 };
 
 export const getMenuConfiguration = (
     { label, description, elementType },
-    contextualMenuMode,
+    operationType,
     canHaveFaultConnector,
     elementHasFault,
     disableDeleteElements
@@ -91,7 +97,7 @@ export const getMenuConfiguration = (
         body: {
             nodeActions
         },
-        footer: getFooterData(contextualMenuMode)
+        footer: getFooterData(operationType)
     };
 
     return menuConfiguration;

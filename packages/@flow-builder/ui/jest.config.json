@@ -17,6 +17,7 @@
 
         "^(builder_platform_interaction)/alcMenuTemplate$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenuTemplate/alcMenuTemplate",
         "^(builder_platform_interaction)/alcMenu$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenu/alcMenu",
+        "^(builder_platform_interaction)/alcMenuUtils$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenuUtils/alcMenuUtils",
         "^(builder_platform_interaction)/alcConnectorMenu$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcConnectorMenu/alcConnectorMenu",
         "^(builder_platform_interaction)/alcNodeMenu$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcNodeMenu/alcNodeMenu",
         "^(builder_platform_interaction)/zoomPanel$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/zoomPanel/zoomPanel",
