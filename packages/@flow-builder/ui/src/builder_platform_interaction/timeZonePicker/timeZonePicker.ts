@@ -7,11 +7,11 @@ import { LABELS } from './timeZonePickerLabels';
 /**
  * Time Zone picker that uses the base lightning-combobox component. The picker displays
  * the available time zones where each display is the GMT offset, time zone, and time zone id
- * The value is the timeZoneId of the time zone that was selected
+ * The value is the timeZoneSidKey of the time zone that was selected
  */
 export default class TimeZonePicker extends LightningElement {
     /**
-     * the timeZoneId selected ie "America/New_York"
+     * the timeZoneSidKey selected ie "America/New_York"
      *
      */
     @api
@@ -44,7 +44,7 @@ export default class TimeZonePicker extends LightningElement {
 
     handleTimeZoneChange(event) {
         event.stopPropagation();
-        const timeZoneId = event.detail?.value;
-        this.dispatchEvent(new ValueChangedEvent(timeZoneId));
+        const timeZoneSidKey = event.detail?.value;
+        this.dispatchEvent(new ValueChangedEvent(timeZoneSidKey));
     }
 }

@@ -72,6 +72,7 @@ declare namespace Metadata {
         doesRequireRecordChangedToMeetCriteria?: boolean;
         connector: Connector;
         filterFormula?: string;
+        timeZoneSidKey?: string;
     }
 
     interface ScheduledPath extends Element {

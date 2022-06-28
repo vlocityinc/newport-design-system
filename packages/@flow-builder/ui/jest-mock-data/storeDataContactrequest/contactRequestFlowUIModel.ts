@@ -446,6 +446,7 @@ export const contactRequestFlowUIModel = {
         overriddenFlow: null,
         sourceTemplate: null,
         migratedFromWorkflowRuleName: null,
-        environments: ['Default']
+        environments: ['Default'],
+        timeZoneSidKey: null
     }
 };

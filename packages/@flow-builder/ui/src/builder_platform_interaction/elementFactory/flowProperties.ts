@@ -58,7 +58,8 @@ export function createFlowProperties(flowProperties = {}) {
         isOverridable = false,
         overriddenFlow = null,
         sourceTemplate = null,
-        migratedFromWorkflowRuleName = null
+        migratedFromWorkflowRuleName = null,
+        timeZoneSidKey = null
     } = flowProperties.metadata || flowProperties;
     let {
         isLightningFlowBuilder = true,
@@ -107,7 +108,8 @@ export function createFlowProperties(flowProperties = {}) {
         overriddenFlow,
         sourceTemplate,
         migratedFromWorkflowRuleName,
-        environments
+        environments,
+        timeZoneSidKey
     };
 }
 
@@ -137,7 +139,8 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         overriddenFlow,
         sourceTemplate,
         migratedFromWorkflowRuleName,
-        environments
+        environments,
+        timeZoneSidKey
     } = flowProperties;
 
     // Adding a bit to make sure that flow is a saved/created in flow builder. And storing the Canvas Mode.
@@ -158,7 +161,8 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         overriddenFlow,
         sourceTemplate,
         migratedFromWorkflowRuleName,
-        environments
+        environments,
+        timeZoneSidKey
     };
 }
 

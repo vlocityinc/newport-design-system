@@ -1,0 +1,26 @@
+{
+  "journeyEntries":[
+    {
+      "icon":"utility:events",
+      "description":"Launches when a platform event is received.",
+      "defaultTriggerType":"EventDrivenJourney",
+      "label":"Event-Triggered Journey",
+      "processType":"Journey",
+      "triggerTypes":[
+        "EventDrivenJourney"
+      ],
+      "recommended":true
+    },
+    {
+      "icon":"utility:clock",
+      "description":"Launches when a segment is received.",
+      "defaultTriggerType":"Segment",
+      "label":"Segment-Triggered Journey",
+      "processType":"Journey",
+      "triggerTypes":[
+        "Segment"
+      ],
+      "recommended":true
+    }
+  ]
+}

@@ -81,6 +81,16 @@
                 >
                 </lightning-input>
             </div>
+            <div
+                if:true={isSegment}
+                class="slds-form-element__control slds-p-top_small slds-form slds-grid slds-gutters slds-gutters_xx-small"
+            >
+                <builder_platform_interaction-time-zone-picker
+                    class="slds-col slds-form-element slds-p-right_medium"
+                    value={timeZoneSidKey}
+                    onvaluechanged={handleTimeZoneChange}
+                ></builder_platform_interaction-time-zone-picker>
+            </div>
             <div if:true={isRecurring}>
                 <builder_platform_interaction-repeat-schedule
                     repeat-schedule-options={repeatScheduleOptions}

@@ -146,6 +146,7 @@ export const flowOnSlackUIModel = {
         overriddenFlow: null,
         sourceTemplate: null,
         migratedFromWorkflowRuleName: null,
-        environments: ['Slack']
+        environments: ['Slack'],
+        timeZoneSidKey: null
     }
 };

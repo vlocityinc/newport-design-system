@@ -223,6 +223,7 @@ declare namespace UI {
         availableConnections: AvailableConnection[];
         shouldSupportScheduledPaths: boolean;
         filterFormula?: string;
+        timeZoneSidKey?: string;
     }
 
     interface Schedule {
@@ -404,7 +405,7 @@ declare namespace UI {
         initialization?: (args: Metadata.Start) => Start; // This is only applicable to Start element as it is a unique case.
         uiToFlow?: Function;
         propertyEditor?: (args: any) => any;
-        flowToUi?: (args: any, arg2?: any, arg3?: string | null | undefined) => any;
+        flowToUi?: (args: any, arg2?: any, arg3?: string | null | undefined, arg4?: string | null | undefined) => any;
         pasteElement?: (args: any) => any;
         duplicateElement?: Function;
         closePropertyEditor?: (args: any) => any;

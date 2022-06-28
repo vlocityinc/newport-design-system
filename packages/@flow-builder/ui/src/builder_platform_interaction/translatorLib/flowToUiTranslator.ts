@@ -330,7 +330,8 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
                     elementsAndConnectors = elementFactoryFunction(
                         metadataElement,
                         startElementReference,
-                        metadata.processType
+                        metadata.processType,
+                        metadata.timeZoneSidKey
                     );
                 } else {
                     elementsAndConnectors = elementFactoryFunction(metadataElement, {

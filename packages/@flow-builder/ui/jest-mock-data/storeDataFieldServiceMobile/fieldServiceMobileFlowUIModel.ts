@@ -531,6 +531,7 @@ export const fieldServiceMobileFlowUIModel = {
         overriddenFlow: null,
         sourceTemplate: null,
         migratedFromWorkflowRuleName: null,
-        environments: ['Default']
+        environments: ['Default'],
+        timeZoneSidKey: null
     }
 };

@@ -6,6 +6,7 @@ import {
     DECORATE_CANVAS,
     DESELECT_ON_CANVAS,
     HIGHLIGHT_ON_CANVAS,
+    MODIFY_START_WITH_SCHEDULED_PATHS,
     REMOVE_LAST_CREATED_INLINE_RESOURCE,
     SELECTION_ON_FIXED_CANVAS,
     SELECT_ON_CANVAS,
@@ -144,6 +145,18 @@ export default function flowPropertiesReducer(state = flowProperties, { payload,
                       ...state,
                       hasUnsavedChanges: true
                   };
+        case MODIFY_START_WITH_SCHEDULED_PATHS:
+            /**
+             * NOTE: this action type is dispatched when updating a start element with scheduled information
+             * We have this case because as of 240 W-11287604, timeZoneSidKey is updated at the start node level
+             * for discoverability but the field exists at the flow properties level. When a user edits the
+             * flow level time zone in the start element editor, we must update the flow properties.
+             */
+            return {
+                ...state,
+                timeZoneSidKey: payload.canvasElement?.timeZoneSidKey,
+                hasUnsavedChanges: true
+            };
         default:
             return {
                 ...state,

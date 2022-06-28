@@ -110,9 +110,14 @@ export function shouldSupportScheduledPaths(startElement: UI.Start, processType?
  *
  * @param {Object} startElement start element object used to construct the new object
  * @param processType
+ * @param timeZoneSidKey the time zone of the start element. W-11287604 timeZoneSidKey is edited at the start node level but the field exists at the flow properties level
  * @returns {Object} startElement the new start element object
  */
-export function createStartElement(startElement: UI.Start | Metadata.Start, processType?: string | null | undefined) {
+export function createStartElement(
+    startElement: UI.Start | Metadata.Start,
+    processType?: string | null | undefined,
+    timeZoneSidKey?: string | null | undefined
+) {
     const newStartElement: UI.Start = <UI.Start>baseCanvasElement(startElement);
     const {
         locationX = START_ELEMENT_LOCATION.x,
@@ -194,7 +199,9 @@ export function createStartElement(startElement: UI.Start | Metadata.Start, proc
         isAssignable: object ? true : undefined,
         doesRequireRecordChangedToMeetCriteria: requireChangedValues,
         childReferences: (<UI.Start>startElement).childReferences || [],
-        availableConnections: (<UI.Start>startElement).availableConnections || [{ type: CONNECTOR_TYPE.REGULAR }]
+        availableConnections: (<UI.Start>startElement).availableConnections || [{ type: CONNECTOR_TYPE.REGULAR }],
+        // NOTE: W-11287604 timeZoneSidKey is edited at the start node level but the field exists at the flow properties level
+        timeZoneSidKey: timeZoneSidKey || startElement.timeZoneSidKey
     });
 
     newStartElement.shouldSupportScheduledPaths = shouldSupportScheduledPaths(newStartElement, processType);
@@ -252,14 +259,16 @@ export function createStartElementForPropertyEditor(startElement: UI.Start = {} 
  * @param {Object} startElement start element metadata object
  * @param {string} startElementReference guid/name of the first element in the flow
  * @param processType
+ * @param timeZoneSidKey
  * @returns {Object} startElement the start element object
  */
 export function createStartElementWithConnectors(
     startElement: Metadata.Start = {} as Metadata.Start,
     startElementReference,
-    processType: string | null | undefined
+    processType: string | null | undefined,
+    timeZoneSidKey: string | null | undefined
 ) {
-    const newStartElement = createStartElement(startElement, processType);
+    const newStartElement = createStartElement(startElement, processType, timeZoneSidKey);
 
     let connectorCount, connectors;
     let availableConnections: UI.AvailableConnection[] = [];

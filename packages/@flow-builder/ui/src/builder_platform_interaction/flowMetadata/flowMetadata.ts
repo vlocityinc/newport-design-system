@@ -428,7 +428,8 @@ export const START_ELEMENT_FIELDS = {
     FILTER_LOGIC: 'filterLogic',
     FILTER_FORMULA: 'filterFormula',
     IS_RUN_ASYNC_PATH_ENABLED: 'runAsync',
-    REQUIRE_RECORD_CHANGE: 'doesRequireRecordChangedToMeetCriteria'
+    REQUIRE_RECORD_CHANGE: 'doesRequireRecordChangedToMeetCriteria',
+    TIME_ZONE_SID_KEY: 'timeZoneSidKey'
 };
 
 export const FLOW_ENVIRONMENT = {

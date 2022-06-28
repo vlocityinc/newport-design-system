@@ -5870,6 +5870,7 @@ export const flowWithAllElementsUIModel = {
         overriddenFlow: null,
         sourceTemplate: null,
         migratedFromWorkflowRuleName: null,
-        environments: ['Default']
+        environments: ['Default'],
+        timeZoneSidKey: null
     }
 };

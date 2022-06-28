@@ -1,6 +1,7 @@
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, FLOW_TRIGGER_FREQUENCY, START_ELEMENT_FIELDS } from 'builder_platform_interaction/flowMetadata';
+import { isSegment } from 'builder_platform_interaction/triggerTypeLib';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './scheduleSelectionEditorLabels';
 import { scheduleSelectionReducer } from './scheduleSelectionReducer';
@@ -92,6 +93,14 @@ export default class ScheduleSelectionEditor extends LightningElement {
         return nodeConfig?.iconBackgroundColor;
     }
 
+    get timeZoneSidKey() {
+        return this.startElement.timeZoneSidKey?.value || null;
+    }
+
+    get isSegment() {
+        return isSegment(this.startElement.triggerType?.value);
+    }
+
     /**
      * Handles Schedule Type visual picker list selection
      *
@@ -153,6 +162,16 @@ export default class ScheduleSelectionEditor extends LightningElement {
 
     handleStartTimeChange = (event) => {
         this.updateField(START_ELEMENT_FIELDS.START_TIME, event.detail.value);
+    };
+
+    handleTimeZoneChange = (event) => {
+        event.stopPropagation();
+        /**
+         * NOTE: we are updating the start element here, but as of 240 W-11287604, the timeZoneSidKey
+         * field exists on the flow properties level. We update the start element node
+         * so that the updated timeZoneSidKey is available in the flow properties reducer
+         */
+        this.updateField(START_ELEMENT_FIELDS.TIME_ZONE_SID_KEY, event.detail.value);
     };
 
     get runOnceOptions() {
