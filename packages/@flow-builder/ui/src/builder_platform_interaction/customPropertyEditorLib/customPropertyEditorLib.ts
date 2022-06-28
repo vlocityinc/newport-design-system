@@ -28,7 +28,7 @@ export type ElementInfo = {
     type?: string;
 };
 
-type ConfigurationEditor = {
+export type ConfigurationEditor = {
     name: string | null;
     errors: [];
 };

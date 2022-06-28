@@ -593,6 +593,11 @@ declare namespace UI {
         value: FlowTriggerFrequency;
     };
 
+    type PropertyEditorParameters = {
+        isAutoLayoutCanvas?: boolean;
+        panelConfig?: object;
+    };
+
     type FieldInputCategory =
         | 'Action'
         | 'Assignment'

@@ -2,9 +2,9 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { api, LightningElement, track } from 'lwc';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import PanelBasedPropertyEditor from 'builder_platform_interaction/panelBasedPropertyEditor';
+import { track } from 'lwc';
 import { LABELS } from './waitEditorLabels';
 import { resetDeletedGuids, waitReducer } from './waitReducer';
 
@@ -15,95 +15,39 @@ const SELECTORS = {
 
 const DEFAULT_WAIT_EVENT_ID = 'defaultWaitEvent';
 
-export default class WaitEditor extends LightningElement {
+export default class WaitEditor extends PanelBasedPropertyEditor {
     labels = LABELS;
 
     constructor() {
         super();
+        this.reducer = waitReducer;
         resetDeletedGuids();
     }
 
-    /**
-     * internal state for the wait editor
-     */
-    waitElement;
+    @track
+    activeWaitEventId;
 
-    @track activeWaitEventId;
-    configurationEditor;
-    @track configurationEditorInputVariables = [];
+    @track
+    configurationEditorInputVariables = [];
 
-    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
-    @api
-    mode;
-
-    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
-    @api
-    processType;
-
-    @api
-    editorParams;
-
-    @api
-    get node() {
-        return this.waitElement;
-    }
-
-    get hasConfigurationEditor() {
-        return !!this.configurationEditor?.name;
-    }
-
-    set node(newValue) {
-        this.waitElement = newValue || {};
+    override onSetNode() {
+        this.activeWaitEventId = this.element.waitEvents[0].guid;
         this.configurationEditor = {
-            name: elementTypeToConfigMap[this.waitElement.elementSubtype?.value]?.configComponent
+            name: elementTypeToConfigMap[this.element.elementSubtype?.value]?.configComponent
         };
-        this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
         this.setConfigurationEditorInputVariables();
     }
 
-    /**
-     * public api function to return the node
-     *
-     * @returns {object} node - node
-     */
-    @api getNode() {
-        return this.waitElement;
-    }
-
-    /**
-     * public api function to run the rules from wait validation library
-     *
-     * @returns {object} list of errors
-     */
-    @api validate() {
-        let errors: ElementOrComponentError[] = [];
-        // validate the inner editor
-        const editor = this.template.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR) as CustomPropertyEditor;
-        if (editor) {
-            errors = editor.validate();
-        }
-        const event = { type: VALIDATE_ALL };
-        this.waitElement = waitReducer(this.waitElement, event);
-        const waitErrors = getErrorsFromHydratedElement(this.waitElement);
-        errors = [...errors, ...waitErrors];
-        return errors;
-    }
-
     get showDeleteWaitEvent() {
-        return this.waitElement.waitEvents.length > 1;
-    }
-
-    handleEvent(event) {
-        event.stopPropagation();
-        this.waitElement = waitReducer(this.waitElement, event);
+        return this.element.waitEvents.length > 1;
     }
 
     get activeWaitEvent() {
-        return this.waitElement.waitEvents.find((waitEvent) => waitEvent.guid === this.activeWaitEventId);
+        return this.element.waitEvents.find((waitEvent) => waitEvent.guid === this.activeWaitEventId);
     }
 
     get waitEventsWithDefaultPath() {
-        const waitEventsWithDefaultPath = this.waitElement.waitEvents.map((waitEvent) => {
+        const waitEventsWithDefaultPath = this.element.waitEvents.map((waitEvent) => {
             return {
                 element: waitEvent,
                 label: waitEvent.label && waitEvent.label.value ? waitEvent.label.value : LABELS.newWaitEventLabel,
@@ -112,7 +56,7 @@ export default class WaitEditor extends LightningElement {
             };
         });
 
-        const defaultLabel = this.waitElement.defaultConnectorLabel;
+        const defaultLabel = this.element.defaultConnectorLabel;
         const defaultPath = {
             element: {
                 guid: DEFAULT_WAIT_EVENT_ID
@@ -130,10 +74,15 @@ export default class WaitEditor extends LightningElement {
         return this.activeWaitEventId === DEFAULT_WAIT_EVENT_ID;
     }
 
+    handleValueChanged(event) {
+        event.stopPropagation();
+        this.updateElement(event);
+    }
+
     handleDefaultPathChangedEvent(event) {
         event.stopPropagation();
         const defaultPathChangedEvent = new PropertyChangedEvent('defaultConnectorLabel', event.detail.value);
-        this.waitElement = waitReducer(this.waitElement, defaultPathChangedEvent);
+        this.updateElement(defaultPathChangedEvent);
     }
 
     handleWaitEventSelected(event) {
@@ -148,10 +97,11 @@ export default class WaitEditor extends LightningElement {
      */
     handleDeleteWaitEvent(event) {
         event.stopPropagation();
-        const originalNumberOfWaitEvents = this.waitElement.waitEvents.length;
-        this.waitElement = waitReducer(this.waitElement, event);
-        if (this.waitElement.waitEvents.length < originalNumberOfWaitEvents) {
-            this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
+        const originalNumberOfWaitEvents = this.element.waitEvents.length;
+        this.updateElement(event);
+
+        if (this.element.waitEvents.length < originalNumberOfWaitEvents) {
+            this.activeWaitEventId = this.element.waitEvents[0].guid;
         }
 
         // Move focus to the active pause event (first pause event) post deletion
@@ -165,7 +115,7 @@ export default class WaitEditor extends LightningElement {
      */
     handleReorderWaitEvents(event) {
         event.stopPropagation();
-        this.waitElement = waitReducer(this.waitElement, event);
+        this.updateElement(event);
     }
 
     handleAddWaitEvent(event) {
@@ -173,7 +123,7 @@ export default class WaitEditor extends LightningElement {
         this.addWaitEvent();
 
         // Select the newly added outcome
-        const waitEvents = this.waitElement.waitEvents;
+        const waitEvents = this.element.waitEvents;
         this.activeWaitEventId = waitEvents[waitEvents.length - 1].guid;
 
         // Focus on the newly selected wait event( focused the name/label field )
@@ -183,15 +133,9 @@ export default class WaitEditor extends LightningElement {
         }
     }
 
-    handleValueChanged(event) {
-        event.stopPropagation();
-        this.waitElement = waitReducer(this.waitElement, event);
-        this.dispatchEvent(new UpdateNodeEvent(this.waitElement));
-    }
-
     addWaitEvent() {
         const event = { type: PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT };
-        this.waitElement = waitReducer(this.waitElement, event);
+        this.updateElement(event);
     }
 
     /**
@@ -199,11 +143,11 @@ export default class WaitEditor extends LightningElement {
      */
     setConfigurationEditorInputVariables() {
         this.configurationEditorInputVariables = [];
-        for (const prop in this.waitElement) {
-            if (this.waitElement[prop]) {
+        for (const prop in this.element) {
+            if (this.element[prop]) {
                 const inputVar = {
                     name: prop,
-                    value: getValueFromHydratedItem(this.waitElement[prop])
+                    value: getValueFromHydratedItem(this.element[prop])
                 };
                 this.configurationEditorInputVariables.push(inputVar);
             }

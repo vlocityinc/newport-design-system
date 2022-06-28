@@ -75,7 +75,8 @@ beforeEach(() => {
                 inputParameters: [],
                 outputParameters: {}
             }
-        ]
+        ],
+        isNew: true
     };
 });
 

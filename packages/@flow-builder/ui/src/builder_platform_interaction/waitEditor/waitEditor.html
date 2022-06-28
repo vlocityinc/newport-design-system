@@ -1,10 +1,10 @@
 <template>
     <div class="label-description slds-border_top slds-p-horizontal_small slds-p-top_small">
         <builder_platform_interaction-label-description
-            label={waitElement.label}
-            dev-name={waitElement.name}
-            description={waitElement.description}
-            guid={waitElement.guid}
+            label={element.label}
+            dev-name={element.name}
+            description={element.description}
+            guid={element.guid}
             onpropertychanged={handleValueChanged}
             mode={mode}
         >
@@ -54,15 +54,15 @@
                     wait-event={activeWaitEvent}
                     show-delete={showDeleteWaitEvent}
                     ondeletewaitevent={handleDeleteWaitEvent}
-                    onaddcondition={handleEvent}
-                    onupdatecondition={handleEvent}
-                    ondeletecondition={handleEvent}
-                    onpropertychanged={handleEvent}
-                    onwaiteventpropertychanged={handleEvent}
-                    onwaiteventparameterchanged={handleEvent}
-                    onwaiteventaddparameter={handleEvent}
-                    onwaiteventdeleteparameter={handleEvent}
-                    onupdatewaiteventeventtype={handleEvent}
+                    onaddcondition={handleValueChanged}
+                    onupdatecondition={handleValueChanged}
+                    ondeletecondition={handleValueChanged}
+                    onpropertychanged={handleValueChanged}
+                    onwaiteventpropertychanged={handleValueChanged}
+                    onwaiteventparameterchanged={handleValueChanged}
+                    onwaiteventaddparameter={handleValueChanged}
+                    onwaiteventdeleteparameter={handleValueChanged}
+                    onupdatewaiteventeventtype={handleValueChanged}
                 >
                 </builder_platform_interaction-wait-event>
                 <div if:true={isDefaultPath}>
@@ -72,7 +72,7 @@
                         </h3>
                     </div>
                     <builder_platform_interaction-label-description
-                        label={waitElement.defaultConnectorLabel}
+                        label={element.defaultConnectorLabel}
                         onpropertychanged={handleDefaultPathChangedEvent}
                         hide-dev-name
                         name-label={labels.defaultPathNameLabel}

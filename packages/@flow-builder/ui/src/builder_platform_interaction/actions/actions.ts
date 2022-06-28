@@ -298,6 +298,7 @@ export const updateElementErrorState = (payload: any): object => {
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
             case ELEMENT_TYPE.START_WITH_MODIFIED_AND_DELETED_SCHEDULED_PATHS:
             case ELEMENT_TYPE.ORCHESTRATED_STAGE_WITH_MODIFIED_AND_DELETED_STEPS:
+            case ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS:
                 return createAction(UPDATE_CANVAS_ELEMENT_ERROR_STATE, payload);
             default:
                 return createAction(UPDATE_RESOURCE_ERROR_STATE, payload);

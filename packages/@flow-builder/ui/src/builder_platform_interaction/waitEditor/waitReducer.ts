@@ -81,6 +81,23 @@ const waitPropertyChanged = (state, event) => {
     });
 };
 
+const cpePropertyChanged = (state, event) => {
+    let updatedState = updateProperties(state, {
+        [event.detail.name]: {
+            error: null,
+            value: event.detail.newValue
+        }
+    });
+
+    let config = state.config || {};
+    if (event.detail.error && !config.hasError) {
+        config = { ...config, hasError: true };
+        updatedState = updateProperties(state, config);
+    }
+
+    return updatedState;
+};
+
 const addWaitEvent = (state) => {
     let newWaitEvent = createWaitEvent();
     newWaitEvent = hydrateWithErrors(newWaitEvent);
@@ -498,12 +515,7 @@ export const waitReducer = (state, event) => {
         case DeleteWaitEventEvent.EVENT_NAME:
             return deleteWaitEvent(state, event);
         case ConfigurationEditorChangeEvent.EVENT_NAME:
-            return updateProperties(state, {
-                [event.detail.name]: {
-                    error: null,
-                    value: event.detail.newValue
-                }
-            });
+            return cpePropertyChanged(state, event);
         default:
             return state;
     }
