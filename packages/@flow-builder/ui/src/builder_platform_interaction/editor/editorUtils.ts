@@ -1049,14 +1049,18 @@ export const setErrorMessage = (modal, message) => {
 /**
  * Whether user can run & debug without VAD.
  *
- * @param runInMode - flow run in mode
- * @param status - flow status
+ * @param runInMode flow run in mode
+ * @param triggerType flow triggertype
  */
-export const canRunDebugWith = (runInMode, status) => {
-    return (
-        status === 'Active' ||
-        !((runInMode === 'SystemModeWithSharing' || runInMode === 'SystemModeWithoutSharing') && !canUserVAD())
-    );
+export const canRunDebugWith = (runInMode: UI.RunInMode, triggerType: UI.FlowTriggerType) => {
+    if (
+        (triggerType && triggerType !== 'None') ||
+        runInMode === 'SystemModeWithSharing' ||
+        runInMode === 'SystemModeWithoutSharing'
+    ) {
+        return canUserVAD();
+    }
+    return true;
 };
 
 /**

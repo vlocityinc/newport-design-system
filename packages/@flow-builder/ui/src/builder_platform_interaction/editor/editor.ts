@@ -1177,7 +1177,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             }
         }
         if (data && data.metadata) {
-            this.canRunDebugWithVAD = canRunDebugWith(data.metadata.runInMode, data.metadata.status);
+            this.canRunDebugWithVAD = canRunDebugWith(data.metadata.runInMode, data.metadata.start?.triggerType);
         }
     };
 
@@ -1279,7 +1279,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
 
         if (data) {
-            this.canRunDebugWithVAD = canRunDebugWith(data.runInMode, data.status);
+            this.canRunDebugWithVAD = canRunDebugWith(data.runInMode, getTriggerType());
         }
     };
 

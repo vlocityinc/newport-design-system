@@ -206,6 +206,8 @@ declare namespace UI {
         | 'Segment'
         | 'None';
 
+    type RunInMode = 'DefaultMode' | 'SystemModeWithSharing' | 'SystemModeWithoutSharing';
+
     interface Start extends BaseCanvasElementWithFilter, Schedule {
         doesRequireRecordChangedToMeetCriteria: boolean;
         triggerType: UI.FlowTriggerType;
