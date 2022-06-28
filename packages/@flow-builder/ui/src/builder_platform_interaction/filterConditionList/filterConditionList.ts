@@ -54,6 +54,9 @@ export default class FilterConditionList extends LightningElement {
     @api
     collectionReferenceDisplayText = '';
 
+    @api
+    elementName = '';
+
     @track
     _conditionLogic;
 

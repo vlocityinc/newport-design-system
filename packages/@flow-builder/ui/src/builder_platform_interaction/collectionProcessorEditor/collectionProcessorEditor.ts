@@ -104,6 +104,8 @@ export default class CollectionProcessorEditor extends LightningElement {
             {
                 limit,
                 collectionReference,
+                assignNextValueToReference,
+                outputSObjectType,
                 elementType,
                 elementSubtype,
                 conditions,
@@ -111,9 +113,7 @@ export default class CollectionProcessorEditor extends LightningElement {
                 formula,
                 guid,
                 sortOptions,
-                mapItems,
-                assignNextValueToReference,
-                outputSObjectType
+                mapItems
             }
         );
     }

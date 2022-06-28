@@ -1,5 +1,6 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { FormulaChangedEvent } from 'builder_platform_interaction/events';
 import { ElementFilterConfig } from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE, FORMULA_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -8,6 +9,7 @@ import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEdi
 import { fetchOnce, fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { loggingUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getFlowMetadataInJsonString } from 'builder_platform_interaction/translatorLib';
 import { shouldNotBeBlank } from 'builder_platform_interaction/validationRules';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './formulaBuilderLabels';
@@ -70,6 +72,12 @@ export default class FormulaBuilder extends LightningElement {
     // the formula type to specify the sub resource validation path
     @api
     formulaType = FORMULA_TYPE.FLOW_FORMULA;
+
+    @api
+    elementName = '';
+
+    @api
+    formulaDataType = FLOW_DATA_TYPE.BOOLEAN.value;
 
     @track operatorData;
     @track functionData;
@@ -276,13 +284,23 @@ export default class FormulaBuilder extends LightningElement {
             this.validationResult = { isValidSyntax: false, validationMessage: '' };
             syntaxValidationCmp.enableCheckSyntaxButton();
         } else {
+            const flowFormulaOptions = {
+                flowMetadata: getFlowMetadataInJsonString(),
+                elementType: this.propertyEditorElementType,
+                elementName: this.elementName,
+                dataType: this.formulaDataType
+            };
+
+            const validationOptions =
+                this.formulaType === FORMULA_TYPE.FLOW_ENTRY_CRITERIA ? this.validationOptions : flowFormulaOptions;
+
             const params = {
                 flowProcessType: this.flowProcessType,
                 flowTriggerType: this.flowTriggerType,
                 recordTriggerType: this.recordTriggerType,
                 formulaType: this.formulaType,
                 formula: this._value,
-                validationOptions: this.validationOptions
+                validationOptions
             };
             fetchPromise(SERVER_ACTION_TYPE.VALIDATE_FORMULA, params)
                 .then((data) => {

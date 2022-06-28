@@ -64,6 +64,7 @@ export default class FilterEditor extends LightningElement {
     shouldDeleteVariable = false;
     collectionVariable: any;
     _inputVariables: any;
+    nodeName = '';
 
     @api
     get elementInfo() {
@@ -101,6 +102,7 @@ export default class FilterEditor extends LightningElement {
     set inputVariables(value) {
         if (value) {
             this._inputVariables = value;
+            this.nodeName = getNodeName(value);
         }
     }
 

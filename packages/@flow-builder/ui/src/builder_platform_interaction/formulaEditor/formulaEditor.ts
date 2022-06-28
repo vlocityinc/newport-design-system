@@ -78,6 +78,10 @@ export default class FormulaEditor extends LightningElement {
         };
     }
 
+    get elementName() {
+        return getValueFromHydratedItem(this.formulaResource.name);
+    }
+
     get processType() {
         return getProcessType();
     }

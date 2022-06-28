@@ -24,6 +24,14 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('builder_platform_interaction/translatorLib', () => {
+    return {
+        getFlowMetadataInJsonString: jest.fn()
+    };
+});
+
 const { logInteraction } = loggingUtils;
 
 const createComponentUnderTest = (props) => {
@@ -35,6 +43,14 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 let mockFormulaValidationResultsPromise;
+
+const flow = {
+    metadata: {
+        fullName: 'testflow',
+        actionCalls: [],
+        assignments: []
+    }
+};
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');

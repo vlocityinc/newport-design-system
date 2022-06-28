@@ -6,6 +6,7 @@ import {
 import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { swapUidsForDevNames } from './uidSwapping';
 
 export type Flow = {
@@ -126,4 +127,16 @@ function getElementForUiToFlowTranslation(element, config) {
         throw new Error('ui to flow factory is not defined to translate a flow');
     }
     return uiToFlow(element, config);
+}
+
+/**
+ * Get current UI state and translate the state to flow metadata in JSON format
+ *
+ * @returns {string} flow metadata in JSON string
+ */
+export function getFlowMetadataInJsonString(): string {
+    const currentState = Store.getStore().getCurrentState();
+    const flow: Flow = translateUIModelToFlow(currentState);
+
+    return JSON.stringify(flow.metadata);
 }

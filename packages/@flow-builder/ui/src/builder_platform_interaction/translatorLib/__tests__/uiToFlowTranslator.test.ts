@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { translateUIModelToFlow } from '../uiToFlowTranslator';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { getFlowMetadataInJsonString, translateUIModelToFlow } from '../uiToFlowTranslator';
 
 const uiModel = {
     elements: {
@@ -113,6 +114,8 @@ jest.mock('builder_platform_interaction/connectorUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 describe('UI to Flow Translation', () => {
     describe('translateUIModelToFlow', () => {
         it('return version number', () => {
@@ -140,5 +143,36 @@ describe('UI to Flow Translation', () => {
                 expect(dummyMetadataKey[0].name).toBe('dummyElementName');
             });
         });
+    });
+});
+
+describe('getFlowMetadataInJsonString', () => {
+    const uiModel = {
+        elements: {
+            guid1: {
+                elementType: 'startElement',
+                guid: 'guid1',
+                name: 'startElementName'
+            }
+        },
+        connectors: [{ source: 'guid1' }],
+        properties: {
+            versionNumber: 1,
+            name: 'flowName',
+            elementType: 'flowProperties'
+        },
+        canvasElements: ['guid1']
+    };
+
+    it('should translate UI model to stringified flow metadata ', () => {
+        Store.setMockState(uiModel);
+        const metadata = getFlowMetadataInJsonString();
+        const expected = JSON.stringify({
+            start: { name: 'startElementName' },
+            versionNumber: 1,
+            name: 'flow name',
+            processType: 'AutoLaunchedFlow'
+        });
+        expect(metadata).toEqual(expected);
     });
 });
