@@ -189,6 +189,7 @@ const createComponentForTest = async (optionsOverrides = {}) => {
         'builder_platform_interaction-alc-canvas-container',
         {
             elementsMetadata,
+            isMenuDataLoading: false,
             autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT,
             numPasteElementsAvailable: 0,
             standardInvocableActions,

@@ -199,8 +199,7 @@ const configureElementMenu = (
     return { sections: updatedSections };
 };
 
-let memoizedConfigureMenu = configureElementMenu;
-memoizedConfigureMenu = memoize(configureElementMenu);
+const memoizedConfigureMenu = memoize(configureElementMenu);
 
 /**
  * Create ALC Menu Configuration from the metadata

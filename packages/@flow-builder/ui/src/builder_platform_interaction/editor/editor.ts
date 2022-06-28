@@ -314,6 +314,17 @@ const selectors = {
     alcCanvasContainer: PANELS.AUTOLAYOUT_CANVAS
 };
 
+// Indicates for each category if data loading is in progress
+// true means it's still loading, false means it's completed
+type DataLoadingIndicator = {
+    standardActions: boolean;
+    dynamicActions: boolean;
+    subflows: boolean;
+    elementSubtypes: boolean;
+};
+
+type ConnectorMenuMetadataCategory = keyof DataLoadingIndicator;
+
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
@@ -511,6 +522,18 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     @track
     isLeftPanelToggled;
+
+    @track
+    _isMenuDataLoadingIndicator: DataLoadingIndicator = {
+        standardActions: true,
+        dynamicActions: true,
+        subflows: false,
+        elementSubtypes: false
+    };
+
+    get isMenuDataLoading() {
+        return Object.values(this._isMenuDataLoadingIndicator).includes(true);
+    }
 
     processTypeLoading = false;
 
@@ -1003,6 +1026,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 );
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
 
+                this._isMenuDataLoadingIndicator = {
+                    ...this._isMenuDataLoadingIndicator,
+                    standardActions: true,
+                    dynamicActions: true
+                };
+
                 standardActionsPromise = loadStandardActionsProcessTypePromise;
                 dynamicActionsPromise = loadDynamicActionsProcessTypePromise;
 
@@ -1039,6 +1068,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         loadPeripheralMetadataPromise,
                         loadPalettePromise
                     } = loadOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType);
+                    this._isMenuDataLoadingIndicator = {
+                        ...this._isMenuDataLoadingIndicator,
+                        standardActions: true,
+                        dynamicActions: true
+                    };
                     standardActionsPromise = loadStandardActionsTriggerTypePromise;
                     dynamicActionsPromise = loadDynamicActionsTriggerTypePromise;
                     this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
@@ -1050,11 +1084,19 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
             standardActionsPromise?.then(() => {
                 this._customIconMap = getActionIconMap();
+                this._isMenuDataLoadingIndicator = {
+                    ...this._isMenuDataLoadingIndicator,
+                    standardActions: false
+                };
                 this.standardInvocableActions = getStandardInvocableActions();
             });
 
             dynamicActionsPromise?.then(() => {
                 this._customIconMap = getActionIconMap();
+                this._isMenuDataLoadingIndicator = {
+                    ...this._isMenuDataLoadingIndicator,
+                    dynamicActions: false
+                };
                 this.dynamicInvocableActions = getDynamicInvocableActions();
             });
 

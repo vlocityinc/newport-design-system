@@ -1,12 +1,7 @@
 // @ts-nocheck
-import { memoize } from '../commonUtils';
+import { debounce, memoize } from '../commonUtils';
 
 describe('memoize', () => {
-    it('throws an exception if parameter is not a function', () => {
-        expect(() => {
-            memoize('noafunctionupropablewouldhaveguessed');
-        }).toThrow('Not a function');
-    });
     describe('memoized selectors and tranforms', () => {
         let counter = 0;
 
@@ -42,3 +37,24 @@ describe('memoize', () => {
         });
     });
 });
+
+describe('debounce', () => {
+    it('invokes callback after time delay completes', async () => {
+        const callback = jest.fn();
+        const debouncedCallback = debounce(callback, 250);
+        debouncedCallback();
+        await timeout(250);
+        expect(callback).toHaveBeenCalled();
+    });
+    it('does not invoke callback before time delay completes', async () => {
+        const callback = jest.fn();
+        const debouncedCallback = debounce(callback, 250);
+        debouncedCallback();
+        expect(callback).not.toHaveBeenCalled();
+    });
+});
+
+function timeout(ms) {
+    // eslint-disable-next-line @lwc/lwc/no-async-operation
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}

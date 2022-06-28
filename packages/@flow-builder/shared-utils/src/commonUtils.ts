@@ -27,30 +27,22 @@ export function checkCloseCallback(closeModalCallback: Function, closeCallback: 
 }
 
 /**
- * Simple memoizer, which holds on to a most recent successful invocation and its result.
- *
- * @param func The function to memoize.
- * @returns memoized function
+ * @param func
  */
-export function memoize(func: Function) {
-    if (!(typeof func === 'function')) {
-        throw new Error('Not a function');
-    }
-
+export function memoize<T extends (...args: any[]) => any>(func: T) {
     let everInvoked = false;
     let lastArguments;
     let lastResult;
-    return function () {
+    return function (...args: any[]): any {
         // Invoke the memoized function, but only if never invoked or if the arguments are different.
-        if (everInvoked === false || !equalArguments(lastArguments, arguments)) {
-            lastResult = func.apply(null, arguments);
-            lastArguments = arguments;
+        if (everInvoked === false || !equalArguments(lastArguments, args)) {
+            lastResult = func.apply(null, args);
+            lastArguments = args;
             everInvoked = true;
         }
         return lastResult;
-    };
+    } as T;
 }
-
 /**
  * Compares two arrays for equality. For the two arrays to be equal they should either be
  * the same arrays or they should contain exact same elements and in the same order.
@@ -59,16 +51,36 @@ export function memoize(func: Function) {
  * @param right Another array to compare.
  * @returns 'true' if the arrays are equal. Otherwise - 'false'.
  */
-function equalArguments(left: IArguments, right: IArguments) {
+function equalArguments(left: any[], right: any[]) {
     if (left === null || left === undefined || left.length !== right.length) {
         return false;
     }
-
     for (let i = 0; i < right.length; i++) {
         if (left[i] !== right[i]) {
             return false;
         }
     }
-
     return true;
+}
+
+/**
+ * debounce function
+ *
+ * @param fct - The function to debounce to
+ * @param wait - The time to wait
+ * @returns - the debounced function
+ */
+export function debounce(fct, wait) {
+    let timeoutId;
+
+    return function (...args) {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+
+        // eslint-disable-next-line @lwc/lwc/no-async-operation
+        timeoutId = setTimeout(() => {
+            return fct(...args);
+        }, wait);
+    };
 }

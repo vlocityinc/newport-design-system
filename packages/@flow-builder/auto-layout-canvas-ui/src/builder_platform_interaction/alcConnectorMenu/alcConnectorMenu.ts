@@ -2,6 +2,7 @@ import { DeleteGoToConnectionEvent, GoToPathEvent, PasteOnCanvasEvent } from 'bu
 import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { ConnectionSource, ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 import { AddElementEvent } from 'builder_platform_interaction/events';
+import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import { api } from 'lwc';
 import {
     configureMenu,
@@ -11,6 +12,9 @@ import {
     PASTE_ACTION
 } from './alcConnectorMenuConfig';
 import { LABELS } from './alcConnectorMenuLabels';
+const { debounce } = commonUtils;
+
+const DELAY_TIME = 250;
 
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
@@ -77,10 +81,14 @@ export default class AlcConnectorMenu extends AlcMenu {
         return (this.searchInput && this._metadata.isLoading) as boolean;
     }
 
+    debouncedChangeInput = debounce((value) => {
+        this.searchInput = value;
+        this.showSpinner = this.shouldShowSpinner();
+    }, DELAY_TIME);
+
     handleElementSearchInputChange(event) {
         event.stopPropagation();
-        this.searchInput = event.detail.value;
-        this.showSpinner = this.shouldShowSpinner();
+        this.debouncedChangeInput(event.detail.value);
     }
 
     handleInputClick(event) {

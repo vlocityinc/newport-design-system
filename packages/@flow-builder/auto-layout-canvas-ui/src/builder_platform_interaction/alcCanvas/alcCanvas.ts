@@ -63,6 +63,7 @@ import {
     ZOOM_ACTION
 } from 'builder_platform_interaction/events';
 import {
+    commonUtils,
     invokeModal,
     keyboardInteractionUtils,
     loggingUtils,
@@ -83,6 +84,8 @@ import {
     getNodeAndGoToGeometry,
     getSanitizedNodeGeo
 } from './alcCanvasUtils';
+
+const { debounce } = commonUtils;
 
 type Position = {
     top: number;
@@ -125,28 +128,6 @@ const {
 const AUTOLAYOUT_CANVAS_SELECTION = 'AUTOLAYOUT_CANVAS_SELECTION';
 
 const GRABBING_CURSOR_CLASS = 'grabbing-cursor';
-
-/**
- * debounce function
- *
- * @param fct - The function to debounce to
- * @param wait - The time to wait
- * @returns - the debounced function
- */
-function debounce(fct, wait) {
-    let timeoutId;
-
-    return function (...args) {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-
-        // eslint-disable-next-line @lwc/lwc/no-async-operation
-        timeoutId = setTimeout(() => {
-            return fct(...args);
-        }, wait);
-    };
-}
 
 export default class AlcCanvas extends withKeyboardInteractions(LightningElement) {
     static delegatesFocus = true;

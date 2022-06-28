@@ -20,16 +20,6 @@ const NODE_ICON_HALF_HEIGHT_WITH_PADDING = 58;
 const SLDS_ICON_PREFIX = 'slds';
 let storeInstance;
 
-// Indicates for each category if data loading is in progress
-// true means it's still loading, false means it's completed
-const dataLoadingIndicator = {
-    standardActions: true,
-    dynamicActions: true,
-    subflows: false, // TODO: Change this to true when adding subflows
-    elementSubtypes: false // TODO: Change this to true when adding elementSubtypes
-};
-type ConnectorMenuMetadataCategory = keyof typeof dataLoadingIndicator;
-
 const defaultConnectorMenuMetadata: ConnectorMenuMetadata = {
     elementTypes: new Set<string>(),
     menuComponent: 'builder_platform_interaction/alcConnectorMenu',
@@ -85,9 +75,8 @@ export default class AlcCanvasContainer extends LightningElement {
 
     @api
     set dynamicInvocableActions(actions) {
-        const menuItems = actions?.map(this.augmentActionToMenuItem);
         this._dynamicInvocableActions = actions;
-        this.setAndCheckConnectorMenuItems(menuItems, 'dynamicActions');
+        this.updateMetadataMenuItems();
     }
 
     get dynamicInvocableActions() {
@@ -96,14 +85,16 @@ export default class AlcCanvasContainer extends LightningElement {
 
     @api
     set standardInvocableActions(actions) {
-        const menuItems = actions?.map(this.augmentActionToMenuItem);
         this._standardInvocableActions = actions;
-        this.setAndCheckConnectorMenuItems(menuItems, 'standardActions');
+        this.updateMetadataMenuItems();
     }
 
     get standardInvocableActions() {
         return this._standardInvocableActions;
     }
+
+    @api
+    isMenuDataLoading;
 
     /**
      * The active element refers to the element currently being edited using the property editor panel
@@ -227,7 +218,9 @@ export default class AlcCanvasContainer extends LightningElement {
             return;
         }
 
-        this._connectorMenuMetadata = defaultConnectorMenuMetadata;
+        if (!this._connectorMenuMetadata) {
+            this._connectorMenuMetadata = defaultConnectorMenuMetadata;
+        }
 
         this._elementsMetadata = [...nextElementsMetadata];
 
@@ -235,31 +228,23 @@ export default class AlcCanvasContainer extends LightningElement {
 
         this._connectorMenuMetadata = {
             ...this._connectorMenuMetadata,
-            elementTypes: new Set(connectorMenuElementTypes) // TODO: do we still need this? Can we just use elementsMetadata in alc canvas?
+            elementTypes: new Set(connectorMenuElementTypes),
+            isLoading: this.isMenuDataLoading
         };
     }
 
-    setAndCheckConnectorMenuItems(menuItems: ConnectorMenuItem[], itemCategory: ConnectorMenuMetadataCategory) {
+    updateMetadataMenuItems() {
         const connectorMenuElementTypes = this._elementsMetadata?.map(({ elementType }) => elementType);
         const elementTypes = connectorMenuElementTypes ? new Set<string>(connectorMenuElementTypes) : new Set<string>();
-        // check if this ever turns false after process type change.
-        const isLoading = this.checkIfDataIsStillLoading(itemCategory);
-        // concat newly added items to existing items instead of overwriting.
-        const existingMenuItems = this._connectorMenuMetadata ? this._connectorMenuMetadata.menuItems : [];
-        const newMenuItems = existingMenuItems.concat(menuItems);
+        const standardActionMenuItems = this._standardInvocableActions?.map(this.augmentActionToMenuItem);
+        const dynamicActionMenuItems = this._dynamicInvocableActions?.map(this.augmentActionToMenuItem);
+        const menuItems = standardActionMenuItems.concat(dynamicActionMenuItems);
         this._connectorMenuMetadata = {
             ...this._connectorMenuMetadata,
             elementTypes,
-            isLoading,
-            menuItems: newMenuItems
+            isLoading: this.isMenuDataLoading,
+            menuItems
         };
-    }
-
-    checkIfDataIsStillLoading(itemCategory: ConnectorMenuMetadataCategory) {
-        // We need to set to false for the cagtegory to indicate data loading is no longer in progress
-        dataLoadingIndicator[itemCategory] = false;
-        // If any category is still loading, data is marked as still loading
-        return Object.values(dataLoadingIndicator).includes(true);
     }
 
     augmentActionToMenuItem(action): ConnectorMenuItem {
