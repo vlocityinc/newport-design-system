@@ -400,25 +400,36 @@ describe('Used by library', () => {
             const actualResult = usedBy(elementGuids, { elements });
             expect(actualResult).toMatchObject(expectedResult);
         });
-        it('returns an array of object which contains guid, label, name, elementGuidsReferenced', () => {
+        it('returns an array of object which contains guid, label, name, elementGuidsReferenced, iconName, isCanvasElement, actionName, iconShape, iconBackgroundColor ', () => {
             const elementGuids = ['VARIABLE_3'];
             const expectedResult = [
                 {
                     guid: 'WAIT_EVENT_1',
                     label: 'WAIT EVENT 1',
                     name: 'WAIT EVENT 1',
-                    elementGuidsReferenced: ['VARIABLE_3']
+                    elementGuidsReferenced: ['VARIABLE_3'],
+                    iconName: 'standard:custom',
+                    isCanvasElement: false,
+                    actionName: undefined,
+                    iconShape: undefined,
+                    iconBackgroundColor: undefined
                 },
                 {
                     guid: 'OUTCOME_1',
                     label: 'OUTCOME 1',
                     name: 'OUTCOME 1',
-                    elementGuidsReferenced: ['VARIABLE_3']
+                    elementGuidsReferenced: ['VARIABLE_3'],
+                    iconName: 'standard:custom',
+                    isCanvasElement: false,
+                    actionName: undefined,
+                    iconShape: undefined,
+                    iconBackgroundColor: undefined
                 }
             ];
             const actualResult = usedBy(elementGuids, { elements });
             expect(actualResult).toMatchObject(expectedResult);
         });
+
         it('returns an array of object which contains multiple element guids referenced', () => {
             const elementGuids = ['VARIABLE_1', 'VARIABLE_3', 'VARIABLE_2'];
             const expectedResult = [

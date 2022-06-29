@@ -574,10 +574,9 @@ export function createUsedByElement({
     const name = element.name;
     const actionName = element.actionName;
     const isCanvasElement = (elementConfig && elementConfig.canvasElement) || false;
-    let iconName: string | undefined;
-    if (elementConfig && elementConfig.nodeConfig && elementConfig.nodeConfig.iconName) {
-        iconName = elementConfig.nodeConfig.iconName;
-    }
+    const iconName: string | undefined = elementConfig?.nodeConfig?.iconName;
+    const iconShape: string | undefined = elementConfig?.nodeConfig?.iconShape;
+    const iconBackgroundColor: string | undefined = elementConfig?.nodeConfig?.iconBackgroundColor;
 
     return dehydrate({
         guid,
@@ -586,6 +585,8 @@ export function createUsedByElement({
         elementGuidsReferenced,
         iconName,
         isCanvasElement,
-        actionName
+        actionName,
+        iconShape,
+        iconBackgroundColor
     });
 }
