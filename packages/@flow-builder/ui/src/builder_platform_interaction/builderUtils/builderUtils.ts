@@ -913,18 +913,20 @@ function showTestFlowManagerPopover(
  * @param configuration Configuration
  * @param {Function} closeFlowModalAction the callback to execute when clicking the exit icon
  * @param {Function} createFlowFromTemplateCallback the callback to execute when clicking the create button
+ * @returns a Promise when completed
  */
 export const invokeNewFlowModal = (
     builderType,
     configuration = {
         showRecommended: true,
-        showAll: true
+        showAll: true,
+        modalHeaderTitle: LABELS.headerTitle
     },
     closeFlowModalAction,
     createFlowFromTemplateCallback
 ) => {
     const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
-        headerTitle: LABELS.headerTitle
+        headerTitle: configuration.modalHeaderTitle
     });
 
     const modalBodyPromise = createComponentPromise('builder_platform_interaction:newFlowModalBody', {

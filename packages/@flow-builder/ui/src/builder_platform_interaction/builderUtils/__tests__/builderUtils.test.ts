@@ -425,7 +425,8 @@ describe('builderUtils', () => {
                 ELEMENT_TYPE.SCREEN_FIELD,
                 {
                     showRecommended: true,
-                    showAll: true
+                    showAll: true,
+                    modalHeaderTitle: 'FlowBuilderNewFlowModal.headerTitle'
                 },
                 jest.fn(),
                 jest.fn()
@@ -444,6 +445,7 @@ describe('builderUtils', () => {
                 {
                     showRecommended: true,
                     showAll: true,
+                    modalHeaderTitle: 'FlowBuilderNewFlowModal.headerTitle',
                     builderType: 'SCREEN_FIELD'
                 },
                 expect.anything()
