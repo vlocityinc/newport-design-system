@@ -19,6 +19,7 @@ import selectRecordsToUpdate from '@salesforce/label/FlowBuilderRecordEditor.sel
 import updateRecordOfThisObject from '@salesforce/label/FlowBuilderRecordEditor.updateRecordOfThisObject';
 import usingCriteriaLabel from '@salesforce/label/FlowBuilderRecordEditor.usingCriteriaLabel';
 import filterCriteriaRelatedRecords from '@salesforce/label/FlowBuilderRecordUpdateEditor.filterCriteriaRelatedRecords';
+import filterNoCriteriaUpdateRelatedRecord from '@salesforce/label/FlowBuilderRecordUpdateEditor.filterNoCriteriaUpdateRelatedRecord';
 import filterNoCriteriaUpdateTriggering from '@salesforce/label/FlowBuilderRecordUpdateEditor.filterNoCriteriaUpdateTriggering';
 import findRecordsLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.findRecords';
 import recordPluralLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordPluralLabel';
@@ -51,6 +52,7 @@ export const LABELS = {
     triggeringScheduledRecordLabel,
     filterNoCriteriaUpdate,
     filterNoCriteriaUpdateTriggering,
+    filterNoCriteriaUpdateRelatedRecord,
     andConditionLogicLabel,
     orConditionLogicLabel,
     customConditionLogicLabel,

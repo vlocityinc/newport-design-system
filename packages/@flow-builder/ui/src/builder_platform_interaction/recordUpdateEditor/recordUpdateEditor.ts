@@ -103,8 +103,10 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get recordFilterOptions() {
-        const noCriteria = this.isTriggeringOrRelatedRecord
+        const noCriteria = this.isTriggeringRecord
             ? LABELS.filterNoCriteriaUpdateTriggering
+            : this.isRelatedRecordLookup
+            ? LABELS.filterNoCriteriaUpdateRelatedRecord
             : format(LABELS.filterNoCriteriaUpdate, this.recordEntityName);
 
         return [
