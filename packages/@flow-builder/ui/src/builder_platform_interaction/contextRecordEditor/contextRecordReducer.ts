@@ -141,7 +141,7 @@ export const contextReducer = (state, event) => {
             return updateProperties(state, {
                 [event.detail.name]: {
                     error: null,
-                    value: event.detail.newValue
+                    value: event.detail.newValue !== undefined ? event.detail.newValue : null
                 }
             });
         default:
