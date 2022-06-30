@@ -8,6 +8,7 @@ import startElementFlowStarts from '@salesforce/label/FlowBuilderCanvasElement.s
 import startElementFrequency from '@salesforce/label/FlowBuilderCanvasElement.startElementFrequency';
 import startElementSetSchedule from '@salesforce/label/FlowBuilderCanvasElement.startElementSetSchedule';
 import startTime from '@salesforce/label/FlowBuilderCanvasElement.startTime';
+import timeZone from '@salesforce/label/FlowBuilderCanvasElement.timeZone';
 
 export const LABELS = {
     startElementSetSchedule,
@@ -18,5 +19,6 @@ export const LABELS = {
     startDate,
     startTime,
     scheduleType,
-    repeatSchedule
+    repeatSchedule,
+    timeZone
 };

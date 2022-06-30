@@ -1,7 +1,5 @@
 // @ts-nocheck
 import { setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
-import { EDIT_START_RECORD_CHANGE_CONTEXT } from 'builder_platform_interaction/elementConfig';
-import { EditElementEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import StartNodeContextButton from 'builder_platform_interaction/startNodeContextButton';
 import { createElement } from 'lwc';
@@ -117,122 +115,7 @@ describe('When flow trigger Type is SCHEDULED', () => {
         });
     });
 });
-describe('When flow trigger Type is BEFORE_SAVE', () => {
-    let startNodeContextButtonEditor;
-    beforeAll(() => {
-        startElementWithAccountAndNoCondition.triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
-    });
-    beforeEach(() => {
-        startNodeContextButtonEditor = setupComponentUnderTest(startElementWithAccountAndNoCondition);
-    });
-    afterAll(() => {
-        startElementWithAccountAndNoCondition.triggerType = FLOW_TRIGGER_TYPE.SCHEDULED;
-    });
-    it('Checks if non configured before record changed context button rendered text correctly', () => {
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonText).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject Account'
-        );
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
-    });
-    it('Checks if an EditElementEvent is dispatched when button is clicked', () => {
-        return Promise.resolve().then(() => {
-            const callback = jest.fn();
-            startNodeContextButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
-            startNodeContextButtonEditor.performAction();
-            expect(callback).toHaveBeenCalled();
-            expect(callback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    canvasElementGUID: startNodeContextButtonEditor.node.guid,
-                    mode: EDIT_START_RECORD_CHANGE_CONTEXT
-                }
-            });
-        });
-    });
 
-    it('Checks if an EditElementEvent is dispatched when using the enter command', () => {
-        return Promise.resolve().then(() => {
-            const callback = jest.fn();
-            startNodeContextButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
-            startNodeContextButtonEditor.performAction();
-            expect(callback).toHaveBeenCalled();
-            expect(callback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    canvasElementGUID: startNodeContextButtonEditor.node.guid,
-                    mode: EDIT_START_RECORD_CHANGE_CONTEXT
-                }
-            });
-        });
-    });
-
-    it('Checks if an EditElementEvent is dispatched when using the space command', () => {
-        return Promise.resolve().then(() => {
-            const callback = jest.fn();
-            startNodeContextButtonEditor.addEventListener(EditElementEvent.EVENT_NAME, callback);
-            startNodeContextButtonEditor.performAction();
-            expect(callback).toHaveBeenCalled();
-            expect(callback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    canvasElementGUID: startNodeContextButtonEditor.node.guid,
-                    mode: EDIT_START_RECORD_CHANGE_CONTEXT
-                }
-            });
-        });
-    });
-});
-describe('When flow trigger Type is BEFORE_DELETE', () => {
-    let startNodeContextButtonEditor;
-    beforeAll(() => {
-        startElementWithAccountAndNoCondition.triggerType = FLOW_TRIGGER_TYPE.BEFORE_DELETE;
-    });
-    beforeEach(() => {
-        startNodeContextButtonEditor = setupComponentUnderTest(startElementWithAccountAndNoCondition);
-    });
-    afterAll(() => {
-        startElementWithAccountAndNoCondition.triggerType = FLOW_TRIGGER_TYPE.SCHEDULED;
-    });
-    it('Checks if non configured before delete record changed context button rendered text correctly', () => {
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonText).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject Account'
-        );
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
-    });
-    it('Checks if configured before delete record changed context button rendered correctly', () => {
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.startContext).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject AccountFlowBuilderCanvasElement.startElementEdit'
-        );
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
-    });
-});
-describe('When flow trigger Type is AFTER_SAVE', () => {
-    let startNodeContextButtonEditor;
-    beforeAll(() => {
-        startElementWithAccountAndNoCondition.triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
-    });
-    beforeEach(() => {
-        startNodeContextButtonEditor = setupComponentUnderTest(startElementWithAccountAndNoCondition);
-    });
-    afterAll(() => {
-        startElementWithAccountAndNoCondition.triggerType = FLOW_TRIGGER_TYPE.SCHEDULED;
-    });
-    it('Checks if non configured after record changed context button rendered text correctly', () => {
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonText).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject Account'
-        );
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
-    });
-    it('Checks if configured before record changed context button rendered correctly', () => {
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.startContext).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject AccountFlowBuilderCanvasElement.startElementEdit'
-        );
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
-    });
-    it('Checks if configured after record changed context button rendered correctly', () => {
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.startContext).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject AccountFlowBuilderCanvasElement.startElementEdit'
-        );
-        expect(runQuerySelector(startNodeContextButtonEditor, selectors.contextButtonOptionlText)).toBeNull();
-    });
-});
 describe('When flow trigger Type is SCHEDULED_JOURNEY', () => {
     let startNodeContextButtonEditor;
     describe('without context', () => {

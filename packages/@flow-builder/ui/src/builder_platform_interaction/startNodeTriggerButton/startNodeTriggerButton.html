@@ -24,7 +24,7 @@
                         <span class="edit slds-truncate" title={editLabel}>{editLabel}</span>
                     </span>
                 </div>
-                <div if:true={isSegment} class="slds-truncate">
+                <div if:true={isSegment}>
                     <div class="slds-m-top_xx-small">
                         <span class="slds-m-right_xx-small">{labels.startDate}</span>
                         <lightning-formatted-date-time
@@ -35,6 +35,10 @@
                     <div class="slds-m-top_xx-small">
                         <span class="slds-m-right_xx-small">{labels.startTime}</span>
                         <lightning-formatted-time class="text-labels-bold" value={startTime}></lightning-formatted-time>
+                    </div>
+                    <div class="slds-m-top_xx-small slds-truncate">
+                        <span class="slds-m-right_xx-small">{labels.timeZone}</span>
+                        <span class="text-labels-bold" title={timeZone}>{timeZone}</span>
                     </div>
                 </div>
                 <div

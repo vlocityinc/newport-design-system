@@ -1,14 +1,19 @@
+import getTimeZones from '@salesforce/apex/interaction.FlowBuilderController.getTimeZones';
 import { getFrequencyLabel, getScheduleTypeLabel } from 'builder_platform_interaction/elementFactory';
 import { FLOW_TRIGGER_FREQUENCY, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 import StartNodeButton from 'builder_platform_interaction/startNodeButton';
 import { isPlatformEvent, isScheduledTriggerType, isSegment } from 'builder_platform_interaction/triggerTypeLib';
+import { wire } from 'lwc';
 import { LABELS } from './startNodeTriggerButtonLabels';
 
 const { SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT, SEGMENT } = FLOW_TRIGGER_TYPE;
 
 export default class StartNodeTriggerButton extends StartNodeButton {
     labels = LABELS;
+
+    @wire(getTimeZones)
+    timeZoneData;
 
     get chooseScheduleOrEvent() {
         const { triggerType } = this.node;
@@ -98,5 +103,10 @@ export default class StartNodeTriggerButton extends StartNodeButton {
 
     get startTime() {
         return this.node.startTime;
+    }
+
+    get timeZone() {
+        return (this.timeZoneData?.data || []).find((timezone) => timezone.apiValue === this.node.timeZoneSidKey)
+            ?.display;
     }
 }
