@@ -30,14 +30,20 @@ import {
     ViewAllTestsEvent
 } from 'builder_platform_interaction/events';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
-import { commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { appGuidanceUtils, commonUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './toolbarLabels';
 
+const { Prompts, showPrompt } = appGuidanceUtils;
 const { format } = commonUtils;
 const { logInteraction } = loggingUtils;
+
+const selectors = {
+    leftPanelToggle: '.left-panel-toggle'
+};
+
 /**
  * Toolbar component for flow builder.
  */
@@ -168,6 +174,8 @@ export default class Toolbar extends LightningElement {
     isLeftPanelToggled;
 
     labels = LABELS;
+
+    _initialRender = true;
 
     statusLabelFromStatus = {
         [FLOW_STATUS.ACTIVE]: {
@@ -530,5 +538,17 @@ export default class Toolbar extends LightningElement {
     handleToggleCanvasMode(event) {
         event.stopPropagation();
         this.dispatchEvent(new ToggleCanvasModeEvent());
+    }
+
+    renderedCallback(): void {
+        if (this._initialRender && this.isAutoLayoutCanvas) {
+            this._initialRender = false;
+            this.displayLeftPanelTogglePopover();
+        }
+    }
+
+    displayLeftPanelTogglePopover(): void {
+        const element = this.template.querySelector(selectors.leftPanelToggle);
+        showPrompt(Prompts.LeftPanelTogglePopover, element);
     }
 }

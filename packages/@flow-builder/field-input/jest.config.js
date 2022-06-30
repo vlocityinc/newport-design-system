@@ -52,6 +52,8 @@ module.exports = {
         '^builder_platform_interaction/sharedUtils/commonUtils': '<rootDir>/../shared-utils/src/commonUtils',
         '^builder_platform_interaction/sharedUtils/keyboardInteractionUtils':
             '<rootDir>/../shared-utils/src/keyboardInteractionUtils/index.ts',
+        '^builder_platform_interaction/sharedUtils/appGuidanceUtils':
+            '<rootDir>/../shared-utils/src/appGuidanceUtils/index.ts',
         '^builder_platform_interaction/sharedUtils$': '<rootDir>/../shared-utils/dist/index.esNext.js',
         '^(builder_platform_interaction)/zoomPanel$': '<rootDir>/src/builder_platform_interaction/zoomPanel/zoomPanel',
         '^(builder_platform_interaction)/sortEditorLib$':

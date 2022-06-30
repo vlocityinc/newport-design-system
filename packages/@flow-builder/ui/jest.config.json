@@ -14,6 +14,7 @@
         "^builder_platform_interaction/builderTestUtils/(commonTestUtils)$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/$1",
         "^builder_platform_interaction_mocks/sharedUtils/(keyboardInteractionUtils)$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/$1/$1",
         "^builder_platform_interaction_mocks/sharedUtils/(sharedUtils)$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/$1/$1",
+        "^builder_platform_interaction_mocks/sharedUtils/(appGuidanceUtils)$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/$1/$1",
 
         "^(builder_platform_interaction)/alcMenuTemplate$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenuTemplate/alcMenuTemplate",
         "^(builder_platform_interaction)/alcMenu$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/alcMenu/alcMenu",
@@ -27,6 +28,7 @@
         "^builder_platform_interaction/sharedUtils/auraUtils": "<rootDir>/../shared-utils/src/auraUtils",
         "^builder_platform_interaction/sharedUtils/commonUtils": "<rootDir>/../shared-utils/src/commonUtils",
         "^builder_platform_interaction/sharedUtils/customIconUtils": "<rootDir>/../shared-utils/src/customIconUtils",
+        "^builder_platform_interaction/sharedUtils/appGuidanceUtils": "<rootDir>/../shared-utils/src/appGuidanceUtils",
 
         "^(builder_platform_interaction)/richHelpTooltip": "<rootDir>/../ui/src/builder_platform_interaction/fieldInput/richHelpTooltip/richHelpTooltip",
 

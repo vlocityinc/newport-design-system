@@ -19,6 +19,7 @@
         "^builder_platform_interaction/sharedUtils/auraUtils": "<rootDir>/../shared-utils/src/auraUtils",
         "^builder_platform_interaction/sharedUtils/commonUtils": "<rootDir>/../shared-utils/src/commonUtils",
         "^builder_platform_interaction/sharedUtils/keyboardInteractionUtils": "<rootDir>/../shared-utils/src/keyboardInteractionUtils/index.ts",
+        "^builder_platform_interaction/sharedUtils/appGuidanceUtils": "<rootDir>/../shared-utils/src/appGuidanceUtils",
         "^builder_platform_interaction/sharedUtils$": "<rootDir>/../shared-utils/dist/index.esNext.js",
         "^(builder_platform_interaction)/alcStartMenu$": "<rootDir>/../ui/src/builder_platform_interaction/alcStartMenu/alcStartMenu",
         "^(builder_platform_interaction)/zoomPanel$": "<rootDir>/src/builder_platform_interaction/zoomPanel/zoomPanel",

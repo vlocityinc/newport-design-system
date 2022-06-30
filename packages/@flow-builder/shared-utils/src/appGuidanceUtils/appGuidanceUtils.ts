@@ -1,25 +1,27 @@
 import { PromptRegistration, showPrompt2, SingleUsePopover } from 'force/onboardingManagerLib';
+import { LABELS } from './appGuidanceUtilsLabels';
+
+export enum Prompts {
+    LeftPanelTogglePopover = 'LeftPanelTogglePopover'
+}
 
 const featureKey = 'FlowBuilder';
 
-export const enum Prompts {
-    Example = 'Example'
-}
-
-class Example extends SingleUsePopover {
+class LeftPanelTogglePopover extends SingleUsePopover {
     constructor(id) {
-        super(id, featureKey, Prompts.Example, {
-            popoverText: 'Example Text Label',
-            header: 'Example Header Label',
-            engagementDetectable: true,
+        super(id, featureKey, Prompts.LeftPanelTogglePopover, {
+            popoverText: LABELS.leftPanelTogglePopoverText,
+            header: LABELS.leftPanelTogglePopoverHeader,
             nubinDirection: 'south',
-            icon: 'utility:prompt'
+            icon: null,
+            closeOnClickOut: false,
+            autoFocus: true
         });
     }
 }
 
 /**
- * @param promptId String name of the prompt class from prompts.ts
+ * @param promptId String name of the prompt class
  * @param referenceElement DOM element anchor to display prompt on
  */
 export async function showPrompt(promptId: string, referenceElement: Element) {
@@ -27,17 +29,11 @@ export async function showPrompt(promptId: string, referenceElement: Element) {
         return;
     }
 
-    switch (promptId) {
-        case Prompts.Example: {
-            showPrompt2(promptId, {
-                componentDefAttributes: {
-                    referenceElement
-                }
-            });
-            break;
+    showPrompt2(promptId, {
+        componentDefAttributes: {
+            referenceElement
         }
-        default:
-    }
+    });
 }
 
 /**
@@ -47,5 +43,5 @@ export async function showPrompt(promptId: string, referenceElement: Element) {
  * @returns the programmatic prompts to be registered
  */
 export function getRegistrations(): typeof PromptRegistration[] {
-    return [new PromptRegistration(Prompts.Example, Example)];
+    return [new PromptRegistration(Prompts.LeftPanelTogglePopover, LeftPanelTogglePopover)];
 }

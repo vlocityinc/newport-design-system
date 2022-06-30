@@ -29,12 +29,19 @@ import {
     ToolbarFocusOutEvent
 } from 'builder_platform_interaction/events';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
+import { appGuidanceUtils } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { createElement } from 'lwc';
 import { LABELS } from '../toolbarLabels';
+const { Prompts, showPrompt } = appGuidanceUtils;
 
 jest.mock('builder_platform_interaction/storeLib');
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction/sharedUtils');
+    const appGuidanceUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils/appGuidanceUtils');
+    return Object.assign({}, sharedUtils, { appGuidanceUtils });
+});
 
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-toolbar', {
@@ -164,6 +171,22 @@ describe('toolbar', () => {
         });
         const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
         expect(leftPanelToggle.disabled).toBe(false);
+    });
+
+    it('Left panel toggle popover should attempt to display if in auto layout canvas mode', () => {
+        const toolbarComponent = createComponentUnderTest({
+            isAutoLayoutCanvas: true,
+            autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT
+        });
+        const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
+        expect(showPrompt).toHaveBeenCalledWith(Prompts.LeftPanelTogglePopover, leftPanelToggle);
+    });
+
+    it('Left panel toggle popover should not attempt to display if not in auto layout canvas mode', () => {
+        createComponentUnderTest({
+            isAutoLayoutCanvas: false
+        });
+        expect(showPrompt).toHaveBeenCalledTimes(0);
     });
 
     it('Undo Redo should be present', () => {

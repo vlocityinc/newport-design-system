@@ -21,6 +21,8 @@ const focusUtils = {
     getElementWithFocus: jest.fn()
 };
 
+const appGuidanceUtils = jest.requireActual('builder_platform_interaction/sharedUtils/appGuidanceUtils');
+
 export {
     loggingUtils,
     keyboardInteractionUtils,
@@ -31,5 +33,6 @@ export {
     auraUtils,
     Keys,
     focusUtils,
-    customIconUtils
+    customIconUtils,
+    appGuidanceUtils
 };

@@ -10,5 +10,7 @@ export * as lwcUtils from './lwcUtils';
 export * as platformUtils from './platformUtils';
 export * as storeUtils from './storeUtils';
 export { Keys, ShortcutKey };
+export { Prompts };
 
+import { Prompts } from './appGuidanceUtils';
 import { Keys, ShortcutKey } from './keyboardInteractionUtils';

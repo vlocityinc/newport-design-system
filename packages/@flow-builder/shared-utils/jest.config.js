@@ -8,6 +8,7 @@ module.exports = {
         '^aura$': '<rootDir>/../ui/jest-modules/aura/aura',
         '^(builder_platform_interaction)/builderTestUtils/commonTestUtils$':
             '<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils',
+        '^builder_platform_interaction/sharedUtils/(.+)': '<rootDir>/src/$1',
         '^(force)/(.+)$': '<rootDir>/../ui/jest-modules/$1/$2/$2'
     },
     moduleFileExtensions: ['ts', 'js']
