@@ -207,10 +207,6 @@ export default class ActionSelector extends LightningElement {
         }
     }
 
-    get label() {
-        return this.labelOverride ? this.labelOverride : this.elementTypeToLabelMap[this.state.selectedElementType];
-    }
-
     /**
      * Get the selected action
      *
@@ -219,6 +215,10 @@ export default class ActionSelector extends LightningElement {
     @api
     get selectedAction() {
         return this.getSelectedActionFrom(this.state.selectedElementType, this.state.selectedActionValue);
+    }
+
+    get label() {
+        return this.labelOverride ? this.labelOverride : this.elementTypeToLabelMap[this.state.selectedElementType];
     }
 
     getSelectedActionFrom(elementType, actionValue) {

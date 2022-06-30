@@ -143,6 +143,11 @@ export default class CalloutEditorContainer extends LightningElement {
         this.node = node;
     }
 
+    @api
+    get selectedAction() {
+        return this._selectedAction;
+    }
+
     isInitialState() {
         const elementType = this.node.elementType;
         switch (elementType) {
@@ -158,11 +163,6 @@ export default class CalloutEditorContainer extends LightningElement {
             default:
                 return true;
         }
-    }
-
-    @api
-    get selectedAction() {
-        return this._selectedAction;
     }
 
     /**

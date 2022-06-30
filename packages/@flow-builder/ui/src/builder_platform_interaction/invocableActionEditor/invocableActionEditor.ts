@@ -79,6 +79,11 @@ export default class InvocableActionEditor extends LightningElement {
         }
     }
 
+    @api
+    get node() {
+        return this.actionCallNode;
+    }
+
     set node(newValue) {
         this.actionCallNode = newValue || {};
         if (this.connected) {
@@ -115,11 +120,6 @@ export default class InvocableActionEditor extends LightningElement {
 
     disconnectedCallback() {
         this.connected = false;
-    }
-
-    @api
-    get node() {
-        return this.actionCallNode;
     }
 
     /**

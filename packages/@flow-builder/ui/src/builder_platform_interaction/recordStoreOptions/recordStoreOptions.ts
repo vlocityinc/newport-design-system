@@ -65,6 +65,13 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     }
 
     /**
+     * @param {string} value - This value can be 'sObjectVariable' or 'separateVariables'
+     */
+    set wayToStoreFields(value) {
+        this.state.wayToStoreFields = value;
+    }
+
+    /**
      * @param {boolean} value - true : assign null to value if no records are found
      */
     set assignNullValuesIfNoRecordsFound(value) {
@@ -92,13 +99,6 @@ export default class RecordStoreFieldsSelection extends LightningElement {
 
     set displayWayToStoreFields(value) {
         this.state.displayWayToStoreFields = value;
-    }
-
-    /**
-     * @param {string} value - This value can be 'sObjectVariable' or 'separateVariables'
-     */
-    set wayToStoreFields(value) {
-        this.state.wayToStoreFields = value;
     }
 
     /**

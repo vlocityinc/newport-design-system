@@ -90,6 +90,23 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
         return this._node;
     }
 
+    set node(node: NodeRenderInfo | undefined) {
+        this._node = node;
+
+        // Refresh StageStep if needed
+        if (node && node.metadata.dynamicNodeComponentSelector) {
+            this.items = node.metadata.dynamicNodeComponentSelector(node.guid);
+
+            this.itemsHeader =
+                this.items.length === 1
+                    ? this.labels.stageStepHeaderSingular
+                    : format(this.labels.stageStepHeaderPlural, this.items.length);
+        }
+
+        // resize after the next render
+        scheduleTask(() => this.resize());
+    }
+
     @api
     canvasContext;
 
@@ -109,23 +126,6 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
 
     get errorStateMessage() {
         return LABELS.stageStepErrorStateLabel;
-    }
-
-    set node(node: NodeRenderInfo | undefined) {
-        this._node = node;
-
-        // Refresh StageStep if needed
-        if (node && node.metadata.dynamicNodeComponentSelector) {
-            this.items = node.metadata.dynamicNodeComponentSelector(node.guid);
-
-            this.itemsHeader =
-                this.items.length === 1
-                    ? this.labels.stageStepHeaderSingular
-                    : format(this.labels.stageStepHeaderPlural, this.items.length);
-        }
-
-        // resize after the next render
-        scheduleTask(() => this.resize());
     }
 
     @api

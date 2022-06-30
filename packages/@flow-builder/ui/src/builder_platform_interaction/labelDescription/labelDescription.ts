@@ -117,6 +117,14 @@ export default class LabelDescription extends LightningElement {
         return this.state.label;
     }
 
+    /** @param {Object} label - object with {value, error} */
+    set label(label) {
+        if (label) {
+            this.state.label = label;
+            this._shouldSetLabelError = true;
+        }
+    }
+
     get labelRequired() {
         return !this.labelOptional;
     }
@@ -126,9 +134,25 @@ export default class LabelDescription extends LightningElement {
         return this.state.devName;
     }
 
+    /** @param {Object} devName - object with {value, error} */
+    set devName(devName) {
+        if (devName) {
+            this.state.devName = devName;
+            this._shouldSetDevNameError = true;
+        }
+    }
+
     @api
     get description() {
         return this.state.description;
+    }
+
+    /** @param {Object} description - object with {value, error} */
+    set description(description) {
+        if (description) {
+            this.state.description = description;
+        }
+        // TODO setting CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
     }
 
     @api
@@ -240,30 +264,6 @@ export default class LabelDescription extends LightningElement {
             }
         }
         return '';
-    }
-
-    /** @param {Object} label - object with {value, error} */
-    set label(label) {
-        if (label) {
-            this.state.label = label;
-            this._shouldSetLabelError = true;
-        }
-    }
-
-    /** @param {Object} devName - object with {value, error} */
-    set devName(devName) {
-        if (devName) {
-            this.state.devName = devName;
-            this._shouldSetDevNameError = true;
-        }
-    }
-
-    /** @param {Object} description - object with {value, error} */
-    set description(description) {
-        if (description) {
-            this.state.description = description;
-        }
-        // TODO setting CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
     }
 
     /** Focus the label field */

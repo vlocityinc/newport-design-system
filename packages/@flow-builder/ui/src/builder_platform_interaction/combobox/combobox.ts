@@ -211,13 +211,13 @@ export default class Combobox extends LightningElement {
     }
 
     @api
-    focus(): void {
-        this._groupedComboboxFocus();
+    get label() {
+        return this._comboboxLabel;
     }
 
     @api
-    get label() {
-        return this._comboboxLabel;
+    focus(): void {
+        this._groupedComboboxFocus();
     }
 
     /**
@@ -349,16 +349,6 @@ export default class Combobox extends LightningElement {
         this._isUserBlurred = false;
     }
 
-    getMergeFieldLevel(itemOrDisplayText) {
-        let mergeFieldLevel = 1;
-        let item = itemOrDisplayText;
-        while (item.parent) {
-            mergeFieldLevel++;
-            item = item.parent;
-        }
-        return mergeFieldLevel;
-    }
-
     /**
      * Returns the Menu Item associated with the combobox value or the literal string value if no item has been selected
      *
@@ -367,6 +357,16 @@ export default class Combobox extends LightningElement {
     @api
     get value() {
         return this._item ? this._item : this.literalValue;
+    }
+
+    getMergeFieldLevel(itemOrDisplayText) {
+        let mergeFieldLevel = 1;
+        let item = itemOrDisplayText;
+        while (item.parent) {
+            mergeFieldLevel++;
+            item = item.parent;
+        }
+        return mergeFieldLevel;
     }
 
     /**

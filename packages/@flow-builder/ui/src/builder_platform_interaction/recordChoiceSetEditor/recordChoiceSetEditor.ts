@@ -82,12 +82,6 @@ export default class RecordChoiceSetEditor extends LightningElement {
         return this.recordChoiceSetResource;
     }
 
-    @api
-    mode;
-
-    @api
-    editorParams;
-
     set node(newValue) {
         this.recordChoiceSetResource = unwrap(newValue);
         if (this.recordChoiceSetResource.object && this.recordChoiceSetResource.object.value) {
@@ -106,6 +100,12 @@ export default class RecordChoiceSetEditor extends LightningElement {
             this.showSecondSection = true;
         }
     }
+
+    @api
+    mode;
+
+    @api
+    editorParams;
 
     @api isNewMode = false;
 

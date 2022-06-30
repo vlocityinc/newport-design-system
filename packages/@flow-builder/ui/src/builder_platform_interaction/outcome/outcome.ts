@@ -21,13 +21,13 @@ export default class Outcome extends LightningElement {
     labels = LABELS;
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
 
-    @api get outcome() {
-        return this.element;
-    }
-
     @api showDelete;
 
     private disableRadioGroupIndicator = false;
+
+    @api get outcome() {
+        return this.element;
+    }
 
     set outcome(outcome) {
         this.element = outcome;
