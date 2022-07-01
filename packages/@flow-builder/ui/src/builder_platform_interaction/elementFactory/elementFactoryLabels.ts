@@ -1,7 +1,5 @@
 // @ts-nocheck
 import startElementLabel from '@salesforce/label/FlowBuilderCanvas.startElementLabel';
-import scheduleTypeOnce from '@salesforce/label/FlowBuilderCanvasElement.scheduleTypeOnce';
-import scheduleTypeRecurring from '@salesforce/label/FlowBuilderCanvasElement.scheduleTypeRecurring';
 import startElementRecordCreated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreated';
 import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreatedUpdated';
 import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordUpdated';
@@ -18,6 +16,7 @@ import interactiveStepLabel from '@salesforce/label/FlowBuilderElementConfig.int
 import orchestratedStageStatus from '@salesforce/label/FlowBuilderElementConfig.orchestratedStageStatus';
 import stageStepOutput from '@salesforce/label/FlowBuilderElementConfig.stageStepOutput';
 import stageStepStatus from '@salesforce/label/FlowBuilderElementConfig.stageStepStatus';
+import recurring from '@salesforce/label/FlowBuilderStartEditor.recurring';
 import runAsyncScheduledPathLabel from '@salesforce/label/FlowBuilderStartEditor.runAsyncScheduledPathLabel';
 import triggerFrequencyDaily from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyDaily';
 import triggerFrequencyOnce from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyOnce';
@@ -47,6 +46,5 @@ export const LABELS = {
     stageStepStatus,
     stageStepOutput,
     orchestratedStageStatus,
-    scheduleTypeOnce,
-    scheduleTypeRecurring
+    recurring
 };

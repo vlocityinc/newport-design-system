@@ -1,7 +1,4 @@
 // @ts-nocheck
-import segmentLastPublishDate from '@salesforce/label/FlowBuilderCanvasElement.segmentLastPublishDate';
-import segmentName from '@salesforce/label/FlowBuilderCanvasElement.segmentName';
-import segmentPopulation from '@salesforce/label/FlowBuilderCanvasElement.segmentPopulation';
 import startElementChooseAudience from '@salesforce/label/FlowBuilderCanvasElement.startElementChooseAudience';
 import startElementChooseObject from '@salesforce/label/FlowBuilderCanvasElement.startElementChooseObject';
 import startElementChooseSegment from '@salesforce/label/FlowBuilderCanvasElement.startElementChooseSegment';
@@ -9,6 +6,9 @@ import startElementEdit from '@salesforce/label/FlowBuilderCanvasElement.startEl
 import startElementObject from '@salesforce/label/FlowBuilderCanvasElement.startElementObject';
 import startElementOptional from '@salesforce/label/FlowBuilderCanvasElement.startElementOptional';
 import startElementRecordConditions from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordConditions';
+import population from '@salesforce/label/MarketingSegment.Population';
+import segmentName from '@salesforce/label/MarketingSegment.SegmentName';
+import lastPublishDate from '@salesforce/label/udd_MarketSgmtActvStatusEvent.LastPublishDate';
 
 export const LABELS = {
     startElementChooseObject,
@@ -19,6 +19,6 @@ export const LABELS = {
     startElementRecordConditions,
     startElementChooseSegment,
     segmentName,
-    segmentPopulation,
-    segmentLastPublishDate
+    population,
+    lastPublishDate
 };

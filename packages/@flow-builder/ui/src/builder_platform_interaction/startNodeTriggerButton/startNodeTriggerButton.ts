@@ -84,7 +84,7 @@ export default class StartNodeTriggerButton extends StartNodeButton {
             case SCHEDULED_JOURNEY:
                 return this.labels.startElementFrequency;
             case SEGMENT:
-                return this.labels.repeatSchedule;
+                return this.labels.repeatSchedule + ':';
             default:
                 return '';
         }

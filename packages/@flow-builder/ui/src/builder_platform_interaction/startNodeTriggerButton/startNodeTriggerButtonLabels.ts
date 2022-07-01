@@ -1,14 +1,14 @@
 // @ts-nocheck
-import repeatSchedule from '@salesforce/label/FlowBuilderCanvasElement.repeatSchedule';
-import scheduleType from '@salesforce/label/FlowBuilderCanvasElement.scheduleType';
-import startDate from '@salesforce/label/FlowBuilderCanvasElement.startDate';
 import startElementAddEvent from '@salesforce/label/FlowBuilderCanvasElement.startElementAddEvent';
 import startElementEvent from '@salesforce/label/FlowBuilderCanvasElement.startElementEvent';
 import startElementFlowStarts from '@salesforce/label/FlowBuilderCanvasElement.startElementFlowStarts';
 import startElementFrequency from '@salesforce/label/FlowBuilderCanvasElement.startElementFrequency';
 import startElementSetSchedule from '@salesforce/label/FlowBuilderCanvasElement.startElementSetSchedule';
-import startTime from '@salesforce/label/FlowBuilderCanvasElement.startTime';
-import timeZone from '@salesforce/label/FlowBuilderCanvasElement.timeZone';
+import repeatSchedule from '@salesforce/label/FlowBuilderStartEditor.repeatSchedule';
+import scheduleType from '@salesforce/label/FlowBuilderStartEditor.scheduleType';
+import startDate from '@salesforce/label/FlowBuilderStartEditor.startDateInputLabel';
+import startTime from '@salesforce/label/FlowBuilderStartEditor.startTimeInputLabel';
+import timeZone from '@salesforce/label/Page_CssUserEdit.timezone';
 
 export const LABELS = {
     startElementSetSchedule,

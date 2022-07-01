@@ -521,10 +521,10 @@ export function getFrequencyLabel(frequency: UI.FlowTriggerFrequency): string {
 export function getScheduleTypeLabel(frequency: UI.FlowTriggerFrequency): string {
     switch (frequency) {
         case FLOW_TRIGGER_FREQUENCY.ONCE:
-            return LABELS.scheduleTypeOnce;
+            return LABELS.triggerFrequencyOnce;
         case FLOW_TRIGGER_FREQUENCY.DAILY:
         case FLOW_TRIGGER_FREQUENCY.WEEKLY:
-            return LABELS.scheduleTypeRecurring;
+            return LABELS.recurring;
         default:
             return '';
     }

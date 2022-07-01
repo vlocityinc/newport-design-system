@@ -67,7 +67,7 @@ export default class StartNodeContextButton extends StartNodeButton {
 
     get objectLabel() {
         if (this.isSegment) {
-            return this.labels.segmentName;
+            return this.labels.segmentName + ':';
         }
         return this.labels.startElementObject;
     }
