@@ -36,6 +36,9 @@ export default class FieldPicker extends LightningElement {
     @api
     showActivityIndicator = false;
 
+    @api
+    isPillSupported = false;
+
     _menuData;
 
     /**

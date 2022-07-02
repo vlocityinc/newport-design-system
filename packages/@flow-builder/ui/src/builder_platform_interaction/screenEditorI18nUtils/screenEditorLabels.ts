@@ -81,6 +81,7 @@ import componentStartMovingInstruction from '@salesforce/label/FlowBuilderScreen
 import componentVisibilitySectionTitle from '@salesforce/label/FlowBuilderScreenEditor.componentVisbilitySectionTitle';
 import configureFooter from '@salesforce/label/FlowBuilderScreenEditor.configureFooter';
 import configureHeader from '@salesforce/label/FlowBuilderScreenEditor.configureHeader';
+import datatableLegalNoticeHeader from '@salesforce/label/FlowBuilderScreenEditor.datatableLegalNoticeHeader';
 import fieldDataType from '@salesforce/label/FlowBuilderScreenEditor.dataType';
 import defaultColumnLabel from '@salesforce/label/FlowBuilderScreenEditor.defaultColumnLabel';
 import fieldDefaultValue from '@salesforce/label/FlowBuilderScreenEditor.defaultValue';
@@ -381,5 +382,6 @@ export const LABELS = {
     componentAriaLabel,
     rightPanelInstructions,
     slackIndicatorText,
-    slackIndicatorInfoText
+    slackIndicatorInfoText,
+    datatableLegalNoticeHeader
 };

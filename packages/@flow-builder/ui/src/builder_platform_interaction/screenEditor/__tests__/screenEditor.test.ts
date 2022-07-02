@@ -87,11 +87,20 @@ jest.mock('builder_platform_interaction/usedByLib', () => {
     };
 });
 
+const SELECTORS = {
+    LEGAL_POPOVER: 'builder_platform_interaction-legal-popover',
+    LEGAL_POPOVER_DISMISS_BUTTON: 'lightning-button-icon'
+};
+
 const getScreenEditorCanvas = (screen) =>
     screen.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_EDITOR_CANVAS);
 
 const getScreenPropertyEditorContainer = (screen) =>
     screen.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
+
+const getLegalNoticePopover = (screenEditor) => {
+    return screenEditor.shadowRoot.querySelector(SELECTORS.LEGAL_POPOVER);
+};
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const mockedSobjectLib = require('builder_platform_interaction_mocks/sobjectLib');
@@ -792,5 +801,46 @@ describe('Extension events', () => {
             field = screenEditorElement.node.fields[0];
             expect(field.fieldType).toBe(ScreenFieldName.DropdownBox);
         });
+    });
+});
+
+describe('Datatable Beta Notice', () => {
+    const addDatatableFieldEvent = createAddScreenFieldEvent('flowruntime:datatable');
+    let screenEditorElement;
+    beforeEach(() => {
+        mockScreenReducer = jest.fn((state, event, node) => {
+            return state;
+        });
+
+        setProcessTypeFeatures('flow', supportedFeaturesListForFlow);
+        const screen = createTestScreen('Screen1', null);
+        screen.elementType = ELEMENT_TYPE.SCREEN;
+        screenEditorElement = createComponentUnderTest({ node: screen });
+
+        expect(screen.fields).toHaveLength(8);
+    });
+    test('legal beta notice is shown when datatable is added to the canvas', async () => {
+        const canvas = getScreenEditorCanvas(screenEditorElement);
+        canvas.dispatchEvent(addDatatableFieldEvent);
+        await ticks(1);
+        expect(getLegalNoticePopover(screenEditorElement)).toBeTruthy();
+    });
+    it('legal beta notice does not show up again after dismissed', async () => {
+        const canvas = getScreenEditorCanvas(screenEditorElement);
+        canvas.dispatchEvent(addDatatableFieldEvent);
+        await ticks(1);
+
+        // click on pop over dismiss button
+        const dismissButton = getLegalNoticePopover(screenEditorElement).shadowRoot.querySelector(
+            SELECTORS.LEGAL_POPOVER_DISMISS_BUTTON
+        );
+        dismissButton.click();
+        await ticks(1);
+        expect(getLegalNoticePopover(screenEditorElement)).toBeFalsy();
+
+        // add datable component again to canvas
+        canvas.dispatchEvent(addDatatableFieldEvent);
+        await ticks(1);
+        expect(getLegalNoticePopover(screenEditorElement)).toBeFalsy();
     });
 });

@@ -85,6 +85,12 @@ describe('field-picker', () => {
         const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
         expect(baseResourcePicker.comboboxConfig.placeholder).toBe(placeholder);
     });
+    it('defaults isPillSupported to false', () => {
+        const placeholder = 'isPillSupported';
+        const fieldPicker = setupComponentUnderTest();
+        const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        expect(baseResourcePicker.isPillSupported).toBe(false);
+    });
     it('sets error message', () => {
         const errorMessage = 'bah humbug';
         const fieldPicker = setupComponentUnderTest({

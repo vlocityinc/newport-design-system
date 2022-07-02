@@ -1,4 +1,8 @@
-import { modalBodyVariant } from 'builder_platform_interaction/builderUtils';
+import {
+    hidePopover,
+    modalBodyVariant,
+    updateLegalNoticesStateAfterDismiss
+} from 'builder_platform_interaction/builderUtils';
 import { orgHasFlowBuilderAutomaticFields } from 'builder_platform_interaction/contextLib';
 import { getErrorsFromHydratedElement, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -40,11 +44,16 @@ export enum ScreenEditorTab {
     Fields = 'fieldsTab'
 }
 
+const LEGAL_NOTICE_HEADERS = {
+    DATATABLE: LABELS.datatableLegalNoticeHeader
+};
+
 const SELECTORS = {
     SCREEN_PROPERTIES_EDITOR_CONTAINER: 'builder_platform_interaction-screen-properties-editor-container',
     SCREEN_EDITOR_CANVAS: 'builder_platform_interaction-screen-editor-canvas'
 };
 
+const DATATABLE_EXTENSION_NAME = 'flowruntime:datatable';
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
  */
@@ -55,6 +64,14 @@ export default class ScreenEditor extends LightningElement {
 
     @track screenFieldTypes;
     @track extensionTypes;
+
+    @track legalNotices: UI.LegalNotice[] = [
+        { header: LEGAL_NOTICE_HEADERS.DATATABLE, shown: false, dismissed: false }
+    ];
+
+    @track
+    noticesToLegalPopover: UI.LegalNotice[] = [];
+
     activeTab = ScreenEditorTab.Components;
     automaticFieldRecordVariableGuid: UI.Guid = '';
     processTypeValue = '';
@@ -106,6 +123,7 @@ export default class ScreenEditor extends LightningElement {
      * @returns {object} list of errors
      */
     @api validate() {
+        this.hidePopover();
         const event = { type: VALIDATE_ALL };
         processRequiredParamsForExtensionsInScreen(unwrap(this.screen));
         this.screen = screenReducer(this.screen, event);
@@ -183,6 +201,10 @@ export default class ScreenEditor extends LightningElement {
 
     get automaticFieldsEnabled() {
         return this.orgHasFlowBuilderAutomaticFields && this.isAutomaticFieldsSupported;
+    }
+
+    get showLegalNotice() {
+        return this.legalNotices.some((notice) => notice.shown && !notice.dismissed);
     }
 
     /**
@@ -308,6 +330,11 @@ export default class ScreenEditor extends LightningElement {
         }
         const position = Number.isInteger(event.position) ? event.position : parent.fields.length - 1;
         this.setSelectedNode(parent.fields[position]);
+
+        const fieldTypeName = event.detail?.typeName;
+        if (fieldTypeName === DATATABLE_EXTENSION_NAME) {
+            this.showDatatableLegalNoticeOnce();
+        }
     };
 
     /**
@@ -478,6 +505,7 @@ export default class ScreenEditor extends LightningElement {
      * @param {event} event - The event
      */
     handleSelectScreenElement = (event) => {
+        this.hidePopover();
         if (event.detail.fromKeyboard) {
             const screenPropertiesEditorContainer = this.template.querySelector(
                 SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
@@ -510,6 +538,7 @@ export default class ScreenEditor extends LightningElement {
      * Handler for the deselect screen element event, sets the selected node to the screen and clears the selection in the canvas
      */
     handleDeselectScreenElement = (/* event */) => {
+        this.hidePopover();
         this.setSelectedNode(this.screen);
         this.selectedItemGuid = null;
     };
@@ -534,4 +563,24 @@ export default class ScreenEditor extends LightningElement {
         const section = this.screen.getFieldByGUID(event.sectionGuid);
         this.setSelectedNode(section);
     };
+
+    handleLegalNoticeDismissed(event) {
+        event.stopPropagation();
+        this.legalNotices = updateLegalNoticesStateAfterDismiss(this.legalNotices, this.noticesToLegalPopover);
+        this.noticesToLegalPopover = [];
+    }
+
+    /**
+     * Hide the popover on actions that results in it losing focus
+     */
+    hidePopover() {
+        hidePopover({ closedBy: 'closeOnClickOut' });
+    }
+
+    showDatatableLegalNoticeOnce() {
+        if (!this.legalNotices[0].shown && !this.legalNotices[0].dismissed) {
+            this.noticesToLegalPopover = [...this.noticesToLegalPopover, { header: LEGAL_NOTICE_HEADERS.DATATABLE }];
+            this.legalNotices[0].shown = true;
+        }
+    }
 }

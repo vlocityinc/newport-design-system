@@ -49,6 +49,13 @@
                 </lightning-tabset>
             </div>
         </template>
+        <template if:true={showLegalNotice}>
+            <builder_platform_interaction-legal-popover
+                notices={noticesToLegalPopover}
+                onlegalnoticedismissed={handleLegalNoticeDismissed}
+            >
+            </builder_platform_interaction-legal-popover>
+        </template>
 
         <!-- this div is the container for the canvas middle panel-->
         <div
