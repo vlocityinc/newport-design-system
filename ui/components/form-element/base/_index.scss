@@ -40,6 +40,10 @@
       margin: 0;
     }
 
+    &.nds-form-element__label_empty {
+      margin-#{$right}: 0;
+    }
+
     span {
       overflow-wrap: break-word;
       word-wrap: break-word;
