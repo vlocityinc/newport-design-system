@@ -11,6 +11,8 @@ const plugins = [];
 // resolve modules using jest.config.json
 // copied from https://git.soma.salesforce.com/aura/lightning-global/blob/master/ui-lightning-components/app_modules/resolver/module-name-mapper.js
 const moduleNameMapper = {
+    'force/onboardingManagerLib': './src/demo-app/stubs/force/onboardingManagerLib.js',
+    'lightning/uiRecordApi': './src/demo-app/stubs/lightning/uiRecordApi.js',
     'lightning/uiObjectInfoApi': './src/demo-app/stubs/lightning/uiObjectInfoApi.js',
     '^lightning:IntlLibrary$': './src/demo-app/stubs/intlLibrary.js',
     '^builder_framework/command$': '../../node_modules/@lbf/command/dist/index.esNext.js',

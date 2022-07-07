@@ -81,7 +81,7 @@ export const showError = (message, exception) => {
         console.log(exception);
     }
 
-    alert(message);
+    console.error(message);
 };
 
 export const fetchFromLocalStorage = () => {
