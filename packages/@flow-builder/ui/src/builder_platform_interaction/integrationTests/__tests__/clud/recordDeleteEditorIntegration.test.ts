@@ -339,14 +339,14 @@ describe('Record Delete Editor', () => {
                             label: 'accountSObjectVariable'
                         });
                     });
-                    it('displays "abbr" element as it is a required field', async () => {
-                        const combobox = getRecordVariablePickerChildComboboxComponent(
-                            sObjectOrSObjectCollectionPicker
-                        );
+                    // it('displays "abbr" element as it is a required field', async () => {
+                    //     const combobox = getRecordVariablePickerChildComboboxComponent(
+                    //         sObjectOrSObjectCollectionPicker
+                    //     );
 
-                        const abbrElement = combobox.element.shadowRoot!.querySelector(SELECTORS.ABBR);
-                        expect(abbrElement).not.toBeNull();
-                    });
+                    //     const abbrElement = combobox.element.shadowRoot!.querySelector(SELECTORS.ABBR);
+                    //     expect(abbrElement).not.toBeNull();
+                    // });
                     describe('events', () => {
                         it('displays empty combobox and no pill when pill is cleared', async () => {
                             const combobox = getRecordVariablePickerChildComboboxComponent(
