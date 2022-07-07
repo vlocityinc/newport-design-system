@@ -551,6 +551,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         return this.showLeftPanel ? 'left-panel-show' : 'left-panel-hide';
     }
 
+    get leftPanelTabIndex() {
+        return this.isLeftPanelToggled ? '0' : '-1';
+    }
+
     /**
      * @returns true Whether canvas elements are available. Don't render the canvas until then.
      */

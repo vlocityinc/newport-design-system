@@ -206,6 +206,21 @@ describe('auto-layout', () => {
                 expect(leftPanel.classList).toContain('left-panel-hide');
                 expect(leftPanel.classList).not.toContain('left-panel-show');
             });
+            it('tabindex should be -1 when it is hidden', () => {
+                expect(leftPanel.getAttribute('tabIndex')).toEqual('-1');
+            });
+            it('tabindex should be 0 when it is displayed', async () => {
+                leftPanelToggle.click();
+                await ticks(2);
+                expect(leftPanel.getAttribute('tabIndex')).toEqual('0');
+            });
+            it('tabindex should be -1 after clicking left panel toggle and then clicking close button', async () => {
+                leftPanelToggle.click();
+                const closeButton = leftPanel.shadowRoot.querySelector('.close-button');
+                closeButton.click();
+                await ticks(2);
+                expect(leftPanel.getAttribute('tabIndex')).toEqual('-1');
+            });
             it('should be present after clicking left panel toggle', async () => {
                 leftPanelToggle.click();
                 await ticks(2);
