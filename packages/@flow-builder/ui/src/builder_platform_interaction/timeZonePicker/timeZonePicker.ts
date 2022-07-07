@@ -17,6 +17,9 @@ export default class TimeZonePicker extends LightningElement {
     @api
     value!: string | null;
 
+    @api
+    required = false;
+
     @wire(getTimeZones)
     timeZoneData;
 
