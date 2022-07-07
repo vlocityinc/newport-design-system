@@ -16,6 +16,7 @@ import newRecordChangedFlowLabel from '@salesforce/label/FlowBuilderProcessTypeT
 import newRecordChangedOrchestrationLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newRecordChangedOrchestrationLabel';
 import newScheduledFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowDescription';
 import newScheduledFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowLabel';
+import newSegmentJourneyLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newSegmentJourneyLabel';
 import newUserProvisioningFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newUserProvisioningFlowDescription';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -41,7 +42,8 @@ export const TRIGGER_TYPE_LABELS = {
     [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newRecordChangedFlowLabel,
     [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: newRecordChangedFlowLabel,
     [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowLabel,
-    [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: newPlatformEventFlowLabel
+    [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: newPlatformEventFlowLabel,
+    [FLOW_TRIGGER_TYPE.SEGMENT]: newSegmentJourneyLabel
 };
 
 export const PROCESS_TRIGGER_TYPE_LABELS = {

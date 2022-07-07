@@ -12,7 +12,7 @@ import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/fl
 import { PROCESS_TRIGGER_TYPE_LABELS, TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
-import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { isPlatformEvent, isRecordChangeTriggerType, isSegment } from 'builder_platform_interaction/triggerTypeLib';
 
 const { NONE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
 
@@ -136,7 +136,12 @@ export const copyAlcExtraProps = (fromElement: UI.Element, toElement: UI.Element
  */
 export const startElementDescription = (triggerType: UI.FlowTriggerType): string | undefined => {
     const processType = getProcessType();
-    if (isRecordChangeTriggerType(triggerType) || triggerType === SCHEDULED || triggerType === PLATFORM_EVENT) {
+    if (
+        isRecordChangeTriggerType(triggerType) ||
+        triggerType === SCHEDULED ||
+        isPlatformEvent(triggerType) ||
+        isSegment(triggerType)
+    ) {
         return PROCESS_TRIGGER_TYPE_LABELS[processType + triggerType] || TRIGGER_TYPE_LABELS[triggerType];
     }
 

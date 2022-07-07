@@ -97,6 +97,21 @@ const scheduledTriggeredFlowStart = {
     value: 'START_ELEMENT'
 };
 
+const segmentTriggeredJourneyStart = {
+    canHaveFaultConnector: false,
+    description: 'Segment-Triggered Journey',
+    elementType: 'START_ELEMENT',
+    hasContext: true,
+    hasTrigger: true,
+    icon: 'utility:right',
+    iconBackgroundColor: 'background-green',
+    iconShape: 'circle',
+    iconSize: 'medium',
+    label: 'Start',
+    type: NodeType.START,
+    value: 'START_ELEMENT'
+};
+
 const recordTriggeredOrchestrationStart = {
     canHaveFaultConnector: false,
     description: 'Record-Triggered Orchestration',
@@ -133,6 +148,45 @@ const menuStartData = {
     parent: 'root',
     prev: null,
     triggerType: 'PlatformEvent'
+};
+
+const segmentTriggeredStartData = {
+    childIndex: 0,
+    childReferences: [],
+    config: {
+        isSelected: false,
+        isHighlighted: false,
+        isSelectable: true,
+        hasError: false
+    },
+    connectorCount: 1,
+    availableConnections: [],
+    description: '',
+    elementType: 'START_ELEMENT',
+    filterLogic: 'and',
+    filters: [
+        {
+            leftHandSide: '',
+            leftHandSideDataType: '',
+            operator: '',
+            rightHandSide: '',
+            rightHandSideDataType: '',
+            rowIndex: '28b09f5f-cb3c-4fa5-addd-7e29be384e19'
+        }
+    ],
+    frequency: 'Once',
+    guid: '0198f161-8c86-457d-9a96-57cd948e0b9d',
+    isCanvasElement: true,
+    isTerminal: true,
+    locationX: 0,
+    locationY: 0,
+    maxConnections: 1,
+    next: '0b4ebeee-7bee-4cf7-acf2-3f8fab97ebd1',
+    object: '',
+    objectIndex: 'cc8122f5-d2c9-4970-b192-3aa03ad62e2f',
+    parent: 'root',
+    prev: null,
+    triggerType: 'Segment'
 };
 
 const recordTriggeredStartData = {
@@ -809,6 +863,125 @@ describe('Start Node Menu', () => {
             const body = menu.shadowRoot.querySelector(selectors.body);
             const button = body.querySelector(selectors.contextButton);
             expect(button).toBeDefined();
+        });
+    });
+
+    describe('Segment-Triggered Journey Start Menu', () => {
+        let menu;
+        beforeEach(async () => {
+            mockSupportsScheduledPaths = false;
+            menu = await createComponentUnderTest({
+                elementMetadata: segmentTriggeredJourneyStart,
+                startData: segmentTriggeredStartData
+            });
+        });
+
+        it('Should have focus on the first button', async () => {
+            const menu = await createComponentUnderTest({
+                elementMetadata: segmentTriggeredJourneyStart,
+                startData: segmentTriggeredStartData,
+                autoFocus: true
+            });
+            assertFocusOnFirstButton(menu);
+        });
+
+        it('renders the start contextual menu', () => {
+            expect(menu).toBeDefined();
+        });
+
+        it('Should have a label in the header', () => {
+            const header = menu.shadowRoot.querySelector(selectors.header);
+            const label = header.querySelector(selectors.headerLabel);
+            expect(label.textContent).toEqual(segmentTriggeredJourneyStart.label);
+        });
+
+        it('Should have a description in the header', () => {
+            const header = menu.shadowRoot.querySelector(selectors.header);
+            const description = header.querySelector(selectors.headerDescription);
+            expect(description.textContent).toEqual(segmentTriggeredJourneyStart.description);
+        });
+
+        it('Should have a trigger button rendered', () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.triggerButton);
+            expect(button).toBeDefined();
+        });
+
+        it('Should have a context button rendered', () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.contextButton);
+            expect(button).toBeDefined();
+        });
+
+        it('Should not render scheduled path button', () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.scheduledPathButton);
+            expect(button).toBeNull();
+        });
+
+        it('Focus should move correctly to the context button on arrow down from the trigger button', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const trigger = body.querySelector(selectors.triggerButton);
+            const context = body.querySelector(selectors.contextButton);
+            const callback = jest.fn();
+            makeActiveElement(trigger);
+            context.addEventListener('focus', callback);
+            await dispatchEvent(trigger, new KeyboardEvent('keydown', { key: Keys.ArrowDown, bubbles: true }));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Focus should move correctly to the context button on arrow up from the trigger button', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const trigger = body.querySelector(selectors.triggerButton);
+            makeActiveElement(trigger);
+            const context = body.querySelector(selectors.contextButton);
+            const callback = jest.fn();
+            context.addEventListener('focus', callback);
+            await dispatchEvent(trigger, new KeyboardEvent('keydown', { key: Keys.ArrowUp, bubbles: true }));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Focus should move correctly to the trigger button on arrow down from the context button', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const trigger = body.querySelector(selectors.triggerButton);
+            const context = body.querySelector(selectors.contextButton);
+            makeActiveElement(context);
+
+            const callback = jest.fn();
+            trigger.addEventListener('focus', callback);
+            await dispatchEvent(context, new KeyboardEvent('keydown', { key: Keys.ArrowDown, bubbles: true }));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Focus should move correctly to the trigger button on arrow up from the context button', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const trigger = body.querySelector(selectors.triggerButton);
+            const context = body.querySelector(selectors.contextButton);
+            makeActiveElement(context);
+            const callback = jest.fn();
+            trigger.addEventListener('focus', callback);
+            await dispatchEvent(context, new KeyboardEvent('keydown', { key: Keys.ArrowUp, bubbles: true }));
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing escape while focus is on the trigger button should fire the CloseMenuEvent event', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const trigger = body.querySelector(selectors.triggerButton);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            makeActiveElement(trigger);
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+            expect(callback).toHaveBeenCalled();
+        });
+
+        it('Pressing escape while focus is on the context button should fire the CloseMenuEvent event', async () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const context = body.querySelector(selectors.contextButton);
+            const callback = jest.fn();
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
+            makeActiveElement(context);
+            menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
+            expect(callback).toHaveBeenCalled();
         });
     });
 });
