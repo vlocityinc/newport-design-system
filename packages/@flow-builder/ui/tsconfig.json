@@ -246,6 +246,7 @@
             "builder_platform_interaction/screenFieldTypeLib": ["./src/builder_platform_interaction/screenFieldTypeLib/screenFieldTypeLib.ts"],
             "builder_platform_interaction/screenInputField": ["./src/builder_platform_interaction/screenInputField/screenInputField.ts"],
             "builder_platform_interaction/screenInputFieldPropertiesEditor": ["./src/builder_platform_interaction/screenInputFieldPropertiesEditor/screenInputFieldPropertiesEditor.ts"],
+            "builder_platform_interaction/screenPicklistMoreDetailsCard": ["./src/builder_platform_interaction/screenPicklistMoreDetailsCard/screenPicklistMoreDetailsCard.ts"],
             "builder_platform_interaction/screenPropertiesEditor": ["./src/builder_platform_interaction/screenPropertiesEditor/screenPropertiesEditor.ts"],
             "builder_platform_interaction/screenPropertiesEditorContainer": ["./src/builder_platform_interaction/screenPropertiesEditorContainer/screenPropertiesEditorContainer.ts"],
             "builder_platform_interaction/screenPropertyField": ["./src/builder_platform_interaction/screenPropertyField/screenPropertyField.ts"],

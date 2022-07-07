@@ -30,6 +30,9 @@ import automaticFieldIsUpdateableFalse from '@salesforce/label/FlowBuilderAutoma
 import automaticFieldIsUpdateableTrue from '@salesforce/label/FlowBuilderAutomaticFieldEditor.isUpdateableTrue';
 import automaticFieldObject from '@salesforce/label/FlowBuilderAutomaticFieldEditor.object';
 import automaticFieldPropertyEditorPanelTitle from '@salesforce/label/FlowBuilderAutomaticFieldEditor.panelTitle';
+import automaticFieldPicklistMoreDetailsLinkLabel from '@salesforce/label/FlowBuilderAutomaticFieldEditor.picklistMoreDetailsLinkLabel';
+import automaticFieldPicklistMoreDetailsPopupText from '@salesforce/label/FlowBuilderAutomaticFieldEditor.picklistMoreDetailsPopupText';
+import automaticFieldPicklistSideText from '@salesforce/label/FlowBuilderAutomaticFieldEditor.picklistSideText';
 import booleanDataType from '@salesforce/label/FlowBuilderDataTypes.booleanDataTypeLabel';
 import currencyDataType from '@salesforce/label/FlowBuilderDataTypes.currencyDataTypeLabel';
 import dateDataType from '@salesforce/label/FlowBuilderDataTypes.dateDataTypeLabel';
@@ -360,6 +363,9 @@ export const LABELS = {
     automaticFieldDeleteConfirmation,
     automaticFieldDeleteConsequence,
     automaticFieldPropertyEditorPanelTitle,
+    automaticFieldPicklistSideText,
+    automaticFieldPicklistMoreDetailsLinkLabel,
+    automaticFieldPicklistMoreDetailsPopupText,
     picklistChoiceSetChoiceLabel,
     recordChoiceSetChoiceLabel,
     collectionChoiceSetChoiceLabel,

@@ -30,6 +30,15 @@
             </tr>
         </table>
     </div>
+
+    <template if:true={isRecordTypeBasedPicklist}>
+        <builder_platform_interaction-screen-picklist-more-details-card
+            popup-trigger-label={labels.automaticFieldPicklistMoreDetailsLinkLabel}
+            side-text={labels.automaticFieldPicklistSideText}
+            popup-text={labels.automaticFieldPicklistMoreDetailsPopupText}
+        ></builder_platform_interaction-screen-picklist-more-details-card>
+    </template>
+
     <div class="slds-p-around_medium">
         <div class="slds-p-horizontal_x-small slds-p-top_x-small slds-grid infobox">
             <div class="slds-col slds-p-right_x-small">

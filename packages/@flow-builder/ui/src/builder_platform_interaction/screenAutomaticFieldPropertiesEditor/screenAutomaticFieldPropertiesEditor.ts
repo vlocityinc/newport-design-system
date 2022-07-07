@@ -14,7 +14,7 @@ import {
 } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { getEntity } from 'builder_platform_interaction/sobjectLib';
+import { getEntity, getEntityFieldWithApiName, getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { api, LightningElement } from 'lwc';
 const { format } = commonUtils;
@@ -61,6 +61,19 @@ export default class ScreenAutomaticFieldPropertiesEditor extends LightningEleme
 
     get entityFieldExtraTypeInfo(): string {
         return this.field.entityFieldExtraTypeInfo;
+    }
+
+    get isPicklist(): boolean {
+        return this.entityFieldDataType === FieldDataType.Picklist;
+    }
+
+    get hasRecordTypeId(): boolean {
+        // check if entity object has any record type
+        return getEntityFieldWithApiName(getFieldsForEntity(this.object), 'recordTypeId') !== undefined;
+    }
+
+    get isRecordTypeBasedPicklist(): boolean {
+        return this.isPicklist && this.hasRecordTypeId;
     }
 
     get displayedFields(): { key: string; label: string; value: string }[] {
