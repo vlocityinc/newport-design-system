@@ -837,34 +837,43 @@ describe('editor', () => {
             it('deletes associated connectors and updates associated nodes', async () => {
                 const event = new DeleteElementEvent(['2']);
                 const canvas = getCanvas(editorComponent);
+                const eventCallback = jest.fn();
+                editorComponent.addEventListener(ShowToastEventName, eventCallback);
                 canvas.dispatchEvent(event);
                 await ticks(1);
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
                 expect(spy.mock.calls[0][0]).toEqual(deleteElementByGuid);
+                expect(eventCallback).not.toHaveBeenCalled();
             });
 
             it('decision with outcomes deletes associated connectors and updates associated nodes', async () => {
                 const event = new DeleteElementEvent(['3']);
                 const canvas = getCanvas(editorComponent);
+                const eventCallback = jest.fn();
+                editorComponent.addEventListener(ShowToastEventName, eventCallback);
                 canvas.dispatchEvent(event);
                 await ticks(1);
 
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
                 expect(spy.mock.calls[0][0]).toEqual(deleteDecision);
+                expect(eventCallback).not.toHaveBeenCalled();
             });
         });
 
         it('Checks if node and connector deletion is handled correctly when delete key is pressed', async () => {
             const event = new DeleteElementEvent('2', ELEMENT_TYPE.ASSIGNMENT);
             const canvas = getCanvas(editorComponent);
+            const eventCallback = jest.fn();
+            editorComponent.addEventListener(ShowToastEventName, eventCallback);
             canvas.dispatchEvent(event);
             await ticks(1);
 
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(deleteElementByIsSelected);
+            expect(eventCallback).not.toHaveBeenCalled();
         });
 
         it('Checks if node location is updated correctly when a node stops dragging', async () => {
@@ -2288,9 +2297,8 @@ describe('in debug mode', () => {
         const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
         nodeUpdate(elementToAdd);
 
-        // Check if toast event has been fired
-        expect(handler).toHaveBeenCalledTimes(1);
-        expect(handler.mock.calls[0][0].detail.variant).toBe('warning');
+        // Check if toast event has not been fired
+        expect(handler).not.toHaveBeenCalled();
     });
     it('fires a toast event when clicking done in property editor for elements with no label like Start', async () => {
         const editorComponent = createComponentUnderTest();
@@ -2313,9 +2321,8 @@ describe('in debug mode', () => {
         const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
         nodeUpdate(elementToAdd);
 
-        // Check if toast event has been fired
-        expect(handler).toHaveBeenCalledTimes(1);
-        expect(handler.mock.calls[0][0].detail.variant).toBe('warning');
+        // Check if toast event has not been fired
+        expect(handler).not.toHaveBeenCalled();
     });
     it('does not fire a toast event when clicking done in property editor in edit mode', async () => {
         expect.assertions(1);

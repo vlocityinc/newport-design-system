@@ -3114,12 +3114,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * @param mode optional, else will default to dismissible (toast default)
      */
     showToast(message: string, variant: string, mode?: string) {
-        const toastEvent = new ShowToastEvent({
-            variant,
-            message,
-            mode: mode ?? 'dismissible'
-        });
-        this.dispatchEvent(toastEvent);
+        if (this.properties.isAutoLayoutCanvas) {
+            const toastEvent = new ShowToastEvent({
+                variant,
+                message,
+                mode: mode ?? 'dismissible'
+            });
+            this.dispatchEvent(toastEvent);
+        }
     }
 
     showToastForCutCopyPasteOrDelete(singularLabel: string, pluralLabel: string, numberOfElements: number) {
