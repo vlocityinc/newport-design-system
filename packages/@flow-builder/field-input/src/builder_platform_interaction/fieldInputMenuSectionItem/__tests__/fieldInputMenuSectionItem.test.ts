@@ -1,11 +1,11 @@
-// @ts-nocheck
 import {
+    createComponent,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     mouseenterEvent,
-    mouseleaveEvent
+    mouseleaveEvent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 
 jest.mock('builder_platform_interaction/fieldInputRichHelpPopup', () =>
     jest.requireActual('builder_platform_interaction_mocks/fieldInputRichHelpPopup')

@@ -4,6 +4,7 @@ import {
     scheduleTask
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { newCustomEvent } from 'builder_platform_interaction/events';
+import { newShowMenuEvent } from 'builder_platform_interaction/fieldInputUtils';
 import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './fieldInputBoxLabels';
@@ -70,7 +71,7 @@ export default class FieldInputBox extends withKeyboardInteractions(LightningEle
     };
 
     dispatchShowMenu(show: boolean) {
-        this.dispatchEvent(newCustomEvent('showmenu', { show }));
+        this.dispatchEvent(newShowMenuEvent(show));
     }
 
     handleChange(evt) {

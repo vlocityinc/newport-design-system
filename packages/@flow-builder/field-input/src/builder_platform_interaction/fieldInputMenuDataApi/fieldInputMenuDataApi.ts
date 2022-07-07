@@ -1,6 +1,5 @@
 import { getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { Store } from 'builder_platform_interaction/storeLib';
 
 /**
  * Invokes an LDS adaptor programatically, as opposed to using '@wire'
@@ -143,16 +142,6 @@ export function getPicklistValuesApi(config: GetPicklistValuesApiConfig): WirePr
  */
 export function getObjectInfoApi(config: GetObjectInfoApiConfig): WirePromise<GetObjectInfoApiData> {
     return legacyGetObjectInfoApi(config);
-}
-
-/**
- * Invokes the TBD getFlowElements API
- *
- * @see TBD
- * @returns the flow elements
- */
-export function getFlowElementsApi(): UI.Element[] {
-    return Object.values(Store.getStore().getCurrentState().elements);
 }
 
 /**

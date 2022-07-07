@@ -1,6 +1,11 @@
 <template>
     <div role="tree" aria-label={viewProps.ariaLabel} class="slds-scrollable_y menu-fixed-height">
-        <builder_platform_interaction-field-input-menu-all-view if:true={viewProps.isAllView}>
+        <builder_platform_interaction-field-input-menu-all-view
+            if:true={viewProps.isAllView}
+            rules={rules}
+            config={config}
+            context={context}
+        >
         </builder_platform_interaction-field-input-menu-all-view>
 
         <builder_platform_interaction-field-input-menu-object-fields-view

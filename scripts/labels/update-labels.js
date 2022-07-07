@@ -32,9 +32,9 @@ function generateLabels(labelXmlPath, target) {
     const labelsJson = {};
 
     parseString(labelXml, (err, data) => {
-        data.iniFile.section.forEach(section => {
+        data.iniFile.section.forEach((section) => {
             const sectionName = section.$.name;
-            section.param.forEach(param => {
+            section.param.forEach((param) => {
                 const paramName = param.$.name;
                 const paramValue = param._;
 

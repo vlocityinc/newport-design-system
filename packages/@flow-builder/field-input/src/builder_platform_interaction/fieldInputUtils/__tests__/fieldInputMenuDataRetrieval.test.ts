@@ -1,12 +1,9 @@
-// @ts-nocheck
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     COLLECTION_PROCESSOR_SUB_TYPE,
     ELEMENT_TYPE,
-    FlowComparisonOperator,
     FLOW_PROCESS_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_PROCESS_TYPE_FEATURE } from 'builder_platform_interaction/processTypeLib';
 import { getLHSTypes, getRHSTypes } from 'builder_platform_interaction/ruleLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getStartElement, getStartElementFromState } from 'builder_platform_interaction/storeUtils';
@@ -64,18 +61,23 @@ jest.mock(
     }
 );
 
+function setStoreMockState(mockState) {
+    // @ts-ignore
+    Store.setMockState(mockState);
+}
+
 const flowWithAllElementsMetadata = flowWithAllElements.metadata;
 const orchestrationMetadata = orchestration.metadata;
 const recommendationMetadata = recommendationFlow.metadata;
-const recordVariables = (metadata, isCollection? = false) =>
+const recordVariables = (metadata, isCollection = false) =>
     metadata.variables.filter(
         (variable) => variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection === isCollection
     );
-const apexVariables = (metadata, isCollection? = false) =>
+const apexVariables = (metadata, isCollection = false) =>
     metadata.variables.filter(
         (variable) => variable.dataType === FLOW_DATA_TYPE.APEX.value && variable.isCollection === isCollection
     );
-const simpleVariables = (metadata, isCollection? = false) =>
+const simpleVariables = (metadata, isCollection = false) =>
     metadata.variables.filter(
         (variable) =>
             variable.dataType !== FLOW_DATA_TYPE.APEX.value &&
@@ -89,20 +91,25 @@ const mapToName = (elements) => elements.map((element) => element.name);
 const mapToSortedNames = (elements) => sortAlphabetically(mapToName(elements));
 
 describe('filterAndMapToMenuItems', () => {
+    afterAll(() => {
+        // @ts-ignore
+        Store.resetStore();
+        resetGlobalVariables();
+
+        // @ts-ignore
+        getStartElementFromState.mockImplementation(() => undefined);
+    });
+
     let menuDataSortedByLabel, menuDataSortedByApiNames, section, expectedNumberOfSections;
     const checkLabels = (items, expectedLabels) => expect(mapToLabel(items)).toEqual(expectedLabels);
     const checkNames = (items, expectedNames) => expect(mapToName(items)).toEqual(expectedNames);
     describe('E2E with Screen flow', () => {
         beforeAll(() => {
-            Store.setMockState(flowWithAllElementsUIModel);
+            setStoreMockState(flowWithAllElementsUIModel);
             setGlobalVariables(globalVariablesForFlow);
-            setProcessTypeFeatures(FLOW_PROCESS_TYPE.FLOW, [FLOW_PROCESS_TYPE_FEATURE.GLOBAL_VARIABLES]);
+            setProcessTypeFeatures('Flow', ['GlobalVariables']);
         });
-        afterAll(() => {
-            Store.resetStore();
-            resetGlobalVariables();
-            setProcessTypeFeatures();
-        });
+
         describe('In decision element LHS', () => {
             beforeAll(() => {
                 expectedNumberOfSections = 22;
@@ -110,6 +117,7 @@ describe('filterAndMapToMenuItems', () => {
                     Object.values(Store.getStore().getCurrentState().elements),
                     getLHSTypes(ELEMENT_TYPE.DECISION, rules),
                     {
+                        sortField: 'label',
                         activePicklistValues: [],
                         traversalConfig: { isEnabled: true },
                         filter: {
@@ -526,8 +534,10 @@ describe('filterAndMapToMenuItems', () => {
             beforeAll(() => {
                 menuDataSortedByLabel = filterAndMapToMenuItems(
                     Object.values(Store.getStore().getCurrentState().elements),
-                    getRHSTypes(ELEMENT_TYPE.DECISION, stringVariable, FlowComparisonOperator.EqualTo, rules),
+                    getRHSTypes(ELEMENT_TYPE.DECISION, stringVariable, undefined, rules),
                     {
+                        sortField: 'label',
+                        // @ts-ignore
                         activePicklistValues: [{ value: 'pick1' }, { value: 'pick2' }],
                         traversalConfig: { isEnabled: true },
                         filter: {
@@ -586,11 +596,9 @@ describe('filterAndMapToMenuItems', () => {
     });
     describe('E2E with Orchestration', () => {
         beforeAll(() => {
-            Store.setMockState(orchestratorFlowUIModel);
+            setStoreMockState(orchestratorFlowUIModel);
         });
-        afterAll(() => {
-            Store.resetStore();
-        });
+
         describe('In decision element LHS', () => {
             beforeAll(() => {
                 expectedNumberOfSections = 4;
@@ -598,6 +606,7 @@ describe('filterAndMapToMenuItems', () => {
                     Object.values(Store.getStore().getCurrentState().elements),
                     getLHSTypes(ELEMENT_TYPE.DECISION, rules),
                     {
+                        sortField: 'label',
                         activePicklistValues: [],
                         traversalConfig: { isEnabled: true },
                         filter: {
@@ -706,11 +715,9 @@ describe('filterAndMapToMenuItems', () => {
         const collectionProcessorsOfType = (type: COLLECTION_PROCESSOR_SUB_TYPE) =>
             recommendationMetadata.collectionProcessors.filter((processor) => processor.elementSubtype === type);
         beforeAll(() => {
-            Store.setMockState(recommendationFlowUIModel);
+            setStoreMockState(recommendationFlowUIModel);
         });
-        afterAll(() => {
-            Store.resetStore();
-        });
+
         // FIXME tests will need to be updated WRT variables when W-10899339 is handled.
         describe('In decision element LHS', () => {
             beforeAll(() => {
@@ -719,6 +726,7 @@ describe('filterAndMapToMenuItems', () => {
                     Object.values(Store.getStore().getCurrentState().elements),
                     getLHSTypes(ELEMENT_TYPE.DECISION, rules),
                     {
+                        sortField: 'label',
                         activePicklistValues: [],
                         traversalConfig: { isEnabled: true },
                         filter: {
@@ -939,13 +947,11 @@ describe('filterAndMapToMenuItems', () => {
     });
     describe('E2E with recordTriggeredFlow', () => {
         beforeAll(() => {
-            Store.setMockState(recordTriggeredFlowUIModel);
+            setStoreMockState(recordTriggeredFlowUIModel);
+            // @ts-ignore
             getStartElement.mockImplementation(() => startElementRecordTriggered);
         });
-        afterAll(() => {
-            getStartElementFromState.mockImplementation(() => undefined);
-            Store.resetStore();
-        });
+
         describe('In decision element LHS', () => {
             beforeAll(() => {
                 expectedNumberOfSections = 8;
@@ -953,6 +959,7 @@ describe('filterAndMapToMenuItems', () => {
                     Object.values(Store.getStore().getCurrentState().elements),
                     getLHSTypes(ELEMENT_TYPE.DECISION, rules),
                     {
+                        sortField: 'label',
                         activePicklistValues: [],
                         traversalConfig: { isEnabled: true },
                         filter: {

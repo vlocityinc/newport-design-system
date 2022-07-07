@@ -6,11 +6,11 @@ import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 export const GLOBAL_CONSTANT_PREFIX = '$GlobalConstant';
 
-export const GLOBAL_CONSTANTS = {
-    EMPTY_STRING: GLOBAL_CONSTANT_PREFIX + '.EmptyString',
-    BOOLEAN_TRUE: GLOBAL_CONSTANT_PREFIX + '.True',
-    BOOLEAN_FALSE: GLOBAL_CONSTANT_PREFIX + '.False'
-};
+export const GLOBAL_CONSTANTS: Record<string, UI.FieldInputMenu.GlobalConstant> = {
+    EMPTY_STRING: '$GlobalConstant.EmptyString',
+    BOOLEAN_TRUE: '$GlobalConstant.True',
+    BOOLEAN_FALSE: '$GlobalConstant.False'
+} as const;
 
 /**
  * Descriptions of the GLOBAL_CONSTANTS variables in a shape that looks like
@@ -19,8 +19,8 @@ export const GLOBAL_CONSTANTS = {
  *
  * NOTE: Any constants added here also need to be added to the menu data selectors.
  */
-export const GLOBAL_CONSTANT_OBJECTS = {
-    [GLOBAL_CONSTANTS.BOOLEAN_TRUE]: {
+export const GLOBAL_CONSTANT_OBJECTS: Record<UI.FieldInputMenu.GlobalConstant, UI.FieldInputMenu.GlobalConstantInfo> = {
+    '$GlobalConstant.True': {
         label: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
         name: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
         guid: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
@@ -29,7 +29,7 @@ export const GLOBAL_CONSTANT_OBJECTS = {
         category: globalConstantCategory,
         description: trueMetaLine
     },
-    [GLOBAL_CONSTANTS.BOOLEAN_FALSE]: {
+    '$GlobalConstant.False': {
         label: GLOBAL_CONSTANTS.BOOLEAN_FALSE,
         name: GLOBAL_CONSTANTS.BOOLEAN_FALSE,
         guid: GLOBAL_CONSTANTS.BOOLEAN_FALSE,
@@ -38,7 +38,7 @@ export const GLOBAL_CONSTANT_OBJECTS = {
         category: globalConstantCategory,
         description: falseMetaLine
     },
-    [GLOBAL_CONSTANTS.EMPTY_STRING]: {
+    '$GlobalConstant.EmptyString': {
         label: GLOBAL_CONSTANTS.EMPTY_STRING,
         name: GLOBAL_CONSTANTS.EMPTY_STRING,
         guid: GLOBAL_CONSTANTS.EMPTY_STRING,

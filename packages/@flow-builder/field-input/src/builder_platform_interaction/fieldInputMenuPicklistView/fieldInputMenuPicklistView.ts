@@ -2,7 +2,7 @@ import { getPicklistValuesApi } from 'builder_platform_interaction/fieldInputMen
 import FieldInputMenuView from 'builder_platform_interaction/fieldInputMenuView';
 import { api } from 'lwc';
 import { LABELS } from './fieldInputMenuPicklistViewLabels';
-import { getPicklistViewSection } from './utils';
+import { getPicklistValuesViewSection } from './utils';
 
 type Props = {
     recordTypeId: string;
@@ -30,6 +30,6 @@ export default class FieldInputMenuPicklistView extends FieldInputMenuView<GetPi
     }
 
     override updateSectionsWithData(data: GetPicklistValuesApiData): void {
-        this.sections = [getPicklistViewSection(data)];
+        this.sections = [getPicklistValuesViewSection(data)];
     }
 }

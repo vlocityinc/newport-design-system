@@ -638,10 +638,10 @@ export const apexClassesMenuDataSelector = createSelector([apexClassesSelector],
 /**
  * Mutates one picklist value into a combobox menu item
  *
- * @param {Object} picklistOption object that is a picklist value
+ * @param picklistOption object that is a picklist value
  * @returns {MenuItem} menu item representing the picklist value
  */
-export const mutatePicklistValue = (picklistOption) => {
+export const mutatePicklistValue = (picklistOption: UI.Option) => {
     return createMenuItem({
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
         text: picklistOption.label || picklistOption.value,

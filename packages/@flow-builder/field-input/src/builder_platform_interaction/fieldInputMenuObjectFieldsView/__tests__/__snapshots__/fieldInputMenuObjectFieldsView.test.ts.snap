@@ -7,6 +7,8 @@ Array [
       Object {
         "apiName": "address",
         "dataType": "string",
+        "iconName": "tbd",
+        "iconSize": "x-small",
         "label": "Address",
         "name": "address",
         "type": "string",
@@ -15,14 +17,16 @@ Array [
       Object {
         "apiName": "address2",
         "dataType": "string",
+        "iconName": "tbd",
+        "iconSize": "x-small",
         "label": "Address2",
         "name": "address2",
         "type": "string",
         "value": "address2",
       },
     ],
-    "key": "section-default",
     "label": undefined,
+    "name": "ObjectFields",
   },
 ]
 `;

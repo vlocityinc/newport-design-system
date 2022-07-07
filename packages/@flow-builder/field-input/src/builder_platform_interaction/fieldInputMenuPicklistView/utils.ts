@@ -3,14 +3,16 @@
  * @param apiData TBD
  * @returns TBD
  */
-export function getPicklistViewSection(apiData: GetPicklistValuesApiData): FieldInput.MenuSection {
+export function getPicklistValuesViewSection(apiData: GetPicklistValuesApiData): FieldInput.MenuSection {
     return {
-        key: 'section-default',
+        name: 'PicklistValues',
         items: (apiData.values || []).map((value) => ({
             ...value,
             label: value.value,
             name: value.value,
-            key: value.value
+            key: value.value,
+            iconName: 'tbd',
+            iconSize: 'x-small'
         }))
     };
 }

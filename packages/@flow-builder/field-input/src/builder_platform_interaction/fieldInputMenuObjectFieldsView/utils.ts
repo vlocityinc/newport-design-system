@@ -8,8 +8,10 @@ export function getObjectFieldsViewSections(apiData: GetObjectInfoApiData): Fiel
         ...field,
         type: field.dataType,
         name: field.apiName,
-        value: field.apiName
+        value: field.apiName,
+        iconName: 'tbd',
+        iconSize: 'x-small'
     }));
 
-    return [{ items: menuItems, key: 'section-default', label: undefined }];
+    return [{ items: menuItems, name: 'ObjectFields', label: undefined }];
 }

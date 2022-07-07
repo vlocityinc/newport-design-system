@@ -196,10 +196,10 @@ export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
 /**
  * Returns new resource menu item
  *
- * @param resourceTypeLabel
- * @returns {Object} menu data group object with only new resource as item
+ * @param resourceTypeLabel - The resource type's label
+ * @returns menu data group object with only new resource as item
  */
-function getNewResourceItem(resourceTypeLabel: String) {
+function getNewResourceItem(resourceTypeLabel: string) {
     const newResourceItemText = resourceTypeLabel
         ? format(newTypedResourceLabel, resourceTypeLabel)
         : format(newResourceLabel, resourceLabel);
@@ -221,10 +221,10 @@ export const PICKLIST_CATEGORY_SUBSTR = picklistValuesLabel.replace(/\(.*\)/, ''
 /**
  * Gets a GroupedMenuItem from the given picklist values
  *
- * @param {Object[]} picklist list of objects representing picklist values
+ * @param picklist list of objects representing picklist values
  * @returns {module:menuDataGenerator.GroupMenuItems} menu data that has picklist values
  */
-export const getPicklistMenuData = (picklist: any[]) => {
+export const getPicklistMenuData = (picklist: UI.Options) => {
     if (!Array.isArray(picklist)) {
         throw new Error(`Picklist field values must be an array but instead was: ${typeof picklist}`);
     }
@@ -581,7 +581,9 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
 }
 
 /**
- * @param guid
+ * Looks a a screen field by its guid
+ *
+ * @param guid - The element guid
  * @returns the screen field element corresponding to the given guid
  */
 function getScreenFieldElementByGuid(guid) {

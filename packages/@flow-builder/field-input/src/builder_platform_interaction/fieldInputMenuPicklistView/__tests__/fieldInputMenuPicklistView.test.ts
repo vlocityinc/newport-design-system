@@ -1,6 +1,6 @@
 import { createComponent } from 'builder_platform_interaction/builderTestUtils';
 import { lwcUtils } from 'builder_platform_interaction/sharedUtils';
-import { getPicklistViewSection } from '../utils';
+import { getPicklistValuesViewSection } from '../utils';
 
 const tag = 'builder_platform_interaction-field-input-menu-picklist-view';
 
@@ -35,7 +35,9 @@ jest.mock('builder_platform_interaction/fieldInputMenuDataApi', () => {
 
 jest.mock('../utils', () => {
     return {
-        getPicklistViewSection: jest.fn((apiData) => jest.requireActual('../utils').getPicklistViewSection(apiData))
+        getPicklistValuesViewSection: jest.fn((apiData) =>
+            jest.requireActual('../utils').getPicklistValuesViewSection(apiData)
+        )
     };
 });
 
@@ -65,11 +67,11 @@ describe('Field Input Menu Picklist View Tests', () => {
 
     it('sanity', async () => {
         expect(cmp).toBeTruthy();
-        expect(getPicklistViewSection).toHaveBeenCalledTimes(1);
+        expect(getPicklistValuesViewSection).toHaveBeenCalledTimes(1);
         expect(dom.all.ul.length).toEqual(1);
     });
 
-    it('utils > getPicklistViewSection', async () => {
-        expect(getPicklistViewSection(mockApiResponse.data)).toMatchSnapshot();
+    it('utils > getPicklistValuesViewSection', async () => {
+        expect(getPicklistValuesViewSection(mockApiResponse.data)).toMatchSnapshot();
     });
 });

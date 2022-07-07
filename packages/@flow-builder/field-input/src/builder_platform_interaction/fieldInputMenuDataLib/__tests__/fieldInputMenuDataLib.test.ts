@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
@@ -22,8 +21,13 @@ import {
     loopOnTextCollectionAutomaticOutput,
     loopOnTextCollectionManualOutput
 } from 'mock/storeDataScheduleTriggered';
-import { getResourceCategoryLabel, getResourceName } from '../fieldInputMenuDataLib';
+import { fieldInputCategoryMap, getResourceCategory, getResourceLabel } from '../fieldInputMenuDataLib';
 import { LABELS } from '../fieldInputMenuDataLibLabels';
+
+function getResourceCategoryLabel(obj) {
+    const category = getResourceCategory(obj);
+    return fieldInputCategoryMap[category].label;
+}
 
 jest.mock('builder_platform_interaction/sobjectLib', () =>
     jest.requireActual('builder_platform_interaction_mocks/sobjectLib')
@@ -85,7 +89,13 @@ jest.mock(
     { virtual: true }
 );
 
-const createElement = (elementType, dataType, isCollection, storeOutputAutomatically, elementSubtype) => ({
+const createElement = (
+    elementType,
+    dataType: string | undefined = undefined,
+    isCollection = false,
+    storeOutputAutomatically = false,
+    elementSubtype: string | undefined = undefined
+) => ({
     dataType,
     elementType,
     isCollection,
@@ -219,32 +229,32 @@ describe('Field Input Menu Data Lib Tests', () => {
     });
 });
 
-describe('Tests for getResourceName', () => {
+describe('Tests for getResourceLabel', () => {
     it('returns the resource name in the general case', () => {
-        const label = getResourceName(lookupRecordOutputReference);
+        const label = getResourceLabel(lookupRecordOutputReference);
         expect(label).toEqual(lookupRecordOutputReference.name);
     });
 
     describe('GetRecord element with automatic handling mode', () => {
         it('returns "[SObject label] from [elementName]"', () => {
-            const label = getResourceName(lookupRecordAutomaticOutput);
+            const label = getResourceLabel(lookupRecordAutomaticOutput);
             expect(label).toEqual('Account from lookupRecordAutomaticOutput');
         });
         it('returns "[SObject plural label] from [elementName]" when returning all records', () => {
-            const label = getResourceName(lookupRecordCollectionAutomaticOutput);
+            const label = getResourceLabel(lookupRecordCollectionAutomaticOutput);
             expect(label).toEqual('Accounts from lookupRecordCollectionAutomaticOutput');
         });
         it('returns the resource name if SObject cannot be found', () => {
             const element = deepCopy(lookupRecordCollectionAutomaticOutput);
             element.object = 'UnknownRecord';
             element.subtype = 'UnknownRecord';
-            const label = getResourceName(element);
+            const label = getResourceLabel(element);
             expect(label).toEqual(element.name);
         });
     });
 
     it('returns "[SObject label]Id from [elementName]" for create records with automatic handling mode', () => {
-        const label = getResourceName(createAccountWithAutomaticOutput);
+        const label = getResourceLabel(createAccountWithAutomaticOutput);
         expect(label).toEqual('AccountId from createAccountWithAutomaticOutput');
     });
 
@@ -256,47 +266,47 @@ describe('Tests for getResourceName', () => {
             ${loopOnTextCollectionAutomaticOutput} | ${'Current Item from Loop ' + loopOnTextCollectionAutomaticOutput.name}
             ${loopOnApexTypeCollectionAutoOutput}  | ${'Current Item from Loop ' + loopOnApexTypeCollectionAutoOutput.name}
         `('$loop.name should have label: $expectedLabel', ({ loop, expectedLabel }) => {
-            const label = getResourceName(loop);
+            const label = getResourceLabel(loop);
 
             expect(label).toEqual(expectedLabel);
         });
     });
 
     it('returns "Outputs from [LCScreenFieldName]" for LC screen field with automatic handling mode', () => {
-        const label = getResourceName(emailScreenFieldAutomaticOutput);
+        const label = getResourceLabel(emailScreenFieldAutomaticOutput);
         expect(label).toEqual('Outputs from emailScreenFieldAutomaticOutput');
     });
 
     it('returns "Outputs from [ActionName]" for action with automatic handling mode', () => {
-        const label = getResourceName(actionCallAutomaticOutput);
+        const label = getResourceLabel(actionCallAutomaticOutput);
         expect(label).toEqual('Outputs from actionCallAutomaticOutput');
     });
 
     describe('Action with automatic handling mode and anonymous output', () => {
         it('returns [Entity name] from [ActionName] for single sobject', () => {
-            const label = getResourceName(apexCallAutomaticAnonymousAccountOutput);
+            const label = getResourceLabel(apexCallAutomaticAnonymousAccountOutput);
             expect(label).toEqual('Account from apexCall_anonymous_account');
         });
         it('returns [Primitive label] from [ActionName] for single primitive', () => {
-            const label = getResourceName(apexCallAutomaticAnonymousStringOutput);
+            const label = getResourceLabel(apexCallAutomaticAnonymousStringOutput);
             expect(label).toEqual('FlowBuilderDataTypes.textDataTypeLabel from apexCall_anonymous_string');
         });
         it('returns [Entity name]s from [ActionName] for sobject collection', () => {
-            const label = getResourceName(apexCallAutomaticAnonymousAccountsOutput);
+            const label = getResourceLabel(apexCallAutomaticAnonymousAccountsOutput);
             expect(label).toEqual('Accounts from apexCall_anonymous_accounts');
         });
         it('returns [Primitive label] Collection from [ActionName] for primitive collection', () => {
-            const label = getResourceName(apexCallAutomaticAnonymousStringsOutput);
+            const label = getResourceLabel(apexCallAutomaticAnonymousStringsOutput);
             expect(label).toEqual('FlowBuilderDataTypes.textDataTypeLabel Collection from apexCall_anonymous_strings');
         });
         it('returns [Apex Type] Collection from [ActionName] for apex type collection', () => {
-            const label = getResourceName(apexCallAutomaticAnonymousApexTypeCollectionOutput);
+            const label = getResourceLabel(apexCallAutomaticAnonymousApexTypeCollectionOutput);
             expect(label).toEqual('InvocableGetCars$GetCarResult Collection from apexCall_anonymous_apex_collection');
         });
     });
 
     it('returns "Outputs from [SubflowName]" for subflow with automatic output handling mode', () => {
-        const label = getResourceName(subflowAutomaticOutput);
+        const label = getResourceLabel(subflowAutomaticOutput);
         expect(label).toEqual('Outputs from subflowAutomaticOutput');
     });
 });

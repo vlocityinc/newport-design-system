@@ -82,4 +82,19 @@ export default class FieldInputMenuSectionItem extends withKeyboardInteractions(
         // TODO (W-11154930): replace with actual tooltip description
         return 'description for tooltip';
     }
+
+    /* data for the popup component */
+    get popupData() {
+        const { description, name, label, dataType, iconName, subtype } = this.item;
+
+        return {
+            description,
+            apiName: name,
+            label,
+
+            dataType,
+            dataTypeIcon: iconName,
+            subtype
+        };
+    }
 }

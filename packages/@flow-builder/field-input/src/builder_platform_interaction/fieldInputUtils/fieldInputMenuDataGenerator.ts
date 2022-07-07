@@ -1,6 +1,6 @@
 import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { getResourceCategoryLabel } from 'builder_platform_interaction/fieldInputMenuDataLib';
+import { getResourceCategory } from 'builder_platform_interaction/fieldInputMenuDataLib';
 import { ACTION_TYPE, ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
 import { getDataType } from 'builder_platform_interaction/ruleLib';
 import { apexClassesSelector } from 'builder_platform_interaction/selectors';
@@ -12,14 +12,17 @@ const { format } = commonUtils;
 
 const viewTBD: FieldInput.MenuItemViewTBD = {
     type: 'MenuItemViewTypeTbd'
-};
+} as const;
+
+const defaultIconInfo = {
+    iconName: 'missing-icon',
+    iconSize: 'small'
+} as const;
 
 // make type from t FLOW_DATA_TYPE
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
 const UTILITY_ICON_TYPE = 'utility';
-const S_ICON_SIZE = 'small';
-const XS_ICON_SIZE = 'x-small';
 
 /**
  * Checks if the provided top level resource will support traversal within the combobox
@@ -44,8 +47,9 @@ const XS_ICON_SIZE = 'x-small';
 const getCanvasElementIconInfo = (resource: UI.FlowResource): FieldInput.MenuItemIconInfo => {
     const { nodeConfig } = getConfigForElementType(resource.elementSubtype || resource.elementType);
 
+    // can this ever happen?
     if (nodeConfig == null) {
-        return {};
+        return defaultIconInfo;
     }
 
     const { iconName, iconBackgroundColor, iconShape } = nodeConfig;
@@ -53,21 +57,11 @@ const getCanvasElementIconInfo = (resource: UI.FlowResource): FieldInput.MenuIte
     return {
         iconName,
         iconAlternativeText: resource.elementType,
-        iconSize: S_ICON_SIZE,
+        iconSize: 'small',
         iconBackgroundColor,
         iconShape
     };
 };
-
-/**
- * Get utility icon name
- *
- * @param iconName - The icon name with the utility namespace
- * @returns the icon name with the utility namespace
- */
-function getUtilityIconName(iconName: string) {
-    return `${UTILITY_ICON_TYPE}:${iconName}`;
-}
 
 /**
  * Gets the icon information for a non canvas element field input item
@@ -78,7 +72,7 @@ function getUtilityIconName(iconName: string) {
  * @param actionType actionType associated with a given flow resource
  * @returns icon information such as name, size etc.
  */
-const getNonCanvasElementIconInfo = (
+export const getNonCanvasElementIconInfo = (
     dataType: UI.Datatype,
     isCollection?: boolean,
     elementType?: UI.ElementType,
@@ -86,16 +80,16 @@ const getNonCanvasElementIconInfo = (
 ): FieldInput.MenuItemIconInfo => {
     let iconName = getDataTypeIcons(dataType, UTILITY_ICON_TYPE);
     let iconAlternativeText = dataType;
-    let iconSize: FieldInput.IconSize = XS_ICON_SIZE;
+    let iconSize: FieldInput.IconSize = 'x-small';
 
     let iconBackgroundColor;
 
     if (dataType === FLOW_DATA_TYPE.BOOLEAN.value) {
-        iconName = getUtilityIconName('toggle');
+        iconName = 'utility:toggle';
     } else if (dataType === SOBJECT_TYPE && isCollection) {
         // TODO: Remove the isCollection check once the utility:record icon is ready.
         // Both record and record collection variables should have the same icon then.
-        iconName = getUtilityIconName('sobject_collection');
+        iconName = 'utility:sobject_collection';
     } else if (elementType === ELEMENT_TYPE.TEXT_TEMPLATE || elementType === ELEMENT_TYPE.STAGE) {
         const config = getConfigForElementType(elementType);
         iconName = config.nodeConfig?.utilityIconName;
@@ -105,11 +99,12 @@ const getNonCanvasElementIconInfo = (
         iconName = actionType === ACTION_TYPE.STEP_BACKGROUND ? ICONS.backgroundStep : ICONS.interactiveStep;
         const config = getConfigForElementType(elementType);
         iconBackgroundColor = config.nodeConfig?.iconBackgroundColor;
-        iconSize = S_ICON_SIZE;
+        iconSize = 'small';
     }
 
+    // can this ever happen?
     if (iconName == null) {
-        return {};
+        return defaultIconInfo;
     }
 
     return {
@@ -146,35 +141,47 @@ const getGlobalRecordMenuItem = (
 };
 
 /**
- * Creates the field input menu item for various elements in the flow
+ * Maps a Field Input menu category to a view type
+ *
+ * @param category - The menu category
+ * @returns The view type for the category
+ */
+function getViewTypeForCategory(category: FieldInput.Category): FieldInput.MenuItemViewType | undefined {
+    if (category === 'RecordVariable') {
+        return 'ObjectFields';
+    }
+    return undefined;
+}
+/**
+ * Creates the field input menu item for various flow resources
  *
  * @param resource element from flow or global values
  * @param dataType dataType associated with the resource
- * @returns representation of the flow element in the shape combobox needs
+ * @returns The menu item for the resource
  */
 const getResourceMenuItem = (resource: UI.FlowResource, dataType: UI.Datatype): FieldInput.MenuItem => {
     // TODO: Look into hydrated element type
     const name = (resource as UI.HydratedElement).name?.value || resource.name!;
-    const elementCategory = getResourceCategoryLabel({
-        dataType,
-        ...resource
-    });
+
+    const category = getResourceCategory({ dataType, ...resource }) || resource.category;
     const iconInfo = resource.isCanvasElement
         ? getCanvasElementIconInfo(resource)
         : getNonCanvasElementIconInfo(dataType, resource.isCollection, resource.elementType, resource.actionType);
 
-    const view = resource.isCanvasElement ? ({ type: 'FlowElement' } as FieldInput.MenuItemView) : viewTBD;
-    const { label, guid, description, category, subtype } = resource;
+    const viewType = getViewTypeForCategory(category);
+
+    const { label, guid, description, subtype } = resource;
 
     return {
         name,
         label: label || name,
         value: guid,
-        view,
+        view: viewType != null ? { type: viewType } : undefined,
         // Adding description for Global values like True, False etc.
         description,
-        category: category || elementCategory,
+        category,
         subtype,
+        dataType,
         ...iconInfo
     };
 };
@@ -191,7 +198,9 @@ const getResourceMenuItem = (resource: UI.FlowResource, dataType: UI.Datatype): 
  * @param resource element from flow or global constants
  * @returns representation of the passed in resource in shape combobox needs
  */
-export function mutateFlowResourceToComboboxShape(resource: UI.FlowResource): FieldInput.MenuItem<any> {
+export function mutateFlowResourceToComboboxShape<T extends FieldInput.MenuItemView>(
+    resource: UI.FlowResource
+): FieldInput.MenuItem<T> {
     const dataType: UI.Datatype = getDataType(resource);
 
     const menuItem =
@@ -199,7 +208,9 @@ export function mutateFlowResourceToComboboxShape(resource: UI.FlowResource): Fi
             ? getGlobalRecordMenuItem(resource, dataType)
             : getResourceMenuItem(resource, dataType);
 
-    return menuItem;
+    // TODO: remove this
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return menuItem as any;
 }
 
 /**
@@ -310,15 +321,18 @@ export const mutateEventTypesToComboboxShape = (eventTypes: FieldInput.EventType
 const formatIfNeeded = (nonFormattedValue: string, isFormatNeeded?: boolean, formatArgument?: string): string =>
     isFormatNeeded ? format(nonFormattedValue, formatArgument) : nonFormattedValue;
 
-const globalVariablesViewMap: { [key: string]: FieldInput.MenuItemViewType } = {
-    $Flow: 'MenuItemViewTypeTbd',
-    $Organization: 'MenuItemViewTypeTbd',
-    $Setup: 'MenuItemViewTypeTbd',
-    $User: 'ObjectFields',
-    $UserRole: 'ObjectFields',
-    $Profile: 'ObjectFields',
-    $Api: 'MenuItemViewTypeTbd',
-    $System: 'MenuItemViewTypeTbd'
+const globalVariablesViewMap: Record<FieldInput.SystemAndGlobalVariableName, FieldInput.MenuItemViewType> = {
+    $Flow: 'Resources.Flow',
+    $Organization: 'Resources.Organization',
+    $Setup: 'Resources.Setup',
+    $User: 'Resources.User',
+    $UserRole: 'Resources.UserRole',
+    $Profile: 'Resources.Profile',
+    $Api: 'Resources.Api',
+    $System: 'Resources.System',
+    $Label: 'Resources.Labels',
+    $Record: 'ObjectFields',
+    $Record__Prior: 'ObjectFields'
 };
 
 export const mutateSystemAndGlobalVariablesToComboboxShape = ({
@@ -345,8 +359,8 @@ export const mutateSystemAndGlobalVariablesToComboboxShape = ({
         name,
         description: formatIfNeeded(description, hasDescriptionSubtypeParam, subtype),
         category: LABELS.globalResources,
-        iconName: getUtilityIconName(iconName),
-        iconSize: XS_ICON_SIZE,
+        iconName,
+        iconSize: 'x-small',
         iconAlternativeText: LABELS.systemGlobalVariableCategoryIconAltText // FIXME we need the alt text for the new combobox - most likely will depend on the icon thus the config
     };
 };

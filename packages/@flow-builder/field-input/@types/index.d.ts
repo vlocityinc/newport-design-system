@@ -1,65 +1,62 @@
 declare module 'builder_platform_interaction/alc*';
 
 declare namespace FieldInput {
-    interface MenuSection {
-        key: string;
-        // we don't have a label when we have only one section
+    type SortField = 'label' | 'name';
+
+    type Option = UI.Option;
+    type Options = UI.Options;
+
+    type MenuConfig = Readonly<{
+        newResourceTypeLabel?: string | null;
+        traversalConfig?: MenuTraversalConfig;
+        // the picklist values that will be appended to the menu data if picklist values are allowed
+        activePicklistValues?: Options;
+        filter: MenuFilter;
+        sortField: SortField;
+    }>;
+
+    type MenuSection = Readonly<{
+        name: Category | 'PicklistValues' | 'GlobalResources' | 'GlobalValues' | 'Constants' | 'ObjectFields';
+        // we don't have a label when we only have one section
         label?: string;
         items: MenuItem[];
-    }
+    }>;
 
     type MenuItemCategory = string;
 
     interface MenuContextItem extends MenuItemView {
-        label?: string;
-        name?: string;
+        readonly label?: string;
+        readonly name: string;
     }
 
-    interface MenuItem<V extends MenuItemView | undefined = MenuItemView> {
-        name: string;
-        label: string;
-        description?: string;
+    type MenuItem<V extends MenuItemView | undefined = MenuItemView> = Readonly<
+        {
+            name: string;
+            label: string;
+            description?: string;
 
-        // TODO: try to get rid of these 3 fields
-        dataType?: UI.Datatype;
-        subtype?: string;
-        value: string;
+            // TODO: try to get rid of these 3 fields
+            dataType?: UI.Datatype;
+            subtype?: string;
+            value: string;
 
-        // TODO: FF this is denormalized from MenuSection, should remove
-        category?: MenuItemCategory;
+            // TODO: FF this is denormalized from MenuSection, should remove
+            category?: MenuItemCategory;
 
-        // TODO: try to get rid of this
-        isCollection?: boolean;
+            // TODO: try to get rid of this
+            isCollection?: boolean;
 
-        iconName?: string;
-        iconAlternativeText?: string;
-        iconSize?: string;
-        iconShape?: IconShape;
-        iconBackgroundColor?: string;
+            // the view to transition to when clicking on the item, or undefined if none
+            view?: V;
+        } & MenuItemIconInfo
+    >;
 
-        // the view to transition to when clicking on the item, or undefined if none
-        view?: V;
-    }
-
-    type MenuSelectItemEventDetail = {
-        item: MenuItem;
-    };
-
-    type MenuSelectItemEvent = CustomEvent<FieldInput.MenuSelectItemEventDetail>;
-
-    type BreadcrumbClickEventDetail = {
-        // index of the current breadcrumb clicked (0 based)
-        index: number;
-    };
-
-    type BreadcrumbClickEvent = CustomEvent<FieldInput.BreadcrumbClickEventDetail>;
-
-    type MenuInputBoxConfig = {
-        labels: {
+    type MenuInputBoxConfig = Readonly<{
+        labels: Readonly<{
             inputLabel?: string;
             inputPlaceholder?: string;
-        };
-    };
+        }>;
+    }>;
 
     type Category =
         | 'Action'
@@ -94,38 +91,53 @@ declare namespace FieldInput {
         | 'Filter'
         | 'Map';
 
-    type Breadcrumb = {
+    type Breadcrumb = Readonly<{
         id: string;
         label: string;
         tooltip?: string;
-    };
+    }>;
 
-    type MenuItemViewType = 'All' | 'ObjectFields' | 'PicklistValues' | 'FlowElement' | 'MenuItemViewTypeTbd';
+    type MenuItemViewType =
+        | 'All'
+        | 'ObjectFields'
+        | 'PicklistValues'
+        | 'FlowElement'
+        | 'Resources.Flow'
+        | 'Resources.Organization'
+        | 'Resources.Setup'
+        | 'Resources.User'
+        | 'Resources.UserRole'
+        | 'Resources.Profile'
+        | 'Resources.Api'
+        | 'Resources.System'
+        | 'Resources.Labels'
+        | 'MenuItemViewTypeTbd';
+
     interface MenuItemView {
-        type: MenuItemViewType;
+        readonly type: MenuItemViewType;
     }
 
     interface MenuItemViewAll extends MenuItemView {
-        type: 'All';
+        readonly type: 'All';
     }
 
     interface MenuItemViewTBD extends MenuItemView {
-        type: 'MenuItemViewTypeTbd';
+        readonly type: 'MenuItemViewTypeTbd';
     }
 
     interface MenuItemViewFlowElement extends MenuItemView {
-        type: 'FlowElement';
+        readonly type: 'FlowElement';
     }
 
     interface MenuItemViewObjectFields extends MenuItemView {
-        type: 'ObjectFields';
+        readonly type: 'ObjectFields';
         objectApiName: string;
     }
 
     interface MenuItemViewPicklistValues extends MenuItemView {
-        type: 'PicklistValues';
-        fieldApiName: string;
-        recordTypeId: string;
+        readonly type: 'PicklistValues';
+        readonly fieldApiName: string;
+        readonly recordTypeId: string;
     }
 
     type MenuHeaderMode = 'allResources' | 'traversal' | 'resource' | 'entityFields';
@@ -133,41 +145,42 @@ declare namespace FieldInput {
 
     type IconSize = 'small' | 'x-small';
 
-    type MenuItemIconInfo = {
-        iconName?: string;
-        iconAlternativeText?: string;
-        iconSize?: IconSize; // do we need icon size?
-        iconBackgroundColor?: string;
-        iconShape?: IconShape;
-    };
+    type MenuItemIconInfo = Readonly<
+        IconInfo & {
+            iconAlternativeText?: string;
+            iconBackgroundColor?: string;
+            iconShape?: IconShape;
+        }
+    >;
 
-    type EventType = {
+    type EventType = Readonly<{
         dataType: string;
         isRequired: boolean;
         label: string;
         qualifiedApiName: string;
-    };
+    }>;
 
-    type CategoryConfig = {
+    type CategoryConfig = Readonly<{
+        name: Category;
         label: string;
         isElementCategory?: boolean;
         hideFromFirstLevel?: boolean;
-    };
+    }>;
 
     // from systemvariablesconstantlib
     type SystemAndGlobalVariableName =
         | '$Api'
         | '$Label'
         | '$Organization'
-        | '$Permission'
+        //        | '$Permission'
         | '$Profile'
         | '$Setup'
         | '$System'
         | '$User'
         | '$UserRole'
         | '$Flow'
-        | '$Client'
-        | '$Orchestration'
+        //        | '$Client'
+        //        | '$Orchestration';
         | '$Record'
         | '$Record__Prior';
 
@@ -177,6 +190,32 @@ declare namespace FieldInput {
         | '$GlobalConstant.False'
         | '$GlobalConstant.EmptyString'
         | '$GlobalConstant.Null';
+
+    type FlowElement = UI.Element;
+    type FlowElements = FlowElement[];
+
+    type Context = Readonly<{
+        flowElements: FlowElements;
+    }>;
+
+    type ShowMenuEventDetail = Readonly<{
+        show: boolean;
+    }>;
+
+    type ShowMenuEvent = CustomEvent<ShowMenuEventDetail>;
+
+    type MenuSelectItemEventDetail = Readonly<{
+        item: MenuItem;
+    }>;
+
+    type MenuSelectItemEvent = CustomEvent<FieldInput.MenuSelectItemEventDetail>;
+
+    type BreadcrumbClickEventDetail = {
+        // index of the current breadcrumb clicked (0 based)
+        index: number;
+    };
+
+    type BreadcrumbClickEvent = CustomEvent<FieldInput.BreadcrumbClickEventDetail>;
 }
 
 // TODO: define proper types here

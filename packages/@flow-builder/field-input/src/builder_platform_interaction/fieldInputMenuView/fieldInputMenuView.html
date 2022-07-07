@@ -1,6 +1,6 @@
 <template>
     <template if:true={sections} for:each={sections} for:item="section">
-        <ul key={section.key} role="treeitem" aria-expanded class="slds-listbox slds-listbox_vertical">
+        <ul key={section.name} role="treeitem" aria-expanded class="slds-listbox slds-listbox_vertical">
             <li
                 if:true={section.label}
                 role="presentation"

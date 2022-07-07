@@ -9,6 +9,7 @@ import {
 } from 'builder_platform_interaction/expressionUtils';
 import {
     elementCategoriesForAllView,
+    fieldInputCategoryMap,
     globalConstants,
     globalConstantsLabel,
     systemAndGlobalVariables,
@@ -21,7 +22,6 @@ import {
     isSystemElement
 } from 'builder_platform_interaction/flowMetadata';
 import { isAutomaticField } from 'builder_platform_interaction/screenEditorUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { GLOBAL_CONSTANT_OBJECTS } from 'builder_platform_interaction/systemLib';
 import {
     mutateFlowResourceToComboboxShape,
@@ -44,11 +44,12 @@ const firstLevelMenuFilteredTypes = [
  * @returns filtered menu data containing menu elements, start element and system/global variables
  */
 function filterFlowElements(
-    flowElements: UI.Element[] = [],
-    config: MenuConfig,
-    allowedParamTypes: RuleMap
-): UI.Element[] {
-    config = intializeMenuConfigWithDefaultValues(config);
+    flowElements: FieldInput.FlowElements = [],
+    config: FieldInput.MenuConfig,
+    allowedParamTypes: RuleMap | undefined
+): FieldInput.FlowElements {
+    config = { ...intializeMenuConfigWithDefaultValues(config), sortField: 'label' } as const;
+
     const isTraversalEnabled = config.traversalConfig?.isEnabled;
     const allowsApexCallAnonymousAutoOutput = config.filter?.allowsApexCallAnonymousAutoOutput;
     const additionalFilter = (element) => filterChildrenComponent(element);
@@ -71,6 +72,7 @@ const filterChildrenComponent = (element: UI.Element) =>
     !firstLevelMenuFilteredTypes.includes(element.elementType as ELEMENT_TYPE);
 
 type PicklistItem = {
+    iconName: string;
     displayText: string;
 };
 
@@ -83,59 +85,41 @@ const convertPicklistItems = (picklistItems: PicklistItem[]): FieldInput.MenuIte
             view: { type: 'PicklistValues' },
             name: displayText,
             label: displayText,
-            value: displayText
+            value: displayText,
+            iconSize: 'x-small'
         };
     });
 };
 
-const getGlobalConstantsMenuSection = (
-    config: MenuConfig,
-    allowedParamTypes: RuleMap
-): FieldInput.MenuSection | undefined => {
-    const globalConstantsElements = getGlobalConstants(config, allowedParamTypes) || [];
-    const globalConstantNames = globalConstants.map((constant) => constant.name);
+/**
+ * Maps global constant elements to menu items
+ *
+ * @param config - The menu config
+ * @param allowedParamTypes - The allow types
+ * @returns the menu items for the global constants
+ */
+export const getGlobalConstantsMenuSection = (
+    config: FieldInput.MenuConfig,
+    allowedParamTypes: RuleMap | undefined
+): FieldInput.MenuSection => {
+    // get the allowed global constants
+    const globalConstantsMenuElements = getGlobalConstants(config, allowedParamTypes).filter(
+        shouldIncludeGlobalConstant
+    );
 
-    const globalConstantsMenuElements: Partial<Record<FieldInput.GlobalConstantsName, UI.Element>> =
-        globalConstantsElements.reduce((acc, element) => {
-            const { name } = element;
-
-            if (name && globalConstantNames.includes(name as FieldInput.GlobalConstantsName)) {
-                acc[name] = element;
-            }
-            return acc;
-        }, {});
-
-    if (Object.keys(globalConstantsMenuElements).length > 0) {
-        const items = globalConstants
-            .filter((globalConstant) => globalConstantsMenuElements[globalConstant.name])
-            .map((globalConstant) => {
-                const globalConstantMenuElement = globalConstantsMenuElements[globalConstant.name];
-
-                const { label, description, iconName, name } = globalConstant;
-
-                return {
-                    // TODO: should pick what to include
-                    ...globalConstantMenuElement,
-                    label,
-                    name,
-                    description,
-                    iconName,
-                    view: { type: 'MenuItemViewTypeTbd' },
-                    value: ''
-                } as FieldInput.MenuItem;
-            });
-
-        // TODO: FF fix key
-        return { key: globalConstantsLabel, label: globalConstantsLabel, items };
-    }
-
-    return undefined;
+    // and return them mapped as menu items
+    return {
+        name: 'Constants',
+        label: globalConstantsLabel,
+        items: mapGlobalConstantsToMenuItems(globalConstantsMenuElements)
+    };
 };
 
 /**
+ * Sorts the system variables menu items
  *
- * @param systemAndGlobalVariablesItems
- * @returns
+ * @param systemAndGlobalVariablesItems - The unsorted system variables
+ * @returns The sorted system variables menu items
  */
 const sortAndMapSystemVariables = (systemAndGlobalVariablesItems: FieldInput.MenuItem[]): FieldInput.MenuItem[] => {
     const systemAndGlobalVariablesByApiNames = systemAndGlobalVariablesItems.reduce((acc, item) => {
@@ -166,6 +150,29 @@ const sortAndMapSystemVariables = (systemAndGlobalVariablesItems: FieldInput.Men
 };
 
 /**
+ * Get the element menu sections sorted by category
+ *
+ * @param flowElements - The flow elements
+ * @param config - The menu config
+ * @param allowedParamTypes - The allowed param types
+ * @returns The element menu sections sorted by category
+ */
+export const getElementMenuSections = (
+    flowElements: FieldInput.FlowElements,
+    config: FieldInput.MenuConfig,
+    allowedParamTypes: RuleMap | undefined
+): FieldInput.MenuSection[] => {
+    flowElements = filterFlowElements(flowElements, config, allowedParamTypes);
+
+    const sortedMenuElementsGroupedByCategory = sortAndGroupFlowElements(flowElements, config.sortField);
+
+    // return in sorted order
+    return elementCategoriesForAllView
+        .map((category) => sortedMenuElementsGroupedByCategory[category.name]!)
+        .filter((section) => !!section);
+};
+
+/**
  * // TODO: rename this method
  * Filter and map menu items
  *
@@ -175,9 +182,9 @@ const sortAndMapSystemVariables = (systemAndGlobalVariablesItems: FieldInput.Men
  * @returns the MenuSection's for the filtered flow elements
  */
 export const filterAndMapToMenuItems = (
-    flowElements: UI.Element[] = [],
-    allowedParamTypes: RuleMap = {},
-    config: MenuConfig
+    flowElements: FieldInput.FlowElements,
+    allowedParamTypes: RuleMap | undefined,
+    config: FieldInput.MenuConfig
 ): FieldInput.MenuSection[] => {
     const isTraversalEnabled = config.traversalConfig?.isEnabled;
     const startElement = flowElements.find(
@@ -185,36 +192,75 @@ export const filterAndMapToMenuItems = (
             element.elementType === ELEMENT_TYPE.START_ELEMENT &&
             isElementAllowed(allowedParamTypes, element, isTraversalEnabled)
     );
+
     flowElements = filterFlowElements(flowElements, config, allowedParamTypes);
+    const picklistValuesSection = getPicklistValuesSection(config, allowedParamTypes);
 
-    const sortField = config.sortField || 'label';
-    const sortedMenuElementsGroupedByCategory = sortAndGroupFlowElements(flowElements, sortField);
-
-    const orderedCategories = elementCategoriesForAllView;
-    const menuSections = [getPicklistValuesSection(config, allowedParamTypes)!]
-        .concat(orderedCategories.map((category) => sortedMenuElementsGroupedByCategory[category.label]))
-        .concat([
-            getGlobalConstantsMenuSection(config, allowedParamTypes)!,
-            getSystemAndGlobalVariablesMenuSection(config, allowedParamTypes, startElement)!
-        ])
-        .filter((section) => section && section.items.length !== 0);
-
-    // TODO: use natural, stable key
-    return menuSections.map((menuSections) => ({ ...menuSections, key: generateGuid() }));
+    return [
+        ...(picklistValuesSection ? [picklistValuesSection] : []),
+        ...getElementMenuSections(flowElements, config, allowedParamTypes),
+        getGlobalConstantsMenuSection(config, allowedParamTypes),
+        getSystemAndGlobalVariablesMenuSection(config, allowedParamTypes, startElement)!
+    ].filter((section) => section.items.length !== 0);
 };
 
 /**
- * @param config
- * @param allowedParamTypes
+ * Maps global constants to menu items
+ *
+ * @param globalConstantsElements - The global constants elements
+ * @returns The menu items for the global constants
+ */
+function mapGlobalConstantsToMenuItems(globalConstantsElements: FieldInput.FlowElements): FieldInput.MenuItem[] {
+    return globalConstantsElements.map((ele) => {
+        const globalConstant = globalConstants.find((globalConstant) => globalConstant.name === ele.name)!;
+
+        const { label, description, iconName, iconSize, name } = globalConstant;
+
+        return {
+            // TODO: should pick what to include
+            ...ele,
+            label,
+            name,
+            description,
+            iconName,
+            iconSize,
+            value: ''
+        };
+    });
+}
+
+/**
+ * Checks if a global constant should be include in the menu data
+ *
+ * @param resource - The global constant
+ * @returns true if it should be included, false otherwise
+ */
+function shouldIncludeGlobalConstant(resource: UI.FlowResource): boolean {
+    return (
+        globalConstants.find(
+            (globalConstant) => globalConstant.name === (resource.name as FieldInput.GlobalConstantsName)
+        ) != null
+    );
+}
+
+/**
+ *  Get the elements for the global constants
+ *
+ * @param config - The menu config
+ * @param allowedParamTypes - The allowed types
  * @returns The elements for the global constants
  */
-function getGlobalConstants(config: MenuConfig, allowedParamTypes: RuleMap): UI.Element[] | undefined {
+function getGlobalConstants(
+    config: FieldInput.MenuConfig,
+    allowedParamTypes: RuleMap | undefined
+): FieldInput.FlowElements {
     if (config.filter.allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
+
         return filterFlowElements(Object.values(GLOBAL_CONSTANT_OBJECTS), config, allowedParamTypes);
     }
 
-    return undefined;
+    return [];
 }
 
 /**
@@ -225,11 +271,11 @@ function getGlobalConstants(config: MenuConfig, allowedParamTypes: RuleMap): UI.
  * @param startElement - The start element
  * @returns the MenuSection for the system and global variables
  */
-function getSystemAndGlobalVariablesMenuSection(
-    config: MenuConfig,
-    allowedParamTypes: RuleMap,
+export function getSystemAndGlobalVariablesMenuSection(
+    config: FieldInput.MenuConfig,
+    allowedParamTypes: RuleMap | undefined,
     startElement: UI.Element | undefined
-): FieldInput.MenuSection | undefined {
+): FieldInput.MenuSection {
     const systemAndGlobalVariablesMenuItems: FieldInput.MenuItem[] = (
         getSystemAndGlobalVariableMenuData({
             ...config.filter,
@@ -247,56 +293,59 @@ function getSystemAndGlobalVariablesMenuSection(
         systemAndGlobalVariablesMenuItems.push(mutateFlowResourceToComboboxShape(startElement));
     }
 
-    if (systemAndGlobalVariablesMenuItems.length === 0) {
-        return undefined;
-    }
-
     return {
-        key: 'system-and-global-variables-menu-section',
+        name: 'GlobalResources',
         label: systemAndGlobalVariableSectionLabel,
         items: sortAndMapSystemVariables(systemAndGlobalVariablesMenuItems)
     };
 }
 
 /**
- * @param flowElements
- * @param sortField
+ * Get a category map for the flow element sections
+ *
+ * @param flowElements - The flow elements
+ * @param sortField - The sort field
+ * @returns A category map for the flow element sections
  */
 function sortAndGroupFlowElements(
-    flowElements: UI.Element[],
-    sortField: string
+    flowElements: FieldInput.FlowElements,
+    sortField: FieldInput.SortField
 ): Partial<Record<FieldInput.Category, FieldInput.MenuSection>> {
     const initialValue: Partial<Record<FieldInput.Category, FieldInput.MenuSection>> = {};
 
-    return (
-        flowElements
-            .map((element) => mutateFlowResourceToComboboxShape(element))
-            // .filter((element) => element.category != null)
-            .sort((element1, element2) => element1[sortField]!.localeCompare(element2[sortField]!))
-            .reduce((acc, element) => {
-                const category = element.category as FieldInput.Category;
+    return flowElements
+        .map((element) => mutateFlowResourceToComboboxShape(element))
+        .filter((element) => element.category != null)
+        .sort((element1, element2) => element1[sortField]!.localeCompare(element2[sortField]!))
+        .reduce((acc, element) => {
+            const category = element.category as FieldInput.Category;
 
-                let section = acc[category];
-                if (section == null) {
-                    section = {
-                        key: category,
-                        label: category,
-                        items: []
-                    };
-                    acc[category] = section;
-                }
-                section.items.push(element);
+            let section = acc[category];
+            if (section == null) {
+                section = {
+                    name: category,
+                    label: fieldInputCategoryMap[category].label,
+                    items: []
+                };
+                acc[category] = section;
+            }
+            section.items.push(element);
 
-                return acc;
-            }, initialValue)
-    );
+            return acc;
+        }, initialValue);
 }
 
 /**
- * @param config
- * @param allowedParamTypes
+ * Creates a menu section for picklist values
+ *
+ * @param config The menu config
+ * @param allowedParamTypes The allowed param types
+ * @returns a menu section for picklist values, or undefined if none
  */
-function getPicklistValuesSection(config: MenuConfig, allowedParamTypes: RuleMap): FieldInput.MenuSection | undefined {
+function getPicklistValuesSection(
+    config: FieldInput.MenuConfig,
+    allowedParamTypes: RuleMap | undefined
+): FieldInput.MenuSection | undefined {
     const hasPicklistValues = config.activePicklistValues?.length || 0;
 
     if (!hasPicklistValues || !isPicklistFieldAllowed(allowedParamTypes)) {
@@ -305,14 +354,10 @@ function getPicklistValuesSection(config: MenuConfig, allowedParamTypes: RuleMap
 
     const picklistData = getPicklistMenuData(config.activePicklistValues!);
 
-    if (Object.values(picklistData).length === 0) {
-        return undefined;
-    }
-
     const { label, items } = picklistData;
 
     return {
-        key: 'picklist-values',
+        name: 'PicklistValues',
         label,
         items: convertPicklistItems(items)
     };

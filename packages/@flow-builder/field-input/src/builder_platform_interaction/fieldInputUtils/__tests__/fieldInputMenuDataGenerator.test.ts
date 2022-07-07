@@ -1,16 +1,3 @@
-import actions from '@salesforce/label/FlowBuilderFieldInputMenuCategories.actions';
-import assignments from '@salesforce/label/FlowBuilderFieldInputMenuCategories.assignments';
-import decisions from '@salesforce/label/FlowBuilderFieldInputMenuCategories.decisions';
-import filter from '@salesforce/label/FlowBuilderFieldInputMenuCategories.filter';
-import map from '@salesforce/label/FlowBuilderFieldInputMenuCategories.map';
-import recordCollections from '@salesforce/label/FlowBuilderFieldInputMenuCategories.recordCollections';
-import recordVariables from '@salesforce/label/FlowBuilderFieldInputMenuCategories.recordVariables';
-import screens from '@salesforce/label/FlowBuilderFieldInputMenuCategories.screens';
-import simpleVariables from '@salesforce/label/FlowBuilderFieldInputMenuCategories.simpleVariables';
-import sort from '@salesforce/label/FlowBuilderFieldInputMenuCategories.sort';
-import stages from '@salesforce/label/FlowBuilderFieldInputMenuCategories.stages';
-import subflows from '@salesforce/label/FlowBuilderFieldInputMenuCategories.subflows';
-import textTemplates from '@salesforce/label/FlowBuilderFieldInputMenuCategories.textTemplates';
 import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -96,7 +83,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return the right shape (using the label provided) when passing in a resource with a defined label', () => {
             expect(mutateFlowResourceToComboboxShape(assignmentElement)).toMatchObject({
-                category: assignments,
+                category: 'Assignment',
                 description: '',
                 iconAlternativeText: assignmentElement.elementType,
                 iconBackgroundColor: undefined,
@@ -110,7 +97,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return the right shape when passing in a resource with a different icon shape', () => {
             expect(mutateFlowResourceToComboboxShape(decision1)).toMatchObject({
-                category: decisions,
+                category: 'Decision',
                 description: '',
                 iconAlternativeText: decision1.elementType,
                 iconBackgroundColor: undefined,
@@ -124,7 +111,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return the right icon info when passing in a text template resource (has no label)', () => {
             expect(mutateFlowResourceToComboboxShape(textTemplate1)).toMatchObject({
-                category: textTemplates,
+                category: 'TextTemplate',
                 description: '',
                 iconAlternativeText: FLOW_DATA_TYPE.STRING.value,
                 iconName: 'utility:text_template',
@@ -136,7 +123,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return the right icon info when passing in a stage resource', () => {
             expect(mutateFlowResourceToComboboxShape(stageElement)).toMatchObject({
-                category: stages,
+                category: 'Stage',
                 iconAlternativeText: stageElement.elementType,
                 iconName: 'utility:stage',
                 iconSize: 'x-small'
@@ -163,7 +150,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return right shape for filter collection processor', () => {
             expect(mutateFlowResourceToComboboxShape(filterCollectionProcessor)).toMatchObject({
-                category: filter,
+                category: 'Filter',
                 iconAlternativeText: filterCollectionProcessor.elementType,
                 iconName: 'standard:filter',
                 iconSize: 'small',
@@ -173,7 +160,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return right shape for map collection processor', () => {
             expect(mutateFlowResourceToComboboxShape(mapCollectionProcessor)).toMatchObject({
-                category: map,
+                category: 'Map',
                 iconAlternativeText: mapCollectionProcessor.elementType,
                 iconName: 'standard:data_mapping',
                 iconSize: 'small',
@@ -183,7 +170,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return right shape for sort collection processor', () => {
             expect(mutateFlowResourceToComboboxShape(sortCollectionProcessor)).toMatchObject({
-                category: sort,
+                category: 'Sort',
                 iconAlternativeText: sortCollectionProcessor.elementType,
                 iconName: 'standard:sort',
                 iconSize: 'small',
@@ -193,7 +180,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('Should return the right icon info when passing in a boolean variable (has no label)', () => {
             expect(mutateFlowResourceToComboboxShape(booleanVariable)).toMatchObject({
-                category: simpleVariables,
+                category: 'Variable',
                 iconAlternativeText: FLOW_DATA_TYPE.BOOLEAN.value,
                 iconName: 'utility:toggle',
                 iconSize: 'x-small',
@@ -204,7 +191,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('When passing in a resource with an undefined label, label should be the same as the name', () => {
             expect(mutateFlowResourceToComboboxShape(stringVariable)).toMatchObject({
-                category: simpleVariables,
+                category: 'Variable',
                 description: 'random description',
                 iconAlternativeText: FLOW_DATA_TYPE.STRING.value,
                 iconName: FLOW_DATA_TYPE.STRING.utilityIconName,
@@ -274,7 +261,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('hasNext should be true when passing in a record variable (has no label)', () => {
             expect(mutateFlowResourceToComboboxShape(accountSObjectVariable)).toMatchObject({
-                category: recordVariables,
+                category: 'RecordVariable',
                 iconAlternativeText: FLOW_DATA_TYPE.SOBJECT.value,
                 iconName: FLOW_DATA_TYPE.SOBJECT.utilityIconName,
                 iconSize: 'x-small',
@@ -286,7 +273,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('hasNext should be false when passing in a record collection variable (has no label)', () => {
             expect(mutateFlowResourceToComboboxShape(accountSObjectCollectionVariable)).toMatchObject({
-                category: recordCollections,
+                category: 'RecordCollection',
                 iconAlternativeText: FLOW_DATA_TYPE.SOBJECT.value,
                 iconName: 'utility:sobject_collection',
                 iconSize: 'x-small',
@@ -298,7 +285,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('hasNext should be true when passing when passing in a screen with screen fields', () => {
             expect(mutateFlowResourceToComboboxShape(screenElement)).toMatchObject({
-                category: screens,
+                category: 'Screen',
                 iconAlternativeText: screenElement.elementType,
                 iconBackgroundColor: undefined,
                 iconName: 'standard:screen',
@@ -312,7 +299,7 @@ describe('fieldInputMenuDataGenerator', () => {
         it('hasNext should be false when passing in a screen with no screen fields', () => {
             const emptyScreen = { ...screenElement, childReferences: [] };
             expect(mutateFlowResourceToComboboxShape(emptyScreen)).toMatchObject({
-                category: screens,
+                category: 'Screen',
                 iconAlternativeText: emptyScreen.elementType,
                 iconBackgroundColor: undefined,
                 iconName: 'standard:screen',
@@ -325,7 +312,7 @@ describe('fieldInputMenuDataGenerator', () => {
 
         it('hasNext should be true when passing in a subflow without automatic outputs', () => {
             expect(mutateFlowResourceToComboboxShape(subflowWithAllVariableTypes)).toMatchObject({
-                category: subflows,
+                category: 'Subflow',
                 iconAlternativeText: subflowWithAllVariableTypes.elementType,
                 iconBackgroundColor: 'background-navy',
                 iconName: 'standard:flow',
@@ -339,7 +326,7 @@ describe('fieldInputMenuDataGenerator', () => {
         it('hasNext should be true when passing in an action (apex call) with automatic outputs', () => {
             expect(mutateFlowResourceToComboboxShape(apexCallAutomaticAnonymousApexTypeCollectionOutput)).toMatchObject(
                 {
-                    category: actions,
+                    category: 'Action',
                     iconAlternativeText: apexCallAutomaticAnonymousApexTypeCollectionOutput.elementType,
                     iconBackgroundColor: 'background-navy',
                     iconName: 'standard:apex',
@@ -364,7 +351,7 @@ describe('fieldInputMenuDataGenerator', () => {
                     apiName: 'name2',
                     isCollection: false
                 }
-            ] as any;
+            ] as UI.EntityDefinition[];
 
             const mutatedValue = mutateEntitiesToComboboxShape(entities);
             expect(mutatedValue).toEqual([
@@ -446,7 +433,8 @@ describe('fieldInputMenuDataGenerator', () => {
     describe('Tests for mutatePicklistValue', () => {
         it('Should use value as the label when no label is provided', () => {
             const value = 'Pick1';
-            const picklistValue = { value } as any;
+            const picklistValue = { value };
+            // @ts-ignore
             const mutatedValue = mutatePicklistValue(picklistValue);
             expect(mutatedValue).toEqual({
                 value,
@@ -490,7 +478,7 @@ describe('fieldInputMenuDataGenerator', () => {
                 {
                     qualifiedApiName: 'name2'
                 }
-            ] as any;
+            ] as FieldInput.EventType[];
 
             const mutatedValue = mutateEventTypesToComboboxShape(eventTypes);
             expect(mutatedValue).toEqual([
@@ -527,21 +515,20 @@ describe('fieldInputMenuDataGenerator', () => {
             expect(mappedMenuItem).toMatchObject(
                 expect.objectContaining({
                     value: name,
-
                     name,
                     label,
                     description,
-                    iconName: `utility:${iconName}`
+                    iconName
                 })
             );
         test('variable with no datatype', () => {
             const name = '$Api';
             const label = 'Flow API';
             const description = 'Some description for Flow API';
-            const iconName = 'apiIcon';
+            const iconName = 'utility:apiIcon';
             mappedMenuItem = mutateSystemAndGlobalVariablesToComboboxShape({
                 name,
-                config: { label, description, iconName }
+                config: { label, description, iconName, iconSize: 'x-small' }
             });
 
             checkMenuItem({ name, label, description, iconName });
@@ -552,12 +539,19 @@ describe('fieldInputMenuDataGenerator', () => {
             const subtype = 'Account';
             const label = `Triggering ${subtype}`;
             const description = `The ${subtype} record that triggered the flow.`;
-            const iconName = 'recordIcon';
+            const iconName = 'utility:recordIcon';
             mappedMenuItem = mutateSystemAndGlobalVariablesToComboboxShape({
                 name,
                 dataType,
                 subtype,
-                config: { label, hasLabelSubtypeParam: true, hasDescriptionSubtypeParam: true, description, iconName }
+                config: {
+                    label,
+                    hasLabelSubtypeParam: true,
+                    hasDescriptionSubtypeParam: true,
+                    description,
+                    iconName,
+                    iconSize: 'x-small'
+                }
             });
 
             checkMenuItem({ name, label, description, iconName });

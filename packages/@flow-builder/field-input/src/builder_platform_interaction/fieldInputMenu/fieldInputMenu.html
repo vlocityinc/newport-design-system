@@ -8,7 +8,12 @@
             <builder_platform_interaction-field-input-menu-header mode={headerMode} breadcrumbs={breadcrumbs}>
             </builder_platform_interaction-field-input-menu-header>
 
-            <builder_platform_interaction-field-input-menu-view-container view={currentView}>
+            <builder_platform_interaction-field-input-menu-view-container
+                view={currentView}
+                rules={rules}
+                config={config}
+                context={context}
+            >
             </builder_platform_interaction-field-input-menu-view-container>
 
             <div if:true={showFooter} class="footer slds-border_top slds-p-around_small">

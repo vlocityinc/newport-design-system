@@ -1335,4 +1335,12 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
 
         this.focusOnConnector(getConnectionSource(selectedElement));
     };
+
+    get fieldInput() {
+        return {
+            context: {
+                flowElements: Object.values(this._flowRenderContext?.flowModel || [])
+            }
+        };
+    }
 }

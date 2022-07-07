@@ -632,4 +632,24 @@ declare namespace UI {
         | 'Sort'
         | 'Filter'
         | 'Map';
+
+    type Option = Readonly<{
+        label: string;
+        value: string;
+    }>;
+
+    type Options = Readonly<Option[]>;
+    namespace FieldInputMenu {
+        type GlobalConstant = '$GlobalConstant.True' | '$GlobalConstant.False' | '$GlobalConstant.EmptyString';
+
+        type GlobalConstantInfo = {
+            label: string;
+            name: string;
+            guid: string;
+            isCollection: boolean;
+            dataType: string;
+            category: FieldInputCategory;
+            description: string;
+        };
+    }
 }

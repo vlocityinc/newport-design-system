@@ -12,10 +12,15 @@ jest.mock('builder_platform_interaction/fieldInputMenu', () =>
 
 const tag = 'builder_platform_interaction-field-input';
 
-const createComponentUnderTest = async (props) => {
-    const overrideProps = {};
+const context: FieldInput.Context = {
+    flowElements: []
+};
 
-    return createComponent(tag, props, overrideProps);
+const defaultProps = {
+    context
+};
+const createComponentUnderTest = async (overrideProps) => {
+    return createComponent(tag, defaultProps, overrideProps);
 };
 
 const selectors = {
@@ -84,7 +89,7 @@ describe('Field Input Tests', () => {
 
         it('Show menu when menu input box gets focus', async () => {
             await focusIntoInputBoxAndAssert(cmp, dom);
-            assertContextItems(dom, [{ type: 'All' }]);
+            assertContextItems(dom, [{ type: 'All', name: 'All' }]);
         });
 
         describe('When input box loses focus', () => {
@@ -106,7 +111,15 @@ describe('Field Input Tests', () => {
     });
 
     describe('menu navigation', () => {
-        const item = { view: undefined, label: 'Account', value: 'account', name: 'account' };
+        const item: FieldInput.MenuItem = {
+            view: undefined,
+            label: 'Account',
+            value: 'account',
+            name: 'account',
+            iconName: 'utility:screen',
+            iconSize: 'x-small'
+        };
+
         const view: FieldInput.MenuItemView = { type: 'ObjectFields' };
         const itemWithView = { ...item, view };
 
@@ -125,7 +138,10 @@ describe('Field Input Tests', () => {
             await selectMenuItem(dom, itemWithView);
             assertMenuDisplayed(cmp);
 
-            const contextItems = [{ type: 'All' }, { type: 'ObjectFields', label: 'Account', name: 'account' }];
+            const contextItems = [
+                { type: 'All', name: 'All' },
+                { type: 'ObjectFields', label: 'Account', name: 'account' }
+            ];
             assertContextItems(dom, contextItems);
         });
 

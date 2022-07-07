@@ -9,7 +9,7 @@ jest.mock('builder_platform_interaction/fieldInputMenuSectionItem', () =>
 
 const componentWithSectionLabel = {
     section: {
-        key: 'Component With Section Label',
+        name: 'Component With Section Label',
         label: 'Section Label',
         items: [
             {
@@ -29,7 +29,7 @@ const componentWithSectionLabel = {
 
 const sectionWithTwoItems = {
     section: {
-        key: 'Component With Section With Two Items',
+        name: 'Component With Section With Two Items',
         label: 'Section With Two Items',
         items: [
             {
@@ -115,17 +115,17 @@ function assertSectionItems(items, expectedItems) {
 
 describe('Field Input Menu View Tests', () => {
     test('sanity', async () => {
-        const [cmp] = await createComponentWithApiResponse([componentWithSectionLabel]);
+        const [cmp] = await createComponentWithApiResponse([componentWithSectionLabel.section]);
         expect(cmp).toBeTruthy();
     });
 
     it('Should have the correct menu section label when component is rendered', async () => {
-        const [_, dom] = await createComponentWithApiResponse([componentWithSectionLabel.section]);
+        const [, dom] = await createComponentWithApiResponse([componentWithSectionLabel.section]);
         expect(dom.sectionHeader.textContent).toEqual(componentWithSectionLabel.section.label);
     });
 
     it('Should render component with section containing two items', async () => {
-        const [_, dom] = await createComponentWithApiResponse([sectionWithTwoItems.section]);
+        const [, dom] = await createComponentWithApiResponse([sectionWithTwoItems.section]);
         assertSectionItems(dom.all.sectionItem, sectionWithTwoItems.section.items);
     });
 });

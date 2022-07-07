@@ -100,7 +100,7 @@ type CanvasConfig = {
     disableMultiSelectElements: boolean;
 };
 
-type MenuTraversalConfig = {
+type MenuTraversalConfig = Readonly<{
     // if false, then all menu items will have hasNext set to false regardless of the real value
     isEnabled?: boolean;
     allowSObjectFieldsTraversal?: boolean;
@@ -108,12 +108,12 @@ type MenuTraversalConfig = {
     allowSObjectField?: boolean;
     // whether or not to set hasNext on Elements
     allowElementFields?: boolean;
-};
+}>;
 
 /**
  * Set of filters that can be used to filter out what does show up in menus (e.g. combobox)
  */
-type MenuFilter = {
+type MenuFilter = Readonly<{
     // whether or not to include new resource
     includeNewResource?: boolean;
     // whether or not to include global constants (true/false/...)
@@ -134,23 +134,25 @@ type MenuFilter = {
     categoriesToInclude?: string[];
     // whether or not the $Record system variable should be filtered out
     hideRecordSystemVariable?: boolean;
-};
+}>;
 
-type SortField = 'label' | 'name';
-type MenuConfig = {
+type MenuConfig = Readonly<{
     newResourceTypeLabel?: string | null;
     traversalConfig?: MenuTraversalConfig;
     // the picklist values that will be appended to the menu data if picklist values are allowed
-    activePicklistValues?: string[];
+    activePicklistValues?: UI.Options;
     filter: MenuFilter;
-    sortField?: SortField;
+}>;
+
+type IconInfo = {
+    iconName: string;
+    iconSize: 'x-small' | 'small';
 };
 
 type VariablesConfig = {
     label: string;
     description: string;
-    iconName: string;
-};
+} & IconInfo;
 
 type SystemAndGlobalVariablesConfig = VariablesConfig & {
     hasLabelSubtypeParam?: boolean;

@@ -1,41 +1,33 @@
 import { createComponent } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-
-jest.mock('builder_platform_interaction/storeLib', () =>
-    jest.requireActual('builder_platform_interaction_mocks/storeLib')
-);
 
 jest.mock('builder_platform_interaction/fieldInputMenuSectionItem', () =>
     jest.requireActual('builder_platform_interaction_mocks/fieldInputMenuSectionItem')
 );
 
-jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = jest.requireActual('builder_platform_interaction/ruleLib');
-
-    return {
-        ...actual,
-        getRulesForElementType: jest.fn(() => {
-            return [];
-        })
-    };
-});
+jest.mock('builder_platform_interaction/fieldInputUtils');
 
 const tag = 'builder_platform_interaction-field-input-menu-all-view';
 
-const createComponentUnderTest = async (props) => {
-    const overrideProps = {};
+const config: FieldInput.MenuConfig = {
+    sortField: 'label',
+    activePicklistValues: [],
+    traversalConfig: { isEnabled: true },
+    filter: {
+        includeNewResource: true,
+        allowGlobalConstants: true,
+        showSystemVariables: true,
+        showGlobalVariables: true,
+        shouldBeWritable: false
+    }
+} as const;
 
-    return createComponent(tag, props, overrideProps);
+const defaultProps = { config };
+const createComponentUnderTest = async (overrideProps) => {
+    return createComponent(tag, defaultProps, overrideProps);
 };
 
 describe('Field Input Menu All View Tests', () => {
     let cmp;
-
-    beforeAll(() => {
-        // @ts-ignore
-        Store.setMockState(flowWithAllElementsUIModel);
-    });
 
     beforeEach(async () => {
         cmp = await createComponentUnderTest({});

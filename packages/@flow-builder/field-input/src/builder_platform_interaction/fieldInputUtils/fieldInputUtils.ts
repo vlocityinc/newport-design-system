@@ -19,6 +19,15 @@ export function newMenuSelectItemEvent(item: FieldInput.MenuItem) {
 }
 
 /**
+ * Creates a new ShowMenuEvent
+ *
+ * @param show - Whether to show the menu
+ * @returns A show menu event
+ */
+export function newShowMenuEvent(show: boolean) {
+    return newCustomEvent<FieldInput.ShowMenuEventDetail>('showmenu', { show });
+}
+/**
  * The "All" menu context item
  */
-export const menuContextItemAll: FieldInput.MenuContextItem = { type: 'All' } as const;
+export const menuContextItemAll: FieldInput.MenuContextItem = { type: 'All', name: 'All' } as const;

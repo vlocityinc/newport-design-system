@@ -25,7 +25,17 @@ export default class FieldInputMenu extends withKeyboardInteractions(LightningEl
         return [];
     }
 
+    /* the context items */
     @api contextItems: FieldInput.MenuContextItem[] = [menuContextItemAll];
+
+    /* allow params rules */
+    @api rules?: RuleMap;
+
+    /* menu config */
+    @api config!: FieldInput.MenuConfig;
+
+    /* the field input context */
+    @api context!: FieldInput.Context;
 
     get currentView() {
         return this.contextItems.at(-1);
