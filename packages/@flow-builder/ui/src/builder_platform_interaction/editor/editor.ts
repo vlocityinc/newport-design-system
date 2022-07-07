@@ -2198,7 +2198,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 // @ts-ignore
                 let flowTestObject = createFlowTestData(); // initalize an empty flow test object
                 // @ts-ignore
-                flowTestObject.testTriggerType = testTriggerType;
+                const scheduledPathsList = getScheduledPathsList();
+                flowTestObject.testTriggerType = testTriggerType || '';
                 flowTestObject.runPathValue = SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH;
                 flowTestObject = getElementForPropertyEditor(flowTestObject);
                 return {
@@ -2206,6 +2207,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     createOrEdit,
                     triggerSaveType,
                     triggerObjectType,
+                    scheduledPathsList,
                     devNamePrefix: this.getDevNamePrefix(),
                     flowTestListViewCallback: this.handleViewAllTests,
                     builderMode: this.builderMode
@@ -2267,10 +2269,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         if (data.isSuccess) {
             let flowTestObject = createFlowTestData(translateFlowTestToUIModel(data.flowTest, triggerSaveType));
             flowTestObject = getElementForPropertyEditor(flowTestObject);
+
+            const scheduledPathsList = getScheduledPathsList();
             await this.queueOpenCreateFlowTest(() => {
                 return {
                     flowTestObject,
                     createOrEdit,
+                    scheduledPathsList,
                     triggerSaveType,
                     triggerObjectType,
                     flowTestListViewCallback,

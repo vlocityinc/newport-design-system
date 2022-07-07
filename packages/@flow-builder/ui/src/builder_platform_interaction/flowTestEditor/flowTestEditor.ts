@@ -49,6 +49,7 @@ export default class FlowTestEditor extends LightningElement {
     @api footer;
     @api builderMode;
     @api flowTestListViewCallback;
+    @api scheduledPathData;
 
     @api validate() {
         const event = { type: VALIDATE_ALL, mode: this.mode };

@@ -20,13 +20,37 @@ export default class FlowTestDetails extends LightningElement {
 
     devNameCharLimit = MAX_DEV_NAME_LENGTH;
 
-    get isEditTestMode() {
-        return this.mode === FlowTestMode.Edit;
+    _scheduledPaths;
+    // modify the passed in schedule paths to be in a appropriate format for the options combobox
+    _formattedSchedulePaths;
+
+    // also includes the run immediately path.
+    @api
+    get scheduledPaths() {
+        return this._scheduledPaths;
     }
 
-    // Allowed dropdown options for test run (will be expanded to scheduled paths later)
-    get runPathOptions() {
+    set scheduledPaths(scheduledPaths) {
+        this._scheduledPaths = scheduledPaths;
+        this._formattedSchedulePaths = this.formatSchedulePaths(scheduledPaths);
+    }
+
+    formatSchedulePaths(scheduledPaths) {
+        if (scheduledPaths?.length > 0) {
+            return scheduledPaths.map(({ label, value }) => ({ label, value }));
+        }
+        // If no options to show, show the run immediately path.
         return [{ label: LABELS.runImmediatelyPath, value: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH }];
+    }
+
+    handleComboChange(event) {
+        event.stopPropagation();
+        const pathChangedEvent = new PropertyChangedEvent('runPathValue', event.detail.value, null);
+        this.dispatchEvent(pathChangedEvent);
+    }
+
+    get isEditTestMode() {
+        return this.mode === FlowTestMode.Edit;
     }
 
     // Allowed radio button options

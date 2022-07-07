@@ -45,7 +45,7 @@ export function translateFlowTestToUIModel(flowTest, flowTriggerType, convertDeb
     const description = flowTest?.metadata?.description;
     const testInitialRecordData = records?.length >= 1 ? records[0] : undefined;
     const testUpdatedRecordData = records?.length >= 2 ? records[1] : undefined;
-
+    // TODO edit runPathValue after extracting from metadata for SP work
     return {
         label,
         name,

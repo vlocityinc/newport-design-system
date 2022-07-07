@@ -1,17 +1,20 @@
 import { createListRowItem } from 'builder_platform_interaction/elementFactory';
-import { ELEMENT_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseResource } from './base/baseElement';
 import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './base/baseList';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 
 export enum FlowTestParameterType {
     Input = 'InputTriggeringRecordInitial',
-    UpdateRecord = 'InputTriggeringRecordUpdated'
+    UpdateRecord = 'InputTriggeringRecordUpdated',
+    ScheduledPath = 'ScheduledPath'
 }
 
 export enum FlowTestPointValidator {
     Start = 'Start',
-    Finish = 'Finish'
+    Finish = 'Finish',
+    DollarRecord = '$Record',
+    ScheduledPathLHS = 'ScheduledPathApiName'
 }
 
 const elementType = ELEMENT_TYPE.FLOW_TEST_EDITOR;
@@ -103,6 +106,14 @@ export function createFlowTestParametersMetadataObject(uiModel: UI.FlowTestData)
     ) {
         addParameters(uiModel.testUpdatedRecordData, FlowTestParameterType.UpdateRecord, testParameterArr);
     }
+    if (uiModel.runPathValue !== SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH) {
+        addParameters(
+            uiModel.testUpdatedRecordData,
+            FlowTestParameterType.ScheduledPath,
+            testParameterArr,
+            uiModel.runPathValue
+        );
+    }
     return testParameterArr;
 }
 
@@ -112,19 +123,32 @@ export function createFlowTestParametersMetadataObject(uiModel: UI.FlowTestData)
  * @param record represents sobject to be added
  * @param parameterType input or update_record type
  * @param testParameterArray array containing records
+ * @param schedulePath the schedule Path value chosen
  */
 function addParameters(
     record: object,
     parameterType: FlowTestParameterType,
-    testParameterArray: Metadata.FlowTestParameter[]
+    testParameterArray: Metadata.FlowTestParameter[],
+    schedulePath = ''
 ) {
-    const recordParameter: Metadata.FlowTestParameter = {
-        leftValueReference: '$Record',
-        value: {
-            sobjectValue: JSON.stringify(record, (k, v) => v ?? undefined)
-        },
-        type: parameterType
-    };
+    let recordParameter: Metadata.FlowTestParameter;
+    if (parameterType !== FlowTestParameterType.ScheduledPath) {
+        recordParameter = {
+            leftValueReference: FlowTestPointValidator.DollarRecord,
+            value: {
+                sobjectValue: JSON.stringify(record, (k, v) => v ?? undefined)
+            },
+            type: parameterType
+        };
+    } else {
+        recordParameter = {
+            leftValueReference: FlowTestPointValidator.ScheduledPathLHS,
+            value: {
+                stringValue: schedulePath
+            },
+            type: parameterType
+        };
+    }
     testParameterArray.push(recordParameter);
 }
 

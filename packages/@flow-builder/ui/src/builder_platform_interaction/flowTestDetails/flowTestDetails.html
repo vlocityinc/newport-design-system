@@ -30,9 +30,10 @@
     <lightning-combobox
         class="slds-col slds-grow slds-size_3-of-6 run-path"
         label={labels.flowTestRunOptionsLabel}
-        options={runPathOptions}
+        options={_formattedSchedulePaths}
         value={runPathValue}
         dropdown-alignment="left"
+        onchange={handleComboChange}
     >
     </lightning-combobox>
 </template>
