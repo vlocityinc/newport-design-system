@@ -84,3 +84,17 @@ export function debounce(fct, wait) {
         }, wait);
     };
 }
+
+/**
+ * remove objects from checkedArr that are duplicates of ones in targetArr
+ *
+ * @param checkedArr - Array of objects where duplicates will be checked against objects in targetArr
+ * @param targetArr - Array of objects where duplicates will be checked against objects in checkedArr
+ * @param properties - Properties of objects that need to be equal to be treated as duplicates
+ * @returns - checkedArr with duplicates against targetArr removed
+ */
+export function removeDuplicates(checkedArr: any[], targetArr: any[], properties: string[]) {
+    return checkedArr.filter(
+        (value) => !targetArr.find((t) => properties.map((p) => t[p] === value[p]).every((check) => check === true))
+    );
+}

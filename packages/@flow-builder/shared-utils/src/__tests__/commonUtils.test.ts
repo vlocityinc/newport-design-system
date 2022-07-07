@@ -1,5 +1,44 @@
 // @ts-nocheck
-import { debounce, memoize } from '../commonUtils';
+import { debounce, memoize, removeDuplicates } from '../commonUtils';
+
+const firstArr = [
+    {
+        name: 'Rad',
+        greeting: 'lol',
+        gender: 'male'
+    },
+    {
+        name: 'Rad',
+        greeting: 'sup',
+        gender: 'female'
+    },
+    {
+        name: 'Alex',
+        car: 'BMW',
+        company: 'Salesforce'
+    },
+    {
+        name: 'Alex',
+        greeting: 'lol'
+    }
+];
+
+const secondArr = [
+    {
+        name: 'Rad',
+        greeting: 'hi'
+    },
+    {
+        name: 'Rad',
+        greeting: 'lol',
+        species: 'human'
+    },
+    {
+        name: 'Alex',
+        greeting: 'lol',
+        species: 'human'
+    }
+];
 
 describe('memoize', () => {
     describe('memoized selectors and tranforms', () => {
@@ -51,6 +90,25 @@ describe('debounce', () => {
         const debouncedCallback = debounce(callback, 250);
         debouncedCallback();
         expect(callback).not.toHaveBeenCalled();
+    });
+});
+
+describe('removeDuplicates', () => {
+    it('removes correct duplicates matched by given properties', () => {
+        const dedupedArr = removeDuplicates(firstArr, secondArr, ['name', 'greeting']);
+        const expectedArr = [
+            {
+                name: 'Rad',
+                greeting: 'sup',
+                gender: 'female'
+            },
+            {
+                name: 'Alex',
+                car: 'BMW',
+                company: 'Salesforce'
+            }
+        ];
+        expect(dedupedArr).toEqual(expectedArr);
     });
 });
 

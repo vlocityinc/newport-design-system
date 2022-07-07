@@ -250,6 +250,7 @@ export const configureMenu = (
     const filteredItems = allItems.filter((item) => {
         return item.label.toLowerCase().indexOf(searchInput.toLowerCase()) > -1;
     });
+
     searchResultsSection.items = filteredItems;
 
     return { sections: [searchResultsSection] };

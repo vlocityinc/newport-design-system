@@ -6,11 +6,12 @@ import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas'
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DEFAULT_ACTION_ICON } from 'builder_platform_interaction/invocableActionLib';
-import { customIconUtils, lwcUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, customIconUtils, lwcUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { api, LightningElement, track } from 'lwc';
 import { augmentElementsMetadata } from './alcCanvasContainerUtils';
 
+const { removeDuplicates } = commonUtils;
 const { generateGuid } = storeUtils;
 const { removePrefixFromCustomIcon } = customIconUtils;
 
@@ -224,19 +225,20 @@ export default class AlcCanvasContainer extends LightningElement {
 
         this._elementsMetadata = [...nextElementsMetadata];
 
-        const connectorMenuElementTypes = this._elementsMetadata.map(({ elementType }) => elementType);
-
-        this._connectorMenuMetadata = {
-            ...this._connectorMenuMetadata,
-            elementTypes: new Set(connectorMenuElementTypes),
-            isLoading: this.isMenuDataLoading
-        };
+        this.updateMetadataMenuItems();
     }
 
     updateMetadataMenuItems() {
         const connectorMenuElementTypes = this._elementsMetadata?.map(({ elementType }) => elementType);
         const elementTypes = connectorMenuElementTypes ? new Set<string>(connectorMenuElementTypes) : new Set<string>();
-        const standardActionMenuItems = this._standardInvocableActions?.map(this.augmentActionToMenuItem);
+        // Remove StandardActionMenuItems that are also palette promoted
+        let standardActionMenuItems = this._standardInvocableActions?.map(this.augmentActionToMenuItem);
+        standardActionMenuItems = removeDuplicates(standardActionMenuItems, this._elementsMetadata, [
+            'elementType',
+            'actionName',
+            'actionType'
+        ]);
+
         const dynamicActionMenuItems = this._dynamicInvocableActions?.map(this.augmentActionToMenuItem);
         const menuItems = standardActionMenuItems.concat(dynamicActionMenuItems);
         this._connectorMenuMetadata = {

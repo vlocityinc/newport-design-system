@@ -3,3 +3,5 @@ export const format = jest.fn((formatString, ...args) => formatString + '(' + ar
 export const memoize = jest.fn((func) => func);
 
 export const debounce = jest.fn((func) => func);
+
+export const removeDuplicates = jest.fn((func) => func);
