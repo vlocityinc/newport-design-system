@@ -89,7 +89,6 @@ export default abstract class PanelBasedPropertyEditor extends LightningElement 
      * @param event reducer event type
      */
     updateElement(event) {
-        event.stopPropagation();
         this.element = this.reducer(this.element, event);
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
