@@ -16856,6 +16856,15 @@
     "ActionCadenceAutolaunchedFlow__RecordAfterSave":"Process type does not exist",
     "ActionCadenceAutolaunchedFlow__PlatformEvent":"Process type does not exist",
     "ActionCadenceAutolaunchedFlow__EventDrivenJourney":"Process type does not exist",
-    "ActionCadenceAutolaunchedFlow__Segment":"Process type does not exist"
+    "ActionCadenceAutolaunchedFlow__Segment":"Process type does not exist",
+    "ActionCadenceStepFlow__None":"Process type does not exist",
+    "ActionCadenceStepFlow__Scheduled":"Process type does not exist",
+    "ActionCadenceStepFlow__RecordBeforeSave":"Process type does not exist",
+    "ActionCadenceStepFlow__RecordBeforeDelete":"Process type does not exist",
+    "ActionCadenceStepFlow__ScheduledJourney":"Process type does not exist",
+    "ActionCadenceStepFlow__RecordAfterSave":"Process type does not exist",
+    "ActionCadenceStepFlow__PlatformEvent":"Process type does not exist",
+    "ActionCadenceStepFlow__EventDrivenJourney":"Process type does not exist",
+    "ActionCadenceStepFlow__Segment":"Process type does not exist"
   }
 }

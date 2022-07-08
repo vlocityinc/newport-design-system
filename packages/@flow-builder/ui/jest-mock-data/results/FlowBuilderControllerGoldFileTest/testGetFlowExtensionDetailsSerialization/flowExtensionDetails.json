@@ -556,6 +556,19 @@
   "maxOccurs" : 1
 },
         {
+  "apiName" : "maxValues",
+  "dataType" : "int",
+  "description" : "The maximum number of records that the user can select from the lookup. Default value is 1.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : false,
+  "isRequired" : false,
+  "isTranslatable" : false,
+  "label" : "Maximum Selections",
+  "maxOccurs" : 1
+},
+        {
   "apiName" : "objectApiName",
   "dataType" : "string",
   "description" : "The API name of the source object.",
@@ -571,15 +584,28 @@
         {
   "apiName" : "recordId",
   "dataType" : "string",
-  "description" : "Record Id value for the lookup.",
+  "description" : "Initially, the default record selection when the Maximum Selections attribute is set to 1. Updates to the record ID of the flow user's selection.",
   "fieldsToNull" : [ ],
   "hasDefaultValue" : false,
   "isInput" : true,
   "isOutput" : true,
   "isRequired" : false,
   "isTranslatable" : false,
-  "label" : "Record Id",
+  "label" : "Record ID",
   "maxOccurs" : 1
+},
+        {
+  "apiName" : "recordIds",
+  "dataType" : "string",
+  "description" : "Initially, a text collection of record IDs that indicate the default record selections when the Maximum Selections attribute is greater than 1. Updates to a text collection of record IDs selected by the flow user.",
+  "fieldsToNull" : [ ],
+  "hasDefaultValue" : false,
+  "isInput" : true,
+  "isOutput" : true,
+  "isRequired" : false,
+  "isTranslatable" : false,
+  "label" : "Record ID Collection",
+  "maxOccurs" : 2000
 },
         {
   "apiName" : "recordName",
