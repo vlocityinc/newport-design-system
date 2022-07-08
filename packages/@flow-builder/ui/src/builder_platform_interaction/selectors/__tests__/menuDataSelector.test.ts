@@ -1,4 +1,5 @@
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -522,13 +523,15 @@ describe('choiceSelector', () => {
         Store.resetStore();
     });
     it('returns only the static choices provided', () => {
-        const result = choiceSelector('String', [staticChoiceOther.guid])(flowWithAllElementsUIModel);
+        const result = choiceSelector(FLOW_DATA_TYPE.STRING.value, [staticChoiceOther.guid])(
+            flowWithAllElementsUIModel
+        );
 
         expect(result).toHaveLength(1);
         expect(result[0].name).toEqual(staticChoiceOther.name);
     });
     it('returns string type choice elements if data type is String and no static choices are provided', () => {
-        const result = choiceSelector('String')(flowWithAllElementsUIModel);
+        const result = choiceSelector(FLOW_DATA_TYPE.STRING.value)(flowWithAllElementsUIModel);
 
         expect(result).toHaveLength(3);
         expect(result[0].name).toEqual('other');
@@ -591,9 +594,11 @@ describe('isOrCanContainSelector', () => {
             ]);
         });
         it('returns only collection of given datatype with allowTraversal false', () => {
-            const result = isOrCanContainSelector({ isCollection: true, dataType: 'String', allowTraversal: false })(
-                flowWithAllElementsUIModel
-            );
+            const result = isOrCanContainSelector({
+                isCollection: true,
+                dataType: FLOW_DATA_TYPE.STRING.value,
+                allowTraversal: false
+            })(flowWithAllElementsUIModel);
 
             expect(toSortedNames(result)).toEqual([
                 'apexCall_anonymous_strings',
@@ -699,9 +704,11 @@ describe('isOrCanContainSelector', () => {
             ]);
         });
         it('returns collection and objects that contain a collection of given dataType with allowTraversal true', () => {
-            const result = isOrCanContainSelector({ isCollection: true, dataType: 'String', allowTraversal: true })(
-                flowWithAllElementsUIModel
-            );
+            const result = isOrCanContainSelector({
+                isCollection: true,
+                dataType: FLOW_DATA_TYPE.STRING.value,
+                allowTraversal: true
+            })(flowWithAllElementsUIModel);
 
             expect(toSortedNames(result)).toEqual([
                 'actionCallLC_apex_with_sobject_auto',
@@ -711,6 +718,28 @@ describe('isOrCanContainSelector', () => {
                 'loopOnApexAutoOutput',
                 'stringCollectionVariable1',
                 'stringCollectionVariable2'
+            ]);
+        });
+        it('returns collection and objects that contain a collection of multiple dataTypes with allowTraversal true', () => {
+            const result = isOrCanContainSelector({
+                isCollection: true,
+                dataType: [FLOW_DATA_TYPE.STRING.value, FLOW_DATA_TYPE.APEX.value],
+                allowTraversal: true
+            })(flowWithAllElementsUIModel);
+
+            expect(toSortedNames(result)).toEqual([
+                'actionCallLC_apex_with_sobject_auto',
+                'apexCall_anonymous_apex_collection',
+                'apexCall_anonymous_strings',
+                'apexComplexTypeCollectionVariable',
+                'apexComplexTypeTwoVariable',
+                'apexComplexTypeVariable',
+                'apexContainsOnlyAnSObjectCollectionVariable',
+                'apexSampleCollectionVariable',
+                'loopOnApexAutoOutput',
+                'stringCollectionVariable1',
+                'stringCollectionVariable2',
+                'subflowAutomaticOutput'
             ]);
         });
         it('returns collection and object that contain a collection of given elementType allowTraversal true', () => {
@@ -761,7 +790,11 @@ describe('isOrCanContainSelector', () => {
             expect(toSortedNames(result)).toEqual(['accountSObjectVariable']);
         });
         it('returns only single values of given datatype with allowTraversal false', () => {
-            const result = isOrCanContainSelector({ isCollection: false, dataType: 'String', allowTraversal: false })({
+            const result = isOrCanContainSelector({
+                isCollection: false,
+                dataType: FLOW_DATA_TYPE.STRING.value,
+                allowTraversal: false
+            })({
                 elements: {
                     apexCallAccountAutomaticOutput,
                     apexComplexTypeVariable,
@@ -836,9 +869,11 @@ describe('isOrCanContainSelector', () => {
             ]);
         });
         it('returns single values and object that contain a single value of given dataType with allowTraversal true', () => {
-            const result = isOrCanContainSelector({ isCollection: false, dataType: 'String', allowTraversal: true })(
-                flowWithAllElementsUIModel
-            );
+            const result = isOrCanContainSelector({
+                isCollection: false,
+                dataType: FLOW_DATA_TYPE.STRING.value,
+                allowTraversal: true
+            })(flowWithAllElementsUIModel);
 
             expect(toSortedNames(result)).toEqual([
                 'Address',

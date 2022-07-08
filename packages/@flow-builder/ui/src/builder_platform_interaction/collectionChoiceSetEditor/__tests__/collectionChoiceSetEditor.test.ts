@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import {
     INTERACTION_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
@@ -35,6 +36,14 @@ const IAMERRORED = 'IAMERRORED';
 const MENU_ITEM: UI.ComboboxItem = {
     iconSize: 'size',
     dataType: FLOW_DATA_TYPE.SOBJECT.value,
+    type: 'type',
+    displayText: 'displayText',
+    value: 'value'
+};
+
+const MENU_ITEM_APEX: UI.ComboboxItem = {
+    iconSize: 'size',
+    dataType: FLOW_DATA_TYPE.APEX.value,
     type: 'type',
     displayText: 'displayText',
     value: 'value'
@@ -110,6 +119,47 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     const mockSobjectLib = Object.assign({}, sobjectLib);
     mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => mockAccountFieldsPromise);
     return mockSobjectLib;
+});
+
+const mockReturnValue = {
+    myString: {
+        apiName: 'myString',
+        dataType: 'String',
+        isCollection: false,
+        apexClass: 'mockApexClass'
+    },
+    myBoolean: {
+        apiName: 'myBoolean',
+        dataType: 'Boolean',
+        isCollection: false,
+        apexClass: 'mockApexClass'
+    },
+    myCurrency: {
+        apiName: 'myCurrency',
+        dataType: 'Currency',
+        isCollection: false,
+        apexClass: 'mockApexClass'
+    },
+    myNumber: {
+        apiName: 'myNumber',
+        dataType: 'Number',
+        isCollection: false,
+        apexClass: 'mockApexClass'
+    },
+    myApexDefined: {
+        apiName: 'myApexDefined',
+        dataType: 'Apex',
+        subtype: 'mockInnerApexClass',
+        isCollection: false,
+        apexClass: 'mockApexClass'
+    }
+};
+
+jest.mock('builder_platform_interaction/apexTypeLib', () => {
+    const apexTypeLib = jest.requireActual('builder_platform_interaction/apexTypeLib');
+    const mockApexTypeLib = Object.assign({}, apexTypeLib);
+    mockApexTypeLib.getPropertiesForClass = jest.fn().mockImplementation(() => mockReturnValue);
+    return mockApexTypeLib;
 });
 
 jest.mock('builder_platform_interaction/referenceToVariableUtil', () => {
@@ -226,10 +276,12 @@ describe('collection-choice-set-editor', () => {
     });
 
     describe('collection resource picker', () => {
-        let ferovResourcePicker, A_MENU_ITEM;
+        let ferovResourcePicker, A_MENU_ITEM, A_MENU_ITEM_APEX;
         beforeEach(() => {
             A_MENU_ITEM = { ...MENU_ITEM };
             A_MENU_ITEM.subtype = 'Contact';
+            A_MENU_ITEM_APEX = { ...MENU_ITEM_APEX };
+            A_MENU_ITEM_APEX.subtype = 'ApexClass';
             ferovResourcePicker = getFerovResourcePicker(collectionChoiceEditor);
         });
         it('ferov-resource-picker should be defined', () => {
@@ -246,10 +298,28 @@ describe('collection-choice-set-editor', () => {
             });
         });
 
-        it('changing value in ferov-resource-picker should call getFieldsForEntity', async () => {
+        it('changing value in ferov-resource-picker should NOT call apexTypeLib.getPropertiesForClass when SObject', async () => {
+            apexTypeLib.getPropertiesForClass.mockClear();
+            dispatchComboBoxEvent(collectionChoiceEditor, A_MENU_ITEM, VARIABLE, null);
+            expect(apexTypeLib.getPropertiesForClass).toHaveBeenCalledTimes(0);
+        });
+
+        it('changing value in ferov-resource-picker should call getFieldsForEntity when SObject', async () => {
             fetchFieldsForEntity.mockClear();
             dispatchComboBoxEvent(collectionChoiceEditor, A_MENU_ITEM, VARIABLE, null);
             expect(fetchFieldsForEntity).toHaveBeenCalledTimes(1);
+        });
+
+        it('changing value in ferov-resource-picker should NOT call getFieldsForEntity when Apex Defined', async () => {
+            fetchFieldsForEntity.mockClear();
+            dispatchComboBoxEvent(collectionChoiceEditor, A_MENU_ITEM_APEX, VARIABLE, null);
+            expect(fetchFieldsForEntity).toHaveBeenCalledTimes(0);
+        });
+
+        it('changing value in ferov-resource-picker should call apexTypeLib.getPropertiesForClass when Apex Defined', async () => {
+            apexTypeLib.getPropertiesForClass.mockClear();
+            dispatchComboBoxEvent(collectionChoiceEditor, A_MENU_ITEM_APEX, VARIABLE, null);
+            expect(apexTypeLib.getPropertiesForClass).toHaveBeenCalledTimes(1);
         });
 
         it('changing value in ferov-resource-picker should update display field', () => {
@@ -277,9 +347,11 @@ describe('collection-choice-set-editor', () => {
     });
 
     describe('choice value field picker', () => {
-        let fieldPicker;
+        let fieldPicker, A_MENU_ITEM_APEX;
         beforeEach(() => {
             fieldPicker = collectionChoiceEditor.shadowRoot.querySelector(SELECTORS.FIELD_PICKER);
+            A_MENU_ITEM_APEX = { ...MENU_ITEM_APEX };
+            A_MENU_ITEM_APEX.subtype = 'ApexClass';
         });
 
         it('field-picker should be defined', () => {
@@ -288,6 +360,17 @@ describe('collection-choice-set-editor', () => {
 
         it('field-picker fields should be defined', () => {
             expect(Object.keys(fieldPicker.fields)).toHaveLength(Object.keys(accountFields).length);
+        });
+
+        it('non primitive field types should be filtered out for ApexDefinedType', async () => {
+            dispatchComboBoxEvent(collectionChoiceEditor, A_MENU_ITEM_APEX, VARIABLE, null);
+            await ticks(1);
+            expect(Object.keys(fieldPicker.fields)).toEqual([
+                mockReturnValue.myString.apiName,
+                mockReturnValue.myBoolean.apiName,
+                mockReturnValue.myCurrency.apiName,
+                mockReturnValue.myNumber.apiName
+            ]);
         });
     });
 

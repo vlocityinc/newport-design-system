@@ -100,7 +100,7 @@ export interface RetrieveOptions {
     isCollection?: boolean; // true to retrieve only sObject collection variables. It's ignored if there is allSObjectsAndSObjectCollections property.
     sobjectCollectionCriterion?: SOBJECT_OR_SOBJECT_COLLECTION_FILTER;
     entityName?: string;
-    dataType?: string;
+    dataType?: string | string[];
     elementType?: string;
     crudFilter?: CrudFilter;
     collectionProcessorFilter?: CollectionProcessorFilter;
