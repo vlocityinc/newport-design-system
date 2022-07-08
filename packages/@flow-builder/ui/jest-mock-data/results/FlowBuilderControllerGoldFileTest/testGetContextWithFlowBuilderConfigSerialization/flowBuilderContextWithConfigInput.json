@@ -201,7 +201,9 @@
       },
       "usePanelForPropertyEditor":false,
       "supportedProcessTypes":[
+        "ActionCadenceAutolaunchedFlow",
         "ActionCadenceFlow",
+        "ActionCadenceStepFlow",
         "ActionPlan",
         "Appointments",
         "AutoLaunchedFlow",

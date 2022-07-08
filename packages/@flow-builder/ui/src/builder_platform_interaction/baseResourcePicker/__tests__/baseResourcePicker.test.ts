@@ -39,7 +39,8 @@ describe('base-resource-picker', () => {
         required: true,
         disabled: false,
         type: FLOW_DATA_TYPE.NUMBER.value,
-        variant: LIGHTNING_INPUT_VARIANTS.STANDARD
+        variant: LIGHTNING_INPUT_VARIANTS.STANDARD,
+        includeEntityRelatedRecordFields: false
     };
 
     it('has a static getComboboxConfig method that returns a ComboboxConfig object', () => {
@@ -146,6 +147,15 @@ describe('base-resource-picker', () => {
         baseResourcePicker.setMenuData(fullMenuData);
         await ticks(1);
         expect(flowCombobox.renderIncrementally).toBeTruthy();
+    });
+
+    it('can set includeEntityRelatedRecordFields', () => {
+        comboboxConfig.includeEntityRelatedRecordFields = true;
+        const baseResourcePicker = setupComponentUnderTest({
+            comboboxConfig
+        });
+        const flowCombobox = getFlowCombobox(baseResourcePicker);
+        expect(flowCombobox.includeEntityRelatedRecordFields).toEqual(true);
     });
 
     describe('event handlers', () => {

@@ -34,11 +34,25 @@
                         "value": {
                             "stringValue": "Bar"
                         }
+                    },
+                    {
+                        "name": "type",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": ""
+                        }
+                    },
+                    {
+                        "name": "visibility",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "accountSObjectVariable.Owner.IsActive"
+                        }
                     }
                 ],
                 "label": "Post to Chatter Action",
-                "locationX": 94,
-                "locationY": 555,
+                "locationX": 578,
+                "locationY": 528,
                 "name": "Post_to_Chatter_Action",
                 "outputParameters": [],
                 "processMetadataValues": [],
@@ -60,8 +74,8 @@
                     }
                 ],
                 "label": "assign",
-                "locationX": 623,
-                "locationY": 403,
+                "locationX": 380,
+                "locationY": 1103,
                 "name": "assign",
                 "processMetadataValues": []
             }
@@ -73,7 +87,7 @@
             {
                 "defaultConnectorLabel": "Default Outcome",
                 "label": "decision",
-                "locationX": 815,
+                "locationX": 710,
                 "locationY": 408,
                 "name": "decision",
                 "processMetadataValues": [],
@@ -90,6 +104,11 @@
                                 }
                             }
                         ],
+                        "connector": {
+                            "isGoTo": false,
+                            "processMetadataValues": [],
+                            "targetReference": "Post_to_Chatter_Action"
+                        },
                         "doesRequireRecordChangedToMeetCriteria": false,
                         "label": "outcome",
                         "name": "outcome",
@@ -99,6 +118,7 @@
             }
         ],
         "dynamicChoiceSets": [],
+        "environments": ["Default"],
         "formulas": [],
         "interviewLabel": "RecordTriggeredFlow {!$Flow.CurrentDateTime}",
         "isAdditionalPermissionRequiredToRun": false,
@@ -117,7 +137,7 @@
             {
                 "name": "CanvasMode",
                 "value": {
-                    "stringValue": "FREE_FORM_CANVAS"
+                    "stringValue": "AUTO_LAYOUT_CANVAS"
                 }
             },
             {
@@ -130,17 +150,27 @@
         "processType": "AutoLaunchedFlow",
         "recordCreates": [
             {
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "updateTriggerRecordWithRelatedFields"
+                },
                 "inputAssignments": [],
                 "inputReference": "accountSObjectVariable",
                 "label": "create account from an account",
-                "locationX": 105,
-                "locationY": 361,
+                "locationX": 50,
+                "locationY": 288,
                 "name": "create_account_from_an_account",
                 "processMetadataValues": [],
                 "storeOutputAutomatically": false
             },
             {
                 "assignRecordIdToReference": "stringVariable",
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "updateTriggerRecordWithRelatedFields"
+                },
                 "inputAssignments": [
                     {
                         "field": "Name",
@@ -151,8 +181,8 @@
                     }
                 ],
                 "label": "create account manual output",
-                "locationX": 337,
-                "locationY": 373,
+                "locationX": 314,
+                "locationY": 288,
                 "name": "create_account_manual_output",
                 "object": "Account",
                 "processMetadataValues": [],
@@ -164,6 +194,11 @@
         "recordRollbacks": [],
         "recordUpdates": [
             {
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "decision"
+                },
                 "filters": [],
                 "inputAssignments": [
                     {
@@ -176,15 +211,54 @@
                 ],
                 "inputReference": "$Record",
                 "label": "Update Triggering Record",
-                "locationX": 491,
-                "locationY": 673,
+                "locationX": 710,
+                "locationY": 288,
                 "name": "Update_Triggering_Record",
+                "processMetadataValues": []
+            },
+            {
+                "connector": {
+                    "isGoTo": false,
+                    "processMetadataValues": [],
+                    "targetReference": "assign"
+                },
+                "description": "$Record is an Account and the related entity is Assets\nThere is only 1 filter, and 1 assignment.\nThe assignment is the price.",
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "MailingCity",
+                        "operator": "EqualTo",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "$Record.BillingCity"
+                        }
+                    }
+                ],
+                "inputAssignments": [
+                    {
+                        "field": "Description",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "$User.Signature"
+                        }
+                    }
+                ],
+                "inputReference": "$Record.Parent.Contacts",
+                "label": "updateTriggerRecordWithRelatedFields",
+                "locationX": 380,
+                "locationY": 983,
+                "name": "updateTriggerRecordWithRelatedFields",
                 "processMetadataValues": []
             }
         ],
         "screens": [],
         "stages": [],
         "start": {
+            "connector": {
+                "isGoTo": false,
+                "processMetadataValues": [],
+                "targetReference": "create_account_from_an_account"
+            },
             "doesRequireRecordChangedToMeetCriteria": true,
             "filterLogic": "and",
             "filters": [
@@ -197,13 +271,18 @@
                     }
                 }
             ],
-            "locationX": 170,
-            "locationY": 53,
+            "locationX": 254,
+            "locationY": 0,
             "object": "Account",
             "processMetadataValues": [],
             "recordTriggerType": "Update",
             "scheduledPaths": [
                 {
+                    "connector": {
+                        "isGoTo": false,
+                        "processMetadataValues": [],
+                        "targetReference": "create_account_manual_output"
+                    },
                     "label": "myScheduledPath2DaysBefore",
                     "maxBatchSize": 0,
                     "name": "myScheduledPath2DaysBefore",
@@ -214,6 +293,11 @@
                     "timeSource": "RecordField"
                 },
                 {
+                    "connector": {
+                        "isGoTo": false,
+                        "processMetadataValues": [],
+                        "targetReference": "Update_Triggering_Record"
+                    },
                     "label": "myScheduledPathHoursAfter",
                     "maxBatchSize": 0,
                     "name": "myScheduledPathHoursAfter",

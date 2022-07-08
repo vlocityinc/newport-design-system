@@ -15,6 +15,7 @@ import { ElementFilterConfig, getStoreElements } from './storeElementsFilter';
  * @param {boolean} options.allowElementFields
  * @param {boolean} options.shouldBeWritable - true if fields must be writable
  * @param {Object}  options.selectorConfig - if set, means that we need to select only element or element that contain fields which fullfill the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
+ * @param {boolean} options.includeEntityRelatedRecordFields - true if the entity related fields are included
  * @param {boolean} options.showMultiPicklistGlobalVariables
  * @returns {MenuItem[]} array of alphabetized menu items
  */
@@ -28,7 +29,8 @@ const getFieldMenuData = (
         allowElementFields = true,
         shouldBeWritable = false,
         selectorConfig = undefined as RetrieveOptions | undefined,
-        showMultiPicklistGlobalVariables = false
+        showMultiPicklistGlobalVariables = false,
+        includeEntityRelatedRecordFields = false
     } = {}
 ) => {
     const options = {
@@ -44,8 +46,8 @@ const getFieldMenuData = (
     if (entityFields) {
         return Promise.resolve(filterFieldsForChosenElement(parentItem, entityFields, options));
     }
-    return getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVariables).then((fields) =>
-        filterFieldsForChosenElement(parentItem, fields, options)
+    return getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVariables, includeEntityRelatedRecordFields).then(
+        (fields) => filterFieldsForChosenElement(parentItem, fields, options)
     );
 };
 
@@ -104,7 +106,8 @@ export const getMenuData = (
             showSystemVariables: true,
             showGlobalVariables: true,
             forFormula: false,
-            showFlowSystemVariable: true
+            showFlowSystemVariable: true,
+            includeEntityRelatedRecordFields: false
         }
     }
 ) => {
@@ -115,7 +118,8 @@ export const getMenuData = (
             allowElementFields: config.traversalConfig?.allowElementFields,
             shouldBeWritable: !!elementConfig?.shouldBeWritable,
             selectorConfig: elementConfig?.selectorConfig,
-            showMultiPicklistGlobalVariables: config.filter?.forFormula
+            showMultiPicklistGlobalVariables: config.filter?.forFormula,
+            includeEntityRelatedRecordFields: config.filter?.includeEntityRelatedRecordFields
         });
     }
     return Promise.resolve(

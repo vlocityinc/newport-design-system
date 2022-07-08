@@ -16,11 +16,13 @@ import { SYSTEM_VARIABLE_PREFIX } from 'builder_platform_interaction/systemVaria
 import { mockScreenElement } from 'mock/calloutData';
 import * as store from 'mock/storeData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import { recordTriggeredFlowUIModel, updateTriggerRecordWithRelatedFields } from 'mock/storeDataRecordTriggered';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
+import { accountFields as mockAccountRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/accountFields.json';
+import { contactFields as mockRelatedContactFields } from 'serverData/GetRelatedRecordFieldsForEntity/contactFields.json';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { getMenuItemForField } from '../menuDataGenerator';
 import {
@@ -70,6 +72,14 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
                 return mockUserFields;
             } else if (entityName === 'FeedItem') {
                 return mockFeedItemFields;
+            }
+            return undefined;
+        }),
+        getRelatedRecordFieldsForEntity: jest.fn().mockImplementation((entityName) => {
+            if (entityName === 'Account') {
+                return mockAccountRelatedFields;
+            } else if (entityName === 'Contact') {
+                return mockRelatedContactFields;
             }
             return undefined;
         })
@@ -470,6 +480,32 @@ describe('ResourceUtils', () => {
             const updatedValues = expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE];
             expect(updatedValues.value).toEqual(addCurlyBraces(store.numberVariable.name));
             expect(updatedValues.error).toEqual(anError);
+        });
+    });
+});
+describe('ResourceUtils for TriggeredFow', () => {
+    beforeEach(() => {
+        Store.setMockState(recordTriggeredFlowUIModel);
+    });
+    afterEach(() => {
+        Store.resetStore();
+    });
+    describe('normalizeFEROV', () => {
+        describe('with entity related records', () => {
+            it('should normalize an SObject variable', () => {
+                const normalizedFEROV = normalizeFEROV(updateTriggerRecordWithRelatedFields.inputReference, {
+                    allowSObjectFieldsTraversal: true,
+                    includeEntityRelatedRecordFields: true
+                });
+                expect(normalizedFEROV).toMatchObject({
+                    itemOrDisplayText: {
+                        dataType: 'String',
+                        displayText: '{!$Record.Parent.Contacts}',
+                        text: 'Contacts'
+                    },
+                    fields: mockAccountRelatedFields
+                });
+            });
         });
     });
 });

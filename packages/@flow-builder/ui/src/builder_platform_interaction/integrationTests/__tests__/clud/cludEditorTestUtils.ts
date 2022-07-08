@@ -64,6 +64,9 @@ export const getRecordStoreOption = (editor) =>
 export const getSObjectOrSObjectCollectionPicker = (editor) =>
     editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 
+export const getRelatedRecordFieldsPicker = (editor) =>
+    editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RELATED_RECORD_FIELDS_PICKER);
+
 export const getRecordFilter = (editor) =>
     editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER);
 

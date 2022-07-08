@@ -68,7 +68,7 @@ const mockFlowIdsPromise = Promise.resolve(flowIds);
 
 const mockEvaluationFlows = invocableActionsForOrchestrator.slice(0, 1);
 const mockStepBackgroundFlows = invocableActionsForOrchestrator.slice(1, 5);
-const mockStepInteractiveFlows = invocableActionsForOrchestrator.slice(5, 16);
+const mockStepInteractiveFlows = invocableActionsForOrchestrator.slice(5, 18);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');

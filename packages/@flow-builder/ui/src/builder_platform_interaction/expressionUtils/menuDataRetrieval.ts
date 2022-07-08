@@ -512,12 +512,21 @@ export function filterFieldsForChosenElement(
  *
  * @param {Object} parentItem the parent item
  * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
+ * @param {boolean} includeEntityRelatedRecordFields get the related fields of the entity
  * @returns {Promise<Object>} the children items : key is the field name, value is the child item as a complex type field description
  */
-export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVariables = false) {
+export function getChildrenItemsPromise(
+    parentItem,
+    showMultiPicklistGlobalVariables = false,
+    includeEntityRelatedRecordFields = false
+) {
     const { dataType, subtype } = parentItem;
     let result;
-    if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+    if (includeEntityRelatedRecordFields) {
+        result = sobjectLib.fetchRelatedRecordFieldsForEntity(subtype, {
+            disableErrorModal: true
+        });
+    } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
         result = sobjectLib.fetchFieldsForEntity(subtype, {
             disableErrorModal: true
         });
@@ -529,9 +538,10 @@ export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVaria
 }
 
 /**
- * True if the subtype representw a system variable other than $Record
+ * True if the subtype represents a system variable other than $Record
  *
- * @param subtype
+ * @param subtype - Sub Type
+ * @returns {boolean} True if the subtype represents a system variable other than $Record
  */
 function isSystemVariableExceptRecord(subtype) {
     return (
@@ -546,9 +556,14 @@ function isSystemVariableExceptRecord(subtype) {
  *
  * @param {Object} parentItem the parent item
  * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
+ * @param {boolean} includeEntityRelatedRecordFields whetever we need to get the related fields
  * @returns {Object} the children items : key is the field name, value is the child item as a complex type field description
  */
-export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = false) {
+export function getChildrenItems(
+    parentItem,
+    showMultiPicklistGlobalVariables = false,
+    includeEntityRelatedRecordFields = false
+) {
     const { dataType, subtype, getChildrenItems } = parentItem;
     const elementType: ELEMENT_TYPE = FLOW_DATA_TYPE[dataType] && FLOW_DATA_TYPE[dataType].elementType;
 
@@ -559,8 +574,10 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
         result = getSystemVariables(subtype);
     } else if (getGlobalVariables(subtype, showMultiPicklistGlobalVariables)) {
         result = getGlobalVariables(subtype, showMultiPicklistGlobalVariables);
-    } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+    } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value && !includeEntityRelatedRecordFields) {
         result = sobjectLib.getFieldsForEntity(subtype);
+    } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value && includeEntityRelatedRecordFields) {
+        result = sobjectLib.getRelatedRecordFieldsForEntity(subtype);
     } else if (dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
         const resourceGuid = parentItem.value;
         const element = getScreenFieldElementByGuid(resourceGuid);

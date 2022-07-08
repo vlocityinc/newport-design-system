@@ -202,6 +202,7 @@
             "builder_platform_interaction/recordUpdateEditor": ["./src/builder_platform_interaction/recordUpdateEditor/recordUpdateEditor.ts"],
             "builder_platform_interaction/reducers": ["./src/builder_platform_interaction/reducers/reducers.ts"],
             "builder_platform_interaction/referenceToVariableUtil": ["./src/builder_platform_interaction/referenceToVariableUtil/referenceToVariableUtil.ts"],
+            "builder_platform_interaction/relatedRecordFieldsPicker": ["./src/builder_platform_interaction/relatedRecordFieldsPicker/relatedRecordFieldsPicker.ts"],
             "builder_platform_interaction/reorderableVerticalNavigation": ["./src/builder_platform_interaction/reorderableVerticalNavigation/reorderableVerticalNavigation.ts"],
             "builder_platform_interaction/reorderableVerticalNavigationItem": ["./src/builder_platform_interaction/reorderableVerticalNavigationItem/reorderableVerticalNavigationItem.ts"],
             "builder_platform_interaction/repeatSchedule": ["./src/builder_platform_interaction/repeatSchedule/repeatSchedule.ts"],

@@ -197,6 +197,38 @@
       "isStandard":false,
       "allowsTransactionControl":false,
       "iconName":null,
+      "name":"industries_automotive__AutoIV",
+      "description":"Authenticates the identity of a caller before their request can be processed by a contact center agent (CCA).",
+      "configurationEditor":null,
+      "label":"Verify Caller Identity for Automotive",
+      "type":"stepInteractive",
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"stepInteractive-industries_automotive__AutoIV"
+    },
+    {
+      "iconId":null,
+      "isStandard":false,
+      "allowsTransactionControl":false,
+      "iconName":null,
+      "name":"industries_mfg_service__MfgIv",
+      "description":"Authenticates the identity of a caller before their request can be processed by a contact center agent (CCA).",
+      "configurationEditor":null,
+      "label":"Verify Caller Identity",
+      "type":"stepInteractive",
+      "category":null,
+      "genericTypes":[
+
+      ],
+      "durableId":"stepInteractive-industries_mfg_service__MfgIv"
+    },
+    {
+      "iconId":null,
+      "isStandard":false,
+      "allowsTransactionControl":false,
+      "iconName":null,
       "name":"screenFlow",
       "description":null,
       "configurationEditor":null,

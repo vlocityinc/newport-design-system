@@ -61,6 +61,11 @@ export const getRules = (nodeElement) => {
                 overrideRules.filters = validateFilter();
             }
         }
+    } else if (nodeElement.wayToFindRecords.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP) {
+        overrideRules.inputReference = validateInputReference(nodeElement.inputReferenceIndex);
+        if (nodeElement.inputReference.value !== '' && !nodeElement.inputReference.error) {
+            overrideRules.inputAssignments = validateAssignments();
+        }
     }
 
     return overrideRules;

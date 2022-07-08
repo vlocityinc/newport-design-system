@@ -291,6 +291,38 @@ describe('recordUpdate Mutation', () => {
             );
             expect(factoriedRecordUpdate).toMatchObject(mutatedRecordUpdate);
         });
+        it('has wayToFindRecords set to RELATED_RECORD_LOOKUP, when input assignments are populated and inputReference start with $Record', () => {
+            const recordUpdateUsingContextRecord = {
+                name: 'RecordUpdate1',
+                description: '',
+                inputAssignments: [
+                    {
+                        field: 'description',
+                        value: { stringValue: 'myDescription' }
+                    }
+                ],
+                inputReference: '$Record.Assets'
+            };
+            const mutatedRecordUpdate = {
+                name: 'RecordUpdate1',
+                description: '',
+                inputAssignments: [
+                    {
+                        leftHandSide: '.description',
+                        rightHandSide: 'myDescription',
+                        rightHandSideDataType: 'String'
+                    }
+                ],
+                inputReference: '$Record.Assets',
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                wayToFindRecords: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP
+            };
+            const factoriedRecordUpdate = createRecordUpdate(
+                recordUpdateUsingContextRecord,
+                FLOW_TRIGGER_TYPE.AFTER_SAVE
+            );
+            expect(factoriedRecordUpdate).toMatchObject(mutatedRecordUpdate);
+        });
     });
     describe('recordUpdate function using Fields', () => {
         let recordUpdateUsingFields;

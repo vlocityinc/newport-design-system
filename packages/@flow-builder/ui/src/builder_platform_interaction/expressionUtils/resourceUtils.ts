@@ -181,9 +181,13 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     };
 };
 
-const normalizeMenuItemChildField = (parentMenuItem, fieldNames, { allowSObjectFieldsTraversal = true } = {}) => {
+const normalizeMenuItemChildField = (
+    parentMenuItem,
+    fieldNames,
+    { allowSObjectFieldsTraversal = true, includeEntityRelatedRecordFields } = {}
+) => {
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    const fields = getChildrenItems(parentMenuItem);
+    const fields = getChildrenItems(parentMenuItem, false, includeEntityRelatedRecordFields);
     const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
         allowSObjectFieldsTraversal
     });
@@ -193,7 +197,10 @@ const normalizeMenuItemChildField = (parentMenuItem, fieldNames, { allowSObjectF
         return undefined;
     }
     if (remainingFieldNames.length > 0) {
-        return normalizeMenuItemChildField(item, remainingFieldNames);
+        return normalizeMenuItemChildField(item, remainingFieldNames, {
+            allowSObjectFieldsTraversal,
+            includeEntityRelatedRecordFields
+        });
     }
     return { itemOrDisplayText: item, fields };
 };
@@ -219,6 +226,10 @@ type NormalizeOptions = {
      * @summary Set to true to perform resource lookup using element dev names.
      */
     lookupByDevName?: boolean;
+    /**
+     *  @summary Set to true to perform resource lookup using related fields
+     */
+    includeEntityRelatedRecordFields?: boolean;
 };
 
 /**
@@ -231,7 +242,12 @@ type NormalizeOptions = {
  */
 export const normalizeFEROV = (
     identifier: string,
-    { allowSObjectFieldsTraversal = true, lookupByDevName = false, formattedDisplayText = null }: NormalizeOptions = {}
+    {
+        allowSObjectFieldsTraversal = true,
+        lookupByDevName = false,
+        formattedDisplayText = null,
+        includeEntityRelatedRecordFields = false
+    }: NormalizeOptions = {}
 ) => {
     let result: { itemOrDisplayText: UI.ComboboxItem | string; fields?: any } = { itemOrDisplayText: identifier };
     const elementOrResource = getResourceByUniqueIdentifier(identifier, { lookupByDevName });
@@ -245,7 +261,8 @@ export const normalizeFEROV = (
     const elementOrResourceMenuItem = mutateFlowResourceToComboboxShape(elementOrResource);
     if (fieldNames) {
         const normalizedChildField = normalizeMenuItemChildField(elementOrResourceMenuItem, fieldNames, {
-            allowSObjectFieldsTraversal
+            allowSObjectFieldsTraversal,
+            includeEntityRelatedRecordFields
         });
         if (!normalizedChildField) {
             result.itemOrDisplayText = addCurlyBraces(

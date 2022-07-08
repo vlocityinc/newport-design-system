@@ -169,7 +169,7 @@ export default class CollectionChoiceSetEditor extends LightningElement {
     retrieveFields(dataType: string, subtype: string) {
         if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
             sobjectLib
-                .fetchFieldsForEntity(this._objectType)
+                .fetchFieldsForEntity(this._objectType!)
                 .then((fields) => {
                     this.setFields(fields);
                 })

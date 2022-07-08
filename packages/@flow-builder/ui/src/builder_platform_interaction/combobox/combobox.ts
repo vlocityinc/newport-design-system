@@ -597,6 +597,9 @@ export default class Combobox extends LightningElement {
     @api
     enableLookupTraversal = false;
 
+    @api
+    includeEntityRelatedRecordFields = false;
+
     /**
      * Blocks all the data validation on the component.
      *
@@ -1532,7 +1535,8 @@ export default class Combobox extends LightningElement {
         const errors = validateFunctionRef.call(this, this.state.displayText, {
             allowGlobalConstants: true,
             allowedParamTypes: this.allowedParamTypes,
-            allowSObjectFieldsTraversal: this.enableLookupTraversal
+            allowSObjectFieldsTraversal: this.enableLookupTraversal,
+            includeEntityRelatedRecordFields: this.includeEntityRelatedRecordFields
         });
         if (errors.length > 0) {
             this._errorMessage = errors[0].message;

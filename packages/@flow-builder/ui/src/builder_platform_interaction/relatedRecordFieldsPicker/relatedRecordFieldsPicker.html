@@ -1,0 +1,17 @@
+<template>
+    <builder_platform_interaction-ferov-resource-picker
+        value={displayText}
+        row-index={rowIndex}
+        element-config={relatedRecordFieldsElementConfig}
+        error-message={state.errorMessage}
+        combobox-config={relatedRecordFieldsComboboxConfig}
+        oncomboboxstatechanged={handleRelatedRecordFieldsVariableChanged}
+        onitemselected={handleRelatedRecordFieldsVariableChanged}
+        hide-global-constants
+        hide-system-variables
+        hide-global-variables
+        hide-new-resource
+        is-pill-supported
+    >
+    </builder_platform_interaction-ferov-resource-picker>
+</template>

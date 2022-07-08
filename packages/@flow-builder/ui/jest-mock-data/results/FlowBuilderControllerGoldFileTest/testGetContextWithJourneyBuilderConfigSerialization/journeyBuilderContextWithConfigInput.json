@@ -20,50 +20,7 @@
       "builderType":"JourneyBuilder",
       "newFlowConfig":{
         "showRecommended":true,
-        "showAll":true,
-        "defaultNewFlow":{
-  "fieldsToNull" : [ ],
-  "metadata" : {
-    "actionCalls" : [ ],
-    "apexPluginCalls" : [ ],
-    "assignments" : [ ],
-    "choices" : [ ],
-    "collectionProcessors" : [ ],
-    "constants" : [ ],
-    "decisions" : [ ],
-    "dynamicChoiceSets" : [ ],
-    "environments" : [ ],
-    "formulas" : [ ],
-    "isAdditionalPermissionRequiredToRun" : false,
-    "isOverridable" : false,
-    "isTemplate" : false,
-    "loops" : [ ],
-    "orchestratedStages" : [ ],
-    "processType" : "Journey",
-    "recordCreates" : [ ],
-    "recordDeletes" : [ ],
-    "recordLookups" : [ ],
-    "recordRollbacks" : [ ],
-    "recordUpdates" : [ ],
-    "screens" : [ ],
-    "stages" : [ ],
-    "start" : {
-      "doesRequireRecordChangedToMeetCriteria" : false,
-      "filters" : [ ],
-      "locationX" : 50,
-      "locationY" : 50,
-      "object" : "MarketAudienceMember",
-      "processMetadataValues" : [ ],
-      "scheduledPaths" : [ ],
-      "triggerType" : "ScheduledJourney"
-    },
-    "steps" : [ ],
-    "subflows" : [ ],
-    "textTemplates" : [ ],
-    "variables" : [ ],
-    "waits" : [ ]
-  }
-}
+        "showAll":false
       },
       "name":"Journey Builder",
       "icon":"utility:checkin",
@@ -76,7 +33,7 @@
           "toolbarConfig":{
             "showCopyPasteButton":true,
             "showViewAllTestsButton":true,
-            "showDebugButton":true,
+            "showDebugButton":false,
             "showRunTestButton":false,
             "showSaveAsButton":true,
             "showUndoRedoButton":true,

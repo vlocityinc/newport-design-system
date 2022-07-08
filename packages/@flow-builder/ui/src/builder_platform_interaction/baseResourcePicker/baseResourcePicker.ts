@@ -167,6 +167,7 @@ export default class BaseResourcePicker extends LightningElement {
      * @param {boolean} allowSObjectFields whether or not you can drill down into SObject items when fieldDrilldown is enabled
      * @param {string} variant the variant for the combobox (label-hidden or standard)
      * @param fieldLevelHelp
+     * @param {boolean} includeEntityRelatedRecordFields whetever we include the related fields of the entity
      * @returns {ComboboxConfig} The combobox config object
      */
     static getComboboxConfig = (
@@ -180,7 +181,8 @@ export default class BaseResourcePicker extends LightningElement {
         enableFieldDrilldown = false,
         allowSObjectFields = true,
         variant = LIGHTNING_INPUT_VARIANTS.STANDARD,
-        fieldLevelHelp?: string
+        fieldLevelHelp?: string,
+        includeEntityRelatedRecordFields?: boolean
     ) => {
         return {
             label,
@@ -193,7 +195,8 @@ export default class BaseResourcePicker extends LightningElement {
             enableFieldDrilldown,
             allowSObjectFields,
             variant,
-            fieldLevelHelp
+            fieldLevelHelp,
+            includeEntityRelatedRecordFields
         };
     };
 

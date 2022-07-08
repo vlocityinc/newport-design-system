@@ -1,6 +1,8 @@
 {
   "operatorsForRecordTriggerTypeCreate":{
     "Add":"Add",
+    "In":"In",
+    "NotIn":"Not In",
     "NotEqualTo":"Does Not Equal",
     "AddItem":"Add Item",
     "StartsWith":"Starts With",

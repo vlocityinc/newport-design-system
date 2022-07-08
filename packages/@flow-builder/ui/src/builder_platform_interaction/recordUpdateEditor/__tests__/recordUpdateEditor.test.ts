@@ -24,9 +24,14 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName, getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { createElement } from 'lwc';
 import { accountSObjectVariable, flowWithAllElementsUIModel, updateAccountWithFilter } from 'mock/storeData';
-import { getElementByName, recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import {
+    getElementByName,
+    recordTriggeredFlowUIModel,
+    updateTriggerRecordWithRelatedFields
+} from 'mock/storeDataRecordTriggered';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { accountFields as mockAccountRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/accountFields.json';
 import RecordUpdateEditor from '../recordUpdateEditor';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
@@ -38,6 +43,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 );
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
+    fetchRelatedRecordFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountRelatedFields)),
     getUpdateableEntities: jest.fn().mockImplementation(() => mockEntities),
     ENTITY_TYPE: jest.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE,
     getEntity: jest.fn().mockImplementation((entityName) => mockEntities.find(({ apiName }) => apiName === entityName))
@@ -285,6 +291,9 @@ const relatedRecordLookupElement = {
 const getSObjectOrSObjectCollectionPicker = (recordUpdateEditor) =>
     recordUpdateEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 
+const getRelatedRecordFieldsPicker = (recordUpdateEditor) =>
+    recordUpdateEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RELATED_RECORD_FIELDS_PICKER);
+
 const getEntityResourcePicker = (recordUpdateEditor) =>
     recordUpdateEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER);
 
@@ -396,8 +405,8 @@ describe('record-update-editor', () => {
             beforeEach(() => {
                 recordUpdateEditor = createComponentForTest(relatedRecordLookupElement);
             });
-            it('contains an entity resource picker for sobject', () => {
-                const sObjectPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
+            it('contains a related Record Fields Picker', () => {
+                const sObjectPicker = getRelatedRecordFieldsPicker(recordUpdateEditor);
                 expect(sObjectPicker).not.toBeNull();
             });
             it('has a visible radioGroup', () => {
@@ -850,6 +859,38 @@ describe('record-update-editor', () => {
                     await ticks(1);
                     expect(recordUpdateEditor.getNode().filterLogic.value).toBe(CONDITION_LOGIC.OR);
                 });
+            });
+        });
+        describe('using related record fields', () => {
+            let recordUpdateEditor, recordUpdateNode;
+            beforeAll(() => {
+                // @ts-ignore
+                Store.setMockState(recordTriggeredFlowUIModel);
+                (getTriggerType as jest.Mock).mockReturnValue({});
+            });
+            afterAll(() => {
+                // @ts-ignore
+                Store.resetStore();
+            });
+            beforeEach(() => {
+                recordUpdateNode = getElementForPropertyEditor(updateTriggerRecordWithRelatedFields);
+                recordUpdateEditor = createComponentForTest(recordUpdateNode);
+            });
+            it('has the related record fields picker visible &  has the sObject picker not visible', () => {
+                const relatedRecordFieldsPicker = getRelatedRecordFieldsPicker(recordUpdateEditor);
+                const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
+                expect(sObjectOrSObjectCollectionPicker).toBeNull();
+                expect(relatedRecordFieldsPicker).not.toBeNull();
+            });
+            it('has visible recordFilters', () => {
+                const recordFilter = getRecordFilter(recordUpdateEditor);
+                expect(recordFilter).not.toBeNull();
+                const conditionList = getConditionList(recordFilter);
+                // This is only a part of the condition list label, but we only care about this, because its conditional.
+                expect(conditionList.logicComboboxLabel).toBe('FlowBuilderRecordUpdateEditor.recordSingularLabel');
+            });
+            it('has visible inputAssignments', () => {
+                expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
             });
         });
     });

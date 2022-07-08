@@ -379,6 +379,47 @@
     },
     {
       "isElementSubtype":false,
+      "name":"MultiSelectCheckboxes",
+      "attributes":[
+        {
+          "name":"isCollection",
+          "source":"Inferred",
+          "type":"Boolean",
+          "value":{
+            "values":[
+              false
+            ],
+            "constraint":"thisValue"
+          }
+        },
+        {
+          "name":"dataType",
+          "source":"UserDefined",
+          "type":"FlowDataType",
+          "value":{
+            "values":[
+              "String"
+            ],
+            "constraint":"oneOf"
+          }
+        },
+        {
+          "name":"fieldType",
+          "source":"UserDefined",
+          "type":"FlowScreenFieldType",
+          "value":{
+            "values":[
+              "MULTISELECT_CHECKBOXES"
+            ],
+            "constraint":"thisValue"
+          }
+        }
+      ],
+      "classification":"Child",
+      "elementType":"ScreenField"
+    },
+    {
+      "isElementSubtype":false,
       "name":"DisplayText",
       "attributes":[
         {

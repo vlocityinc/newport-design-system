@@ -1,5 +1,6 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { removeCurlyBraces, splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
@@ -14,6 +15,7 @@ import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import {
     ENTITY_TYPE,
     fetchFieldsForEntity,
+    fetchRelatedRecordFieldsForEntity,
     getEntity,
     getUpdateableEntities
 } from 'builder_platform_interaction/sobjectLib';
@@ -32,7 +34,8 @@ export default class RecordUpdateEditor extends LightningElement {
     @track
     state = {
         recordUpdateElement: {},
-        entityFields: {}
+        entityFields: {},
+        entityRelatedFields: {}
     };
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
@@ -62,7 +65,18 @@ export default class RecordUpdateEditor extends LightningElement {
 
     set node(newValue) {
         this.state.recordUpdateElement = newValue;
-        this.updateFields(this.recordEntityName);
+        if (this.wayToFindRecordsValue === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP) {
+            fetchRelatedRecordFieldsForEntity(this.recordEntityName)
+                .then((fields) => {
+                    this.state.entityRelatedFields = fields;
+                    this.updateFieldsOfRelatedEntity();
+                })
+                .catch(() => {
+                    // fetchRelatedRecordFieldsForEntity displays an error message
+                });
+        } else {
+            this.updateFields(this.recordEntityName);
+        }
     }
 
     /**
@@ -177,48 +191,42 @@ export default class RecordUpdateEditor extends LightningElement {
 
     /**
      * used to disable radio wayToFindRecords radio group.
+     *
+     * @returns {boolean} isDisable - True if triggerType is Before save.
      */
     get isDisabled(): boolean {
         return getTriggerType() === FLOW_TRIGGER_TYPE.BEFORE_SAVE;
     }
 
     get isSobjectReference(): boolean {
-        return (
-            getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords) ===
-            RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE
-        );
+        return this.wayToFindRecordsValue === RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE;
     }
 
     get isRecordLookup(): boolean {
-        return (
-            getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords) ===
-            RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP
-        );
+        return this.wayToFindRecordsValue === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP;
     }
 
     get isTriggeringRecord(): boolean {
-        return (
-            getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords) ===
-            RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
-        );
+        return this.wayToFindRecordsValue === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD;
     }
 
     get isRelatedRecordLookup() {
-        return (
-            getValueFromHydratedItem(this.state.recordUpdateElement.wayToFindRecords) ===
-            RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP
-        );
+        return this.wayToFindRecordsValue === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP;
     }
 
     get objectName(): string {
         return getValueFromHydratedItem(this.state.recordUpdateElement.object);
     }
 
-    get showConditionsAndAssignments() {
-        return this.isTriggeringOrRelatedRecord || (this.isRecordLookup && this.objectName !== '');
+    get showConditionsAndAssignments(): boolean {
+        return (
+            this.isTriggeringOrRelatedRecord ||
+            (this.isRecordLookup && this.objectName !== '') ||
+            (this.isRelatedRecordLookUp && this.objectName !== '')
+        );
     }
 
-    get showSobjectPicker() {
+    get showSobjectPicker(): boolean {
         return this.isRelatedRecordLookup || this.isSobjectReference;
     }
 
@@ -226,15 +234,15 @@ export default class RecordUpdateEditor extends LightningElement {
         return this.isTriggeringOrRelatedRecord ? this.dollarRecordName() : this.objectName;
     }
 
-    get isTriggeringOrRelatedRecord() {
+    get isTriggeringOrRelatedRecord(): boolean {
         return this.isTriggeringRecord || this.isRelatedRecordLookup;
     }
 
-    get showSobjectLookup() {
+    get showSobjectLookup(): boolean {
         return this.state.recordUpdateElement.useSobject && !this.state.recordUpdateElement.isTriggeringRecord;
     }
 
-    get showSpecifyConditions() {
+    get showSpecifyConditions(): boolean {
         return !this.state.recordUpdateElement.useSobject;
     }
 
@@ -309,9 +317,9 @@ export default class RecordUpdateEditor extends LightningElement {
     /**
      * get the fields of the selected entity
      *
-     * @param recordEntityName
+     * @param recordEntityName - selected Entity name
      */
-    updateFields(recordEntityName) {
+    updateFields(recordEntityName: string) {
         this.state.entityFields = {};
         if (recordEntityName) {
             fetchFieldsForEntity(recordEntityName)
@@ -325,7 +333,54 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     /**
+     * get the related fields of the selected entity
+     *
+     * @param recordEntityName - selected entity name
+     */
+    updateRelatedFields(recordEntityName: string) {
+        this.state.entityRelatedFields = {};
+        fetchRelatedRecordFieldsForEntity(recordEntityName)
+            .then((fields) => {
+                this.state.entityRelatedFields = fields;
+            })
+            .catch(() => {
+                // fetchRelatedRecordFieldsForEntity displays an error message
+            });
+    }
+
+    updateFieldsOfRelatedEntity() {
+        const sobjectName = this.getRelatedFieldSobjectName(this.inputReference);
+        if (sobjectName) {
+            this.updateFields(sobjectName);
+        }
+    }
+
+    /**
+     * @param inputReference input reference selected
+     * @returns Sobject name from the selected related field
+     */
+    getRelatedFieldSobjectName(inputReference: string): string {
+        return this.getSobjectNameRelatedField(inputReference);
+    }
+
+    /**
+     * @param inputReference  input reference selected
+     * @returns the sobjectname of the selected related field.
+     */
+    getSobjectNameRelatedField(inputReference: string): string {
+        if (inputReference) {
+            const subType = splitStringBySeparator(removeCurlyBraces(inputReference));
+            if (subType.length > 1) {
+                const relatedField = this.state.entityRelatedFields[subType.at(-1)];
+                return relatedField ? relatedField.sobjectName : '';
+            }
+        }
+        return '';
+    }
+    /**
      * type of triggering record, usually stored in Start element
+     *
+     * @returns the object type for the current flow.
      */
     dollarRecordName(): string {
         return getStartObject() || '';
@@ -339,15 +394,27 @@ export default class RecordUpdateEditor extends LightningElement {
         this.updateProperty('inputReference', event.detail.value, event.detail.error);
     }
 
+    /**
+     * Updates the property inputReference with the selected related fields.
+     * Then get the relatedFields sobjectName from the entityRelatedFields array and
+     * update the fields needed for the filter and assignment.
+     *
+     * @param {object} event - related fields changed event coming from related-fields-picker component
+     */
+    handleRelatedFieldsChangedEvent(event) {
+        event.stopPropagation();
+        this.updateProperty('inputReference', event.detail.value, event.detail.error);
+        this.updateFields(this.getRelatedFieldSobjectName(event.detail.value));
+    }
+
     handleWayToFindOptionChanged(event) {
         event.stopPropagation();
         this.updateProperty('wayToFindRecords', event.detail.value, event.detail.error);
 
-        if (
-            event.detail.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD ||
-            event.detail.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP
-        ) {
+        if (event.detail.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD) {
             this.updateFields(this.recordEntityName);
+        } else if (event.detail.value === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP) {
+            this.updateRelatedFields(this.recordEntityName);
         }
     }
 
@@ -382,6 +449,13 @@ export default class RecordUpdateEditor extends LightningElement {
         const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
         this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, propChangedEvent);
+    }
+
+    handleFetchMenuData(event) {
+        const subType = this.getSobjectNameRelatedField(event.detail.item?.value);
+        if (subType) {
+            this.updateRelatedFields(subType);
+        }
     }
 
     formatWithEntityLabel(label: string) {

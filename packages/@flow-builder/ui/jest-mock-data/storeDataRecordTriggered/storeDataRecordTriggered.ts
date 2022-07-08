@@ -33,3 +33,4 @@ export const createAccountManualOutput = getElementByName('create_account_manual
 export const decision = getElementByName('decision');
 export const record = getElementByName('$Record');
 export const updateTriggeringRecord = getElementByName('Update_Triggering_Record');
+export const updateTriggerRecordWithRelatedFields = getElementByName('updateTriggerRecordWithRelatedFields');

@@ -65,6 +65,26 @@
       "IsTemplate":true,
       "ProcessType":"Flow",
       "IsSwingFlow":false,
+      "Description":"Authenticates the identity of a caller before their request can be processed by a contact center agent (CCA).",
+      "EnumOrID":"industries_mfg_service__MfgIv-1",
+      "Label":"Verify Caller Identity",
+      "VersionNumber":1
+    },
+    {
+      "Status":"Active",
+      "IsTemplate":true,
+      "ProcessType":"Flow",
+      "IsSwingFlow":false,
+      "Description":"Authenticates the identity of a caller before their request can be processed by a contact center agent (CCA).",
+      "EnumOrID":"industries_automotive__AutoIV-1",
+      "Label":"Verify Caller Identity for Automotive",
+      "VersionNumber":1
+    },
+    {
+      "Status":"Active",
+      "IsTemplate":true,
+      "ProcessType":"Flow",
+      "IsSwingFlow":false,
       "Description":null,
       "EnumOrID":"setup_service_experience__Verify_Cust-1",
       "Label":"Verify Identity",

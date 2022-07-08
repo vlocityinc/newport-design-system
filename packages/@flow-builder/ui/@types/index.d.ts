@@ -50,6 +50,10 @@ type ComboboxConfig = {
      * @summary field level help
      */
     fieldLevelHelp?: string;
+    /**
+     * @summary do we include the related fields
+     */
+    includeEntityRelatedRecordFields?: boolean;
 };
 
 type FieldDefinition = {
@@ -134,6 +138,8 @@ type MenuFilter = Readonly<{
     categoriesToInclude?: string[];
     // whether or not the $Record system variable should be filtered out
     hideRecordSystemVariable?: boolean;
+    // whether or not the entity related fields ar includes
+    includeEntityRelatedRecordFields?: boolean;
 }>;
 
 type MenuConfig = Readonly<{

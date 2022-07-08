@@ -44,7 +44,10 @@
     <div if:true={showSobjectPicker}>
         <div class="slds-m-bottom_small slds-border_top">
             <h3 class="slds-text-heading_small slds-p-around_small">{sObjectPickerHeader}</h3>
-            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
+            <div
+                if:false={isRelatedRecordLookup}
+                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
                 <builder_platform_interaction-sobject-or-sobject-collection-picker
                     label={sObjectPickerLabel}
                     placeholder={sObjectPickerPlaceholder}
@@ -57,6 +60,21 @@
                     is-pill-supported
                 >
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
+            </div>
+            <div
+                if:true={isRelatedRecordLookup}
+                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+                <builder_platform_interaction-related-record-fields-picker
+                    label={sObjectPickerLabel}
+                    placeholder={sObjectPickerPlaceholder}
+                    value={inputReference}
+                    row-index={state.recordUpdateElement.inputReferenceIndex.value}
+                    error-message={state.recordUpdateElement.inputReference.error}
+                    onsobjectreferencechanged={handleRelatedFieldsChangedEvent}
+                    onfetchmenudata={handleFetchMenuData}
+                >
+                </builder_platform_interaction-related-record-fields-picker>
             </div>
         </div>
         <div if:false={isRelatedRecordLookup}>

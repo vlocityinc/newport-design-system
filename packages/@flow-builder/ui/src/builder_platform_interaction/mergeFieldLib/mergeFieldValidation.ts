@@ -52,6 +52,7 @@ export class MergeFieldsValidation {
     allowSObjectFieldsTraversal = true;
     allowApexTypeFieldsTraversal = true;
     ignoreGlobalVariables = false;
+    includeEntityRelatedRecordFields = false;
 
     // The allowed param types for merge field based on rule service.
     // If present, this is used to validate the element merge field.
@@ -322,7 +323,7 @@ export class MergeFieldsValidation {
         if (remainingFieldNames.length > 0) {
             if (property.dataType === FLOW_DATA_TYPE.APEX.value) {
                 return this._validateApexMergeField(property.subtype, remainingFieldNames, index, endIndex);
-            } else if (property.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+            } else if (property.dataType === FLOW_DATA_TYPE.SOBJECT.value && !this.includeEntityRelatedRecordFields) {
                 return this._validateSObjectMergeField(property.subtype, remainingFieldNames, index, endIndex);
             }
             return {
@@ -345,7 +346,10 @@ export class MergeFieldsValidation {
                 error: validationErrors.mergeFieldNotAllowed(index, endIndex)
             };
         }
-        const fields = sobjectLib.getFieldsForEntity(entityName);
+        const fields = this.includeEntityRelatedRecordFields
+            ? sobjectLib.getRelatedRecordFieldsForEntity(entityName)
+            : sobjectLib.getFieldsForEntity(entityName);
+
         if (!fields) {
             // entity not cached or no entity with this name ...
             return {
@@ -664,6 +668,8 @@ export function validateTextWithMergeFields(
  * @param root0.allowCollectionVariables
  * @param root0.allowSObjectFieldsTraversal
  * @param root0.allowApexTypeFieldsTraversal
+ * @param root0.includeEntityRelatedRecordFields - true include entity related fields
+ * @returns {ValidationError[]} all validation errors
  */
 export function validateMergeField(
     mergeField: string,
@@ -672,13 +678,15 @@ export function validateMergeField(
         allowedParamTypes = null,
         allowCollectionVariables = false,
         allowSObjectFieldsTraversal = true,
-        allowApexTypeFieldsTraversal = true
+        allowApexTypeFieldsTraversal = true,
+        includeEntityRelatedRecordFields = false
     }: {
         allowGlobalConstants?: boolean;
         allowedParamTypes?: any;
         allowCollectionVariables?: boolean;
         allowSObjectFieldsTraversal?: boolean;
         allowApexTypeFieldsTraversal?: boolean;
+        includeEntityRelatedRecordFields?: boolean;
     } = {}
 ) {
     const validation = new MergeFieldsValidation();
@@ -687,6 +695,7 @@ export function validateMergeField(
     validation.allowCollectionVariables = allowCollectionVariables;
     validation.allowSObjectFieldsTraversal = allowSObjectFieldsTraversal;
     validation.allowApexTypeFieldsTraversal = allowApexTypeFieldsTraversal;
+    validation.includeEntityRelatedRecordFields = includeEntityRelatedRecordFields;
     return validation.validateMergeField(mergeField);
 }
 

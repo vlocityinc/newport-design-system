@@ -11,6 +11,7 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { createElement } from 'lwc';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
+import { updateTriggerRecordWithRelatedFields } from 'mock/storeDataRecordTriggered';
 import { ExpressionBuilderComponentTest } from '../expressionBuilderTestUtils';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
@@ -34,6 +35,7 @@ import {
     getRecordFilter,
     getRecordInputOutputAssignments,
     getRecordVariablePickerChildComboboxComponent,
+    getRelatedRecordFieldsPicker,
     getSObjectOrSObjectCollectionPicker
 } from './cludEditorTestUtils';
 
@@ -580,7 +582,7 @@ describe('Record Update Editor', () => {
     });
 });
 describe('Triggering Record Update Editor', () => {
-    let recordUpdateNode, recordUpdateComponent;
+    let recordUpdateNode, recordUpdateComponent: RecordUpdateEditor;
     beforeAll(async () => {
         const store = await setupStateForFlow(recordTriggeredFlow);
         translateFlowToUIAndDispatch(recordTriggeredFlow, store);
@@ -731,6 +733,45 @@ describe('Triggering Record Update Editor', () => {
                 });
                 expect(baseExpressionBuilder.operatorValue).toBeUndefined();
                 expect(baseExpressionBuilder.rhsValue).toBe('Trigg');
+            });
+        });
+    });
+    describe('Existing Element with Record Related Fields selected', () => {
+        beforeAll(() => {
+            const element = getElementByDevName('updateTriggerRecordWithRelatedFields');
+            recordUpdateNode = getElementForPropertyEditor(element);
+            recordUpdateComponent = createComponentForTest({
+                node: recordUpdateNode,
+                mode: EditElementEvent.EVENT_NAME
+            });
+        });
+        describe('store options', () => {
+            let wayToFindRecords: UI.HydratedValue; // {value : string};
+            beforeEach(() => {
+                wayToFindRecords = getLightningRadioGroup(recordUpdateComponent);
+            });
+            it('should be displayed', () => {
+                expect(wayToFindRecords).not.toBeNull();
+            });
+            it('should have radio group option equal to "related Record Lookup"', () => {
+                expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP);
+            });
+        });
+        describe('Record Related Fields Picker', () => {
+            let relatedRecordFieldsPicker;
+            beforeAll(() => {
+                relatedRecordFieldsPicker = getRelatedRecordFieldsPicker(recordUpdateComponent);
+            });
+            it('should be displayed', () => {
+                expect(relatedRecordFieldsPicker).not.toBeNull();
+            });
+            it('should have the correct label', () => {
+                expect(relatedRecordFieldsPicker.label).toBe(
+                    'FlowBuilderRecordUpdateEditor.filterCriteriaRelatedRecords'
+                );
+            });
+            it('have the correct value display', () => {
+                expect(relatedRecordFieldsPicker.value).toBe(updateTriggerRecordWithRelatedFields.inputReference);
             });
         });
     });

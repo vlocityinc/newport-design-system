@@ -3,6 +3,7 @@ import { fetchOnce, isAlreadyFetched, SERVER_ACTION_TYPE } from 'builder_platfor
 import { Store } from 'builder_platform_interaction/storeLib';
 
 let cachedEntityFields = {};
+let cachedRelatedRecordFieldsForEntity = {};
 
 export const ENTITY_TYPE = {
     CREATABLE: 'CREATABLE',
@@ -173,17 +174,17 @@ export const areFieldsForEntityAlreadyFetched = (entityName) => {
 /**
  * Fetch fields for given entity
  *
- * @param {string} entityName api name of the SObject
+ * @param entityName api name of the SObject
  * @param {{background: (boolean|undefined), disableErrorModal: (boolean|undefined), messageForErrorModal: (string|undefined)}} optionalParams
  *            background need to be set to true if request needs to be run as a background action
  *            disableErrorModal need to be set to true to disable the default error modal panel
  *            messageForErrorModal the message to use instead of the default error message
- * @returns {Promise} Promise object with the fields
+ * @returns Promise object with the fields
  */
 export const fetchFieldsForEntity = (
-    entityName,
+    entityName: string,
     { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
-) => {
+): Promise<{}> => {
     if (cachedEntityFields[entityName]) {
         return Promise.resolve(cachedEntityFields[entityName]);
     }
@@ -203,10 +204,48 @@ export const fetchFieldsForEntity = (
 /**
  * Grabs the fields for a specific sObject from the cache, undefined if not a valid entityName
  *
- * @param {string} entityName Api name of the SObject
+ * @param entityName Api name of the SObject
+ * @returns object "map" with entity fields (field API name as "key")
  */
-export const getFieldsForEntity = (entityName) => {
-    return cachedEntityFields[entityName];
+export const getFieldsForEntity = (entityName: string): object => cachedEntityFields[entityName];
+
+/**
+ * Grabs the related record fields for a specific sObject from the cache, undefined if not a valid entityName
+ *
+ * @param entityName Api name of the SObject
+ * @returns object "map" with entity related record fields (field API name as "key")
+ */
+export const getRelatedRecordFieldsForEntity = (entityName: string): object =>
+    cachedRelatedRecordFieldsForEntity[entityName];
+
+/**
+ * Fetch related fields for given entity
+ *
+ * @param entityName api name of the SObject
+ * @param {{background: (boolean|undefined), disableErrorModal: (boolean|undefined), messageForErrorModal: (string|undefined)}} optionalParams
+ *            background need to be set to true if request needs to be run as a background action
+ *            disableErrorModal need to be set to true to disable the default error modal panel
+ *            messageForErrorModal the message to use instead of the default error message
+ * @returns Promise object with the related record fields
+ */
+export const fetchRelatedRecordFieldsForEntity = (
+    entityName: string,
+    { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
+): Promise<{}> => {
+    if (cachedRelatedRecordFieldsForEntity[entityName]) {
+        return Promise.resolve(cachedRelatedRecordFieldsForEntity[entityName]);
+    }
+    const params = {
+        entityApiName: entityName
+    };
+    return fetchOnce(SERVER_ACTION_TYPE.GET_RELATED_RECORDS_FIELDS_FOR_ENTITY, params, {
+        background,
+        disableErrorModal,
+        messageForErrorModal
+    }).then((fields) => {
+        cachedRelatedRecordFieldsForEntity[entityName] = fields;
+        return fields;
+    });
 };
 
 /**
@@ -228,4 +267,5 @@ export const getEntityFieldWithApiName = (fields, fieldName) => {
     return undefined;
 };
 
-export const clearEntityFieldsCache = () => (cachedEntityFields = {});
+export const clearEntityFieldsCache = (): object => (cachedEntityFields = {});
+export const clearRelatedRecordFieldsForEntityCache = (): object => (cachedRelatedRecordFieldsForEntity = {});

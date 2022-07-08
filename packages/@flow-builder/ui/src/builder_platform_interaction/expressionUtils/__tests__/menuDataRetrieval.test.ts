@@ -43,6 +43,7 @@ import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntit
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { flowExtensionDetails as mockFlowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { accountFields as mockAccountRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/accountFields.json';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { systemVariablesForOrchestration as systemVariablesOrchestration } from 'serverData/GetSystemVariables/systemVariablesForOrchestration.json';
 import { LABELS } from '../expressionUtilsLabels';
@@ -152,22 +153,18 @@ jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')
 );
 
-jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = jest.requireActual('builder_platform_interaction/sobjectLib');
-    return {
-        fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
-        getAllEntities: jest.fn().mockImplementation(() => {
-            return mockEntities;
-        }),
-        getWorkflowEnabledEntities: jest.fn().mockImplementation(() => {
-            return jest.requireActual('mock/serverEntityData').mockWorkflowEnabledEntities;
-        }),
-        getEventTypes: jest.fn().mockImplementation(() => {
-            return require('mock/eventTypesData').mockEventTypes;
-        }),
-        ENTITY_TYPE: sobjectLib.ENTITY_TYPE
-    };
-});
+jest.mock('builder_platform_interaction/sobjectLib', () =>
+    Object.assign(require('builder_platform_interaction_mocks/sobjectLib'), {
+        fetchFieldsForEntity: jest.fn(() => Promise.resolve(mockAccountFields)),
+        fetchRelatedRecordFieldsForEntity: jest.fn(() => Promise.resolve(mockAccountRelatedFields)),
+        getEventTypes: jest.fn(() => require('mock/eventTypesData').mockEventTypes),
+        ENTITY_TYPE: jest.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE,
+        getWorkflowEnabledEntities: jest.fn(
+            () => jest.requireActual('mock/serverEntityData').mockWorkflowEnabledEntities
+        ),
+        getAllEntities: jest.fn(() => mockEntities)
+    })
+);
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -774,6 +771,11 @@ describe('Menu data retrieval', () => {
             expect(Object.keys(items)).toHaveLength(Object.keys(mockAccountFields).length);
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
+        it('should fetch entity related fields for sobject variables', async () => {
+            const items = await getChildrenItemsPromise(parentSObjectItem, false, true);
+            expect(Object.keys(items)).toHaveLength(Object.keys(mockAccountRelatedFields).length);
+            expectFieldsAreComplexTypeFieldDescriptions(items);
+        });
         it('should return an empty map if cannot get fields', async () => {
             fetchFieldsForEntity.mockImplementationOnce(() =>
                 Promise.reject(new Error('cannot get entity fields : No Access'))
@@ -869,6 +871,16 @@ describe('Menu data retrieval', () => {
                 expect(mockCall).toHaveBeenCalledWith(getElementByGuid(parent.value));
                 expect(items).toEqual(mockCall());
             });
+        });
+        it('should get the entity related fields if dataType is SObject and includeEntityRelatedRecordFields is true', () => {
+            const items = getChildrenItems(parentSObjectItem, false, true);
+            expect(items).toEqual(mockAccountRelatedFields);
+            expectFieldsAreComplexTypeFieldDescriptions(items);
+        });
+        it('should get the fields if dataType is SObject', () => {
+            const items = getChildrenItems(parentSObjectItem);
+            expect(items).toEqual(mockAccountFields);
+            expectFieldsAreComplexTypeFieldDescriptions(items);
         });
     });
 

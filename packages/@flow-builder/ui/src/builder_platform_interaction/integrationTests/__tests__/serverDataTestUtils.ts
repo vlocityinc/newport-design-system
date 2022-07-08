@@ -49,6 +49,12 @@ import { objectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManager
 import { operators } from 'serverData/GetOperators/operators.json';
 import { paletteForAutoLaunchedFlow } from 'serverData/GetPalette/paletteForAutoLaunchedFlow.json';
 import { paletteForFlow } from 'serverData/GetPalette/paletteForFlow.json';
+import { accountRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/accountFields.json';
+import { contractRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/contractFields.json';
+import { feedItemRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/feedItemFields.json';
+import { objectWithAllPossibleFieldsRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/objectWithAllPossibleFieldsFields.json';
+import { recommendationRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/recommendationFields.json';
+import { userRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/userFields.json';
 import { resourceTypesForAutoLaunchedFlow } from 'serverData/GetResourceTypes/resourceTypesForAutoLaunchedFlow.json';
 import { resourceTypesForFlow } from 'serverData/GetResourceTypes/resourceTypesForFlow.json';
 import { runInModes } from 'serverData/GetRunInModes/runInModes.json';
@@ -109,6 +115,16 @@ const getFieldsForEntity =
     (entityApiNameToEntityFields) =>
     ({ entityApiName }) => {
         const fields = entityApiNameToEntityFields[entityApiName];
+        if (fields != null) {
+            return { data: fields };
+        }
+        return { error: 'Unknown entity' };
+    };
+
+const getRelatedRecordFieldsForEntity =
+    (entityApiNameToEntityRelatedFields) =>
+    ({ entityApiName }) => {
+        const fields = entityApiNameToEntityRelatedFields[entityApiName];
         if (fields != null) {
             return { data: fields };
         }
@@ -206,6 +222,14 @@ const allAuraActions = {
         Contract: contractFields,
         Object_with_all_possible_fields__c: objectWithAllPossibleFieldsFields,
         Recommendation: recommendationFields
+    }),
+    'c.getRelatedRecordFieldsForEntity': getRelatedRecordFieldsForEntity({
+        Account: accountRelatedFields,
+        User: userRelatedFields,
+        FeedItem: feedItemRelatedFields,
+        Contract: contractRelatedFields,
+        Object_with_all_possible_fields__c: objectWithAllPossibleFieldsRelatedFields,
+        Recommendation: recommendationRelatedFields
     }),
     'c.getAllInvocableActionsForType': getAllInvocableActionsForType({
         [FLOW_PROCESS_TYPE.FLOW]: invocableActionsForFlow,

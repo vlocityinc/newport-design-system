@@ -385,7 +385,8 @@ export default class FerovResourcePicker extends LightningElement {
             this.initializeResourcePicker(
                 normalizeFEROV(identifier, {
                     allowSObjectFieldsTraversal: this.isLookupTraversalSupported(),
-                    lookupByDevName: this.lookupByDevName
+                    lookupByDevName: this.lookupByDevName,
+                    includeEntityRelatedRecordFields: this.comboboxConfig?.includeEntityRelatedRecordFields
                 })
             );
         }
@@ -440,7 +441,8 @@ export default class FerovResourcePicker extends LightningElement {
                         showSystemVariables: !this.hideSystemVariables,
                         showGlobalVariables: !this.hideGlobalVariables,
                         forFormula: this.forFormula,
-                        showFlowSystemVariable: !this.hideFlowSystemVariable
+                        showFlowSystemVariable: !this.hideFlowSystemVariable,
+                        includeEntityRelatedRecordFields: this.comboboxConfig.includeEntityRelatedRecordFields
                     }
                 }
             ).then((menuData) => {

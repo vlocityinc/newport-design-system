@@ -756,7 +756,7 @@
       "iconId":null,
       "isStandard":true,
       "allowsTransactionControl":false,
-      "iconName":null,
+      "iconName":"slds:standard:omni_supervisor",
       "name":"routeWork",
       "description":"Route Work",
       "configurationEditor":"omni-route-action",

@@ -50,7 +50,8 @@ const parentItem = {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest.fn()
+        getFieldsForEntity: jest.fn(),
+        getRelatedRecordFieldsForEntity: jest.fn()
     };
 });
 jest.mock('builder_platform_interaction/ruleLib', () => {
@@ -67,8 +68,11 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         getRHSTypes: jest.fn().mockReturnValue(mockParam).mockName('getRHSTypes')
     };
 });
+
 jest.mock('builder_platform_interaction/expressionUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/expressionUtils');
     return {
+        getChildrenItemsPromise: actual.getChildrenItemsPromise,
         getMenuData: jest
             .fn()
             .mockReturnValue(

@@ -154,6 +154,13 @@ function setWayToFindRecords(wayToFindRecords, object, inputReference, triggerTy
     } else if (inputReference === '' && startObject && doesSupportTriggeringRecordUpdate(triggerType)) {
         // inputReference is not set, triggerType is record-changed and object on startElement is set.
         wayToFindRecords = RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD;
+    } else if (
+        inputReference !== '' &&
+        inputReference.startsWith(SYSTEM_VARIABLE_RECORD_PREFIX) &&
+        inputAssignments.length > 0
+    ) {
+        // inputReference is set to a related record of $Record, when wayToFindRecords is supposed to be "Select Related Records"
+        wayToFindRecords = RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP;
     } else {
         // inputReference could be set to non $Record OR no values or set, then we should use "Use the IDs and all field values from Record or Record collection"
         wayToFindRecords = RECORD_UPDATE_WAY_TO_FIND_RECORDS.SOBJECT_REFERENCE;
@@ -217,7 +224,8 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
 
     if (
         wayToFindRecords === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RECORD_LOOKUP ||
-        wayToFindRecords === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD
+        wayToFindRecords === RECORD_UPDATE_WAY_TO_FIND_RECORDS.TRIGGERING_RECORD ||
+        wayToFindRecords === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP
     ) {
         let { filters = [], inputAssignments = [] } = recordUpdate;
         const { filterLogic } = recordUpdate;

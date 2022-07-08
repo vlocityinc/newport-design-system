@@ -145,6 +145,22 @@
       "isViewable":false
     },
     {
+      "masterLabel":"Verify Caller Identity",
+      "activeVersionId":"industries_mfg_service__MfgIv-1",
+      "fullName":"industries_mfg_service__MfgIv",
+      "description":"Authenticates the identity of a caller before their request can be processed by a contact center agent (CCA).",
+      "latestVersionId":"industries_mfg_service__MfgIv-1",
+      "isViewable":true
+    },
+    {
+      "masterLabel":"Verify Caller Identity for Automotive",
+      "activeVersionId":"industries_automotive__AutoIV-1",
+      "fullName":"industries_automotive__AutoIV",
+      "description":"Authenticates the identity of a caller before their request can be processed by a contact center agent (CCA).",
+      "latestVersionId":"industries_automotive__AutoIV-1",
+      "isViewable":true
+    },
+    {
       "masterLabel":"Verify Identity",
       "activeVersionId":"setup_service_experience__Verify_Cust-1",
       "fullName":"setup_service_experience__Verify_Cust",

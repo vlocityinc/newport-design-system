@@ -16,6 +16,7 @@ export const SERVER_ACTION_TYPE = {
     GET_ENTITIES: 'getEntities',
     GET_ENTITY: 'getEntity',
     GET_ENTITY_FIELDS: 'getEntityFields',
+    GET_RELATED_RECORDS_FIELDS_FOR_ENTITY: 'getRelatedRecordFieldsForEntity',
     GET_ALL_GLOBAL_VARIABLES: 'getAllGlobalVariables',
     GET_ALL_GLOBAL_VARIABLES_EXCLUDE_LABELS: 'getAllGlobalVariablesExcludeLabels',
     GET_ALL_GLOBAL_VARIABLES_ONLY_LABELS: 'getAllGlobalVariablesOnlyLabels',
@@ -135,7 +136,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.RUN_FLOW_TESTS]: 'c.runFlowTests',
     [SERVER_ACTION_TYPE.GET_FLOW_TEST]: 'c.retrieveFlowTest',
     [SERVER_ACTION_TYPE.VALIDATE_FORMULA]: 'c.validateFormulaSyntax',
-    [SERVER_ACTION_TYPE.GET_FLOW_IDS]: 'c.getFlowIds'
+    [SERVER_ACTION_TYPE.GET_FLOW_IDS]: 'c.getFlowIds',
+    [SERVER_ACTION_TYPE.GET_RELATED_RECORDS_FIELDS_FOR_ENTITY]: 'c.getRelatedRecordFieldsForEntity'
 };
 
 let auraFetch;
@@ -251,6 +253,7 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: (params) => `${params.actionName}-${params.actionType}`,
     [SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS]: (params) => `${params.apexClass}`,
     [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: (params) => params.entityApiName,
+    [SERVER_ACTION_TYPE.GET_RELATED_RECORDS_FIELDS_FOR_ENTITY]: (params) => params.entityApiName,
     [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: (params) => params.flowName,
     [SERVER_ACTION_TYPE.GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE]: (params) => params.flowName,
     [SERVER_ACTION_TYPE.GET_APEX_TYPES]: (params) => params.flowProcessType,

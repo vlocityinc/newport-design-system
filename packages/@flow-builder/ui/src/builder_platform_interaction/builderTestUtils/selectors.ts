@@ -105,6 +105,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     RECORD_SORT: 'builder_platform_interaction-record-sort',
     RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options',
     RECORD_QUERY_FIELDS_COMPONENT: 'builder_platform_interaction-record-query-fields',
+    RELATED_RECORD_FIELDS_PICKER: 'builder_platform_interaction-related-record-fields-picker',
     REORDERABLE_VERTICAL_NAVIGATION: 'builder_platform_interaction-reorderable-vertical-navigation',
     REORDERABLE_VERTICAL_NAVIGATION_ITEM: 'builder_platform_interaction-reorderable-vertical-navigation-item',
     RESOURCED_RICH_TEXT_EDITOR: 'builder_platform_interaction-resourced-rich-text-editor',
