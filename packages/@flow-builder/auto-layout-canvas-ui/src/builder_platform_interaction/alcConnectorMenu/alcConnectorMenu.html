@@ -52,9 +52,13 @@
                                     ></lightning-icon>
                                 </span>
                                 <span class="slds-media__body">
-                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity"
-                                        >{item.label}</span
-                                    >
+                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                        <template if:true={isSearchInputEmpty}> {item.label} </template>
+                                        <template if:false={isSearchInputEmpty}>
+                                            <lightning-formatted-rich-text value={item.formattedLabel}>
+                                            </lightning-formatted-rich-text>
+                                        </template>
+                                    </span>
                                     <span
                                         if:true={item.description}
                                         class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate"

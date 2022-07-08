@@ -231,6 +231,20 @@ describe('connector menu config', () => {
     it('search results should be correct based on search input', () => {
         const searchResultsMenu = configureMenu('action', metadata, elementsMetadata, false, 1, false, true);
         expect(searchResultsMenu.sections[0].items.length).toBe(2);
+        // Highlight matched results.
+        metadata.menuItems[0].formattedLabel = '<mark>Action</mark> with Static Resource Icon';
+        metadata.menuItems[1].formattedLabel = '<mark>Action</mark> with Slds Icon';
+        expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[0]]));
+        expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[1]]));
+        expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[2]]));
+    });
+
+    it('search results should be highlight partial matches', () => {
+        const searchResultsMenu = configureMenu('tion', metadata, elementsMetadata, false, 1, false, true);
+        expect(searchResultsMenu.sections[0].items.length).toBe(2);
+        // Highlight matched results.
+        metadata.menuItems[0].formattedLabel = 'Ac<mark>tion</mark> with Static Resource Icon';
+        metadata.menuItems[1].formattedLabel = 'Ac<mark>tion</mark> with Slds Icon';
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[0]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[1]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[2]]));

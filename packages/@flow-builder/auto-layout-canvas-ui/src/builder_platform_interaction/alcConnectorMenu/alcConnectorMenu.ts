@@ -77,6 +77,10 @@ export default class AlcConnectorMenu extends AlcMenu {
         return LABELS;
     }
 
+    get isSearchInputEmpty() {
+        return !this.searchInput;
+    }
+
     shouldShowSpinner() {
         return (this.searchInput && this._metadata.isLoading) as boolean;
     }

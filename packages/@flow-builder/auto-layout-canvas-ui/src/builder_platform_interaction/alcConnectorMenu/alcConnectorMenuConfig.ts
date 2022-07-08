@@ -238,7 +238,6 @@ export const configureMenu = (
     if (!searchInput) {
         return elementsSection;
     }
-
     // Flatten the usual configured menu into one Search Results section
     const searchResultsSection = flattenIntoSearchResultsSection(elementsSection);
 
@@ -247,11 +246,24 @@ export const configureMenu = (
     // Now add other MenuItems passed from Canvas (Actions, Subflows, etc)
     allItems.push(...metadata.menuItems);
 
-    const filteredItems = allItems.filter((item) => {
-        return item.label.toLowerCase().indexOf(searchInput.toLowerCase()) > -1;
-    });
+    // We need to escape special characters to construct regex correctly.
+    const re = new RegExp(searchInput.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
 
-    searchResultsSection.items = filteredItems;
+    // We add highlighted labels to items that match search input, and filter out those that
+    // did not match (i.e., do not have a formattedLabel). Can be done with flatMap or reduce.
+    searchResultsSection.items = allItems
+        .map((item) => {
+            // Highlight search input in label if it matches search input.
+            let matched = false;
+            const formattedLabel = item.label.replace(re, (val) => {
+                matched = true;
+                return `<mark>${val}</mark>`;
+            });
+
+            // If it's a match, add a formatted label. Otherwise, return the original item.
+            return matched ? { ...item, formattedLabel } : item;
+        })
+        .filter((item) => 'formattedLabel' in item);
 
     return { sections: [searchResultsSection] };
 };
