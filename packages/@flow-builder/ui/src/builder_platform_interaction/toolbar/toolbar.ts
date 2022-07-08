@@ -168,10 +168,10 @@ export default class Toolbar extends LightningElement {
     showEditTestButton;
 
     @api
-    showLeftPanelToggle;
+    isLeftPanelToggled;
 
     @api
-    isLeftPanelToggled;
+    showLeftPanelToggle;
 
     labels = LABELS;
 

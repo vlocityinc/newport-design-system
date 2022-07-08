@@ -70,6 +70,9 @@ export default class LeftPanel extends LightningElement {
     customIconMap = {};
 
     @api
+    isCollapsible = false;
+
+    @api
     get showElementsTab() {
         return this._showElementsTab;
     }

@@ -17,7 +17,7 @@ builder_platform_interaction-right-panel {
     z-index: 501;
 }
 
-builder_platform_interaction-left-panel {
+.left-panel-floating {
     position: absolute;
     left: 0;
     top: 0;

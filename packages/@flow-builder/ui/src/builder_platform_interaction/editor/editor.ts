@@ -205,6 +205,7 @@ import { INIT, isRedoAvailable, isUndoAvailable, undoRedo } from 'builder_platfo
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { time } from 'instrumentation/service';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { classSet } from 'lightning/utils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './editorLabels';
 import {
@@ -276,6 +277,7 @@ const DEBUG = 'debug';
 const NEWDEBUG = 'new debug';
 const RESTARTDEBUG = 'restart debug';
 const NEW_FLOW_ACTION = 'new-flow';
+const LEFT_PANEL_WIDTH = 320;
 
 const ADD_ELEMENT = 'ADD_ELEMENT';
 const APP_NAME = 'FLOW_BUILDER';
@@ -551,7 +553,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     flowTestManagerBlockerCalls = [];
 
     get panelClasses() {
-        return this.showLeftPanel ? 'left-panel-show' : 'left-panel-hide';
+        return classSet({
+            'left-panel-floating': this.properties.isAutoLayoutCanvas,
+            'left-panel-show': this.showLeftPanel,
+            'left-panel-hide': !this.showLeftPanel
+        });
     }
 
     get leftPanelTabIndex() {
@@ -885,6 +891,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             !!this.toolbarConfig.showEditTestButton &&
             isFlowTestingSupported(this.properties.processType, this.triggerType)
         );
+    }
+
+    get showLeftPanelToggle() {
+        return !!this.properties.isAutoLayoutCanvas && this.leftPanelConfig.showLeftPanel;
     }
 
     @api
@@ -2520,8 +2530,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const autoLayoutCanvasContainer = this.template.querySelector(PANELS.AUTOLAYOUT_CANVAS);
 
             // OffsetX will be at left-most point of the Start Circle when switching to Free-Form.
+            // Subtracting left panel width from clientWidth because free-form mode left panel does not float.
             // Subtracting 24 (half icon width) to get to that point from the center.
-            const offsetX = autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth / 2 - 24 : 0;
+            const offsetX = autoLayoutCanvasContainer
+                ? (autoLayoutCanvasContainer.clientWidth - LEFT_PANEL_WIDTH) / 2 - 24
+                : 0;
             const options = { resetExistingGoTos: this.shouldResetExistingGoTos };
             const { elements, canvasElements, connectors } = setupInAutoLayoutCanvas
                 ? // @ts-ignore

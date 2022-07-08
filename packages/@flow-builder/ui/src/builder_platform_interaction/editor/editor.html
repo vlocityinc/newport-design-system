@@ -51,7 +51,6 @@
                 show-edit-flow-properties-button={toolbarConfig.showEditFlowPropertiesButton}
                 show-canvas-mode-combobox={showCanvasModeCombobox}
                 show-edit-flow-button={toolbarConfig.showEditFlowButton}
-                show-left-panel-toggle={leftPanelConfig.showLeftPanel}
                 show-run-button={showRunButton}
                 show-debug-button={showDebugButton}
                 show-add-to-test-button={showAddToTestButton}
@@ -64,6 +63,7 @@
                 show-undo-redo-button={showUndoRedoButton}
                 show-view-all-tests-button={showViewAllTestsButton}
                 show-edit-test-button={showEditTestButton}
+                show-left-panel-toggle={showLeftPanelToggle}
                 flow-errors-and-warnings={flowErrorsAndWarnings}
                 save-and-pending-operation-status={saveAndPendingOperationStatus}
                 last-modified-date={properties.lastModifiedDate}
@@ -109,6 +109,7 @@
                 show-elements-tab={showLeftPanelElementsTab}
                 role="complementary"
                 custom-icon-map={customIconMap}
+                is-collapsible={properties.isAutoLayoutCanvas}
             ></builder_platform_interaction-left-panel>
             <div
                 if:true={hasCanvasElements}
@@ -130,7 +131,6 @@
                     onclosepropertyeditor={handleClosePropertyEditor}
                     onnodeselected={handleNodeSelected}
                     role="region"
-                    show-left-panel={showLeftPanel}
                 >
                 </builder_platform_interaction-canvas-container>
                 <builder_platform_interaction-alc-canvas-container

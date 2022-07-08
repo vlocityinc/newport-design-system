@@ -179,10 +179,6 @@ export default class Canvas extends withKeyboardInteractions(LightningElement) {
         }
     };
 
-    get zoomPanelClass(): string {
-        return this.showLeftPanel ? 'zoom-panel-offset' : '';
-    }
-
     /* ********************** */
     /*     Event handlers     */
     /* ********************** */

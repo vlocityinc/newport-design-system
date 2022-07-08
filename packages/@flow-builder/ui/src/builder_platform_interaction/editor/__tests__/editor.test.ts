@@ -935,23 +935,6 @@ describe('Left panel', () => {
             expect(leftPanel.classList).toContain('left-panel-show');
             expect(leftPanel.classList).not.toContain('left-panel-hide');
         });
-
-        it('is hidden after clicking close button', async () => {
-            const closeButton = leftPanel.shadowRoot.querySelector('.close-button');
-            closeButton.click();
-            await ticks(1);
-            expect(leftPanel.classList).toContain('left-panel-hide');
-            expect(leftPanel.classList).not.toContain('left-panel-show');
-        });
-
-        it('is hidden after clicking left panel toggle', async () => {
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const leftPanelToggle = toolbar.shadowRoot.querySelector(selectors.leftPanelToggle);
-            leftPanelToggle.click();
-            await ticks(1);
-            expect(leftPanel.classList).toContain('left-panel-hide');
-            expect(leftPanel.classList).not.toContain('left-panel-show');
-        });
     });
 });
 

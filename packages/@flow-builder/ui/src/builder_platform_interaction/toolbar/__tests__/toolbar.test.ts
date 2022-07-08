@@ -118,14 +118,11 @@ describe('toolbar', () => {
         expect(eventCallback).toHaveBeenCalled();
     });
 
-    it('Left panel toggle should be present', () => {
-        const toolbarComponent = createComponentUnderTest();
-        const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
-        expect(leftPanelToggle).not.toBeNull();
-    });
-
     it('Left panel toggle fires toggle left panel event when clicked', () => {
-        const toolbarComponent = createComponentUnderTest();
+        const toolbarComponent = createComponentUnderTest({
+            isAutoLayoutCanvas: true,
+            autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT
+        });
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(ToggleLeftPanelEvent.EVENT_NAME, eventCallback);
         const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
@@ -133,7 +130,7 @@ describe('toolbar', () => {
         expect(eventCallback).toHaveBeenCalled();
     });
 
-    it('Left panel toggle should be hidden if toolbar config is set as such', () => {
+    it('Left panel toggle should be hidden if showLeftPanelToggle is false', () => {
         const toolbarComponent = createComponentUnderTest({
             showLeftPanelToggle: false
         });
@@ -143,6 +140,7 @@ describe('toolbar', () => {
 
     it('Left panel toggle should be disabled if AutoLayoutCanvasMode is in RECONNECTION', () => {
         const toolbarComponent = createComponentUnderTest({
+            isAutoLayoutCanvas: true,
             autolayoutCanvasMode: AutoLayoutCanvasMode.RECONNECTION
         });
         const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
@@ -151,6 +149,7 @@ describe('toolbar', () => {
 
     it('Left panel toggle should be disabled if AutoLayoutCanvasMode is in SELECTION', () => {
         const toolbarComponent = createComponentUnderTest({
+            isAutoLayoutCanvas: true,
             autolayoutCanvasMode: AutoLayoutCanvasMode.SELECTION
         });
         const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
@@ -159,6 +158,7 @@ describe('toolbar', () => {
 
     it('Left panel toggle should be disabled if AutoLayoutCanvasMode is in CUT', () => {
         const toolbarComponent = createComponentUnderTest({
+            isAutoLayoutCanvas: true,
             autolayoutCanvasMode: AutoLayoutCanvasMode.CUT
         });
         const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
@@ -167,6 +167,7 @@ describe('toolbar', () => {
 
     it('Left panel toggle should not be disabled if AutoLayoutCanvasMode is in DEFAULT', () => {
         const toolbarComponent = createComponentUnderTest({
+            isAutoLayoutCanvas: true,
             autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT
         });
         const leftPanelToggle = toolbarComponent.shadowRoot.querySelector(SELECTORS.leftPanelToggle);
