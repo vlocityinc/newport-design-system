@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { getConnectorMenuInfo, getNodeMenuInfo } from '../alcMenuUtils';
+import { getConnectorMenuInfo, getNodeMenuInfo, isElementCut } from '../alcMenuUtils';
 
 jest.mock('builder_platform_interaction/alcComponentsUtils', () =>
     Object.assign({}, jest.requireActual('builder_platform_interaction/alcComponentsUtils'), {
@@ -336,6 +336,23 @@ describe('ALC Menu Utils', () => {
                 canAddGoto: true,
                 numPasteElementsAvailable: 2
             });
+        });
+    });
+
+    describe('isElementCut', () => {
+        it('isElementCut returns false if canvas mode is not in cut mode', () => {
+            const isElementCutBool = isElementCut(!'cut', ['branch-guid'], 'branch-guid');
+            expect(isElementCutBool).toBeFalsy();
+        });
+
+        it('isElementCut returns false if guid is not in cutElementGuids', () => {
+            const isElementCutBool = isElementCut('cut', ['branch-guid'], 'branch-guid-dummy');
+            expect(isElementCutBool).toBeFalsy();
+        });
+
+        it('isElementCut returns true if canvas mode is in cut mode and guid is in cutElementGuids', () => {
+            const isElementCutBool = isElementCut('cut', ['branch-guid'], 'branch-guid');
+            expect(isElementCutBool).toBeTruthy();
         });
     });
 });

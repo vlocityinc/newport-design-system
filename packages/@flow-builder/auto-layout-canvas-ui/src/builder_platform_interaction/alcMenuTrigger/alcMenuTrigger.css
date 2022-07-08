@@ -57,8 +57,16 @@ button.cut-paste-connector:focus {
     background-color: #f4f6f9;
     border-radius: 4px;
     border: 2px dashed;
-    width: var(--node-icon-width);
-    height: var(--node-icon-height);
+    width: var(--paste-node-width);
+    height: var(--paste-node-height);
+}
+
+button.cut-paste-node-border {
+    padding: 2px;
+    outline: 2px dashed;
+    outline-color: var(--lwc-brandAccessible);
+    outline-offset: 2px;
+    left: -2px;
 }
 
 button:focus {

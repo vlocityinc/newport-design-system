@@ -1,9 +1,11 @@
 import {
+    AutoLayoutCanvasMode,
     CanvasContext,
     deleteComponent,
     getComponent,
     getDomElementGeometry,
-    importComponent
+    importComponent,
+    isCutMode
 } from 'builder_platform_interaction/alcComponentsUtils';
 import AlcConnectorMenu from 'builder_platform_interaction/alcConnectorMenu';
 import { MenuRenderedEvent } from 'builder_platform_interaction/alcEvents';
@@ -14,6 +16,7 @@ import {
     FlowModel,
     getConnectionTarget,
     getTargetGuidsForReconnection,
+    Guid,
     hasGoTo,
     NodeType
 } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -195,4 +198,16 @@ function checkCanAddGoTo(
 export function newMenuRenderedEvent(menuElement: HTMLElement | LightningElement) {
     const { w, h } = getDomElementGeometry(menuElement);
     return new MenuRenderedEvent(w, h);
+}
+
+/**
+ * Determines if an element is to be cut and if canvas is in cut mode
+ *
+ * @param canvasMode - The canvas mode
+ * @param cutElementGuids - The cut element guids
+ * @param guid - The element guid
+ * @returns true if the element is to be cut and the canvas is in cut mode
+ */
+export function isElementCut(canvasMode: AutoLayoutCanvasMode, cutElementGuids: Guid[], guid: Guid): boolean {
+    return isCutMode(canvasMode) && cutElementGuids?.includes(guid);
 }

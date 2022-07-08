@@ -203,6 +203,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         connectorMenuMetadata: null,
         mode: AutoLayoutCanvasMode.DEFAULT,
         numPasteElementsAvailable: 0,
+        cutElementGuids: [],
         menu: null,
         customIconMap: {},
         incomingStubGuid: null
@@ -1299,7 +1300,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         });
 
         this.focusOnConnector(getConnectionSource(selectedElement));
-        this.updateCanvasContext({ mode: AutoLayoutCanvasMode.CUT });
+        this.updateCanvasContext({ mode: AutoLayoutCanvasMode.CUT, cutElementGuids });
         this.dispatchEvent(new CutElementsEvent(cutElementGuids));
     };
 

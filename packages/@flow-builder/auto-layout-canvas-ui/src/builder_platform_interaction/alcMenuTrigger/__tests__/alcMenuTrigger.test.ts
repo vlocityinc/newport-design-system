@@ -68,7 +68,8 @@ const defaultOptions = {
     operationType: 'delete',
     variant: '',
     source: {},
-    hasError: false
+    hasError: false,
+    cutElementGuids: []
 };
 
 const createComponentUnderTest = async (overrideOptions) => {
@@ -84,6 +85,7 @@ const selectors = {
     circularTriggerButton: '.circular-icon',
     toBeDeletedButton: '.node-to-be-deleted',
     toBeCutButton: '.node-to-be-cut',
+    toBeCutButtonBorder: '.cut-paste-node-border',
     endElement: '.is-end-element',
     nodeInSelectionMode: '.node-in-selection-mode',
     hasError: '.has-error',
@@ -186,6 +188,28 @@ describe('AlcMenuTrigger', () => {
         });
         const button = cmp.shadowRoot.querySelector(selectors.toBeCutButton);
         expect(button).not.toBeNull();
+    });
+
+    it('should add "cut-paste-node-border" class when isElementCut is true', async () => {
+        const cmp = await createComponentUnderTest({
+            operationType: 'cut',
+            canvasMode: AutoLayoutCanvasMode.CUT,
+            cutElementGuids: ['dummyGuid'],
+            source: { guid: 'dummyGuid' }
+        });
+        const button = cmp.shadowRoot.querySelector(selectors.toBeCutButtonBorder);
+        expect(button).not.toBeNull();
+    });
+
+    it('should not add "cut-paste-node-border" class when isElementCut is false', async () => {
+        const cmp = await createComponentUnderTest({
+            operationType: 'cut',
+            canvasMode: !AutoLayoutCanvasMode.CUT,
+            cutElementGuids: ['dummyGuid'],
+            source: { guid: '' }
+        });
+        const button = cmp.shadowRoot.querySelector(selectors.toBeCutButtonBorder);
+        expect(button).toBeNull();
     });
 
     it('should add "has-error" class when hasError is specified in node config', async () => {

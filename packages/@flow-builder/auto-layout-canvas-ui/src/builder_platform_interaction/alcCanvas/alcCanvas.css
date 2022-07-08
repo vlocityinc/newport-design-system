@@ -2,6 +2,9 @@
     --node-icon-width: 48px;
     --node-icon-height: 48px;
 
+    --paste-node-width: 35px;
+    --paste-node-height: 35px;
+
     --node-icon-half-width: calc(var(--node-icon-width) / 2);
     --node-icon-half-height: calc(var(--node-icon-height) / 2);
 

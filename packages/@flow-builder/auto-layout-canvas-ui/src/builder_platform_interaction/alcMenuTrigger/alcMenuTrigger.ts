@@ -6,7 +6,14 @@ import {
     isDefaultMode
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { CloseMenuEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
-import { ConnectionSource, MenuType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { isElementCut } from 'builder_platform_interaction/alcMenuUtils';
+import {
+    ConnectionSource,
+    Guid,
+    MenuType,
+    NodeOperationType,
+    NodeType
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
@@ -41,13 +48,16 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
     hasError;
 
     @api
-    operationType!: string;
+    operationType!: NodeOperationType;
 
     @api
     canvasMode: AutoLayoutCanvasMode = AutoLayoutCanvasMode.DEFAULT;
 
     @api
     source!: ConnectionSource;
+
+    @api
+    cutElementGuids!: Guid[];
 
     @api
     disableEditElements;
@@ -114,8 +124,9 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
             'circular-icon': !isConnectorVariant && this.elementMetadata.iconShape === ICON_SHAPE.CIRCLE,
             'slds-button_icon-xx-small': this.iconSize === 'xx-small',
             'slds-button_icon-x-small': this.iconSize === 'x-small',
-            'slds-button_icon-small': this.iconSize === 'small'
-        }).toString();
+            'slds-button_icon-small': this.iconSize === 'small',
+            'cut-paste-node-border': isElementCut(this.canvasMode, this.cutElementGuids, this.source.guid)
+        });
     }
 
     get computedTabIndex() {

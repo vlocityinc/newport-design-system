@@ -47,6 +47,7 @@ const selectors = {
     diamondIconWrapper: '.rotated-icon-radius.slds-icon-standard-decision',
     startIcon: '.background-green.slds-icon__container_circle',
     decisionIcon: '.rotate-icon-svg',
+    cutPasteNode: '.cut-paste-node',
     selectionCheckbox: '.selection-checkbox',
     textContainerElementType: '.text-element-type',
     textElementLabel: '.text-element-label',
@@ -123,6 +124,34 @@ describe('AlcNode', () => {
             });
             const startIcon = alcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
             expect(startIcon.size).toBe('medium');
+        });
+
+        it('Should have "cut-paste-node" class if isElementCut is true', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: decisionNodeInfo,
+                canvasContext: {
+                    mode: AutoLayoutCanvasMode.CUT,
+                    cutElementGuids: [decisionNodeInfo.guid],
+                    source: { guid: decisionNodeInfo.guid }
+                }
+            });
+            const cutPasteNode = alcNodeComponent.shadowRoot.querySelector(selectors.cutPasteNode);
+            expect(cutPasteNode).not.toBeNull();
+        });
+
+        it('Should not have "cut-paste-node" class if isElementCut is false', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: decisionNodeInfo,
+                canvasContext: {
+                    mode: !AutoLayoutCanvasMode.CUT,
+                    cutElementGuids: [decisionNodeInfo.guid],
+                    source: { guid: '' }
+                }
+            });
+            const cutPasteNode = alcNodeComponent.shadowRoot.querySelector(selectors.cutPasteNode);
+            expect(cutPasteNode).toBeNull();
         });
     });
 
@@ -660,6 +689,36 @@ describe('AlcNode', () => {
 
             const textContainer = alcNodeComponent.shadowRoot.querySelector(selectors.textContainer);
             expect(textContainer.classList.contains('slds-hide')).toBeTruthy();
+        });
+
+        it('textContainer should be displayed with cut borders when isElementCut is true', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: decisionNodeInfo,
+                canvasContext: {
+                    mode: AutoLayoutCanvasMode.CUT,
+                    cutElementGuids: [decisionNodeInfo.guid],
+                    source: { guid: decisionNodeInfo.guid }
+                }
+            });
+
+            const textContainer = alcNodeComponent.shadowRoot.querySelector(selectors.textContainer);
+            expect(textContainer.classList.contains('text-container_with-borders')).toBeTruthy();
+        });
+
+        it('textContainer should not be displayed with cut borders when isElementCut is false', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: decisionNodeInfo,
+                canvasContext: {
+                    mode: !AutoLayoutCanvasMode.CUT,
+                    cutElementGuids: [decisionNodeInfo.guid],
+                    source: { guid: '' }
+                }
+            });
+
+            const textContainer = alcNodeComponent.shadowRoot.querySelector(selectors.textContainer);
+            expect(textContainer.classList.contains('text-container_with-borders')).toBeFalsy();
         });
     });
 

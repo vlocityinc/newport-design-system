@@ -23,6 +23,10 @@
     background: transparent;
 }
 
+.cut-paste-node {
+    opacity: var(--lwc-opacity5);
+}
+
 .selection-checkbox {
     bottom: 0;
     border-radius: var(--lwc-buttonBorderRadius);
@@ -40,6 +44,10 @@
     width: 180px;
     word-break: break-word;
     opacity: 1;
+}
+
+.text-container_with-borders {
+    left: 65px;
 }
 
 .text-container:not(.hidden) {

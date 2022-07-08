@@ -62,6 +62,7 @@ export interface CanvasContext {
     numPasteElementsAvailable: number;
     mode: AutoLayoutCanvasMode;
     customIconMap: CustomIconMap;
+    cutElementGuids: Guid[];
 
     // Clicked incoming goTo stub guid
     incomingStubGuid: Guid | null;

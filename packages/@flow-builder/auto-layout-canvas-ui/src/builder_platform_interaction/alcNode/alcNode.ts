@@ -15,7 +15,12 @@ import {
     IncomingGoToStubClickEvent
 } from 'builder_platform_interaction/alcEvents';
 import AlcMenu from 'builder_platform_interaction/alcMenu';
-import { getNodeMenuInfo, newMenuRenderedEvent, NodeMenuInfo } from 'builder_platform_interaction/alcMenuUtils';
+import {
+    getNodeMenuInfo,
+    isElementCut,
+    newMenuRenderedEvent,
+    NodeMenuInfo
+} from 'builder_platform_interaction/alcMenuUtils';
 import {
     ConnectionSource,
     FlowModel,
@@ -194,18 +199,12 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
             return `slds-icon_container slds-p-around_x-small custom-icon`;
         }
 
-        let classes = '';
-        if (this.nodeInfo.metadata.iconBackgroundColor) {
-            classes = this.nodeInfo.metadata.iconBackgroundColor;
-        }
-
-        if (this.nodeInfo.metadata.iconShape === ICON_SHAPE.CIRCLE) {
-            classes = `${classes} slds-icon__container_circle`;
-        } else if (this.nodeInfo.metadata.iconShape === ICON_SHAPE.DIAMOND) {
-            classes = `${classes} rotate-icon-svg`;
-        }
-
-        return classes;
+        return classSet({
+            [this.nodeInfo.metadata.iconBackgroundColor]: this.nodeInfo.metadata.iconBackgroundColor,
+            'slds-icon__container_circle': this.nodeInfo.metadata.iconShape === ICON_SHAPE.CIRCLE,
+            'rotate-icon-svg': this.nodeInfo.metadata.iconShape === ICON_SHAPE.DIAMOND,
+            'cut-paste-node': isElementCut(this.canvasMode, this.canvasContext.cutElementGuids, this.nodeInfo.guid)
+        });
     }
 
     get iconSize() {
@@ -264,7 +263,12 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
         return classSet('slds-is-absolute text-container').add({
             shifted: this.isShifted,
             hidden: isMenuOpened,
-            'slds-hide': isMenuOpened
+            'slds-hide': isMenuOpened,
+            'text-container_with-borders': isElementCut(
+                this.canvasMode,
+                this.canvasContext.cutElementGuids,
+                this.nodeInfo.guid
+            )
         });
     }
 
