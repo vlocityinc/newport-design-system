@@ -34,6 +34,7 @@
     left: 50%;
     position: absolute;
     transform: translate(-50%, 50%);
+    z-index: var(--z-index-alc-selection-checkbox);
 }
 
 .text-container {

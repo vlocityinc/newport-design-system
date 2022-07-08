@@ -30,6 +30,7 @@ builder_platform_interaction-alc-connector.mergeRight.to-be-deleted-or-cut {
     z-index: var(--z-index-alc-connector-branch-is-highlighted);
 }
 
+/* TODO: This could potentially be removed after FF now that we have @W-11372614 bug fix */
 builder_platform_interaction-alc-connector.goTo {
     width: 0;
 }
