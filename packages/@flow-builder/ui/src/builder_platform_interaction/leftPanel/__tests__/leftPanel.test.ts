@@ -72,6 +72,16 @@ describe('left-panel', () => {
     afterAll(() => {
         Store.resetStore();
     });
+    describe('test for navigateToResourceDetails', () => {
+        it('should open the left panel and display the element details when navigateToResourceDetails is called', async () => {
+            const leftPanel = createComponentUnderTest();
+            leftPanel.navigateToResourceDetails(assignmentElement.guid, true);
+            await ticks(1);
+            const panel = leftPanel.shadowRoot.querySelector(selectors.panel);
+            expect(panel.classList).toContain('slds-is-open');
+            expect(panel.classList).toContain('show-details');
+        });
+    });
     describe('CSS padding', () => {
         it('displays correctly the new resource padding', () => {
             const leftPanelComponent = createComponentUnderTest();

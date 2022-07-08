@@ -3,15 +3,16 @@
         <builder_platform_interaction-element-icon
             if:true={iconName}
             icon-name={iconName}
-            icon-size="small"
-            icon-src={iconSrc}
+            icon-size={iconSize}
             icon-shape={listItem.iconShape}
             background-color={listItem.iconBackgroundColor}
+            icon-src={iconSrc}
             title={listItem.name}
             alternative-text={listItem.name}
+            from-used-by-content-item
         >
         </builder_platform_interaction-element-icon>
-        <span class="slds-truncate test-list-item-name">{listItem.name}</span>
+        <span class="slds-truncate test-list-item-name">{itemName}</span>
         <lightning-button-icon
             if:true={showLocatorIconForCanvasElements}
             data-guid={listItem.guid}

@@ -1,5 +1,9 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import * as expectedRecordTriggeredGoTos from 'mock/flows/recordTriggeredFlowGoTosFormatted.json';
+import * as recordTriggeredFlowModel from 'mock/flows/recordTriggeredFlowModel.json';
+import * as expectedScreenIncomingGoTos from 'mock/flows/screenFlowGoTosFormatted.json';
+import * as screenFlowModel from 'mock/flows/screenFlowModel.json';
 import {
     apexSampleVariable,
     createAccountWithAutomaticOutput,
@@ -9,7 +13,7 @@ import {
     lookupRecordCollectionAutomaticOutput,
     startElement
 } from 'mock/storeData';
-import { getElementSections, getResourceIconName, getResourceSections } from '../resourceLib';
+import { getElementSections, getIncomingGoTosInfo, getResourceIconName, getResourceSections } from '../resourceLib';
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
@@ -18,8 +22,26 @@ jest.mock(
     },
     { virtual: true }
 );
-jest.mock('builder_platform_interaction/sobjectLib', () => require('builder_platform_interaction_mocks/sobjectLib'));
+jest.mock(
+    '@salesforce/label/FlowBuilderResourceDetailsPanel.incomingGoToConnectionsWithFaultPath',
+    () => ({ default: '{0} on Fault Path' }),
+    {
+        virtual: true
+    }
+);
+jest.mock('@salesforce/label/FlowBuilderConnectorLabels.afterLastBadgeLabel', () => ({ default: 'After Last' }), {
+    virtual: true
+});
+jest.mock('@salesforce/label/FlowBuilderConnectorLabels.forEachBadgeLabel', () => ({ default: 'For Each' }), {
+    virtual: true
+});
+jest.mock('@salesforce/label/FlowBuilderElementConfig.startElementSingularLabel', () => ({ default: 'Start' }), {
+    virtual: true
+});
 
+jest.mock('builder_platform_interaction/sobjectLib', () => require('builder_platform_interaction_mocks/sobjectLib'));
+const DECISION_1 = '131c1c0b-93e2-450a-9ca5-8ab1d0593615';
+const ACTION_ELEMENT = 'bd2f41f4-a262-4b86-8bb3-b842426e5139';
 const forEachSection = (sections, func) => {
     for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
@@ -259,6 +281,26 @@ describe('resource-lib', () => {
         `('icon for "$elementName" (guid: "$elementGuid") should be "$iconName"', ({ elementGuid, iconName }) => {
             const icon = getResourceIconName(getElementByGuid(elementGuid));
             expect(icon).toBe(iconName);
+        });
+    });
+    describe('screenFlowIncomingInfoElements', () => {
+        test('getIncomingGoTosInfo should perform proper formatting and contain the correct elements', () => {
+            const decision1Element = screenFlowModel[DECISION_1];
+            const incomingGoTos = JSON.parse(JSON.stringify(getIncomingGoTosInfo(decision1Element, screenFlowModel)));
+            for (let i = 0; i < incomingGoTos.length; i++) {
+                expect(incomingGoTos[i]).toStrictEqual(expectedScreenIncomingGoTos[i]);
+            }
+        });
+    });
+    describe('recordTriggeredFlowIncomingInfoElements', () => {
+        test('getIncomingGoTosInfo should perform proper formatting and contain the correct elements', () => {
+            const actionElement = recordTriggeredFlowModel[ACTION_ELEMENT];
+            const incomingGoTos = JSON.parse(
+                JSON.stringify(getIncomingGoTosInfo(actionElement, recordTriggeredFlowModel))
+            );
+            for (let i = 0; i < incomingGoTos.length; i++) {
+                expect(incomingGoTos[i]).toStrictEqual(expectedRecordTriggeredGoTos[i]);
+            }
         });
     });
 });

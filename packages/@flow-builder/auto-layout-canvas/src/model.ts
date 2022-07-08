@@ -115,6 +115,18 @@ export interface ElementMetadata {
     menuComponent?: string;
 }
 
+export interface IncomingGoTosMetadata {
+    guid: string;
+    childIndex: number;
+    isCanvasElement: boolean;
+    name: string;
+    branchLabel: string;
+    actionName: string;
+    iconName: string;
+    iconShape: string;
+    iconBackgroundColor: string;
+}
+
 export const FAULT_INDEX = -1;
 export const FOR_EACH_INDEX = 0;
 export const START_IMMEDIATE_INDEX = 0;

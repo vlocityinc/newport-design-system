@@ -32,8 +32,10 @@
             <builder_platform_interaction-resource-details-parameters resource-details={resourceDetails}>
             </builder_platform_interaction-resource-details-parameters>
         </div>
-        <div if:true={hasCreatedByElement} class="slds-p-horizontal_small test-created-by-section">
+        <div class="slds-p-horizontal_small">
             <builder_platform_interaction-used-by-content
+                if:true={hasCreatedByElement}
+                class="test-created-by-section"
                 list-section-items={createdByElements}
                 list-section-header={labels.createdByText}
                 custom-icon-map={customIconMap}
@@ -41,11 +43,21 @@
                 show-locator-icon
             >
             </builder_platform_interaction-used-by-content>
-        </div>
-        <div if:true={hasUsedByContent} class="slds-p-horizontal_small test-used-by-section">
             <builder_platform_interaction-used-by-content
+                if:true={hasUsedByContent}
+                class="test-used-by-section"
                 list-section-items={resourceDetails.usedByElements}
                 list-section-header={labels.usageText}
+                custom-icon-map={customIconMap}
+                is-resource-details
+                show-locator-icon
+            >
+            </builder_platform_interaction-used-by-content>
+            <builder_platform_interaction-used-by-content
+                if:true={hasIncomingInfoElements}
+                class="test-incoming-info-section"
+                list-section-items={resourceDetails.incomingGoToInfo}
+                list-section-header={labels.incomingGoToConnectionsText}
                 custom-icon-map={customIconMap}
                 is-resource-details
                 show-locator-icon

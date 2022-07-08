@@ -1,0 +1,32 @@
+[
+    {
+        "guid": "308a8722-151b-4def-a8ef-238905a13b25:0",
+        "isCanvasElement": true,
+        "name": "Start",
+        "branchLabel": "Run Immediately",
+        "iconName": "utility:right",
+        "iconShape": "circle",
+        "iconBackgroundColor": "background-green",
+        "childIndex": 0
+    },
+    {
+        "guid": "bd1695aa-b56d-4aff-8cb0-32fa656d49c8:1",
+        "isCanvasElement": true,
+        "name": "action2",
+        "branchLabel": null,
+        "actionName": "CollaborationGroup.NewGroupMember",
+        "iconName": "standard:custom_notification",
+        "iconBackgroundColor": "background-navy",
+        "childIndex": 1
+    },
+    {
+        "guid": "308a8722-151b-4def-a8ef-238905a13b25:2",
+        "isCanvasElement": true,
+        "name": "Start",
+        "branchLabel": "2",
+        "iconName": "utility:right",
+        "iconShape": "circle",
+        "iconBackgroundColor": "background-green",
+        "childIndex": 2
+    }
+]

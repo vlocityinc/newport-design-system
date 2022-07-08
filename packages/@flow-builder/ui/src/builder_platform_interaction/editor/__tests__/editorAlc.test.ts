@@ -2,6 +2,7 @@
 import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import {
     AlcSelectionEvent,
+    IncomingGoToStubClickEvent,
     PasteOnCanvasEvent,
     UpdateAutolayoutCanvasModeEvent
 } from 'builder_platform_interaction/alcEvents';
@@ -193,6 +194,21 @@ describe('auto-layout', () => {
         it('has the AlcCanvasContainer visible', () => {
             const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
             expect(alcCanvasContainer).not.toBeNull();
+        });
+        it('Checks if editor properly calls LeftPanel.navigateToResourceDetails', async () => {
+            const leftPanel = editorComponent.shadowRoot.querySelector(selectors.LEFT_PANEL);
+            expect(leftPanel).not.toBeNull();
+            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+            const leftPanelToggle = toolbar.shadowRoot.querySelector('.test-toolbar-left-panel-toggle');
+            leftPanelToggle.click();
+            await ticks(2);
+            expect(leftPanel.classList).toContain('left-panel-show');
+            expect(leftPanel.classList).not.toContain('left-panel-hide');
+            const spy = jest.spyOn(leftPanel, 'navigateToResourceDetails');
+            const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+            const incomingStubClickEvent = new IncomingGoToStubClickEvent('elementGuid');
+            alcCanvasContainer.dispatchEvent(incomingStubClickEvent);
+            expect(spy).toHaveBeenCalledWith('elementGuid', true);
         });
         describe('in left panel', () => {
             let leftPanel, toolbar, leftPanelToggle;

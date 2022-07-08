@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
+import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
 
 export default class ElementIcon extends LightningElement {
@@ -21,6 +22,8 @@ export default class ElementIcon extends LightningElement {
     alternativeText = '';
     @api
     backgroundColor = '';
+    @api
+    fromUsedByContentItem = false;
 
     @api
     get iconElement() {
@@ -63,7 +66,13 @@ export default class ElementIcon extends LightningElement {
             commonClasses = this.updateClassesForNonCanvasElements(this.backgroundColor, 'slds-m-right_x-small');
 
             if (this.iconShape === ICON_SHAPE.CIRCLE) {
-                commonClasses = `${commonClasses} slds-icon__container_circle`;
+                if (this.fromUsedByContentItem) {
+                    commonClasses = classSet(`${commonClasses} slds-icon__container_circle`).add({
+                        'slds-p-around_xx-small': this.fromUsedByContentItem
+                    });
+                } else {
+                    commonClasses = `${commonClasses} slds-icon__container_circle`;
+                }
             }
         }
         if (this.iconSrc) {

@@ -91,8 +91,7 @@ export const getElementByTitle = (parent, title) => {
 
 export const getUsedByContentItems = (resourceDetails) => {
     const usedBySection = deepQuerySelector(resourceDetails, [LEFT_PANEL_SELECTORS.USED_BY_SECTION]);
-    const usedByContent = usedBySection.querySelector(LEFT_PANEL_SELECTORS.USED_BY_CONTENT);
-    return usedByContent.shadowRoot.querySelectorAll(LEFT_PANEL_SELECTORS.USED_BY_CONTENT_ITEM);
+    return usedBySection.shadowRoot.querySelectorAll(LEFT_PANEL_SELECTORS.USED_BY_CONTENT_ITEM);
 };
 
 export const getUsedByContentItem = (resourceDetails, usedByDevName) => {

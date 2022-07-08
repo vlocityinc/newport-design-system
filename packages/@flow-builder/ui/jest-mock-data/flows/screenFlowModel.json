@@ -1,0 +1,477 @@
+{
+    "e003ddd2-c92f-42f0-be07-d55eaee3b215": {
+        "guid": "e003ddd2-c92f-42f0-be07-d55eaee3b215",
+        "description": "",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 1,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "hasError": false,
+            "isSelectable": true
+        },
+        "canHaveFaultConnector": false,
+        "elementType": "START_ELEMENT",
+        "maxConnections": 1,
+        "triggerType": "None",
+        "filterLogic": "and",
+        "object": "",
+        "objectIndex": "b4acb762-6cac-4d55-9c1b-7a3c780f68ac",
+        "filters": [
+            {
+                "rowIndex": "79e4716a-f667-41ea-bb4f-5be6ab8d2f59",
+                "leftHandSide": "",
+                "leftHandSideDataType": "String",
+                "rightHandSide": "",
+                "rightHandSideDataType": "",
+                "operator": ""
+            }
+        ],
+        "doesRequireRecordChangedToMeetCriteria": false,
+        "childReferences": [],
+        "availableConnections": [],
+        "shouldSupportScheduledPaths": false,
+        "nodeType": "start",
+        "parent": "root",
+        "childIndex": 0,
+        "isTerminal": true,
+        "prev": null,
+        "next": "131c1c0b-93e2-450a-9ca5-8ab1d0593615"
+    },
+    "131c1c0b-93e2-450a-9ca5-8ab1d0593615": {
+        "guid": "131c1c0b-93e2-450a-9ca5-8ab1d0593615",
+        "name": "Decision1",
+        "description": "",
+        "label": "Decision1",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 4,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "isSelectable": true,
+            "hasError": false
+        },
+        "canHaveFaultConnector": false,
+        "childReferences": [
+            {
+                "childReference": "cd20bb56-225a-4cf4-a0bb-406cb18163b1"
+            },
+            {
+                "childReference": "925cc9d0-4ca7-4780-bee1-a8a62dce0394"
+            },
+            {
+                "childReference": "46876b40-5680-4891-b030-a258e5d2c411"
+            }
+        ],
+        "defaultConnectorLabel": "Merge Point",
+        "elementType": "Decision",
+        "maxConnections": 4,
+        "availableConnections": [],
+        "nodeType": "branch",
+        "prev": "e003ddd2-c92f-42f0-be07-d55eaee3b215",
+        "incomingGoTo": [
+            "0aca43ec-75b2-466b-b700-3f89ea4994d9",
+            "fc63d6d5-4c68-446a-974c-8fd5c79b1ed8",
+            "fc63d6d5-4c68-446a-974c-8fd5c79b1ed8:fault",
+            "811712b6-b458-48b2-a1c6-ffa1f99361bf",
+            "811712b6-b458-48b2-a1c6-ffa1f99361bf:forEach",
+            "916b723c-989e-4f9b-bf38-4051cc79f3e2"
+        ],
+        "next": null,
+        "children": [
+            "dfdc9228-7cef-4e5c-983f-267277124020",
+            "fc63d6d5-4c68-446a-974c-8fd5c79b1ed8",
+            "0aca43ec-75b2-466b-b700-3f89ea4994d9",
+            "916b723c-989e-4f9b-bf38-4051cc79f3e2"
+        ]
+    },
+    "cd20bb56-225a-4cf4-a0bb-406cb18163b1": {
+        "guid": "cd20bb56-225a-4cf4-a0bb-406cb18163b1",
+        "name": "For_Each_Loop",
+        "label": "For Each/After Last Loop",
+        "elementType": "OUTCOME",
+        "dataType": "Boolean",
+        "conditionLogic": "and",
+        "conditions": [
+            {
+                "rowIndex": "b255cfba-f055-4fa5-af1e-cdcd87ceb2e3",
+                "leftHandSide": "$Api.Enterprise_Server_URL_100",
+                "rightHandSide": "$GlobalConstant.EmptyString",
+                "rightHandSideDataType": "String",
+                "operator": "EqualTo"
+            }
+        ],
+        "doesRequireRecordChangedToMeetCriteria": false
+    },
+    "925cc9d0-4ca7-4780-bee1-a8a62dce0394": {
+        "guid": "925cc9d0-4ca7-4780-bee1-a8a62dce0394",
+        "name": "Fault_Branch",
+        "label": "Fault Branch",
+        "elementType": "OUTCOME",
+        "dataType": "Boolean",
+        "conditionLogic": "and",
+        "conditions": [
+            {
+                "rowIndex": "70968ff3-848b-4d37-9096-4966250ce0dc",
+                "leftHandSide": "$Api.Enterprise_Server_URL_100",
+                "rightHandSide": "$GlobalConstant.EmptyString",
+                "rightHandSideDataType": "String",
+                "operator": "EqualTo"
+            }
+        ],
+        "doesRequireRecordChangedToMeetCriteria": false
+    },
+    "46876b40-5680-4891-b030-a258e5d2c411": {
+        "guid": "46876b40-5680-4891-b030-a258e5d2c411",
+        "name": "Simple_Element",
+        "label": "Simple Element",
+        "elementType": "OUTCOME",
+        "dataType": "Boolean",
+        "conditionLogic": "and",
+        "conditions": [
+            {
+                "rowIndex": "29e5faa9-401e-4aeb-bdab-a0870d9f0d95",
+                "leftHandSide": "$Api.Enterprise_Server_URL_100",
+                "rightHandSide": "$GlobalConstant.EmptyString",
+                "rightHandSideDataType": "String",
+                "operator": "EqualTo"
+            }
+        ],
+        "doesRequireRecordChangedToMeetCriteria": false
+    },
+    "916b723c-989e-4f9b-bf38-4051cc79f3e2": {
+        "guid": "916b723c-989e-4f9b-bf38-4051cc79f3e2",
+        "name": "Decision2",
+        "description": "",
+        "label": "Decision2",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 3,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "hasError": false,
+            "isSelectable": true
+        },
+        "canHaveFaultConnector": false,
+        "childReferences": [
+            {
+                "childReference": "2b608044-bdbc-4c0d-8f04-2b7af964bedf"
+            },
+            {
+                "childReference": "242b9d9e-e0b8-421f-b073-5eb236af2f23"
+            }
+        ],
+        "defaultConnectorLabel": "Simple Element Branch",
+        "elementType": "Decision",
+        "maxConnections": 3,
+        "availableConnections": [],
+        "nodeType": "branch",
+        "parent": "131c1c0b-93e2-450a-9ca5-8ab1d0593615",
+        "childIndex": 3,
+        "isTerminal": true,
+        "prev": null,
+        "incomingGoTo": [],
+        "next": "131c1c0b-93e2-450a-9ca5-8ab1d0593615",
+        "children": [null, "5ef8ca6c-24b4-4335-aa9b-35d94fa4c5bb", "f690ee2e-3349-4ff9-b722-4a9b38d81c5e"]
+    },
+    "2b608044-bdbc-4c0d-8f04-2b7af964bedf": {
+        "guid": "2b608044-bdbc-4c0d-8f04-2b7af964bedf",
+        "name": "Empty_Branch",
+        "label": "Empty Branch",
+        "elementType": "OUTCOME",
+        "dataType": "Boolean",
+        "conditionLogic": "and",
+        "conditions": [
+            {
+                "rowIndex": "540196e2-d65f-4ad3-957b-4c0149c30036",
+                "leftHandSide": "$Api.Enterprise_Server_URL_100",
+                "rightHandSide": "$GlobalConstant.EmptyString",
+                "rightHandSideDataType": "String",
+                "operator": "EqualTo"
+            }
+        ],
+        "doesRequireRecordChangedToMeetCriteria": false
+    },
+    "242b9d9e-e0b8-421f-b073-5eb236af2f23": {
+        "guid": "242b9d9e-e0b8-421f-b073-5eb236af2f23",
+        "name": "Decision3",
+        "label": "Decision3",
+        "elementType": "OUTCOME",
+        "dataType": "Boolean",
+        "conditionLogic": "and",
+        "conditions": [
+            {
+                "rowIndex": "8243ef9d-bb61-467a-bc28-19f9284dfbe3",
+                "leftHandSide": "$Api.Enterprise_Server_URL_100",
+                "rightHandSide": "$GlobalConstant.EmptyString",
+                "rightHandSideDataType": "String",
+                "operator": "EqualTo"
+            }
+        ],
+        "doesRequireRecordChangedToMeetCriteria": false
+    },
+    "5ef8ca6c-24b4-4335-aa9b-35d94fa4c5bb": {
+        "guid": "5ef8ca6c-24b4-4335-aa9b-35d94fa4c5bb",
+        "name": "Decision4",
+        "description": "",
+        "label": "Decision4",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 2,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "hasError": false,
+            "isSelectable": true
+        },
+        "canHaveFaultConnector": false,
+        "childReferences": [
+            {
+                "childReference": "3ad1adde-3009-4052-b7e5-720e0ffd0ca7"
+            }
+        ],
+        "defaultConnectorLabel": "Default Outcome",
+        "elementType": "Decision",
+        "maxConnections": 2,
+        "availableConnections": [],
+        "nodeType": "branch",
+        "parent": "916b723c-989e-4f9b-bf38-4051cc79f3e2",
+        "childIndex": 1,
+        "isTerminal": false,
+        "prev": null,
+        "incomingGoTo": [],
+        "next": null,
+        "children": [null, null]
+    },
+    "3ad1adde-3009-4052-b7e5-720e0ffd0ca7": {
+        "guid": "3ad1adde-3009-4052-b7e5-720e0ffd0ca7",
+        "name": "Outcome1",
+        "label": "Outcome1",
+        "elementType": "OUTCOME",
+        "dataType": "Boolean",
+        "conditionLogic": "and",
+        "conditions": [
+            {
+                "rowIndex": "0843adeb-acc1-43d0-a015-3520fcf9f5d8",
+                "leftHandSide": "$Api.Enterprise_Server_URL_100",
+                "rightHandSide": "$GlobalConstant.EmptyString",
+                "rightHandSideDataType": "String",
+                "operator": "EqualTo"
+            }
+        ],
+        "doesRequireRecordChangedToMeetCriteria": false
+    },
+    "fc63d6d5-4c68-446a-974c-8fd5c79b1ed8": {
+        "guid": "fc63d6d5-4c68-446a-974c-8fd5c79b1ed8",
+        "name": "Create_Accounts",
+        "description": "",
+        "label": "Create Accounts",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 2,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "isSelectable": true,
+            "hasError": false
+        },
+        "canHaveFaultConnector": true,
+        "object": "",
+        "objectIndex": "aea4a2e7-dc15-41c9-bc43-d0521c310c7b",
+        "getFirstRecordOnly": true,
+        "inputReference": "811712b6-b458-48b2-a1c6-ffa1f99361bf",
+        "inputReferenceIndex": "6291824f-5a30-4255-9f71-a23645146b2b",
+        "availableConnections": [],
+        "maxConnections": 2,
+        "elementType": "RecordCreate",
+        "assignRecordIdToReferenceIndex": "0778876e-64c6-43eb-95ca-d61bef37d9b9",
+        "dataType": "Boolean",
+        "nodeType": "default",
+        "parent": "131c1c0b-93e2-450a-9ca5-8ab1d0593615",
+        "childIndex": 1,
+        "isTerminal": true,
+        "prev": null,
+        "incomingGoTo": [],
+        "next": "131c1c0b-93e2-450a-9ca5-8ab1d0593615",
+        "fault": "131c1c0b-93e2-450a-9ca5-8ab1d0593615"
+    },
+    "dfdc9228-7cef-4e5c-983f-267277124020": {
+        "guid": "dfdc9228-7cef-4e5c-983f-267277124020",
+        "name": "Get_Accounts",
+        "description": "",
+        "label": "Get Accounts",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 1,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "isSelectable": true,
+            "hasError": false
+        },
+        "canHaveFaultConnector": true,
+        "object": "Account",
+        "objectIndex": "bf949e66-ab2a-40a1-974a-07aabd9e44af",
+        "filterLogic": "no_conditions",
+        "filters": [
+            {
+                "rowIndex": "d6b78f93-a59b-4add-8293-0738f5869d8c",
+                "leftHandSide": "",
+                "leftHandSideDataType": "String",
+                "rightHandSide": "",
+                "rightHandSideDataType": "",
+                "operator": ""
+            }
+        ],
+        "queriedFields": null,
+        "sortOrder": "NotSorted",
+        "sortField": "",
+        "maxConnections": 2,
+        "availableConnections": [
+            {
+                "type": "FAULT"
+            }
+        ],
+        "elementType": "RecordQuery",
+        "outputReferenceIndex": "23c423de-6d5b-4ae3-b60b-e8e1f3d6d2c8",
+        "dataType": "SObject",
+        "isCollection": true,
+        "subtype": "Account",
+        "storeOutputAutomatically": true,
+        "getFirstRecordOnly": false,
+        "variableAndFieldMapping": "automatic",
+        "nodeType": "default",
+        "parent": "131c1c0b-93e2-450a-9ca5-8ab1d0593615",
+        "childIndex": 0,
+        "isTerminal": true,
+        "prev": null,
+        "incomingGoTo": [],
+        "next": "811712b6-b458-48b2-a1c6-ffa1f99361bf"
+    },
+    "811712b6-b458-48b2-a1c6-ffa1f99361bf": {
+        "guid": "811712b6-b458-48b2-a1c6-ffa1f99361bf",
+        "name": "For_Each",
+        "description": "",
+        "label": "For Each",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 2,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "isSelectable": true,
+            "hasError": false
+        },
+        "canHaveFaultConnector": false,
+        "assignNextValueToReference": null,
+        "assignNextValueToReferenceIndex": "6922f465-1279-4500-8479-978033a08ce4",
+        "collectionReference": "dfdc9228-7cef-4e5c-983f-267277124020",
+        "collectionReferenceIndex": "1bb3d09f-fde3-48f1-9219-a15b023accce",
+        "iterationOrder": "Asc",
+        "maxConnections": 2,
+        "availableConnections": [],
+        "elementType": "Loop",
+        "storeOutputAutomatically": true,
+        "dataType": "SObject",
+        "subtype": "Account",
+        "nodeType": "loop",
+        "prev": "dfdc9228-7cef-4e5c-983f-267277124020",
+        "incomingGoTo": [],
+        "next": "131c1c0b-93e2-450a-9ca5-8ab1d0593615",
+        "children": ["131c1c0b-93e2-450a-9ca5-8ab1d0593615"]
+    },
+    "0aca43ec-75b2-466b-b700-3f89ea4994d9": {
+        "guid": "0aca43ec-75b2-466b-b700-3f89ea4994d9",
+        "name": "Screen",
+        "description": "",
+        "label": "Screen",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 1,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "isSelectable": true,
+            "hasError": false
+        },
+        "canHaveFaultConnector": false,
+        "allowHelp": false,
+        "pauseMessageType": "standard",
+        "helpText": "",
+        "pausedText": "",
+        "showFooter": true,
+        "showHeader": true,
+        "nextOrFinishLabelType": "standard",
+        "backLabelType": "standard",
+        "pauseLabelType": "standard",
+        "childReferences": [],
+        "elementType": "Screen",
+        "maxConnections": 1,
+        "nodeType": "default",
+        "parent": "131c1c0b-93e2-450a-9ca5-8ab1d0593615",
+        "childIndex": 2,
+        "isTerminal": true,
+        "prev": null,
+        "incomingGoTo": [],
+        "next": "131c1c0b-93e2-450a-9ca5-8ab1d0593615"
+    },
+    "f690ee2e-3349-4ff9-b722-4a9b38d81c5e": {
+        "guid": "f690ee2e-3349-4ff9-b722-4a9b38d81c5e",
+        "name": "Screen2",
+        "description": "",
+        "label": "Screen2",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 1,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "hasError": false,
+            "isSelectable": true
+        },
+        "canHaveFaultConnector": false,
+        "allowHelp": false,
+        "pauseMessageType": "standard",
+        "helpText": "",
+        "pausedText": "",
+        "showFooter": true,
+        "showHeader": true,
+        "nextOrFinishLabelType": "standard",
+        "backLabelType": "standard",
+        "pauseLabelType": "standard",
+        "childReferences": [],
+        "elementType": "Screen",
+        "maxConnections": 1,
+        "nodeType": "default",
+        "parent": "916b723c-989e-4f9b-bf38-4051cc79f3e2",
+        "childIndex": 2,
+        "isTerminal": false,
+        "prev": null,
+        "incomingGoTo": [],
+        "next": null
+    },
+    "root": {
+        "elementType": "root",
+        "nodeType": "root",
+        "guid": "root",
+        "name": "root",
+        "label": "root",
+        "text": "root",
+        "value": "root",
+        "prev": null,
+        "next": null,
+        "children": ["e003ddd2-c92f-42f0-be07-d55eaee3b215"]
+    }
+}

@@ -1,4 +1,4 @@
-import { FOR_EACH_INDEX, hasChildren } from 'builder_platform_interaction/autoLayoutCanvas';
+import { FOR_EACH_INDEX, Guid, hasChildren } from 'builder_platform_interaction/autoLayoutCanvas';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import {
@@ -20,7 +20,7 @@ import { createUsedByElement, usedBy } from 'builder_platform_interaction/usedBy
 import { classSet } from 'lightning/utils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './leftPanelLabels';
-import { getElementSections, getResourceIconName, getResourceSections } from './resourceLib';
+import { getElementSections, getIncomingGoTosInfo, getResourceIconName, getResourceSections } from './resourceLib';
 
 const { logInteraction } = loggingUtils;
 
@@ -167,9 +167,25 @@ export default class LeftPanel extends LightningElement {
         this.dispatchEvent(editElementEvent);
     }
 
+    /**
+     * Opens the left panel to show the resource details
+     *
+     * @param event - the event object
+     */
     handleShowResourceDetails(event) {
-        const currentElementState = storeInstance.getCurrentState().elements[event.detail.elementGUID];
-        this.retrieveResourceDetailsFromStore(currentElementState, !event.detail.canvasElement);
+        this.navigateToResourceDetails(event.detail.elementGUID, event.detail.canvasElement);
+    }
+
+    /**
+     * Opens the left panel to show the resource details with the specified guid
+     *
+     * @param guid - the element guid
+     * @param isCanvasElement - whether or not the element is a canvas element
+     */
+    @api
+    navigateToResourceDetails(guid: Guid, isCanvasElement: boolean) {
+        const currentElementState = storeInstance.getCurrentState().elements[guid];
+        this.retrieveResourceDetailsFromStore(currentElementState, !isCanvasElement);
         this.showResourceDetailsPanel = true;
         this.elementToFocus = 'backButton';
     }
@@ -247,6 +263,7 @@ export default class LeftPanel extends LightningElement {
                 deletable: editable,
                 createdByElement,
                 usedByElements: usedBy([currentElementState.guid], state),
+                incomingGoToInfo: getIncomingGoTosInfo(currentElementState, state.elements),
                 asResource,
                 storeOutputAutomatically: currentElementState.storeOutputAutomatically,
                 isSystemGeneratedOutput: currentElementState.isSystemGeneratedOutput

@@ -109,7 +109,7 @@ const gotoUtils = {
                 : GOTO_CONNECTION_SUFFIX.DEFAULT;
         } else if (childIndex === FAULT_INDEX) {
             return GOTO_CONNECTION_SUFFIX.FAULT;
-        } else if (childReferences != null) {
+        } else if (childReferences != null && childReferences.length > 0) {
             // Accounting for Immediate Branch being on the 0th index in case of Start Element
             const referenceIndex = nodeType === NodeType.START ? childIndex - 1 : childIndex;
             return childReferences[referenceIndex].childReference;
@@ -138,6 +138,27 @@ const gotoUtils = {
     parseGoToSourceRef(gotoSourceRef: GoToSourceRef) {
         const [sourceGuid, suffix] = gotoSourceRef.split(':');
         return { sourceGuid, suffix };
+    },
+
+    /**
+     * Creates a connection source reference
+     *
+     * @param source - The connection source object
+     * @returns The concatenation of the guid and the childIndex
+     */
+    createConnectionSourceRef(source: ConnectionSource) {
+        return source.childIndex != null ? `${source.guid}:${source.childIndex}` : source.guid;
+    },
+
+    /**
+     * Parses a goto source reference into its guid and suffix
+     *
+     * @param connectionSourceRef - The concatenation of the guid and the childIndex
+     * @returns The parsed reference
+     */
+    parseConnectionSourceRef(connectionSourceRef: string): ConnectionSource {
+        const [sourceGuid, suffix] = connectionSourceRef.split(':');
+        return { guid: sourceGuid, childIndex: parseInt(suffix, 10) };
     },
 
     /**
@@ -367,6 +388,8 @@ export const {
     getSuffixForGoToConnection,
     createGoToSourceRef,
     parseGoToSourceRef,
+    createConnectionSourceRef,
+    parseConnectionSourceRef,
     hasGoTo,
     hasGoToOnBranchHead,
     hasGoToOnNext,
@@ -2649,6 +2672,38 @@ function getConnectionSourcesFromIncomingGoTo(flowModel: FlowModel, guid: Guid):
 }
 
 /**
+ * Gathers all the merge point branches into an array of Connection Sources
+ *
+ * @param flowModel - The flow model
+ * @param element - The merge point element
+ * @returns an array of ConnectionSources
+ */
+function getMergingBranches(flowModel: FlowModel, element: ParentNodeModel): ConnectionSource[] {
+    const nonTerminalBranchIndexes = getNonTerminalBranchIndexes(element, flowModel);
+    const mergingBranches: ConnectionSource[] = [];
+    for (const childIndex of nonTerminalBranchIndexes) {
+        const branchHeadGuid = element.children[childIndex];
+        if (branchHeadGuid == null) {
+            // If the branch is empty, then add the element guid and the childIndex
+            mergingBranches.push({ guid: element.guid, childIndex });
+        } else {
+            const tailElement = findLastElement(flowModel[branchHeadGuid], flowModel);
+            if (isBranchingElement(tailElement)) {
+                // If the ending element is another branching element, then recursively find the branches of that element
+                mergingBranches.push(...getMergingBranches(flowModel, tailElement));
+            } else {
+                // If the branch is not empty, then add the tail element at the end of the branch
+                mergingBranches.push({
+                    guid: tailElement.guid,
+                    childIndex: tailElement.nodeType === NodeType.LOOP ? null : childIndex
+                });
+            }
+        }
+    }
+    return mergingBranches;
+}
+
+/**
  * Gets all the elements of a branch as well as their descendants
  *
  * @param state - The flow model
@@ -2723,5 +2778,6 @@ export {
     getFirstNonNullNext,
     isGoingBackToAncestorLoop,
     getConnectionSourcesFromIncomingGoTo,
+    getMergingBranches,
     getCutGuids
 };

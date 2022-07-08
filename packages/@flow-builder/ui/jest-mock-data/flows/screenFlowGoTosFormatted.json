@@ -1,0 +1,77 @@
+[
+    {
+        "guid": "0aca43ec-75b2-466b-b700-3f89ea4994d9",
+        "isCanvasElement": true,
+        "name": "Screen",
+        "branchLabel": null,
+        "iconName": "standard:screen",
+        "childIndex": null
+    },
+    {
+        "guid": "fc63d6d5-4c68-446a-974c-8fd5c79b1ed8",
+        "isCanvasElement": true,
+        "name": "Create_Accounts",
+        "branchLabel": null,
+        "iconName": "standard:record_create",
+        "childIndex": null
+    },
+    {
+        "guid": "fc63d6d5-4c68-446a-974c-8fd5c79b1ed8:-1",
+        "isCanvasElement": true,
+        "name": "Create_Accounts",
+        "branchLabel": "{0} on Fault Path",
+        "iconName": "standard:record_create",
+        "childIndex": -1
+    },
+    {
+        "guid": "811712b6-b458-48b2-a1c6-ffa1f99361bf",
+        "isCanvasElement": true,
+        "name": "For_Each",
+        "branchLabel": "After Last",
+        "iconName": "standard:loop",
+        "childIndex": null
+    },
+    {
+        "guid": "811712b6-b458-48b2-a1c6-ffa1f99361bf:0",
+        "isCanvasElement": true,
+        "name": "For_Each",
+        "branchLabel": "For Each",
+        "iconName": "standard:loop",
+        "childIndex": 0
+    },
+    {
+        "guid": "916b723c-989e-4f9b-bf38-4051cc79f3e2:0",
+        "isCanvasElement": true,
+        "name": "Decision2",
+        "branchLabel": "Empty Branch",
+        "iconName": "standard:decision",
+        "iconShape": "diamond",
+        "childIndex": 0
+    },
+    {
+        "guid": "5ef8ca6c-24b4-4335-aa9b-35d94fa4c5bb:0",
+        "isCanvasElement": true,
+        "name": "Decision4",
+        "branchLabel": "Outcome1",
+        "iconName": "standard:decision",
+        "iconShape": "diamond",
+        "childIndex": 0
+    },
+    {
+        "guid": "5ef8ca6c-24b4-4335-aa9b-35d94fa4c5bb:1",
+        "isCanvasElement": true,
+        "name": "Decision4",
+        "branchLabel": "Default Outcome",
+        "iconName": "standard:decision",
+        "iconShape": "diamond",
+        "childIndex": 1
+    },
+    {
+        "guid": "f690ee2e-3349-4ff9-b722-4a9b38d81c5e:2",
+        "isCanvasElement": true,
+        "name": "Screen2",
+        "branchLabel": null,
+        "iconName": "standard:screen",
+        "childIndex": 2
+    }
+]

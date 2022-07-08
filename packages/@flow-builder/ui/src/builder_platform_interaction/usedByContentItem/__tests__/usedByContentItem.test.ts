@@ -3,6 +3,15 @@ import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/bui
 import { createElement } from 'lwc';
 import UsedByContentItem from '../usedByContentItem';
 
+const ELEMENT_ON_OUTCOME = '{0} of {1}';
+jest.mock(
+    '@salesforce/label/FlowBuilderResourceDetailsPanel.incomingGoToConnectionsWithBranch',
+    () => ({ default: ELEMENT_ON_OUTCOME }),
+    {
+        virtual: true
+    }
+);
+
 function createComponentForTest(listItem, showLocatorIcon) {
     const el = createElement('builder_platform_interaction-used-by-content-item', { is: UsedByContentItem });
     el.listItem = listItem;
@@ -15,6 +24,30 @@ const selectors = {
     usedBySectionElementIcon: 'builder_platform_interaction-element-icon',
     usedBySectionItemName: '.test-list-item-name',
     usedBySectionLocatorIcon: '.test-usage-section-locator-icon'
+};
+
+const expectedResult = {
+    guid: 'FORMULA_1',
+    name: 'Formula_1',
+    elementGuidsReferenced: ['OUTCOME_3'],
+    isChildElement: true,
+    iconName: 'standard:formula'
+};
+const expectedResultWithBranch = {
+    guid: 'FORMULA_1',
+    name: 'Formula_1',
+    elementGuidsReferenced: ['OUTCOME_3'],
+    isChildElement: true,
+    iconName: 'standard:formula',
+    branchLabel: 'B1'
+};
+const expectedResultWithEmptyBranch = {
+    guid: 'FORMULA_1',
+    name: 'Formula_1',
+    elementGuidsReferenced: ['OUTCOME_3'],
+    isChildElement: true,
+    iconName: 'standard:formula',
+    branchLabel: ''
 };
 
 describe('Used-By-Content-Item component', () => {
@@ -51,19 +84,37 @@ describe('Used-By-Content-Item component', () => {
 
     describe('section-list-item-name', () => {
         it('should render section list item name component', async () => {
-            const expectedResult = {
-                guid: 'FORMULA_1',
-                name: 'Formula_1',
-                elementGuidsReferenced: ['OUTCOME_3'],
-                isChildElement: true,
-                iconName: 'standard:formula'
-            };
             const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             await ticks(1);
             const usedBySectionItemName = usedByContentItemComponent.shadowRoot.querySelector(
                 selectors.usedBySectionItemName
             );
             expect(usedBySectionItemName.classList).not.toBeNull();
+        });
+        it("Should have the verbiage 'Element on Outcome' when the list item has a non empty branchLabel", async () => {
+            const usedByContentComponent = createComponentForTest(expectedResultWithBranch, true);
+            await ticks(1);
+            const usedByContentName = usedByContentComponent.shadowRoot.querySelector(
+                selectors.usedBySectionItemName
+            ).textContent;
+            expect(usedByContentName).toEqual('B1 of Formula_1');
+            expect(usedByContentName).not.toEqual(expectedResultWithBranch.name);
+        });
+        it("Should not have the verbiage 'Element on Outcome' when the list item has a empty branchLabel", async () => {
+            const usedByContentComponent = createComponentForTest(expectedResultWithEmptyBranch, true);
+            await ticks(1);
+            const usedByContentName = usedByContentComponent.shadowRoot.querySelector(
+                selectors.usedBySectionItemName
+            ).textContent;
+            expect(usedByContentName).toEqual(expectedResultWithEmptyBranch.name);
+        });
+        it("Should not have the verbiage 'Element on Outcome' when the list item has no branchLabel property", async () => {
+            const usedByContentComponent = createComponentForTest(expectedResult, true);
+            await ticks(1);
+            const usedByContentName = usedByContentComponent.shadowRoot.querySelector(
+                selectors.usedBySectionItemName
+            ).textContent;
+            expect(usedByContentName).toEqual(expectedResult.name);
         });
     });
 

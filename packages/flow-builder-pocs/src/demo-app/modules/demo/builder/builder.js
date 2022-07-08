@@ -452,6 +452,17 @@ export default class Builder extends withKeyboardInteractions(LightningElement) 
     @track
     selectedTestCase = '';
 
+    /**
+     * Calls leftPanel's method to open the resource details
+     *
+     * @param event - the event that contains the specified element's guid
+     */
+    handleNavigateToResourceDetails(event) {
+        this.template
+            .querySelector('builder_platform_interaction-left-panel')
+            .navigateToResourceDetails(event.detail.guid, true);
+    }
+
     @track
     autolayoutCanvasMode = AutoLayoutCanvasMode.DEFAULT;
 

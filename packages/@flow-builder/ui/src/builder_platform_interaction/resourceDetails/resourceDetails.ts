@@ -43,6 +43,15 @@ export default class ResourceDetails extends LightningElement {
         return this.resourceDetails.createdByElement != null;
     }
 
+    /**
+     * Checks if there is a populated incomingInfoElements array
+     *
+     * @returns true if the incomingInfoElements property is an array and has content and false otherwise
+     */
+    get hasIncomingInfoElements() {
+        return this.resourceDetails.incomingGoToInfo?.length > 0;
+    }
+
     @api
     get createdByElements() {
         return this.hasCreatedByElement ? [this.resourceDetails.createdByElement] : [];

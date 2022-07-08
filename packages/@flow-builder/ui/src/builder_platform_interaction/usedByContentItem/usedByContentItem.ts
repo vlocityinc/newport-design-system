@@ -1,8 +1,11 @@
 // @ts-nocheck
+import { FAULT_INDEX, parseConnectionSourceRef } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LocatorIconClickedEvent } from 'builder_platform_interaction/events';
-import { customIconUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, customIconUtils, loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './usedByContentItemLabels';
+const { format } = commonUtils;
+
 const { getCustomIconNameOrSrc } = customIconUtils;
 
 const { logInteraction } = loggingUtils;
@@ -43,13 +46,32 @@ export default class UsedByContentItem extends LightningElement {
         return iconSrc ? iconSrc : null;
     }
 
+    get iconSize() {
+        return this.listItem.iconName === 'utility:right' ? 'x-small' : 'small';
+    }
+
+    /**
+     * Takes the element name and augments it so that it includes the branch information if applicable
+     *
+     * @returns the newly modified name
+     */
+    get itemName() {
+        if (!this.listItem.branchLabel) {
+            return this.listItem.name;
+        } else if (this.listItem.childIndex === FAULT_INDEX) {
+            return format(LABELS.incomingGoToConnectionsWithFaultPath, this.listItem.name);
+        }
+        return format(LABELS.incomingGoToConnectionsWithBranch, this.listItem.branchLabel, this.listItem.name);
+    }
+
     /**
      * Dispatches the LocatorIconClickedEvent that highlights the element on canvas
      *
      * @param {object} event onclick event
      */
     handleUsageSectionLocatorClick(event) {
-        const guid = event && event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.guid;
+        const sourceRef = event?.currentTarget?.dataset?.guid;
+        const guid = parseConnectionSourceRef(sourceRef).guid; // Only take the source element guid, and not the suffix
         const locatorIconEvent = new LocatorIconClickedEvent(guid);
         this.dispatchEvent(locatorIconEvent);
         logInteraction(`find-in-canvas-button`, 'resource-details', null, 'click');

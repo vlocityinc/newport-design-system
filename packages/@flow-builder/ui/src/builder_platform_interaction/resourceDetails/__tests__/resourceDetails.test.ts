@@ -4,6 +4,7 @@ import { DeleteResourceEvent, EditElementEvent } from 'builder_platform_interact
 import ResourceDetails from 'builder_platform_interaction/resourceDetails';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
 import { createElement } from 'lwc';
+import * as expectedScreenIncomingGoTos from 'mock/flows/screenFlowGoTosFormatted.json';
 import {
     mockAccountRecordVariable,
     mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails,
@@ -24,6 +25,9 @@ import {
 import { LABELS } from '../resourceDetailsLabels';
 
 const { logInteraction } = loggingUtils;
+const INCOMING_INFO_TEXT = 'Incoming Go To Connections';
+const ELEMENT_ON_OUTCOME = '{0} of {1}';
+const FAULT_PATH = '{0} on Fault Path';
 
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
@@ -59,6 +63,7 @@ const ASSIGNMENT_DETAILS = {
             isCanvasElement: true
         }
     ],
+    incomingGoToInfo: [],
     storeOutputAutomatically: undefined,
     title: 'assign1',
     typeIconName: undefined,
@@ -70,14 +75,37 @@ const SELECTORS = {
     editButton: '.panel-footer lightning-button.editbutton',
     detailsSection: '.resource-detail-panel-body',
     usedBySection: '.test-used-by-section',
+    incomingInfoSection: '.test-incoming-info-section',
+    incomingElement: 'test-list-section-item',
     createdBySection: '.test-created-by-section',
-    createdByList: 'builder_platform_interaction-used-by-content',
-    usedByList: 'builder_platform_interaction-used-by-content',
+    contentItem: 'builder_platform_interaction-used-by-content-item',
     resourceDetailsParameters: 'builder_platform_interaction-resource-details-parameters',
     detailsSectionLi: '.resource-detail-panel-body li'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock(
+    '@salesforce/label/FlowBuilderResourceDetailsPanel.incomingGoToConnectionsText',
+    () => ({ default: INCOMING_INFO_TEXT }),
+    {
+        virtual: true
+    }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderResourceDetailsPanel.incomingGoToConnectionsWithBranch',
+    () => ({ default: ELEMENT_ON_OUTCOME }),
+    {
+        virtual: true
+    }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderResourceDetailsPanel.incomingGoToConnectionsWithFaultPath',
+    () => ({ default: FAULT_PATH }),
+    {
+        virtual: true
+    }
+);
 
 const getApiNameLineTextContent = (resourceDetailsComponent) =>
     Array.from(resourceDetailsComponent.shadowRoot.querySelectorAll(SELECTORS.detailsSectionLi))
@@ -86,13 +114,30 @@ const getApiNameLineTextContent = (resourceDetailsComponent) =>
 
 describe('Resource Details', () => {
     describe('For elements', () => {
+        it('Should display Incoming Info section if it has incoming elements', () => {
+            const assignmentDetails = {
+                ...ASSIGNMENT_DETAILS,
+                incomingGoToInfo: [expectedScreenIncomingGoTos[0], expectedScreenIncomingGoTos[1]]
+            }; // Arbitrary elements, just want to make sure there is something in the incoming info section
+            const resourceDetailsComponent = createComponentUnderTest(assignmentDetails);
+            const incomingInfoSection = resourceDetailsComponent.shadowRoot.querySelector(
+                SELECTORS.incomingInfoSection
+            );
+            expect(incomingInfoSection).not.toBeNull();
+        });
+        it('Should not display Incoming Info section if it has no incoming elements', () => {
+            const assignmentDetails = { ...ASSIGNMENT_DETAILS, incomingGoToInfo: [] };
+            const resourceDetailsComponent = createComponentUnderTest(assignmentDetails);
+            const incomingInfoSection = resourceDetailsComponent.shadowRoot.querySelector(
+                SELECTORS.incomingInfoSection
+            );
+            expect(incomingInfoSection).toBeNull();
+        });
         it('Should display usage section', () => {
             const resourceDetailsComponent = createComponentUnderTest(ASSIGNMENT_DETAILS);
-            const usedByList = resourceDetailsComponent.shadowRoot.querySelector(
-                `${SELECTORS.usedBySection} ${SELECTORS.usedByList}`
-            );
-            expect(usedByList).toBeDefined();
-            expect(usedByList.showLocatorIcon).toBeTruthy();
+            const usedBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.usedBySection);
+            expect(usedBySection).toBeDefined();
+            expect(usedBySection.showLocatorIcon).toBeTruthy();
         });
         it('should display Edit Button', () => {
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
@@ -172,12 +217,11 @@ describe('Resource Details', () => {
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
                 const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
-                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
-                expect(createdByList.listSectionItems).toEqual([
+                expect(createdBySection.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
+                expect(createdBySection.listSectionItems).toEqual([
                     mockGetRecordsAutomaticOutputModeResourceDetails.createdByElement
                 ]);
-                expect(createdByList.showLocatorIcon).toBeTruthy();
+                expect(createdBySection.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockGetRecordsAutomaticOutputModeResourceDetails.createdByElement
                 ]);
@@ -214,10 +258,11 @@ describe('Resource Details', () => {
                             SELECTORS.createdBySection
                         );
                         expect(createdBySection).toBeDefined();
-                        const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
-                        expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
-                        expect(createdByList.listSectionItems).toEqual([mockLoopResourceDetails.createdByElement]);
-                        expect(createdByList.showLocatorIcon).toBeTruthy();
+                        expect(createdBySection.listSectionHeader).toBe(
+                            'FlowBuilderResourceDetailsPanel.createdByText'
+                        );
+                        expect(createdBySection.listSectionItems).toEqual([mockLoopResourceDetails.createdByElement]);
+                        expect(createdBySection.showLocatorIcon).toBeTruthy();
                         expect(resourceDetailsComponent.createdByElements).toEqual([
                             mockLoopResourceDetails.createdByElement
                         ]);
@@ -250,12 +295,11 @@ describe('Resource Details', () => {
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
                 const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
-                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
-                expect(createdByList.listSectionItems).toEqual([
+                expect(createdBySection.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
+                expect(createdBySection.listSectionItems).toEqual([
                     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
-                expect(createdByList.showLocatorIcon).toBeTruthy();
+                expect(createdBySection.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
@@ -287,12 +331,11 @@ describe('Resource Details', () => {
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
                 const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
-                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
-                expect(createdByList.listSectionItems).toEqual([
+                expect(createdBySection.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
+                expect(createdBySection.listSectionItems).toEqual([
                     mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
-                expect(createdByList.showLocatorIcon).toBeTruthy();
+                expect(createdBySection.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
@@ -324,12 +367,11 @@ describe('Resource Details', () => {
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
                 const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
-                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
-                expect(createdByList.listSectionItems).toEqual([
+                expect(createdBySection.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
+                expect(createdBySection.listSectionItems).toEqual([
                     mockApexActionInAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
-                expect(createdByList.showLocatorIcon).toBeTruthy();
+                expect(createdBySection.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockApexActionInAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
@@ -372,12 +414,11 @@ describe('Resource Details', () => {
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
                 const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
-                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
-                expect(createdByList.listSectionItems).toEqual([
+                expect(createdBySection.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
+                expect(createdBySection.listSectionItems).toEqual([
                     mockCreateRecordAutomaticOutputModeResourceDetails.createdByElement
                 ]);
-                expect(createdByList.showLocatorIcon).toBeTruthy();
+                expect(createdBySection.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockCreateRecordAutomaticOutputModeResourceDetails.createdByElement
                 ]);
@@ -406,12 +447,11 @@ describe('Resource Details', () => {
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
                 const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
-                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
-                expect(createdByList.listSectionItems).toEqual([
+                expect(createdBySection.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
+                expect(createdBySection.listSectionItems).toEqual([
                     mockSubflowInAutomaticOutputModeResourceDetails.createdByElement
                 ]);
-                expect(createdByList.showLocatorIcon).toBeTruthy();
+                expect(createdBySection.showLocatorIcon).toBeTruthy();
                 expect(resourceDetailsComponent.createdByElements).toEqual([
                     mockSubflowInAutomaticOutputModeResourceDetails.createdByElement
                 ]);

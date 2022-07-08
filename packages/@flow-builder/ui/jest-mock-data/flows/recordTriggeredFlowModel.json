@@ -1,0 +1,202 @@
+{
+    "308a8722-151b-4def-a8ef-238905a13b25": {
+        "guid": "308a8722-151b-4def-a8ef-238905a13b25",
+        "name": "$Record",
+        "description": "",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 3,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "hasError": false,
+            "isSelectable": true
+        },
+        "canHaveFaultConnector": false,
+        "elementType": "START_ELEMENT",
+        "maxConnections": 3,
+        "triggerType": "RecordAfterSave",
+        "filterLogic": "no_conditions",
+        "recordTriggerType": "Create",
+        "object": "AuthorizationFormDataUse",
+        "objectIndex": "b98436af-4709-49fb-83b7-6fcb7fc4faae",
+        "filters": [
+            {
+                "rowIndex": "3fd6767c-f5fb-4e46-a34c-732e98387d40",
+                "leftHandSide": "",
+                "leftHandSideDataType": "String",
+                "rightHandSide": "",
+                "rightHandSideDataType": "",
+                "operator": ""
+            }
+        ],
+        "haveSystemVariableFields": true,
+        "dataType": "SObject",
+        "subtype": "AuthorizationFormDataUse",
+        "isCollection": false,
+        "isAssignable": true,
+        "doesRequireRecordChangedToMeetCriteria": false,
+        "childReferences": [
+            {
+                "childReference": "36ae198a-300f-4d69-870a-5b5f47d43588"
+            },
+            {
+                "childReference": "7a6e5f34-7312-4a44-aecf-4a8a20a85b2c"
+            }
+        ],
+        "availableConnections": [],
+        "shouldSupportScheduledPaths": true,
+        "defaultConnectorLabel": "Run Immediately",
+        "nodeType": "start",
+        "parent": "root",
+        "childIndex": 0,
+        "isTerminal": true,
+        "prev": null,
+        "next": "bd2f41f4-a262-4b86-8bb3-b842426e5139",
+        "children": ["bd2f41f4-a262-4b86-8bb3-b842426e5139", "bd2f41f4-a262-4b86-8bb3-b842426e5139", null]
+    },
+    "36ae198a-300f-4d69-870a-5b5f47d43588": {
+        "guid": "36ae198a-300f-4d69-870a-5b5f47d43588",
+        "name": "dede",
+        "label": "1",
+        "elementType": "ScheduledPath",
+        "dataType": "Boolean",
+        "timeSource": "CreatedDate",
+        "offsetUnit": "HoursAfter",
+        "offsetNumber": "1",
+        "maxBatchSize": 0
+    },
+    "7a6e5f34-7312-4a44-aecf-4a8a20a85b2c": {
+        "guid": "7a6e5f34-7312-4a44-aecf-4a8a20a85b2c",
+        "name": "X1",
+        "label": "2",
+        "elementType": "ScheduledPath",
+        "dataType": "Boolean",
+        "timeSource": "CreatedDate",
+        "offsetUnit": "HoursAfter",
+        "offsetNumber": "2",
+        "maxBatchSize": 0
+    },
+    "bd1695aa-b56d-4aff-8cb0-32fa656d49c8": {
+        "guid": "bd1695aa-b56d-4aff-8cb0-32fa656d49c8",
+        "name": "action2",
+        "description": "",
+        "label": "action2",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 1,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "hasError": false,
+            "isSelectable": true
+        },
+        "canHaveFaultConnector": true,
+        "actionType": "quickAction",
+        "actionName": "CollaborationGroup.NewGroupMember",
+        "dataTypeMappings": [],
+        "inputParameters": [
+            {
+                "rowIndex": "5eb2e6df-dedd-40d6-bf8a-ca8fb84d94c2",
+                "name": "MemberId",
+                "value": "bd2f41f4-a262-4b86-8bb3-b842426e5139",
+                "valueDataType": "reference",
+                "subtype": "",
+                "isCollection": false
+            },
+            {
+                "rowIndex": "32a47c4d-ff14-4ef6-b43b-854dce948cad",
+                "name": "contextId",
+                "value": "$Api.Enterprise_Server_URL_130",
+                "valueDataType": "reference",
+                "subtype": "",
+                "isCollection": false
+            }
+        ],
+        "outputParameters": [],
+        "availableConnections": [
+            {
+                "type": "FAULT"
+            }
+        ],
+        "maxConnections": 2,
+        "elementType": "ActionCall",
+        "dataType": "Boolean",
+        "storeOutputAutomatically": false,
+        "flowTransactionModel": "CurrentTransaction",
+        "nodeType": "default",
+        "prev": "bd2f41f4-a262-4b86-8bb3-b842426e5139",
+        "incomingGoTo": [],
+        "next": null
+    },
+    "bd2f41f4-a262-4b86-8bb3-b842426e5139": {
+        "guid": "bd2f41f4-a262-4b86-8bb3-b842426e5139",
+        "name": "d",
+        "description": "",
+        "label": "d",
+        "locationX": 0,
+        "locationY": 0,
+        "isCanvasElement": true,
+        "connectorCount": 1,
+        "config": {
+            "isSelected": false,
+            "isHighlighted": false,
+            "isSelectable": true,
+            "hasError": false
+        },
+        "canHaveFaultConnector": true,
+        "actionType": "quickAction",
+        "actionName": "CollaborationGroup.NewGroupMember",
+        "dataTypeMappings": [],
+        "inputParameters": [
+            {
+                "rowIndex": "762caee5-5190-4fb0-b579-e5322de8cf55",
+                "name": "MemberId",
+                "value": "$GlobalConstant.EmptyString",
+                "valueDataType": "String",
+                "subtype": "",
+                "isCollection": false
+            },
+            {
+                "rowIndex": "e166e782-2d0f-4e3a-b021-2487d01c4d4a",
+                "name": "contextId",
+                "value": "$Flow.FaultMessage",
+                "valueDataType": "reference",
+                "subtype": "",
+                "isCollection": false
+            }
+        ],
+        "outputParameters": [],
+        "availableConnections": [
+            {
+                "type": "FAULT"
+            }
+        ],
+        "maxConnections": 2,
+        "elementType": "ActionCall",
+        "dataType": "Boolean",
+        "storeOutputAutomatically": false,
+        "flowTransactionModel": "CurrentTransaction",
+        "nodeType": "default",
+        "parent": "308a8722-151b-4def-a8ef-238905a13b25",
+        "childIndex": 1,
+        "isTerminal": false,
+        "prev": null,
+        "incomingGoTo": ["308a8722-151b-4def-a8ef-238905a13b25:immediate", "308a8722-151b-4def-a8ef-238905a13b25"],
+        "next": "bd1695aa-b56d-4aff-8cb0-32fa656d49c8"
+    },
+    "root": {
+        "elementType": "root",
+        "nodeType": "root",
+        "guid": "root",
+        "name": "root",
+        "label": "root",
+        "text": "root",
+        "value": "root",
+        "prev": null,
+        "next": null,
+        "children": ["308a8722-151b-4def-a8ef-238905a13b25"]
+    }
+}

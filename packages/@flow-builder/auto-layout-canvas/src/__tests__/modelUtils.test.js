@@ -1,3 +1,5 @@
+import * as expectedScreenFlowMergePointBranches from '../../jest-mock-data/screenFlowMergePointBranches.json';
+import * as screenFlowModel from '../../jest-mock-data/screenFlowModel.json';
 import { FAULT_INDEX, FOR_EACH_INDEX, GOTO_CONNECTION_SUFFIX, START_IMMEDIATE_INDEX } from '../model';
 import {
     addElement,
@@ -20,6 +22,7 @@ import {
     getConnectionTarget,
     getCutGuids,
     getFirstNonNullNext,
+    getMergingBranches,
     getSuffixForGoToConnection,
     getTargetGuidsForReconnection,
     hasGoToOnBranchHead,
@@ -68,7 +71,7 @@ import {
     SCREEN_ELEMENT_GUID,
     START_ELEMENT_GUID
 } from './testUtils';
-
+const DECISION_2 = '916b723c-989e-4f9b-bf38-4051cc79f3e2';
 function checkCreateMergeConnection(flowModel, source, target, isMergeable) {
     const originalFlowModel = deepCopy(flowModel);
 
@@ -8443,6 +8446,15 @@ describe('modelUtils', () => {
         });
     });
 
+    describe('getMergingBranches', () => {
+        test('getMergingBranches should get the proper branches at the merge point', () => {
+            const decision2Element = screenFlowModel[DECISION_2];
+            const incomingGoTos = getMergingBranches(screenFlowModel, decision2Element);
+            for (let i = 0; i < incomingGoTos.length; i++) {
+                expect(incomingGoTos[i]).toStrictEqual(expectedScreenFlowMergePointBranches[i]);
+            }
+        });
+    });
     describe('GetCutGuids', () => {
         describe('For loop', () => {
             it('With immediate goto on branch head', () => {

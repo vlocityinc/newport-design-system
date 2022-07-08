@@ -123,6 +123,7 @@ import {
     getDynamicInvocableActions,
     getStandardInvocableActions
 } from 'builder_platform_interaction/invocableActionLib';
+import LeftPanel from 'builder_platform_interaction/leftPanel';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import {
     initializeLoader,
@@ -2810,8 +2811,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      *
      * @returns The left panel component
      */
-    _getLeftPanelComponent = () => {
-        return this.template.querySelector(PANELS.TOOLBOX);
+    _getLeftPanelComponent = (): LeftPanel => {
+        return this.template.querySelector<any>(PANELS.TOOLBOX) as LeftPanel;
     };
 
     /**
@@ -3706,6 +3707,18 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     hidePopoverIfOpened() {
         if (this.usePanelForPropertyEditor && isPopoverOpen()) {
             hidePopover();
+        }
+    }
+
+    /**
+     * Calls leftPanel's method to open the resource details
+     *
+     * @param event - the event that contains the specified element's guid
+     */
+    handleNavigateToResourceDetails(event) {
+        if (this.isLeftPanelToggled) {
+            const leftPanel = this._getLeftPanelComponent();
+            leftPanel.navigateToResourceDetails(event.detail.guid, true);
         }
     }
 }
