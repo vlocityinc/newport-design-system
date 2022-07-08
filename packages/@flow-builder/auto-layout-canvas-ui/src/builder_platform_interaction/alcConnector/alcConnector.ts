@@ -103,14 +103,15 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
         );
     }
 
-    get isCutMode() {
-        return isCutMode(this.canvasContext.mode);
+    get isCutModeEnabled() {
+        return isCutMode(this.canvasContext.mode) && !this.isDisabled;
     }
 
     get addIconClasses() {
         return classSet({
             'circle-text': true,
-            'primary-add-icon': isCutMode(this.canvasContext.mode)
+            'primary-add-icon': this.isCutModeEnabled,
+            disabled: isCutMode(this.canvasContext.mode) && this.isDisabled
         });
     }
 
@@ -272,6 +273,19 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
 
     get connectorLabelStyle() {
         return getStyleFromGeometry({ y: this.connectorInfo.labelOffsetY, x: this.connectorInfo.labelOffsetX });
+    }
+
+    get isDisabled(): boolean {
+        const {
+            cutInfo: { guids, childIndexToKeep }
+        } = this.canvasContext;
+        const { guid, childIndex } = this.connectorInfo.source;
+
+        // handle case where a branch in a decision is not cut
+        if (guid === guids[0] && childIndex === childIndexToKeep) {
+            return false;
+        }
+        return guids.includes(guid);
     }
 
     /**

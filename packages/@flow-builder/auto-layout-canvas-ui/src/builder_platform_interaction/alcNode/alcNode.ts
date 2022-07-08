@@ -203,7 +203,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
             [this.nodeInfo.metadata.iconBackgroundColor]: this.nodeInfo.metadata.iconBackgroundColor,
             'slds-icon__container_circle': this.nodeInfo.metadata.iconShape === ICON_SHAPE.CIRCLE,
             'rotate-icon-svg': this.nodeInfo.metadata.iconShape === ICON_SHAPE.DIAMOND,
-            'cut-paste-node': isElementCut(this.canvasMode, this.canvasContext.cutElementGuids, this.nodeInfo.guid)
+            'cut-paste-node': isElementCut(this.canvasMode, this.canvasContext.cutInfo?.guids ?? [], this.nodeInfo.guid)
         });
     }
 
@@ -266,7 +266,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
             'slds-hide': isMenuOpened,
             'text-container_with-borders': isElementCut(
                 this.canvasMode,
-                this.canvasContext.cutElementGuids,
+                this.canvasContext.cutInfo?.guids ?? [],
                 this.nodeInfo.guid
             )
         });

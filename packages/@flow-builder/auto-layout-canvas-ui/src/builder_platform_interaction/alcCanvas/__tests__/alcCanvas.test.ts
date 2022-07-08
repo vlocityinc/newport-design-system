@@ -936,6 +936,25 @@ describe('Auto Layout Canvas', () => {
             await dispatchEvent(getFlow(), goToPathEvent);
             expect(eventCallback).toHaveBeenCalled();
         });
+
+        it('cutInfo guids should be cleared when mode changed from CUT', async () => {
+            const flow = getFlow();
+
+            const eventCallback = jest.fn();
+            cmp.addEventListener(CutElementsEvent.EVENT_NAME, eventCallback);
+
+            const cutElementsEvent = new CutElementsEvent(['decision'], null);
+            await dispatchEvent(flow, cutElementsEvent);
+
+            expect(flow.canvasContext.mode).toStrictEqual(AutoLayoutCanvasMode.CUT);
+            expect(flow.canvasContext.cutInfo.guids.length).toStrictEqual(1);
+
+            cmp.canvasMode = AutoLayoutCanvasMode.DEFAULT;
+            await ticks(1);
+
+            expect(flow.canvasContext.mode).toStrictEqual(AutoLayoutCanvasMode.DEFAULT);
+            expect(flow.canvasContext.cutInfo.guids.length).toStrictEqual(0);
+        });
     });
 
     describe('Handling AlcSelectDeselectNodeEvent', () => {

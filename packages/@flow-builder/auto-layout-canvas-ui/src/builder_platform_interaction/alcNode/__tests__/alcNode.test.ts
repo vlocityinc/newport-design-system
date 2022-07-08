@@ -32,10 +32,15 @@ jest.mock('builder_platform_interaction/alcComponentsUtils', () => {
     });
 });
 
-const defaultOptions = {
-    canvasContext: {
-        mode: AutoLayoutCanvasMode.DEFAULT
+const defaultCanvasContext = {
+    mode: AutoLayoutCanvasMode.DEFAULT,
+    cutInfo: {
+        guids: []
     }
+};
+
+const defaultOptions = {
+    canvasContext: defaultCanvasContext
 };
 
 const createComponentUnderTest = async (overrideOptions) => {
@@ -132,7 +137,9 @@ describe('AlcNode', () => {
                 nodeInfo: decisionNodeInfo,
                 canvasContext: {
                     mode: AutoLayoutCanvasMode.CUT,
-                    cutElementGuids: [decisionNodeInfo.guid],
+                    cutInfo: {
+                        guids: [decisionNodeInfo.guid]
+                    },
                     source: { guid: decisionNodeInfo.guid }
                 }
             });
@@ -146,7 +153,9 @@ describe('AlcNode', () => {
                 nodeInfo: decisionNodeInfo,
                 canvasContext: {
                     mode: !AutoLayoutCanvasMode.CUT,
-                    cutElementGuids: [decisionNodeInfo.guid],
+                    cutInfo: {
+                        guids: [decisionNodeInfo.guid]
+                    },
                     source: { guid: '' }
                 }
             });
@@ -697,7 +706,9 @@ describe('AlcNode', () => {
                 nodeInfo: decisionNodeInfo,
                 canvasContext: {
                     mode: AutoLayoutCanvasMode.CUT,
-                    cutElementGuids: [decisionNodeInfo.guid],
+                    cutInfo: {
+                        guids: [decisionNodeInfo.guid]
+                    },
                     source: { guid: decisionNodeInfo.guid }
                 }
             });
@@ -712,7 +723,9 @@ describe('AlcNode', () => {
                 nodeInfo: decisionNodeInfo,
                 canvasContext: {
                     mode: !AutoLayoutCanvasMode.CUT,
-                    cutElementGuids: [decisionNodeInfo.guid],
+                    cutInfo: {
+                        guids: [decisionNodeInfo.guid]
+                    },
                     source: { guid: '' }
                 }
             });

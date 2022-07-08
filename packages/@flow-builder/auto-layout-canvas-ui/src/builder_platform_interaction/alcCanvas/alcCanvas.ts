@@ -203,7 +203,9 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         connectorMenuMetadata: null,
         mode: AutoLayoutCanvasMode.DEFAULT,
         numPasteElementsAvailable: 0,
-        cutElementGuids: [],
+        cutInfo: {
+            guids: []
+        },
         menu: null,
         customIconMap: {},
         incomingStubGuid: null
@@ -597,7 +599,11 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      */
     handleUpdateAutolayoutMode(canvasMode) {
         // Updating the canvas context with the right mode
-        this.updateCanvasContext({ mode: canvasMode });
+        if (this.canvasMode === AutoLayoutCanvasMode.CUT && canvasMode !== AutoLayoutCanvasMode.CUT) {
+            this.updateCanvasContext({ mode: canvasMode, cutInfo: { guids: [] } });
+        } else {
+            this.updateCanvasContext({ mode: canvasMode });
+        }
         if (!isDefaultMode(canvasMode)) {
             this.closeNodeOrConnectorMenu();
             if (isReconnectionMode(this.canvasContext.mode)) {
@@ -1300,7 +1306,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         });
 
         this.focusOnConnector(getConnectionSource(selectedElement));
-        this.updateCanvasContext({ mode: AutoLayoutCanvasMode.CUT, cutElementGuids });
+        this.updateCanvasContext({
+            mode: AutoLayoutCanvasMode.CUT,
+            cutInfo: { guids: cutElementGuids, childIndexToKeep }
+        });
         this.dispatchEvent(new CutElementsEvent(cutElementGuids));
     };
 

@@ -1,11 +1,11 @@
 interface CutElementsEventDetail {
     guids: UI.Guid[];
-    childIndexToKeep?: number | null;
+    childIndexToKeep?: number;
 }
 
 const eventName = 'cutelements';
 export class CutElementsEvent extends CustomEvent<CutElementsEventDetail> {
-    constructor(guids: UI.Guid[], childIndexToKeep?: number | null) {
+    constructor(guids: UI.Guid[], childIndexToKeep?: number) {
         super(eventName, {
             bubbles: true,
             composed: true,

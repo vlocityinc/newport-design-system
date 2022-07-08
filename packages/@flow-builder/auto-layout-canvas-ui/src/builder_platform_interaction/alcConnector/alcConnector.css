@@ -132,3 +132,7 @@ builder_platform_interaction-alc-menu-trigger:focus-within .secondary-paste-icon
 builder_platform_interaction-alc-menu-trigger:hover .secondary-paste-icon {
     display: inline-block;
 }
+
+.disabled {
+    opacity: var(--lwc-opacity5);
+}

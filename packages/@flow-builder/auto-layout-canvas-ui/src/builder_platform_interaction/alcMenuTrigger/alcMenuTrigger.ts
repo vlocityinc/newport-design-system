@@ -1,5 +1,6 @@
 import {
     AutoLayoutCanvasMode,
+    CanvasContext,
     getEnterKeyInteraction,
     ICON_SHAPE,
     isCutMode,
@@ -7,13 +8,7 @@ import {
 } from 'builder_platform_interaction/alcComponentsUtils';
 import { CloseMenuEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import { isElementCut } from 'builder_platform_interaction/alcMenuUtils';
-import {
-    ConnectionSource,
-    Guid,
-    MenuType,
-    NodeOperationType,
-    NodeType
-} from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectionSource, MenuType, NodeOperationType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
@@ -57,7 +52,7 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
     source!: ConnectionSource;
 
     @api
-    cutElementGuids!: Guid[];
+    canvasContext!: CanvasContext;
 
     @api
     disableEditElements;
@@ -94,6 +89,8 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
      */
     @api iconSize = 'medium';
 
+    @api disabled = false;
+
     get triggerContainerClass() {
         if (this.isConnectorVariant()) {
             return '';
@@ -116,7 +113,7 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
             'border-none': !isConnectorVariant,
             'is-end-element': !isConnectorVariant && this.elementMetadata.type === NodeType.END,
             'node-in-selection-mode': !isDefaultMode(this.canvasMode),
-            connector: isConnectorVariant && !isCutMode(this.canvasMode),
+            connector: isConnectorVariant,
             'cut-paste-connector': this.isConnectorInPasteMode(),
             'node-to-be-deleted': this.operationType === 'delete',
             'node-to-be-cut': this.operationType === 'cut',
@@ -125,7 +122,7 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
             'slds-button_icon-xx-small': this.iconSize === 'xx-small',
             'slds-button_icon-x-small': this.iconSize === 'x-small',
             'slds-button_icon-small': this.iconSize === 'small',
-            'cut-paste-node-border': isElementCut(this.canvasMode, this.cutElementGuids, this.source.guid)
+            'cut-paste-node-border': isElementCut(this.canvasMode, this.canvasContext?.cutInfo?.guids, this.source.guid)
         });
     }
 

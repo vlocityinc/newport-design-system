@@ -27,6 +27,7 @@
                 aria-haspopup="dialog"
                 aria-label={labels.connectorButtonLabel}
                 connector-aria-info={connectorAriaInfo}
+                disabled={isDisabled}
             >
                 <div slot="trigger">
                     <!-- Uses css to show and hide the different icons in Cut mode-->
@@ -39,7 +40,7 @@
                         variant={addIconVariant}
                     ></lightning-icon>
                     <lightning-icon
-                        if:true={isCutMode}
+                        if:true={isCutModeEnabled}
                         alternative-text={labels.pasteElementIconAltText}
                         class="secondary-paste-icon"
                         icon-name="utility:paste"

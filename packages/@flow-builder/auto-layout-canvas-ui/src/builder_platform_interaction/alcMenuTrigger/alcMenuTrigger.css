@@ -6,17 +6,19 @@ button.border-none {
     border: none;
 }
 
-button.connector {
+button:enabled.connector {
     background-color: white;
     border: 2px solid var(--lwc-colorGray8);
     border-radius: 50%;
-    transition: none;
 }
 
-button.cut-paste-connector {
+button:disabled.connector {
     background-color: white;
-    border: 2px solid var(--lwc-colorGray8);
+    border: 2px solid var(--lwc-colorGray3);
     border-radius: 50%;
+}
+
+button:enabled.cut-paste-connector {
     transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
 }
@@ -47,13 +49,13 @@ button.node-to-be-cut {
     transform: scale(1.05);
 }
 
-button.connector:hover {
+button:enabled.connector:hover {
     background-color: #f4f6f9;
     transform: scale(1);
 }
 
-button.cut-paste-connector:hover,
-button.cut-paste-connector:focus {
+button:enabled.cut-paste-connector:hover,
+button:enabled.cut-paste-connector:focus {
     background-color: #f4f6f9;
     border-radius: 4px;
     border: 2px dashed;
@@ -122,4 +124,8 @@ button.connector:focus {
 
 .default-container.round-container {
     border-radius: var(--lwc-borderRadiusCircle);
+}
+
+button:disabled lightning-icon {
+    opacity: var(--lwc-opacity5);
 }

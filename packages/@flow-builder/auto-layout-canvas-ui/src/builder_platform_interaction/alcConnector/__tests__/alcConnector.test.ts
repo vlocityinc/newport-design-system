@@ -249,7 +249,11 @@ const defaultCanvasContext = {
     mode: AutoLayoutCanvasMode.DEFAULT,
     incomingStubGuid: null,
     connectorMenuMetadata: {},
-    operationType: 'delete'
+    operationType: 'delete',
+    cutInfo: {
+        guids: [],
+        childIndexToKeep: null
+    }
 };
 
 const defaultOptions = {
@@ -512,5 +516,42 @@ describe('Auto-Layout connector tests', () => {
         });
         const goToConnector = regularConnector.shadowRoot.querySelector(selectors.goToInfo);
         expect(goToConnector.classList).not.toContain('highlighted-container');
+    });
+
+    it('Should disable a connector if the source element has been cut', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: getDefaultConnectorInfo(),
+            flowModel: defaultFlowModel,
+            canvasContext: {
+                ...defaultCanvasContext,
+                mode: AutoLayoutCanvasMode.CUT,
+                cutInfo: {
+                    guids: ['parentGuid1']
+                }
+            }
+        });
+        const button = regularConnector.shadowRoot
+            .querySelector(selectors.alcMenuTrigger)
+            .shadowRoot.querySelector('button');
+        expect(button.hasAttribute('disabled')).toBeTruthy();
+    });
+
+    it('Should not disable a branch head connector that the user has kept', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: getDefaultConnectorInfo(),
+            flowModel: defaultFlowModel,
+            canvasContext: {
+                ...defaultCanvasContext,
+                mode: AutoLayoutCanvasMode.CUT,
+                cutInfo: {
+                    guids: ['parentGuid1'],
+                    childIndexToKeep: 1
+                }
+            }
+        });
+        const button = regularConnector.shadowRoot
+            .querySelector(selectors.alcMenuTrigger)
+            .shadowRoot.querySelector('button');
+        expect(button.hasAttribute('disabled')).toBeFalsy();
     });
 });

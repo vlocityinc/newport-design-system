@@ -69,7 +69,11 @@ const defaultOptions = {
     variant: '',
     source: {},
     hasError: false,
-    cutElementGuids: []
+    canvasContext: {
+        cutInfo: {
+            guids: []
+        }
+    }
 };
 
 const createComponentUnderTest = async (overrideOptions) => {
@@ -194,7 +198,11 @@ describe('AlcMenuTrigger', () => {
         const cmp = await createComponentUnderTest({
             operationType: 'cut',
             canvasMode: AutoLayoutCanvasMode.CUT,
-            cutElementGuids: ['dummyGuid'],
+            canvasContext: {
+                cutInfo: {
+                    guids: ['dummyGuid']
+                }
+            },
             source: { guid: 'dummyGuid' }
         });
         const button = cmp.shadowRoot.querySelector(selectors.toBeCutButtonBorder);
@@ -205,7 +213,11 @@ describe('AlcMenuTrigger', () => {
         const cmp = await createComponentUnderTest({
             operationType: 'cut',
             canvasMode: !AutoLayoutCanvasMode.CUT,
-            cutElementGuids: ['dummyGuid'],
+            canvasContext: {
+                cutInfo: {
+                    guids: ['dummyGuid']
+                }
+            },
             source: { guid: '' }
         });
         const button = cmp.shadowRoot.querySelector(selectors.toBeCutButtonBorder);
