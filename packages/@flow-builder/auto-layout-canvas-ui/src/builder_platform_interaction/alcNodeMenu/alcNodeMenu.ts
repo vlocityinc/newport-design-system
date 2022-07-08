@@ -37,12 +37,12 @@ const selectors = {
     footerButton: '.footer lightning-button'
 };
 
-export enum ConditionOptions {
+enum ConditionOptions {
     DEFAULT_PATH = 'DEFAULT_PATH',
     NO_PATH = 'NO_PATH'
 }
 
-export interface Option {
+interface Option {
     label: string;
     value: Guid;
 }
@@ -220,7 +220,7 @@ export default class AlcNodeMenu extends AlcMenu {
                 } else if (this.elementMetadata.type === NodeType.LOOP) {
                     this.dispatchEvent(
                         actionType === ELEMENT_ACTION_CONFIG.CUT_ACTION.value
-                            ? new CutElementsEvent([this.guid], FOR_EACH_INDEX)
+                            ? new CutElementsEvent([this.guid])
                             : new DeleteElementEvent([this.guid], this.elementMetadata.elementType, FOR_EACH_INDEX)
                     );
                 } else {

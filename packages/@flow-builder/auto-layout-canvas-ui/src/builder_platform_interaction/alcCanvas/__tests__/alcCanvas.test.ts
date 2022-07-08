@@ -148,6 +148,7 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         calculateFlowLayout: jest.fn(),
         getDefaultLayoutConfig,
         animate: jest.fn(),
+        getCutGuids: jest.fn(() => ['dummyGuids']),
         findParentElement: jest.fn(() => ({ elementType: 'Decision' })),
         getElementMetadata: jest.fn(() => ({
             Decision: {
@@ -635,7 +636,7 @@ describe('Auto Layout Canvas', () => {
         });
 
         it('focusOnConnector should be called when cutting an element with branches', async () => {
-            const cutElementsEvent = new CutElementsEvent(['decision'], 'Decision', null);
+            const cutElementsEvent = new CutElementsEvent(['decision'], null);
             await dispatchEvent(getFlow(), cutElementsEvent);
             expect(cmp.focusOnConnector).toHaveBeenCalledWith({ guid: 'screen-one' });
         });
@@ -647,7 +648,7 @@ describe('Auto Layout Canvas', () => {
         });
 
         it('focusOnConnector should be called when cutting a branch element', async () => {
-            const cutElementsEvent = new CutElementsEvent(['screen-two'], 'Screen', null);
+            const cutElementsEvent = new CutElementsEvent(['screen-two'], null);
             await dispatchEvent(getFlow(), cutElementsEvent);
             expect(cmp.focusOnConnector).toHaveBeenCalledWith({ guid: 'decision', childIndex: 1 });
         });
@@ -948,6 +949,27 @@ describe('Auto Layout Canvas', () => {
                 );
                 await dispatchEvent(getFlow(), alcSelectDeselectNodeEvent);
                 expect(eventCallback).toHaveBeenCalled();
+            });
+        });
+
+        describe('When cutting an element', () => {
+            it('CutElementsEvent should have been called 1 time', async () => {
+                const eventCallback = jest.fn();
+                cmp.addEventListener(CutElementsEvent.EVENT_NAME, eventCallback);
+                const cutElementsEvent = new CutElementsEvent(['decision'], null);
+                await dispatchEvent(getFlow(), cutElementsEvent);
+                expect(eventCallback).toHaveBeenCalled();
+            });
+            it('CutElementsEvent should have been called with dummyGuids', async () => {
+                const eventCallback = jest.fn();
+                cmp.addEventListener(CutElementsEvent.EVENT_NAME, eventCallback);
+                const cutElementsEvent = new CutElementsEvent(['decision'], null);
+                await dispatchEvent(getFlow(), cutElementsEvent);
+                expect(eventCallback).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: { guids: ['dummyGuids'] }
+                    })
+                );
             });
         });
 

@@ -26,6 +26,7 @@ import {
     getConnectorToDuplicate,
     getCopiedChildElements,
     getCopiedData,
+    getCutData,
     getDuplicateElementGuidMaps,
     getElementsToBeDeleted,
     getElementsWithError,
@@ -1136,8 +1137,8 @@ describe('Editor Utils Test', () => {
 
             const result = getCopiedData(elementsInStore, 'assignment1');
 
-            expect(result.copiedCanvasElements).toMatchObject(expectedCopiedElements);
-            expect(result.copiedChildElements).toMatchObject(expectedCopiedChildElements);
+            expect(result.cutOrCopiedCanvasElements).toMatchObject(expectedCopiedElements);
+            expect(result.cutOrCopiedChildElements).toMatchObject(expectedCopiedChildElements);
             expect(result.bottomCutOrCopiedGuid).toEqual('decision1');
         });
 
@@ -1215,12 +1216,85 @@ describe('Editor Utils Test', () => {
 
             const result = getCopiedData(elementsInStore, 'screen1');
 
-            expect(result.copiedCanvasElements).toMatchObject(expectedCopiedElements);
-            expect(result.copiedChildElements).toMatchObject(expectedCopiedChildElements);
+            expect(result.cutOrCopiedCanvasElements).toMatchObject(expectedCopiedElements);
+            expect(result.cutOrCopiedChildElements).toMatchObject(expectedCopiedChildElements);
             expect(result.bottomCutOrCopiedGuid).toEqual('screen1');
         });
     });
 
+    describe('getCutData function', () => {
+        const elementsInStore = {
+            assignment1: {
+                guid: 'assignment1',
+                next: 'decision1',
+                elementType: mockElementType.ASSIGNMENT
+            },
+            decision1: {
+                guid: 'decision1',
+                children: ['assignment2', 'assignment3'],
+                childReferences: [
+                    {
+                        childReference: 'outcome1'
+                    }
+                ],
+                elementType: mockElementType.DECISION
+            },
+            outcome1: {
+                guid: 'outcome1'
+            },
+            assignment2: {
+                guid: 'assignment2',
+                parent: 'decision1',
+                childIndex: 0,
+                elementType: mockElementType.ASSIGNMENT
+            },
+            assignment3: {
+                guid: 'assignment3',
+                parent: 'decision1',
+                childIndex: 0,
+                elementType: mockElementType.ASSIGNMENT
+            }
+        };
+        it('with simple element', () => {
+            const expectedCopiedElements = {
+                assignment1: {
+                    guid: 'assignment1',
+                    next: 'decision1',
+                    elementType: mockElementType.ASSIGNMENT
+                }
+            };
+
+            const result = getCutData(elementsInStore, ['assignment1']);
+
+            expect(result.cutOrCopiedCanvasElements).toMatchObject(expectedCopiedElements);
+            expect(result.cutOrCopiedChildElements).toMatchObject({});
+            expect(result.topCutOrCopiedGuid).toEqual('assignment1');
+            expect(result.bottomCutOrCopiedGuid).toEqual('assignment1');
+        });
+
+        it('with decision', () => {
+            const expectedCopiedElements = {
+                assignment1: {
+                    guid: 'assignment1',
+                    next: 'decision1',
+                    elementType: mockElementType.ASSIGNMENT
+                }
+            };
+
+            const expectedCopiedChildElements = {
+                outcome1: {
+                    guid: 'outcome1'
+                }
+            };
+
+            const result = getCutData(elementsInStore, ['decision1', 'assignment1', 'assignment2']);
+
+            expect(result.cutOrCopiedCanvasElements).toMatchObject(expectedCopiedElements);
+            expect(result.cutOrCopiedChildElements).toMatchObject(expectedCopiedChildElements);
+            expect(result.topCutOrCopiedGuid).toEqual('decision1');
+            expect(result.bottomCutOrCopiedGuid).toEqual('decision1');
+        });
+    });
     describe('getPasteElementGuidMaps function', () => {
         it('Creates the guids map successfully', () => {
             const elements = {

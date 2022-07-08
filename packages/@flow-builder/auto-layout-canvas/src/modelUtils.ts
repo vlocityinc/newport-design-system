@@ -33,6 +33,26 @@ const deleteElementOptionsDefaults = {
     childIndexToKeep: undefined // delete all branches
 };
 
+interface BranchHeadOptions {
+    allowGotoOnBranchHead: boolean;
+    childIndexToKeep?: number | null;
+}
+
+const branchHeadOptionsDefaults = {
+    allowGotoOnBranchHead: true,
+    childIndexToKeep: undefined
+};
+
+interface CutGuidOptions {
+    shouldCutBeyondMergingPoint: boolean;
+    childIndexToKeep?: number | null;
+}
+
+const cutGuidOptionDefaults = {
+    shouldDeleteGoToOnNext: false,
+    childIndexToKeep: undefined
+};
+
 /**
  *  Interface for the Element Service.
  *
@@ -1800,6 +1820,35 @@ function checkSelfLoop(state: FlowModel, parentElement: ParentNodeModel): boolea
 }
 
 /**
+ * Gets branch head guids for element
+ *
+ * @param state - the flow model
+ * @param element - the element that we are getting branch heads of
+ * @param options - Defaults to allowing gotos on branchHeads and a null childIndexToKeep
+ * @returns branch heads for element
+ */
+function getBranchHeadGuids(state: FlowModel, element: NodeModel, options: Partial<BranchHeadOptions> = {}): Guid[] {
+    const { allowGotoOnBranchHead, childIndexToKeep } = { ...branchHeadOptionsDefaults, ...options };
+    let branchHeadGuids: Guid[] = [];
+
+    const branchHeadFilter = (child: Guid, i: number) =>
+        child != null &&
+        i !== childIndexToKeep &&
+        (allowGotoOnBranchHead || !hasGoToOnBranchHead(state, element.guid, i));
+
+    // add the children guids
+    if (hasChildren(element)) {
+        branchHeadGuids = element.children.filter((child, i): child is Guid => branchHeadFilter(child as Guid, i));
+    }
+
+    // Action, CRUD and Wait (branching) elements can have a Fault path
+    if (branchHeadFilter(element.fault as Guid, FAULT_INDEX)) {
+        branchHeadGuids.push(element.fault!);
+    }
+    return branchHeadGuids;
+}
+
+/**
  * Deletes an element from a flow
  *
  * @param elementService - The element service
@@ -1946,17 +1995,7 @@ function deleteElementDescendents(
     element: NodeModel,
     childIndexToKeep?: number
 ): void {
-    let branchHeadGuids: Guid[] = [];
-
-    // add the children guids to delete
-    if (hasChildren(element)) {
-        branchHeadGuids = element.children.filter((child, i): child is Guid => child != null && i !== childIndexToKeep);
-    }
-
-    // Action, CRUD and Wait (branching) elements can have a Fault path
-    if (element.fault != null) {
-        branchHeadGuids.push(element.fault);
-    }
+    const branchHeadGuids = getBranchHeadGuids(state, element, { childIndexToKeep });
 
     // delete the branch for each branch head
     branchHeadGuids.forEach((guid) => deleteBranch(elementService, state, guid));
@@ -2609,6 +2648,51 @@ function getConnectionSourcesFromIncomingGoTo(flowModel: FlowModel, guid: Guid):
     );
 }
 
+/**
+ * Gets all the elements of a branch as well as their descendants
+ *
+ * @param state - The flow model
+ * @param elementGuid - Element guid to be cut
+ * @returns Array all the elements of a branch as well as their descendants
+ */
+function getBranch(state: FlowModel, elementGuid: Guid): Guid[] {
+    return new AlcList(state, elementGuid).map((listElement) => getCutGuids(state, listElement.guid)).flat();
+}
+
+/**
+ * Gets element's descendants recursively
+ *
+ * @param state - The flow model
+ * @param elementGuid - Element guid to be cut
+ * @param childIndexToKeep  - The child index to keep
+ * @returns Array of elementGuid's branching descendents
+ */
+function getElementDescendents(state: FlowModel, elementGuid: Guid, childIndexToKeep?: number | null): Guid[] {
+    const branchHeadGuids = getBranchHeadGuids(state, state[elementGuid], {
+        allowGotoOnBranchHead: false,
+        childIndexToKeep
+    });
+    return branchHeadGuids.map((guid) => getBranch(state, guid)).flat();
+}
+
+/**
+ * Recursively gets all guids for an element cut through the node contexual menu
+ *
+ * @param state - The flow model
+ * @param elementGuid - Element guid to be cut
+ * @param options - Defaults to not cutting after the merge point and no childIndexToKeep
+ * @returns Array of guids to be cut
+ */
+function getCutGuids(state: FlowModel, elementGuid: Guid, options: Partial<CutGuidOptions> = {}): Guid[] {
+    const { shouldCutBeyondMergingPoint, childIndexToKeep } = { ...cutGuidOptionDefaults, ...options };
+
+    let cutElementGuids = [elementGuid].concat(getElementDescendents(state, elementGuid, childIndexToKeep));
+    if (shouldCutBeyondMergingPoint) {
+        cutElementGuids = cutElementGuids.concat(getBranch(state, state[elementGuid].next as Guid).flat());
+    }
+    return cutElementGuids;
+}
+
 export {
     connectToElement,
     linkElement,
@@ -2638,5 +2722,6 @@ export {
     prepareFlowModel,
     getFirstNonNullNext,
     isGoingBackToAncestorLoop,
-    getConnectionSourcesFromIncomingGoTo
+    getConnectionSourcesFromIncomingGoTo,
+    getCutGuids
 };

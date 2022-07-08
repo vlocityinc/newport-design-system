@@ -223,6 +223,7 @@ import {
     getConnectorToDuplicate,
     getCopiedChildElements,
     getCopiedData,
+    getCutData,
     getDuplicateElementGuidMaps,
     getEditorAutoFocusForElementType,
     getElementsMetadata,
@@ -231,6 +232,7 @@ import {
     getPasteElementGuidMaps,
     getSaveType,
     getSelectedFlowEntry,
+    getStoreElements,
     highlightCanvasElement,
     isDebugInterviewInError,
     isFlowTestingSupported,
@@ -403,10 +405,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     dynamicInvocableActions = [];
 
     topSelectedGuid = null;
-    cutOrCopiedCanvasElements = {};
-    cutOrCopiedChildElements = {};
-    topCutOrCopiedGuid = null;
-    bottomCutOrCopiedGuid = null;
+    cutOrCopiedCanvasElements: UI.Elements = {};
+    cutOrCopiedChildElements: UI.Elements = {};
+    topCutOrCopiedGuid: UI.Guid | null = null;
+    bottomCutOrCopiedGuid: UI.Guid | null = null;
     currentFlowId;
     currentFlowDefId;
     currentInterviewGuid;
@@ -1628,6 +1630,17 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     };
 
     /**
+     * Sets the cut or copy state
+     *
+     * @param newCutElementData - Current state of the cut data
+     */
+    setCutOrCopiedState(newCutElementData: UI.CutOrCopyState) {
+        Object.assign(this, {
+            ...newCutElementData
+        });
+    }
+
+    /**
      * Handles the copy event coming from the Element Action Contextual Menu and
      * updates the appropriate properties
      *
@@ -1638,15 +1651,17 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const elements = storeInstance.getCurrentState().elements;
         const copiedElement = elements[elementGuid];
 
-        this.cutOrCopiedCanvasElements = {
-            [copiedElement.guid]: copiedElement
-        };
-        this.cutOrCopiedChildElements = getCopiedChildElements(elements, copiedElement);
-        this.topCutOrCopiedGuid = elementGuid;
-        this.bottomCutOrCopiedGuid = elementGuid;
+        this.setCutOrCopiedState({
+            cutOrCopiedCanvasElements: { [copiedElement.guid]: copiedElement },
+            cutOrCopiedChildElements: getCopiedChildElements(elements, copiedElement),
+            topCutOrCopiedGuid: elementGuid,
+            bottomCutOrCopiedGuid: elementGuid
+        });
+
         this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
 
         this.showToast(LABELS.singleCopySuccess, 'success');
+        this.handleElementDelete(event);
     };
 
     newUpdatedALCMode(mode: AutoLayoutCanvasMode) {
@@ -1657,15 +1672,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Handles the copy event from the toolbar and updates the appropriate properties
      */
     handleCopy = () => {
-        const elements = storeInstance.getCurrentState() && storeInstance.getCurrentState().elements;
-        this.topCutOrCopiedGuid = this.topSelectedGuid;
-        const { copiedCanvasElements, copiedChildElements, bottomCutOrCopiedGuid } = getCopiedData(
-            elements,
-            this.topCutOrCopiedGuid!
-        );
-        this.cutOrCopiedCanvasElements = copiedCanvasElements;
-        this.cutOrCopiedChildElements = copiedChildElements;
-        this.bottomCutOrCopiedGuid = bottomCutOrCopiedGuid;
+        const elements = getStoreElements(storeInstance);
+        this.setCutOrCopiedState({
+            topCutOrCopiedGuid: this.topSelectedGuid!,
+            ...getCopiedData(elements, this.topSelectedGuid!)
+        });
 
         this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
 
@@ -1686,8 +1697,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * @param event - The cut element event
      */
     handleCutElements = (event) => {
-        // TODO W-11145831
         const { guids } = event.detail;
+        const elements = getStoreElements(storeInstance);
+
+        this.setCutOrCopiedState(getCutData(elements, guids));
         this.showToastForCutCopyPasteOrDelete(LABELS.singleCutSuccess, LABELS.multipleCutSuccess, guids.length);
     };
 

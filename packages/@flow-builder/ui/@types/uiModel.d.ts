@@ -324,6 +324,13 @@ declare namespace UI {
         peripheralData?: PeripheralData;
     }
 
+    interface CutOrCopyState {
+        cutOrCopiedCanvasElements: Elements;
+        cutOrCopiedChildElements: Elements;
+        topCutOrCopiedGuid: Guid;
+        bottomCutOrCopiedGuid: Guid;
+    }
+
     interface ElementConfig {
         // TODO: what should be a key here?
         bodyCssClass?: string;

@@ -18,6 +18,7 @@ import {
     getBranchIndexForGoToConnection,
     getConnectionSourcesFromIncomingGoTo,
     getConnectionTarget,
+    getCutGuids,
     getFirstNonNullNext,
     getSuffixForGoToConnection,
     getTargetGuidsForReconnection,
@@ -8439,6 +8440,58 @@ describe('modelUtils', () => {
                 { childIndex: 0, guid: 'branch-guid' },
                 { childIndex: 2, guid: 'branch-guid' }
             ]);
+        });
+    });
+
+    describe('GetCutGuids', () => {
+        describe('For loop', () => {
+            it('With immediate goto on branch head', () => {
+                const flowRenderContext = getFlowWhenGoingFromForEachBranch();
+                expect(getCutGuids(flowRenderContext.flowModel, 'loop-guid')).toEqual(['loop-guid']);
+            });
+            it('With goto from next to loop', () => {
+                const flowRenderContext = getFlowWhenGoingToLoopBranchHead();
+                expect(getCutGuids(flowRenderContext.flowModel, 'loop-guid')).toEqual(['loop-guid', 'screen-guid']);
+            });
+        });
+        describe('For decision', () => {
+            it('With no childIndexToKeep', () => {
+                const flowRenderContext = getFlowWhenGoingFromMergePointToParent();
+                expect(getCutGuids(flowRenderContext.flowModel, 'decision1-guid')).toEqual([
+                    'decision1-guid',
+                    'screen1-guid',
+                    'screen2-guid'
+                ]);
+            });
+            it('With childIndexToKeep 0', () => {
+                const flowRenderContext = getFlowWhenGoingFromMergePointToParent();
+                expect(getCutGuids(flowRenderContext.flowModel, 'decision1-guid', { childIndexToKeep: 0 })).toEqual([
+                    'decision1-guid',
+                    'screen2-guid'
+                ]);
+            });
+            it('With childIndexToKeep 1', () => {
+                const flowRenderContext = getFlowWhenGoingFromMergePointToParent();
+                expect(getCutGuids(flowRenderContext.flowModel, 'decision1-guid', { childIndexToKeep: 1 })).toEqual([
+                    'decision1-guid',
+                    'screen1-guid'
+                ]);
+            });
+
+            it('With goto on branch head and merge point', () => {
+                const flowRenderContext = getFlowWithGoToOnTheMergePoint();
+                expect(getCutGuids(flowRenderContext.flowModel, 'branch-guid')).toEqual(['branch-guid', 'end-guid']);
+            });
+            it('With goto on fault branch head', () => {
+                const flowRenderContext = getFlowWhenGoingFromParentFaultBranchToPreviousElement();
+                expect(getCutGuids(flowRenderContext.flowModel, 'branch-guid')).toEqual(['branch-guid']);
+            });
+        });
+        describe('For simple element', () => {
+            it('With incoming goto', () => {
+                const flowRenderContext = getFlowWhenGoingFromParentFaultBranchToPreviousElement();
+                expect(getCutGuids(flowRenderContext.flowModel, 'screen-guid')).toEqual(['screen-guid']);
+            });
         });
     });
 });

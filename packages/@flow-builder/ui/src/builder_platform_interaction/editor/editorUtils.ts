@@ -613,9 +613,10 @@ const hasChildElements = (canvasElement) => {
  *
  * @param {Object} elementsInStore - State of the elements in store
  * @param {string} topCutOrCopiedGuid - Guid of the top-most cut or copied element
+ * @param cutGuids - Array of guids that have been cut
  * @returns {string} - Guid of the bottom most cut or copied element
  */
-const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
+const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid: UI.Guid, cutGuids?: UI.Guid[]) => {
     const topCutOrCopiedElement = elementsInStore[topCutOrCopiedGuid];
     let bottomCutOrCopiedElement = topCutOrCopiedElement;
 
@@ -623,8 +624,8 @@ const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
     while (bottomCutOrCopiedElement) {
         if (
             elementsInStore[bottomCutOrCopiedElement.next] &&
-            elementsInStore[bottomCutOrCopiedElement.next].config &&
-            elementsInStore[bottomCutOrCopiedElement.next].config.isSelected &&
+            (elementsInStore[bottomCutOrCopiedElement.next].config?.isSelected ||
+                cutGuids?.includes(bottomCutOrCopiedElement.next)) &&
             !hasGoToOnNext(elementsInStore, bottomCutOrCopiedElement.guid)
         ) {
             bottomCutOrCopiedElement = elementsInStore[bottomCutOrCopiedElement.next];
@@ -704,16 +705,16 @@ export const getCopiedChildElements = (elementsInStore, copiedElement) => {
  * @returns {Object} - Contains copiedCanvasElements, copiedChildElements and bottomCutOrCopiedGuid
  */
 export const getCopiedData = (elementsInStore: UI.Elements, topCopiedGuid: UI.Guid) => {
-    const copiedCanvasElements = {};
-    let copiedChildElements = {};
+    const cutOrCopiedCanvasElements = {};
+    let cutOrCopiedChildElements = {};
 
-    // Calculating the copiedCanvasElements and copiedChildElements objects
+    // Calculating the cutOrCopiedCanvasElements and copiedChildElements objects
     for (let i = 0; i < Object.values(elementsInStore).length; i++) {
         const canvasElement = Object.values(elementsInStore)[i] as UI.CanvasElement;
         if (canvasElement.config && canvasElement.config.isSelected) {
-            copiedCanvasElements[canvasElement.guid] = canvasElement;
-            copiedChildElements = {
-                ...copiedChildElements,
+            cutOrCopiedCanvasElements[canvasElement.guid] = canvasElement;
+            cutOrCopiedChildElements = {
+                ...cutOrCopiedChildElements,
                 ...getCopiedChildElements(elementsInStore, canvasElement)
             };
         }
@@ -722,7 +723,33 @@ export const getCopiedData = (elementsInStore: UI.Elements, topCopiedGuid: UI.Gu
     // Getting the guid of the bottom most selected element
     const bottomCutOrCopiedGuid = getBottomCutOrCopiedGuid(elementsInStore, topCopiedGuid);
 
-    return { copiedCanvasElements, copiedChildElements, bottomCutOrCopiedGuid };
+    return { cutOrCopiedCanvasElements, cutOrCopiedChildElements, bottomCutOrCopiedGuid };
+};
+
+/**
+ *  Function to get all the cut data
+ *
+ * @param elementsInStore - State of the elements in store
+ * @param cutGuids - Guids that will be cut
+ * @returns current state of the cut data
+ */
+export const getCutData = (elementsInStore: UI.Elements, cutGuids: UI.Guid[]): UI.CutOrCopyState => {
+    const topCutOrCopiedGuid = cutGuids[0];
+    const cutOrCopiedCanvasElements = {};
+    let cutOrCopiedChildElements = {};
+
+    cutGuids.forEach((guid) => {
+        cutOrCopiedCanvasElements[guid] = elementsInStore[guid];
+        cutOrCopiedChildElements = {
+            ...cutOrCopiedChildElements,
+            ...getCopiedChildElements(elementsInStore, elementsInStore[guid])
+        };
+    });
+
+    // Getting the guid of the bottom most selected element
+    const bottomCutOrCopiedGuid = getBottomCutOrCopiedGuid(elementsInStore, topCutOrCopiedGuid, cutGuids);
+
+    return { cutOrCopiedCanvasElements, cutOrCopiedChildElements, topCutOrCopiedGuid, bottomCutOrCopiedGuid };
 };
 
 // TODO: Move this to a common util
@@ -1632,4 +1659,14 @@ export function findActionMetadata(
     return elementsMetadata?.find((metadata) => {
         return actionKey === getActionKey(metadata.actionName, metadata.actionType);
     });
+}
+
+/**
+ * Returns the current elements in the store
+ *
+ * @param storeInstance - The store instance
+ * @returns the current elements in the store
+ */
+export function getStoreElements(storeInstance: Store): UI.Elements {
+    return storeInstance.getCurrentState()?.elements;
 }

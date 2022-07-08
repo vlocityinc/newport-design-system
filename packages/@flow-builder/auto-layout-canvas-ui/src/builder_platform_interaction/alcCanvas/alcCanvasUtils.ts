@@ -8,7 +8,11 @@ import {
     getConnectionSourcesFromIncomingGoTo,
     getDefaultLayoutConfig,
     Guid,
-    isRoot
+    hasGoToOnNext,
+    isBranchTerminal,
+    isRoot,
+    NodeModel,
+    NodeType
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const defaultConfig = getDefaultLayoutConfig();
@@ -165,4 +169,26 @@ export const getNodeAndGoToGeometry = (flowModel: FlowModel, alcFlow: AlcFlow, s
         }
     });
     return toReturn;
+};
+
+/**
+ * Helper to determine if we should delete past the merge point
+ *
+ * @param flowModel - The flow model.
+ * @param selectedElement - Element clicked on to be cut or deleted
+ * @param childIndexToKeep - The child index to keep
+ * @returns true or false depending if we should delete past selectedElement's merge point
+ */
+export const shouldDeleteBeyondMergingPoint = (
+    flowModel: FlowModel,
+    selectedElement: NodeModel,
+    childIndexToKeep?: number | null
+): boolean => {
+    return !!(
+        childIndexToKeep != null &&
+        selectedElement.next &&
+        isBranchTerminal(flowModel, selectedElement, childIndexToKeep) &&
+        flowModel[selectedElement.next!].nodeType !== NodeType.END &&
+        !hasGoToOnNext(flowModel, selectedElement.guid)
+    );
 };

@@ -64,6 +64,7 @@ export {
     getConnectionSource,
     getConnectionSourcesFromIncomingGoTo,
     getConnectionTarget,
+    getCutGuids,
     getFirstNonNullNext,
     getNonTerminalBranchIndexes,
     getSuffixForGoToConnection,

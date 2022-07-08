@@ -40,10 +40,10 @@ import {
     Geometry,
     getConnectionSource,
     getConnectionTarget,
+    getCutGuids,
     getDefaultLayoutConfig,
     getTargetGuidsForReconnection,
     Guid,
-    hasGoToOnNext,
     isBranchTerminal,
     MenuType,
     NodeType,
@@ -58,6 +58,7 @@ import {
     CanvasMouseUpEvent,
     ClickToZoomEvent,
     ClosePropertyEditorEvent,
+    CutElementsEvent,
     DeleteElementEvent,
     EditElementEvent,
     ZOOM_ACTION
@@ -82,7 +83,8 @@ import {
     getDomElementGeometry,
     getGoToElementsGeometry,
     getNodeAndGoToGeometry,
-    getSanitizedNodeGeo
+    getSanitizedNodeGeo,
+    shouldDeleteBeyondMergingPoint
 } from './alcCanvasUtils';
 
 const { debounce } = commonUtils;
@@ -1276,11 +1278,29 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         }
     };
 
-    handleCutElements = (event) => {
-        const { guids } = event.detail;
-        const elementToCut = this.flowModel[guids[0]];
-        this.focusOnConnector(getConnectionSource(elementToCut));
+    /**
+     * Handles when cut is clicked in a node menu
+     *
+     * @param event - CutElementsEvent
+     */
+    handleCutElements = (event: CutElementsEvent) => {
+        event.stopPropagation();
+        const { guids, childIndexToKeep } = event.detail;
+        const selectedElement = this.flowModel[guids[0]];
+        const shouldCutBeyondMergingPoint = shouldDeleteBeyondMergingPoint(
+            this.flowModel,
+            selectedElement,
+            childIndexToKeep
+        );
+
+        const cutElementGuids = getCutGuids(this.flowModel, guids[0], {
+            shouldCutBeyondMergingPoint,
+            childIndexToKeep
+        });
+
+        this.focusOnConnector(getConnectionSource(selectedElement));
         this.updateCanvasContext({ mode: AutoLayoutCanvasMode.CUT });
+        this.dispatchEvent(new CutElementsEvent(cutElementGuids));
     };
 
     handleDeleteElement = (event) => {
@@ -1292,43 +1312,34 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     handleBranchElementDeletion = (event: DeleteBranchElementEvent) => {
         const { selectedElementGUID, selectedElementType, childIndexToKeep } = event.detail;
         const selectedElement = this.flowModel[selectedElementGUID[0]];
-        if (childIndexToKeep != null) {
-            if (
-                selectedElement.next &&
-                isBranchTerminal(this.flowModel, selectedElement, childIndexToKeep) &&
-                this.flowModel[selectedElement.next!].nodeType !== NodeType.END &&
-                !hasGoToOnNext(this.flowModel, selectedElement.guid)
-            ) {
-                // When the branch to persist is terminated and the deleting element's next is not an end element
-                // or a GoTo target, a warning modal would be invoked, otherwise a DeleteElementEvent would be dispatched
-                invokeModal({
-                    headerData: {
-                        headerTitle: LABELS.deleteWarningHeaderTitle
+        if (shouldDeleteBeyondMergingPoint(this.flowModel, selectedElement, childIndexToKeep)) {
+            // When the branch to persist is terminated and the deleting element's next is not an end element
+            // or a GoTo target, a warning modal would be invoked, otherwise a DeleteElementEvent would be dispatched
+            invokeModal({
+                headerData: {
+                    headerTitle: LABELS.deleteWarningHeaderTitle
+                },
+                bodyData: {
+                    bodyTextOne: LABELS.deleteWarningBodyTextLabel,
+                    bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonVariant: 'Brand',
+                        buttonLabel: LABELS.cancelButtonLabel
                     },
-                    bodyData: {
-                        bodyTextOne: LABELS.deleteWarningBodyTextLabel,
-                        bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
-                    },
-                    footerData: {
-                        buttonOne: {
-                            buttonVariant: 'Brand',
-                            buttonLabel: LABELS.cancelButtonLabel
-                        },
-                        buttonTwo: {
-                            buttonLabel: LABELS.confirmDeleteLabel,
-                            buttonCallback: () => {
-                                this.dispatchEvent(
-                                    new DeleteElementEvent(selectedElementGUID, selectedElementType, childIndexToKeep)
-                                );
-                            }
+                    buttonTwo: {
+                        buttonLabel: LABELS.confirmDeleteLabel,
+                        buttonCallback: () => {
+                            this.dispatchEvent(
+                                new DeleteElementEvent(selectedElementGUID, selectedElementType, childIndexToKeep)
+                            );
                         }
-                    },
-                    headerClass: 'slds-theme_alert-texture slds-theme_warning',
-                    bodyClass: 'slds-p-around_medium'
-                });
-            } else {
-                this.dispatchEvent(new DeleteElementEvent(selectedElementGUID, selectedElementType, childIndexToKeep));
-            }
+                    }
+                },
+                headerClass: 'slds-theme_alert-texture slds-theme_warning',
+                bodyClass: 'slds-p-around_medium'
+            });
         } else {
             this.dispatchEvent(new DeleteElementEvent(selectedElementGUID, selectedElementType, childIndexToKeep));
         }
