@@ -38,6 +38,49 @@ declare namespace Metadata {
         locationY: number;
     }
 
+    interface AssignmentItem extends BaseElement {
+        assignToReference: string;
+        operator: string;
+        value: ElementReferenceOrValue;
+    }
+
+    interface Assignment extends Node {
+        assignmentItems: AssignmentItem[];
+        connector: Connector;
+    }
+
+    interface ChoiceUserInput extends BaseElement {
+        isRequired: boolean;
+        promptText: string;
+        validationRule: InputValidationRule;
+    }
+    interface Choice extends Element {
+        choiceText: string;
+        dataType: string;
+        userInput: ChoiceUserInput;
+        value: ElementReferenceOrValue;
+    }
+
+    interface DynamicChoiceSet extends Element {
+        collectionReference: string;
+        dataType: string;
+        displayField: string;
+        filters: RecordFilter[];
+        limit: number;
+        object: string;
+        outputAssignments: OutputFieldAssignment[];
+        picklistField: string;
+        picklistObject: string;
+        sortField: string;
+        sortOrder: string;
+        valueField: string;
+    }
+
+    interface InputValidationRule extends BaseElement {
+        errorMessage: string;
+        formulaExpression: string;
+    }
+
     interface Screen extends Node {
         allowBack: boolean;
         allowFinish: boolean;
@@ -238,6 +281,32 @@ declare namespace Metadata {
         storeOutputAutomatically: boolean;
     }
 
+    interface CollectionProcessor extends Node {
+        collectionReference: string;
+        collectionProcessorType: string;
+        limit: number;
+    }
+
+    interface Condition extends BaseElement {
+        leftValueReference: string;
+        operator: string;
+        rightValue: ElementReferenceOrValue;
+    }
+
+    interface Decision extends Node {
+        defaultConnector: Connector;
+        defaultConnectorLabel: string;
+        rules: FlowRule[];
+    }
+
+    interface FlowRule extends BaseElement {
+        conditionLogic: string;
+        conditions: Condition[];
+        connector: Connector;
+        label: string;
+        doesRequireRecordChangedToMeetCriteria: boolean;
+    }
+
     interface Loop extends Node {
         nextValueConnector: Connector;
         noMoreValuesConnector: Connector;
@@ -263,22 +332,56 @@ declare namespace Metadata {
         storeOutputAutomatically: boolean;
     }
 
+    interface Wait extends Node {
+        defaultConnector: Connector;
+        defaultConnectorLabel: string;
+        faultConnector: Connector;
+        waitEvents: WaitEvent[];
+    }
+
+    interface WaitEvent extends BaseElement {
+        conditionLogic: string;
+        conditions: Condition[];
+        connector: Connector;
+        eventType: string;
+        inputParameters: WaitEventInputParameter[];
+        outputParameters: WaitEventOutputParameter[];
+        label: string;
+    }
+
+    interface WaitEventInputParameter extends BaseElement {
+        name: string;
+        value: ElementReferenceOrValue;
+    }
+
+    interface WaitEventOutputParameter extends BaseElement {
+        assignToReference: string;
+        name: string;
+    }
+
     interface Metadata {
         actionCalls: ActionCall[];
         apexPluginCalls: ApexPluginCall[];
+        assignments: Assignment[];
+        choices: Choice[];
+        collectionProcessors: CollectionProcessor[];
         constants: Constant[];
+        decisions: Decision[];
+        dynamicChoiceSets: DynamicChoiceSet[];
         formulas: Formula[];
         loops: Loop[];
         recordCreates: RecordCreate[];
         recordDeletes: RecordDelete[];
         recordLookups: RecordLookup[];
         recordUpdates: RecordUpdate[];
+        recordRollbacks: Node[];
         screens: Screen[];
         stages: Stage[];
         start: Start;
         subflows: Subflow[];
         textTemplates: TextTemplate[];
         variables: Variable[];
+        waits: Wait[];
     }
 
     type FlowTestReferenceOrValue = ElementReferenceOrValue | { sobjectValue: string };

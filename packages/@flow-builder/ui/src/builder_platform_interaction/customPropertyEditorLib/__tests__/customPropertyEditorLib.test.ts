@@ -105,7 +105,14 @@ describe('Custom Property Editor Lib', () => {
             apexPluginCalls: mockFlowWithAllElementsMetadata.apexPluginCalls,
             actionCalls: mockFlowWithAllElementsMetadata.actionCalls,
             loops: mockFlowWithAllElementsMetadata.loops,
-            start: mockFlowWithAllElementsMetadata.start
+            start: mockFlowWithAllElementsMetadata.start,
+            assignments: mockFlowWithAllElementsMetadata.assignments,
+            collectionProcessors: mockFlowWithAllElementsMetadata.collectionProcessors,
+            choices: mockFlowWithAllElementsMetadata.choices,
+            dynamicChoiceSets: mockFlowWithAllElementsMetadata.dynamicChoiceSets,
+            decisions: mockFlowWithAllElementsMetadata.decisions,
+            recordRollbacks: mockFlowWithAllElementsMetadata.recordRollbacks,
+            waits: mockFlowWithAllElementsMetadata.waits
         });
     });
     test('getAutomaticOutputVariables', () => {
@@ -129,6 +136,41 @@ describe('Custom Property Editor Lib', () => {
         expect(inputVariables).toMatchObject([
             { name: 'subjectNameOrId', value: 'jsmith@salesforce.com', valueDataType: 'String' },
             { name: 'text', value: 'This is my message', valueDataType: 'String' }
+        ]);
+    });
+    test('getInputVariables with falsy values', () => {
+        const createdAction = createActionCall({
+            actionName: 'testAction',
+            actionType: 'testAction',
+            inputParameters: [
+                {
+                    name: 'booleanParam',
+                    value: {
+                        booleanValue: false
+                    }
+                },
+                {
+                    name: 'numberParam',
+                    value: {
+                        numberValue: 0
+                    }
+                },
+                {
+                    name: 'stringParam',
+                    value: {
+                        stringValue: null
+                    }
+                }
+            ],
+            label: 'actionCallFalsyInputs',
+            name: 'actionCallFalsyInputs',
+            outputParameters: []
+        });
+        const inputVariables = getInputVariables(configurationEditor, createdAction, flowWithAllElementsUIModel);
+
+        expect(inputVariables).toMatchObject([
+            { name: 'booleanParam', value: '$GlobalConstant.False', valueDataType: 'Boolean' },
+            { name: 'numberParam', value: '0', valueDataType: 'Number' }
         ]);
     });
     test('getScreenFieldTypeMappings', () => {

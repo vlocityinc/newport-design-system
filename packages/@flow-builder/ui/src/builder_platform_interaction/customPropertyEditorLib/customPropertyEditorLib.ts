@@ -94,7 +94,14 @@ export const getBuilderContext = (
             apexPluginCalls = [],
             actionCalls = [],
             loops = [],
-            start = []
+            start = [],
+            assignments = [],
+            collectionProcessors = [],
+            choices = [],
+            dynamicChoiceSets = [],
+            decisions = [],
+            recordRollbacks = [],
+            waits = []
         } = flow.metadata;
         return {
             variables,
@@ -110,7 +117,14 @@ export const getBuilderContext = (
             apexPluginCalls,
             actionCalls,
             loops,
-            start
+            start,
+            assignments,
+            collectionProcessors,
+            choices,
+            dynamicChoiceSets,
+            decisions,
+            recordRollbacks,
+            waits
         };
     }
     return {};
@@ -150,7 +164,7 @@ export const getInputVariables = (
 ): InputVariableValue[] => {
     if (node && node.inputParameters && useConfigurationEditor(configurationEditor)) {
         const inputParameters = node.inputParameters
-            .filter(({ value }) => !!value)
+            .filter(({ value }) => value != null)
             .map((inputParameter) => createInputParameter(inputParameter));
         dehydrate(inputParameters);
         swapUidsForDevNames(state.elements, inputParameters);
