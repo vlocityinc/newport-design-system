@@ -441,6 +441,14 @@
       "parentId" : "Car",
       "type" : "String"
     }, {
+      "apexClass" : "Car",
+      "durableId" : "Car.otherCar",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "otherCar",
+      "parentId" : "Car",
+      "type" : "Apex"
+    }, {
       "apexClass" : "Wheel",
       "durableId" : "Car.wheel",
       "fieldsToNull" : [ ],
@@ -449,8 +457,8 @@
       "parentId" : "Car",
       "type" : "Apex"
     } ],
-    "size" : 2,
-    "totalSize" : 2
+    "size" : 3,
+    "totalSize" : 3
   }
 },
     {

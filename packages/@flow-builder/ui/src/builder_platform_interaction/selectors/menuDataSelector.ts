@@ -70,12 +70,40 @@ const deletableFilter = (element) => {
     return isDeleteableSObject(element.subtype) || isDeleteableSObject(element.sobjectType);
 };
 
+/**
+ * Checks if a given Apex class has some property that matches a given filter.
+ *
+ * @param apexClass - an Apex class to check properties
+ * @param filter - callback for evaluating properties on Apex class
+ * @returns true or false
+ */
 const apexClassHasSomePropertyMatching = (apexClass: string, filter: (ApexTypeProperty) => boolean) => {
-    return Object.values(apexTypeLib.getPropertiesForClass(apexClass)).some((property) =>
-        isApexTypeElement(property)
-            ? apexClassHasSomePropertyMatching(property.subtype, (apexProperty) => filter(apexProperty))
-            : filter(property)
-    );
+    return apexClassHasSomePropertyMatchingHelper(apexClass, filter, {});
+};
+
+/**
+ * Recursive helper for apexClassHasSomePropertyMatching.
+ *
+ * @param apexClass - an Apex class to check properties
+ * @param filter - callback for evaluating properties on Apex class
+ * @param apexClassesChecked - hash to keep track of which Apex classes have already been checked
+ * @returns true or false
+ */
+const apexClassHasSomePropertyMatchingHelper = (
+    apexClass: string,
+    filter: (ApexTypeProperty) => boolean,
+    apexClassesChecked: { [apexClass: string]: boolean }
+) => {
+    apexClassesChecked[apexClass] = true;
+    return Object.values(apexTypeLib.getPropertiesForClass(apexClass))
+        .filter(
+            (property) => !isApexTypeElement(property) || apexClassesChecked.hasOwnProperty(property.subtype) === false
+        )
+        .some((property) =>
+            isApexTypeElement(property)
+                ? apexClassHasSomePropertyMatchingHelper(property.subtype, filter, apexClassesChecked)
+                : filter(property)
+        );
 };
 
 export type CrudFilter = ({
