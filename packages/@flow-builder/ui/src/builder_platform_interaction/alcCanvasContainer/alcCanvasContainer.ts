@@ -3,9 +3,9 @@ import AlcCanvas from 'builder_platform_interaction/alcCanvas';
 import { setElementsMetadata } from 'builder_platform_interaction/alcCanvasUtils';
 import { shortcuts } from 'builder_platform_interaction/app';
 import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { DEFAULT_ACTION_ICON } from 'builder_platform_interaction/invocableActionLib';
 import { commonUtils, customIconUtils, lwcUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { api, LightningElement, track } from 'lwc';
@@ -50,6 +50,7 @@ export default class AlcCanvasContainer extends LightningElement {
 
     _standardInvocableActions = [];
     _dynamicInvocableActions = [];
+    _subflows: UI.Subflow[] = [];
 
     _startElement!: UI.Start;
 
@@ -92,6 +93,17 @@ export default class AlcCanvasContainer extends LightningElement {
 
     get standardInvocableActions() {
         return this._standardInvocableActions;
+    }
+
+    // Getters and setters for subflows
+    @api
+    set subflows(subflows: UI.Subflow[]) {
+        this._subflows = subflows;
+        this.updateMetadataMenuItems();
+    }
+
+    get subflows() {
+        return this._subflows;
     }
 
     @api
@@ -232,15 +244,22 @@ export default class AlcCanvasContainer extends LightningElement {
         const connectorMenuElementTypes = this._elementsMetadata?.map(({ elementType }) => elementType);
         const elementTypes = connectorMenuElementTypes ? new Set<string>(connectorMenuElementTypes) : new Set<string>();
         // Remove StandardActionMenuItems that are also palette promoted
-        let standardActionMenuItems = this._standardInvocableActions?.map(this.augmentActionToMenuItem);
+        let standardActionMenuItems = this._standardInvocableActions?.map((action) =>
+            this.augmentElementToConnectorMenuItem(action, ELEMENT_TYPE.ACTION_CALL)
+        );
         standardActionMenuItems = removeDuplicates(standardActionMenuItems, this._elementsMetadata, [
             'elementType',
             'actionName',
             'actionType'
         ]);
 
-        const dynamicActionMenuItems = this._dynamicInvocableActions?.map(this.augmentActionToMenuItem);
-        const menuItems = standardActionMenuItems.concat(dynamicActionMenuItems);
+        const dynamicActionMenuItems = this._dynamicInvocableActions?.map((action) =>
+            this.augmentElementToConnectorMenuItem(action, ELEMENT_TYPE.ACTION_CALL)
+        );
+        const subflowMenuItems = this._subflows?.map((subflow) =>
+            this.augmentElementToConnectorMenuItem(subflow, ELEMENT_TYPE.SUBFLOW)
+        );
+        const menuItems = standardActionMenuItems.concat(dynamicActionMenuItems).concat(subflowMenuItems);
         this._connectorMenuMetadata = {
             ...this._connectorMenuMetadata,
             elementTypes,
@@ -249,25 +268,28 @@ export default class AlcCanvasContainer extends LightningElement {
         };
     }
 
-    augmentActionToMenuItem(action): ConnectorMenuItem {
-        // Do augmentation from action descriptor to ConnectorMenuItem data format
+    augmentElementToConnectorMenuItem(element, elementType): ConnectorMenuItem {
+        // Do augmentation from element to connector menu item
+        const elementConfig = getConfigForElementType(elementType);
         let icon, iconSrc, iconClass;
-        if (action.iconName) {
-            const prefix = action.iconName.split(':')[0];
-            const resource = removePrefixFromCustomIcon(action.iconName);
+        if (element.iconName && elementType === ELEMENT_TYPE.ACTION_CALL) {
+            const prefix = element.iconName.split(':')[0];
+            const resource = removePrefixFromCustomIcon(element.iconName);
             ({ icon, iconSrc } =
                 prefix === SLDS_ICON_PREFIX ? { icon: resource, iconSrc: null } : { icon: null, iconSrc: resource });
         } else {
-            ({ icon, iconClass } = DEFAULT_ACTION_ICON);
+            icon = elementConfig.nodeConfig?.iconName;
+            iconClass = elementConfig.nodeConfig?.iconBackgroundColor;
         }
+        const label = element.label ? element.label : element.masterLabel;
         return {
             guid: generateGuid(),
-            description: action.description,
-            label: action.label,
-            elementType: ELEMENT_TYPE.ACTION_CALL,
-            actionType: action.type,
-            actionName: action.name,
-            actionIsStandard: action.isStandard,
+            description: element.description,
+            label,
+            elementType,
+            actionType: element.type,
+            actionName: element.name,
+            actionIsStandard: element.isStandard,
             icon,
             iconSrc,
             iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
@@ -276,7 +298,8 @@ export default class AlcCanvasContainer extends LightningElement {
             iconVariant: '',
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
-            tooltip: action.description ? action.label + ': ' + action.description : action.label
+            tooltip: element.description ? `${label}: ${element.description}` : label,
+            flowName: element.fullName
         };
     }
 

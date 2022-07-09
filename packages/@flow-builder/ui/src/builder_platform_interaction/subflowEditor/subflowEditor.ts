@@ -56,7 +56,6 @@ export default class SubflowEditor extends LightningElement {
     set processType(newValue) {
         this.processTypeValue = newValue;
     }
-
     connectedCallback() {
         this.connected = true;
         this.updatePropertyEditorTitle();

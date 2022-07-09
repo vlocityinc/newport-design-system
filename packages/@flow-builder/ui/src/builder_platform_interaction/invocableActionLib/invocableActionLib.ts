@@ -19,12 +19,6 @@ export type InvocableAction = {
     outputParameters: ParameterListRowItem[];
     displayText?: string | ValueWithError;
 };
-
-export const DEFAULT_ACTION_ICON = {
-    icon: 'standard:custom_notification',
-    iconClass: 'background-navy'
-};
-
 /**
  * Set standard invocable actions.
  *

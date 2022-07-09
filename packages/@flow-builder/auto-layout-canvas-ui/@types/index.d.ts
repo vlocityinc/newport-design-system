@@ -22,6 +22,7 @@ interface ConnectorMenuItem {
     rowClass: string;
     elementSubtype: string | null;
     tooltip: string;
+    flowName: string;
 }
 
 interface MenuItem {

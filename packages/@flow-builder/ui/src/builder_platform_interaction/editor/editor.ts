@@ -406,6 +406,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
     standardInvocableActions = [];
     dynamicInvocableActions = [];
+    subflows: UI.Subflow[] = [];
 
     topSelectedGuid = null;
     cutOrCopiedCanvasElements: UI.Elements = {};
@@ -531,7 +532,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     _isMenuDataLoadingIndicator: DataLoadingIndicator = {
         standardActions: true,
         dynamicActions: true,
-        subflows: false,
+        subflows: true,
         elementSubtypes: false
     };
 
@@ -1020,6 +1021,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             let palettePromise;
             let standardActionsPromise;
             let dynamicActionsPromise;
+            let subflowPromise;
 
             if (flowProcessTypeChanged) {
                 const {
@@ -1040,11 +1042,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 this._isMenuDataLoadingIndicator = {
                     ...this._isMenuDataLoadingIndicator,
                     standardActions: true,
-                    dynamicActions: true
+                    dynamicActions: true,
+                    subflows: true
                 };
 
                 standardActionsPromise = loadStandardActionsProcessTypePromise;
                 dynamicActionsPromise = loadDynamicActionsProcessTypePromise;
+                subflowPromise = loadSubflowsPromise;
 
                 this.openSubflowBlockerPromise = loadSubflowsPromise;
 
@@ -1109,6 +1113,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     dynamicActions: false
                 };
                 this.dynamicInvocableActions = getDynamicInvocableActions();
+            });
+
+            subflowPromise?.then(() => {
+                this._isMenuDataLoadingIndicator = {
+                    ...this._isMenuDataLoadingIndicator,
+                    subflows: false
+                };
+                this.subflows = getSubflows();
             });
 
             Promise.all([toolboxPromise, palettePromise]).then(() => {
@@ -2371,6 +2383,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 locationY,
                 actionType,
                 actionName,
+                flowName,
                 parent,
                 designateFocus,
 
@@ -2423,6 +2436,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                         elementSubtype,
                         actionType,
                         actionName,
+                        flowName,
                         actionIsStandard,
                         parent,
                         isNew: true,

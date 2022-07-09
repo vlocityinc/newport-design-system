@@ -2,7 +2,6 @@
 import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { DEFAULT_ACTION_ICON } from 'builder_platform_interaction/invocableActionLib';
 import { configureMenu, GOTO_DELETE_ACTION, GOTO_REROUTE_ACTION, PASTE_ACTION } from '../alcConnectorMenuConfig';
 import { LABELS } from '../alcConnectorMenuLabels';
 
@@ -83,7 +82,8 @@ const metadata = {
             iconVariant: '',
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
-            tooltip: 'Action with Static Resource Icon: Test Action with Static Resource'
+            tooltip: 'Action with Static Resource Icon: Test Action with Static Resource',
+            flowName: ''
         },
         {
             guid: 'random_guid',
@@ -101,7 +101,8 @@ const metadata = {
             iconVariant: '',
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
-            tooltip: 'Action with Slds Icon: Test Action with Slds Icon'
+            tooltip: 'Action with Slds Icon: Test Action with Slds Icon',
+            flowName: ''
         },
         {
             guid: 'random_guid',
@@ -111,15 +112,35 @@ const metadata = {
             actionType: 'chatterPost',
             actionName: 'chatterPost',
             actionIsStandard: true,
-            icon: DEFAULT_ACTION_ICON.icon,
+            icon: 'standard:custom_notification',
             iconSrc: undefined,
             iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
-            iconClass: DEFAULT_ACTION_ICON.iconClass,
+            iconClass: 'background-navy',
             iconSize: 'small',
             iconVariant: '',
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
-            tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.'
+            tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.',
+            flowName: ''
+        },
+        {
+            guid: 'random_guid',
+            description: 'Flow to display the records',
+            label: 'Display Records Flow',
+            elementType: ELEMENT_TYPE.SUBFLOW,
+            actionType: '',
+            actionName: '',
+            actionIsStandard: false,
+            icon: 'standard:flow',
+            iconSrc: undefined,
+            iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+            iconClass: 'background-navy',
+            iconSize: 'small',
+            iconVariant: '',
+            rowClass: 'slds-listbox__item',
+            elementSubtype: null,
+            tooltip: 'Display the records in the flow.',
+            flowName: 'DisplayRecords_Flow'
         }
     ]
 };
@@ -237,6 +258,8 @@ describe('connector menu config', () => {
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[0]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[1]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[2]]));
+        delete metadata.menuItems[0].formattedLabel;
+        delete metadata.menuItems[1].formattedLabel;
     });
 
     it('search results should be highlight partial matches', () => {
@@ -248,6 +271,8 @@ describe('connector menu config', () => {
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[0]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[1]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[2]]));
+        delete metadata.menuItems[0].formattedLabel;
+        delete metadata.menuItems[1].formattedLabel;
     });
 
     it('search results should not show paste elements and go to connectors', () => {
@@ -259,6 +284,17 @@ describe('connector menu config', () => {
             searchResultsMenu.sections[0].items.find((item) => item.elementType === GOTO_REROUTE_ACTION)
         ).not.toBeTruthy();
         expect(searchResultsMenu.sections[0].items.find((item) => item.elementType === PASTE_ACTION)).not.toBeTruthy();
+    });
+
+    it('search results should list the subflows based on search input', () => {
+        const searchResultsMenu = configureMenu('flow', metadata, elementsMetadata, false, 1, false, true);
+        metadata.menuItems[3].formattedLabel = 'Display Records <mark>Flow</mark>';
+        expect(searchResultsMenu.sections[0].items.length).toBe(1);
+        expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[3]]));
+        expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[0]]));
+        expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[1]]));
+        expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[2]]));
+        delete metadata.menuItems[3].formattedLabel;
     });
 });
 

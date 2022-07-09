@@ -559,6 +559,15 @@ declare namespace UI {
         name: string;
     }
 
+    interface Subflow {
+        description: string;
+        isViewable: boolean;
+        masterLabel: string;
+        activeVersionId: string;
+        latestVersionId: string;
+        fullName: string;
+    }
+
     type DebugDataEntry = {
         elementApiName: string;
         elementLabel: string;

@@ -3,7 +3,6 @@ import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponents
 import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { getChildElementTypesWithOverridenProperties } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { DEFAULT_ACTION_ICON } from 'builder_platform_interaction/invocableActionLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { augmentElementsMetadata } from '../alcCanvasContainerUtils';
 
@@ -181,6 +180,16 @@ const dynamicInvocableActions = [
     }
 ];
 
+const subflows = [
+    {
+        isViewable: true,
+        masterLabel: 'Display Records Flow',
+        activeVersionId: 'Display_Records_Flow1',
+        latestVersionId: 'Display_Records_Flow1',
+        fullName: 'Display_Records_Flow'
+    }
+];
+
 const startElement = {
     elementType: 'START_ELEMENT'
 };
@@ -193,7 +202,8 @@ const createComponentForTest = async (optionsOverrides = {}) => {
             autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT,
             numPasteElementsAvailable: 0,
             standardInvocableActions,
-            dynamicInvocableActions
+            dynamicInvocableActions,
+            subflows
         },
         optionsOverrides
     );
@@ -291,15 +301,16 @@ describe('alc canvas container', () => {
                 actionType: 'chatterPost',
                 actionName: 'chatterPost',
                 actionIsStandard: true,
-                icon: DEFAULT_ACTION_ICON.icon,
+                icon: 'standard:custom_notification',
                 iconSrc: undefined,
                 iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
-                iconClass: DEFAULT_ACTION_ICON.iconClass,
+                iconClass: 'background-navy',
                 iconSize: 'small',
                 iconVariant: '',
                 rowClass: 'slds-listbox__item',
                 elementSubtype: null,
-                tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.'
+                tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.',
+                flowName: undefined
             },
             {
                 guid: 'random_guid',
@@ -317,7 +328,8 @@ describe('alc canvas container', () => {
                 iconVariant: '',
                 rowClass: 'slds-listbox__item',
                 elementSubtype: null,
-                tooltip: 'Action with Static Resource Icon: Test Action with Static Resource'
+                tooltip: 'Action with Static Resource Icon: Test Action with Static Resource',
+                flowName: undefined
             },
             {
                 guid: 'random_guid',
@@ -335,7 +347,27 @@ describe('alc canvas container', () => {
                 iconVariant: '',
                 rowClass: 'slds-listbox__item',
                 elementSubtype: null,
-                tooltip: 'Action with Slds Icon: Test Action with Slds Icon'
+                tooltip: 'Action with Slds Icon: Test Action with Slds Icon',
+                flowName: undefined
+            },
+            {
+                guid: 'random_guid',
+                description: undefined,
+                label: 'Display Records Flow',
+                elementType: ELEMENT_TYPE.SUBFLOW,
+                actionType: undefined,
+                actionName: undefined,
+                actionIsStandard: undefined,
+                icon: 'standard:flow',
+                iconSrc: undefined,
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: 'background-navy',
+                iconSize: 'small',
+                iconVariant: '',
+                rowClass: 'slds-listbox__item',
+                elementSubtype: null,
+                tooltip: 'Display Records Flow',
+                flowName: 'Display_Records_Flow'
             }
         ];
         const expectedIsLoading = false;

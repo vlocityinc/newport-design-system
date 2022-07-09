@@ -1422,6 +1422,34 @@ describe('property editor', () => {
                 expect.objectContaining({ autoFocus: false })
             );
         });
+
+        test('when the details in an AddElementEvent include an elementType of Subflow, invokePropertyEditor will be called', async () => {
+            const editorComponent = createComponentUnderTest();
+            const addElementEvent = new AddElementEvent({ elementType: 'Subflow', flowName: 'New Flow' });
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel')
+                .dispatchEvent(addElementEvent);
+
+            await ticks();
+            const nodeJson = {
+                actionIsStandard: undefined,
+                actionName: undefined,
+                actionType: undefined,
+                elementSubtype: undefined,
+                elementType: 'Subflow',
+                flowName: 'New Flow',
+                isNew: true,
+                locationX: undefined,
+                locationY: undefined,
+                parent: undefined,
+                supportsBranching: undefined
+            };
+            expect(invokePropertyEditor).toHaveBeenCalledTimes(1);
+            expect(invokePropertyEditor).toHaveBeenCalledWith(
+                PROPERTY_EDITOR,
+                expect.objectContaining({ autoFocus: true, node: nodeJson })
+            );
+        });
         it('the newResourceCallback does not call invokePropertyEditor when a new resource is passed in', async () => {
             const editorComponent = createComponentUnderTest();
             const addElementEvent = new AddElementEvent('SCREEN');

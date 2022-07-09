@@ -16,6 +16,7 @@ interface AddElementEventDetail {
     alcConnectionSource?: ConnectionSource;
     // used to designate focus to the property editor
     designateFocus?: boolean;
+    flowName?: string;
 }
 export class AddElementEvent extends CustomEvent<AddElementEventDetail> {
     constructor(detail: AddElementEventDetail) {
