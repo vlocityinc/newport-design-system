@@ -15,7 +15,7 @@
                 </lightning-input>
             </div>
         </div>
-        <div slot="body" class="slds-scrollable_y body-fixed-height">
+        <div slot="body" class="slds-scrollable_y body-fixed-height" onscroll={handleScroll}>
             <template for:each={menuConfiguration.sections} for:item="section">
                 <ul
                     aria-label={section.label}
@@ -30,6 +30,7 @@
                         <li
                             key={item.guid}
                             class={item.rowClass}
+                            data-key={item.guid}
                             data-value={item.elementType}
                             data-sub-type={item.elementSubtype}
                             data-action-type={item.actionType}

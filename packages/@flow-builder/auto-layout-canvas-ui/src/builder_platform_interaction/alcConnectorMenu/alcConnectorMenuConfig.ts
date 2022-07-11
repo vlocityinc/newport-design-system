@@ -211,6 +211,7 @@ const memoizedConfigureMenu = memoize(configureElementMenu);
  * @param numPasteElementsAvailable - Number of elements available to paste
  * @param canAddGoto - Is the next element END
  * @param isGoToConnector - Is this a Goto connection
+ * @param [limit] - Number of items to return when searching
  * @returns the connector menu configuration
  */
 export const configureMenu = (
@@ -220,24 +221,24 @@ export const configureMenu = (
     showEndElement: boolean,
     numPasteElementsAvailable: number,
     canAddGoto: boolean,
-    isGoToConnector: boolean
+    isGoToConnector: boolean,
+    limit?: number
 ) => {
+    if (!searchInput) {
+        return memoizedConfigureMenu(
+            metadata,
+            elementsMetadata,
+            showEndElement,
+            numPasteElementsAvailable,
+            canAddGoto,
+            isGoToConnector
+        );
+    }
+
     // We don't want to show Go to connector, paste elements, etc
     // if the user is searching
-    const elementsSection = searchInput
-        ? memoizedConfigureMenu(metadata, elementsMetadata, false, 0, false, false)
-        : memoizedConfigureMenu(
-              metadata,
-              elementsMetadata,
-              showEndElement,
-              numPasteElementsAvailable,
-              canAddGoto,
-              isGoToConnector
-          );
+    const elementsSection = memoizedConfigureMenu(metadata, elementsMetadata, false, 0, false, false);
 
-    if (!searchInput) {
-        return elementsSection;
-    }
     // Flatten the usual configured menu into one Search Results section
     const searchResultsSection = flattenIntoSearchResultsSection(elementsSection);
 
@@ -251,7 +252,7 @@ export const configureMenu = (
 
     // We add highlighted labels to items that match search input, and filter out those that
     // did not match (i.e., do not have a formattedLabel). Can be done with flatMap or reduce.
-    searchResultsSection.items = allItems
+    let filteredItems = allItems
         .map((item) => {
             // Highlight search input in label if it matches search input.
             let matched = false;
@@ -264,6 +265,13 @@ export const configureMenu = (
             return matched ? { ...item, formattedLabel } : item;
         })
         .filter((item) => 'formattedLabel' in item);
+
+    // Apply the limit
+    if (typeof limit !== 'undefined') {
+        filteredItems = filteredItems.slice(0, limit);
+    }
+
+    searchResultsSection.items = filteredItems;
 
     return { sections: [searchResultsSection] };
 };

@@ -3,7 +3,7 @@ import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { ConnectionSource, ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
-import { api } from 'lwc';
+import { api, track } from 'lwc';
 import {
     configureMenu,
     GOTO_ACTION,
@@ -14,7 +14,8 @@ import {
 import { LABELS } from './alcConnectorMenuLabels';
 const { debounce } = commonUtils;
 
-const DELAY_TIME = 250;
+const SEARCH_DELAY = 250;
+export const PAGE_SIZE = 100;
 
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
@@ -22,13 +23,14 @@ const DELAY_TIME = 250;
 export default class AlcConnectorMenu extends AlcMenu {
     static className = 'connector-menu';
 
-    _searchableMenuData = {};
-
     _metadata!: ConnectorMenuMetadata;
 
-    searchInput = '';
+    @track
+    _searchInput = '';
 
-    actionsLoaded = [];
+    /** Number of items to display in search results. */
+    @track
+    _limit: number = PAGE_SIZE;
 
     @api
     source!: ConnectionSource;
@@ -63,13 +65,14 @@ export default class AlcConnectorMenu extends AlcMenu {
 
     get menuConfiguration() {
         return configureMenu(
-            this.searchInput,
+            this._searchInput,
             this._metadata,
             this.elementsMetadata,
             this.canAddEndElement,
             this.numPasteElementsAvailable,
             this.canAddGoto,
-            this.isGoToConnector
+            this.isGoToConnector,
+            this._limit
         );
     }
 
@@ -78,17 +81,18 @@ export default class AlcConnectorMenu extends AlcMenu {
     }
 
     get isSearchInputEmpty() {
-        return !this.searchInput;
+        return !this._searchInput;
     }
 
     shouldShowSpinner() {
-        return (this.searchInput && this._metadata.isLoading) as boolean;
+        return (!this.isSearchInputEmpty && this._metadata.isLoading) as boolean;
     }
 
     debouncedChangeInput = debounce((value) => {
-        this.searchInput = value;
+        this._searchInput = value;
         this.showSpinner = this.shouldShowSpinner();
-    }, DELAY_TIME);
+        this._limit = PAGE_SIZE;
+    }, SEARCH_DELAY);
 
     handleElementSearchInputChange(event) {
         event.stopPropagation();
@@ -101,6 +105,21 @@ export default class AlcConnectorMenu extends AlcMenu {
 
     handleInputKeydown(event) {
         event.stopPropagation();
+    }
+
+    handleScroll(event) {
+        if (this.isSearchInputEmpty) {
+            return;
+        }
+        const listbox = event.target;
+        const height = listbox.getBoundingClientRect().height;
+        const maxScroll = listbox.scrollHeight - height;
+        // Account for variation between browsers when it comes to calculation of margins/padding
+        const buffer = 20;
+        const bottomReached = listbox.scrollTop + buffer >= maxScroll;
+        if (bottomReached) {
+            this._limit += PAGE_SIZE;
+        }
     }
 
     /**
