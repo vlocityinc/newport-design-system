@@ -1,6 +1,6 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { UpdateParameterItemEvent, UpdateWaitEventEventTypeEvent } from 'builder_platform_interaction/events';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
 import {
@@ -229,7 +229,8 @@ export default class WaitTimeEvent extends LightningElement {
             true,
             true,
             false,
-            FEROV_DATA_TYPE.REFERENCE
+            FLOW_DATA_TYPE.STRING.value,
+            true
         );
     }
 
