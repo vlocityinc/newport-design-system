@@ -1,0 +1,129 @@
+{
+    "start": {
+        "locationX": 50,
+        "locationY": 0,
+        "connector": {
+            "targetReference": "getAccounts"
+        },
+        "doesRequireRecordChangedToMeetCriteria": false,
+        "filters": []
+    },
+    "recordLookups": [
+        {
+            "name": "getAccounts",
+            "description": "",
+            "label": "getAccounts",
+            "locationX": 176,
+            "locationY": 158,
+            "connector": {
+                "targetReference": "testsFlowFormula"
+            },
+            "object": "Account",
+            "filters": [],
+            "queriedFields": null,
+            "storeOutputAutomatically": true,
+            "getFirstRecordOnly": false
+        }
+    ],
+    "collectionProcessors": [
+        {
+            "name": "testsFlowFormula",
+            "description": "",
+            "label": "testsFlowFormula",
+            "locationX": 176,
+            "locationY": 278,
+            "elementSubtype": "FilterCollectionProcessor",
+            "collectionReference": "getAccounts",
+            "collectionProcessorType": "FilterCollectionProcessor",
+            "limit": null,
+            "assignNextValueToReference": "currentItem_testsFlowFormula",
+            "conditions": null,
+            "conditionLogic": "formula_evaluates_to_true",
+            "formula": "CONTAINS({!currentItem_testsFlowFormula.BillingAddress}, 'San Francisco')"
+        }
+    ],
+    "variables": [
+        {
+            "name": "currentItem_accss_0",
+            "description": "",
+            "objectType": "Account",
+            "dataType": "SObject",
+            "isCollection": false,
+            "isInput": false,
+            "isOutput": false,
+            "scale": 0
+        },
+        {
+            "name": "outputRecommendations",
+            "description": "",
+            "objectType": "Recommendation",
+            "dataType": "SObject",
+            "isCollection": true,
+            "isInput": false,
+            "isOutput": true,
+            "scale": 0
+        },
+        {
+            "name": "recordId",
+            "description": "",
+            "dataType": "String",
+            "isCollection": false,
+            "isInput": true,
+            "isOutput": false,
+            "scale": 0
+        },
+        {
+            "name": "currentItemFromSourceCollection",
+            "description": "",
+            "dataType": "SObject",
+            "isCollection": false,
+            "isInput": false,
+            "isOutput": false,
+            "scale": 2
+        },
+        {
+            "name": "currentItem_testsFlowFormula",
+            "description": "",
+            "objectType": "Account",
+            "dataType": "SObject",
+            "isCollection": false,
+            "isInput": false,
+            "isOutput": false,
+            "scale": 2
+        }
+    ],
+    "description": "",
+    "interviewLabel": "testUpdateElementState {!$Flow.CurrentDateTime}",
+    "isTemplate": false,
+    "label": "testUpdateElementState",
+    "processMetadataValues": [
+        {
+            "name": "BuilderType",
+            "value": {
+                "stringValue": "LightningFlowBuilder"
+            }
+        },
+        {
+            "name": "OriginBuilderType",
+            "value": {
+                "stringValue": "LightningFlowBuilder"
+            }
+        },
+        {
+            "name": "CanvasMode",
+            "value": {
+                "stringValue": "AUTO_LAYOUT_CANVAS"
+            }
+        }
+    ],
+    "processType": "RecommendationStrategy",
+    "runInMode": null,
+    "status": "Draft",
+    "apiVersion": 56,
+    "isOverridable": false,
+    "overriddenFlow": null,
+    "sourceTemplate": null,
+    "migratedFromWorkflowRuleName": null,
+    "environments": ["Default"],
+    "timeZoneSidKey": null
+}

@@ -12,8 +12,11 @@ import {
     FORMULA_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { fetchPromise, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { getFlowMetadataInJsonString } from 'builder_platform_interaction/translatorLib';
 import { createElement } from 'lwc';
+import * as flowFormulaMetadata from 'mock/flows/flowFormulaMetadata.json';
 import { formulaFunctionsForNoTrigger as mockFormulaFunctions } from 'serverData/GetFormulaFunctions/formulaFunctionsForNoTrigger.json';
 import { formulaFunctionsForRecordBeforeSave as mockFormulaFunctionsRecordBeforeSave } from 'serverData/GetFormulaFunctions/formulaFunctionsForRecordBeforeSave.json';
 import { formulaOperators as mockFormulaOperators } from 'serverData/GetFormulaOperators/formulaOperators.json';
@@ -44,14 +47,6 @@ const createComponentUnderTest = (props) => {
 };
 let mockFormulaValidationResultsPromise;
 
-const flow = {
-    metadata: {
-        fullName: 'testflow',
-        actionCalls: [],
-        assignments: []
-    }
-};
-
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
@@ -70,14 +65,9 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                     return Promise.reject(new Error('Unexpected server action ' + serverActionType));
             }
         },
-        fetchPromise: (serverActionType) => {
-            switch (serverActionType) {
-                case SERVER_ACTION_TYPE.VALIDATE_FORMULA:
-                    return Promise.resolve(mockFormulaValidationResultsPromise);
-                default:
-                    return Promise.reject(new Error('Unexpected server action ' + serverActionType));
-            }
-        }
+        fetchPromise: jest.fn().mockImplementation(() => {
+            return Promise.resolve(mockFormulaValidationResultsPromise);
+        })
     };
 });
 
@@ -616,6 +606,43 @@ describe('Formula builder', () => {
             );
             expect(getErrorMessage(formulaBuilder)).toBeNull();
         });
+        it('should call validation service with validation options for FLOW_ENTRY_CRITERIA formula type', async () => {
+            const formula = 'CONTAINS({!$Record.BillingCity},"San Francisco")';
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType,
+                required: true,
+                recordTriggerType: 'RecordAfterSave',
+                formulaType: FORMULA_TYPE.FLOW_ENTRY_CRITERIA,
+                validationOptions: {
+                    dataType: 'SObject',
+                    objectType: 'Account',
+                    doesRequireRecordChangedToMeetCriteria: false
+                },
+                value: { value: formula, error: null }
+            });
+            const params = {
+                flowProcessType: 'AutoLaunchedFlow',
+                flowTriggerType: undefined,
+                formula: 'CONTAINS({!$Record.BillingCity},"San Francisco")',
+                formulaType: 'flowEntryCriteria',
+                recordTriggerType: 'RecordAfterSave',
+                validationOptions: {
+                    dataType: 'SObject',
+                    doesRequireRecordChangedToMeetCriteria: false,
+                    objectType: 'Account'
+                }
+            };
+
+            validateTextWithMergeFields.mockReturnValue([]);
+            formulaBuilder.addEventListener('formulachanged', eventCallback);
+            const syntaxBtn = getSyntaxValidation(formulaBuilder);
+            syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
+            await ticks(1);
+
+            expectValueChangedEventWithValue(formula, null);
+            expect(fetchPromise.mock.calls[0][0]).toBe(SERVER_ACTION_TYPE.VALIDATE_FORMULA);
+            expect(fetchPromise.mock.calls[0][1]).toMatchObject(params);
+        });
         it('Should display error message from server side when validating an invalid formula for FLOW_ENTRY_CRITERIA', async () => {
             const INVALID_FORMULA_ERROR = 'Invalid formula error';
             const formula = 'invalid formula';
@@ -646,15 +673,16 @@ describe('Formula builder', () => {
             const errorMessage = getErrorMessage(formulaBuilder);
             expect(errorMessage.textContent).toEqual(INVALID_FORMULA_ERROR);
         });
-        it('Should ignore server validation if formulaType is FLOW_FORMULA', async () => {
+        it('Should pass server validation with valid formula for FLOW_FORMULA type', async () => {
             mockFormulaValidationResultsPromise = mockFormulaValidationResults;
-            const formula = 'valid formula';
+            const formula = 'CONTAINS({!$Record.BillingCity},"San Francisco")';
             const formulaBuilder = createComponentUnderTest({
                 flowProcessType,
                 required: true,
                 formulaType: FORMULA_TYPE.FLOW_FORMULA,
                 value: { value: formula, error: null }
             });
+
             validateTextWithMergeFields.mockReturnValue([]);
             formulaBuilder.addEventListener('formulachanged', eventCallback);
             const syntaxBtn = getSyntaxValidation(formulaBuilder);
@@ -662,10 +690,43 @@ describe('Formula builder', () => {
             await ticks(1);
             expectValueChangedEventWithValue(formula, null);
             expect(syntaxBtn.validationResult.isValidSyntax).toBeTruthy();
-            expect(syntaxBtn.validationResult.validationMessage).toBe(
-                mockFormulaValidationResultsPromise.validationMessage
-            );
+            expect(syntaxBtn.validationResult.validationMessage).toBe('');
             expect(getErrorMessage(formulaBuilder)).toBeNull();
+        });
+        it('should validate formula with flow formula options for FLOW_FORMULA type', async () => {
+            getFlowMetadataInJsonString.mockReturnValue(JSON.stringify(flowFormulaMetadata));
+            const formula = 'CONTAINS({!$Record.BillingCity},"San Francisco")';
+            const formulaBuilder = createComponentUnderTest({
+                flowProcessType,
+                required: true,
+                elementName: 'testFlowFormula',
+                formulaType: FORMULA_TYPE.FLOW_FORMULA,
+                value: { value: formula, error: null }
+            });
+
+            const params = {
+                flowProcessType: 'AutoLaunchedFlow',
+                flowTriggerType: undefined,
+                formula: 'CONTAINS({!$Record.BillingCity},"San Francisco")',
+                formulaType: 'flowFormula',
+                recordTriggerType: undefined,
+                validationOptions: {
+                    dataType: 'Boolean',
+                    elementName: 'testFlowFormula',
+                    elementType: 'Formula',
+                    flowMetadata: JSON.stringify(flowFormulaMetadata)
+                }
+            };
+
+            validateTextWithMergeFields.mockReturnValue([]);
+            formulaBuilder.addEventListener('formulachanged', eventCallback);
+            const syntaxBtn = getSyntaxValidation(formulaBuilder);
+            syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
+            await ticks(1);
+
+            expectValueChangedEventWithValue(formula, null);
+            expect(fetchPromise.mock.calls[0][0]).toBe(SERVER_ACTION_TYPE.VALIDATE_FORMULA);
+            expect(fetchPromise.mock.calls[0][1]).toMatchObject(params);
         });
         it('Should check requiredness on text area blur', async () => {
             const formulaBuilder = createComponentUnderTest({
