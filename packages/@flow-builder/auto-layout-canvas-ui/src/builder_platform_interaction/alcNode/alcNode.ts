@@ -188,10 +188,18 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
         return this.nodeInfo.metadata.dynamicNodeComponent && !this.menu ? 'dynamic-node' : '';
     }
 
+    isElementToBeCut() {
+        return isElementCut(this.canvasMode, this.canvasContext.cutInfo?.guids ?? [], this.nodeInfo.guid);
+    }
+
     get rotateIconClass() {
-        return this.nodeInfo.metadata.iconShape === ICON_SHAPE.DIAMOND
-            ? 'rotated-icon-radius slds-icon-standard-decision'
-            : '';
+        if (this.nodeInfo.metadata.iconShape !== ICON_SHAPE.DIAMOND) {
+            return '';
+        }
+
+        return this.isElementToBeCut()
+            ? `rotated-icon-radius slds-icon-standard-decision cut-paste-node`
+            : `rotated-icon-radius slds-icon-standard-decision`;
     }
 
     get svgClass() {
@@ -203,7 +211,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
             [this.nodeInfo.metadata.iconBackgroundColor]: this.nodeInfo.metadata.iconBackgroundColor,
             'slds-icon__container_circle': this.nodeInfo.metadata.iconShape === ICON_SHAPE.CIRCLE,
             'rotate-icon-svg': this.nodeInfo.metadata.iconShape === ICON_SHAPE.DIAMOND,
-            'cut-paste-node': isElementCut(this.canvasMode, this.canvasContext.cutInfo?.guids ?? [], this.nodeInfo.guid)
+            'cut-paste-node': this.isElementToBeCut() && this.nodeInfo.metadata.iconShape !== ICON_SHAPE.DIAMOND
         });
     }
 
@@ -264,11 +272,7 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
             shifted: this.isShifted,
             hidden: isMenuOpened,
             'slds-hide': isMenuOpened,
-            'text-container_with-borders': isElementCut(
-                this.canvasMode,
-                this.canvasContext.cutInfo?.guids ?? [],
-                this.nodeInfo.guid
-            )
+            'text-container_with-borders': this.isElementToBeCut()
         });
     }
 

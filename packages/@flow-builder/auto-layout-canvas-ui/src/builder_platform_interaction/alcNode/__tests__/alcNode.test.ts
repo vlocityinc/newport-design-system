@@ -47,6 +47,20 @@ const createComponentUnderTest = async (overrideOptions) => {
     return createComponent('builder_platform_interaction-alc-node', defaultOptions, overrideOptions);
 };
 
+function createComponentWithCutElements(flowModel, isElementCut: boolean, nodeInfo) {
+    return createComponentUnderTest({
+        flowModel,
+        nodeInfo,
+        canvasContext: {
+            mode: isElementCut ? AutoLayoutCanvasMode.CUT : !AutoLayoutCanvasMode.CUT,
+            cutInfo: {
+                guids: [nodeInfo.guid]
+            },
+            source: { guid: nodeInfo.guid }
+        }
+    });
+}
+
 const selectors = {
     menuTrigger: 'builder_platform_interaction-alc-menu-trigger',
     diamondIconWrapper: '.rotated-icon-radius.slds-icon-standard-decision',
@@ -104,6 +118,18 @@ describe('AlcNode', () => {
             expect(iconWrapper).not.toBeNull();
         });
 
+        it('Should have the diamondIconWrapper when iconShape is diamond without "cut-paste-node" class if isElementCut is false', async () => {
+            const component = await createComponentWithCutElements(flowModel, false, decisionNodeInfo);
+            const iconWrapper = component.shadowRoot.querySelector(selectors.diamondIconWrapper);
+            expect(iconWrapper.classList[2]).toBeUndefined();
+        });
+
+        it('Should have the diamondIconWrapper when iconShape is diamond with "cut-paste-node" class if isElementCut is true', async () => {
+            const component = await createComponentWithCutElements(flowModel, true, decisionNodeInfo);
+            const iconWrapper = component.shadowRoot.querySelector(selectors.diamondIconWrapper);
+            expect(iconWrapper.classList[2]).toEqual('cut-paste-node');
+        });
+
         it('Should have the correct icon classes when iconShape is circle and background color is defined', async () => {
             const alcNodeComponent = await createComponentUnderTest({
                 flowModel,
@@ -131,36 +157,28 @@ describe('AlcNode', () => {
             expect(startIcon.size).toBe('medium');
         });
 
-        it('Should have "cut-paste-node" class if isElementCut is true', async () => {
-            const alcNodeComponent = await createComponentUnderTest({
-                flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasContext: {
-                    mode: AutoLayoutCanvasMode.CUT,
-                    cutInfo: {
-                        guids: [decisionNodeInfo.guid]
-                    },
-                    source: { guid: decisionNodeInfo.guid }
-                }
-            });
-            const cutPasteNode = alcNodeComponent.shadowRoot.querySelector(selectors.cutPasteNode);
-            expect(cutPasteNode).not.toBeNull();
+        it('Should have "cut-paste-node" class if isElementCut is true and element is not a decision', async () => {
+            const component = await createComponentWithCutElements(flowModel, true, startNodeInfo);
+            const lightningIcon = component.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
+            expect(lightningIcon.classList).toContain('cut-paste-node');
         });
 
-        it('Should not have "cut-paste-node" class if isElementCut is false', async () => {
-            const alcNodeComponent = await createComponentUnderTest({
-                flowModel,
-                nodeInfo: decisionNodeInfo,
-                canvasContext: {
-                    mode: !AutoLayoutCanvasMode.CUT,
-                    cutInfo: {
-                        guids: [decisionNodeInfo.guid]
-                    },
-                    source: { guid: '' }
-                }
-            });
-            const cutPasteNode = alcNodeComponent.shadowRoot.querySelector(selectors.cutPasteNode);
-            expect(cutPasteNode).toBeNull();
+        it('Should not have "cut-paste-node" class if isElementCut is false and element is not a decision', async () => {
+            const component = await createComponentWithCutElements(flowModel, false, startNodeInfo);
+            const lightningIcon = component.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
+            expect(lightningIcon.classList).not.toContain('cut-paste-node');
+        });
+
+        it('Should not have "cut-paste-node" class if isElementCut is true and element is a decision', async () => {
+            const component = await createComponentWithCutElements(flowModel, true, decisionNodeInfo);
+            const lightningIcon = component.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
+            expect(lightningIcon.classList).not.toContain('cut-paste-node');
+        });
+
+        it('Should not have "cut-paste-node" class if isElementCut is false and element is a decision', async () => {
+            const component = await createComponentWithCutElements(flowModel, false, decisionNodeInfo);
+            const lightningIcon = component.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
+            expect(lightningIcon.classList).not.toContain('cut-paste-node');
         });
     });
 
