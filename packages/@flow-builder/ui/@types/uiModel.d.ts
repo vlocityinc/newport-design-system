@@ -545,10 +545,7 @@ declare namespace UI {
         testUpdatedRecordData: UI.FlowTestRecordData;
     }
 
-    interface FlowTestRecordData {
-        value: object;
-        error?: string;
-    }
+    type FlowTestRecordData = object;
 
     interface FlowTestAssertion {
         expression: UI.ExpressionFilter;

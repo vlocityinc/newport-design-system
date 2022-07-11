@@ -186,7 +186,7 @@ export function createFlowTestAssertionsUIModel(flowTestMetadata: Metadata.FlowT
 export function createFlowTestRecordsUIModel(
     flowTestMetadata: Metadata.FlowTestMetadata,
     testTriggerType: string
-): object[] {
+): UI.FlowTestRecordData[] {
     const records = [];
     const parameterArr: Metadata.FlowTestParameter[] = getParameters(flowTestMetadata);
     addParametersToUI(parameterArr, FlowTestParameterType.Input, records);
