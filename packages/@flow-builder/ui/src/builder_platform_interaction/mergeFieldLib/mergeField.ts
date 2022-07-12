@@ -186,7 +186,10 @@ function resolveField(
             remainingFields ? [field, ...remainingFields] : undefined
         );
     }
-    const field = getEntityFieldWithApiName(fields, fieldName);
+    let field = getEntityFieldWithApiName(fields, fieldName);
+    if (isTriggeringRelatedRecord && !field) {
+        field = getEntityFieldWithRelationshipName(fields, fieldName);
+    }
     if (!field) {
         return undefined;
     }

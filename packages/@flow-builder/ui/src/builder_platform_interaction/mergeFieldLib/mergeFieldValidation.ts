@@ -378,6 +378,11 @@ export class MergeFieldsValidation {
             return this._validateSObjectMergeField(referenceToName, remainingFieldNames, index, endIndex);
         }
         field = sobjectLib.getEntityFieldWithApiName(fields, fieldName);
+
+        if (this.includeEntityRelatedRecordFields && !field) {
+            field = getEntityFieldWithRelationshipName(fields, fieldName);
+        }
+
         if (!field) {
             return {
                 error: validationErrors.unknownRecordField(entityName, fieldName, index, endIndex)
