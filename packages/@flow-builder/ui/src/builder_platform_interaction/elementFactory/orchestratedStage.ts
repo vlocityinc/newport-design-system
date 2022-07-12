@@ -1,4 +1,4 @@
-import { ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { unbox, ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE, getFlowType } from 'builder_platform_interaction/dataTypeLib';
 import {
     ACTION_TYPE,
@@ -31,6 +31,7 @@ import { createInputParameter, createInputParameterMetadataObject } from './inpu
 import { createOutputParameter } from './outputParameter';
 
 const { format } = commonUtils;
+const FLOW_INTERVIEW_STATUS = 'Flow__InterviewStatus';
 
 export const ASSIGNEE_PROPERTY_NAME = 'assignee';
 export const ASSIGNEE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(ASSIGNEE_PROPERTY_NAME);
@@ -423,9 +424,12 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
     const { actionName, actionType } = getActionNameAndType(step.action);
 
     let outputParameters: ParameterListRowItem[] = [];
+    const blockList: string[] = [FLOW_INTERVIEW_STATUS];
     if (step.outputParameters.length > 0) {
         // Use the already loaded output parameters
-        outputParameters = step.outputParameters;
+        outputParameters = step.outputParameters.filter((parameter) => {
+            return !blockList.includes(unbox(parameter.name, 'value'));
+        });
     } else if (actionName && actionType) {
         // check for asynchronously loaded output parameters for the associated action
         outputParameters = getParametersForInvocableAction({
@@ -434,7 +438,7 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
             dataTypeMappings: []
         })
             .filter((parameter) => {
-                return parameter.isOutput;
+                return parameter.isOutput && !blockList.includes(unbox(parameter.name, 'value'));
             })
             .map((outputParameter) => {
                 return createOutputParameter({
@@ -468,7 +472,6 @@ export function getStageStepChildren(element: UI.Element): UI.StringKeyedMap<any
                             isCollection: output.isCollection
                         })
                 );
-
                 return children;
             }
         };

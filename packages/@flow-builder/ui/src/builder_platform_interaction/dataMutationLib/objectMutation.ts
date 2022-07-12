@@ -146,3 +146,14 @@ export function omit(obj = {}, omitProps: string[] = []) {
             return acc;
         }, {});
 }
+
+/**
+ * unbox and return the string value
+ *
+ * @param obj ValueWithError/string to unbox
+ * @param prop property name
+ * @returns unboxed string value
+ */
+export function unbox(obj: string | ValueWithError, prop: string): string {
+    return typeof obj[prop] === 'string' ? obj[prop] : obj;
+}

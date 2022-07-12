@@ -1098,6 +1098,7 @@ describe('OrchestratedStage', () => {
                 dataType: 'String'
             });
         });
+
         describe('Outputs', () => {
             it('returns existing outputs if already present', () => {
                 step.outputParameters = [
@@ -1133,6 +1134,32 @@ describe('OrchestratedStage', () => {
                 const data = getStageStepChildren(step);
                 expect(Object.keys(data)).toHaveLength(1);
                 expect(data.Status).toBeTruthy();
+            });
+
+            it('not present if in the block list', () => {
+                step.outputParameters = [
+                    {
+                        name: 'Flow__InterviewStatus',
+                        subtype: '',
+                        value: '',
+                        valueDataType: 'Picklist',
+                        isCollection: false
+                    },
+                    {
+                        name: 'foo',
+                        apiName: 'foo',
+                        dataType: 'string',
+                        subtype: 'Account',
+                        valueDataType: 'string',
+                        label: 'foo',
+                        isCollection: true,
+                        isOutput: true
+                    }
+                ];
+                const data = getStageStepChildren(step);
+                expect(step.outputParameters[1]).toMatchObject(
+                    data.Outputs.getChildrenItems()[step.outputParameters[1].apiName]
+                );
             });
 
             it('is present if there are output parameters', () => {
