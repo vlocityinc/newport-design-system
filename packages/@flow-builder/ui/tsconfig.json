@@ -101,6 +101,7 @@
             "builder_platform_interaction/elementLabelLib": ["./src/builder_platform_interaction/elementLabelLib/elementLabelLib.ts"],
             "builder_platform_interaction/entityResourcePicker": ["./src/builder_platform_interaction/entityResourcePicker/entityResourcePicker.ts"],
             "builder_platform_interaction/errorUtils": ["./src/builder_platform_interaction/errorUtils/errorUtils.ts"],
+            "builder_platform_interaction/eventDrivenJourneyEditor": ["./src/builder_platform_interaction/eventDrivenJourneyEditor/eventDrivenJourneyEditor.ts"],
             "builder_platform_interaction/events": ["./src/builder_platform_interaction/events/events.ts"],
             "builder_platform_interaction/expressionUtils": ["./src/builder_platform_interaction/expressionUtils/expressionUtils.ts"],
             "builder_platform_interaction/expressionValidator": ["./src/builder_platform_interaction/expressionValidator/expressionValidator.ts"],

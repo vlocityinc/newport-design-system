@@ -28,7 +28,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
-const { AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
+const { AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE, SCHEDULED, PLATFORM_EVENT, EVENT_DRIVEN_JOURNEY } = FLOW_TRIGGER_TYPE;
 
 describe('alc canvas utils', () => {
     beforeEach(() => {
@@ -44,8 +44,15 @@ describe('alc canvas utils', () => {
     });
 
     describe('startElementDescription', () => {
-        it('returns the trigger type label for record change, scheduled and platform event trigger types', () => {
-            const triggerTypes = [AFTER_SAVE, BEFORE_DELETE, BEFORE_SAVE, SCHEDULED, PLATFORM_EVENT];
+        it('returns the trigger type label for record change, scheduled, platform event and event driven journey trigger types', () => {
+            const triggerTypes = [
+                AFTER_SAVE,
+                BEFORE_DELETE,
+                BEFORE_SAVE,
+                SCHEDULED,
+                PLATFORM_EVENT,
+                EVENT_DRIVEN_JOURNEY
+            ];
             triggerTypes.forEach((triggerType) => {
                 expect(startElementDescription(triggerType)).toEqual(TRIGGER_TYPE_LABELS[triggerType]);
             });

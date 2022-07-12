@@ -6,6 +6,7 @@ import startElementEdit from '@salesforce/label/FlowBuilderCanvasElement.startEl
 import startElementObject from '@salesforce/label/FlowBuilderCanvasElement.startElementObject';
 import startElementOptional from '@salesforce/label/FlowBuilderCanvasElement.startElementOptional';
 import startElementRecordConditions from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordConditions';
+import startElementSetObject from '@salesforce/label/FlowBuilderCanvasElement.startElementSetObject';
 import population from '@salesforce/label/MarketingSegment.Population';
 import segmentName from '@salesforce/label/MarketingSegment.SegmentName';
 import lastPublishDate from '@salesforce/label/udd_MarketSgmtActvStatusEvent.LastPublishDate';
@@ -20,5 +21,6 @@ export const LABELS = {
     startElementChooseSegment,
     segmentName,
     population,
-    lastPublishDate
+    lastPublishDate,
+    startElementSetObject
 };

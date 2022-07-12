@@ -12,9 +12,14 @@ import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/fl
 import { PROCESS_TRIGGER_TYPE_LABELS, TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
-import { isPlatformEvent, isRecordChangeTriggerType, isSegment } from 'builder_platform_interaction/triggerTypeLib';
+import {
+    isEventDrivenJourney,
+    isPlatformEvent,
+    isRecordChangeTriggerType,
+    isSegment
+} from 'builder_platform_interaction/triggerTypeLib';
 
-const { NONE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
+const { NONE, SCHEDULED, PLATFORM_EVENT, EVENT_DRIVEN_JOURNEY } = FLOW_TRIGGER_TYPE;
 
 // TODO: find better solution to share metadata between modules, eg in ElementService
 let elementsMetadata: ElementsMetadata = {};
@@ -140,7 +145,8 @@ export const startElementDescription = (triggerType: UI.FlowTriggerType): string
         isRecordChangeTriggerType(triggerType) ||
         triggerType === SCHEDULED ||
         isPlatformEvent(triggerType) ||
-        isSegment(triggerType)
+        isSegment(triggerType) ||
+        isEventDrivenJourney(triggerType)
     ) {
         return PROCESS_TRIGGER_TYPE_LABELS[processType + triggerType] || TRIGGER_TYPE_LABELS[triggerType];
     }
@@ -161,6 +167,7 @@ export const startElementDescription = (triggerType: UI.FlowTriggerType): string
 export const hasTrigger = (triggerType) => {
     switch (triggerType) {
         case NONE:
+        case EVENT_DRIVEN_JOURNEY:
             return false;
         default:
             return true;

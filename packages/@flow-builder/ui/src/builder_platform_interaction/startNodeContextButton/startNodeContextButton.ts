@@ -2,6 +2,7 @@ import LAST_PUBLISH_DATETIME_FIELD from '@salesforce/schema/MarketSegment.LastPu
 import COUNT_FIELD from '@salesforce/schema/MarketSegment.LastSegmentMemberCount';
 import NAME_FIELD from '@salesforce/schema/MarketSegment.Name';
 import {
+    EDIT_EVENT_JOURNEY_CONTEXT,
     EDIT_SEGMENT_CONTEXT,
     EDIT_START_JOURNEY_CONTEXT,
     EDIT_START_SCHEDULE_CONTEXT
@@ -17,7 +18,7 @@ import { LABELS } from './startNodeContextButtonLabels';
 
 const fields = [NAME_FIELD, LAST_PUBLISH_DATETIME_FIELD, COUNT_FIELD];
 
-const { SCHEDULED, SCHEDULED_JOURNEY, SEGMENT } = FLOW_TRIGGER_TYPE;
+const { SCHEDULED, SCHEDULED_JOURNEY, SEGMENT, EVENT_DRIVEN_JOURNEY } = FLOW_TRIGGER_TYPE;
 
 export default class StartNodeContextButton extends StartNodeButton {
     labels = LABELS;
@@ -30,6 +31,8 @@ export default class StartNodeContextButton extends StartNodeButton {
                 return this.labels.startElementChooseAudience;
             case SEGMENT:
                 return this.labels.startElementChooseSegment;
+            case EVENT_DRIVEN_JOURNEY:
+                return this.labels.startElementSetObject;
             default:
                 return '';
         }
@@ -114,6 +117,8 @@ export default class StartNodeContextButton extends StartNodeButton {
                 return EDIT_START_JOURNEY_CONTEXT;
             case SEGMENT:
                 return EDIT_SEGMENT_CONTEXT;
+            case EVENT_DRIVEN_JOURNEY:
+                return EDIT_EVENT_JOURNEY_CONTEXT;
             default:
                 return undefined;
         }

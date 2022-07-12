@@ -5,6 +5,7 @@ import newCMSOrchestrationDescription from '@salesforce/label/FlowBuilderProcess
 import newCMSOrchestrationLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newCMSOrchestrationLabel';
 import newContactRequestFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription';
 import newEvaluationFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newEvaluationFlowDescription';
+import newEventJourneyLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newEventJourneyLabel';
 import newFieldServiceMobileDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newFieldServiceMobileDescription';
 import newFieldServiceWebDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription';
 import newFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newFlowDescription';
@@ -43,7 +44,8 @@ export const TRIGGER_TYPE_LABELS = {
     [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: newRecordChangedFlowLabel,
     [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowLabel,
     [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: newPlatformEventFlowLabel,
-    [FLOW_TRIGGER_TYPE.SEGMENT]: newSegmentJourneyLabel
+    [FLOW_TRIGGER_TYPE.SEGMENT]: newSegmentJourneyLabel,
+    [FLOW_TRIGGER_TYPE.EVENT_DRIVEN_JOURNEY]: newEventJourneyLabel
 };
 
 export const PROCESS_TRIGGER_TYPE_LABELS = {

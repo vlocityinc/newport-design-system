@@ -387,6 +387,7 @@ export enum FLOW_TRIGGER_TYPE {
     AFTER_SAVE = 'RecordAfterSave',
     PLATFORM_EVENT = 'PlatformEvent',
     SEGMENT = 'Segment',
+    EVENT_DRIVEN_JOURNEY = 'EventDrivenJourney',
     NONE = 'None'
 }
 

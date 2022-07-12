@@ -72,6 +72,16 @@ export const isSegment = (triggerType: UI.FlowTriggerType): boolean => {
 };
 
 /**
+ * Utility method to determine if it's an Event Driven Jouney
+ *
+ * @param triggerType - The trigger type
+ * @returns if the journey is event triggered
+ */
+export const isEventDrivenJourney = (triggerType: UI.FlowTriggerType): boolean => {
+    return triggerType === FLOW_TRIGGER_TYPE.EVENT_DRIVEN_JOURNEY;
+};
+
+/**
  * Whether or not this trigger type supports a triggering record update
  * NOTE: Delete this method in favor of getTriggerHasCriteria if and when we support ScheduledJourneys
  *

@@ -1,0 +1,26 @@
+<template>
+    <div if:true={startElement} class="slds-panel__header slds-text-heading_medium slds-is-relative">
+        <builder_platform_interaction-element-icon
+            if:true={iconName}
+            icon-name={iconName}
+            icon-size="small"
+            icon-shape={iconShape}
+            background-color={iconBackgroundColor}
+            class="slds-is-absolute"
+        >
+        </builder_platform_interaction-element-icon>
+        <div class="slds-m-left_xx-large">
+            <span class="slds-p-bottom_small slds-panel__header-title">{editorHeader}</span>
+        </div>
+    </div>
+    <div class="slds-p-horizontal_x-large slds-p-around_x-large slds-form">
+        <lightning-input
+            label={labels.enterObject}
+            type="text"
+            value={startElement.object.value}
+            required
+            onfocusout={handleFocusOut}
+        >
+        </lightning-input>
+    </div>
+</template>

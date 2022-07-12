@@ -58,6 +58,7 @@ export default class StartNodeTriggerButton extends StartNodeButton {
         if (this.isSegment) {
             return getScheduleTypeLabel(this.node.frequency);
         }
+
         // Scheduled Flow
         return this.node.label;
     }

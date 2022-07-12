@@ -133,6 +133,7 @@ export const EDIT_START_RECORD_CHANGE_CONTEXT = 'editStartRecordChangeContext';
 export const EDIT_START_JOURNEY_CONTEXT = 'editStartJourneyContext';
 export const EDIT_SEGMENT_CONTEXT = 'editSegmentContext';
 export const EDIT_START_SCHEDULED_PATHS = 'editStartScheduledPaths';
+export const EDIT_EVENT_JOURNEY_CONTEXT = 'editEventJourneyContext';
 
 /**
  * @constant
@@ -210,7 +211,8 @@ export const elementTypeToConfigMap: {
             [EDIT_START_SCHEDULE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_START_JOURNEY_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
             [EDIT_SEGMENT_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
-            [EDIT_START_SCHEDULED_PATHS]: 'builder_platform_interaction:scheduledPathsEditor'
+            [EDIT_START_SCHEDULED_PATHS]: 'builder_platform_interaction:scheduledPathsEditor',
+            [EDIT_EVENT_JOURNEY_CONTEXT]: 'builder_platform_interaction:eventDrivenJourneyEditor'
         },
         modalSize: {
             [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM,
@@ -222,7 +224,8 @@ export const elementTypeToConfigMap: {
             [EDIT_START_RECORD_CHANGE_CONTEXT]: MODAL_SIZE.MEDIUM,
             [EDIT_START_SCHEDULE_CONTEXT]: MODAL_SIZE.MEDIUM,
             [EDIT_START_JOURNEY_CONTEXT]: MODAL_SIZE.MEDIUM,
-            [EDIT_START_SCHEDULED_PATHS]: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM
+            [EDIT_START_SCHEDULED_PATHS]: MODAL_SIZE.LARGE_RESTRICT_TO_MEDIUM,
+            [EDIT_EVENT_JOURNEY_CONTEXT]: MODAL_SIZE.MEDIUM
         },
         nodeConfig: {
             iconName: 'utility:right',
@@ -257,7 +260,8 @@ export const elementTypeToConfigMap: {
             editScheduledPath: LABELS.editScheduledPathLabel,
             connectorPickerHeader: LABELS.startConnectorPickerHeader,
             comboBoxLabel: LABELS.startConnectorPickerComboBoxLabel,
-            connectorPickerBodyText: LABELS.startConnectorPickerBodyText
+            connectorPickerBodyText: LABELS.startConnectorPickerBodyText,
+            editEventJourney: LABELS.setJourneyEntityLabel
         },
         propertyEditorPanelSize: PROPERTY_EDITOR_PANEL_SIZE.FULL
     },

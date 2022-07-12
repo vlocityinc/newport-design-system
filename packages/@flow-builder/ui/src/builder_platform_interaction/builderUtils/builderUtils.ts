@@ -4,6 +4,7 @@ import { createComponent, dispatchGlobalEvent } from 'aura';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
+    EDIT_EVENT_JOURNEY_CONTEXT,
     EDIT_START_JOURNEY_CONTEXT,
     EDIT_START_RECORD_CHANGE_CONTEXT,
     EDIT_START_SCHEDULED_PATHS,
@@ -174,6 +175,9 @@ const getTitleForModalHeader = (mode: string, elementMetadata: Object, processTy
             break;
         case EDIT_START_SCHEDULED_PATHS:
             label = elementConfig.labels.editScheduledPath;
+            break;
+        case EDIT_EVENT_JOURNEY_CONTEXT:
+            label = elementConfig.labels.editEventJourney;
             break;
         default:
             label = elementConfig.labels.singular;

@@ -14,6 +14,7 @@ import collectionProcessorPluralLabel from '@salesforce/label/CollectionProcesso
 import sortDescription from '@salesforce/label/CollectionSort.Description';
 import sortSingularLabel from '@salesforce/label/CollectionSort.Label';
 import sortPluralLabel from '@salesforce/label/CollectionSort.LabelPlural';
+import setJourneyEntityLabel from '@salesforce/label/FlowBuilderCanvasElement.startElementSetObject';
 import newElementHeaderPrefix from '@salesforce/label/FlowBuilderCommonPropertyEditor.newElementHeaderPrefix';
 import decisionConnectorPickerBodyText from '@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerBodyText';
 import decisionConnectorPickerComboBoxLabel from '@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerComboBoxLabel';
@@ -433,5 +434,6 @@ export const LABELS = {
     rollbackDescription,
     recordChangeTriggerEditorHeader,
     durationWaitPluralLabel,
-    durationWaitSingularLabel
+    durationWaitSingularLabel,
+    setJourneyEntityLabel
 };

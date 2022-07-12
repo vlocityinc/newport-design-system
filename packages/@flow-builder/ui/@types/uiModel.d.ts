@@ -203,6 +203,7 @@ declare namespace UI {
         | 'RecordBeforeDelete'
         | 'RecordAfterSave'
         | 'PlatformEvent'
+        | 'EventDrivenJourney'
         | 'Segment'
         | 'None';
 
@@ -383,6 +384,7 @@ declare namespace UI {
         editTriggerObjectLabel?: string;
         editObjectAndFiltersLabel?: string;
         editScheduledPath?: string;
+        editEventJourney?: string;
         connectorPickerHeader?: string;
         connectorPickerBodyText?: string;
         comboBoxLabel?: string;

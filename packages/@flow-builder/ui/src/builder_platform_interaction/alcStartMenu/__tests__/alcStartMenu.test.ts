@@ -128,6 +128,28 @@ const recordTriggeredOrchestrationStart = {
     value: 'START_ELEMENT'
 };
 
+const eventJourneyStartData = {
+    childIndex: 0,
+    childReferences: [],
+    config: { isSelected: false, isHighlighted: false, isSelectable: true, hasError: false },
+    connectorCount: 0,
+    description: '',
+    elementType: 'START_ELEMENT',
+    filterLogic: 'and',
+    guid: '6de7bd7c-261e-4df3-a4cc-548e9c7f85ef',
+    isCanvasElement: true,
+    isTerminal: true,
+    locationX: 50,
+    locationY: 50,
+    maxConnections: 1,
+    next: 'ede8b21a-5d71-46b2-a583-156cfc390d3c',
+    object: '',
+    objectIndex: '8b6dc32e-a495-4c5f-95de-e9c861eee7b7',
+    parent: 'root',
+    prev: null,
+    triggerType: 'EventDrivenJourney'
+};
+
 const menuStartData = {
     childIndex: 0,
     childReferences: [],
@@ -286,6 +308,21 @@ const recordTriggeredOrchestrationStartData = {
     prev: null,
     recordTriggerType: 'Create',
     triggerType: 'RecordAfterSave'
+};
+
+const eventJourneyStart = {
+    canHaveFaultConnector: false,
+    description: 'Event—Triggered Journey',
+    elementType: 'START_ELEMENT',
+    hasContext: false,
+    hasTrigger: true,
+    icon: 'utility:right',
+    iconBackgroundColor: 'background-green',
+    iconShape: 'circle',
+    iconSize: 'medium',
+    label: 'Start',
+    type: NodeType.START,
+    value: 'START_ELEMENT'
 };
 
 const createComponentUnderTest = async (props) => {
@@ -982,6 +1019,51 @@ describe('Start Node Menu', () => {
             makeActiveElement(context);
             menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
             expect(callback).toHaveBeenCalled();
+        });
+    });
+
+    describe('Event Journey Start Menu', () => {
+        let menu;
+        beforeEach(async () => {
+            mockSupportsScheduledPaths = false;
+            menu = await createComponentUnderTest({
+                elementMetadata: eventJourneyStart,
+                startData: eventJourneyStartData
+            });
+        });
+
+        it('renders the start contextual menu', () => {
+            expect(menu).toBeDefined();
+        });
+
+        it('should have a label in the header', () => {
+            const header = menu.shadowRoot.querySelector(selectors.header);
+            const label = header.querySelector(selectors.headerLabel);
+            expect(label.textContent).toEqual(eventJourneyStart.label);
+        });
+
+        it('should have a description in the header', () => {
+            const header = menu.shadowRoot.querySelector(selectors.header);
+            const description = header.querySelector(selectors.headerDescription);
+            expect(description.textContent).toEqual(eventJourneyStart.description);
+        });
+
+        it('Should have a trigger button rendered', () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.triggerButton);
+            expect(button).toBeDefined();
+        });
+
+        it('Should not render context button', () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.contextButton);
+            expect(button).toBeNull();
+        });
+
+        it('Should not render scheduled path button', () => {
+            const body = menu.shadowRoot.querySelector(selectors.body);
+            const button = body.querySelector(selectors.scheduledPathButton);
+            expect(button).toBeNull();
         });
     });
 });

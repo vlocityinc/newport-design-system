@@ -19,7 +19,11 @@ import { isOrchestrator, isScheduledPathSupported } from 'builder_platform_inter
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
-import { isRecordChangeTriggerType, isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import {
+    isEventDrivenJourney,
+    isRecordChangeTriggerType,
+    isScheduledTriggerType
+} from 'builder_platform_interaction/triggerTypeLib';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -737,8 +741,9 @@ function getDefaultFilterLogic(triggerType, processType) {
         processType = getProcessType();
     }
     if (
-        (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW || isOrchestrator(processType)) &&
-        isRecordChangeTriggerType(triggerType)
+        (processType === FLOW_PROCESS_TYPE.JOURNEY && isEventDrivenJourney(triggerType)) ||
+        ((processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW || isOrchestrator(processType)) &&
+            isRecordChangeTriggerType(triggerType))
     ) {
         return CONDITION_LOGIC.NO_CONDITIONS;
     }
