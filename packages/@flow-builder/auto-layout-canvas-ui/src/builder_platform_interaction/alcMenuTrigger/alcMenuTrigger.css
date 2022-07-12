@@ -24,7 +24,7 @@ button:enabled.cut-paste-connector {
 }
 
 /* Beware that changing the order of hover and focus can break the current styles  */
-button:hover {
+button:enabled:hover {
     transform: scale(1.05);
 }
 

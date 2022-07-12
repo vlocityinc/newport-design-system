@@ -68,13 +68,37 @@ const getRegularConnectorInfo = () => {
 const defaultFlowModel = {
     parentGuid1: {
         nodeType: NodeType.BRANCH,
-        children: [null, 'targetChild'],
-        childReferences: [{ childReference: 'o1' }],
+        children: [null, 'targetChild', 'nestedDecision'],
+        childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }],
         defaultConnectorLabel: 'Default'
     },
     targetChild: {
         parent: 'parentGuid1',
         childIndex: 1
+    },
+    targetGrandChild: {
+        parent: 'targetChild'
+    },
+    nestedDecision: {
+        parent: 'parentGuid1',
+        childIndex: 2,
+        nodeType: NodeType.BRANCH,
+        children: [null, 'nestedChild'],
+        childReferences: [{ childReference: 'o3' }],
+        defaultConnectorLabel: 'Default'
+    },
+    nestedChild: {
+        parent: 'nestedDecision',
+        childIndex: 1
+    },
+    o1: {
+        label: 'o1'
+    },
+    o2: {
+        label: 'o2'
+    },
+    o3: {
+        label: 'o3'
     }
 };
 
@@ -86,7 +110,7 @@ const getDefaultConnectorInfo = () => {
         addInfo,
         source: {
             guid: 'parentGuid1',
-            childIndex: 1
+            childIndex: 2
         },
         isFault: false,
         labelOffsetY,
@@ -518,7 +542,7 @@ describe('Auto-Layout connector tests', () => {
         expect(goToConnector.classList).not.toContain('highlighted-container');
     });
 
-    it('Should disable a connector if the source element has been cut', async () => {
+    it('Should disable a branch head connector if the parent has been cut', async () => {
         const regularConnector = await createComponentUnderTest({
             connectorInfo: getDefaultConnectorInfo(),
             flowModel: defaultFlowModel,
@@ -545,7 +569,78 @@ describe('Auto-Layout connector tests', () => {
                 mode: AutoLayoutCanvasMode.CUT,
                 cutInfo: {
                     guids: ['parentGuid1'],
+                    childIndexToKeep: 2
+                }
+            }
+        });
+        const button = regularConnector.shadowRoot
+            .querySelector(selectors.alcMenuTrigger)
+            .shadowRoot.querySelector('button');
+        expect(button.hasAttribute('disabled')).toBeFalsy();
+    });
+
+    it('Should disable nested branch connectors', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: {
+                ...getDefaultConnectorInfo(),
+                source: {
+                    guid: 'nestedDecision',
+                    childIndex: 1
+                }
+            },
+            flowModel: defaultFlowModel,
+            canvasContext: {
+                ...defaultCanvasContext,
+                mode: AutoLayoutCanvasMode.CUT,
+                cutInfo: {
+                    guids: ['parentGuid1', 'nestedDecision', 'nestedChild'],
                     childIndexToKeep: 1
+                }
+            }
+        });
+        const button = regularConnector.shadowRoot
+            .querySelector(selectors.alcMenuTrigger)
+            .shadowRoot.querySelector('button');
+        expect(button.hasAttribute('disabled')).toBeTruthy();
+    });
+
+    it('Should disable elements after branch heads being cut', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: {
+                ...getDefaultConnectorInfo(),
+                source: {
+                    guid: 'targetGrandChild'
+                }
+            },
+            flowModel: defaultFlowModel,
+            canvasContext: {
+                ...defaultCanvasContext,
+                mode: AutoLayoutCanvasMode.CUT,
+                cutInfo: {
+                    guids: ['parentGuid1', 'targetChild', 'targetGrandChild']
+                }
+            }
+        });
+        const button = regularConnector.shadowRoot
+            .querySelector(selectors.alcMenuTrigger)
+            .shadowRoot.querySelector('button');
+        expect(button.hasAttribute('disabled')).toBeTruthy();
+    });
+
+    it('Should not disable a connector after the element being cut', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: {
+                ...getDefaultConnectorInfo(),
+                source: {
+                    guid: 'parentGuid1'
+                }
+            },
+            flowModel: defaultFlowModel,
+            canvasContext: {
+                ...defaultCanvasContext,
+                mode: AutoLayoutCanvasMode.CUT,
+                cutInfo: {
+                    guids: ['parentGuid1']
                 }
             }
         });

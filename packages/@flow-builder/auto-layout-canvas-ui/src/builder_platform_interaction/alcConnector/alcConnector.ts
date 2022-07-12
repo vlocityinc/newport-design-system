@@ -281,11 +281,19 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
         } = this.canvasContext;
         const { guid, childIndex } = this.connectorInfo.source;
 
-        // handle case where a branch in a decision is not cut
-        if (guid === guids[0] && childIndex === childIndexToKeep) {
-            return false;
+        // branch heads
+        if (guid === guids[0] && childIndex != null) {
+            // handle case where a branch in a decision is not cut
+            if (childIndex === childIndexToKeep) {
+                return false;
+            }
+            return guids.includes(guid);
+        } else if (guid !== guids[0]) {
+            // elements after branch heads
+            return guids.includes(guid);
         }
-        return guids.includes(guid);
+        // next connector after element being cut
+        return false;
     }
 
     /**
