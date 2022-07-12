@@ -8,6 +8,7 @@ import { invokeModalWithComponents } from 'builder_platform_interaction/sharedUt
 import {
     arraysCompare,
     FlowTestMode,
+    getEditorConfig,
     getPropertyEditorConfig,
     hidePopover,
     invokeCreateEditFlowTestEditor,
@@ -80,7 +81,8 @@ jest.mock('aura', () => {
 });
 
 const EDIT_MODE = 'editelement',
-    ADD_MODE = 'addelement';
+    ADD_MODE = 'addelement',
+    ADD_NEW_RESOURCE_MODE = 'addnewresource';
 
 const getAttributes = (mode) => ({
     mode,
@@ -176,6 +178,11 @@ describe('builderUtils', () => {
                 attr.autoFocus = false;
                 const { panelConfig } = getPropertyEditorConfig(ADD_MODE, attr);
                 expect(panelConfig).toHaveProperty('autoFocus', false);
+            });
+            test('if autoFocus is enabled in the newResourcePanelConfig', () => {
+                const attr = getAttributes(ADD_NEW_RESOURCE_MODE);
+                const newResourcePanelConfig = getEditorConfig(ADD_NEW_RESOURCE_MODE, attr).panelConfig;
+                expect(newResourcePanelConfig).toHaveProperty('autoFocus', true);
             });
         });
     });

@@ -214,17 +214,16 @@ const getNewResourceConfig = (attributes) => {
             }
         }
     };
-
     const panelConfig = {
-        titleForModal,
-        flavor: MODAL_SIZE.MEDIUM,
-        bodyClass: 'slds-p-around_none'
-    };
-
-    newResourceConfig = {
-        attr,
-        panelConfig
-    };
+            titleForModal,
+            flavor: MODAL_SIZE.MEDIUM,
+            bodyClass: 'slds-p-around_none',
+            autoFocus: true
+        },
+        newResourceConfig = {
+            attr,
+            panelConfig
+        };
     return newResourceConfig;
 };
 
@@ -440,7 +439,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
  * @param {object} attributes - contains a callback and actual data
  * @returns {object} - contains the attr for the editor and panel config
  */
-const getEditorConfig = (mode, attributes) => {
+export const getEditorConfig = (mode, attributes) => {
     if (mode === AddConnectionEvent.EVENT_NAME) {
         return getConnectorPickerConfig(mode, attributes);
     }
