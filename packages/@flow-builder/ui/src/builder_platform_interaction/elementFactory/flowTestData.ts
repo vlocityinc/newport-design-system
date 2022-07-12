@@ -197,6 +197,20 @@ export function createFlowTestRecordsUIModel(
 }
 
 /**
+ * Helps get the Scheduled Path value from the flow test parameter
+ *
+ * @param parameterData flow test parameter data
+ */
+export function getFlowTestScheduledPathValueFromFlowTest(parameterData: Metadata.FlowTestParameter[]): string {
+    const parameter = parameterData.find((i) => i.type === FlowTestParameterType.ScheduledPath);
+    if (parameter) {
+        // @ts-ignore
+        return parameter?.value.stringValue;
+    }
+    return '';
+}
+
+/**
  * Helper function to create array of records
  *
  * @param parameterArr parameters array from metadata object

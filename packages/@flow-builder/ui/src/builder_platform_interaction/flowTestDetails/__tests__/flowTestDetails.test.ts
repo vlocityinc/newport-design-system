@@ -4,6 +4,7 @@ import { FlowTestMode } from 'builder_platform_interaction/builderUtils';
 import { FLOW_TRIGGER_SAVE_TYPE, SCHEDULED_PATH_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createElement } from 'lwc';
 import FlowTestDetails from '../flowTestDetails';
+import { LABELS } from '../flowTestDetailsLabels';
 
 const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 const SELECTORS = {
@@ -12,15 +13,19 @@ const SELECTORS = {
     LABEL_NAME: 'builder_platform_interaction-label-description'
 };
 
-function flowTestDetails(testType, saveType, mode) {
+function flowTestDetails(testType, saveType, mode, runPathValue = SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH) {
     const flowTestDetails = {
         triggerSaveType: saveType,
         label: { value: 'test' },
         devName: { value: 'testApi' },
         description: { value: 'testDescription' },
         testTriggerType: testType,
-        runPathValue: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH,
-        mode
+        runPathValue,
+        mode,
+        options: [
+            { value: SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH, label: LABELS.runImmediatelyPath },
+            { value: 'sp2', label: 'sp 2' }
+        ]
     };
     return flowTestDetails;
 }
@@ -70,6 +75,12 @@ describe('flow-test-editor', () => {
         const element = createComponentForTest(data);
         const combobox = element.shadowRoot.querySelector(SELECTORS.RUN_PATH_SECTION);
         expect(combobox.value).toEqual(SCHEDULED_PATH_TYPE.IMMEDIATE_SCHEDULED_PATH);
+    });
+    it('should default run path to selected scheduled Path on edit', () => {
+        const data = flowTestDetails(CREATE, CREATE_AND_UPDATE, FlowTestMode.Edit, 'sp2');
+        const element = createComponentForTest(data);
+        const combobox = element.shadowRoot.querySelector(SELECTORS.RUN_PATH_SECTION);
+        expect(combobox.value).toEqual('sp2');
     });
     it('has name and api name component', async () => {
         const data = flowTestDetails(CREATE, CREATE_AND_UPDATE);
