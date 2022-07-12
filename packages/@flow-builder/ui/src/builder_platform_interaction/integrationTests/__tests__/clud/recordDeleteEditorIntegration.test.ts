@@ -139,7 +139,7 @@ describe('Record Delete Editor', () => {
                         await combobox.typeMergeField('{!accountSObjectCollectionVariable}');
                         expect(combobox.element.hasPill).toBe(true);
                         expect(combobox.element.pill).toEqual({
-                            iconName: 'utility:sobject',
+                            iconName: 'utility:record_alt',
                             label: 'accountSObjectCollectionVariable'
                         });
                     });
@@ -158,7 +158,7 @@ describe('Record Delete Editor', () => {
                         await combobox.selectItemBy('text', ['accountSObjectCollectionVariable']);
                         expect(combobox.element.hasPill).toBe(true);
                         expect(combobox.element.pill).toEqual({
-                            iconName: 'utility:sobject',
+                            iconName: 'utility:record_alt',
                             label: 'accountSObjectCollectionVariable'
                         });
                     });
@@ -335,7 +335,7 @@ describe('Record Delete Editor', () => {
                         );
                         expect(combobox.element.hasPill).toBe(true);
                         expect(combobox.element.pill).toEqual({
-                            iconName: 'utility:sobject',
+                            iconName: 'utility:record_alt',
                             label: 'accountSObjectVariable'
                         });
                     });
@@ -390,16 +390,16 @@ describe('Record Delete Editor', () => {
                             describe('NO errors', () => {
                                 it.each`
                                     resourcePickerMergefieldValue                 | expectedPill
-                                    ${'{!accountSObjectVariable}'}                | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
-                                    ${'{!apexComplexTypeVariable.acct}'}          | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
-                                    ${'{!subflowAutomaticOutput.accountOutput}'}  | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
-                                    ${'{!lookupRecordAutomaticOutput}'}           | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
-                                    ${'{!apexCall_anonymous_account}'}            | ${{ iconName: 'utility:sobject', label: 'Account from apexCall_anonymous_account' }}
-                                    ${'{!loopOnAccountAutoOutput}'}               | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
-                                    ${'{!accountSObjectCollectionVariable}'}      | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
-                                    ${'{!apexComplexTypeVariable.acct}'}          | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
-                                    ${'{!lookupRecordCollectionAutomaticOutput}'} | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
-                                    ${'{!apexCall_anonymous_accounts}'}           | ${{ iconName: 'utility:sobject', label: 'Accounts from apexCall_anonymous_accounts' }}
+                                    ${'{!accountSObjectVariable}'}                | ${{ iconName: 'utility:record_alt', label: 'accountSObjectVariable' }}
+                                    ${'{!apexComplexTypeVariable.acct}'}          | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acct' }}
+                                    ${'{!subflowAutomaticOutput.accountOutput}'}  | ${{ iconName: 'utility:record_alt', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                                    ${'{!lookupRecordAutomaticOutput}'}           | ${{ iconName: 'utility:record_alt', label: 'Account from lookupRecordAutomaticOutput' }}
+                                    ${'{!apexCall_anonymous_account}'}            | ${{ iconName: 'utility:record_alt', label: 'Account from apexCall_anonymous_account' }}
+                                    ${'{!loopOnAccountAutoOutput}'}               | ${{ iconName: 'utility:record_alt', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                                    ${'{!accountSObjectCollectionVariable}'}      | ${{ iconName: 'utility:record_alt', label: 'accountSObjectCollectionVariable' }}
+                                    ${'{!apexComplexTypeVariable.acct}'}          | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acct' }}
+                                    ${'{!lookupRecordCollectionAutomaticOutput}'} | ${{ iconName: 'utility:record_alt', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                                    ${'{!apexCall_anonymous_accounts}'}           | ${{ iconName: 'utility:record_alt', label: 'Accounts from apexCall_anonymous_accounts' }}
                                 `(
                                     'When typing "$resourcePickerMergefieldValue" pill should be: $expectedPill',
                                     async ({ resourcePickerMergefieldValue, expectedPill }) => {
@@ -417,16 +417,16 @@ describe('Record Delete Editor', () => {
                         describe('selecting', () => {
                             it.each`
                                 resourcePickerValue                                      | expectedPill
-                                ${'accountSObjectVariable'}                              | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
-                                ${'apexComplexTypeVariable.acct'}                        | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
-                                ${'Outputs from subflowAutomaticOutput.accountOutput'}   | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
-                                ${'Account from lookupRecordAutomaticOutput'}            | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
-                                ${'Account from apexCall_anonymous_account'}             | ${{ iconName: 'utility:sobject', label: 'Account from apexCall_anonymous_account' }}
-                                ${'Current Item from Loop loopOnAccountAutoOutput'}      | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
-                                ${'accountSObjectCollectionVariable'}                    | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
-                                ${'Accounts from lookupRecordCollectionAutomaticOutput'} | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
-                                ${'Accounts from apexCall_anonymous_accounts'}           | ${{ iconName: 'utility:sobject', label: 'Accounts from apexCall_anonymous_accounts' }}
-                                ${'apexComplexTypeVariable.acctListField'}               | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acctListField' }}
+                                ${'accountSObjectVariable'}                              | ${{ iconName: 'utility:record_alt', label: 'accountSObjectVariable' }}
+                                ${'apexComplexTypeVariable.acct'}                        | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acct' }}
+                                ${'Outputs from subflowAutomaticOutput.accountOutput'}   | ${{ iconName: 'utility:record_alt', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                                ${'Account from lookupRecordAutomaticOutput'}            | ${{ iconName: 'utility:record_alt', label: 'Account from lookupRecordAutomaticOutput' }}
+                                ${'Account from apexCall_anonymous_account'}             | ${{ iconName: 'utility:record_alt', label: 'Account from apexCall_anonymous_account' }}
+                                ${'Current Item from Loop loopOnAccountAutoOutput'}      | ${{ iconName: 'utility:record_alt', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                                ${'accountSObjectCollectionVariable'}                    | ${{ iconName: 'utility:record_alt', label: 'accountSObjectCollectionVariable' }}
+                                ${'Accounts from lookupRecordCollectionAutomaticOutput'} | ${{ iconName: 'utility:record_alt', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                                ${'Accounts from apexCall_anonymous_accounts'}           | ${{ iconName: 'utility:record_alt', label: 'Accounts from apexCall_anonymous_accounts' }}
+                                ${'apexComplexTypeVariable.acctListField'}               | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acctListField' }}
                             `(
                                 'When selecting "$resourcePickerValue" pill should be: $expectedPill',
                                 async ({ resourcePickerValue, expectedPill }) => {

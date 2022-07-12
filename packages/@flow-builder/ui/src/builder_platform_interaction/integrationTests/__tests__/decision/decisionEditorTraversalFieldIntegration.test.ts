@@ -89,7 +89,7 @@ describe('Decision Editor', () => {
                         });
                     describe('apex variables', () => {
                         itCanSelectInLhs(['apexComplexTypeVariable', 'acct'], {
-                            iconName: 'utility:sobject',
+                            iconName: 'utility:record_alt',
                             displayText: '{!apexComplexTypeVariable.acct}'
                         });
                         itCanSelectInLhs(['apexComplexTypeVariable', 'acct', 'Name'], {

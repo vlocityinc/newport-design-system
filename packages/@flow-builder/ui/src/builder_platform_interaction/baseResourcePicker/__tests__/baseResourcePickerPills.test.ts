@@ -43,7 +43,7 @@ describe('pills in base-resource-picker', () => {
         it('displays pill on blur', async () => {
             expect(combobox.element.value).toEqual(mockMenuDataItemAccountVariable);
             expect(combobox.element.pill).toEqual({
-                iconName: 'utility:sobject',
+                iconName: 'utility:record_alt',
                 label: mockMenuDataItemAccountVariable.text
             });
         });

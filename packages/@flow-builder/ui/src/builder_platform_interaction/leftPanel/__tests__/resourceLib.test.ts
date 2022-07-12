@@ -274,8 +274,8 @@ describe('resource-lib', () => {
     describe('getResourceIconName', () => {
         it.each`
             elementName                                   | elementGuid                                   | iconName
-            ${lookupRecordAutomaticOutput.name}           | ${lookupRecordAutomaticOutput.guid}           | ${'utility:sobject'}
-            ${lookupRecordCollectionAutomaticOutput.name} | ${lookupRecordCollectionAutomaticOutput.guid} | ${'utility:sobject'}
+            ${lookupRecordAutomaticOutput.name}           | ${lookupRecordAutomaticOutput.guid}           | ${'utility:record_alt'}
+            ${lookupRecordCollectionAutomaticOutput.name} | ${lookupRecordCollectionAutomaticOutput.guid} | ${'utility:record_alt'}
             ${apexSampleVariable.name}                    | ${apexSampleVariable.guid}                    | ${'utility:apex'}
             ${createAccountWithAutomaticOutput.name}      | ${createAccountWithAutomaticOutput.guid}      | ${'utility:text'}
         `('icon for "$elementName" (guid: "$elementGuid") should be "$iconName"', ({ elementGuid, iconName }) => {

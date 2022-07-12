@@ -90,7 +90,7 @@ const FLOW_DATA_TYPE = {
         label: DATA_TYPE_LABELS.sObjectDataTypeLabel,
         value: 'SObject',
         iconName: 'standard:sobject',
-        utilityIconName: 'utility:sobject',
+        utilityIconName: 'utility:record_alt',
         supportedForVariables: true
     },
     NUMBER: {

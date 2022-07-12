@@ -51,7 +51,7 @@ export const systemAndGlobalVariables: SystemAndGlobalVariables[] = [
         hasLabelSubtypeParam: true,
         description: LABELS.globalRecordDescription,
         hasDescriptionSubtypeParam: true,
-        iconName: 'utility:sobject',
+        iconName: 'utility:record_alt',
         iconSize: 'x-small'
     },
 
@@ -61,7 +61,7 @@ export const systemAndGlobalVariables: SystemAndGlobalVariables[] = [
         hasLabelSubtypeParam: true,
         description: LABELS.globalRecordPriorValueDescription,
         hasDescriptionSubtypeParam: true,
-        iconName: 'utility:sobject',
+        iconName: 'utility:record_alt',
         iconSize: 'x-small'
     },
     {

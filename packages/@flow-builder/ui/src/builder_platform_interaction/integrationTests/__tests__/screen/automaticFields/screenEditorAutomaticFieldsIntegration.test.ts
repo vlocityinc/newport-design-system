@@ -65,7 +65,7 @@ describe('ScreenEditor automatic fields', () => {
             expect(comboboxElement.errorMessage).toBeNull();
             expect(comboboxElement.hasPill).toBe(true);
             expect(comboboxElement.pill).toEqual({
-                iconName: 'utility:sobject',
+                iconName: 'utility:record_alt',
                 label: variableName
             });
         };

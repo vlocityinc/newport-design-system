@@ -67,14 +67,12 @@ const getCanvasElementIconInfo = (resource: UI.FlowResource): FieldInput.MenuIte
  * Gets the icon information for a non canvas element field input item
  *
  * @param dataType dataType associated with the resource
- * @param isCollection boolean value determining if the resource is a collection or not
  * @param elementType elementType associated with a given flow resource
  * @param actionType actionType associated with a given flow resource
  * @returns icon information such as name, size etc.
  */
 export const getNonCanvasElementIconInfo = (
     dataType: UI.Datatype,
-    isCollection?: boolean,
     elementType?: UI.ElementType,
     actionType?: UI.ActionType
 ): FieldInput.MenuItemIconInfo => {
@@ -86,10 +84,6 @@ export const getNonCanvasElementIconInfo = (
 
     if (dataType === FLOW_DATA_TYPE.BOOLEAN.value) {
         iconName = 'utility:toggle';
-    } else if (dataType === SOBJECT_TYPE && isCollection) {
-        // TODO: Remove the isCollection check once the utility:record icon is ready.
-        // Both record and record collection variables should have the same icon then.
-        iconName = 'utility:sobject_collection';
     } else if (elementType === ELEMENT_TYPE.TEXT_TEMPLATE || elementType === ELEMENT_TYPE.STAGE) {
         const config = getConfigForElementType(elementType);
         iconName = config.nodeConfig?.utilityIconName;
@@ -126,7 +120,7 @@ const getGlobalRecordMenuItem = (
     resource: UI.FlowResource,
     dataType: UI.Datatype
 ): FieldInput.MenuItem<FieldInput.MenuItemViewObjectFields> => {
-    const iconInfo = getNonCanvasElementIconInfo(dataType, resource.isCollection, resource.elementType);
+    const iconInfo = getNonCanvasElementIconInfo(dataType, resource.elementType);
 
     return {
         name: SYSTEM_VARIABLE_RECORD_PREFIX,
@@ -166,7 +160,7 @@ const getResourceMenuItem = (resource: UI.FlowResource, dataType: UI.Datatype): 
     const category = getResourceCategory({ dataType, ...resource }) || resource.category;
     const iconInfo = resource.isCanvasElement
         ? getCanvasElementIconInfo(resource)
-        : getNonCanvasElementIconInfo(dataType, resource.isCollection, resource.elementType, resource.actionType);
+        : getNonCanvasElementIconInfo(dataType, resource.elementType, resource.actionType);
 
     const viewType = getViewTypeForCategory(category);
 
@@ -222,7 +216,7 @@ export function mutateFlowResourceToComboboxShape<T extends FieldInput.MenuItemV
 export const mutateEntitiesToComboboxShape = (entities: UI.EntityDefinition[]): FieldInput.MenuItem[] => {
     return entities.map((entity) => {
         const { entityLabel, apiName, isCollection } = entity;
-        const iconInfo = getNonCanvasElementIconInfo(SOBJECT_TYPE, isCollection);
+        const iconInfo = getNonCanvasElementIconInfo(SOBJECT_TYPE);
 
         return {
             view: viewTBD,
@@ -247,7 +241,7 @@ const mutateApexClassesToComboboxShape = (classes: UI.EntityDefinition[]): Field
     return classes.map((apexClass) => {
         const durableId = apexClass.durableId!;
         const { isCollection } = apexClass;
-        const iconInfo = getNonCanvasElementIconInfo(APEX_TYPE, isCollection);
+        const iconInfo = getNonCanvasElementIconInfo(APEX_TYPE);
 
         return {
             label: durableId,

@@ -32,14 +32,14 @@ export const MOCK_RESOURCE_PALETTE_ITEM = {
             elementType: 'Variable',
             guid: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
             label: 'accountSObjectVariable',
-            iconName: 'utility:sobject',
+            iconName: 'utility:record_alt',
             description: 'accountSObjectVariable'
         },
         {
             elementType: 'Variable',
             guid: 'a3fda889-4f3a-48cd-ba79-be4fbca04da2',
             label: 'accountSObjectVariableNumber2',
-            iconName: 'utility:sobject',
+            iconName: 'utility:record_alt',
             description: 'accountSObjectVariableNumber2'
         }
     ]

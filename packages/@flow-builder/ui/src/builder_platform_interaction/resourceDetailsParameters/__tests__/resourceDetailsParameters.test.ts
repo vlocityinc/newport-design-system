@@ -151,8 +151,8 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_LOCAL_ACTION_IN_AUTO_MODE = [
 ];
 
 const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_SUBFLOW_IN_AUTO_MODE = [
-    { apiName: 'accountOutput', label: 'accountOutput', typeIconName: 'utility:sobject' },
-    { apiName: 'accountOutputCollection', label: 'accountOutputCollection', typeIconName: 'utility:sobject' },
+    { apiName: 'accountOutput', label: 'accountOutput', typeIconName: 'utility:record_alt' },
+    { apiName: 'accountOutputCollection', label: 'accountOutputCollection', typeIconName: 'utility:record_alt' },
     { apiName: 'carOutput', label: 'carOutput', typeIconName: 'utility:apex' },
     {
         apiName: 'carOutputCollection',

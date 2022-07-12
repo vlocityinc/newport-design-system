@@ -275,7 +275,7 @@ describe('fieldInputMenuDataGenerator', () => {
             expect(mutateFlowResourceToComboboxShape(accountSObjectCollectionVariable)).toMatchObject({
                 category: 'RecordCollection',
                 iconAlternativeText: FLOW_DATA_TYPE.SOBJECT.value,
-                iconName: 'utility:sobject_collection',
+                iconName: 'utility:record_alt',
                 iconSize: 'x-small',
                 label: accountSObjectCollectionVariable.name,
                 name: accountSObjectCollectionVariable.name,
@@ -359,7 +359,7 @@ describe('fieldInputMenuDataGenerator', () => {
                     value: 'name1',
                     dataType: FLOW_DATA_TYPE.SOBJECT.value,
                     iconAlternativeText: FLOW_DATA_TYPE.SOBJECT.value,
-                    iconName: 'utility:sobject_collection',
+                    iconName: 'utility:record_alt',
                     iconSize: 'x-small',
                     label: 'label1',
                     name: 'name1',

@@ -162,7 +162,7 @@ describe('Record Create Editor', () => {
                 const combobox = recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
                 await combobox.typeMergeField('{!accountVariable}');
                 expect(combobox.element.hasPill).toBe(true);
-                expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'accountVariable' });
+                expect(combobox.element.pill).toEqual({ iconName: 'utility:record_alt', label: 'accountVariable' });
             });
         });
         describe('Existing element', () => {
@@ -190,7 +190,7 @@ describe('Record Create Editor', () => {
                         recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
-                        iconName: 'utility:sobject',
+                        iconName: 'utility:record_alt',
                         label: 'accountVariable'
                     });
                 });
@@ -222,7 +222,7 @@ describe('Record Create Editor', () => {
                         await combobox.typeMergeField('{!accountVariable}');
                         expect(combobox.element.hasPill).toBe(true);
                         expect(combobox.element.pill).toEqual({
-                            iconName: 'utility:sobject',
+                            iconName: 'utility:record_alt',
                             label: 'accountVariable'
                         });
                     });
@@ -239,7 +239,7 @@ describe('Record Create Editor', () => {
                         await combobox.selectItemBy('text', ['accountVariable']);
                         expect(combobox.element.hasPill).toBe(true);
                         expect(combobox.element.pill).toEqual({
-                            iconName: 'utility:sobject',
+                            iconName: 'utility:record_alt',
                             label: 'accountVariable'
                         });
                     });
@@ -269,7 +269,7 @@ describe('Record Create Editor', () => {
                         recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                     expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
-                        iconName: 'utility:sobject',
+                        iconName: 'utility:record_alt',
                         label: 'accounts'
                     });
                 });
@@ -300,7 +300,7 @@ describe('Record Create Editor', () => {
                         await combobox.removePill();
                         await combobox.typeMergeField('{!accounts}');
                         expect(combobox.element.hasPill).toBe(true);
-                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'accounts' });
+                        expect(combobox.element.pill).toEqual({ iconName: 'utility:record_alt', label: 'accounts' });
                     });
                     it('typing and blur with "sobjectOrSobjectCollectionPicker" literal value display no pill but error message (once pill has been cleared))', async () => {
                         const combobox = recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
@@ -314,7 +314,7 @@ describe('Record Create Editor', () => {
                         await combobox.removePill();
                         await combobox.selectItemBy('text', ['accounts']);
                         expect(combobox.element.hasPill).toBe(true);
-                        expect(combobox.element.pill).toEqual({ iconName: 'utility:sobject', label: 'accounts' });
+                        expect(combobox.element.pill).toEqual({ iconName: 'utility:record_alt', label: 'accounts' });
                     });
                 });
             });
@@ -632,7 +632,7 @@ describe('Record Create Editor', () => {
                             recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
                         expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                         expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
-                            iconName: 'utility:sobject',
+                            iconName: 'utility:record_alt',
                             label: 'accountSObjectVariable'
                         });
                     });
@@ -672,12 +672,12 @@ describe('Record Create Editor', () => {
                         describe('NO errors', () => {
                             it.each`
                                 resourcePickerMergefieldValue                | expectedPill
-                                ${'{!accountSObjectVariable}'}               | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
-                                ${'{!apexComplexTypeVariable.acct}'}         | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
-                                ${'{!subflowAutomaticOutput.accountOutput}'} | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
-                                ${'{!lookupRecordAutomaticOutput}'}          | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
-                                ${'{!apexCall_anonymous_account}'}           | ${{ iconName: 'utility:sobject', label: 'Account from apexCall_anonymous_account' }}
-                                ${'{!loopOnAccountAutoOutput}'}              | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                                ${'{!accountSObjectVariable}'}               | ${{ iconName: 'utility:record_alt', label: 'accountSObjectVariable' }}
+                                ${'{!apexComplexTypeVariable.acct}'}         | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acct' }}
+                                ${'{!subflowAutomaticOutput.accountOutput}'} | ${{ iconName: 'utility:record_alt', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                                ${'{!lookupRecordAutomaticOutput}'}          | ${{ iconName: 'utility:record_alt', label: 'Account from lookupRecordAutomaticOutput' }}
+                                ${'{!apexCall_anonymous_account}'}           | ${{ iconName: 'utility:record_alt', label: 'Account from apexCall_anonymous_account' }}
+                                ${'{!loopOnAccountAutoOutput}'}              | ${{ iconName: 'utility:record_alt', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
                             `(
                                 'When typing "$resourcePickerMergefieldValue" pill should be: $expectedPill',
                                 async ({ resourcePickerMergefieldValue, expectedPill }) => {
@@ -694,12 +694,12 @@ describe('Record Create Editor', () => {
                     describe('selecting', () => {
                         it.each`
                             resourcePickerValue                                    | expectedPill
-                            ${'accountSObjectVariable'}                            | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
-                            ${'apexComplexTypeVariable.acct'}                      | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
-                            ${'Outputs from subflowAutomaticOutput.accountOutput'} | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
-                            ${'Account from lookupRecordAutomaticOutput'}          | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
-                            ${'Account from apexCall_anonymous_account'}           | ${{ iconName: 'utility:sobject', label: 'Account from apexCall_anonymous_account' }}
-                            ${'Current Item from Loop loopOnAccountAutoOutput'}    | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                            ${'accountSObjectVariable'}                            | ${{ iconName: 'utility:record_alt', label: 'accountSObjectVariable' }}
+                            ${'apexComplexTypeVariable.acct'}                      | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acct' }}
+                            ${'Outputs from subflowAutomaticOutput.accountOutput'} | ${{ iconName: 'utility:record_alt', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                            ${'Account from lookupRecordAutomaticOutput'}          | ${{ iconName: 'utility:record_alt', label: 'Account from lookupRecordAutomaticOutput' }}
+                            ${'Account from apexCall_anonymous_account'}           | ${{ iconName: 'utility:record_alt', label: 'Account from apexCall_anonymous_account' }}
+                            ${'Current Item from Loop loopOnAccountAutoOutput'}    | ${{ iconName: 'utility:record_alt', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
                         `(
                             'When selecting "$resourcePickerValue" pill should be: $expectedPill',
                             async ({ resourcePickerValue, expectedPill }) => {
@@ -746,7 +746,7 @@ describe('Record Create Editor', () => {
                             recordCreateElement.getSObjectOrSObjectCollectionPickerCombobox()!;
                         expect(sObjectOrSObjectCollectionPickerCombobox.element.hasPill).toBe(true);
                         expect(sObjectOrSObjectCollectionPickerCombobox.element.pill).toEqual({
-                            iconName: 'utility:sobject',
+                            iconName: 'utility:record_alt',
                             label: 'accountSObjectCollectionVariable'
                         });
                     });
@@ -786,10 +786,10 @@ describe('Record Create Editor', () => {
                         describe('NO errors', () => {
                             it.each`
                                 resourcePickerMergefieldValue                 | expectedPill
-                                ${'{!accountSObjectCollectionVariable}'}      | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
-                                ${'{!apexComplexTypeVariable.acctListField}'} | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acctListField' }}
-                                ${'{!lookupRecordCollectionAutomaticOutput}'} | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
-                                ${'{!apexCall_anonymous_accounts}'}           | ${{ iconName: 'utility:sobject', label: 'Accounts from apexCall_anonymous_accounts' }}
+                                ${'{!accountSObjectCollectionVariable}'}      | ${{ iconName: 'utility:record_alt', label: 'accountSObjectCollectionVariable' }}
+                                ${'{!apexComplexTypeVariable.acctListField}'} | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acctListField' }}
+                                ${'{!lookupRecordCollectionAutomaticOutput}'} | ${{ iconName: 'utility:record_alt', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                                ${'{!apexCall_anonymous_accounts}'}           | ${{ iconName: 'utility:record_alt', label: 'Accounts from apexCall_anonymous_accounts' }}
                             `(
                                 'When typing "$resourcePickerMergefieldValue" pill should be: $expectedPill',
                                 async ({ resourcePickerMergefieldValue, expectedPill }) => {
@@ -805,10 +805,10 @@ describe('Record Create Editor', () => {
                     describe('selecting', () => {
                         it.each`
                             resourcePickerValue                                      | expectedPill
-                            ${'accountSObjectCollectionVariable'}                    | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
-                            ${'apexComplexTypeVariable.acctListField'}               | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acctListField' }}
-                            ${'Accounts from lookupRecordCollectionAutomaticOutput'} | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
-                            ${'Accounts from apexCall_anonymous_accounts'}           | ${{ iconName: 'utility:sobject', label: 'Accounts from apexCall_anonymous_accounts' }}
+                            ${'accountSObjectCollectionVariable'}                    | ${{ iconName: 'utility:record_alt', label: 'accountSObjectCollectionVariable' }}
+                            ${'apexComplexTypeVariable.acctListField'}               | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acctListField' }}
+                            ${'Accounts from lookupRecordCollectionAutomaticOutput'} | ${{ iconName: 'utility:record_alt', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                            ${'Accounts from apexCall_anonymous_accounts'}           | ${{ iconName: 'utility:record_alt', label: 'Accounts from apexCall_anonymous_accounts' }}
                         `(
                             'When selecting "$resourcePickerValue" pill should be: $expectedPill',
                             async ({ resourcePickerValue, expectedPill }) => {

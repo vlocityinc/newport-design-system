@@ -275,7 +275,7 @@ describe('Record Lookup Editor', () => {
                     it('displays a pill with the selected value', async () => {
                         expect(combobox.element.hasPill).toBe(true);
                         expect(combobox.element.pill).toEqual({
-                            iconName: 'utility:sobject',
+                            iconName: 'utility:record_alt',
                             label: 'accountSObjectVariable'
                         });
                     });
@@ -318,11 +318,11 @@ describe('Record Lookup Editor', () => {
                                 describe('NO errors', () => {
                                     it.each`
                                         sobjectPickerMergefieldValue                 | expectedPill
-                                        ${'{!accountSObjectVariable}'}               | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
-                                        ${'{!subflowAutomaticOutput.accountOutput}'} | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
-                                        ${'{!lookupRecordAutomaticOutput}'}          | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
-                                        ${'{!loopOnAccountAutoOutput}'}              | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
-                                        ${'{!apexComplexTypeVariable.acct}'}         | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
+                                        ${'{!accountSObjectVariable}'}               | ${{ iconName: 'utility:record_alt', label: 'accountSObjectVariable' }}
+                                        ${'{!subflowAutomaticOutput.accountOutput}'} | ${{ iconName: 'utility:record_alt', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                                        ${'{!lookupRecordAutomaticOutput}'}          | ${{ iconName: 'utility:record_alt', label: 'Account from lookupRecordAutomaticOutput' }}
+                                        ${'{!loopOnAccountAutoOutput}'}              | ${{ iconName: 'utility:record_alt', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                                        ${'{!apexComplexTypeVariable.acct}'}         | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acct' }}
                                     `(
                                         'When typing "$sobjectPickerMergefieldValue" pill should be: $expectedPill',
                                         async ({ sobjectPickerMergefieldValue, expectedPill }) => {
@@ -337,11 +337,11 @@ describe('Record Lookup Editor', () => {
                             describe('selecting', () => {
                                 it.each`
                                     sobjectPickerValue                                     | expectedPill
-                                    ${'accountSObjectVariable'}                            | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
-                                    ${'apexComplexTypeVariable.acct'}                      | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
-                                    ${'Outputs from subflowAutomaticOutput.accountOutput'} | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
-                                    ${'Account from lookupRecordAutomaticOutput'}          | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
-                                    ${'Current Item from Loop loopOnAccountAutoOutput'}    | ${{ iconName: 'utility:sobject', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
+                                    ${'accountSObjectVariable'}                            | ${{ iconName: 'utility:record_alt', label: 'accountSObjectVariable' }}
+                                    ${'apexComplexTypeVariable.acct'}                      | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acct' }}
+                                    ${'Outputs from subflowAutomaticOutput.accountOutput'} | ${{ iconName: 'utility:record_alt', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                                    ${'Account from lookupRecordAutomaticOutput'}          | ${{ iconName: 'utility:record_alt', label: 'Account from lookupRecordAutomaticOutput' }}
+                                    ${'Current Item from Loop loopOnAccountAutoOutput'}    | ${{ iconName: 'utility:record_alt', label: 'Current Item from Loop loopOnAccountAutoOutput' }}
                                 `(
                                     'When selecting "$sobjectPickerValue" pill should be: $expectedPill',
                                     async ({ sobjectPickerValue, expectedPill }) => {
@@ -503,10 +503,10 @@ describe('Record Lookup Editor', () => {
                             describe('NO errors', () => {
                                 it.each`
                                     sobjectPickerMergefieldValue                           | expectedPill
-                                    ${'{!accountSObjectCollectionVariable}'}               | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
-                                    ${'{!subflowAutomaticOutput.accountOutputCollection}'} | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutputCollection' }}
-                                    ${'{!apexComplexTypeVariable.acctListField}'}          | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acctListField' }}
-                                    ${'{!lookupRecordCollectionAutomaticOutput}'}          | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                                    ${'{!accountSObjectCollectionVariable}'}               | ${{ iconName: 'utility:record_alt', label: 'accountSObjectCollectionVariable' }}
+                                    ${'{!subflowAutomaticOutput.accountOutputCollection}'} | ${{ iconName: 'utility:record_alt', label: 'Outputs from subflowAutomaticOutput > accountOutputCollection' }}
+                                    ${'{!apexComplexTypeVariable.acctListField}'}          | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acctListField' }}
+                                    ${'{!lookupRecordCollectionAutomaticOutput}'}          | ${{ iconName: 'utility:record_alt', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
                                 `(
                                     'When typing "$sobjectPickerMergefieldValue" pill should be: $expectedPill',
                                     async ({ sobjectPickerMergefieldValue, expectedPill }) => {
@@ -520,9 +520,9 @@ describe('Record Lookup Editor', () => {
                         describe('selecting', () => {
                             it.each`
                                 sobjectPickerValue                                       | expectedPill
-                                ${'accountSObjectCollectionVariable'}                    | ${{ iconName: 'utility:sobject', label: 'accountSObjectCollectionVariable' }}
-                                ${'Accounts from lookupRecordCollectionAutomaticOutput'} | ${{ iconName: 'utility:sobject', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
-                                ${'apexComplexTypeVariable.acctListField'}               | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acctListField' }}
+                                ${'accountSObjectCollectionVariable'}                    | ${{ iconName: 'utility:record_alt', label: 'accountSObjectCollectionVariable' }}
+                                ${'Accounts from lookupRecordCollectionAutomaticOutput'} | ${{ iconName: 'utility:record_alt', label: 'Accounts from lookupRecordCollectionAutomaticOutput' }}
+                                ${'apexComplexTypeVariable.acctListField'}               | ${{ iconName: 'utility:record_alt', label: 'apexComplexTypeVariable > acctListField' }}
                             `(
                                 'When selecting "$sobjectPickerValue" pill should be: $expectedPill',
                                 async ({ sobjectPickerValue, expectedPill }) => {
