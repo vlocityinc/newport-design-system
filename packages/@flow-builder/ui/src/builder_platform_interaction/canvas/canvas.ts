@@ -71,9 +71,6 @@ export default class Canvas extends withKeyboardInteractions(LightningElement) {
     @api
     canvasConfig: CanvasConfig = defaultCanvasConfig;
 
-    @api
-    showLeftPanel;
-
     @track
     isMarqueeModeOn = false;
 
@@ -575,6 +572,11 @@ export default class Canvas extends withKeyboardInteractions(LightningElement) {
             // Enabling marquee mode
             this.isMarqueeModeOn = true;
             this._updateCursorStyling(CURSOR_STYLE_CROSSHAIR);
+            // Calculate offset to account for left panel possibly not being loaded initially
+            this.canvasAreaOffsets = [
+                this.canvasArea.getBoundingClientRect().left,
+                this.canvasArea.getBoundingClientRect().top
+            ];
         } else if (action === MARQUEE_ACTION.MARQUEE_OFF) {
             // Disabling marquee mode
             this.isMarqueeModeOn = false;

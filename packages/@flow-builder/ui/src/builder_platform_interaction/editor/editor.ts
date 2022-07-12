@@ -556,8 +556,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     get panelClasses() {
         return classSet({
             'left-panel-floating': this.properties.isAutoLayoutCanvas,
-            'left-panel-show': this.showLeftPanel,
-            'left-panel-hide': !this.showLeftPanel
+            'left-panel-show': this.showLeftPanel && this.properties.isAutoLayoutCanvas,
+            'left-panel-hide': !this.showLeftPanel && this.properties.isAutoLayoutCanvas
         });
     }
 

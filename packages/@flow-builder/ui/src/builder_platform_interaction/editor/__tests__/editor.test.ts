@@ -920,6 +920,12 @@ describe('Left panel', () => {
         leftPanel = editorComponent.shadowRoot.querySelector(selectors.LEFT_PANEL);
     });
 
+    describe('in free-form mode', () => {
+        it('is present by default', async () => {
+            expect(leftPanel).not.toBeNull();
+        });
+    });
+
     it('receives correct toolbox elements', () => {
         const expectedToolboxElements = mockSupportedElementsForAutoLaunchedFlow.filter((e) => {
             return e.classification === 'Node';
@@ -927,13 +933,6 @@ describe('Left panel', () => {
         expect(leftPanel.elements).toHaveLength(expectedToolboxElements.length);
         expectedToolboxElements.forEach((expectedElement) => {
             expect(leftPanel.elements).toContainEqual(expectedElement);
-        });
-    });
-
-    describe('in free-form mode', () => {
-        it('is present by default', async () => {
-            expect(leftPanel.classList).toContain('left-panel-show');
-            expect(leftPanel.classList).not.toContain('left-panel-hide');
         });
     });
 });
