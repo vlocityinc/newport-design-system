@@ -89,16 +89,6 @@
                 ondeleterecordfilter={handlePropertyOrListItemChanged}
                 onpropertychanged={handlePropertyOrListItemChanged}
             >
-                <div slot="info" class="slds-m-top_large slds-m-left_medium">
-                    <div>
-                        <span class="slds-badge slds-m-right_xx-small">{labels.newInfoBadgeLabel}</span>
-                        {labels.formulasForConditionsInfoLabel}
-                        <lightning-helptext
-                            class="slds-m-left_xx-small"
-                            content={labels.formulasForConditionsHelpText}
-                        ></lightning-helptext>
-                    </div>
-                </div>
             </builder_platform_interaction-record-filter>
         </div>
         <div class="slds-p-horizontal_small" if:true={showFormulaEditor}>

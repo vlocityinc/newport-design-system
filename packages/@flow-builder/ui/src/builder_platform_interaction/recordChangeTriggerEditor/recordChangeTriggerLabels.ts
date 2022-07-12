@@ -20,9 +20,6 @@ import createOrUpdateInputLabel from '@salesforce/label/FlowBuilderStartEditor.c
 import createOrUpdateInputLabelOrchestrator from '@salesforce/label/FlowBuilderStartEditor.createOrUpdateInputLabelOrchestrator';
 import disableRadioGroupStartText from '@salesforce/label/FlowBuilderStartEditor.disableRadioGroupStartText';
 import filterRecordsDescription from '@salesforce/label/FlowBuilderStartEditor.filterRecordsDescription';
-import formulasForConditionsHelpText from '@salesforce/label/FlowBuilderStartEditor.formulasForConditionsHelpText';
-import formulasForConditionsInfoLabel from '@salesforce/label/FlowBuilderStartEditor.formulasForConditionsInfoLabel';
-import newInfoBadgeLabel from '@salesforce/label/FlowBuilderStartEditor.newInfoBadgeLabel';
 import noUndeleteFlowMessage from '@salesforce/label/FlowBuilderStartEditor.noUndeleteFlowMessage';
 import recordChangeContextObjectDescription from '@salesforce/label/FlowBuilderStartEditor.recordChangeContextObjectDescription';
 import recordChangeContextObjectDescriptionOrchestrator from '@salesforce/label/FlowBuilderStartEditor.recordChangeContextObjectDescriptionOrchestrator';
@@ -80,9 +77,6 @@ export const LABELS = {
     requireRecordChangeOptionOrchestrator,
     formulaLabel,
     formulaValidationSpinnerAlternativeText,
-    newInfoBadgeLabel,
-    formulasForConditionsInfoLabel,
-    formulasForConditionsHelpText,
     resourcePickerTitle,
     resourcePickerPlaceholder,
     required
