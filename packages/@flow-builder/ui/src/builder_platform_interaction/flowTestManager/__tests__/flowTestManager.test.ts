@@ -27,8 +27,7 @@ const SELECTORS = {
     CREATE_BUTTON: '[data-id="create-button"]',
     CREATE_BUTTON_ON_TABLE: '[data-id="create-button-w-table"]',
     DATATABLE: 'lightning-datatable',
-    SPINNER: 'lightning-spinner',
-    URL: 'lightning-formatted-url'
+    SPINNER: 'lightning-spinner'
 };
 
 const getCreateButton = (cmp) => {
@@ -141,8 +140,6 @@ describe('flowTestManager', () => {
             cmp = await createComponentUnderTest(props);
             await ticks(1);
             const button = getCreateButton(cmp);
-            const url = getUrl(cmp);
-            expect(url).not.toBeNull();
             expect(button).not.toBeNull();
             expect(button).toBeDefined();
         });
