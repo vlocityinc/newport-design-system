@@ -450,6 +450,7 @@ const isWritable = (field) => {
  * @param options.selectorConfig
  * @param options.allowSObjectFields
  * @param options.allowElementFields
+ * @param options.includeEntityRelatedRecordFields
  * @returns array of alphabetized menu items
  */
 export function filterFieldsForChosenElement(
@@ -464,7 +465,8 @@ export function filterFieldsForChosenElement(
         allowApexTypeFieldsTraversal = true,
         selectorConfig,
         allowSObjectFields,
-        allowElementFields = true
+        allowElementFields = true,
+        includeEntityRelatedRecordFields = false
     } = {}
 ): Object[] {
     if (fields) {
@@ -487,7 +489,8 @@ export function filterFieldsForChosenElement(
                             allowSObjectFieldsTraversal,
                             allowApexTypeFieldsTraversal,
                             allowSObjectFields,
-                            allowElementFields
+                            allowElementFields,
+                            includeEntityRelatedRecordFields
                         })
                     ),
                 []

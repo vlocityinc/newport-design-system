@@ -1,6 +1,6 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { ComboboxStateChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import { ComboboxStateChangedEvent, UpdateRelatedRecordFieldsChangeEvent } from 'builder_platform_interaction/events';
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
@@ -121,8 +121,9 @@ export default class RelatedRecordFieldsPicker extends LightningElement {
     handleRelatedRecordFieldsVariableChanged(event: ComboboxStateChangedEvent) {
         event.stopPropagation();
         const newValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
+        const subType = event.detail.item?.subtype;
 
-        const referenceChangedEvent = new SObjectReferenceChangedEvent(newValue, event.detail.error);
+        const referenceChangedEvent = new UpdateRelatedRecordFieldsChangeEvent(newValue, subType, event.detail.error);
         this.dispatchEvent(referenceChangedEvent);
     }
 }

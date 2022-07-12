@@ -443,6 +443,7 @@ declare namespace UI {
         dataType: string;
         text?: string;
         subText?: string;
+        subtype?: string;
         displayText: string;
         iconName?: string | null | undefined;
         iconAlternativeText?: string;

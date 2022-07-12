@@ -335,11 +335,17 @@ function getMergeFieldLevel(item) {
  * @param root0.showAsFieldReference
  * @param root0.showSubText
  * @param root0.allowSObjectFieldsTraversal
+ * @param root0.includeEntityRelatedRecordFields - true if the entity related fields are included
  */
 function getMenuItemsForSObjectField(
     field,
     parent,
-    { showAsFieldReference = true, showSubText = true, allowSObjectFieldsTraversal = true } = {}
+    {
+        showAsFieldReference = true,
+        showSubText = true,
+        allowSObjectFieldsTraversal = true,
+        includeEntityRelatedRecordFields = false
+    } = {}
 ) {
     if (
         allowSObjectFieldsTraversal &&
@@ -358,7 +364,8 @@ function getMenuItemsForSObjectField(
         comboboxItems.push(
             getMenuItemForField(field, parent, {
                 showAsFieldReference,
-                showSubText
+                showSubText,
+                includeEntityRelatedRecordFields
             })
         );
         return comboboxItems;
@@ -366,7 +373,8 @@ function getMenuItemsForSObjectField(
     return [
         getMenuItemForField(field, parent, {
             showAsFieldReference,
-            showSubText
+            showSubText,
+            includeEntityRelatedRecordFields
         })
     ];
 }
@@ -437,6 +445,7 @@ function isTraversable(
  * @param {boolean} [options.allowSObjectFields] true to allow SObject traversal (1st level : SObject fields)
  * @param {boolean} [options.allowApexTypeFields] true to allow Apex type traversal (1st level : apex type fields)
  * @param {boolean} [options.allowElementFields] true to allow element field traversal rather than just element selection (ex: stageStep.output.foo)
+ * @param {boolean} [options.includeEntityRelatedRecordFields] true if the entity related fields are included
  * @returns {MenuItem} Representation of flow element in shape combobox needs
  */
 export function getMenuItemForField(
@@ -449,7 +458,8 @@ export function getMenuItemForField(
         allowApexTypeFieldsTraversal = true,
         allowSObjectFields = true,
         allowApexTypeFields = true,
-        allowElementFields = true
+        allowElementFields = true,
+        includeEntityRelatedRecordFields = false
     } = {}
 ) {
     // support for parameter items being converted to field shape
@@ -461,14 +471,14 @@ export function getMenuItemForField(
         allowApexTypeFields,
         allowElementFields
     });
-    const { dataType, isCollection, subtype, getChildrenItems } = field;
+    const { dataType, isCollection, subtype, getChildrenItems, sobjectName } = field;
     const text = apiName;
     const comboboxItem = createMenuItemForField({
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
         iconAlternativeText: dataType,
         isCollection,
         dataType,
-        subtype,
+        subtype: includeEntityRelatedRecordFields ? sobjectName : subtype,
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
         isSystemVariableField: parent ? parent.haveSystemVariableFields : false,
@@ -494,6 +504,7 @@ export function getMenuItemForField(
  * @param {boolean} options.allowSObjectFields - true to allow SObject traversal (1st level : SObject fields)
  * @param {boolean} options.allowApexTypeFields - true to allow Apex type traversal (1st level : apex type fields)
  * @param {boolean} options.allowElementFields
+ * @param {boolean} options.includeEntityRelatedRecordFields
  * @returns {MenuItem[]} menu items for the field (possibly more than one for SObject fields that are spannable)
  */
 export function getMenuItemsForField(
@@ -506,14 +517,16 @@ export function getMenuItemsForField(
         allowApexTypeFieldsTraversal = true,
         allowSObjectFields = true,
         allowApexTypeFields = true,
-        allowElementFields = true
+        allowElementFields = true,
+        includeEntityRelatedRecordFields = false
     } = {}
 ) {
     if (parent && parent.dataType === SOBJECT_TYPE) {
         return getMenuItemsForSObjectField(field, parent, {
             showAsFieldReference,
             showSubText,
-            allowSObjectFieldsTraversal
+            allowSObjectFieldsTraversal,
+            includeEntityRelatedRecordFields
         });
     }
     return [

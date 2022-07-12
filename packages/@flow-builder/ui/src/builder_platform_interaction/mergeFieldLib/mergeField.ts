@@ -10,7 +10,11 @@ import { describeExtension } from 'builder_platform_interaction/flowExtensionLib
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { loadApexClasses } from 'builder_platform_interaction/preloadLib';
 import { isLookupTraversalSupported as isLookupTraversalSupportedByProcessType } from 'builder_platform_interaction/processTypeLib';
-import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
+import {
+    fetchFieldsForEntity,
+    fetchRelatedRecordFieldsForEntity,
+    getEntityFieldWithApiName
+} from 'builder_platform_interaction/sobjectLib';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 import { isLookupTraversalSupported as isLookupTraversalSupportedByTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
@@ -30,16 +34,20 @@ export const isLookupTraversalSupported = (processType: string, triggerType: UI.
  * a field reference identifier ('a4451815-988d-4f17-883d-64b6ad9fab7e.Account.User.Name')
  *
  * @param identifier
+ * @param isTriggeringRelatedRecord true need to get the related fields
  * @returns {Promise<Object[]|undefined>} Array with first item being the element (resource/global constant ...) and next items being the fields. Returns undefined if not a valid reference
  */
-export function resolveReferenceFromIdentifier(identifier: string): Promise<object[] | undefined> {
+export function resolveReferenceFromIdentifier(
+    identifier: string,
+    isTriggeringRelatedRecord = false
+): Promise<object[] | undefined> {
     const elementOrResource = getResourceByUniqueIdentifier(identifier);
     if (!elementOrResource) {
         return Promise.resolve(undefined);
     }
     if (isComplexType(elementOrResource.dataType)) {
         const { fieldNames } = sanitizeGuid(identifier);
-        return resolveComplexTypeReference(elementOrResource, fieldNames);
+        return resolveComplexTypeReference(elementOrResource, fieldNames, isTriggeringRelatedRecord);
     }
     return Promise.resolve([elementOrResource]);
 }
@@ -47,14 +55,21 @@ export function resolveReferenceFromIdentifier(identifier: string): Promise<obje
 /**
  * @param flowResource
  * @param fieldNames
+ * @param isTriggeringRelatedRecord true need to get the related fields
  */
-function resolveComplexTypeReference(flowResource, fieldNames?: string[]): Promise<object[] | undefined> {
+function resolveComplexTypeReference(
+    flowResource,
+    fieldNames?: string[],
+    isTriggeringRelatedRecord?: boolean
+): Promise<object[] | undefined> {
     if (!fieldNames || fieldNames.length === 0) {
         return Promise.resolve([flowResource]);
     }
     let fieldsPromise;
-    if (flowResource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+    if (flowResource.dataType === FLOW_DATA_TYPE.SOBJECT.value && !isTriggeringRelatedRecord) {
         fieldsPromise = resolveEntityFieldReference(flowResource.subtype, fieldNames);
+    } else if (flowResource.dataType === FLOW_DATA_TYPE.SOBJECT.value && isTriggeringRelatedRecord) {
+        fieldsPromise = resolveRecordRelatedFieldReference(flowResource.subtype, fieldNames);
     } else if (flowResource.dataType === FLOW_DATA_TYPE.APEX.value) {
         fieldsPromise = resolveApexPropertyReference(flowResource.subtype, fieldNames);
     } else if (flowResource.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
@@ -110,35 +125,72 @@ function resolveApexPropertyReference(clazz: string, fieldNames: string[]) {
 }
 
 /**
- * @param entityName
- * @param fieldNames
+ * @param entityName Entity name
+ * @param fieldNames field names array
+ * @returns a promise to get the data from all the fields in the fieldNames
  */
 function resolveEntityFieldReference(entityName: string, fieldNames: string[]): Promise<object[] | undefined> {
     if (fieldNames.length === 0) {
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchFieldsForEntity(entityName, { disableErrorModal: true }).then((fields) => {
-        if (remainingFieldNames.length > 0) {
-            const { relationshipName, specificEntityName } = getPolymorphicRelationShipName(fieldName);
-            const field = getEntityFieldWithRelationshipName(fields, relationshipName);
-            if (!field) {
-                return undefined;
-            }
-            const referenceToName = getReferenceToName(field, specificEntityName);
-            if (!referenceToName) {
-                return undefined;
-            }
-            return resolveEntityFieldReference(referenceToName, remainingFieldNames).then((remainingFields) => {
-                return remainingFields ? [field, ...remainingFields] : undefined;
-            });
-        }
-        const field = getEntityFieldWithApiName(fields, fieldName);
+    return fetchFieldsForEntity(entityName, { disableErrorModal: true }).then((fields) =>
+        resolveField(fields, fieldName, remainingFieldNames, false)
+    );
+}
+
+/**
+ * @param entityName Entity name
+ * @param fieldNames field names array
+ * @returns a promise to get the data from all the related fields in the fieldNames.
+ */
+function resolveRecordRelatedFieldReference(entityName: string, fieldNames: string[]): Promise<object[] | undefined> {
+    if (fieldNames.length === 0) {
+        return Promise.resolve([]);
+    }
+    const [fieldName, ...remainingFieldNames] = fieldNames;
+    return fetchRelatedRecordFieldsForEntity(entityName, { disableErrorModal: true }).then((fields) =>
+        resolveField(fields, fieldName, remainingFieldNames, true)
+    );
+}
+
+/**
+ * @param fields list of fields
+ * @param fieldName fields name
+ * @param remainingFieldNames remaining field names
+ * @param isTriggeringRelatedRecord true if it needs related record fields
+ * @returns a Promise or the field Definition
+ */
+function resolveField(
+    fields: Object,
+    fieldName: string,
+    remainingFieldNames: string[],
+    isTriggeringRelatedRecord: boolean
+): Promise<object[] | undefined> | undefined | FieldDefinition[] {
+    if (remainingFieldNames.length > 0) {
+        const { relationshipName, specificEntityName } = getPolymorphicRelationShipName(fieldName);
+        const field = getEntityFieldWithRelationshipName(fields, relationshipName);
         if (!field) {
             return undefined;
         }
-        return [field];
-    });
+        const referenceToName = getReferenceToName(field, specificEntityName);
+        if (!referenceToName) {
+            return undefined;
+        }
+        if (isTriggeringRelatedRecord) {
+            return resolveRecordRelatedFieldReference(referenceToName, remainingFieldNames).then((remainingFields) =>
+                remainingFields ? [field, ...remainingFields] : undefined
+            );
+        }
+        return resolveEntityFieldReference(referenceToName, remainingFieldNames).then((remainingFields) =>
+            remainingFields ? [field, ...remainingFields] : undefined
+        );
+    }
+    const field = getEntityFieldWithApiName(fields, fieldName);
+    if (!field) {
+        return undefined;
+    }
+    return [field];
 }
 
 /**

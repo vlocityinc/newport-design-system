@@ -10,9 +10,9 @@ import { resolveReferenceFromIdentifier } from './mergeFieldLib';
 export function loadReferencesIn(object) {
     const promises: Promise<unknown>[] = [];
     let firstError;
-    const loadReferenceFromUid = (uid) => {
+    const loadReferenceFromUid = (uid, isTriggeringRelatedRecord) => {
         promises.push(
-            resolveReferenceFromIdentifier(uid).catch((error) => {
+            resolveReferenceFromIdentifier(uid, isTriggeringRelatedRecord).catch((error) => {
                 firstError = error;
             })
         );

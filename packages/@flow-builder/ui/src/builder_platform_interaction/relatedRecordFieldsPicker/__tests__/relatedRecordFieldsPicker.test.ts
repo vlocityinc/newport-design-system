@@ -4,7 +4,7 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { ComboboxStateChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import { ComboboxStateChangedEvent, UpdateRelatedRecordFieldsChangeEvent } from 'builder_platform_interaction/events';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -97,7 +97,7 @@ describe('related-fields-picker', () => {
             const newParamValue = store.accountSObjectVariable.guid;
             await ticks(1);
             const eventCallback = jest.fn();
-            relatedRecordFieldsPicker.addEventListener(SObjectReferenceChangedEvent.EVENT_NAME, eventCallback);
+            relatedRecordFieldsPicker.addEventListener(UpdateRelatedRecordFieldsChangeEvent.EVENT_NAME, eventCallback);
             ferovResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({

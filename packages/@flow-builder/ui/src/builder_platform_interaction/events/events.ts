@@ -128,6 +128,7 @@ export { UpdateParameterItemEvent } from './updateParameterItemEvent';
 export { UpdateRecordFieldAssignmentEvent } from './updateRecordFieldAssignmentEvent';
 export { UpdateRecordFilterEvent } from './updateRecordFilterEvent';
 export { UpdateRecordLookupFieldEvent } from './updateRecordLookupFieldEvent';
+export { UpdateRelatedRecordFieldsChangeEvent } from './updateRelatedRecordFieldsChangeEvent';
 export { UpdateSortCollectionOutputEvent } from './updateSortCollectionOutputEvent';
 export { UpdateSortOptionItemEvent } from './updateSortOptionItemEvent';
 export { UpdateWaitEventEventTypeEvent } from './updateWaitEventEventTypeEvent';

@@ -57,20 +57,20 @@ type ComboboxConfig = {
 };
 
 type FieldDefinition = {
+    apiName: string;
+    compoundFieldName: string | null;
+    creatable: boolean;
     dataType: string;
     editable: boolean;
-    creatable: boolean;
-    apiName: string;
-    required: boolean;
-    label: string;
-    relationshipName: string | null;
-    compoundFieldName: string | null;
     extraTypeInfo: string | null;
     fieldDataType: string;
     inlineHelpText: string | null;
-    precision: number;
-    scale: number;
+    label: string;
     length: number;
+    precision: number;
+    relationshipName: string | null;
+    required: boolean;
+    scale: number;
     supportedByAutomaticField: boolean;
 };
 

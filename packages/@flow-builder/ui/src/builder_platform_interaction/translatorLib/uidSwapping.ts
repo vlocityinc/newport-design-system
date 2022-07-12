@@ -3,12 +3,14 @@ import { isReference, removeCurlyBraces, splitStringBySeparator } from 'builder_
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getDataTypeKey } from 'builder_platform_interaction/elementFactory';
 import {
+    ELEMENT_TYPE,
     EXPRESSION_RE,
     isSystemElement,
     REFERENCE_FIELDS,
     TEMPLATE_FIELDS
 } from 'builder_platform_interaction/flowMetadata';
 import { isPlainObject } from 'builder_platform_interaction/storeLib';
+import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemVariableConstantsLib';
 
 /**
  * @param {*} object complex object(eg: it can assignment, decision or outcome etc)
@@ -45,8 +47,13 @@ export const isReferenceField = (object, fieldName) => {
     return dataType === FEROV_DATA_TYPE.REFERENCE || (!dataType && REFERENCE_FIELDS.has(fieldName));
 };
 
+export const isRecordRelatedField = (object) =>
+    object?.elementType === ELEMENT_TYPE.RECORD_UPDATE &&
+    object?.inputReference?.startsWith(SYSTEM_VARIABLE_RECORD_PREFIX + '.') &&
+    object?.inputAssignments.length > 0;
+
 /**
- * @param parentObject
+ * @param parentObject - parent object
  * @param {*} propertyName name of the property
  * @param {*} propertyValue value of the property
  * @returns true if swapping needs to happen, else it returns false.
@@ -81,10 +88,11 @@ const swapTemplateField = (swapFunction, value) => {
  *
  * @param {*} swapFunction function which is used to swap value
  * @param {*} value value to be swapped
+ * @param isTriggeringRelatedRecord true need to get the related fields
  * @returns value after swapping
  */
-const swapReferenceField = (swapFunction, value) => {
-    return swapFunction(isReference(value) ? removeCurlyBraces(value) : value);
+const swapReferenceField = (swapFunction, value, isTriggeringRelatedRecord) => {
+    return swapFunction(isReference(value) ? removeCurlyBraces(value) : value, isTriggeringRelatedRecord);
 };
 
 /**
@@ -103,7 +111,8 @@ export const getSwapValueFunction =
         if (isTemplateField(object, fieldName)) {
             return swapTemplateField(swapFunction, value);
         } else if (checkReferenceFields && isReferenceField(object, fieldName)) {
-            return swapReferenceField(swapFunction, value);
+            const isTriggeringRelatedRecord = isRecordRelatedField(object);
+            return swapReferenceField(swapFunction, value, isTriggeringRelatedRecord);
         }
         return value;
     };

@@ -102,6 +102,7 @@ describe('resourcePickerUtils', () => {
                 allowElementFields: true,
                 showAsFieldReference: true,
                 showSubText: true,
+                includeEntityRelatedRecordFields: false,
                 selectorConfig: undefined,
                 shouldBeWritable: false
             });
@@ -119,6 +120,7 @@ describe('resourcePickerUtils', () => {
                 showAsFieldReference: true,
                 showSubText: true,
                 allowSObjectFieldsTraversal: true,
+                includeEntityRelatedRecordFields: false,
                 selectorConfig: undefined,
                 shouldBeWritable: false
             });

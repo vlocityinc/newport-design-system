@@ -1,6 +1,5 @@
 // @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { removeCurlyBraces, splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
@@ -10,6 +9,7 @@ import {
     FLOW_TRIGGER_TYPE,
     RECORD_UPDATE_WAY_TO_FIND_RECORDS
 } from 'builder_platform_interaction/flowMetadata';
+import { resolveReferenceFromIdentifier } from 'builder_platform_interaction/mergeFieldLib';
 import { UPDATEABLE_FILTER } from 'builder_platform_interaction/selectors';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -35,7 +35,8 @@ export default class RecordUpdateEditor extends LightningElement {
     state = {
         recordUpdateElement: {},
         entityFields: {},
-        entityRelatedFields: {}
+        entityRelatedFields: {},
+        relatedRecordFieldSubType: ''
     };
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
@@ -66,14 +67,7 @@ export default class RecordUpdateEditor extends LightningElement {
     set node(newValue) {
         this.state.recordUpdateElement = newValue;
         if (this.wayToFindRecordsValue === RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP) {
-            fetchRelatedRecordFieldsForEntity(this.recordEntityName)
-                .then((fields) => {
-                    this.state.entityRelatedFields = fields;
-                    this.updateFieldsOfRelatedEntity();
-                })
-                .catch(() => {
-                    // fetchRelatedRecordFieldsForEntity displays an error message
-                });
+            this.getRecordRelatedFieldsAndUpdateFields();
         } else {
             this.updateFields(this.recordEntityName);
         }
@@ -283,11 +277,17 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get sObjectPickerPlaceholder() {
-        return this.isRelatedRecordLookup ? LABELS.relatedRecordsPickerPlaceholder : LABELS.searchRecords;
+        return this.isRelatedRecordLookup ? LABELS.relatedRecordFieldsPickerPlaceholder : LABELS.searchRecords;
     }
 
     get entityLabel() {
         return getEntity(this.dollarRecordName())?.entityLabel ?? '';
+    }
+
+    get relatedRecordFieldsPickerHelpText() {
+        return this.recordEntityName && this.state.relatedRecordFieldSubType
+            ? format(LABELS.relatedRecordFieldsPickerHelpText, this.state.relatedRecordFieldSubType, this.entityLabel)
+            : '';
     }
 
     /**
@@ -348,35 +348,15 @@ export default class RecordUpdateEditor extends LightningElement {
             });
     }
 
-    updateFieldsOfRelatedEntity() {
-        const sobjectName = this.getRelatedFieldSobjectName(this.inputReference);
-        if (sobjectName) {
-            this.updateFields(sobjectName);
-        }
-    }
-
     /**
-     * @param inputReference input reference selected
-     * @returns Sobject name from the selected related field
+     *  get the related field type and update fields
      */
-    getRelatedFieldSobjectName(inputReference: string): string {
-        return this.getSobjectNameRelatedField(inputReference);
-    }
+    getRecordRelatedFieldsAndUpdateFields = async () => {
+        const fields = await resolveReferenceFromIdentifier(this.inputReference, true);
+        this.state.relatedRecordFieldSubType = fields.pop().sobjectName;
+        this.updateFields(this.state.relatedRecordFieldSubType);
+    };
 
-    /**
-     * @param inputReference  input reference selected
-     * @returns the sobjectname of the selected related field.
-     */
-    getSobjectNameRelatedField(inputReference: string): string {
-        if (inputReference) {
-            const subType = splitStringBySeparator(removeCurlyBraces(inputReference));
-            if (subType.length > 1) {
-                const relatedField = this.state.entityRelatedFields[subType.at(-1)];
-                return relatedField ? relatedField.sobjectName : '';
-            }
-        }
-        return '';
-    }
     /**
      * type of triggering record, usually stored in Start element
      *
@@ -401,10 +381,11 @@ export default class RecordUpdateEditor extends LightningElement {
      *
      * @param {object} event - related fields changed event coming from related-fields-picker component
      */
-    handleRelatedFieldsChangedEvent(event) {
+    handleRelatedRecordFieldsChangedEvent(event: UpdateRelatedRecordFieldsChangeEvent) {
         event.stopPropagation();
         this.updateProperty('inputReference', event.detail.value, event.detail.error);
-        this.updateFields(this.getRelatedFieldSobjectName(event.detail.value));
+        this.state.relatedRecordFieldSubType = event.detail?.subType;
+        this.updateFields(this.state.relatedRecordFieldSubType);
     }
 
     handleWayToFindOptionChanged(event) {
@@ -452,7 +433,7 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     handleFetchMenuData(event) {
-        const subType = this.getSobjectNameRelatedField(event.detail.item?.value);
+        const subType = event.detail.item?.subtype;
         if (subType) {
             this.updateRelatedFields(subType);
         }

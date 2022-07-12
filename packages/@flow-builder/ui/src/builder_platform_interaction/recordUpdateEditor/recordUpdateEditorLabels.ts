@@ -24,7 +24,8 @@ import filterNoCriteriaUpdateTriggering from '@salesforce/label/FlowBuilderRecor
 import findRecordsLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.findRecords';
 import recordPluralLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordPluralLabel';
 import recordSingularLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.recordSingularLabel';
-import relatedRecordsPickerPlaceholder from '@salesforce/label/FlowBuilderRecordUpdateEditor.relatedRecordsPickerPlaceholder';
+import relatedRecordFieldsPickerHelpText from '@salesforce/label/FlowBuilderRecordUpdateEditor.relatedRecordFieldsPickerHelpText';
+import relatedRecordFieldsPickerPlaceholder from '@salesforce/label/FlowBuilderRecordUpdateEditor.relatedRecordFieldsPickerPlaceholder';
 import selectRelatedRecords from '@salesforce/label/FlowBuilderRecordUpdateEditor.selectRelatedRecords';
 import setFieldValuesForTheRecordsFormat from '@salesforce/label/FlowBuilderRecordUpdateEditor.setFieldValuesForTheRecordsFormat';
 import triggeringRecordLabel from '@salesforce/label/FlowBuilderRecordUpdateEditor.triggeringRecordLabel';
@@ -63,5 +64,6 @@ export const LABELS = {
     updateRecordsRelatedToTriggeredFlow,
     selectRelatedRecords,
     filterCriteriaRelatedRecords,
-    relatedRecordsPickerPlaceholder
+    relatedRecordFieldsPickerPlaceholder,
+    relatedRecordFieldsPickerHelpText
 };

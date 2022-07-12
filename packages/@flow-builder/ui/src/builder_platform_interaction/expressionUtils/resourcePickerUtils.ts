@@ -41,7 +41,8 @@ const getFieldMenuData = (
         allowElementFields,
         shouldBeWritable,
         selectorConfig,
-        allowSObjectFields
+        allowSObjectFields,
+        includeEntityRelatedRecordFields
     };
     if (entityFields) {
         return Promise.resolve(filterFieldsForChosenElement(parentItem, entityFields, options));
