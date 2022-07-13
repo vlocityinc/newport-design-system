@@ -18,6 +18,8 @@ export type InvocableAction = {
     inputParameters: ParameterListRowItem[];
     outputParameters: ParameterListRowItem[];
     displayText?: string | ValueWithError;
+    name?: string | ValueWithError;
+    label?: string | ValueWithError;
 };
 /**
  * Set standard invocable actions.
@@ -54,7 +56,7 @@ export function getDynamicInvocableActions() {
 /**
  * @returns invocable actions
  */
-export function getInvocableActions() {
+export function getInvocableActions(): InvocableAction[] {
     return standardInvocableActions.concat(dynamicInvocableActions);
 }
 

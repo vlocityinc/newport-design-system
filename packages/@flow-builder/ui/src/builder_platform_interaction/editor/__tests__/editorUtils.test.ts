@@ -149,6 +149,9 @@ jest.mock('builder_platform_interaction/usedByLib', () => {
 });
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
+jest.mock('builder_platform_interaction/invocableActionLib', () =>
+    require('builder_platform_interaction_mocks/invocableActionLib')
+);
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     return {
@@ -236,6 +239,12 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                         singular: 'Create Records'
                     }
                 };
+            } else if (elementType === mockElementType.ACTION_CALL) {
+                return {
+                    labels: {
+                        singular: 'Action'
+                    }
+                };
             }
             return {};
         }),
@@ -289,6 +298,38 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                     }
                 ];
             }
+            if (mockElementType.ACTION_CALL === elementType) {
+                return [
+                    {
+                        label: 'Add Member Action 1',
+                        actionName: 'CollaborationGroup.NewGroupMember'
+                    },
+                    {
+                        label: 'Add Record Action 1',
+                        actionName: 'CollaborationGroup.NewGroupRecord'
+                    },
+                    {
+                        label: 'Add Record Action 3',
+                        actionName: 'CollaborationGroup.NewGroupRecord'
+                    },
+                    {
+                        label: 'Action 2',
+                        actionName: ''
+                    },
+                    {
+                        label: 'Deactivate Session-Based Permission Set Action 1',
+                        actionName: 'deactivateSessionPermSet'
+                    },
+                    {
+                        label: 'Send Email Action 1',
+                        actionName: 'emailSimple'
+                    },
+                    {
+                        label: 'Custom Send Email Action Label',
+                        actionName: 'emailSimple'
+                    }
+                ];
+            }
             return [];
         }),
         getElementByGuid: jest.fn().mockImplementation(() => {})
@@ -321,6 +362,18 @@ const canvasElement3 = {
         isHighlighted: false
     }
 };
+
+jest.mock('@salesforce/label/FlowBuilderElementConfig.defaultActionElementName', () => ({ default: 'Action {0}' }), {
+    virtual: true
+});
+
+jest.mock(
+    '@salesforce/label/FlowBuilderElementConfig.defaultSelectedActionElementName',
+    () => ({ default: '{0} Action {1}' }),
+    {
+        virtual: true
+    }
+);
 
 describe('Editor Utils Test', () => {
     describe('getElementsToBeDeleted function', () => {
@@ -2116,6 +2169,26 @@ describe('Editor Utils Test', () => {
                 'FlowBuilderElementConfig.defaultFlowElementName',
                 'Decision',
                 4
+            );
+        });
+
+        it('Generates the correct label for an action element (no action selected)', () => {
+            generateDefaultLabel(mockElementType.ACTION_CALL, sanitizeDevName, undefined);
+            expect(commonUtils.format).toHaveBeenCalledWith('Action {0}', 3);
+        });
+
+        it('Generates the correct label for an action element (user has selected an action)', () => {
+            generateDefaultLabel(
+                mockElementType.ACTION_CALL,
+                sanitizeDevName,
+                undefined,
+                undefined,
+                'deactivateSessionPermSet'
+            );
+            expect(commonUtils.format).toHaveBeenCalledWith(
+                '{0} Action {1}',
+                'Deactivate Session-Based Permission Set',
+                2
             );
         });
     });

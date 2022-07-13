@@ -15,6 +15,7 @@ export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 // Constant values for the max lengths of element label and api name fields
 export const MAX_LABEL_LENGTH = 255;
 export const MAX_API_NAME_LENGTH = 80;
+export const MAX_ACTION_LABEL_COPY_LENGTH = 235;
 
 // constant value for childReferences key on parent element when children are edited in their own property editor
 // currently used on orchestrated stage

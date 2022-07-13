@@ -33,6 +33,7 @@ import {
     createStartElementWhenUpdatingFromPropertyEditor as createBasicStartElement,
     createVariable,
     getConnectionProperties,
+    MAX_ACTION_LABEL_COPY_LENGTH,
     MAX_API_NAME_LENGTH,
     MAX_LABEL_LENGTH,
     shouldSupportScheduledPaths
@@ -47,7 +48,7 @@ import {
     METADATA_KEY
 } from 'builder_platform_interaction/flowMetadata';
 import { DEBUG_STATUS } from 'builder_platform_interaction/header';
-import { getActionKey } from 'builder_platform_interaction/invocableActionLib';
+import { getActionKey, getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import {
     isConfigurableStartSupported,
     isFlowTestingSupportedForProcessType
@@ -1517,13 +1518,15 @@ export function dedupeLabel(
  * @param labelToNameConverter function which returns api name given a label
  * @param parentElement parent element
  * @param childReferenceKey property on parentElement that contains children array
+ * @param selectedActionName action name string
  * @returns unique label string
  */
 export function generateDefaultLabel(
     elementType: string,
     labelToNameConverter: (string) => string,
     parentElement?: UI.HydratedElement,
-    childReferenceKey?: string
+    childReferenceKey?: string,
+    selectedActionName?: string
 ): string {
     const elementLabels = getConfigForElementType(elementType).labels;
     const elementLabel: string | undefined = elementLabels?.short || elementLabels?.singular;
@@ -1561,6 +1564,41 @@ export function generateDefaultLabel(
         );
     }
     const elements = getElementsForElementType(elementType);
+
+    if (elementType === ELEMENT_TYPE.ACTION_CALL) {
+        let matchedActionLabel = '';
+
+        if (selectedActionName) {
+            const matchedAction = getInvocableActions().find((action) => action.name === selectedActionName);
+            matchedActionLabel = matchedAction?.label || '';
+            matchedActionLabel = matchedActionLabel.substring(0, MAX_ACTION_LABEL_COPY_LENGTH);
+        }
+
+        const matchedExistingElements = elements.filter((element) => {
+            const currentElementActionName = getValueFromHydratedItem(element?.actionName);
+            return currentElementActionName === selectedActionName;
+        });
+
+        matchedExistingElements.forEach((element) => {
+            existingLabels.add(element.label);
+            existingApiNames.add(element.name);
+        });
+
+        return dedupeLabel(
+            existingLabels,
+            existingApiNames,
+            selectedActionName
+                ? (counter) =>
+                      format(
+                          LABELS.defaultSelectedActionElementName,
+                          matchedActionLabel,
+                          matchedExistingElements.length + counter
+                      )
+                : (counter) => format(LABELS.defaultActionElementName, matchedExistingElements.length + counter),
+            labelToNameConverter
+        );
+    }
+
     elements.forEach((element) => {
         existingLabels.add(element.label);
         existingApiNames.add(element.name);
@@ -1617,9 +1655,16 @@ export function decorateLabelsAndApiNames(
             parentElement && parentLabel && parentName && isChildElement(node.elementType!)
                 ? childElementLabelToNameConverter(parentLabel, parentName)
                 : sanitizeDevName;
+        const selectedActionName = getValueFromHydratedItem(node.actionName);
         const nodeLabel: string =
             elementLabel ||
-            generateDefaultLabel(node.elementType!, labelToNameConverter, parentElement, childReferenceKey);
+            generateDefaultLabel(
+                node.elementType!,
+                labelToNameConverter,
+                parentElement,
+                childReferenceKey,
+                selectedActionName
+            );
         const nodeName: string =
             elementName ||
             (nodeLabel === elementLabel ? sanitizeDevName(nodeLabel) : labelToNameConverter(nodeLabel)).substring(

@@ -8,6 +8,7 @@ export {
     CHILD_REFERENCES,
     createCondition,
     INCOMPLETE_ELEMENT,
+    MAX_ACTION_LABEL_COPY_LENGTH,
     MAX_API_NAME_LENGTH,
     MAX_LABEL_LENGTH
 } from './base/baseElement';

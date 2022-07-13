@@ -1,3 +1,4 @@
+import { invocableActionsForFlow } from 'serverData/GetAllInvocableActionsForType/invocableActionsForFlow.json';
 import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import { getAccountFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexActionDetails.json';
 import { getAccountFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexAnonymousOutputActionDetails.json';
@@ -100,3 +101,7 @@ export const fetchDetailsForInvocableAction = jest
 export const setNotLoadedAction = ({ actionType, actionName }: { actionName?: string; actionType?: string } = {}) => {
     notLoadedActionKey = `${actionType}-${actionName}`;
 };
+
+export const getInvocableActions = jest.fn().mockImplementation(() => {
+    return invocableActionsForFlow;
+});
