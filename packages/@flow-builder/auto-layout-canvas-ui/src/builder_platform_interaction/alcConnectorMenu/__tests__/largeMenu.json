@@ -2,6 +2,7 @@
     "elementTypes": {},
     "menuComponent": "builder_platform_interaction/alcConnectorMenu",
     "isLoading": false,
+    "isSearchEnabled": true,
     "menuItems": [
         {
             "guid": "4b9867a4-0146-48e0-92cd-6e4dfcf1bc4a",

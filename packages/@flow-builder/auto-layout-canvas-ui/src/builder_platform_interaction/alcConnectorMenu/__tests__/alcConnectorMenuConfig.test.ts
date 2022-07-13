@@ -83,11 +83,15 @@ const metadata = {
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
             tooltip: 'Action with Static Resource Icon: Test Action with Static Resource',
-            flowName: ''
+            flowName: '',
+            itemContainerClass: {
+                'slds-media slds-listbox__option slds-listbox__option_entity': true,
+                'slds-listbox__option_has-meta': true
+            }
         },
         {
             guid: 'random_guid',
-            description: 'Test Action with Slds Icon',
+            description: '',
             label: 'Action with Slds Icon',
             elementType: ELEMENT_TYPE.ACTION_CALL,
             actionType: 'apex',
@@ -102,7 +106,11 @@ const metadata = {
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
             tooltip: 'Action with Slds Icon: Test Action with Slds Icon',
-            flowName: ''
+            flowName: '',
+            itemContainerClass: {
+                'slds-media slds-listbox__option slds-listbox__option_entity': true,
+                'slds-listbox__option_has-meta': false
+            }
         },
         {
             guid: 'random_guid',
@@ -121,7 +129,11 @@ const metadata = {
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
             tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.',
-            flowName: ''
+            flowName: '',
+            itemContainerClass: {
+                'slds-media slds-listbox__option slds-listbox__option_entity': true,
+                'slds-listbox__option_has-meta': true
+            }
         },
         {
             guid: 'random_guid',
@@ -140,7 +152,11 @@ const metadata = {
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
             tooltip: 'Display the records in the flow.',
-            flowName: 'DisplayRecords_Flow'
+            flowName: 'DisplayRecords_Flow',
+            itemContainerClass: {
+                'slds-media slds-listbox__option slds-listbox__option_entity': true,
+                'slds-listbox__option_has-meta': true
+            }
         }
     ]
 };
@@ -325,8 +341,8 @@ describe('Section Heading', () => {
         expect(menu.sections.find((section) => section.label === 'Logic').heading).toBe('Logic');
     });
 
-    it('is for search results when there is search input', () => {
+    it('is null when there is search input', () => {
         const menu = configureMenu('S', metadata, elementsMetadata, false, 1, false, true);
-        expect(menu.sections.find((section) => section.heading === LABELS.searchSectionHeading)).toBeTruthy();
+        expect(menu.sections[0].heading).toBe(null);
     });
 });

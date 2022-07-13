@@ -125,7 +125,12 @@ const changeSearchInput = (cmp, inputChange) => {
 const getAlcMenuTemplate = (cmp) => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-menu-template');
 
 const defaultOptions = {
-    source: {}
+    source: {},
+    metadata: {
+        elementTypes: new Set(),
+        isLoading: true,
+        menuItems: []
+    }
 };
 
 const createComponentUnderTest = async (overrideOptions) => {
@@ -446,6 +451,7 @@ describe('Alc Connector Menu', () => {
             metadata: {
                 elementTypes: new Set(),
                 isLoading: true,
+                isSearchEnabled: true,
                 menuItems: []
             }
         });
@@ -464,6 +470,7 @@ describe('Alc Connector Menu', () => {
             metadata: {
                 elementTypes: new Set(),
                 isLoading: false,
+                isSearchEnabled: true,
                 menuItems: []
             }
         });

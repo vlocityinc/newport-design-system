@@ -1,6 +1,7 @@
 interface ConnectorMenuMetadata {
     menuComponent?: string;
     elementTypes: Set<string>;
+    isSearchEnabled: boolean;
     isLoading: boolean;
     menuItems: ConnectorMenuItem[];
 }
@@ -44,6 +45,7 @@ interface MenuItem {
     actionName?: string;
     elementSubtype?: string;
     tooltip?: string;
+    itemContainerClass: string;
 }
 
 interface MenuSection {

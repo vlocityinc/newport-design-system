@@ -24,6 +24,7 @@ let storeInstance;
 const defaultConnectorMenuMetadata: ConnectorMenuMetadata = {
     elementTypes: new Set<string>(),
     menuComponent: 'builder_platform_interaction/alcConnectorMenu',
+    isSearchEnabled: true,
     isLoading: true,
     menuItems: []
 };
@@ -159,6 +160,15 @@ export default class AlcCanvasContainer extends LightningElement {
 
     shortcuts = shortcuts;
 
+    get isSearchEnabled() {
+        let found = false;
+        found = this._elementsMetadata?.find(
+            (element) =>
+                element.elementType === ELEMENT_TYPE.ACTION_CALL || element.elementType === ELEMENT_TYPE.SUBFLOW
+        );
+        return found;
+    }
+
     get shouldRenderCanvas() {
         // only render the canvas when all the data it needs is ready
         return this.isAutoLayoutCanvas && this._elementsMetadata && this.flowModel;
@@ -263,6 +273,7 @@ export default class AlcCanvasContainer extends LightningElement {
         this._connectorMenuMetadata = {
             ...this._connectorMenuMetadata,
             elementTypes,
+            isSearchEnabled: this.isSearchEnabled,
             isLoading: this.isMenuDataLoading,
             menuItems
         };

@@ -2,6 +2,7 @@ import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import type { ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commonUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
+import { classSet } from 'lightning/utils';
 import { LABELS } from './alcConnectorMenuLabels';
 
 const { generateGuid } = storeUtils;
@@ -11,6 +12,9 @@ export const PASTE_ACTION = 'Paste';
 export const GOTO_ACTION = 'goTo';
 export const GOTO_REROUTE_ACTION = 'goToReroute';
 export const GOTO_DELETE_ACTION = 'goToDelete';
+
+const itemContainerClassWithMetadata =
+    'slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta';
 
 const actionSection: MenuSection = {
     guid: generateGuid(),
@@ -29,7 +33,8 @@ const pasteActionItem: MenuItem = {
     iconVariant: '',
     label: '',
     elementType: PASTE_ACTION,
-    rowClass: 'slds-listbox__item action-row-line-height'
+    rowClass: 'slds-listbox__item action-row-line-height',
+    itemContainerClass: itemContainerClassWithMetadata
 };
 
 const addGoToActionItem: MenuItem = {
@@ -41,7 +46,8 @@ const addGoToActionItem: MenuItem = {
     iconVariant: '',
     label: LABELS.goToPathItemLabel,
     elementType: GOTO_ACTION,
-    rowClass: 'slds-listbox__item action-row-line-height'
+    rowClass: 'slds-listbox__item action-row-line-height',
+    itemContainerClass: itemContainerClassWithMetadata
 };
 
 const rerouteGoToActionItem: MenuItem = {
@@ -53,7 +59,8 @@ const rerouteGoToActionItem: MenuItem = {
     iconVariant: '',
     label: LABELS.reRouteGoToPathItemLabel,
     elementType: GOTO_REROUTE_ACTION,
-    rowClass: 'slds-listbox__item action-row-line-height'
+    rowClass: 'slds-listbox__item action-row-line-height',
+    itemContainerClass: itemContainerClassWithMetadata
 };
 
 const deleteGoToActionItem: MenuItem = {
@@ -65,7 +72,8 @@ const deleteGoToActionItem: MenuItem = {
     iconVariant: '',
     label: LABELS.deleteGoToPathItemLabel,
     elementType: GOTO_DELETE_ACTION,
-    rowClass: 'slds-listbox__item action-row-line-height'
+    rowClass: 'slds-listbox__item action-row-line-height',
+    itemContainerClass: itemContainerClassWithMetadata
 };
 
 /**
@@ -182,7 +190,9 @@ const configureElementMenu = (
                     iconVariant,
                     rowClass: 'slds-listbox__item',
                     elementSubtype,
-                    tooltip: description ? label + ': ' + description : label
+                    tooltip: description ? label + ': ' + description : label,
+                    itemContainerClass:
+                        'slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta'
                 };
                 sectionDefinition.items.push(item);
             }
@@ -245,7 +255,16 @@ export const configureMenu = (
     const allItems = searchResultsSection.items;
 
     // Now add other MenuItems passed from Canvas (Actions, Subflows, etc)
-    allItems.push(...metadata.menuItems);
+    allItems.push(
+        ...metadata.menuItems.map((menuItem) => ({
+            ...menuItem,
+            rowClass: 'slds-listbox__item',
+            itemContainerClass: classSet({
+                'slds-media slds-listbox__option slds-listbox__option_entity': true,
+                'slds-listbox__option_has-meta': !!menuItem.description
+            })
+        }))
+    );
 
     // We need to escape special characters to construct regex correctly.
     const re = new RegExp(searchInput.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
@@ -283,14 +302,11 @@ export const configureMenu = (
  * @returns the connector menu search results section
  */
 const flattenIntoSearchResultsSection = (existingMenuSections) => {
-    const searchSectionName = LABELS.searchSectionHeading;
-
     const items: ConnectorMenuItem[] = [];
 
     const searchResultsSection = {
         guid: generateGuid(),
-        heading: searchSectionName,
-        label: searchSectionName,
+        heading: null,
         items,
         separator: false
     };

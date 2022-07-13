@@ -2,18 +2,20 @@
     <builder_platform_interaction-alc-menu-template show-spinner={showSpinner}>
         <div slot="header">
             <h3 class="header slds-m-vertical_small slds-text-heading_small">{labels.menuHeader}</h3>
-            <div class="slds-text-body_small">
-                <lightning-input
-                    type="search"
-                    label={labels.searchInputLabel}
-                    variant="label-hidden"
-                    placeholder={labels.searchInputPlaceholder}
-                    onchange={handleElementSearchInputChange}
-                    onclick={handleInputClick}
-                    onkeydown={handleInputKeydown}
-                >
-                </lightning-input>
-            </div>
+            <template if:true={metadata.isSearchEnabled}>
+                <div class="slds-text-body_small">
+                    <lightning-input
+                        type="search"
+                        label={labels.searchInputLabel}
+                        variant="label-hidden"
+                        placeholder={labels.searchInputPlaceholder}
+                        onchange={handleElementSearchInputChange}
+                        onclick={handleInputClick}
+                        onkeydown={handleInputKeydown}
+                    >
+                    </lightning-input>
+                </div>
+            </template>
         </div>
         <div slot="body" class="slds-scrollable_y body-fixed-height" onscroll={handleScroll}>
             <template for:each={menuConfiguration.sections} for:item="section">
@@ -26,6 +28,7 @@
                     <li class="slds-dropdown__header" if:true={section.heading} role="separator" title={section.label}>
                         <span>{section.heading}</span>
                     </li>
+                    <div class="slds-dropdown__header" if:false={section.heading} role="separator"></div>
                     <template for:each={section.items} for:item="item">
                         <li
                             key={item.guid}
@@ -39,11 +42,7 @@
                             role="presentation"
                             onclick={handleSelectMenuItem}
                         >
-                            <div
-                                class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
-                                role="menuitem"
-                                title={item.tooltip}
-                            >
+                            <div class={item.itemContainerClass} role="menuitem" title={item.tooltip}>
                                 <span class={item.iconContainerClass}>
                                     <lightning-icon
                                         class={item.iconClass}

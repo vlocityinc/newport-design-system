@@ -8,7 +8,6 @@ import pasteOneItemLabel from '@salesforce/label/AlcConnectorContextualMenu.past
 import reRouteGoToPathItemLabel from '@salesforce/label/AlcConnectorContextualMenu.reRouteGoToPathItemLabel';
 import searchInputLabel from '@salesforce/label/AlcConnectorContextualMenu.searchInputLabel';
 import searchInputPlaceholder from '@salesforce/label/AlcConnectorContextualMenu.searchInputPlaceholder';
-import searchSectionHeading from '@salesforce/label/AlcConnectorContextualMenu.searchSectionHeading';
 
 export const labelsMap = {
     menuHeader,
@@ -20,7 +19,6 @@ export const labelsMap = {
     deleteGoToPathItemLabel,
     searchInputLabel,
     searchInputPlaceholder,
-    searchSectionHeading,
     loadingResultsText
 };
 
