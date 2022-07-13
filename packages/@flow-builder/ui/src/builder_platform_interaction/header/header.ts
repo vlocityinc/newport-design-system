@@ -20,6 +20,7 @@ export default class Header extends LightningElement {
 
     private _flowName;
     private _flowVersion;
+    private _builderName;
     grayPill: any;
 
     @api
@@ -43,6 +44,16 @@ export default class Header extends LightningElement {
     }
 
     @api
+    get builderName() {
+        return this._builderName;
+    }
+
+    set builderName(builderName) {
+        this._builderName = builderName;
+        this.updateDocumentTitle();
+    }
+
+    @api
     runInMode;
 
     @api
@@ -59,9 +70,6 @@ export default class Header extends LightningElement {
 
     @api
     builderIcon;
-
-    @api
-    builderName;
 
     @api
     guardrailsParams;
@@ -135,6 +143,8 @@ export default class Header extends LightningElement {
     updateDocumentTitle() {
         if (this.currentFlowName && this.flowVersionNumber) {
             document.title = `${this.currentFlowName}${this.flowVersionNumber}`;
+        } else {
+            document.title = this.name;
         }
     }
 
