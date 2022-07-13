@@ -6,6 +6,7 @@ import {
     ELEMENT_TYPE,
     WAIT_EVENT_FIELDS,
     WAIT_TIME_EVENT_FIELDS,
+    WAIT_TIME_EVENT_OFFSET_UNIT,
     WAIT_TIME_EVENT_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
@@ -35,6 +36,7 @@ import { createOutputParameter, createOutputParameterMetadataObject } from './ou
 
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
+export const DEFAULT_DURATION_VALUE = 1;
 
 /**
  * Whether the event type is one of the wait time event types (AlarmEvent or DateRefAlarmEvent)
@@ -184,14 +186,7 @@ export const createWaitEventOutputParameters = (eventType, outputParameters = []
 export function createWaitWithWaitEvents(wait = {}) {
     const newWait = baseCanvasElementWithFault(wait);
     let { waitEvents } = wait;
-    const {
-        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel,
-        childReferences,
-        durationOffset,
-        durationUnit,
-        timeValue,
-        timeZone
-    } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, childReferences, timeZoneId } = wait;
 
     if (childReferences && childReferences.length > 0) {
         // Decouple waitEvent from store.
@@ -209,10 +204,7 @@ export function createWaitWithWaitEvents(wait = {}) {
         defaultConnectorLabel,
         maxConnections,
         elementType,
-        durationOffset,
-        durationUnit,
-        timeValue,
-        timeZone
+        timeZoneId
     });
 }
 
@@ -277,7 +269,13 @@ export function createDuplicateWait(
  */
 export function createWaitEvent(waitEvent = {}) {
     const newWaitEvent = baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
-    const { eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME, eventTypeIndex = generateGuid() } = waitEvent;
+    const {
+        eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
+        eventTypeIndex = generateGuid(),
+        duration,
+        durationUnit,
+        extendUntil
+    } = waitEvent;
     let {
         conditions = [],
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
@@ -301,7 +299,10 @@ export function createWaitEvent(waitEvent = {}) {
         eventType,
         eventTypeIndex,
         inputParameters,
-        outputParameters
+        outputParameters,
+        duration,
+        durationUnit,
+        extendUntil
     });
 }
 
@@ -317,20 +318,18 @@ export function createWaitMetadataObject(wait, config = {}) {
         throw new Error('Wait is not defined');
     }
     const newWait = baseCanvasElementMetadataObject(wait, config);
-    const {
-        childReferences,
-        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel,
-        durationOffset,
-        durationUnit,
-        timeValue,
-        timeZone
-    } = wait;
+    const { childReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, timeZoneId, connector } = wait;
     let waitEvents;
     if (childReferences && childReferences.length > 0) {
         waitEvents = childReferences.map(({ childReference }) => {
             const waitEvent = getElementByGuid(childReference);
             const metadataWaitEvent = baseChildElementMetadataObject(waitEvent, config);
-            const { eventType } = waitEvent;
+            const {
+                eventType,
+                duration = DEFAULT_DURATION_VALUE,
+                durationUnit = WAIT_TIME_EVENT_OFFSET_UNIT.DAYS,
+                extendUntil
+            } = waitEvent;
             let { inputParameters = [], outputParameters, conditions = [], conditionLogic } = waitEvent;
 
             if (conditions.length === 0 || conditionLogic === CONDITION_LOGIC.NO_CONDITIONS) {
@@ -353,17 +352,17 @@ export function createWaitMetadataObject(wait, config = {}) {
                 conditionLogic,
                 eventType,
                 inputParameters,
-                outputParameters
+                outputParameters,
+                duration,
+                durationUnit,
+                extendUntil
             });
         });
     }
     return Object.assign(newWait, {
         waitEvents,
         defaultConnectorLabel,
-        durationOffset,
-        durationUnit,
-        timeValue,
-        timeZone
+        timeZoneId
     });
 }
 
@@ -380,14 +379,7 @@ export function createWaitMetadataObject(wait, config = {}) {
 // TODO: this code is almost identical to the code in decision.ts, need to refactor
 export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait) {
     const newWait = baseCanvasElementWithFault(wait);
-    const {
-        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel,
-        waitEvents,
-        durationOffset,
-        durationUnit,
-        timeValue,
-        timeZone
-    } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents, timeZoneId } = wait;
     let childReferences = [];
     let newWaitEvents = [];
 
@@ -438,10 +430,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         maxConnections,
         connectorCount,
         availableConnections,
-        durationOffset,
-        durationUnit,
-        timeValue,
-        timeZone
+        timeZoneId
     });
 
     return {

@@ -263,6 +263,7 @@ export const FEROV_DATA_TYPE = {
     BOOLEAN: FLOW_DATA_TYPE.BOOLEAN.value,
     SOBJECT: FLOW_DATA_TYPE.SOBJECT.value,
     APEX: FLOW_DATA_TYPE.APEX.value,
+    ARRAY: 'Array',
     REFERENCE: 'reference'
 };
 

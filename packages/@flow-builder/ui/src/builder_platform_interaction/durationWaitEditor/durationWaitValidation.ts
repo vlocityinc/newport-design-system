@@ -2,7 +2,7 @@ import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 const additionalRules = {
-    durationOffset: [
+    duration: [
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldBeANumber

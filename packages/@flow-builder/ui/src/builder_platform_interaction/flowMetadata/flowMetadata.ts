@@ -233,8 +233,10 @@ export const WAIT_TIME_EVENT_TYPE = {
  * @type {{hours, days}}
  */
 export const WAIT_TIME_EVENT_OFFSET_UNIT = {
+    MINUTES: 'Minutes',
     HOURS: 'Hours',
-    DAYS: 'Days'
+    DAYS: 'Days',
+    MONTHS: 'Months'
 };
 
 export enum WAIT_SUB_TYPE {

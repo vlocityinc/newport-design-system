@@ -7,6 +7,7 @@
             guid={element.guid}
             onpropertychanged={handleValueChanged}
             mode={mode}
+            editor-params={editorParams}
         >
         </builder_platform_interaction-label-description>
     </div>
@@ -15,6 +16,7 @@
             configuration-editor={configurationEditor}
             configuration-editor-input-variables={configurationEditorInputVariables}
             onconfiguration_editor_input_value_changed={handleValueChanged}
+            onwaiteventpropertychanged={handleEvent}
         ></builder_platform_interaction-custom-property-editor>
     </div>
     <div if:false={hasConfigurationEditor}>

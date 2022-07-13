@@ -41,10 +41,18 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
 
     let connectorMetadata;
     const connectors = connectorMap[canvasElement.guid];
-    const { elementType, elementSubtype } = canvasElement;
+    const { elementType, elementSubtype, supportsBranching } = canvasElement;
+    // supportsBranching is an attribute of element subtypes only
+    // it determines if the subtype will support branching in alc canvas
+    // or act as a default node
 
     if (connectors) {
-        connectorMetadata = createConnectorMetadataObjects(connectors, hasMultipleRegularConnectors, elementType);
+        connectorMetadata = createConnectorMetadataObjects(
+            connectors,
+            hasMultipleRegularConnectors,
+            elementType,
+            supportsBranching
+        );
     }
 
     return Object.assign(

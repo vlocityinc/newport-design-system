@@ -2,6 +2,7 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
+import { cpePropertyChanged } from 'builder_platform_interaction/customPropertyEditorLib';
 import {
     addItem,
     deleteItem,
@@ -79,23 +80,6 @@ const waitPropertyChanged = (state, event) => {
             error: event.detail.error
         }
     });
-};
-
-const cpePropertyChanged = (state, event) => {
-    let updatedState = updateProperties(state, {
-        [event.detail.name]: {
-            error: null,
-            value: event.detail.newValue
-        }
-    });
-
-    let config = state.config || {};
-    if (event.detail.error && !config.hasError) {
-        config = { ...config, hasError: true };
-        updatedState = updateProperties(state, config);
-    }
-
-    return updatedState;
 };
 
 const addWaitEvent = (state) => {

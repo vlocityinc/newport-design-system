@@ -113,7 +113,21 @@ export const createConnectorMetadataObject = (connector) => {
     return { targetReference: connector.target, isGoTo: connector.isGoTo };
 };
 
-export const createConnectorMetadataObjects = (connectors, hasMultipleRegularConnectors, elementType?) => {
+/**
+ * Method to create connector metadata objects
+ *
+ * @param connectors    array of connector objects for the given canvas element
+ * @param hasMultipleRegularConnectors    indicates if multiple regular connectors are present for the element
+ * @param elementType     (optional) guid of parent element if one exists (ex. decision id for an outcome element)
+ * @param supportsBranching indicates if an element subtype supports branching in alc canvas
+ * @returns connectorMetadata metadata object for connectors
+ */
+export const createConnectorMetadataObjects: Object = (
+    connectors: Connector[],
+    hasMultipleRegularConnectors: boolean,
+    elementType?: string,
+    supportsBranching: boolean
+) => {
     let connectorMetadata;
 
     // TODO: Need to refactor the logic on changing datatype based on the elementType for Steps.( W-5478126 )
@@ -137,8 +151,9 @@ export const createConnectorMetadataObjects = (connectors, hasMultipleRegularCon
                         connectors: connectorObjects
                     });
                 } else {
+                    const connectorProp = supportsBranching === false ? 'defaultConnector' : 'connector';
                     Object.assign(connectorMetadata, {
-                        connector: connectorObject
+                        [connectorProp]: connectorObject
                     });
                 }
                 break;

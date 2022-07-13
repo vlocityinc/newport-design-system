@@ -2,7 +2,7 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import PanelBasedPropertyEditor from 'builder_platform_interaction/panelBasedPropertyEditor';
 import { track } from 'lwc';
 import { LABELS } from './waitEditorLabels';
@@ -42,6 +42,13 @@ export default class WaitEditor extends PanelBasedPropertyEditor {
 
     get showDeleteWaitEvent() {
         return this.element.waitEvents.length > 1;
+    }
+
+    handleEvent(event) {
+        event.stopPropagation();
+        this.element = waitReducer(this.element, event);
+        this.setConfigurationEditorInputVariables();
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
 
     get activeWaitEvent() {

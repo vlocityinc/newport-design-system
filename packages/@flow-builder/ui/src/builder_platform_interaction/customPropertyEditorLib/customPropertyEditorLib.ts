@@ -2,7 +2,13 @@
 import { renderComponent } from 'aura';
 import { createComponentPromise } from 'builder_platform_interaction/builderUtils';
 import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
-import { dehydrate, getValueFromHydratedItem, ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import {
+    dehydrate,
+    getValueFromHydratedItem,
+    updateProperties,
+    ValueWithError
+} from 'builder_platform_interaction/dataMutationLib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createInputParameter, ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 import { swapUidsForDevNames, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 
@@ -263,3 +269,30 @@ export function createConfigurationEditor(params: ConfigurationEditorParameters)
     };
     return unrender;
 }
+
+/**
+ * Handles the event to update the property changed via a custom property editor
+ *
+ * @param state state of the element
+ * @param event ConfigurationEditorChangeEvent dispatched by the CPE with new value
+ */
+export const cpePropertyChanged = (state, event) => {
+    const newValue =
+        event.detail.newValueDataType === FEROV_DATA_TYPE.ARRAY
+            ? event.detail.newValue
+            : {
+                  error: null,
+                  value: event.detail.newValue
+              };
+    let updatedState = updateProperties(state, {
+        [event.detail.name]: newValue
+    });
+
+    let config = state.config || {};
+    if (event.detail.error && !config.hasError) {
+        config = { ...config, hasError: true };
+        updatedState = updateProperties(state, config);
+    }
+
+    return updatedState;
+};

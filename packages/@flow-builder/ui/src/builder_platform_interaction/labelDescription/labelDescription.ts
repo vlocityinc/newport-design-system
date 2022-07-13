@@ -250,20 +250,25 @@ export default class LabelDescription extends LightningElement {
             if (this.editorParams.panelConfig.customIcon) {
                 return this.editorParams.panelConfig.customIcon;
             }
-            return getConfigForElementType(this.editorParams.panelConfig.elementType).nodeConfig.iconName;
+            return this.configuration.nodeConfig.iconName;
         }
         return '';
     }
 
     get iconBackgroundColor() {
         if (this.editorParams?.panelConfig) {
-            const color = getConfigForElementType(this.editorParams.panelConfig.elementType).nodeConfig
-                .iconBackgroundColor;
+            const color = this.configuration.nodeConfig.iconBackgroundColor;
             if (color) {
                 return color;
             }
         }
         return '';
+    }
+
+    get configuration() {
+        return getConfigForElementType(
+            this.editorParams.panelConfig.elementSubtype || this.editorParams.panelConfig.elementType
+        );
     }
 
     /** Focus the label field */
