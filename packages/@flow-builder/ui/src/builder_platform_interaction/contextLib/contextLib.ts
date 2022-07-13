@@ -179,7 +179,7 @@ export function orgHasFlowBuilderAutomaticFields() {
  * @returns true if the flow formular builder is enabled
  */
 export function orgHasFlowFormulaBuilder() {
-    return context.access?.orgHasFlowFormulaBuilder;
+    return true; /* W-11403686 captures the work to clean this up*/
 }
 
 export const CLASSIC_EXPERIENCE = 'CLASSIC';

@@ -242,9 +242,9 @@ describe('Filter Editor', () => {
         it('contains filter property editor', () => {
             expect(filterEditor).not.toBeNull();
         });
-        it('does not show condition list or formula editor', () => {
+        it('does not show condition list or formula builder', () => {
             expect(getConditionList(filterEditor)).toBeNull();
-            expect(getFormulaEditor(filterEditor)).toBeNull();
+            expect(getFormulaBuilder(filterEditor)).toBeNull();
         });
         it('has empty input collection field', () => {
             expect(getInputCollection(filterEditor)).not.toBeNull();
@@ -272,16 +272,6 @@ describe('Filter Editor', () => {
             expect(getCollectionVariableCombobox(filterEditor)!.element.errorMessage).toBe(
                 FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
             );
-        });
-        it('renders formula editor if orgHasFlowFormulaBuilder is off', async () => {
-            const collectionVariableCombobox = getCollectionVariableCombobox(filterEditor).getGroupedCombobox();
-            await collectionVariableCombobox.type('{!outputRecommendations}');
-            const conditionList = getConditionList(filterEditor);
-            await getConditionLogicCombobox(conditionList).dispatchEvent(
-                new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA)
-            );
-            expect(getFormulaEditor(filterEditor)).not.toBeNull();
-            expect(getFormulaBuilder(filterEditor)).toBeNull();
         });
         describe('Formula builder when orgHasFlowFormulaBuilder is on', () => {
             let collectionProcessorEditor, filterEditor;
@@ -356,8 +346,8 @@ describe('Filter Editor', () => {
             it('loads condition list', () => {
                 expect(getConditionList(filterEditor)).not.toBeNull();
             });
-            it('does not render formula editor', () => {
-                expect(getFormulaEditor(filterEditor)).toBeNull();
+            it('does not render formula builder', () => {
+                expect(getFormulaBuilder(filterEditor)).toBeNull();
             });
             it('loads condition logic', () => {
                 const conditionList = getConditionList(filterEditor);
@@ -406,8 +396,8 @@ describe('Filter Editor', () => {
                     new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.FORMULA)
                 );
                 expect(getConditionLogicCombobox(conditionList).value).toBe(CONDITION_LOGIC.FORMULA);
-                expect(getFormulaEditor(filterEditor)).not.toBeNull();
-                expect(getFormulaEditor(filterEditor).value.value).toBe('');
+                expect(getFormulaBuilder(filterEditor)).not.toBeNull();
+                expect(getFormulaBuilder(filterEditor).value.value).toBe('');
                 expect(getFilterConditions(filterEditor)).toMatchObject([newCondition]);
             });
             it('does not reset conditions when condition logic is set to other non-formula logic', async () => {
@@ -452,17 +442,17 @@ describe('Filter Editor', () => {
                     '{!Get_Accounts}'
                 );
             });
-            it('loads formula editor and the formula expression', () => {
-                const formulaEditor = getFormulaEditor(filterEditor);
-                expect(formulaEditor).not.toBeNull();
-                expect(formulaEditor.value.value).toBe(expectedFormula);
+            it('loads formula builder and the formula expression', () => {
+                const formulaBuilder = getFormulaBuilder(filterEditor);
+                expect(formulaBuilder).not.toBeNull();
+                expect(formulaBuilder.value.value).toBe(expectedFormula);
             });
             it('changes formula', async () => {
                 const newFormula = "CONTAINS({!currentItem_Filter_Get_Accounts_By_Formula.Name}, 'Test')";
                 const filterConditionList = getChildComponent(filterEditor, SELECTORS.FILTER_CONDITION_LIST);
                 filterConditionList.dispatchEvent(new PropertyChangedEvent('formula', newFormula));
                 await ticks();
-                expect(getFormulaEditor(filterEditor).value.value).toBe(newFormula);
+                expect(getFormulaBuilder(filterEditor).value.value).toBe(newFormula);
             });
             it('reset conditions and formula when condition logic is changed', async () => {
                 const conditionList = getConditionList(filterEditor);
@@ -472,7 +462,7 @@ describe('Filter Editor', () => {
                 const conditions = getFilterConditions(filterEditor);
                 expect(conditions).toHaveLength(1);
                 expect(conditions).toMatchObject([newCondition]);
-                expect(getFormulaEditor(filterEditor)).toBeNull();
+                expect(getFormulaBuilder(filterEditor)).toBeNull();
             });
             it('does not render conditions', () => {
                 expect(getFieldExpressionBuilders(filterEditor)).toHaveLength(0);
@@ -549,8 +539,8 @@ describe('Filter Editor', () => {
                 );
                 expect(getFilterConditions(filterEditor)).toHaveLength(1);
                 expect(getFilterConditions(filterEditor)).toMatchObject([newCondition]);
-                expect(getFormulaEditor(filterEditor)).not.toBeNull();
-                expect(getFormulaEditor(filterEditor).value.value).toBe('');
+                expect(getFormulaBuilder(filterEditor)).not.toBeNull();
+                expect(getFormulaBuilder(filterEditor).value.value).toBe('');
             });
         });
         describe('Filter text collection by conditions', () => {

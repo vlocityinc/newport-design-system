@@ -130,7 +130,7 @@ const getConditions = (filterEditor) =>
 const getFormulaEditor = (filterEditor) =>
     deepQuerySelector(filterEditor, [
         INTERACTION_COMPONENTS_SELECTORS.FILTER_CONDITION_LIST,
-        INTERACTION_COMPONENTS_SELECTORS.RESOURCED_TEXTAREA
+        INTERACTION_COMPONENTS_SELECTORS.FORMULA_BUILDER
     ]);
 
 describe('filter-editor', () => {
@@ -205,7 +205,7 @@ describe('filter-editor', () => {
             expect(getFilterConditionList(filterEditor)).toBeNull();
         });
 
-        it('shoud not load formula editor', () => {
+        it('shoud not load formula builder', () => {
             expect(getFormulaEditor(filterEditor)).toBeNull();
         });
 
@@ -230,7 +230,7 @@ describe('filter-editor', () => {
             const conditionListTitle = filterEditor.shadowRoot.querySelectorAll('.slds-p-bottom_small')[1];
             expect(conditionListTitle.textContent).toEqual('FlowBuilderFilterEditor.title');
         });
-        it('should not display formula editor', () => {
+        it('should not display formula builder', () => {
             expect(getFormulaEditor(filterEditor)).toBeNull();
         });
     });
@@ -247,7 +247,7 @@ describe('filter-editor', () => {
         it('should not display conditions', () => {
             expect(getConditions(filterEditor)).toBeNull();
         });
-        it('should display formula editor', () => {
+        it('should display formula builder', () => {
             const formulaCmp = getFormulaEditor(filterEditor);
             expect(formulaCmp).not.toBeNull();
             expect(formulaCmp.value.value).toEqual(testFilterByFormula.formula.value);

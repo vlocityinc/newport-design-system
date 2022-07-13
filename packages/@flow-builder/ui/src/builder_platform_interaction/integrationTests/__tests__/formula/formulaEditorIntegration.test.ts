@@ -47,7 +47,8 @@ const getDataTypePickerElement = (editor) => editor.shadowRoot.querySelector(SEL
 const getDataTypeComboboxElement = (editor) =>
     getDataTypePickerElement(editor).shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
 
-const getResourcedTextArea = (editor) => editor.shadowRoot.querySelector(SELECTORS.RESOURCED_TEXTAREA);
+const getResourcedTextArea = (editor) =>
+    editor.shadowRoot.querySelector([SELECTORS.FORMULA_BUILDER, SELECTORS.RESOURCED_TEXTAREA]);
 
 const getFormulaTextArea = (editor) => getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.TEXTAREA);
 
@@ -59,7 +60,7 @@ const getResourceCombobox = (editor) => {
     return new ComboboxTestComponent(baseResourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX));
 };
 
-describe('Formula Editor', () => {
+describe('Formula Builder', () => {
     let store, uiFlow;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
