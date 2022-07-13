@@ -124,31 +124,37 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 const mockReturnValue = {
     myString: {
         apiName: 'myString',
-        dataType: 'String',
+        dataType: FLOW_DATA_TYPE.STRING.value,
         isCollection: false,
+        apexClass: 'mockApexClass'
+    },
+    myStringArray: {
+        apiName: 'myStringArray',
+        dataType: FLOW_DATA_TYPE.STRING.value,
+        isCollection: true,
         apexClass: 'mockApexClass'
     },
     myBoolean: {
         apiName: 'myBoolean',
-        dataType: 'Boolean',
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         isCollection: false,
         apexClass: 'mockApexClass'
     },
     myCurrency: {
         apiName: 'myCurrency',
-        dataType: 'Currency',
+        dataType: FLOW_DATA_TYPE.CURRENCY.value,
         isCollection: false,
         apexClass: 'mockApexClass'
     },
     myNumber: {
         apiName: 'myNumber',
-        dataType: 'Number',
+        dataType: FLOW_DATA_TYPE.NUMBER.value,
         isCollection: false,
         apexClass: 'mockApexClass'
     },
     myApexDefined: {
         apiName: 'myApexDefined',
-        dataType: 'Apex',
+        dataType: FLOW_DATA_TYPE.APEX.value,
         subtype: 'mockInnerApexClass',
         isCollection: false,
         apexClass: 'mockApexClass'
@@ -362,7 +368,7 @@ describe('collection-choice-set-editor', () => {
             expect(Object.keys(fieldPicker.fields)).toHaveLength(Object.keys(accountFields).length);
         });
 
-        it('non primitive field types should be filtered out for ApexDefinedType', async () => {
+        it('non primitive field types and arrays should be filtered out for ApexDefinedType', async () => {
             dispatchComboBoxEvent(collectionChoiceEditor, A_MENU_ITEM_APEX, VARIABLE, null);
             await ticks(1);
             expect(Object.keys(fieldPicker.fields)).toEqual([

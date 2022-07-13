@@ -181,7 +181,7 @@ export default class CollectionChoiceSetEditor extends LightningElement {
                 .then((fields) => {
                     const dataTypeList = this.dataTypeList.map((dataType) => dataType?.value);
                     const primitiveFields = Object.keys(fields).reduce((filteredFields, fieldName) => {
-                        if (dataTypeList.includes(fields[fieldName]?.dataType)) {
+                        if (dataTypeList.includes(fields[fieldName]?.dataType) && !fields[fieldName]?.isCollection) {
                             filteredFields[fieldName] = fields[fieldName];
                         }
                         return filteredFields;
