@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <button
-                                if:false={disableDeleteElements}
+                                if:false={isDeleteDisabled}
                                 class="slds-button slds-float_right slds-m-top_small delete-item"
                                 onclick={handleDeleteItem}
                                 data-item-guid={item.guid}

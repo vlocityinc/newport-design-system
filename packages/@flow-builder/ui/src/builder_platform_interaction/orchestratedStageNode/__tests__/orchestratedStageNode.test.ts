@@ -469,6 +469,17 @@ describe('Stepped-Stage-Node', () => {
             const deleteButtons = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.DELETE_ITEM);
             expect(deleteButtons.length).toBe(0);
         });
+        it('does not display the delete button in cut mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { canvasContext: { mode: 'cut' } });
+            const deleteButtons = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.DELETE_ITEM);
+            expect(deleteButtons.length).toBe(0);
+        });
+        it('css class disabled-step present in cut mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { canvasContext: { mode: 'cut' } });
+            const stepItem = orchestratedStageElement.shadowRoot.querySelector(`div[data-item-guid='${itemGuid}']`);
+            const STAGE_DISABLE_STEP_CLASS = 'disabled-step';
+            expect(stepItem.classList.contains(STAGE_DISABLE_STEP_CLASS)).toBeTruthy();
+        });
         it('displays the add-step button in edit mode', async () => {
             orchestratedStageElement = await createComponentUnderTest(mockNode);
             const addStepButtons = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_MENU_TRIGGER);
@@ -477,6 +488,13 @@ describe('Stepped-Stage-Node', () => {
         it('does not display the add-step button in debug mode', async () => {
             orchestratedStageElement = await createComponentUnderTest(mockNode, {
                 canvasContext: { connectorMenuMetadata: null }
+            });
+            const addStepButtons = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_MENU_TRIGGER);
+            expect(addStepButtons.length).toBe(0);
+        });
+        it('does not display the add-step button in cut mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, {
+                canvasContext: { mode: 'cut' }
             });
             const addStepButtons = orchestratedStageElement.shadowRoot.querySelectorAll(selectors.STEP_MENU_TRIGGER);
             expect(addStepButtons.length).toBe(0);

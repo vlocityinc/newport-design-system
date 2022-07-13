@@ -1,4 +1,4 @@
-import { getDomElementGeometry, scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
+import { getDomElementGeometry, isCutMode, scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
 import { NodeResizeEvent, PopoverToggledEvent } from 'builder_platform_interaction/alcEvents';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
@@ -6,6 +6,7 @@ import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interacti
 import { ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
 import { commands, commonUtils, keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
 import LightningPopup from 'lightning/popup';
+import { classSet } from 'lightning/utils';
 import { api, LightningElement } from 'lwc';
 import { LABELS } from './orchestratedStageNodeLabels';
 
@@ -111,7 +112,11 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
     canvasContext;
 
     get disableAddElements() {
-        return this.canvasContext.connectorMenuMetadata == null;
+        return this.canvasContext.connectorMenuMetadata == null || isCutMode(this.canvasContext.mode);
+    }
+
+    get isDeleteDisabled() {
+        return this.disableDeleteElements || isCutMode(this.canvasContext.mode);
     }
 
     get stageStepsWithErrorClass() {
@@ -119,8 +124,12 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
 
         return this.items.map((item) => ({
             ...item,
-            cssClass: baseClasses + (item.config.hasError ? ' stage-step-error' : ''),
-            stepLabelCssClass: 'itemLabel' + (item.config.hasError ? ' stage-step-label-error' : '')
+            cssClass: classSet(baseClasses).add({
+                'stage-step-error': item.config.hasError,
+                'disabled-step': isCutMode(this.canvasContext.mode)
+            }),
+            stepLabelCssClass: classSet('itemLabel').add({ ' stage-step-label-error': item.config.hasError }),
+            tabIndex: isCutMode(this.canvasContext.mode) ? -1 : item.tabIndex
         }));
     }
 

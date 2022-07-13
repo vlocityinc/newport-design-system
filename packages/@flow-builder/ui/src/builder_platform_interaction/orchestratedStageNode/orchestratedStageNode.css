@@ -70,6 +70,10 @@ builder_platform_interaction-stage-step-menu {
     box-shadow: inset 0 0 0 2px var(--lwc-colorBorderRowSelected);
 }
 
+.item[aria-selected='true'].disabled-step {
+    box-shadow: none;
+}
+
 .item[aria-selected='true']:not(.disabled):hover {
     background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
     box-shadow: inset 0 0 0 2px var(--lwc-colorBorderRowSelected);
@@ -78,6 +82,19 @@ builder_platform_interaction-stage-step-menu {
 .item[aria-selected='true']:not(.disabled):hover:focus {
     background: var(--lwc-verticalNavigationColorBackgroundShadeRowHover);
     box-shadow: inset 0 0 0 2px var(--lwc-colorBorderRowSelected);
+}
+
+.item.disabled-step:hover,
+.item[aria-selected='true'].disabled-step:hover {
+    cursor: default;
+    background: var(--lwc-color-background-alt);
+}
+
+.item.disabled-step:focus:hover,
+.item.disabled-step:focus,
+.item[aria-selected='true'].disabled-step:hover:focus {
+    background: var(--lwc-color-background-alt);
+    box-shadow: none;
 }
 
 .item:not(:first-child) {
