@@ -134,7 +134,7 @@ export function duplicateCanvasElement(canvasElement, newGuid, newName): { dupli
  *
  * @param {Object} childReference - Object containing the guid of the child element (eg: {childReference: 'outcome1'})
  * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
- * @param {Object} childElementNameMap - Map of child element names to new names for the duplicated child elements
+ * @param {Object} childElementNameAndLabelMap - Map of child element names to new names for the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  * @param {Function} createChildElement - Function to create the duplicate child element
  * @returns {Object} Returns the duplicated child element with the updated guid and name
@@ -143,7 +143,7 @@ export function duplicateCanvasElement(canvasElement, newGuid, newName): { dupli
 function _createDuplicateChildElement(
     childReference,
     childElementGuidMap,
-    childElementNameMap,
+    childElementNameAndLabelMap,
     cutOrCopiedChildElements,
     createChildElement
 ) {
@@ -164,7 +164,8 @@ function _createDuplicateChildElement(
             // Updating the name and guid for the duplicatedChildElement
             el = Object.assign(el, {
                 guid: childElementGuidMap[el.guid],
-                name: childElementNameMap[el.name]
+                name: childElementNameAndLabelMap[el.name]?.name,
+                label: childElementNameAndLabelMap[el.name]?.label
             });
 
             // Updating the childReferences array to have the guids of the duplicated nested child elements
@@ -202,7 +203,8 @@ function _createDuplicateChildElement(
     return {
         duplicatedChildElement: Object.assign(duplicatedChildElements, {
             guid: childElementGuidMap[originalChildElement.guid],
-            name: childElementNameMap[originalChildElement.name]
+            name: childElementNameAndLabelMap[originalChildElement.name]?.name,
+            label: childElementNameAndLabelMap[originalChildElement.name]?.label
         }),
         duplicatedNestedChildElements: {}
     };
@@ -215,7 +217,7 @@ function _createDuplicateChildElement(
  * @param {string} newGuid - Guid for the duplicated canvas element
  * @param {string} newName - Name for the duplicated canvas element
  * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
- * @param {Object} childElementNameMap - Map of child element names to new names for the duplicated child elements
+ * @param {Object} childElementNameAndLabelMap - Map of child element names to new names for the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  * @param {Function} createChildElement - Function to create the duplicate child element
  * @param {Object[]} defaultAvailableConnections - Default Available Connections associated with a canvas element
@@ -227,7 +229,7 @@ export function duplicateCanvasElementWithChildElements(
     newGuid,
     newName,
     childElementGuidMap,
-    childElementNameMap,
+    childElementNameAndLabelMap,
     cutOrCopiedChildElements,
     createChildElement,
     defaultAvailableConnections = []
@@ -244,7 +246,7 @@ export function duplicateCanvasElementWithChildElements(
         const { duplicatedChildElement, duplicatedNestedChildElements } = _createDuplicateChildElement(
             childReference,
             childElementGuidMap,
-            childElementNameMap,
+            childElementNameAndLabelMap,
             cutOrCopiedChildElements,
             createChildElement
         );

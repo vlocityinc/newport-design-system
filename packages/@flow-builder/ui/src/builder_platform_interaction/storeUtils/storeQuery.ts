@@ -130,6 +130,23 @@ export const isDevNameInStore = (nameToBeTested: string, listOfGuidsToSkip: UI.G
 };
 
 /**
+ * Checks label for uniqueness against other elements in the store
+ *
+ * @param labelToBeTested The label to be tested for uniqueness
+ * @returns Whether or not the label is in the store
+ */
+export const isLabelInStore = (labelToBeTested: string): boolean => {
+    const currentState = Store.getStore().getCurrentState();
+    const elements = currentState.elements;
+    const match =
+        elements &&
+        Object.values(elements).find(
+            (element) => labelToBeTested !== '' && element.label && labelToBeTested === element.label
+        );
+    return match !== undefined;
+};
+
+/**
  * Checks the uniqueness of the order number amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
  * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
  *

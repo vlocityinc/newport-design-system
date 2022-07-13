@@ -8,6 +8,7 @@ import {
     getElementsForElementType,
     getScheduledPathsList,
     isExecuteOnlyWhenChangeMatchesConditionsPossible,
+    isLabelInStore,
     shouldUseAutoLayoutCanvas
 } from '../storeQuery';
 
@@ -58,6 +59,13 @@ describe('getDuplicateDevNameElements', () => {
     it('should return an array with one element if duplicate dev name is detected', () => {
         const result = getDuplicateDevNameElements(mockElements, 'testName', 'testGUID');
         expect(result).toEqual([mockElements.mockGuid]);
+    });
+});
+
+describe('isLabelInStore', () => {
+    it('returns whether or not a given label is set on any element in the store', () => {
+        expect(isLabelInStore('Label that is not in store')).toBeFalsy();
+        expect(isLabelInStore('getAccountSeparateFieldsWithFilters')).toBeTruthy();
     });
 });
 

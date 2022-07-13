@@ -679,7 +679,7 @@ function _getDuplicateChildElementNameMap(state, childElementGuidsToDuplicate, b
     for (let i = 0; i < childElementGuidsToDuplicate.length; i++) {
         const childElement = state[childElementGuidsToDuplicate[i]];
         const duplicateChildElementName = getUniqueDuplicateElementName(childElement.name, blacklistNames);
-        childElementNameMap[childElement.name] = duplicateChildElementName;
+        childElementNameMap[childElement.name] = { name: duplicateChildElementName };
         blacklistNames.push(duplicateChildElementName);
     }
 

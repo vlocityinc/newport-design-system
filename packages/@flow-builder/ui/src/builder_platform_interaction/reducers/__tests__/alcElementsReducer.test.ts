@@ -59,7 +59,8 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
         createDuplicateScreen,
         createDuplicateAssignment,
         createDuplicateWait,
-        createDuplicatePastedRecordLookup
+        createDuplicatePastedRecordLookup,
+        MAX_LABEL_LENGTH: 255
     };
 });
 
@@ -96,7 +97,9 @@ jest.mock('builder_platform_interaction/alcCanvasUtils', () => {
         getElementsMetadata: jest.fn(() => metadata)
     });
 });
-
+jest.mock('@salesforce/label/FlowBuilderElementConfig.pastedElementName', () => ({ default: 'Copy {0} of {1}' }), {
+    virtual: true
+});
 describe('alc-elements-reducer', () => {
     describe('When delete goto', () => {
         it('it calls the goto reducer', () => {
@@ -1339,6 +1342,7 @@ describe('alc-elements-reducer', () => {
         const assignment1 = {
             guid: 'assignment1',
             name: 'assignment1',
+            label: 'Assignment 1',
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             next: 'wait1'
         };
@@ -1346,6 +1350,7 @@ describe('alc-elements-reducer', () => {
         const wait1 = {
             guid: 'wait1',
             name: 'wait1',
+            label: 'Wait 1',
             elementType: ELEMENT_TYPE.WAIT,
             nodeType: 'branch',
             childReferences: [
@@ -1354,6 +1359,9 @@ describe('alc-elements-reducer', () => {
                 },
                 {
                     childReference: 'waitEvent2'
+                },
+                {
+                    childReference: 'waitEvent3'
                 }
             ],
             prev: 'assignment1',
@@ -1365,6 +1373,7 @@ describe('alc-elements-reducer', () => {
         const screen1 = {
             guid: 'screen1',
             name: 'screen1',
+            label: 'Screen 1',
             elementType: ELEMENT_TYPE.SCREEN,
             prev: null,
             next: null,
@@ -1376,6 +1385,7 @@ describe('alc-elements-reducer', () => {
         const screen2 = {
             guid: 'screen2',
             name: 'screen2',
+            label: 'Screen 2',
             elementType: ELEMENT_TYPE.SCREEN,
             prev: null,
             next: null,
@@ -1387,6 +1397,7 @@ describe('alc-elements-reducer', () => {
         const screen3 = {
             guid: 'screen3',
             name: 'screen3',
+            label: 'Screen 3',
             elementType: ELEMENT_TYPE.SCREEN,
             childReferences: [],
             prev: null,
@@ -1398,12 +1409,19 @@ describe('alc-elements-reducer', () => {
 
         const waitEvent1 = {
             guid: 'waitEvent1',
-            name: 'waitEvent1'
+            name: 'waitEvent1',
+            label: 'Wait Event 1'
         };
 
         const waitEvent2 = {
             guid: 'waitEvent2',
-            name: 'waitEvent2'
+            name: 'waitEvent2',
+            label: 'Wait Event 2'
+        };
+        const waitEvent3 = {
+            guid: 'waitEvent3',
+            name: 'waitEvent3',
+            label: 'Wait Event 3 With A Really Long Label Like So Long That Any Additional Characters Will Be Truncated Which Is Especially Important When Copy Pasting Elements Since The Labels and Names Of Pasted Elements Are Prepended With Some Other Text Like Copy 1 of A'
         };
 
         const canvasElementGuidMap = {
@@ -1413,7 +1431,8 @@ describe('alc-elements-reducer', () => {
         };
         const childElementGuidMap = {
             waitEvent1: 'waitEvent1_0',
-            waitEvent2: 'waitEvent2_0'
+            waitEvent2: 'waitEvent2_0',
+            waitEvent3: 'waitEvent3_0'
         };
         const cutOrCopiedCanvasElements = {
             assignment1,
@@ -1422,7 +1441,8 @@ describe('alc-elements-reducer', () => {
         };
         const cutOrCopiedChildElements = {
             waitEvent1,
-            waitEvent2
+            waitEvent2,
+            waitEvent3
         };
         const topCutOrCopiedGuid = 'assignment1';
         const bottomCutOrCopiedGuid = 'wait1';
@@ -1436,7 +1456,8 @@ describe('alc-elements-reducer', () => {
                     screen2,
                     screen3,
                     waitEvent1,
-                    waitEvent2
+                    waitEvent2,
+                    waitEvent3
                 }
             };
 
@@ -1492,6 +1513,18 @@ describe('alc-elements-reducer', () => {
 
             it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
                 expect(updatedState.screen3_0.next).toEqual('end-element-guid');
+            });
+
+            it('Pasted elements should have newly generated labels and names', () => {
+                expect(updatedState.assignment1_0.label).toEqual('Copy 1 of Assignment 1');
+                expect(updatedState.assignment1_0.name).toEqual('Copy_1_of_Assignment_1');
+                expect(updatedState.wait1_0.label).toEqual('Copy 1 of Wait 1');
+                expect(updatedState.wait1_0.name).toEqual('Copy_1_of_Wait_1');
+                expect(updatedState.waitEvent2_0.label).toEqual('Copy 1 of Wait Event 2');
+                expect(updatedState.waitEvent2_0.name).toEqual('Copy_1_of_Wait_Event_2');
+                expect(updatedState.screen3_0.label).toEqual('Copy 1 of Screen 3');
+                expect(updatedState.screen3_0.name).toEqual('Copy_1_of_Screen_3');
+                expect(updatedState.waitEvent3_0.label.length).toEqual(255);
             });
         });
 

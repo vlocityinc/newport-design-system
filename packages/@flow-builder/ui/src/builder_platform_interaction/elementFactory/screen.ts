@@ -52,7 +52,7 @@ export function createScreenWithFields(screen: UI.Screen = {} as UI.Screen): UI.
  * @param {string} newName - Name for the new duplicated screen element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
- * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
+ * @param {Object} childElementNameAndLabelMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
  * @returns {Object} Returns an object containing the duplicated element and the duplicated childElements
@@ -62,7 +62,7 @@ export function createDuplicateScreen( // TODO: refactor the duplication code. T
     newGuid: UI.Guid,
     newName: string,
     childElementGuidMap: UI.Guid[],
-    childElementNameMap: string[],
+    childElementNameAndLabelMap: string[],
     cutOrCopiedChildElements: UI.Screen[]
 ) {
     const duplicateScreen = createScreenElement(screen);
@@ -72,7 +72,7 @@ export function createDuplicateScreen( // TODO: refactor the duplication code. T
             newGuid,
             newName,
             childElementGuidMap,
-            childElementNameMap,
+            childElementNameAndLabelMap,
             cutOrCopiedChildElements,
             createDuplicateNestedScreenFields
         );

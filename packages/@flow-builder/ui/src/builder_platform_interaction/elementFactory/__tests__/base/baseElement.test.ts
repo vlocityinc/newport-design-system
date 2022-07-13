@@ -288,8 +288,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         originalChildElement: 'duplicateChildElement'
     };
 
-    const childElementNameMap = {
-        childElement1: 'childElement1_0'
+    const childElementNameAndLabelMap = {
+        childElement1: { name: 'childElement1_0', label: 'child Element 1 0' }
     };
 
     const createChildElement = function (originalChildElement) {
@@ -300,6 +300,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         const originalCanvasElement = {
             guid: 'originalElement',
             name: 'Decision1',
+            label: 'Decision 1',
             locationX: 10,
             locationY: 20,
             maxConnections: 2,
@@ -323,7 +324,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                 'duplicateElement',
                 'Decision1_0',
                 childElementGuidMap,
-                childElementNameMap,
+                childElementNameAndLabelMap,
                 undefined,
                 createChildElement,
                 defaultAvailableConnections
@@ -333,6 +334,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             const newElement = {
                 guid: 'duplicateElement',
                 name: 'Decision1_0',
+                label: 'Decision 1',
                 locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
                 locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
                 config: { isSelected: true, isHighlighted: false, hasError: false },
@@ -353,7 +355,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             expect(duplicatedChildElements).toEqual({
                 duplicateChildElement: {
                     guid: 'duplicateChildElement',
-                    name: 'childElement1_0'
+                    name: 'childElement1_0',
+                    label: 'child Element 1 0'
                 }
             });
         });
@@ -412,8 +415,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                     column1: 'duplicateColumn1'
                 },
                 {
-                    section1: 'duplicateSection1',
-                    column1: 'duplicateColumn1'
+                    section1: { name: 'duplicateSection1', label: 'duplicate Section 1' },
+                    column1: { name: 'duplicateColumn1', label: 'duplicate Column 1' }
                 },
                 undefined,
                 createDuplicateChildElements
@@ -439,6 +442,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             expect(duplicatedChildElements.duplicateSection1).toMatchObject({
                 guid: 'duplicateSection1',
                 name: 'duplicateSection1',
+                label: 'duplicate Section 1',
                 childReferences: [{ childReference: 'duplicateColumn1' }]
             });
         });
@@ -446,7 +450,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         it('The duplicated column component should have the right properties', () => {
             expect(duplicatedChildElements.duplicateColumn1).toMatchObject({
                 guid: 'duplicateColumn1',
-                name: 'duplicateColumn1'
+                name: 'duplicateColumn1',
+                label: 'duplicate Column 1'
             });
         });
 
@@ -485,7 +490,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                 'duplicateElement',
                 'Screen1_0',
                 childElementGuidMap,
-                childElementNameMap,
+                childElementNameAndLabelMap,
                 undefined,
                 createChildElement
             );

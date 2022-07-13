@@ -216,7 +216,7 @@ export function createWaitWithWaitEvents(wait = {}) {
  * @param {string} newName - Name for the new duplicated wait element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
- * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
+ * @param {Object} childElementNameAndLabelMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
  * @returns {Object} Returns an object containing the duplicated element and the duplicated childElements
@@ -226,7 +226,7 @@ export function createDuplicateWait(
     newGuid,
     newName,
     childElementGuidMap,
-    childElementNameMap,
+    childElementNameAndLabelMap,
     cutOrCopiedChildElements
 ) {
     const defaultAvailableConnections = [
@@ -244,7 +244,7 @@ export function createDuplicateWait(
             newGuid,
             newName,
             childElementGuidMap,
-            childElementNameMap,
+            childElementNameAndLabelMap,
             cutOrCopiedChildElements,
             createWaitEvent,
             defaultAvailableConnections

@@ -1,3 +1,4 @@
+import pastedElementName from '@salesforce/label/FlowBuilderElementConfig.pastedElementName';
 import {
     ADD_CANVAS_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
@@ -51,12 +52,13 @@ import {
     setChild,
     START_IMMEDIATE_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { createEndElement } from 'builder_platform_interaction/elementFactory';
+import { createEndElement, MAX_LABEL_LENGTH } from 'builder_platform_interaction/elementFactory';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
+import { isDevNameInStore, isLabelInStore } from 'builder_platform_interaction/storeUtils';
 import elementsReducer from './elementsReducer';
 import { getSubElementGuids } from './reducersUtils';
 
@@ -455,40 +457,65 @@ function _selectionOnFixedCanvas(
 }
 
 /**
- * Helper function to get unique dev name that is not in the store or in the passed in blacklist
+ * Function to generate a unique label and devName for a pasted element.
  *
- * @param name - existing dev name to make unique
- * @param blacklistNames - blacklisted list of names to check against in addition to store
- * @returns new unique dev name
+ * @param label - Existing label
+ * @param blacklistLabels - blacklist of labels to check against in addition to the store
+ * @param blacklistNames - blacklist of devnames to check against in addition to the store
+ * @returns Tuple of generated unique label and name respectively
  */
-function _getUniquePastedElementName(name: string, blacklistNames: string[] = []) {
-    if (isDevNameInStore(name) || blacklistNames.includes(name)) {
-        return _getUniquePastedElementName(name + '_0', blacklistNames);
+function _getUniquePastedElementNameAndLabel(
+    label: string,
+    blacklistLabels: string[] = [],
+    blacklistNames: string[] = []
+) {
+    let count = 0;
+    let pastedElementLabel = label;
+    let pastedElementDevName = sanitizeDevName(pastedElementLabel);
+    // Check label and name for uniqueness
+    while (
+        isLabelInStore(pastedElementLabel) ||
+        blacklistLabels.includes(pastedElementLabel) ||
+        isDevNameInStore(pastedElementDevName) ||
+        blacklistNames.includes(pastedElementDevName)
+    ) {
+        // Generate another label if neither are unique
+        count++;
+        pastedElementLabel = pastedElementName.replace('{0}', count).replace('{1}', label).slice(0, MAX_LABEL_LENGTH);
+        pastedElementDevName = sanitizeDevName(pastedElementLabel);
     }
-
-    return name;
+    return [pastedElementLabel, pastedElementDevName];
 }
 
 /**
- * Helper function to get unique dev names for child elements
+ * Helper function to get unique name and labels for child elements
  *
- * @param cutOrCopiedChildElements - list of child elements to paste
- * @param blacklistNames - blacklisted list of names to check against in addition to store
- * @returns List of child elements
+ * @param cutOrCopiedChildElements List of child elements to generate name/labels for
+ * @param blacklistNames Names are checked for uniqueness against the store and this list
+ * @param blacklistLabels Labels are checked for uniqueness against the store and this list
+ * @returns Label/name map keyed by original element name: { [index: string]: { name: string; label: string } }
  */
-function _getPastedChildElementNameMap(cutOrCopiedChildElements: UI.Element[], blacklistNames: string[]) {
-    const childElementNameMap = {};
+function _getPastedChildElementNameAndLabelMap(
+    cutOrCopiedChildElements: UI.Element[],
+    blacklistNames: string[],
+    blacklistLabels: string[]
+) {
+    const childElementNameAndLabelMap = {};
     const cutOrCopiedChildElementsArray = Object.values(cutOrCopiedChildElements) as any;
     for (let i = 0; i < cutOrCopiedChildElementsArray.length; i++) {
-        const pastedChildElementName = _getUniquePastedElementName(
-            cutOrCopiedChildElementsArray[i].name,
-            blacklistNames
+        const [pastedChildElementLabel, pastedChildElementName] = _getUniquePastedElementNameAndLabel(
+            cutOrCopiedChildElementsArray[i].label,
+            blacklistNames,
+            blacklistLabels
         );
-        childElementNameMap[cutOrCopiedChildElementsArray[i].name] = pastedChildElementName;
+        childElementNameAndLabelMap[cutOrCopiedChildElementsArray[i].name] = {
+            name: pastedChildElementName,
+            label: pastedChildElementLabel
+        };
+        blacklistLabels.push(pastedChildElementLabel);
         blacklistNames.push(pastedChildElementName);
     }
-
-    return childElementNameMap;
+    return childElementNameAndLabelMap;
 }
 
 /**
@@ -532,14 +559,21 @@ function _pasteOnFixedCanvas(
 
     const elementGuidsToPaste = Object.keys(canvasElementGuidMap);
     const blacklistNames: string[] = [];
-    const childElementNameMap = _getPastedChildElementNameMap(cutOrCopiedChildElements, blacklistNames);
+    const blacklistLabels: string[] = [];
+    const childElementNameAndLabelMap = _getPastedChildElementNameAndLabelMap(
+        cutOrCopiedChildElements,
+        blacklistNames,
+        blacklistLabels
+    );
 
     for (let i = 0; i < elementGuidsToPaste.length; i++) {
         const pastedElementGuid = canvasElementGuidMap[elementGuidsToPaste[i]];
-        const pastedElementName = _getUniquePastedElementName(
-            cutOrCopiedCanvasElements[elementGuidsToPaste[i]].name,
+        const [pastedElementLabel, pastedElementName] = _getUniquePastedElementNameAndLabel(
+            cutOrCopiedCanvasElements[elementGuidsToPaste[i]].label,
+            blacklistLabels,
             blacklistNames
         );
+        blacklistLabels.push(pastedElementLabel);
         blacklistNames.push(pastedElementName);
 
         const elementConfig = getConfigForElementType(cutOrCopiedCanvasElements[elementGuidsToPaste[i]].elementType);
@@ -556,11 +590,13 @@ function _pasteOnFixedCanvas(
                 pastedElementGuid,
                 pastedElementName,
                 childElementGuidMap,
-                childElementNameMap,
+                childElementNameAndLabelMap,
                 cutOrCopiedChildElements,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid
             );
+            // apply the generated labels
+            duplicatedElement.label = pastedElementLabel;
 
             const pastedCanvasElement = createPastedCanvasElement(
                 duplicatedElement,
@@ -570,7 +606,6 @@ function _pasteOnFixedCanvas(
                 source,
                 next
             );
-
             newState[pastedCanvasElement.guid] = pastedCanvasElement;
             newState = { ...newState, ...pastedChildElements };
         }
