@@ -2,7 +2,7 @@
 import { AutoLayoutCanvasMode } from 'builder_platform_interaction/alcComponentsUtils';
 import { OutgoingGoToStubClickEvent } from 'builder_platform_interaction/alcEvents';
 import { ConnectorLabelType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
-import { createComponent } from 'builder_platform_interaction/builderTestUtils';
+import { createComponent, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
 import { LABELS } from '../alcConnectorLabels';
 const { Keys } = keyboardInteractionUtils;
@@ -648,5 +648,29 @@ describe('Auto-Layout connector tests', () => {
             .querySelector(selectors.alcMenuTrigger)
             .shadowRoot.querySelector('button');
         expect(button.hasAttribute('disabled')).toBeFalsy();
+    });
+
+    it('Should have paste icon when paste is enabled', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: {
+                ...getDefaultConnectorInfo(),
+                source: {
+                    guid: 'parentGuid1'
+                }
+            },
+            flowModel: defaultFlowModel,
+            canvasContext: {
+                ...defaultCanvasContext,
+                mode: AutoLayoutCanvasMode.CUT,
+                cutInfo: {
+                    guids: ['parentGuid1']
+                }
+            }
+        });
+        const lightningIcons = regularConnector.shadowRoot.querySelectorAll(
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON
+        );
+        expect(lightningIcons[1].classList[0]).toBe('secondary-paste-icon');
+        expect(lightningIcons[1].classList[1]).toBe('slds-var-m-around_small');
     });
 });
