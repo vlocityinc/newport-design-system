@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { setup } from '@sa11y/jest';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { createComponent } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { PAGE_SIZE } from '../alcConnectorMenu';
@@ -33,10 +34,15 @@ describe('Alc Connector Menu Search', () => {
     let cmp, listBox;
 
     beforeAll(async () => {
+        setup();
         cmp = await createComponentUnderTest({
             metadata: LargeMenu
         });
         listBox = cmp.shadowRoot.querySelector('div.body-fixed-height');
+    });
+
+    it('should be accessible', async () => {
+        await expect(cmp).toBeAccessible();
     });
 
     it('shows one page worth of results when the search starts', async () => {

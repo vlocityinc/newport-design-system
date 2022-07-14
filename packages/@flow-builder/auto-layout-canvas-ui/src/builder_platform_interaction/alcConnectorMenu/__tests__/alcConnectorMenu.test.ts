@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { setup } from '@sa11y/jest';
 import {
     CloseMenuEvent,
     DeleteGoToConnectionEvent,
@@ -138,12 +139,22 @@ const createComponentUnderTest = async (overrideOptions) => {
 };
 
 describe('Alc Connector Menu', () => {
+    beforeAll(() => {
+        setup();
+    });
+
     afterEach(() => {
         removeDocumentBodyChildren();
     });
+
     it('should render the component', async () => {
         const menu = await createComponentUnderTest();
         expect(menu).toBeDefined();
+    });
+
+    it('should be accessible', async () => {
+        const cmp = await createComponentUnderTest();
+        await expect(cmp).toBeAccessible();
     });
 
     it('should dispatch close menu event on selecting a menu item ', async () => {

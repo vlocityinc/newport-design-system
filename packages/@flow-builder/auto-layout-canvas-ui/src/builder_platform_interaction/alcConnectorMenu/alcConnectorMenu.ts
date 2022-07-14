@@ -2,7 +2,7 @@ import { DeleteGoToConnectionEvent, GoToPathEvent, PasteOnCanvasEvent } from 'bu
 import AlcMenu from 'builder_platform_interaction/alcMenu';
 import { ConnectionSource, ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { commonUtils } from 'builder_platform_interaction/sharedUtils';
+import { commonUtils, keyboardInteractionUtils } from 'builder_platform_interaction/sharedUtils';
 import { api, track } from 'lwc';
 import {
     configureMenu,
@@ -12,6 +12,8 @@ import {
     PASTE_ACTION
 } from './alcConnectorMenuConfig';
 import { LABELS } from './alcConnectorMenuLabels';
+const { Keys } = keyboardInteractionUtils;
+
 const { debounce } = commonUtils;
 
 const SEARCH_DELAY = 250;
@@ -63,6 +65,21 @@ export default class AlcConnectorMenu extends AlcMenu {
         return this._metadata;
     }
 
+    /**
+     * Makes the search input a focus-first element. Resorts to the original focus method
+     * if no search input is available.
+     */
+    @api
+    focus() {
+        const searchInput = this.template.querySelector('lightning-input');
+        if (searchInput) {
+            // @ts-ignore
+            searchInput.focus();
+        } else {
+            super.focus();
+        }
+    }
+
     get menuConfiguration() {
         return configureMenu(
             this._searchInput,
@@ -104,7 +121,13 @@ export default class AlcConnectorMenu extends AlcMenu {
     }
 
     handleInputKeydown(event) {
-        event.stopPropagation();
+        switch (event.key) {
+            case Keys.Escape:
+            case Keys.Tab:
+                break;
+            default:
+                event.stopPropagation();
+        }
     }
 
     handleScroll(event) {
