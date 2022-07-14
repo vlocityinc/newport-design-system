@@ -192,6 +192,10 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
         return isElementCut(this.canvasMode, this.canvasContext.cutInfo?.guids ?? [], this.nodeInfo.guid);
     }
 
+    get isDisabled() {
+        return this.isElementToBeCut();
+    }
+
     get rotateIconClass() {
         if (this.nodeInfo.metadata.iconShape !== ICON_SHAPE.DIAMOND) {
             return '';

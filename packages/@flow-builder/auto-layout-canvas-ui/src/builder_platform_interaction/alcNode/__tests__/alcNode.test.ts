@@ -175,6 +175,12 @@ describe('AlcNode', () => {
             expect(lightningIcon.classList).not.toContain('cut-paste-node');
         });
 
+        it('Should be disabled if isElementCut is true', async () => {
+            const component = await createComponentWithCutElements(flowModel, true, decisionNodeInfo);
+            const button = component.shadowRoot.querySelector(selectors.menuTrigger).shadowRoot.querySelector('button');
+            expect(button).toBeTruthy();
+        });
+
         it('Should not have "cut-paste-node" class if isElementCut is false and element is a decision', async () => {
             const component = await createComponentWithCutElements(flowModel, false, decisionNodeInfo);
             const lightningIcon = component.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_ICON);
