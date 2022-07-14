@@ -102,6 +102,22 @@ const defaultFlowModel = {
     }
 };
 
+const mergeFlowModel = {
+    parentGuid: {
+        nodeType: NodeType.BRANCH,
+        children: ['s1', null, null],
+        childReferences: [{ childReference: 'o1' }],
+        defaultConnectorLabel: 'Default',
+        next: 's2'
+    },
+    s2: {
+        label: 's2'
+    },
+    o1: {
+        label: 'o1'
+    }
+};
+
 const getDefaultConnectorInfo = () => {
     return {
         type: 'straight',
@@ -111,6 +127,22 @@ const getDefaultConnectorInfo = () => {
         source: {
             guid: 'parentGuid1',
             childIndex: 2
+        },
+        isFault: false,
+        labelOffsetY,
+        operationType: 'delete',
+        labelType: ConnectorLabelType.BRANCH
+    };
+};
+
+const getMergeConnectorInfo = () => {
+    return {
+        type: 'straight',
+        geometry,
+        svgInfo,
+        addInfo,
+        source: {
+            guid: 'parentGuid'
         },
         isFault: false,
         labelOffsetY,
@@ -648,6 +680,25 @@ describe('Auto-Layout connector tests', () => {
             .querySelector(selectors.alcMenuTrigger)
             .shadowRoot.querySelector('button');
         expect(button.hasAttribute('disabled')).toBeFalsy();
+    });
+
+    it('Should disable a connector if next element has been cut', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: getMergeConnectorInfo(),
+            flowModel: mergeFlowModel,
+            canvasContext: {
+                ...defaultCanvasContext,
+                mode: AutoLayoutCanvasMode.CUT,
+                cutInfo: {
+                    guids: ['parentGuid', 's2'],
+                    childIndexToKeep: 1
+                }
+            }
+        });
+        const button = regularConnector.shadowRoot
+            .querySelector(selectors.alcMenuTrigger)
+            .shadowRoot.querySelector('button');
+        expect(button.hasAttribute('disabled')).toBeTruthy();
     });
 
     it('Should have paste icon when paste is enabled', async () => {

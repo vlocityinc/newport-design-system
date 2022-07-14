@@ -280,6 +280,7 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
             cutInfo: { guids, childIndexToKeep }
         } = this.canvasContext;
         const { guid, childIndex } = this.connectorInfo.source;
+        const parent = resolveParent(this.flowModel, guid);
 
         // branch heads
         if (guid === guids[0] && childIndex != null) {
@@ -293,7 +294,7 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
             return guids.includes(guid);
         }
         // next connector after element being cut
-        return false;
+        return parent.next != null && guids.includes(parent.next);
     }
 
     /**
