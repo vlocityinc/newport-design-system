@@ -348,6 +348,7 @@ describe('auto-layout', () => {
                 // Check if toast event has been fired
                 await ticks(1);
                 expect(handler).toHaveBeenCalledTimes(1);
+                expect(handler.mock.calls[0][0].detail.mode).toBe('pester');
                 expect(handler.mock.calls[0][0].detail.variant).toBe('success');
             });
 
@@ -367,6 +368,7 @@ describe('auto-layout', () => {
                 // Check if toast event has been fired
                 await ticks(1);
                 expect(handler).toHaveBeenCalledTimes(1);
+                expect(handler.mock.calls[0][0].detail.mode).toBe('pester');
                 expect(handler.mock.calls[0][0].detail.variant).toBe('success');
             });
 
@@ -388,6 +390,7 @@ describe('auto-layout', () => {
                 // Check if toast event has been fired twice (copy and paste)
                 await ticks(1);
                 expect(handler).toHaveBeenCalledTimes(2);
+                expect(handler.mock.calls[0][0].detail.mode).toBe('pester');
                 expect(handler.mock.calls[0][0].detail.variant).toBe('success');
             });
 
@@ -426,6 +429,7 @@ describe('auto-layout', () => {
                 // Check if toast event has been fired once
                 await ticks(1);
                 expect(handler).toHaveBeenCalledTimes(1);
+                expect(handler.mock.calls[0][0].detail.mode).toBe('pester');
                 expect(handler.mock.calls[0][0].detail.variant).toBe('success');
             });
 
@@ -465,6 +469,7 @@ describe('auto-layout', () => {
                 // Check if toast event has been fired twice (once when copying, once when pasting)
                 await ticks(1);
                 expect(handler).toHaveBeenCalledTimes(2);
+                expect(handler.mock.calls[0][0].detail.mode).toBe('pester');
                 expect(handler.mock.calls[0][0].detail.variant).toBe('success');
             });
         });

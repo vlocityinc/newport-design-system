@@ -180,6 +180,11 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      */
     _elementGuidToFocus!: Guid | null;
 
+    /**
+     * Guid of the top element that has been cut
+     */
+    _topCutGuid!: Guid | null;
+
     /* the current scale with a domain of [MIN_ZOOM, MAX_ZOOM] */
     _scale!: number;
 
@@ -988,6 +993,14 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                     }
                     this._elementGuidToFocus = null;
                 }
+
+                // Moving focus to the connector above the element(s) that
+                // were cut and pasted
+                if (this._topCutGuid) {
+                    const topPastedElement = this.flowModel[this._topCutGuid];
+                    this.focusOnConnector(getConnectionSource(topPastedElement));
+                    this._topCutGuid = null;
+                }
             });
         }
     };
@@ -1306,11 +1319,11 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             shouldCutBeyondMergingPoint,
             childIndexToKeep
         });
-        this.focusOnConnector(getConnectionSource(selectedElement));
         this.updateCanvasContext({
             mode: AutoLayoutCanvasMode.CUT,
             cutInfo: { guids: cutElementGuids, childIndexToKeep }
         });
+        this.focusOnConnector(getConnectionSource(selectedElement));
         this.dispatchEvent(new CutElementsEvent(cutElementGuids, childIndexToKeep));
     };
 
@@ -1323,10 +1336,12 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         const { options } = event.detail;
         if (options.isCutPaste) {
             event.stopPropagation();
+            this._topCutGuid = this.canvasContext.cutInfo.guids[0];
+
             const source = findSourceForPasteOperation(
                 this.flowModel,
                 event.detail.source!,
-                this.canvasContext.cutInfo.guids[0],
+                this._topCutGuid,
                 this.canvasContext.cutInfo.childIndexToKeep
             );
             this.dispatchEvent(

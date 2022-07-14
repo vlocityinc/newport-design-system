@@ -1682,7 +1682,11 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
         this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
 
-        this.showToast(LABELS.singleCopySuccess, 'success');
+        this.showToastForCutCopyPasteOrDelete(
+            LABELS.singleCopySuccess,
+            LABELS.multipleCopySuccess,
+            this.numPasteElementsAvailable
+        );
     };
 
     newUpdatedALCMode(mode: AutoLayoutCanvasMode) {
@@ -3015,7 +3019,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             } else {
                 const subflowName = subflowData ? subflowData.masterLabel : event.detail.flowName;
                 const toastMessage = format(this.labels.cantOpenSubflowUrl, subflowName);
-                this.showToast(toastMessage, 'error');
+                this.showToast(toastMessage, 'error', 'dismissible');
             }
         } finally {
             this.spinners.showAutoLayoutSpinner = false;
@@ -3181,14 +3185,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      *
      * @param message the toast message to display
      * @param variant the toast variant
-     * @param mode optional, else will default to dismissible (toast default)
+     * @param mode optional, else will default to pester
      */
     showToast(message: string, variant: string, mode?: string) {
         if (this.properties.isAutoLayoutCanvas) {
             const toastEvent = new ShowToastEvent({
                 variant,
                 message,
-                mode: mode ?? 'dismissible'
+                mode: mode ?? 'pester'
             });
             this.dispatchEvent(toastEvent);
         }
@@ -3211,7 +3215,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             const toastMessage = elementTypeLabel
                 ? format(this.labels.debugToastMessage, elementTypeLabel, elementLabel)
                 : format(this.labels.debugToastMessageNoElementLabel, elementLabel);
-            this.showToast(toastMessage, 'warning');
+            this.showToast(toastMessage, 'warning', 'dismissible');
         }
 
         // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor
