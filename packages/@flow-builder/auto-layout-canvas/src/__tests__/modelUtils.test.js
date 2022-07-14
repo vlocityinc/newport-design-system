@@ -17,6 +17,7 @@ import {
     deleteGoToConnection,
     findFirstElement,
     findLastElement,
+    findSourceForPasteOperation,
     getBranchIndexForGoToConnection,
     getConnectionSourcesFromIncomingGoTo,
     getConnectionTarget,
@@ -47,6 +48,7 @@ import {
     END_ELEMENT,
     END_ELEMENT_GUID,
     flowModelFromElements,
+    getFlowForCutPaste,
     getFlowWhenGoingFromForEachBranch,
     getFlowWhenGoingFromImmediateToScheduledPathBranch,
     getFlowWhenGoingFromMergePointToParent,
@@ -8504,6 +8506,117 @@ describe('modelUtils', () => {
                 const flowRenderContext = getFlowWhenGoingFromParentFaultBranchToPreviousElement();
                 expect(getCutGuids(flowRenderContext.flowModel, 'screen-guid')).toEqual(['screen-guid']);
             });
+        });
+    });
+    describe('findSourceForPasteOperation', () => {
+        let flowRenderContext = {};
+        beforeEach(() => {
+            flowRenderContext = getFlowForCutPaste();
+        });
+        it('For pasting below the topCutGuid at a branchHead of the topCutGuid', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'decision1-guid', childIndex: 0 },
+                    'decision1-guid',
+                    0
+                )
+            ).toEqual({ guid: 'screen1-guid' });
+        });
+        it('For pasting below the topCutGuid at a branchHead of the topCutGuid while the topCutGuid is also a branchhead', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'decision2-guid', childIndex: 0 },
+                    'decision2-guid',
+                    0
+                )
+            ).toEqual({ guid: 'decision1-guid', childIndex: 0 });
+        });
+        it('For pasting below the branching topCutGuid at its next that is keeping a branch', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'decision1-guid' },
+                    'decision1-guid',
+                    0
+                )
+            ).toEqual({ guid: 'screen3-guid' });
+        });
+        it('For pasting below the branching topCutGuid at its next that is keeping a null branch', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'decision1-guid' },
+                    'decision1-guid',
+                    1
+                )
+            ).toEqual(undefined);
+        });
+        it('For pasting below the branching topCutGuid at its next that is cutting all its branches', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'decision1-guid' },
+                    'decision1-guid',
+                    undefined
+                )
+            ).toEqual(undefined);
+        });
+        it('For pasting above the branching topCutGuid that is not a branchHead while cutting all branches', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'screen1-guid' },
+                    'decision1-guid',
+                    undefined
+                )
+            ).toEqual(undefined);
+        });
+        it('For pasting above the branching topCutGuid that is not a branchHead while keeping 1 branch', () => {
+            expect(
+                findSourceForPasteOperation(flowRenderContext.flowModel, { guid: 'screen1-guid' }, 'decision1-guid', 1)
+            ).toEqual({ guid: 'screen1-guid' });
+        });
+        it('For pasting above the branching topCutGuid that is a branchHead while keeping no branches', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'decision1-guid', childIndex: 0 },
+                    'decision2-guid',
+                    undefined
+                )
+            ).toEqual(undefined);
+        });
+        it('For pasting above the branching topCutGuid that is a branchHead while keeping 1 branches', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'decision1-guid', childIndex: 0 },
+                    'decision2-guid',
+                    1
+                )
+            ).toEqual({ guid: 'decision1-guid', childIndex: 0 });
+        });
+        it('For pasting a branching topCutGuid to another branchHead', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'decision1-guid', childIndex: 2 },
+                    'decision2-guid',
+                    undefined
+                )
+            ).toEqual({ guid: 'decision1-guid', childIndex: 2 });
+        });
+        it('For simple single cut element', () => {
+            expect(
+                findSourceForPasteOperation(
+                    flowRenderContext.flowModel,
+                    { guid: 'screen1-guid' },
+                    'screen4-guid',
+                    undefined
+                )
+            ).toEqual({ guid: 'screen1-guid' });
         });
     });
 });

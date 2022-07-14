@@ -594,6 +594,476 @@ const elementsMetadata = [
     }
 ];
 
+const flowModelForCutPaste = {
+    '120d0803-8a95-4426-a94c-d05ccd659a30': {
+        guid: '120d0803-8a95-4426-a94c-d05ccd659a30',
+        description: '',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 1,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        elementType: 'START_ELEMENT',
+        maxConnections: 1,
+        triggerType: 'None',
+        filterLogic: 'and',
+        object: '',
+        objectIndex: '07fb6364-1095-4289-b1ec-14927be543e7',
+        filters: [
+            {
+                rowIndex: '107175d6-9671-43b8-ad19-e24e60fd718c',
+                leftHandSide: '',
+                leftHandSideDataType: 'String',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: ''
+            }
+        ],
+        doesRequireRecordChangedToMeetCriteria: false,
+        childReferences: [],
+        availableConnections: [],
+        shouldSupportScheduledPaths: false,
+        nodeType: 'start',
+        parent: 'root',
+        childIndex: 0,
+        isTerminal: true,
+        prev: null,
+        next: '18aba28f-2c12-4b91-8c2f-6ad072f965d5'
+    },
+    '1607fa9e-b891-4561-8c3a-010d1b28b961': {
+        guid: '1607fa9e-b891-4561-8c3a-010d1b28b961',
+        name: 'action1',
+        description: '',
+        label: 'action1',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 2,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: true,
+        actionType: 'activateSessionPermSet',
+        actionName: 'activateSessionPermSet',
+        dataTypeMappings: [],
+        inputParameters: [
+            {
+                rowIndex: '170c704d-cd2f-4e64-a534-aa607b7a2774',
+                name: 'PermSetName',
+                value: '$GlobalConstant.EmptyString',
+                valueDataType: 'String',
+                subtype: '',
+                isCollection: false
+            }
+        ],
+        outputParameters: [],
+        availableConnections: [],
+        maxConnections: 2,
+        elementType: 'ActionCall',
+        dataType: 'Boolean',
+        storeOutputAutomatically: false,
+        flowTransactionModel: 'CurrentTransaction',
+        nodeType: 'default',
+        prev: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1',
+        incomingGoTo: [],
+        next: '5bd5d9f3-24e1-4229-a189-8f64b348c1c6',
+        fault: '251d5bef-93da-4c9f-9633-836627ddc435'
+    },
+    '16d19a1c-8586-4ef7-9df0-0d1fde6bbf43': {
+        guid: '16d19a1c-8586-4ef7-9df0-0d1fde6bbf43',
+        name: 'as12',
+        description: '',
+        label: 'as12',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 1,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        assignmentItems: [
+            {
+                rowIndex: '4069ac58-c4d2-49b6-8c46-476bb497e68d',
+                leftHandSide: 'ffbc8991-fe13-4610-aaf4-2825ec1161cf',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: 'Assign'
+            }
+        ],
+        maxConnections: 1,
+        elementType: 'Assignment',
+        nodeType: 'default',
+        prev: 'cedbc6ae-5fb1-4dd0-b3f6-38588bb9d340',
+        incomingGoTo: [],
+        next: null
+    },
+    '18aba28f-2c12-4b91-8c2f-6ad072f965d5': {
+        guid: '18aba28f-2c12-4b91-8c2f-6ad072f965d5',
+        name: 'as14',
+        description: '',
+        label: 'as14',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 1,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        assignmentItems: [
+            {
+                rowIndex: '54e65720-e1ff-4739-b24a-19ea190182f6',
+                leftHandSide: '$Flow.CurrentStage',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: 'Assign'
+            }
+        ],
+        maxConnections: 1,
+        elementType: 'Assignment',
+        nodeType: 'default',
+        prev: '120d0803-8a95-4426-a94c-d05ccd659a30',
+        incomingGoTo: ['251d5bef-93da-4c9f-9633-836627ddc435'],
+        next: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1'
+    },
+    '312230b4-e05c-4959-8037-b7e705be9f90': {
+        guid: '312230b4-e05c-4959-8037-b7e705be9f90',
+        name: 'as14_0',
+        description: '',
+        label: 'as14',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 1,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        assignmentItems: [
+            {
+                rowIndex: 'e7487dda-d2d6-4751-83c1-116676a6cdab',
+                leftHandSide: '$Flow.CurrentStage',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: 'Assign'
+            }
+        ],
+        maxConnections: 1,
+        elementType: 'Assignment',
+        nodeType: 'default',
+        parent: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1',
+        childIndex: 2,
+        isTerminal: false,
+        prev: null,
+        incomingGoTo: [],
+        next: null
+    },
+    '251d5bef-93da-4c9f-9633-836627ddc435': {
+        guid: '251d5bef-93da-4c9f-9633-836627ddc435',
+        name: 'as91',
+        description: '',
+        label: 'as91',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 1,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        assignmentItems: [
+            {
+                rowIndex: 'e64c083c-9025-415f-8eca-39d805981df7',
+                leftHandSide: '$Flow.ActiveStages',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: 'Assign'
+            }
+        ],
+        maxConnections: 1,
+        elementType: 'Assignment',
+        nodeType: 'default',
+        parent: '1607fa9e-b891-4561-8c3a-010d1b28b961',
+        childIndex: -1,
+        isTerminal: true,
+        prev: null,
+        incomingGoTo: [],
+        next: '18aba28f-2c12-4b91-8c2f-6ad072f965d5'
+    },
+    'fcacb788-0d60-4408-b2ee-653d13b69879': {
+        guid: 'fcacb788-0d60-4408-b2ee-653d13b69879',
+        name: 'Copy_1_of_as14',
+        description: '',
+        label: 'Copy 1 of as14',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 1,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        assignmentItems: [
+            {
+                rowIndex: '0af463e4-60f2-4a8f-b6bb-a6c3c339dcbc',
+                leftHandSide: '$Flow.CurrentStage',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: 'Assign'
+            }
+        ],
+        maxConnections: 1,
+        elementType: 'Assignment',
+        nodeType: 'default',
+        parent: 'cedbc6ae-5fb1-4dd0-b3f6-38588bb9d340',
+        childIndex: 0,
+        isTerminal: true,
+        prev: null,
+        incomingGoTo: [],
+        next: '8c4fd6fc-1212-470b-b804-0bc94e980bb2'
+    },
+    '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1': {
+        guid: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1',
+        name: 'd1',
+        description: '',
+        label: 'd1',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 3,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        childReferences: [
+            {
+                childReference: 'df5ef5a2-4fef-479d-afa8-c900612c129c'
+            },
+            {
+                childReference: '7eda467b-bea9-409c-be0b-c6435ee2de7c'
+            }
+        ],
+        defaultConnectorLabel: 'Default Outcome',
+        elementType: 'Decision',
+        maxConnections: 3,
+        availableConnections: [],
+        nodeType: 'branch',
+        prev: '18aba28f-2c12-4b91-8c2f-6ad072f965d5',
+        incomingGoTo: [],
+        next: '1607fa9e-b891-4561-8c3a-010d1b28b961',
+        children: ['cedbc6ae-5fb1-4dd0-b3f6-38588bb9d340', null, '312230b4-e05c-4959-8037-b7e705be9f90']
+    },
+    'df5ef5a2-4fef-479d-afa8-c900612c129c': {
+        guid: 'df5ef5a2-4fef-479d-afa8-c900612c129c',
+        name: 'X1',
+        label: '1',
+        elementType: 'OUTCOME',
+        dataType: 'Boolean',
+        conditionLogic: 'and',
+        conditions: [
+            {
+                rowIndex: '8841c5e7-567c-4537-93ce-678611c08857',
+                leftHandSide: '16d19a1c-8586-4ef7-9df0-0d1fde6bbf43',
+                rightHandSide: '$GlobalConstant.False',
+                rightHandSideDataType: 'Boolean',
+                operator: 'WasVisited'
+            }
+        ],
+        doesRequireRecordChangedToMeetCriteria: false
+    },
+    '7eda467b-bea9-409c-be0b-c6435ee2de7c': {
+        guid: '7eda467b-bea9-409c-be0b-c6435ee2de7c',
+        name: 'X2',
+        label: '2',
+        elementType: 'OUTCOME',
+        dataType: 'Boolean',
+        conditionLogic: 'and',
+        conditions: [
+            {
+                rowIndex: 'e7a31405-641f-4a46-9e32-04c694946e3f',
+                leftHandSide: '$Flow.InterviewStartTime',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: 'EqualTo'
+            }
+        ],
+        doesRequireRecordChangedToMeetCriteria: false
+    },
+    'cedbc6ae-5fb1-4dd0-b3f6-38588bb9d340': {
+        guid: 'cedbc6ae-5fb1-4dd0-b3f6-38588bb9d340',
+        name: 'd1_0',
+        description: '',
+        label: 'd1',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 3,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        childReferences: [
+            {
+                childReference: '703fb1e3-b85a-40b1-bda5-010f5a416237'
+            },
+            {
+                childReference: '93555080-06ef-4fc6-8a57-d7070b301e26'
+            }
+        ],
+        defaultConnectorLabel: 'Default Outcome',
+        elementType: 'Decision',
+        maxConnections: 3,
+        availableConnections: [],
+        nodeType: 'branch',
+        parent: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1',
+        childIndex: 0,
+        isTerminal: false,
+        prev: null,
+        incomingGoTo: [],
+        next: '16d19a1c-8586-4ef7-9df0-0d1fde6bbf43',
+        children: ['fcacb788-0d60-4408-b2ee-653d13b69879', null, null]
+    },
+    '703fb1e3-b85a-40b1-bda5-010f5a416237': {
+        guid: '703fb1e3-b85a-40b1-bda5-010f5a416237',
+        name: 'X1_0',
+        label: '1',
+        elementType: 'OUTCOME',
+        dataType: 'Boolean',
+        conditionLogic: 'and',
+        conditions: [
+            {
+                rowIndex: 'f44c5a7e-0f19-4ddb-b8d0-a2426b4d4f9c',
+                leftHandSide: '16d19a1c-8586-4ef7-9df0-0d1fde6bbf43',
+                rightHandSide: '$GlobalConstant.False',
+                rightHandSideDataType: 'Boolean',
+                operator: 'WasVisited'
+            }
+        ],
+        doesRequireRecordChangedToMeetCriteria: false
+    },
+    '93555080-06ef-4fc6-8a57-d7070b301e26': {
+        guid: '93555080-06ef-4fc6-8a57-d7070b301e26',
+        name: 'X2_0',
+        label: '2',
+        elementType: 'OUTCOME',
+        dataType: 'Boolean',
+        conditionLogic: 'and',
+        conditions: [
+            {
+                rowIndex: '14fa3f2e-a62a-4ae3-9459-abbac51b1b97',
+                leftHandSide: '$Flow.InterviewStartTime',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: 'EqualTo'
+            }
+        ],
+        doesRequireRecordChangedToMeetCriteria: false
+    },
+    'ffbc8991-fe13-4610-aaf4-2825ec1161cf': {
+        guid: 'ffbc8991-fe13-4610-aaf4-2825ec1161cf',
+        name: 'loopvar',
+        description: '',
+        elementType: 'Variable',
+        isCollection: true,
+        isInput: false,
+        isOutput: false,
+        dataType: 'String',
+        subtype: null,
+        subtypeIndex: 'e23e75dd-6aff-4d34-8c28-570a12f2b49a',
+        scale: 0,
+        defaultValue: null,
+        defaultValueDataType: null,
+        defaultValueIndex: '94f56de9-808f-4f2a-8057-6c8b018ed550'
+    },
+    '5bd5d9f3-24e1-4229-a189-8f64b348c1c6': {
+        guid: '5bd5d9f3-24e1-4229-a189-8f64b348c1c6',
+        name: 'END_ELEMENT',
+        description: '',
+        label: 'End',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        elementType: 'END_ELEMENT',
+        value: 'END_ELEMENT',
+        text: 'END_ELEMENT',
+        nodeType: 'end',
+        prev: '1607fa9e-b891-4561-8c3a-010d1b28b961'
+    },
+    '8c4fd6fc-1212-470b-b804-0bc94e980bb2': {
+        guid: '8c4fd6fc-1212-470b-b804-0bc94e980bb2',
+        name: 'END_ELEMENT',
+        description: '',
+        label: 'End',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        elementType: 'END_ELEMENT',
+        value: 'END_ELEMENT',
+        text: 'END_ELEMENT',
+        nodeType: 'end',
+        prev: 'fcacb788-0d60-4408-b2ee-653d13b69879'
+    },
+    root: {
+        elementType: 'root',
+        nodeType: 'root',
+        guid: 'root',
+        name: 'root',
+        label: 'root',
+        text: 'root',
+        value: 'root',
+        prev: null,
+        next: null,
+        children: ['120d0803-8a95-4426-a94c-d05ccd659a30']
+    }
+};
+
 const nodeLayoutMap = {
     'root:0': {
         prevLayout: { x: 0, y: 0, w: 0, h: 0, joinOffsetY: 0, offsetX: 0 },
@@ -603,4 +1073,4 @@ const nodeLayoutMap = {
     '837e0692-6f17-4d5c-ba5d-854851d31fcb': { layout: { w: 264, h: 0, y: 144, x: 0, joinOffsetY: 0, offsetX: 88 } }
 };
 
-export { flowRenderInfo, flowModel, elementsMetadata, nodeLayoutMap };
+export { flowRenderInfo, flowModel, flowModelForCutPaste, elementsMetadata, nodeLayoutMap };

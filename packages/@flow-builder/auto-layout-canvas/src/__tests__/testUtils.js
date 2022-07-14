@@ -865,8 +865,6 @@ function getFlowWith3levelNestedDescisionWhichEndsWithAScreen() {
     const outcome1 = createElementWithElementType('outcome1-guid', 'OUTCOME', NodeType.DEFAULT);
     const outcome2 = createElementWithElementType('outcome2-guid', 'OUTCOME', NodeType.DEFAULT);
     const outcome3 = createElementWithElementType('outcome3-guid', 'OUTCOME', NodeType.DEFAULT);
-    const outcome4 = createElementWithElementType('outcome4-guid', 'OUTCOME', NodeType.DEFAULT);
-    const outcome5 = createElementWithElementType('outcome5-guid', 'OUTCOME', NodeType.DEFAULT);
     let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
     let end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
 
@@ -949,6 +947,113 @@ function getFlowWith3levelNestedDescisionWhichEndsWithAScreen() {
         outcome1,
         outcome2,
         outcome3,
+        end1,
+        end2
+    ];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel, interactionState });
+}
+
+function getFlowForCutPaste() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen2 = createElementWithElementType('screen2-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen3 = createElementWithElementType('screen3-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen4 = createElementWithElementType('screen4-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let decision2 = createElementWithElementType('decision2-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    const outcome1 = createElementWithElementType('outcome1-guid', 'OUTCOME', NodeType.DEFAULT);
+    const outcome2 = createElementWithElementType('outcome2-guid', 'OUTCOME', NodeType.DEFAULT);
+    const outcome3 = createElementWithElementType('outcome3-guid', 'OUTCOME', NodeType.DEFAULT);
+    const outcome4 = createElementWithElementType('outcome4-guid', 'OUTCOME', NodeType.DEFAULT);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+    let end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [],
+        next: 'decision1-guid',
+        parent: 'root',
+        isTerminal: true,
+        childIndex: 0
+    };
+
+    screen1 = {
+        ...screen1,
+        next: 'decision1-guid',
+        prev: 'start-guid'
+    };
+
+    decision1 = {
+        ...decision1,
+        childReferences: [{ childReference: 'outcome1-guid' }, { childReference: 'outcome2-guid' }],
+        children: ['decision2-guid', null, 'screen2-guid'],
+        prev: 'screen1-guid',
+        next: 'screen4-guid'
+    };
+
+    decision2 = {
+        ...decision2,
+        childIndex: 0,
+        childReferences: [{ childReference: 'outcome3-guid' }, { childReference: 'outcome4-guid' }],
+        children: ['end1-guid', null, null],
+        prev: null,
+        next: 'screen3-guid',
+        parent: 'decision1-guid',
+        isTerminal: false
+    };
+
+    screen2 = {
+        ...screen2,
+        childIndex: 2,
+        isTerminal: false,
+        parent: 'decision1-guid',
+        next: null,
+        prev: null
+    };
+
+    screen3 = {
+        ...screen3,
+        next: null,
+        prev: 'decision2-guid'
+    };
+
+    screen4 = {
+        ...screen4,
+        next: 'end2-guid',
+        prev: 'decision1-guid'
+    };
+
+    end1 = { ...end1, parent: 'decision2-guid', childIndex: 0, isTerminal: true };
+    end2 = { ...end2, prev: 'screen4-guid', next: null };
+
+    const interactionState = {
+        menuInfo: {},
+        deletionPathInfo: {
+            childIndexToKeep: 0,
+            elementGuidToDelete: 'decision2-guid',
+            shouldDeleteBeyondMergingPoint: true,
+            operationType: 'cut'
+        }
+    };
+    const elements = [
+        root,
+        start,
+        decision1,
+        decision2,
+        screen1,
+        screen2,
+        screen3,
+        screen4,
+        outcome1,
+        outcome2,
+        outcome3,
+        outcome4,
         end1,
         end2
     ];
@@ -1791,5 +1896,6 @@ export {
     getFlowWhenMergingToAncestorBranch,
     getFlowWithGoToOnFirstMergeableNonNullNext,
     getFlowWhenGoingFromForEachBranch,
-    getFlowWith3levelNestedDescisionWhichEndsWithAScreen
+    getFlowWith3levelNestedDescisionWhichEndsWithAScreen,
+    getFlowForCutPaste
 };

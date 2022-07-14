@@ -2785,10 +2785,11 @@ function findSourceForPasteOperation(
     } else if (
         // Are you trying to paste above the topCutGuid that is not a brachHead and aren't keep a branch?
         // Or pasting above a topCutGuid that is a branchHead?
-        (source.guid === state[topCutGuid].prev && source.childIndex == null && childIndexToKeep == null) ||
-        (source.childIndex != null &&
-            !hasGoToOnBranchHead(state, resolveParent(state, source.guid).guid, source.childIndex) &&
-            getChild(resolveParent(state, source.guid), source.childIndex) === topCutGuid)
+        childIndexToKeep == null &&
+        ((source.guid === state[topCutGuid].prev && source.childIndex == null) ||
+            (source.childIndex != null &&
+                !hasGoToOnBranchHead(state, resolveParent(state, source.guid).guid, source.childIndex) &&
+                getChild(resolveParent(state, source.guid), source.childIndex) === topCutGuid))
     ) {
         return undefined;
     }

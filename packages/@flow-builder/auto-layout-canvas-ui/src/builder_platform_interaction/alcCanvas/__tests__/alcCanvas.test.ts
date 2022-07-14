@@ -9,6 +9,7 @@ import {
     DeleteBranchElementEvent,
     GoToPathEvent,
     HighlightPathsToDeleteOrCutEvent,
+    PasteOnCanvasEvent,
     ToggleMenuEvent,
     UpdateAutolayoutCanvasModeEvent
 } from 'builder_platform_interaction/alcEvents';
@@ -24,7 +25,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { commands, invokeModal } from 'builder_platform_interaction/sharedUtils';
 import { findNode } from '../alcCanvasUtils';
-import { elementsMetadata, flowModel } from './mockData';
+import { elementsMetadata, flowModel, flowModelForCutPaste } from './mockData';
 
 const { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } = commands;
 
@@ -136,7 +137,9 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         getConnectionSource,
         getTargetGuidsForReconnection,
         hasChildren,
-        hasGoToOnBranchHead
+        hasGoToOnBranchHead,
+        findSourceForPasteOperation,
+        getCutGuids
     } = autoLayoutCanvas;
     const { flowRenderInfo } = jest.requireActual('./mockData');
 
@@ -148,7 +151,6 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         calculateFlowLayout: jest.fn(),
         getDefaultLayoutConfig,
         animate: jest.fn(),
-        getCutGuids: jest.fn(() => ['dummyGuids']),
         findParentElement: jest.fn(() => ({ elementType: 'Decision' })),
         getElementMetadata: jest.fn(() => ({
             Decision: {
@@ -169,7 +171,9 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         getConnectionSource,
         getTargetGuidsForReconnection,
         hasChildren,
-        hasGoToOnBranchHead
+        hasGoToOnBranchHead,
+        findSourceForPasteOperation,
+        getCutGuids
     };
 });
 
@@ -947,7 +951,7 @@ describe('Auto Layout Canvas', () => {
             await dispatchEvent(flow, cutElementsEvent);
 
             expect(flow.canvasContext.mode).toStrictEqual(AutoLayoutCanvasMode.CUT);
-            expect(flow.canvasContext.cutInfo.guids.length).toStrictEqual(1);
+            expect(flow.canvasContext.cutInfo.guids.length).toStrictEqual(2);
 
             cmp.canvasMode = AutoLayoutCanvasMode.DEFAULT;
             await ticks(1);
@@ -979,14 +983,14 @@ describe('Auto Layout Canvas', () => {
                 await dispatchEvent(getFlow(), cutElementsEvent);
                 expect(eventCallback).toHaveBeenCalled();
             });
-            it('CutElementsEvent should have been called with dummyGuids', async () => {
+            it('CutElementsEvent should have been called with correct guids', async () => {
                 const eventCallback = jest.fn();
                 cmp.addEventListener(CutElementsEvent.EVENT_NAME, eventCallback);
                 const cutElementsEvent = new CutElementsEvent(['decision'], null);
                 await dispatchEvent(getFlow(), cutElementsEvent);
                 expect(eventCallback).toHaveBeenCalledWith(
                     expect.objectContaining({
-                        detail: { guids: ['dummyGuids'], childIndexToKeep: null }
+                        detail: { guids: ['decision', 'screen-two'], childIndexToKeep: null }
                     })
                 );
             });
@@ -1063,6 +1067,153 @@ describe('Auto Layout Canvas', () => {
                 } else {
                     expect(cmp.focusOnConnector).not.toHaveBeenCalled();
                 }
+            });
+        });
+    });
+
+    describe('handlePasteOnCanvas', () => {
+        it('When pasting above the topCut desicion while cutting all branches results in a no-op', async () => {
+            const flow = getFlow();
+            cmp.flowModel = flowModelForCutPaste;
+            const callback = jest.fn();
+            cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
+
+            const cutElementsEvent = new CutElementsEvent(['9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1'], null);
+            await dispatchEvent(getFlow(), cutElementsEvent);
+
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent(
+                { guid: '18aba28f-2c12-4b91-8c2f-6ad072f965d5' },
+                { isCutPaste: true }
+            );
+            await dispatchEvent(flow, pasteOnCanvasEvent);
+
+            expect(callback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { source: undefined, options: { childIndexToKeep: null, isCutPaste: true } }
+                })
+            );
+        });
+        it('When pasting above the topCut desicion while keeping 1 branch', async () => {
+            const flow = getFlow();
+            cmp.flowModel = flowModelForCutPaste;
+            const callback = jest.fn();
+            cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
+
+            const cutElementsEvent = new CutElementsEvent(['9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1'], 0);
+            await dispatchEvent(getFlow(), cutElementsEvent);
+
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent(
+                { guid: '18aba28f-2c12-4b91-8c2f-6ad072f965d5' },
+                { isCutPaste: true }
+            );
+            await dispatchEvent(flow, pasteOnCanvasEvent);
+
+            expect(callback.mock.calls[0][0].detail).toEqual({
+                source: { guid: '18aba28f-2c12-4b91-8c2f-6ad072f965d5' },
+                options: { childIndexToKeep: 0, isCutPaste: true }
+            });
+        });
+        it('When pasting below the topCut desicion while cutting all branches results in a no-op', async () => {
+            const flow = getFlow();
+            cmp.flowModel = flowModelForCutPaste;
+            const callback = jest.fn();
+            cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
+
+            const cutElementsEvent = new CutElementsEvent(['9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1'], null);
+            await dispatchEvent(getFlow(), cutElementsEvent);
+
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent(
+                { guid: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1' },
+                { isCutPaste: true }
+            );
+            await dispatchEvent(flow, pasteOnCanvasEvent);
+
+            expect(callback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { source: undefined, options: { childIndexToKeep: null, isCutPaste: true } }
+                })
+            );
+        });
+        it('When pasting below the topCut desicion while keeping 1 branch should return source of last element in kept branch', async () => {
+            const flow = getFlow();
+            cmp.flowModel = flowModelForCutPaste;
+            const callback = jest.fn();
+            cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
+
+            const cutElementsEvent = new CutElementsEvent(['9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1'], 0);
+            await dispatchEvent(getFlow(), cutElementsEvent);
+
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent(
+                { guid: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1' },
+                { isCutPaste: true }
+            );
+            await dispatchEvent(flow, pasteOnCanvasEvent);
+
+            expect(callback.mock.calls[0][0].detail).toEqual({
+                source: { guid: '16d19a1c-8586-4ef7-9df0-0d1fde6bbf43' },
+                options: { childIndexToKeep: 0, isCutPaste: true }
+            });
+        });
+        it('When pasting at the branch head of the kept branch', async () => {
+            const flow = getFlow();
+            cmp.flowModel = flowModelForCutPaste;
+            const callback = jest.fn();
+            cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
+
+            const cutElementsEvent = new CutElementsEvent(['9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1'], 0);
+            await dispatchEvent(getFlow(), cutElementsEvent);
+
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent(
+                { guid: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1', childIndex: 0 },
+                { isCutPaste: true }
+            );
+            await dispatchEvent(flow, pasteOnCanvasEvent);
+
+            expect(callback.mock.calls[0][0].detail).toEqual({
+                source: { guid: '18aba28f-2c12-4b91-8c2f-6ad072f965d5' },
+                options: { childIndexToKeep: 0, isCutPaste: true }
+            });
+        });
+
+        it('When pasting at a branchHead that is above the topCutGuid should result in the source not changing', async () => {
+            const flow = getFlow();
+            cmp.flowModel = flowModelForCutPaste;
+            const callback = jest.fn();
+            cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
+
+            const cutElementsEvent = new CutElementsEvent(['cedbc6ae-5fb1-4dd0-b3f6-38588bb9d340'], 0);
+            await dispatchEvent(getFlow(), cutElementsEvent);
+
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent(
+                { guid: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1', childIndex: 0 },
+                { isCutPaste: true }
+            );
+            await dispatchEvent(flow, pasteOnCanvasEvent);
+
+            expect(callback.mock.calls[0][0].detail).toEqual({
+                source: { guid: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1', childIndex: 0 },
+                options: { childIndexToKeep: 0, isCutPaste: true }
+            });
+        });
+
+        it('When pasting at a nested branchHead of a branchHead', async () => {
+            const flow = getFlow();
+            cmp.flowModel = flowModelForCutPaste;
+            const callback = jest.fn();
+            cmp.addEventListener(PasteOnCanvasEvent.EVENT_NAME, callback);
+
+            const cutElementsEvent = new CutElementsEvent(['cedbc6ae-5fb1-4dd0-b3f6-38588bb9d340'], 0);
+            await dispatchEvent(getFlow(), cutElementsEvent);
+
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent(
+                { guid: 'cedbc6ae-5fb1-4dd0-b3f6-38588bb9d340', childIndex: 0 },
+                { isCutPaste: true }
+            );
+            await dispatchEvent(flow, pasteOnCanvasEvent);
+
+            expect(callback.mock.calls[0][0].detail).toEqual({
+                source: { guid: '9b9b2768-ff4f-4b6d-8027-bdb47e8afdc1', childIndex: 0 },
+                options: { childIndexToKeep: 0, isCutPaste: true }
             });
         });
     });
