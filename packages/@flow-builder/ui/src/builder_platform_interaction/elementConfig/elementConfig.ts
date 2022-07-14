@@ -623,6 +623,10 @@ export const elementTypeToConfigMap: {
             newModal: LABELS.newWaitLabel,
             editModal: LABELS.editWaitLabel
         },
+        childReferenceKey: {
+            singular: 'waitEvent',
+            plural: 'waitEvents'
+        },
         canvasElement: true,
         areChildElementsSupported: true,
         canHaveDefaultConnector: true,
