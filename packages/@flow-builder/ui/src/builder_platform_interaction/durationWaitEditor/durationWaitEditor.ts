@@ -41,7 +41,8 @@ export default class DurationWaitEditor extends LightningElement {
     }
 
     get duration() {
-        return getValueFromHydratedItem(this.waitEvent?.duration) || DEFAULT_DURATION_VALUE;
+        const durationValue = getValueFromHydratedItem(this.waitEvent?.duration);
+        return durationValue ?? DEFAULT_DURATION_VALUE;
     }
 
     get durationUnit() {
