@@ -162,6 +162,14 @@ describe('Stepped-Stage-Node', () => {
 
             expect(stepItem.classList.contains(STAGE_STEP_ERROR_CLASS)).toBeTruthy();
         });
+
+        it('validate css classes in error + cut mode', async () => {
+            orchestratedStageElement = await createComponentUnderTest(mockNode, { canvasContext: { mode: 'cut' } });
+            const stepItem = orchestratedStageElement.shadowRoot.querySelector(`div[data-item-guid='${itemGuid}_3']`);
+            const STAGE_DISABLE_STEP_CLASS = 'disabled-step';
+            expect(stepItem.classList.contains(STAGE_DISABLE_STEP_CLASS)).toBeTruthy();
+            expect(stepItem.classList.contains(STAGE_STEP_ERROR_CLASS)).toBeTruthy();
+        });
     });
 
     describe('edit step item', () => {
