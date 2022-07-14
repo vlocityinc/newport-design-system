@@ -1,1 +1,1 @@
-export default 'Loading Results';
+export default 'Loading...';

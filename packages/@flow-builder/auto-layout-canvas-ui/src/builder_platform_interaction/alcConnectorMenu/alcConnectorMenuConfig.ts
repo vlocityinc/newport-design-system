@@ -94,7 +94,7 @@ const configureElementMenu = (
     numPasteElementsAvailable: number,
     canAddGoto: boolean,
     isGoToConnector: boolean
-): { sections: MenuSection[] } => {
+): { sections: MenuSection[]; noResultsFound: boolean } => {
     const sectionDefinitionsMap = {};
 
     let extraSections: MenuSection[] = [];
@@ -206,7 +206,10 @@ const configureElementMenu = (
         return section.items?.length > 0;
     });
 
-    return { sections: updatedSections };
+    return {
+        sections: updatedSections,
+        noResultsFound: false
+    };
 };
 
 const memoizedConfigureMenu = memoize(configureElementMenu);
@@ -291,8 +294,12 @@ export const configureMenu = (
     }
 
     searchResultsSection.items = filteredItems;
+    const noResultsFound = searchResultsSection.items.length === 0;
 
-    return { sections: [searchResultsSection] };
+    return {
+        sections: [searchResultsSection],
+        noResultsFound
+    };
 };
 
 /**

@@ -1,1 +1,1 @@
-export default 'Search Elements, Actions and Subflows...';
+export default 'Search...';

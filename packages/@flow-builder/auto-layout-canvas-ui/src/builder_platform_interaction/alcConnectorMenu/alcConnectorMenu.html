@@ -76,6 +76,14 @@
                     ></li>
                 </ul>
             </template>
+            <template if:true={menuConfiguration.noResultsFound}>
+                <span class="slds-media__body slds-p-bottom_small slds-p-left_small">
+                    <span class="slds-truncate" title={labels.noResultsFoundText}
+                        ><i>{labels.noResultsFoundText}</i></span
+                    >
+                </span>
+                <div class="slds-dropdown__header" role="separator"></div>
+            </template>
         </div>
     </builder_platform_interaction-alc-menu-template>
 </template>

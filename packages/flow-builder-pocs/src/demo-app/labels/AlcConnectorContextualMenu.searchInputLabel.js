@@ -1,1 +1,1 @@
-export default 'Search Elements';
+export default 'Search...';

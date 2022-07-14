@@ -2,6 +2,7 @@
 
 exports[`connector menu config Match Snapshot with both paste and goto option 1`] = `
 Object {
+  "noResultsFound": false,
   "sections": Array [
     Object {
       "guid": 1,
