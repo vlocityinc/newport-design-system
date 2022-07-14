@@ -425,7 +425,9 @@ function getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead) {
         menuInfo: {},
         deletionPathInfo: {
             childIndexToKeep: 1,
-            elementGuidToDelete: BRANCH_ELEMENT_GUID
+            elementGuidToDelete: BRANCH_ELEMENT_GUID,
+            shouldDeleteBeyondMergingPoint: false,
+            operationType: 'delete'
         }
     };
     return createFlowRenderContext({ flowModel, interactionState });
@@ -757,7 +759,8 @@ function getComplicatedFlow() {
         deletionPathInfo: {
             childIndexToKeep: 0,
             elementGuidToDelete: 'decision1-guid',
-            shouldDeleteBeyondMergingPoint: true
+            shouldDeleteBeyondMergingPoint: true,
+            operationType: 'delete'
         }
     };
     const elements = [
@@ -782,6 +785,172 @@ function getComplicatedFlow() {
         end4,
         end5,
         end6
+    ];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel, interactionState });
+}
+
+function getFlowWithNestedDescisionWhichEndsWithAScreen() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let decision2 = createElementWithElementType('decision2-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    const outcome1 = createElementWithElementType('outcome1-guid', 'OUTCOME', NodeType.DEFAULT);
+    const outcome2 = createElementWithElementType('outcome2-guid', 'OUTCOME', NodeType.DEFAULT);
+    const outcome3 = createElementWithElementType('outcome3-guid', 'OUTCOME', NodeType.DEFAULT);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+    let end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
+    let end3 = createElementWithElementType('end3-guid', 'END_ELEMENT', NodeType.END);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [],
+        next: 'decision1-guid',
+        parent: 'root'
+    };
+    decision1 = {
+        ...decision1,
+        childReferences: [{ childReference: 'outcome1-guid' }],
+        children: ['decision2-guid', 'end3-guid'],
+        prev: 'start-guid',
+        next: null
+    };
+    decision2 = {
+        ...decision2,
+        childIndex: 0,
+        childReferences: [{ childReference: 'outcome3-guid' }, { childReference: 'outcome4-guid' }],
+        children: ['end1-guid', null, null],
+        prev: null,
+        next: 'screen1-guid',
+        parent: 'decision1-guid',
+        isTerminal: true
+    };
+    screen1 = {
+        ...screen1,
+        next: 'end2-guid',
+        prev: 'decision2-guid'
+    };
+
+    end1 = { ...end1, parent: 'decision2-guid', childIndex: 0, isTerminal: true };
+    end2 = { ...end2, prev: 'screen1-guid' };
+    end3 = { ...end3, parent: 'decision1-guid', childIndex: 1, isTerminal: true };
+
+    const interactionState = {
+        menuInfo: {},
+        deletionPathInfo: {
+            childIndexToKeep: 0,
+            elementGuidToDelete: 'decision2-guid',
+            shouldDeleteBeyondMergingPoint: true,
+            operationType: 'cut'
+        }
+    };
+    const elements = [root, start, decision1, decision2, screen1, outcome1, outcome2, outcome3, end1, end2, end3];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel, interactionState });
+}
+
+function getFlowWith3levelNestedDescisionWhichEndsWithAScreen() {
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let screen1 = createElementWithElementType('screen1-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen2 = createElementWithElementType('screen2-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let screen3 = createElementWithElementType('screen3-guid', 'SCREEN_ELEMENT', NodeType.DEFAULT);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let decision2 = createElementWithElementType('decision2-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let decision3 = createElementWithElementType('decision3-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    const outcome1 = createElementWithElementType('outcome1-guid', 'OUTCOME', NodeType.DEFAULT);
+    const outcome2 = createElementWithElementType('outcome2-guid', 'OUTCOME', NodeType.DEFAULT);
+    const outcome3 = createElementWithElementType('outcome3-guid', 'OUTCOME', NodeType.DEFAULT);
+    const outcome4 = createElementWithElementType('outcome4-guid', 'OUTCOME', NodeType.DEFAULT);
+    const outcome5 = createElementWithElementType('outcome5-guid', 'OUTCOME', NodeType.DEFAULT);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+    let end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
+
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+
+    start = {
+        ...start,
+        childReferences: [],
+        next: 'decision1-guid',
+        parent: 'root'
+    };
+    decision1 = {
+        ...decision1,
+        childReferences: [{ childReference: 'outcome1-guid' }],
+        children: ['decision2-guid', null],
+        prev: 'start-guid',
+        next: 'end2-guid'
+    };
+    decision2 = {
+        ...decision2,
+        childIndex: 0,
+        childReferences: [{ childReference: 'outcome2-guid' }, { childReference: 'outcome3-guid' }],
+        children: ['end1-guid', null, null],
+        prev: null,
+        next: 'screen1-guid',
+        parent: 'decision1-guid',
+        isTerminal: false
+    };
+    screen1 = {
+        ...screen1,
+        next: 'decision3-guid',
+        prev: 'decision2-guid'
+    };
+    decision3 = {
+        ...decision3,
+        childReferences: [{ childReference: 'outcome4-guid' }],
+        children: ['screen2-guid', null],
+        prev: 'screen1-guid',
+        next: null
+    };
+    screen2 = {
+        ...screen2,
+        next: 'screen3-guid',
+        parent: 'decision3-guid',
+        prev: null,
+        childIndex: 0,
+        isTerminal: false
+    };
+
+    screen3 = {
+        ...screen3,
+        next: null,
+        prev: 'screen2-guid'
+    };
+
+    end1 = { ...end1, parent: 'decision2-guid', childIndex: 0, isTerminal: true };
+    end2 = { ...end2, prev: 'decision1-guid', next: null };
+
+    const interactionState = {
+        menuInfo: {},
+        deletionPathInfo: {
+            childIndexToKeep: 0,
+            elementGuidToDelete: 'decision2-guid',
+            shouldDeleteBeyondMergingPoint: true,
+            operationType: 'cut'
+        }
+    };
+    const elements = [
+        root,
+        start,
+        decision1,
+        decision2,
+        decision3,
+        screen1,
+        screen2,
+        screen3,
+        outcome1,
+        outcome2,
+        outcome3,
+        end1,
+        end2
     ];
     const flowModel = flowModelFromElements(elements);
     return createFlowRenderContext({ flowModel, interactionState });
@@ -1609,6 +1778,7 @@ export {
     getFlowWithHighlightedAndMergedDecisionBranch,
     getFlowWithHighlightedFaultBranch,
     getComplicatedFlow,
+    getFlowWithNestedDescisionWhichEndsWithAScreen,
     createFlow,
     getFlowWithGoToOnTheMergePoint,
     getFlowWhenGoingFromMergePointToParent,
@@ -1620,5 +1790,6 @@ export {
     getFlowWhenGoingToLoopBranchHead,
     getFlowWhenMergingToAncestorBranch,
     getFlowWithGoToOnFirstMergeableNonNullNext,
-    getFlowWhenGoingFromForEachBranch
+    getFlowWhenGoingFromForEachBranch,
+    getFlowWith3levelNestedDescisionWhichEndsWithAScreen
 };

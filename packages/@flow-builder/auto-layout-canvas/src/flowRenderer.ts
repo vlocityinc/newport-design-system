@@ -510,14 +510,21 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
     const nodeRenderInfos: NodeRenderInfo[] = [];
 
     const connectorVariant = getConnectorVariant(parentNode, childIndex, context);
-
+    let resetIsDeletingBranch = false;
     while (node) {
         if (node.prev && isDeletingBeyondMergePoint(node.prev, context)) {
             context.isDeletingBranch = true;
+            resetIsDeletingBranch = true;
         }
         const nodeRenderInfo = renderNode(parentNode, node, context, connectorVariant);
         nodeRenderInfos.push(nodeRenderInfo);
         node = node.next && !hasGoToOnNext(flowModel, node.guid) ? resolveNode(flowModel, node.next) : null;
+
+        // Resetting the isDeletingBranch after the entire branch has been rendered
+        if (!node && resetIsDeletingBranch) {
+            context.isDeletingBranch = false;
+            resetIsDeletingBranch = false;
+        }
     }
 
     const isTerminal = !!(branchHead as BranchHeadNodeModel).isTerminal;

@@ -10,6 +10,7 @@ import {
     getFlowWhenGoingFromParentFirstBranchToPreviousElement,
     getFlowWhenGoingToLoopBranchHead,
     getFlowWhenGoingToPreviousElement,
+    getFlowWith3levelNestedDescisionWhichEndsWithAScreen,
     getFlowWithDecisionWithOneElementOnLeftBranchContext,
     getFlowWithDynamicNodeComponent,
     getFlowWithEmptyDeciisionWith3BranchesContext,
@@ -20,6 +21,7 @@ import {
     getFlowWithHighlightedDecisionBranch,
     getFlowWithHighlightedFaultBranch,
     getFlowWithHighlightedLoopBranches,
+    getFlowWithNestedDescisionWhichEndsWithAScreen,
     getFlowWithOnlyImmediateScheduledPathContext,
     getFlowWithScheduledPathsContext,
     getFlowWithTwoFaults,
@@ -59,6 +61,14 @@ describe('flowRenderer', () => {
 
         it('flow with decision with one terminated branch, fault element and nested decisions', () => {
             renderAndAssert(getComplicatedFlow());
+        });
+
+        it('flow with 3 levels of nested decisions to test highlight for delete works fine', () => {
+            renderAndAssert(getFlowWith3levelNestedDescisionWhichEndsWithAScreen());
+        });
+
+        it('flow with nested decisions to test highlight for delete works fine', () => {
+            renderAndAssert(getFlowWithNestedDescisionWhichEndsWithAScreen());
         });
 
         it('flow with empty loop context', () => {
