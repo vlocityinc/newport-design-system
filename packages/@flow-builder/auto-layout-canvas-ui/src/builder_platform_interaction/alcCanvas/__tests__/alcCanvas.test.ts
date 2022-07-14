@@ -986,7 +986,7 @@ describe('Auto Layout Canvas', () => {
                 await dispatchEvent(getFlow(), cutElementsEvent);
                 expect(eventCallback).toHaveBeenCalledWith(
                     expect.objectContaining({
-                        detail: { guids: ['dummyGuids'] }
+                        detail: { guids: ['dummyGuids'], childIndexToKeep: null }
                     })
                 );
             });

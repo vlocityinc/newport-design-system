@@ -4,13 +4,16 @@ import {
     decorateCanvas,
     deleteElements,
     highlightOnCanvas,
+    pasteCutElementOnFixedCanvas,
+    pasteOnFixedCanvas,
     updateElement,
     updateProperties,
     updatePropertiesAfterSaveFailed,
     updatePropertiesAfterSaving
 } from 'builder_platform_interaction/actions';
 import { scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
-import { ElementMetadata, hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
+import { PasteOnCanvasOptions } from 'builder_platform_interaction/alcEvents';
+import { ConnectionSource, ElementMetadata, hasGoToOnNext } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getPropertyOrDefaultToTrue, sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import {
     canUserVAD,
@@ -758,10 +761,12 @@ export const getCutData = (elementsInStore: UI.Elements, cutGuids: UI.Guid[]): U
  * Function to create a guid -> new guid map
  *
  * @param elements - Object containing element objects for which the maps needs to be created
+ * @param generateUniqueGuid - Boolean to generate new guid or not
+ * @returns a map of guids to guids
  */
-const createGuidMap = (elements: UI.Elements) => {
+const createGuidMap = (elements: UI.Elements, generateUniqueGuid: boolean) => {
     return Object.keys(elements).reduce((acc, guid) => {
-        acc[guid] = generateGuid();
+        acc[guid] = generateUniqueGuid ? generateGuid() : guid;
         return acc;
     }, {});
 };
@@ -769,14 +774,19 @@ const createGuidMap = (elements: UI.Elements) => {
 /**
  * Function to get the guid -> pasted guid maps for canvas elements and child elements (like outcome, screen fields etc.)
  *
- * @param {Object} cutOrCopiedCanvasElements - Contains all the cut or copied Canvas Elements
- * @param {Object} cutOrCopiedChildElements - contains all the cut or copied Child Elements
- * @returns {Object} - Contains canvasElementGuidMap and childElementGuidMap
+ * @param cutOrCopiedCanvasElements - Contains all the cut or copied Canvas Elements
+ * @param cutOrCopiedChildElements - contains all the cut or copied Child Elements
+ * @param generateUniqueGuid - Boolean to generate new guid or not
+ * @returns Contains canvasElementGuidMap and childElementGuidMap
  */
-export const getPasteElementGuidMaps = (cutOrCopiedCanvasElements, cutOrCopiedChildElements) => {
+export const getPasteElementGuidMaps = (
+    cutOrCopiedCanvasElements,
+    cutOrCopiedChildElements,
+    generateUniqueGuid = true
+) => {
     return {
-        canvasElementGuidMap: createGuidMap(cutOrCopiedCanvasElements),
-        childElementGuidMap: createGuidMap(cutOrCopiedChildElements)
+        canvasElementGuidMap: createGuidMap(cutOrCopiedCanvasElements, generateUniqueGuid),
+        childElementGuidMap: createGuidMap(cutOrCopiedChildElements, generateUniqueGuid)
     };
 };
 
@@ -786,6 +796,7 @@ export const getPasteElementGuidMaps = (cutOrCopiedCanvasElements, cutOrCopiedCh
  * @param {string} childElementGuid - Guid of a given child element
  * @param {Object} elementsInStore - Current state of elements in store
  * @param {Object} childElementGuidMap - Contains a map of childElementGuid -> duplicateChildElementGuid
+ * @returns childElementGuidMap
  */
 const addNestedChildElementsToGuidMap = (childElementGuid, elementsInStore, childElementGuidMap) => {
     const screenField = elementsInStore[childElementGuid];
@@ -1714,4 +1725,52 @@ export function findActionMetadata(
  */
 export function getStoreElements(storeInstance: Store): UI.Elements {
     return storeInstance.getCurrentState()?.elements;
+}
+
+/**
+ * Helper to create the paste action that the store dispatches
+ *
+ * @param elements - State of the elements in store
+ * @param cutOrCopyState - Object of the cutCopy stack state
+ * @param options - The paste event options
+ * @param source - The connection source
+ * @returns a pasteAction or null
+ */
+export function createPasteAction(
+    elements: UI.Elements,
+    cutOrCopyState: UI.CutOrCopyState,
+    options: Partial<PasteOnCanvasOptions>,
+    source?: ConnectionSource
+): { type: string; payload: any } | null {
+    const { cutOrCopiedCanvasElements, cutOrCopiedChildElements, topCutOrCopiedGuid, bottomCutOrCopiedGuid } =
+        cutOrCopyState;
+
+    const { canvasElementGuidMap, childElementGuidMap } = getPasteElementGuidMaps(
+        cutOrCopiedCanvasElements,
+        cutOrCopiedChildElements,
+        !options.isCutPaste
+    );
+
+    const payload = {
+        canvasElementGuidMap,
+        childElementGuidMap,
+        cutOrCopiedCanvasElements,
+        cutOrCopiedChildElements,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        source
+    };
+
+    if (options.isCutPaste) {
+        if (source) {
+            return pasteCutElementOnFixedCanvas({
+                ...payload,
+                selectedElements: [elements[topCutOrCopiedGuid!]],
+                childIndexToKeep: options.childIndexToKeep
+            });
+        }
+    } else {
+        return pasteOnFixedCanvas(payload);
+    }
+    return null;
 }

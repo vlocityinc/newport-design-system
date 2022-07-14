@@ -177,18 +177,20 @@ export const getNodeAndGoToGeometry = (flowModel: FlowModel, alcFlow: AlcFlow, s
  * @param flowModel - The flow model.
  * @param selectedElement - Element clicked on to be cut or deleted
  * @param childIndexToKeep - The child index to keep
+ * @param allowEndElement - Boolean to allow selectedElement's next if it's an end element
  * @returns true or false depending if we should delete past selectedElement's merge point
  */
 export const shouldDeleteBeyondMergingPoint = (
     flowModel: FlowModel,
     selectedElement: NodeModel,
-    childIndexToKeep?: number | null
+    childIndexToKeep?: number | null,
+    allowEndElement = false
 ): boolean => {
     return !!(
         childIndexToKeep != null &&
         selectedElement.next &&
         isBranchTerminal(flowModel, selectedElement, childIndexToKeep) &&
-        flowModel[selectedElement.next!].nodeType !== NodeType.END &&
+        (allowEndElement || flowModel[selectedElement.next!].nodeType !== NodeType.END) &&
         !hasGoToOnNext(flowModel, selectedElement.guid)
     );
 };

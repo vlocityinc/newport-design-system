@@ -328,8 +328,8 @@ declare namespace UI {
     interface CutOrCopyState {
         cutOrCopiedCanvasElements: Elements;
         cutOrCopiedChildElements: Elements;
-        topCutOrCopiedGuid: Guid;
-        bottomCutOrCopiedGuid: Guid;
+        topCutOrCopiedGuid: Guid | null;
+        bottomCutOrCopiedGuid: Guid | null;
     }
 
     interface ElementConfig {

@@ -15,6 +15,7 @@
         <builder_platform_interaction-scoped-notification
             if:true={displayScopedNotification}
             canvas-mode={canvasContext.mode}
+            number-of-elements-to-paste={canvasContext.numPasteElementsAvailable}
         ></builder_platform_interaction-scoped-notification>
         <template if:true={flow}>
             <div class={flowContainerClass}>
@@ -37,6 +38,7 @@
                     ondeletebranchelement={handleBranchElementDeletion}
                     ondeleteelement={handleDeleteElement}
                     oncutelements={handleCutElements}
+                    onpasteoncanvas={handlePasteOnCanvas}
                     onclearhighlightedpath={handleClearHighlightedPath}
                     style={flow.style}
                 >

@@ -17,6 +17,7 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_START_WITH_SCHEDULED_PATHS,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
+    PASTE_CUT_ELEMENT_ON_FIXED_CANVAS,
     PASTE_ON_FIXED_CANVAS,
     SELECTION_ON_FIXED_CANVAS
 } from 'builder_platform_interaction/actions';
@@ -179,12 +180,7 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
             break;
         }
         case DELETE_ELEMENT: {
-            const { selectedElements, childIndexToKeep } = action.payload;
-            const deletedElement = deepCopy(selectedElements[0]);
-            const alcAction = actions.deleteElementAction(deletedElement.guid, childIndexToKeep);
-            nextState[deletedElement.guid] = deletedElement;
-            nextState = autoLayoutCanvasReducer(nextState, alcAction);
-            delete nextState[deletedElement.guid];
+            nextState = _deleteElement(nextState, autoLayoutCanvasReducer, action);
             break;
         }
         case SELECTION_ON_FIXED_CANVAS:
@@ -197,6 +193,11 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
                 action.payload.allowAllDisabledElements
             );
             break;
+        case PASTE_CUT_ELEMENT_ON_FIXED_CANVAS: {
+            nextState = _deleteElement(nextState, autoLayoutCanvasReducer, action);
+            nextState = _pasteOnFixedCanvas(nextState, action.payload, true);
+            break;
+        }
         case PASTE_ON_FIXED_CANVAS:
             // TODO: move to autoLayoutCanvasReducer
             nextState = _pasteOnFixedCanvas(nextState, action.payload);
@@ -221,6 +222,24 @@ export default function alcElementsReducer(state: Readonly<UI.Elements>, action:
     assertInDev(() => assertAutoLayoutState(nextState));
 
     return nextState;
+}
+
+/**
+ * Helper function to delete an element and returns modified state
+ *
+ * @param state - elements in the store
+ * @param autoLayoutCanvasReducer - the canvas reducer
+ * @param action - with type and payload
+ * @returns the next state
+ */
+function _deleteElement(state: any, autoLayoutCanvasReducer: any, action: any) {
+    const { selectedElements, childIndexToKeep } = action.payload;
+    const deletedElement = deepCopy(selectedElements[0]);
+    const alcAction = actions.deleteElementAction(deletedElement.guid, childIndexToKeep);
+    state[deletedElement.guid] = deletedElement;
+    state = autoLayoutCanvasReducer(state, alcAction);
+    delete state[deletedElement.guid];
+    return state;
 }
 
 /**
@@ -460,24 +479,29 @@ function _selectionOnFixedCanvas(
  * Function to generate a unique label and devName for a pasted element.
  *
  * @param label - Existing label
+ * @param name - Existing name
  * @param blacklistLabels - blacklist of labels to check against in addition to the store
  * @param blacklistNames - blacklist of devnames to check against in addition to the store
+ * @param isCut - boolean that is true if we are pasting cut elements
  * @returns Tuple of generated unique label and name respectively
  */
 function _getUniquePastedElementNameAndLabel(
     label: string,
+    name: string,
     blacklistLabels: string[] = [],
-    blacklistNames: string[] = []
+    blacklistNames: string[] = [],
+    isCut = false
 ) {
     let count = 0;
     let pastedElementLabel = label;
-    let pastedElementDevName = sanitizeDevName(pastedElementLabel);
+    let pastedElementDevName = name;
     // Check label and name for uniqueness
     while (
-        isLabelInStore(pastedElementLabel) ||
-        blacklistLabels.includes(pastedElementLabel) ||
-        isDevNameInStore(pastedElementDevName) ||
-        blacklistNames.includes(pastedElementDevName)
+        !isCut &&
+        (isLabelInStore(pastedElementLabel) ||
+            blacklistLabels.includes(pastedElementLabel) ||
+            isDevNameInStore(pastedElementDevName) ||
+            blacklistNames.includes(pastedElementDevName))
     ) {
         // Generate another label if neither are unique
         count++;
@@ -493,20 +517,24 @@ function _getUniquePastedElementNameAndLabel(
  * @param cutOrCopiedChildElements List of child elements to generate name/labels for
  * @param blacklistNames Names are checked for uniqueness against the store and this list
  * @param blacklistLabels Labels are checked for uniqueness against the store and this list
+ * @param isCut - boolean that is true if we are pasting cut elements
  * @returns Label/name map keyed by original element name: { [index: string]: { name: string; label: string } }
  */
 function _getPastedChildElementNameAndLabelMap(
     cutOrCopiedChildElements: UI.Element[],
     blacklistNames: string[],
-    blacklistLabels: string[]
+    blacklistLabels: string[],
+    isCut = false
 ) {
     const childElementNameAndLabelMap = {};
     const cutOrCopiedChildElementsArray = Object.values(cutOrCopiedChildElements) as any;
     for (let i = 0; i < cutOrCopiedChildElementsArray.length; i++) {
         const [pastedChildElementLabel, pastedChildElementName] = _getUniquePastedElementNameAndLabel(
             cutOrCopiedChildElementsArray[i].label,
+            cutOrCopiedChildElementsArray[i].name,
             blacklistNames,
-            blacklistLabels
+            blacklistLabels,
+            isCut
         );
         childElementNameAndLabelMap[cutOrCopiedChildElementsArray[i].name] = {
             name: pastedChildElementName,
@@ -530,6 +558,7 @@ function _getPastedChildElementNameAndLabelMap(
  * @param payload.topCutOrCopiedGuid - the topCutOrCopiedGuid
  * @param payload.bottomCutOrCopiedGuid - the bottomCutOrCopiedGuid
  * @param payload.source - The connection source
+ * @param isCut - boolean that is true if we are pasting cut elements
  * @returns newState - The updated state of elements in the store
  */
 function _pasteOnFixedCanvas(
@@ -542,7 +571,8 @@ function _pasteOnFixedCanvas(
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
         source
-    }
+    },
+    isCut = false
 ) {
     let newState = { ...elements };
 
@@ -563,15 +593,18 @@ function _pasteOnFixedCanvas(
     const childElementNameAndLabelMap = _getPastedChildElementNameAndLabelMap(
         cutOrCopiedChildElements,
         blacklistNames,
-        blacklistLabels
+        blacklistLabels,
+        isCut
     );
 
     for (let i = 0; i < elementGuidsToPaste.length; i++) {
         const pastedElementGuid = canvasElementGuidMap[elementGuidsToPaste[i]];
         const [pastedElementLabel, pastedElementName] = _getUniquePastedElementNameAndLabel(
             cutOrCopiedCanvasElements[elementGuidsToPaste[i]].label,
+            cutOrCopiedCanvasElements[elementGuidsToPaste[i]].name,
             blacklistLabels,
-            blacklistNames
+            blacklistNames,
+            isCut
         );
         blacklistLabels.push(pastedElementLabel);
         blacklistNames.push(pastedElementName);

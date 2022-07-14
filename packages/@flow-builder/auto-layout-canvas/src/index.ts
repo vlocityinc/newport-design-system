@@ -61,6 +61,7 @@ export {
     findFirstElement,
     findLastElement,
     findParentElement,
+    findSourceForPasteOperation,
     fulfillsBranchingCriteria,
     getChild,
     getConnectionSource,

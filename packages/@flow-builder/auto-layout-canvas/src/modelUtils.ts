@@ -45,7 +45,7 @@ const branchHeadOptionsDefaults = {
 
 interface CutGuidOptions {
     shouldCutBeyondMergingPoint: boolean;
-    childIndexToKeep?: number | null;
+    childIndexToKeep?: number;
 }
 
 const cutGuidOptionDefaults = {
@@ -2748,6 +2748,53 @@ function getCutGuids(state: FlowModel, elementGuid: Guid, options: Partial<CutGu
     return cutElementGuids;
 }
 
+/**
+ * Finds a valid connectionSource for the selected cut/paste operation
+ *
+ * @param state - The flow model
+ * @param source - The connection source
+ * @param topCutGuid - Guid that was selected to be cut
+ * @param childIndexToKeep - Index we are keeping in the cut operation
+ * @returns a new valid connectionSource or undefined for no-op
+ */
+function findSourceForPasteOperation(
+    state: FlowModel,
+    source: ConnectionSource,
+    topCutGuid: Guid,
+    childIndexToKeep?: number
+): ConnectionSource | undefined {
+    // Are you trying to paste below the topCutGuid?
+    if (source.guid === topCutGuid) {
+        // Are you trying to paste at a branchHead of topCutGuid?
+        if (source.childIndex != null) {
+            // If the topCutGuid is also a branchHead then return its parent and correct index, otherwise set source to topCutGuid's previous element
+            return isBranchHead(state[topCutGuid])
+                ? {
+                      guid: resolveBranchHead(state, topCutGuid).parent,
+                      childIndex: resolveBranchHead(state, topCutGuid).childIndex
+                  }
+                : { guid: state[topCutGuid].prev! };
+        } else if (childIndexToKeep != null) {
+            // Are you trying to paste at a branching element's next that is keeping a branch?
+            // If the branchHead exists then set the source to be the last element in the branch. Otherwise its a no-op since the branch is empty.
+            const branchHead = getChild(resolveParent(state, source.guid), childIndexToKeep);
+            return branchHead ? { guid: findLastElement(state[branchHead!], state).guid } : undefined;
+        } else {
+            return undefined;
+        }
+    } else if (
+        // Are you trying to paste above the topCutGuid that is not a brachHead and aren't keep a branch?
+        // Or pasting above a topCutGuid that is a branchHead?
+        (source.guid === state[topCutGuid].prev && source.childIndex == null && childIndexToKeep == null) ||
+        (source.childIndex != null &&
+            !hasGoToOnBranchHead(state, resolveParent(state, source.guid).guid, source.childIndex) &&
+            getChild(resolveParent(state, source.guid), source.childIndex) === topCutGuid)
+    ) {
+        return undefined;
+    }
+    return source;
+}
+
 export {
     connectToElement,
     linkElement,
@@ -2757,6 +2804,7 @@ export {
     findLastElement,
     findFirstElement,
     findParentElement,
+    findSourceForPasteOperation,
     deleteElement,
     addElement,
     deleteFault,

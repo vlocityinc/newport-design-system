@@ -6,7 +6,7 @@ import {
     isCutMode,
     isDefaultMode
 } from 'builder_platform_interaction/alcComponentsUtils';
-import { CloseMenuEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
+import { CloseMenuEvent, PasteOnCanvasEvent, ToggleMenuEvent } from 'builder_platform_interaction/alcEvents';
 import { isElementCut } from 'builder_platform_interaction/alcMenuUtils';
 import { ConnectionSource, MenuType, NodeOperationType, NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { keyboardInteractionUtils, lwcUtils } from 'builder_platform_interaction/sharedUtils';
@@ -112,7 +112,7 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
             'slds-button_icon': true,
             'border-none': !isConnectorVariant,
             'is-end-element': !isConnectorVariant && this.elementMetadata.type === NodeType.END,
-            'node-in-selection-mode': !isDefaultMode(this.canvasMode),
+            'node-in-selection-mode': !isDefaultMode(this.canvasMode) && !this.isConnectorVariant(),
             connector: isConnectorVariant,
             'cut-paste-connector': this.isConnectorInPasteMode(),
             'node-to-be-deleted': this.operationType === 'delete',
@@ -201,8 +201,7 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
                 this.focusOnButton();
             }
         } else if (this.isConnectorInPasteMode()) {
-            // TODO W-11145903 uncomment this and make cut paste work
-            // this.dispatchEvent(new PasteOnCanvasEvent(this.source));
+            this.dispatchEvent(new PasteOnCanvasEvent(this.source, { isCutPaste: true }));
         }
     }
 
@@ -220,8 +219,7 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
             // Opening and closing the current selected element
             this.toggleMenuVisibility(true);
         } else if (this.isConnectorInPasteMode()) {
-            // TODO W-11145903 uncomment this and make cut paste work
-            // this.dispatchEvent(new PasteOnCanvasEvent(this.source));
+            this.dispatchEvent(new PasteOnCanvasEvent(this.source, { isCutPaste: true }));
         } else {
             // Checking and unchecking the element when in selection mode
             // The checkbox is in a slot being filled by alcnode

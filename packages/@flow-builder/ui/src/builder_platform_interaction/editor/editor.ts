@@ -10,7 +10,6 @@ import {
     DESELECT_ON_CANVAS,
     doDuplicate,
     MARQUEE_SELECT_ON_CANVAS,
-    pasteOnFixedCanvas,
     redo,
     removeLastCreatedInlineResource,
     resetGoTos,
@@ -213,6 +212,7 @@ import {
     badgeStatus,
     canRunDebugWith,
     closeModalAndNavigateTo,
+    createPasteAction,
     createStartElement,
     cssClassForHeaderLabel,
     debugInterviewResponseCallback,
@@ -231,7 +231,6 @@ import {
     getElementsMetadata,
     getElementsToBeDeleted,
     getNumberOfCutOrCopiedCanvasElements,
-    getPasteElementGuidMaps,
     getSaveType,
     getSelectedFlowEntry,
     getStoreElements,
@@ -1684,7 +1683,6 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
 
         this.showToast(LABELS.singleCopySuccess, 'success');
-        this.handleElementDelete(event);
     };
 
     newUpdatedALCMode(mode: AutoLayoutCanvasMode) {
@@ -1720,42 +1718,64 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * @param event - The cut element event
      */
     handleCutElements = (event) => {
-        const { guids } = event.detail;
+        let { guids } = event.detail;
         const elements = getStoreElements(storeInstance);
+        const guidsLengthWithEndElements = guids.length;
 
+        // End elements do not need to be on the copy stack
+        guids = guids.filter((guid) => elements[guid].elementType !== ELEMENT_TYPE.END_ELEMENT);
         this.setCutOrCopiedState(getCutData(elements, guids));
-        this.showToastForCutCopyPasteOrDelete(LABELS.singleCutSuccess, LABELS.multipleCutSuccess, guids.length);
+        this.numPasteElementsAvailable = Object.keys(this.cutOrCopiedCanvasElements).length;
+        this.showToastForCutCopyPasteOrDelete(
+            LABELS.singleCutSuccess,
+            LABELS.multipleCutSuccess,
+            guidsLengthWithEndElements
+        );
     };
 
     /**
-     * Handles the paste event and dispatches the pasteOnFixedCanvas action to the store
+     * Handles the paste event and dispatches the pasteOnFixedCanvas or pasteCutElementOnFixedCanvas action to the store
      *
      * @param event - The paste event
      */
     handlePasteOnCanvas = (event: PasteOnCanvasEvent) => {
-        const { source } = event.detail;
+        const { source, options } = event.detail;
+        const { cutOrCopiedCanvasElements, cutOrCopiedChildElements, topCutOrCopiedGuid, bottomCutOrCopiedGuid } = this;
+        const elements = getStoreElements(storeInstance);
 
-        const { canvasElementGuidMap, childElementGuidMap } = getPasteElementGuidMaps(
-            this.cutOrCopiedCanvasElements,
-            this.cutOrCopiedChildElements
+        const pasteAction = createPasteAction(
+            elements,
+            { cutOrCopiedCanvasElements, cutOrCopiedChildElements, topCutOrCopiedGuid, bottomCutOrCopiedGuid },
+            options,
+            source
         );
 
-        const payload = {
-            canvasElementGuidMap,
-            childElementGuidMap,
-            cutOrCopiedCanvasElements: this.cutOrCopiedCanvasElements,
-            cutOrCopiedChildElements: this.cutOrCopiedChildElements,
-            topCutOrCopiedGuid: this.topCutOrCopiedGuid,
-            bottomCutOrCopiedGuid: this.bottomCutOrCopiedGuid,
-            source
-        };
-        storeInstance.dispatch(pasteOnFixedCanvas(payload));
+        if (pasteAction) {
+            storeInstance.dispatch(pasteAction);
+        }
+        if (options.isCutPaste) {
+            this.handleUpdateAutolayoutCanvasMode(this.newUpdatedALCMode(AutoLayoutCanvasMode.DEFAULT));
+        }
 
-        const numberOfCutOrCopiedCanvasElements = getNumberOfCutOrCopiedCanvasElements(this.cutOrCopiedCanvasElements);
+        const numberOfPastedElements = getNumberOfCutOrCopiedCanvasElements(this.cutOrCopiedCanvasElements);
         this.showToastForCutCopyPasteOrDelete(
             LABELS.singlePasteSuccess,
             LABELS.multiplePasteSuccess,
-            numberOfCutOrCopiedCanvasElements
+            numberOfPastedElements
+        );
+
+        const elementTypes = Object.values(cutOrCopiedCanvasElements).map((element) => element.elementType);
+        logInteraction(
+            'paste-on-canvas',
+            'editor',
+            {
+                numberOfPastedElements,
+                elementTypes,
+                isCutPaste: options.isCutPaste,
+                processType: this.properties.processType,
+                triggerType: getTriggerType()
+            },
+            'click'
         );
     };
 

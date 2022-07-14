@@ -41,6 +41,7 @@ export const ADD_FAULT = 'ADD_FAULT';
 export const DELETE_FAULT = 'DELETE_FAULT';
 export const SELECTION_ON_FIXED_CANVAS = 'SELECTION_ON_FIXED_CANVAS';
 export const PASTE_ON_FIXED_CANVAS = 'PASTE_ON_FIXED_CANVAS';
+export const PASTE_CUT_ELEMENT_ON_FIXED_CANVAS = 'PASTE_CUT_ELEMENT_ON_FIXED_CANVAS';
 
 export const HIGHLIGHT_ON_CANVAS = 'HIGHLIGHT_ON_CANVAS';
 
@@ -411,6 +412,14 @@ export const deleteElementFault = (payload) => createAction(DELETE_FAULT, payloa
  * @param {Object} payload - Contains the data for pasting elements on the fixed canvas
  */
 export const pasteOnFixedCanvas = (payload) => createAction(PASTE_ON_FIXED_CANVAS, payload);
+
+/**
+ * Action for pasting cut elements on the fixed canvas
+ *
+ * @param payload - Contains the data for pasting cut elements on the fixed canvas
+ * @returns new action based on type and payload
+ */
+export const pasteCutElementOnFixedCanvas = (payload) => createAction(PASTE_CUT_ELEMENT_ON_FIXED_CANVAS, payload);
 
 /**
  * Action for setting the isHighlighted property of a canvas element to true

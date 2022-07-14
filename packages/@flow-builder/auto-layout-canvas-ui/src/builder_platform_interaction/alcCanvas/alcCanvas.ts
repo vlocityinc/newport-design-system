@@ -21,6 +21,7 @@ import {
     GoToPathEvent,
     MenuRenderedEvent,
     NodeResizeEvent,
+    PasteOnCanvasEvent,
     ToggleMenuEvent,
     UpdateAutolayoutCanvasModeEvent
 } from 'builder_platform_interaction/alcEvents';
@@ -34,6 +35,7 @@ import {
     ConnectionSource,
     Dimension,
     ElementMetadata,
+    findSourceForPasteOperation,
     FlowInteractionState,
     FlowRenderContext,
     FlowRenderInfo,
@@ -1304,13 +1306,36 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             shouldCutBeyondMergingPoint,
             childIndexToKeep
         });
-
         this.focusOnConnector(getConnectionSource(selectedElement));
         this.updateCanvasContext({
             mode: AutoLayoutCanvasMode.CUT,
             cutInfo: { guids: cutElementGuids, childIndexToKeep }
         });
-        this.dispatchEvent(new CutElementsEvent(cutElementGuids));
+        this.dispatchEvent(new CutElementsEvent(cutElementGuids, childIndexToKeep));
+    };
+
+    /**
+     * Handles when pasting a cut element. Regular pasting is not changed.
+     *
+     * @param event - PasteOnCanvasEvent
+     */
+    handlePasteOnCanvas = (event: PasteOnCanvasEvent) => {
+        const { options } = event.detail;
+        if (options.isCutPaste) {
+            event.stopPropagation();
+            const source = findSourceForPasteOperation(
+                this.flowModel,
+                event.detail.source!,
+                this.canvasContext.cutInfo.guids[0],
+                this.canvasContext.cutInfo.childIndexToKeep
+            );
+            this.dispatchEvent(
+                new PasteOnCanvasEvent(source, {
+                    childIndexToKeep: this.canvasContext.cutInfo.childIndexToKeep,
+                    isCutPaste: true
+                })
+            );
+        }
     };
 
     handleDeleteElement = (event) => {

@@ -14,7 +14,7 @@ export { IncomingGoToStubClickEvent } from './incomingGoToStubClickEvent';
 export { MenuRenderedEvent } from './menuRenderedEvent';
 export { NodeResizeEvent } from './nodeResizeEvent';
 export { OutgoingGoToStubClickEvent } from './outgoingGoToStubClickEvent';
-export { PasteOnCanvasEvent } from './pasteOnCanvasEvent';
+export * from './pasteOnCanvasEvent';
 // TODO: PopoverToggledEvent is not used in the alc, move to @flow-builder/ui
 export { PopoverToggledEvent } from './popoverToggledEvent';
 export { PrivateItemRegisterEvent } from './privateItemRegisterEvent';
