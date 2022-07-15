@@ -30,7 +30,8 @@ const selectors = {
     ADD_ITEM: 'button.add-item',
     DELETE_ITEM: 'button.delete-item',
     STEP_MENU_TRIGGER: 'button.step-menu-trigger',
-    LIGHTNING_POPUP: 'lightning-popup'
+    LIGHTNING_POPUP: 'lightning-popup',
+    ITEMS_LIST: 'div.items-list'
 };
 
 describe('Stepped-Stage-Node', () => {
@@ -485,8 +486,11 @@ describe('Stepped-Stage-Node', () => {
         it('css class disabled-step present in cut mode', async () => {
             orchestratedStageElement = await createComponentUnderTest(mockNode, { canvasContext: { mode: 'cut' } });
             const stepItem = orchestratedStageElement.shadowRoot.querySelector(`div[data-item-guid='${itemGuid}']`);
+            const itemList = orchestratedStageElement.shadowRoot.querySelector(selectors.ITEMS_LIST);
             const STAGE_DISABLE_STEP_CLASS = 'disabled-step';
+            const CUT_MODE_CLASS = 'cut-mode';
             expect(stepItem.classList.contains(STAGE_DISABLE_STEP_CLASS)).toBeTruthy();
+            expect(itemList.classList.contains(CUT_MODE_CLASS)).toBeTruthy();
         });
         it('displays the add-step button in edit mode', async () => {
             orchestratedStageElement = await createComponentUnderTest(mockNode);

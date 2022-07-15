@@ -9,7 +9,7 @@
             </h3>
             <div class="items-header background-stage-divider slds-p-around_small">{itemsHeader}</div>
             <div class="items-section">
-                <div class="items-list slds-listbox slds-listbox_vertical" role="listbox">
+                <div class={itemListClass} role="listbox">
                     <template for:each={stageStepsWithErrorClass} for:item="item" for:index="index">
                         <div
                             key={item.guid}

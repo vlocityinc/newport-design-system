@@ -119,6 +119,10 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
         return this.disableDeleteElements || isCutMode(this.canvasContext.mode);
     }
 
+    get itemListClass() {
+        const baseClasses = 'items-list slds-listbox slds-listbox_vertical';
+        return classSet(baseClasses).add({ 'cut-mode': isCutMode(this.canvasContext.mode) });
+    }
     get stageStepsWithErrorClass() {
         const baseClasses = 'item slds-p-around_small slds-clearfix slds-listbox__option';
 
