@@ -1,1 +1,1 @@
-export default 'Enter a user resource to indicate who can complete the screen flow when the interactive step runs.';
+export default 'Enter a resource containing the username of the person assigned to complete the flow when this interactive step runs.';
