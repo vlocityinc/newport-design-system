@@ -2,6 +2,7 @@ import AlcConnector from 'builder_platform_interaction/alcConnector';
 import AlcFlow from 'builder_platform_interaction/alcFlow';
 import {
     ConnectionSource,
+    ElementMetadata,
     findFirstElement,
     FlowModel,
     Geometry,
@@ -169,6 +170,20 @@ export const getNodeAndGoToGeometry = (flowModel: FlowModel, alcFlow: AlcFlow, s
         }
     });
     return toReturn;
+};
+
+/**
+ * Helper function that converts this.canvasContext.elementsMetadata to map of elementType -> metaData
+ *
+ * @param elementsMetadata elementsMetadata array present in the canvasContext
+ * @returns The elements metadata map
+ */
+export const convertToElementMetadataMap = (elementsMetadata: ElementMetadata[]) => {
+    return elementsMetadata.reduce((acc, elementMetadata) => {
+        acc[elementMetadata.actionName || elementMetadata.elementSubtype || elementMetadata.elementType] =
+            elementMetadata;
+        return acc;
+    }, {});
 };
 
 /**
