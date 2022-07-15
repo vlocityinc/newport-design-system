@@ -4,13 +4,13 @@ import {
     CONDITION_LOGIC,
     CONNECTOR_TYPE,
     ELEMENT_TYPE,
+    FLOW_PROCESS_TYPE,
     WAIT_EVENT_FIELDS,
     WAIT_TIME_EVENT_FIELDS,
-    WAIT_TIME_EVENT_OFFSET_UNIT,
     WAIT_TIME_EVENT_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid, getProcessType } from 'builder_platform_interaction/storeUtils';
 import {
     baseCanvasElementsArrayToMap,
     baseCanvasElementWithFault,
@@ -269,13 +269,7 @@ export function createDuplicateWait(
  */
 export function createWaitEvent(waitEvent = {}) {
     const newWaitEvent = baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
-    const {
-        eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
-        eventTypeIndex = generateGuid(),
-        duration,
-        durationUnit,
-        extendUntil
-    } = waitEvent;
+    const { eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME, eventTypeIndex = generateGuid() } = waitEvent;
     let {
         conditions = [],
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
@@ -293,16 +287,14 @@ export function createWaitEvent(waitEvent = {}) {
     inputParameters = createWaitEventInputParameters(eventType, inputParameters);
     outputParameters = createWaitEventOutputParameters(eventType, outputParameters);
 
+    addJourneyWaitEventsParams(waitEvent, newWaitEvent);
     return Object.assign(newWaitEvent, {
         conditions,
         conditionLogic,
         eventType,
         eventTypeIndex,
         inputParameters,
-        outputParameters,
-        duration,
-        durationUnit,
-        extendUntil
+        outputParameters
     });
 }
 
@@ -324,12 +316,7 @@ export function createWaitMetadataObject(wait, config = {}) {
         waitEvents = childReferences.map(({ childReference }) => {
             const waitEvent = getElementByGuid(childReference);
             const metadataWaitEvent = baseChildElementMetadataObject(waitEvent, config);
-            const {
-                eventType,
-                duration = DEFAULT_DURATION_VALUE,
-                durationUnit = WAIT_TIME_EVENT_OFFSET_UNIT.DAYS,
-                extendUntil
-            } = waitEvent;
+            const { eventType } = waitEvent;
             let { inputParameters = [], outputParameters, conditions = [], conditionLogic } = waitEvent;
 
             if (conditions.length === 0 || conditionLogic === CONDITION_LOGIC.NO_CONDITIONS) {
@@ -347,15 +334,14 @@ export function createWaitMetadataObject(wait, config = {}) {
                 outputParameters = outputParameterMapToArray(outputParameters);
             }
 
+            addJourneyWaitEventsParams(wait, metadataWaitEvent);
+
             return Object.assign({}, metadataWaitEvent, {
                 conditions,
                 conditionLogic,
                 eventType,
                 inputParameters,
-                outputParameters,
-                duration,
-                durationUnit,
-                extendUntil
+                outputParameters
             });
         });
     }
@@ -364,6 +350,22 @@ export function createWaitMetadataObject(wait, config = {}) {
         defaultConnectorLabel,
         timeZoneId
     });
+}
+
+/**
+ * @param elementSource
+ * @param elementTarget
+ */
+function addJourneyWaitEventsParams(elementSource, elementTarget) {
+    const processType = getProcessType();
+    const { duraiton, duraitonUnit, extendUntil } = elementSource;
+    if (processType === FLOW_PROCESS_TYPE.JOURNEY) {
+        Object.assign(elementTarget, {
+            duraiton,
+            duraitonUnit,
+            extendUntil
+        });
+    }
 }
 
 /**

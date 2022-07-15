@@ -27,6 +27,14 @@ import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
 import alcElementsReducer from '../alcElementsReducer';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/storeUtils');
+    return {
+        getProcessType: jest.fn().mockReturnValue('Flow'),
+        isLabelInStore: actual.isLabelInStore,
+        isDevNameInStore: actual.isDevNameInStore
+    };
+});
 
 jest.mock('../elementsReducer', () => {
     return jest.fn((state) => Object.assign({}, state));

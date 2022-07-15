@@ -132,7 +132,8 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getElementByGuid: jest.fn()
+        getElementByGuid: jest.fn(),
+        getProcessType: jest.fn()
     };
 });
 
