@@ -334,7 +334,7 @@ export function createWaitMetadataObject(wait, config = {}) {
                 outputParameters = outputParameterMapToArray(outputParameters);
             }
 
-            addJourneyWaitEventsParams(wait, metadataWaitEvent);
+            addJourneyWaitEventsParams(waitEvent, metadataWaitEvent);
 
             return Object.assign({}, metadataWaitEvent, {
                 conditions,
@@ -358,11 +358,11 @@ export function createWaitMetadataObject(wait, config = {}) {
  */
 function addJourneyWaitEventsParams(elementSource, elementTarget) {
     const processType = getProcessType();
-    const { duraiton, duraitonUnit, extendUntil } = elementSource;
+    const { duration, durationUnit, extendUntil } = elementSource;
     if (processType === FLOW_PROCESS_TYPE.JOURNEY) {
         Object.assign(elementTarget, {
-            duraiton,
-            duraitonUnit,
+            duration,
+            durationUnit,
             extendUntil
         });
     }
