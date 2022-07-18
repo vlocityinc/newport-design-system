@@ -1,15 +1,12 @@
-.more-details {
-    position: relative;
-    display: inline-block;
+.picklist-info-card {
+    padding-bottom: unset !important;
+    max-width: 310px;
 }
 
-.slds-popover {
-    position: absolute;
-    bottom: 35px;
-    left: -88px;
-    width: 245px;
+.picklist-info-card > div {
+    padding-top: 3px;
 }
 
-.slds-p-right_x-small {
-    max-width: 32px;
+.picklist-info-card > div > span {
+    padding-top: 3px;
 }

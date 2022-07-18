@@ -3,7 +3,6 @@ import PicklistMoreDetailsCard from 'builder_platform_interaction/screenPicklist
 import { createElement } from 'lwc';
 
 type PicklistMoreDetailsCardProps = {
-    popupTriggerLabel: string;
     sideText: string;
     popupText: string;
 };
@@ -24,18 +23,11 @@ const getPropertyFromSelector = (comp: PicklistMoreDetailsCard, selector: string
 
 // Functions allowing to get specific element properties
 
-const getPopupTriggerLabel = (comp: PicklistMoreDetailsCard) =>
-    getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON, 'label');
-
 const getSideText = (comp: PicklistMoreDetailsCard) =>
     getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT, 'value');
 
 const getPopupText = (comp: PicklistMoreDetailsCard) =>
-    getPropertyFromSelector(
-        comp,
-        `.slds-popover__body > ${LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_TEXT}`,
-        'value'
-    );
+    getPropertyFromSelector(comp, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_HELPTEXT, 'content');
 
 // Test cases
 
@@ -43,7 +35,6 @@ describe('The picklist more details card', () => {
     let component: PicklistMoreDetailsCard;
     beforeAll(() => {
         const props: PicklistMoreDetailsCardProps = {
-            popupTriggerLabel: 'popupTriggerLabel',
             sideText: 'sideText',
             popupText: 'popupText'
         };
@@ -51,9 +42,6 @@ describe('The picklist more details card', () => {
     });
 
     describe('should have its elements displayed correctly', () => {
-        test('Popup trigger label', () => {
-            expect(getPopupTriggerLabel(component)).toEqual('popupTriggerLabel');
-        });
         test('Side text', () => {
             expect(getSideText(component)).toEqual('sideText');
         });
