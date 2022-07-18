@@ -23,12 +23,6 @@ const dataTypes = [
 export default class FormulaEditor extends LightningElement {
     _formulaLabelId = generateGuid();
     orgHasFlowFormulaBuilder = orgHasFlowFormulaBuilder();
-    resourcePickerConfig = {
-        filterOptions: {
-            forFormula: true,
-            hideGlobalConstants: true
-        }
-    };
 
     @track
     formulaResource;
@@ -104,6 +98,16 @@ export default class FormulaEditor extends LightningElement {
 
     get hideNewResourceButton() {
         return this.isNewMode;
+    }
+
+    get resourcePickerConfig() {
+        return {
+            filterOptions: {
+                forFormula: true,
+                hideNewResource: this.hideNewResourceButton,
+                hideGlobalConstants: true
+            }
+        };
     }
     /**
      * @param {object} event - property changed event coming from label-description component

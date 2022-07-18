@@ -217,4 +217,156 @@ describe('Formula Builder', () => {
             });
         });
     });
+
+    describe('New mode', () => {
+        let formulaNode;
+        let propertyEditor;
+        beforeAll(async () => {
+            uiFlow = translateFlowToUIAndDispatch(flowWithAllElements, store);
+            await loadFieldsForComplexTypesInFlow(uiFlow);
+        });
+        afterAll(() => {
+            store.dispatch({ type: 'INIT' });
+            resetFetchOnceCache();
+            // TODO : add a function to reset cachedEntityFields
+        });
+        beforeEach(async () => {
+            const element = getElementByDevName('textFormula');
+            formulaNode = getElementForPropertyEditor(element);
+            propertyEditor = createComponentForTest(formulaNode, { isNewMode: true });
+            await ticks();
+        });
+        it('has no validation error', () => {
+            expect(propertyEditor.validate()).toEqual([]);
+        });
+        describe('dev name', () => {
+            let labelDescription: LabelDescriptionComponentTest;
+            beforeEach(() => {
+                labelDescription = new LabelDescriptionComponentTest(getLabelDescriptionElement(propertyEditor));
+            });
+
+            it('modify the dev name', async () => {
+                const newDevName = 'newName';
+                await labelDescription.setName(newDevName);
+                expect(propertyEditor.node.name.value).toBe(newDevName);
+            });
+            it('display error if devName is cleared', async () => {
+                const newDevName = '';
+                await labelDescription.setName(newDevName);
+                expect(propertyEditor.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+            });
+        });
+        describe('Data Type', () => {
+            it('is set to Text', () => {
+                const dataTypeCombobox = getDataTypeComboboxElement(propertyEditor);
+                expect(dataTypeCombobox.value).toBe('String');
+            });
+            it('is enabled', () => {
+                const dataTypeCombobox = getDataTypeComboboxElement(propertyEditor);
+                expect(dataTypeCombobox.disabled).toBe(false);
+            });
+        });
+        describe('Formula text area', () => {
+            it('contains the formula', () => {
+                const textArea = getFormulaTextArea(propertyEditor);
+                expect(textArea.value).toBe('IF({!accountSObjectVariable.AnnualRevenue} < 1000000,"Small", "Big")');
+            });
+            it('valides the formula on blur', async () => {
+                const textArea = getFormulaTextArea(propertyEditor);
+                textArea.value = '';
+                textArea.dispatchEvent(blurEvent);
+                await ticks();
+                expect(propertyEditor.node.expression.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+            });
+            it('displays an error if the formula contains invalid merge fields', async () => {
+                const textArea = getFormulaTextArea(propertyEditor);
+                textArea.value = 'IF({!accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
+                textArea.dispatchEvent(blurEvent);
+                await ticks();
+                expect(propertyEditor.node.expression.error).toBe(VALIDATION_ERROR_MESSAGES.UNKNOWN_RECORD_FIELD);
+            });
+            it('does not display an error if the formula contains invalid global variables', async () => {
+                const textArea = getFormulaTextArea(propertyEditor);
+                textArea.value = 'IF({!$accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
+                textArea.dispatchEvent(blurEvent);
+                await ticks();
+                expect(propertyEditor.node.expression.error).toBe(null);
+            });
+        });
+        describe('Resource picker', () => {
+            const GROUP_LABELS = {
+                RECORD_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
+                GLOBAL_VARIABLES: 'FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory'
+            };
+            it('does not contain "New Resource"', () => {
+                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+                expect(
+                    groupedCombobox.getItemBy('text', 'FlowBuilderExpressionUtils.newResourceLabel')
+                ).toBeUndefined();
+            });
+            it('contains a "Record Variables" group containing "accountSObjectVariable"', async () => {
+                // disable render-incrementally on combobox so groupedCombobox gets full menu data
+                const comboxbox = getResourceCombobox(propertyEditor);
+                comboxbox.element.renderIncrementally = false;
+                await ticks(1);
+
+                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+                expect(
+                    groupedCombobox.getItemInGroup(GROUP_LABELS.RECORD_VARIABLES, 'text', 'accountSObjectVariable')
+                ).toBeDefined();
+            });
+            // it('contains a "Global Variables" group containing $Flow, $Api, $Organization, $Profile, $System, $User', async () => {
+            //     // disable render-incrementally on combobox so groupedCombobox gets full menu data
+            //     const comboxbox = getResourceCombobox(propertyEditor);
+            //     comboxbox.element.renderIncrementally = false;
+            //     await ticks(1);
+
+            //     const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+            //     expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Flow')).toBeDefined();
+            //     expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Api')).toBeDefined();
+            //     expect(
+            //         groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Organization')
+            //     ).toBeDefined();
+            //     expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Profile')).toBeDefined();
+            //     expect(groupedCombobox.getItemInGroup(GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$User')).toBeDefined();
+            // });
+            it('displays the record properties when selecting a record variable', async () => {
+                // disable render-incrementally on combobox so groupedCombobox gets full menu data
+                const comboxbox = getResourceCombobox(propertyEditor);
+                comboxbox.element.renderIncrementally = false;
+                await ticks(1);
+
+                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+                const item = groupedCombobox.getItemInGroup(
+                    GROUP_LABELS.RECORD_VARIABLES,
+                    'text',
+                    'accountSObjectVariable'
+                );
+                await groupedCombobox.select(item.value, { blur: false });
+                expect(groupedCombobox.getItemBy('text', 'Description')).toBeDefined();
+                expect(groupedCombobox.getItemBy('text', 'ShippingLongitude')).toBeDefined();
+            });
+            it('inserts the resource in the textarea when we select a resource', async () => {
+                // disable render-incrementally on combobox so groupedCombobox gets full menu data
+                const comboxbox = getResourceCombobox(propertyEditor);
+                comboxbox.element.renderIncrementally = false;
+                await ticks(1);
+
+                const textArea = getFormulaTextArea(propertyEditor);
+                textArea.setSelectionRange(3, 3);
+                const groupedCombobox = getResourceCombobox(propertyEditor).getGroupedCombobox();
+                const item = groupedCombobox.getItemInGroup(
+                    GROUP_LABELS.RECORD_VARIABLES,
+                    'text',
+                    'accountSObjectVariable'
+                );
+                await groupedCombobox.select(item.value, { blur: false });
+                const subItem = groupedCombobox.getItemBy('text', 'Description');
+                await groupedCombobox.select(subItem.value, { blur: false });
+                expect(textArea.value).toEqual(
+                    'IF({!accountSObjectVariable.Description}{!accountSObjectVariable.AnnualRevenue} < 1000000,"Small", "Big")'
+                );
+            });
+        });
+    });
 });
