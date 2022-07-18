@@ -9,7 +9,7 @@ import startElementRecordConditions from '@salesforce/label/FlowBuilderCanvasEle
 import startElementSetObject from '@salesforce/label/FlowBuilderCanvasElement.startElementSetObject';
 import population from '@salesforce/label/MarketingSegment.Population';
 import segmentName from '@salesforce/label/MarketingSegment.SegmentName';
-import lastPublishDate from '@salesforce/label/udd_MarketSgmtActvStatusEvent.LastPublishDate';
+import lastPublishDate from '@salesforce/label/udd_MarketSegmentActivation.LastPublishedDate';
 
 export const LABELS = {
     startElementChooseObject,
