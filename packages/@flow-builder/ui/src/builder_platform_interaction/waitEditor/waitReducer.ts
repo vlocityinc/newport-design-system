@@ -491,7 +491,10 @@ export const waitReducer = (state, event) => {
         case UpdateWaitEventEventTypeEvent.EVENT_NAME:
             return updateWaitEventEventType(state, event);
         case VALIDATE_ALL:
-            return waitValidation.validateAll(state, waitValidation.getBaseWaitRules());
+            return waitValidation.validateAll(
+                state,
+                waitValidation.getBaseWaitRules(getValueFromHydratedItem(state.elementSubtype))
+            );
         case PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT:
             return addWaitEvent(state);
         case ReorderListEvent.EVENT_NAME:

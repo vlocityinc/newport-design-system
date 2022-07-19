@@ -2,6 +2,7 @@
 import {
     CONDITION_LOGIC,
     ELEMENT_TYPE,
+    WAIT_SUB_TYPE,
     WAIT_TIME_EVENT_OFFSET_UNIT,
     WAIT_TIME_EVENT_PARAMETER_NAMES,
     WAIT_TIME_EVENT_TYPE
@@ -110,33 +111,33 @@ const platformEventParametersRule = (eventTypeIndex) => {
 };
 
 class WaitValidation extends Validation {
-    /**
+    /* @param wait element subtype
      * @returns {Object} Base rules for a wait node
      */
-    getBaseWaitRules() {
+    getBaseWaitRules(elementSubtype: WAIT_SUB_TYPE) {
         const overrideRules = Object.assign({}, this.finalizedRules);
-        overrideRules.waitEvents = this.getWaitEventRules();
+        overrideRules.waitEvents = this.getWaitEventRules(elementSubtype);
         return overrideRules;
     }
 
-    getWaitEventRules() {
+    getWaitEventRules(elementSubtype: WAIT_SUB_TYPE) {
         return (waitEvent) => {
             let rules = Object.assign({}, defaultRules);
-
-            if (waitEvent.conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
-                rules = Object.assign(rules, conditionRule);
+            // These wait event validations do not apply to durationWait subtype
+            if (elementSubtype !== WAIT_SUB_TYPE.DURATION_WAIT) {
+                if (waitEvent.conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
+                    rules = Object.assign(rules, conditionRule);
+                }
+                // Resume validation based on event type
+                if (waitEvent.eventType.value === WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME) {
+                    rules = Object.assign(rules, absoluteTimeRules());
+                } else if (waitEvent.eventType.value === WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME) {
+                    rules = Object.assign(rules, directTimeRules());
+                } else {
+                    // Platform events
+                    rules = Object.assign(rules, platformEventParametersRule(waitEvent.eventTypeIndex));
+                }
             }
-
-            // Resume validation based on event type
-            if (waitEvent.eventType.value === WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME) {
-                rules = Object.assign(rules, absoluteTimeRules());
-            } else if (waitEvent.eventType.value === WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME) {
-                rules = Object.assign(rules, directTimeRules());
-            } else {
-                // Platform events
-                rules = Object.assign(rules, platformEventParametersRule(waitEvent.eventTypeIndex));
-            }
-
             return rules;
         };
     }

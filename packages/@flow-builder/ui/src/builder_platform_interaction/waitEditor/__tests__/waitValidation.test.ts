@@ -191,7 +191,10 @@ describe('All validation happens when OK is clicked', () => {
             ]
         };
 
-        const validatedWait = waitValidation.validateAll(waitWithEmptyProperties, waitValidation.getBaseWaitRules());
+        const validatedWait = waitValidation.validateAll(
+            waitWithEmptyProperties,
+            waitValidation.getBaseWaitRules(null)
+        );
         const waitEvent = validatedWait.waitEvents[0];
 
         expect(waitEvent.label.error).toBe(CANNOT_BE_BLANK_ERROR);
