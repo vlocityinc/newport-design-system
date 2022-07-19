@@ -28,7 +28,6 @@
                     <li class="slds-dropdown__header" if:true={section.heading} role="separator" title={section.label}>
                         <span>{section.heading}</span>
                     </li>
-                    <div class="slds-dropdown__header" if:false={section.heading} role="separator"></div>
                     <template for:each={section.items} for:item="item">
                         <li
                             key={item.guid}
@@ -42,7 +41,11 @@
                             role="presentation"
                             onclick={handleSelectMenuItem}
                         >
-                            <div class={item.itemContainerClass} role="menuitem" title={item.tooltip}>
+                            <div
+                                class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                role="menuitem"
+                                title={item.tooltip}
+                            >
                                 <span class={item.iconContainerClass}>
                                     <lightning-icon
                                         class={item.iconClass}
@@ -63,8 +66,8 @@
                                     <span
                                         if:true={item.description}
                                         class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate"
-                                        >{item.description}</span
-                                    >
+                                        >{item.description}
+                                    </span>
                                 </span>
                             </div>
                         </li>
@@ -77,12 +80,11 @@
                 </ul>
             </template>
             <template if:true={menuConfiguration.noResultsFound}>
-                <span class="slds-media__body slds-p-bottom_small slds-p-left_small">
+                <div class="slds-media__body slds-p-vertical_x-small slds-p-left_small">
                     <span class="slds-truncate" title={labels.noResultsFoundText}
                         ><i>{labels.noResultsFoundText}</i></span
                     >
-                </span>
-                <div class="slds-dropdown__header" role="separator"></div>
+                </div>
             </template>
         </div>
     </builder_platform_interaction-alc-menu-template>

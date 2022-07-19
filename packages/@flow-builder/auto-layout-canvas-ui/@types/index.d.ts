@@ -45,7 +45,6 @@ interface MenuItem {
     actionName?: string;
     elementSubtype?: string;
     tooltip?: string;
-    itemContainerClass: string;
 }
 
 interface MenuSection {

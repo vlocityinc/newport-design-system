@@ -83,11 +83,7 @@ const metadata = {
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
             tooltip: 'Action with Static Resource Icon: Test Action with Static Resource',
-            flowName: '',
-            itemContainerClass: {
-                'slds-media slds-listbox__option slds-listbox__option_entity': true,
-                'slds-listbox__option_has-meta': true
-            }
+            flowName: ''
         },
         {
             guid: 'random_guid',
@@ -106,11 +102,7 @@ const metadata = {
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
             tooltip: 'Action with Slds Icon: Test Action with Slds Icon',
-            flowName: '',
-            itemContainerClass: {
-                'slds-media slds-listbox__option slds-listbox__option_entity': true,
-                'slds-listbox__option_has-meta': false
-            }
+            flowName: ''
         },
         {
             guid: 'random_guid',
@@ -129,11 +121,7 @@ const metadata = {
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
             tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.',
-            flowName: '',
-            itemContainerClass: {
-                'slds-media slds-listbox__option slds-listbox__option_entity': true,
-                'slds-listbox__option_has-meta': true
-            }
+            flowName: ''
         },
         {
             guid: 'random_guid',
@@ -152,11 +140,26 @@ const metadata = {
             rowClass: 'slds-listbox__item',
             elementSubtype: null,
             tooltip: 'Display the records in the flow.',
-            flowName: 'DisplayRecords_Flow',
-            itemContainerClass: {
-                'slds-media slds-listbox__option slds-listbox__option_entity': true,
-                'slds-listbox__option_has-meta': true
-            }
+            flowName: 'DisplayRecords_Flow'
+        },
+        {
+            guid: 'random_guid',
+            description: '',
+            label: 'Hello World flow',
+            elementType: ELEMENT_TYPE.SUBFLOW,
+            actionType: '',
+            actionName: '',
+            actionIsStandard: false,
+            icon: 'standard:flow',
+            iconSrc: undefined,
+            iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+            iconClass: 'background-navy',
+            iconSize: 'small',
+            iconVariant: '',
+            rowClass: 'slds-listbox__item',
+            elementSubtype: null,
+            tooltip: 'Display the records in the flow.',
+            flowName: 'NoDescription_Flow'
         }
     ]
 };
@@ -271,11 +274,13 @@ describe('connector menu config', () => {
         // Highlight matched results.
         metadata.menuItems[0].formattedLabel = '<mark>Action</mark> with Static Resource Icon';
         metadata.menuItems[1].formattedLabel = '<mark>Action</mark> with Slds Icon';
+        metadata.menuItems[1].description = metadata.menuItems[1].actionType + '-' + metadata.menuItems[1].actionName;
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[0]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[1]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[2]]));
         delete metadata.menuItems[0].formattedLabel;
         delete metadata.menuItems[1].formattedLabel;
+        metadata.menuItems[1].description = '';
     });
 
     it('search results should be highlight partial matches', () => {
@@ -284,11 +289,13 @@ describe('connector menu config', () => {
         // Highlight matched results.
         metadata.menuItems[0].formattedLabel = 'Ac<mark>tion</mark> with Static Resource Icon';
         metadata.menuItems[1].formattedLabel = 'Ac<mark>tion</mark> with Slds Icon';
+        metadata.menuItems[1].description = metadata.menuItems[1].actionType + '-' + metadata.menuItems[1].actionName;
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[0]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[1]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[2]]));
         delete metadata.menuItems[0].formattedLabel;
         delete metadata.menuItems[1].formattedLabel;
+        metadata.menuItems[1].description = '';
     });
 
     it('search results should not show paste elements and go to connectors', () => {
@@ -305,12 +312,16 @@ describe('connector menu config', () => {
     it('search results should list the subflows based on search input', () => {
         const searchResultsMenu = configureMenu('flow', metadata, elementsMetadata, false, 1, false, true);
         metadata.menuItems[3].formattedLabel = 'Display Records <mark>Flow</mark>';
-        expect(searchResultsMenu.sections[0].items.length).toBe(1);
+        metadata.menuItems[4].formattedLabel = 'Hello World <mark>flow</mark>';
+        metadata.menuItems[4].description = metadata.menuItems[4].flowName;
+        expect(searchResultsMenu.sections[0].items.length).toBe(2);
         expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[3]]));
+        expect(searchResultsMenu.sections[0].items).toEqual(expect.arrayContaining([metadata.menuItems[4]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[0]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[1]]));
         expect(searchResultsMenu.sections[0].items).toEqual(expect.not.arrayContaining([metadata.menuItems[2]]));
         delete metadata.menuItems[3].formattedLabel;
+        metadata.menuItems[4].description = '';
     });
 });
 

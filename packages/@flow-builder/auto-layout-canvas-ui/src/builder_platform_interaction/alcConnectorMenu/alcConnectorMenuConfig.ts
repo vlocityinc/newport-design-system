@@ -2,7 +2,6 @@ import { ICON_SHAPE } from 'builder_platform_interaction/alcComponentsUtils';
 import type { ElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 import { NodeType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { commonUtils, storeUtils } from 'builder_platform_interaction/sharedUtils';
-import { classSet } from 'lightning/utils';
 import { LABELS } from './alcConnectorMenuLabels';
 
 const { generateGuid } = storeUtils;
@@ -12,9 +11,6 @@ export const PASTE_ACTION = 'Paste';
 export const GOTO_ACTION = 'goTo';
 export const GOTO_REROUTE_ACTION = 'goToReroute';
 export const GOTO_DELETE_ACTION = 'goToDelete';
-
-const itemContainerClassWithMetadata =
-    'slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta';
 
 const actionSection: MenuSection = {
     guid: generateGuid(),
@@ -33,8 +29,7 @@ const pasteActionItem: MenuItem = {
     iconVariant: '',
     label: '',
     elementType: PASTE_ACTION,
-    rowClass: 'slds-listbox__item action-row-line-height',
-    itemContainerClass: itemContainerClassWithMetadata
+    rowClass: 'slds-listbox__item action-row-line-height'
 };
 
 const addGoToActionItem: MenuItem = {
@@ -46,8 +41,7 @@ const addGoToActionItem: MenuItem = {
     iconVariant: '',
     label: LABELS.goToPathItemLabel,
     elementType: GOTO_ACTION,
-    rowClass: 'slds-listbox__item action-row-line-height',
-    itemContainerClass: itemContainerClassWithMetadata
+    rowClass: 'slds-listbox__item action-row-line-height'
 };
 
 const rerouteGoToActionItem: MenuItem = {
@@ -59,8 +53,7 @@ const rerouteGoToActionItem: MenuItem = {
     iconVariant: '',
     label: LABELS.reRouteGoToPathItemLabel,
     elementType: GOTO_REROUTE_ACTION,
-    rowClass: 'slds-listbox__item action-row-line-height',
-    itemContainerClass: itemContainerClassWithMetadata
+    rowClass: 'slds-listbox__item action-row-line-height'
 };
 
 const deleteGoToActionItem: MenuItem = {
@@ -72,8 +65,7 @@ const deleteGoToActionItem: MenuItem = {
     iconVariant: '',
     label: LABELS.deleteGoToPathItemLabel,
     elementType: GOTO_DELETE_ACTION,
-    rowClass: 'slds-listbox__item action-row-line-height',
-    itemContainerClass: itemContainerClassWithMetadata
+    rowClass: 'slds-listbox__item action-row-line-height'
 };
 
 /**
@@ -190,9 +182,7 @@ const configureElementMenu = (
                     iconVariant,
                     rowClass: 'slds-listbox__item',
                     elementSubtype,
-                    tooltip: description ? label + ': ' + description : label,
-                    itemContainerClass:
-                        'slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta'
+                    tooltip: description ? label + ': ' + description : label
                 };
                 sectionDefinition.items.push(item);
             }
@@ -261,11 +251,7 @@ export const configureMenu = (
     allItems.push(
         ...metadata.menuItems.map((menuItem) => ({
             ...menuItem,
-            rowClass: 'slds-listbox__item',
-            itemContainerClass: classSet({
-                'slds-media slds-listbox__option slds-listbox__option_entity': true,
-                'slds-listbox__option_has-meta': !!menuItem.description
-            })
+            rowClass: 'slds-listbox__item'
         }))
     );
 
@@ -292,6 +278,21 @@ export const configureMenu = (
     if (typeof limit !== 'undefined') {
         filteredItems = filteredItems.slice(0, limit);
     }
+
+    filteredItems = filteredItems.map((item) => {
+        let description = item.description;
+        if (!item.description) {
+            if (item.actionType) {
+                description = item.actionType + '-' + item.actionName;
+            } else if (item.flowName) {
+                description = item.flowName;
+            }
+        }
+        return {
+            ...item,
+            description
+        };
+    });
 
     searchResultsSection.items = filteredItems;
     const noResultsFound = searchResultsSection.items.length === 0;
