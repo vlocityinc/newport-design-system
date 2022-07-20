@@ -1424,7 +1424,7 @@ describe('alc-elements-reducer', () => {
         const waitEvent2 = {
             guid: 'waitEvent2',
             name: 'waitEvent2',
-            label: 'Wait Event 2'
+            label: ''
         };
         const waitEvent3 = {
             guid: 'waitEvent3',
@@ -1528,8 +1528,8 @@ describe('alc-elements-reducer', () => {
                 expect(updatedState.assignment1_0.name).toEqual('Copy_1_of_Assignment_1');
                 expect(updatedState.wait1_0.label).toEqual('Copy 1 of Wait 1');
                 expect(updatedState.wait1_0.name).toEqual('Copy_1_of_Wait_1');
-                expect(updatedState.waitEvent2_0.label).toEqual('Copy 1 of Wait Event 2');
-                expect(updatedState.waitEvent2_0.name).toEqual('Copy_1_of_Wait_Event_2');
+                expect(updatedState.waitEvent2_0.label).toEqual('Copy 1 of waitEvent2');
+                expect(updatedState.waitEvent2_0.name).toEqual('Copy_1_of_waitEvent2');
                 expect(updatedState.screen3_0.label).toEqual('Copy 1 of Screen 3');
                 expect(updatedState.screen3_0.name).toEqual('Copy_1_of_Screen_3');
                 expect(updatedState.waitEvent3_0.label.length).toEqual(255);

@@ -476,7 +476,8 @@ function _selectionOnFixedCanvas(
 }
 
 /**
- * Function to generate a unique label and devName for a pasted element.
+ * Function to generate a unique label and devName for a pasted element. The passed in label is used first but if it is
+ * falsey then the name field is used.
  *
  * @param label - Existing label
  * @param name - Existing name
@@ -505,7 +506,10 @@ function _getUniquePastedElementNameAndLabel(
     ) {
         // Generate another label if neither are unique
         count++;
-        pastedElementLabel = pastedElementName.replace('{0}', count).replace('{1}', label).slice(0, MAX_LABEL_LENGTH);
+        pastedElementLabel = pastedElementName
+            .replace('{0}', count)
+            .replace('{1}', label ? label : name)
+            .slice(0, MAX_LABEL_LENGTH);
         pastedElementDevName = sanitizeDevName(pastedElementLabel);
     }
     return [pastedElementLabel, pastedElementDevName];
