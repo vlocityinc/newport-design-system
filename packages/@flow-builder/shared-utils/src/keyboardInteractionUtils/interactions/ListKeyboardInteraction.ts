@@ -18,15 +18,28 @@ export class ListKeyboardInteraction extends BaseKeyboardInteraction {
 
     template: ShadowRootTheGoodPart;
 
-    // the active element id
+    /** Id of an active element. */
     activeElementId?: string;
 
     /**
-     * Constructs a new ListKeyboardInteraction
-     *
-     * @param template  The template that contains the elements
+     * An optional callback for supplying an id for an item. Otherwise, item ids are generated on the fly.
+     * The callback makes it possible to have stable item ids in the list.
      */
-    constructor(template: ShadowRootTheGoodPart) {
+    itemInteractionItemIdCallback;
+
+    /** Indicates if an active element has focus. */
+    private hasFocus = false;
+
+    /** Indicates that hasFocus should keep its value irrespective of the focusOut event until a next render. */
+    private ignoreFocusOut = false;
+
+    /**
+     * Constructs a new ListKeyboardInteraction.
+     *
+     * @param template  The template that contains the elements.
+     * @param [itemInteractionItemIdCallback] A callback for supplying an id for an item.
+     */
+    constructor(template: ShadowRootTheGoodPart, itemInteractionItemIdCallback: Function | null = null) {
         super([
             createShortcut(Keys.ArrowDown, new ArrowDown(() => this.navigateList())),
             createShortcut(Keys.ArrowUp, new ArrowUp(() => this.navigateList(Direction.Up)))
@@ -34,6 +47,7 @@ export class ListKeyboardInteraction extends BaseKeyboardInteraction {
 
         this.template = template;
         this.dom = createDomProxy(this, selectors);
+        this.itemInteractionItemIdCallback = itemInteractionItemIdCallback;
     }
 
     /**
@@ -92,12 +106,40 @@ export class ListKeyboardInteraction extends BaseKeyboardInteraction {
         }
     }
 
+    saveListFocusOnNextRender() {
+        this.ignoreFocusOut = true;
+    }
+
+    /**
+     * Supplies an id of an item by either generating it on the fly or
+     * retriving it via an optional callback.
+     *
+     * @param item - list item
+     * @returns item id
+     */
+    private getItemInteractionItemId(item: HTMLElement) {
+        if (this.itemInteractionItemIdCallback) {
+            const itemId = this.itemInteractionItemIdCallback(item);
+            if (itemId == null) {
+                throw new Error('Item id supplied is null.');
+            }
+            return itemId;
+        }
+        return this.getNextInteractionItemId();
+    }
+
     private initInteractionItem(item: HTMLElement) {
-        item.dataset.interactionItemId = this.getNextInteractionItemId();
+        item.dataset.interactionItemId = this.getItemInteractionItemId(item);
         updateTabIndex(item, TabIndex.Inactive);
         item.addEventListener('focusin', (event) => {
             // @ts-ignore
             this.setActiveElement(event.target, false);
+            this.hasFocus = true;
+        });
+        item.addEventListener('focusout', () => {
+            if (!this.ignoreFocusOut) {
+                this.hasFocus = false;
+            }
         });
     }
 
@@ -110,7 +152,8 @@ export class ListKeyboardInteraction extends BaseKeyboardInteraction {
         }
 
         if (activeElement != null) {
-            this.setActiveElement(activeElement, false);
+            // Focus on the active element, if it was in focus earlier.
+            this.setActiveElement(activeElement, this.hasFocus);
         }
     }
 
@@ -126,6 +169,9 @@ export class ListKeyboardInteraction extends BaseKeyboardInteraction {
         if (isFirstRender) {
             this.initActiveElement();
         }
+
+        // Reset the value until saveListFocusOnNextRender() is invoked again.
+        this.ignoreFocusOut = false;
 
         return isFirstRender;
     }

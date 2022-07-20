@@ -18,7 +18,10 @@ export default abstract class AlcMenu extends withKeyboardInteractions(Lightning
     showSpinner = false;
 
     getKeyboardInteractions() {
-        const listKeyboardInteraction = new ListKeyboardInteraction(this.template);
+        const listKeyboardInteraction = new ListKeyboardInteraction(
+            this.template,
+            this.getItemInteractionItemIdCallback()
+        );
         this.listKeyboardInteraction = listKeyboardInteraction;
         return [
             getEnterKeyInteraction(() => this.handleSpaceOrEnter(), true),
@@ -54,6 +57,10 @@ export default abstract class AlcMenu extends withKeyboardInteractions(Lightning
     @api
     focus() {
         this.listKeyboardInteraction.getActiveElement()?.focus();
+    }
+
+    getItemInteractionItemIdCallback(): Function | null {
+        return null;
     }
 
     /**

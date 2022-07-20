@@ -12,8 +12,8 @@ import {
     PASTE_ACTION
 } from './alcConnectorMenuConfig';
 import { LABELS } from './alcConnectorMenuLabels';
-const { Keys } = keyboardInteractionUtils;
 
+const { Keys } = keyboardInteractionUtils;
 const { debounce } = commonUtils;
 
 const SEARCH_DELAY = 250;
@@ -76,8 +76,12 @@ export default class AlcConnectorMenu extends AlcMenu {
             // @ts-ignore
             searchInput.focus();
         } else {
-            super.focus();
+            this.focusOnList();
         }
+    }
+
+    focusOnList() {
+        super.focus();
     }
 
     get menuConfiguration() {
@@ -101,6 +105,14 @@ export default class AlcConnectorMenu extends AlcMenu {
         return !this._searchInput;
     }
 
+    getItemInteractionItemIdCallback() {
+        return this.itemInteractionItemIdCallback;
+    }
+
+    itemInteractionItemIdCallback(item) {
+        return item.dataset.key;
+    }
+
     shouldShowSpinner() {
         return (!this.isSearchInputEmpty && this._metadata.isLoading) as boolean;
     }
@@ -121,9 +133,21 @@ export default class AlcConnectorMenu extends AlcMenu {
     }
 
     handleInputKeydown(event) {
+        let items;
+
         switch (event.key) {
             case Keys.Escape:
             case Keys.Tab:
+                break;
+            case Keys.ArrowDown:
+                // Focus on the list's first item.
+                items = this.listKeyboardInteraction.getItems();
+                if (items && items.length > 0) {
+                    const item = items[0];
+                    this.listKeyboardInteraction.setActiveElement(item, true);
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
                 break;
             default:
                 event.stopPropagation();
@@ -141,6 +165,7 @@ export default class AlcConnectorMenu extends AlcMenu {
         const buffer = 20;
         const bottomReached = listbox.scrollTop + buffer >= maxScroll;
         if (bottomReached) {
+            this.listKeyboardInteraction.saveListFocusOnNextRender();
             this._limit += PAGE_SIZE;
         }
     }
