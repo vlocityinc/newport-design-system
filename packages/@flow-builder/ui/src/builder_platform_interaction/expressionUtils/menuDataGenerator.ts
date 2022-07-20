@@ -187,8 +187,7 @@ const shouldShowDataTypeAsSubText = (parent) =>
 function getFieldSubText(parent, field) {
     // support for parameter items being converted to field shape
     const apiName = field.apiName || field.qualifiedApiName;
-    const label = field.label || apiName;
-    let subText = label;
+    let subText = field.label || apiName;
     if (shouldShowDataTypeAsSubText(parent)) {
         const dataTypeLabel = getDataTypeLabel(field.dataType);
         if (field.isCollection && parent.dataType === FLOW_DATA_TYPE.APEX.value) {
@@ -292,7 +291,7 @@ function getMenuItemForSpannableSObjectField(
     const text = field.isPolymorphic ? `${relationshipName} (${referenceToName})` : relationshipName;
     let value = relationshipName + (field.isPolymorphic ? ':' + referenceToName : '');
     if (parent) {
-        value = parent.value + '.' + value;
+        value = `${parent.value}.${value}`;
     }
     const displayText = getFieldDisplayText(
         parent,
@@ -361,13 +360,27 @@ function getMenuItemsForSObjectField(
                 })
             );
         });
-        comboboxItems.push(
-            getMenuItemForField(field, parent, {
-                showAsFieldReference,
-                showSubText,
-                includeEntityRelatedRecordFields
-            })
-        );
+        if (includeEntityRelatedRecordFields) {
+            if (field.isRelatedRecordChild) {
+                // We don't want to display the IdFields because the expected value of the combobox for those fields
+                // are the same as the traversal ones in this case. ie: {!$Record.Account} for AccountId field and the traversal.
+                comboboxItems.push(
+                    getMenuItemForField(field, parent, {
+                        showAsFieldReference,
+                        showSubText,
+                        includeEntityRelatedRecordFields
+                    })
+                );
+            }
+        } else {
+            comboboxItems.push(
+                getMenuItemForField(field, parent, {
+                    showAsFieldReference,
+                    showSubText,
+                    includeEntityRelatedRecordFields
+                })
+            );
+        }
         return comboboxItems;
     }
     return [
@@ -432,6 +445,36 @@ function isTraversable(
     return hasNext;
 }
 
+const getMenuitemFieldText = (
+    { isPolymorphic, relationshipName, apiName },
+    isRelatedRecordLookupField,
+    referenceToName
+) => {
+    let text = apiName;
+    if (isRelatedRecordLookupField && !isPolymorphic) {
+        text = relationshipName;
+    } else if (isRelatedRecordLookupField && isPolymorphic) {
+        text = `${relationshipName} (${referenceToName})`;
+    }
+    return text;
+};
+
+const buildMenuitemFieldParentValue = (
+    { apiName, isPolymorphic, relationshipName },
+    parentValue,
+    isRelatedRecordLookupField
+) => {
+    let value = `${parentValue}.`;
+    if (isRelatedRecordLookupField && !isPolymorphic) {
+        value += relationshipName;
+    } else if (isRelatedRecordLookupField && isPolymorphic) {
+        value += `${relationshipName}:${apiName.split(':').slice(-1)}`;
+    } else {
+        value += apiName;
+    }
+    return value;
+};
+
 /**
  * Makes copy of server data fields of parent objects(SObjects, Global/System Variables) with fields as needed by combobox
  *
@@ -445,6 +488,7 @@ function isTraversable(
  * @param {boolean} [options.allowSObjectFields] true to allow SObject traversal (1st level : SObject fields)
  * @param {boolean} [options.allowApexTypeFields] true to allow Apex type traversal (1st level : apex type fields)
  * @param {boolean} [options.allowElementFields] true to allow element field traversal rather than just element selection (ex: stageStep.output.foo)
+ * @param {boolean} [options.referenceToName] Reference to Name
  * @param {boolean} [options.includeEntityRelatedRecordFields] true if the entity related fields are included
  * @returns {MenuItem} Representation of flow element in shape combobox needs
  */
@@ -459,6 +503,7 @@ export function getMenuItemForField(
         allowSObjectFields = true,
         allowApexTypeFields = true,
         allowElementFields = true,
+        referenceToName = '',
         includeEntityRelatedRecordFields = false
     } = {}
 ) {
@@ -471,24 +516,25 @@ export function getMenuItemForField(
         allowApexTypeFields,
         allowElementFields
     });
-    const { dataType, isCollection, subtype, getChildrenItems, sobjectName } = field;
-    const text = apiName;
-    const comboboxItem = createMenuItemForField({
-        iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
+    const { dataType, isCollection, subtype, getChildrenItems, sobjectName, isRelatedRecordChild } = field;
+    const isRelatedRecordLookupField = includeEntityRelatedRecordFields && !isRelatedRecordChild;
+    return createMenuItemForField({
+        iconName: includeEntityRelatedRecordFields
+            ? FLOW_DATA_TYPE.SOBJECT.utilityIconName
+            : getDataTypeIcons(field.dataType, ICON_TYPE),
         iconAlternativeText: dataType,
         isCollection,
         dataType,
-        subtype: includeEntityRelatedRecordFields ? sobjectName : subtype,
+        subtype: includeEntityRelatedRecordFields ? (isRelatedRecordChild ? sobjectName : referenceToName) : subtype,
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
         isSystemVariableField: parent ? parent.haveSystemVariableFields : false,
-        text,
-        value: parent ? parent.value + '.' + apiName : apiName,
+        text: getMenuitemFieldText(field, isRelatedRecordLookupField, referenceToName),
+        value: parent ? buildMenuitemFieldParentValue(field, parent.value, isRelatedRecordLookupField) : apiName,
         hasNext,
         displayText: getFieldDisplayText(parent, apiName, undefined, showAsFieldReference),
         getChildrenItems
     });
-    return comboboxItem;
 }
 
 /**

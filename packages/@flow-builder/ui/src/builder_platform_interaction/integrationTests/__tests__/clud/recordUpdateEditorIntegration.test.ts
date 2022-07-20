@@ -661,6 +661,40 @@ describe('Triggering Record Update Editor', () => {
                 expect(baseExpressionBuilder.rhsValue).toBe('');
             });
         });
+        describe('Handle event wayToFindRecords changed to Related Record Lookup', () => {
+            let recordFilter;
+            let relatedRecordFieldsPicker;
+            beforeAll(async () => {
+                getLightningRadioGroup(recordUpdateComponent).dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP }
+                    })
+                );
+                await ticks(1);
+                recordFilter = getRecordFilter(recordUpdateComponent);
+                relatedRecordFieldsPicker = getRelatedRecordFieldsPicker(recordUpdateComponent);
+            });
+            it('should display the filter', () => {
+                expect(recordFilter).not.toBeNull();
+            });
+            it('should have filter logic equals to "no conditions"', () => {
+                expect(recordFilter.filterLogic).toMatchObject({ error: null, value: CONDITION_LOGIC.NO_CONDITIONS });
+            });
+            it('should display the Related Record Fields Picker', () => {
+                expect(relatedRecordFieldsPicker).not.toBeNull();
+            });
+            it('should display the inputAssignment', () => {
+                expect(getRecordInputOutputAssignments(recordUpdateComponent)).not.toBeNull();
+            });
+            it('should not display the sObject picker', () => {
+                expect(getSObjectOrSObjectCollectionPicker(recordUpdateComponent)).toBeNull();
+            });
+            test('Related Record Picker should have the correct label', () => {
+                expect(relatedRecordFieldsPicker.label).toBe(
+                    'FlowBuilderRecordUpdateEditor.filterCriteriaRelatedRecords'
+                );
+            });
+        });
     });
     describe('Existing element', () => {
         beforeEach(() => {
@@ -772,6 +806,25 @@ describe('Triggering Record Update Editor', () => {
             });
             it('have the correct value display', () => {
                 expect(relatedRecordFieldsPicker.value).toBe(updateTriggerRecordWithRelatedFields.inputReference);
+            });
+        });
+        describe('Handle event related record picker value Changed', () => {
+            let recordRelatedFieldsPicker;
+            let fieldToFerovExpressionBuilder;
+            beforeAll(async () => {
+                recordRelatedFieldsPicker = getRelatedRecordFieldsPicker(recordUpdateComponent);
+                const combobox = getRecordVariablePickerChildComboboxComponent(recordRelatedFieldsPicker);
+                await combobox.removePill();
+                await combobox.typeMergeField('{!$Record.Contracts}');
+                const inputAssignments = getRecordInputOutputAssignments(recordUpdateComponent);
+                fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
+            });
+            it('Should display the typed value', () => {
+                expect(recordRelatedFieldsPicker.value).toBe('$Record.Contracts');
+            });
+            test('should have input assignments LHS/Operator/RHS (with pill)', async () => {
+                const combobox = await fieldToFerovExpressionBuilder[0].getLhsCombobox();
+                expect(combobox.getItems()).toHaveLength(76);
             });
         });
     });

@@ -1,5 +1,6 @@
 export {
     getEntityFieldWithRelationshipName,
+    getPolymorphicRelationShipName,
     isLookupTraversalSupported,
     resolveReferenceFromIdentifier
 } from './mergeField';

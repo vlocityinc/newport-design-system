@@ -189,7 +189,8 @@ const normalizeMenuItemChildField = (
     const [fieldName, ...remainingFieldNames] = fieldNames;
     const fields = getChildrenItems(parentMenuItem, false, includeEntityRelatedRecordFields);
     const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
-        allowSObjectFieldsTraversal
+        allowSObjectFieldsTraversal,
+        includeEntityRelatedRecordFields
     });
     const fieldDisplayText = addCurlyBraces(removeCurlyBraces(parentMenuItem.displayText) + '.' + fieldName);
     const item = menuItems.find((menuItem) => menuItem.displayText === fieldDisplayText);

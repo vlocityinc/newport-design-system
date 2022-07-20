@@ -349,12 +349,25 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     /**
-     *  get the related field type and update fields
+     *  get the related record field entity type and update fields
      */
     getRecordRelatedFieldsAndUpdateFields = async () => {
         const fields = await resolveReferenceFromIdentifier(this.inputReference, true);
-        this.state.relatedRecordFieldSubType = fields.pop().sobjectName;
-        this.updateFields(this.state.relatedRecordFieldSubType);
+        if (fields) {
+            const { apiName, isCustom, isPolymorphic, isRelatedRecordChild, sobjectName } = fields.pop();
+            let leafRecordName;
+            if (isRelatedRecordChild) {
+                leafRecordName = sobjectName;
+            } else if (isCustom) {
+                leafRecordName = apiName;
+            } else if (isPolymorphic) {
+                leafRecordName = this.inputReference.split(':').slice(-1);
+            }
+            this.state.relatedRecordFieldSubType = leafRecordName;
+            this.updateFields(leafRecordName);
+        } else {
+            this.state.entityFields = {};
+        }
     };
 
     /**

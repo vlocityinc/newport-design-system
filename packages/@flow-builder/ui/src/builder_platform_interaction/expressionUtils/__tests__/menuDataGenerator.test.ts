@@ -26,6 +26,7 @@ import {
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { accountFields as accountRelatedRecordFields } from 'serverData/GetRelatedRecordFieldsForEntity/accountFields.json';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { systemVariablesForOrchestration } from 'serverData/GetSystemVariables/systemVariablesForOrchestration.json';
 import {
@@ -542,6 +543,27 @@ describe('menuDataGenerator', () => {
                 value: 'recordVarGuid.CreatedById'
             });
             expect(menuItems[2].hasNext).toBeFalsy();
+        });
+    });
+    describe('getMenuItemsForField for related record fields', () => {
+        const parentSObjectItem = {
+            dataType: FLOW_DATA_TYPE.SOBJECT.value,
+            subtype: 'FeedItem',
+            displayText: '{!$Record}',
+            value: '$Record'
+        };
+        it('should return one menu item for a field that is not spannable', () => {
+            const menuItems = getMenuItemsForField(accountRelatedRecordFields.Contracts, parentSObjectItem, {
+                includeEntityRelatedRecordFields: true
+            });
+            expect(menuItems).toHaveLength(1);
+            expect(menuItems[0]).toMatchObject({
+                text: 'Contracts',
+                displayText: '{!$Record.Contracts}',
+                parent: parentSObjectItem,
+                value: '$Record.Contracts'
+            });
+            expect(menuItems[0].hasNext).toBeFalsy();
         });
     });
 });

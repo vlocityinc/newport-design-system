@@ -49,12 +49,12 @@ import { objectManagerUrls } from 'serverData/GetObjectManagerUrls/objectManager
 import { operators } from 'serverData/GetOperators/operators.json';
 import { paletteForAutoLaunchedFlow } from 'serverData/GetPalette/paletteForAutoLaunchedFlow.json';
 import { paletteForFlow } from 'serverData/GetPalette/paletteForFlow.json';
-import { accountRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/accountFields.json';
-import { contractRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/contractFields.json';
-import { feedItemRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/feedItemFields.json';
-import { objectWithAllPossibleFieldsRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/objectWithAllPossibleFieldsFields.json';
-import { recommendationRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/recommendationFields.json';
-import { userRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/userFields.json';
+import { accountFields as accountRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/accountFields.json';
+import { caseFields as caseRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/caseFields.json';
+import { contractFields as contractRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/contractFields.json';
+import { objectWithAllPossibleFieldsFields as objectWithAllPossibleFieldsRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/objectWithAllPossibleFieldsFields.json';
+import { recommendationFields as recommendationRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/recommendationFields.json';
+import { userField as userRelatedFields } from 'serverData/GetRelatedRecordFieldsForEntity/userFields.json';
 import { resourceTypesForAutoLaunchedFlow } from 'serverData/GetResourceTypes/resourceTypesForAutoLaunchedFlow.json';
 import { resourceTypesForFlow } from 'serverData/GetResourceTypes/resourceTypesForFlow.json';
 import { runInModes } from 'serverData/GetRunInModes/runInModes.json';
@@ -226,7 +226,7 @@ const allAuraActions = {
     'c.getRelatedRecordFieldsForEntity': getRelatedRecordFieldsForEntity({
         Account: accountRelatedFields,
         User: userRelatedFields,
-        FeedItem: feedItemRelatedFields,
+        Case: caseRelatedFields,
         Contract: contractRelatedFields,
         Object_with_all_possible_fields__c: objectWithAllPossibleFieldsRelatedFields,
         Recommendation: recommendationRelatedFields

@@ -1485,6 +1485,10 @@ export default class Combobox extends LightningElement {
             if (isValidUsingMergeField && this._mergeFieldLevel === 1 && !this._item) {
                 this._errorMessage = ERROR_MESSAGE.GENERIC;
             }
+            // For Related Record Fields, the value can't be $Record only
+            if (this.includeEntityRelatedRecordFields && this._item?.value === SYSTEM_VARIABLE_RECORD_PREFIX) {
+                this._errorMessage = ERROR_MESSAGE.GENERIC;
+            }
         }
     }
 

@@ -65,12 +65,16 @@ type FieldDefinition = {
     extraTypeInfo: string | null;
     fieldDataType: string;
     inlineHelpText: string | null;
+    isCustom: boolean;
+    isRelatedRecordChild: boolean;
     label: string;
     length: number;
     precision: number;
     relationshipName: string | null;
+    referenceToNames: string[];
     required: boolean;
     scale: number;
+    sobjectName: string;
     supportedByAutomaticField: boolean;
 };
 

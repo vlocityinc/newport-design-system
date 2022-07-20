@@ -87,7 +87,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/mergeFieldLib');
     return {
-        validateTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([])),
+        validateTextWithMergeFields: jest.fn().mockReturnValue([]),
         validateMergeField: jest.fn().mockReturnValue(Promise.resolve([])),
         isTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([])),
         getPillLabel: actual.getPillLabel,
@@ -2425,6 +2425,31 @@ describe('Combobox', () => {
                 combobox.value = 'not a valid value';
                 groupedCombobox.dispatchEvent(blurEvent);
                 await ticks(1);
+                expect(combobox.errorMessage).toBeNull();
+            });
+        });
+        describe('Validation for Related Record Fields', () => {
+            it('should set an error message if the value is $Record', () => {
+                createCombobox({
+                    value: '{!$Record}',
+                    literalsAllowed: true,
+                    includeEntityRelatedRecordFields: true
+                });
+                combobox.validate();
+                expect(combobox.errorMessage).toBe('FlowBuilderCombobox.genericErrorMessage');
+            });
+            it('should not set an error message if the value is valid', () => {
+                const comboboxValue = {
+                    displayText: '{!$Record}',
+                    text: '$Record',
+                    value: '$Record.Parent'
+                };
+                createCombobox({
+                    value: comboboxValue,
+                    literalsAllowed: true,
+                    includeEntityRelatedRecordFields: true
+                });
+                combobox.validate();
                 expect(combobox.errorMessage).toBeNull();
             });
         });

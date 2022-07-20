@@ -135,7 +135,7 @@ function resolveEntityFieldReference(entityName: string, fieldNames: string[]): 
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
     return fetchFieldsForEntity(entityName, { disableErrorModal: true }).then((fields) =>
-        resolveField(fields, fieldName, remainingFieldNames, false)
+        resolveField(fields, fieldName, remainingFieldNames)
     );
 }
 
@@ -150,22 +150,52 @@ function resolveRecordRelatedFieldReference(entityName: string, fieldNames: stri
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
     return fetchRelatedRecordFieldsForEntity(entityName, { disableErrorModal: true }).then((fields) =>
-        resolveField(fields, fieldName, remainingFieldNames, true)
+        resolveRecordRelatedField(fields, fieldName, remainingFieldNames)
     );
+}
+
+const _isPolymorphicField = (fieldText: string): boolean => (fieldText || '').includes(':');
+
+/**
+ * @param fields list of fields
+ * @param fieldName fields name
+ * @param remainingFieldNames remaining field names
+ * @returns a Promise or the field Definition
+ */
+function resolveRecordRelatedField(
+    fields: Object,
+    fieldName: string,
+    remainingFieldNames: string[]
+): Promise<object[] | undefined> | undefined | FieldDefinition[] {
+    if (remainingFieldNames.length > 0 || _isPolymorphicField(fieldName)) {
+        const { relationshipName, specificEntityName } = getPolymorphicRelationShipName(fieldName);
+        const field = getEntityFieldWithRelationshipName(fields, relationshipName);
+        const referenceToName = getReferenceToName(field, specificEntityName);
+        if (!field || !referenceToName) {
+            return undefined;
+        }
+        if (_isPolymorphicField(fieldName) && remainingFieldNames.length === 0) {
+            return [field];
+        }
+        return resolveRecordRelatedFieldReference(referenceToName, remainingFieldNames).then((remainingFields) =>
+            remainingFields ? [field, ...remainingFields] : undefined
+        );
+    }
+
+    const field = getEntityFieldWithApiName(fields, fieldName) || getEntityFieldWithRelationshipName(fields, fieldName);
+    return field ? [field] : undefined;
 }
 
 /**
  * @param fields list of fields
  * @param fieldName fields name
  * @param remainingFieldNames remaining field names
- * @param isTriggeringRelatedRecord true if it needs related record fields
  * @returns a Promise or the field Definition
  */
 function resolveField(
     fields: Object,
     fieldName: string,
-    remainingFieldNames: string[],
-    isTriggeringRelatedRecord: boolean
+    remainingFieldNames: string[]
 ): Promise<object[] | undefined> | undefined | FieldDefinition[] {
     if (remainingFieldNames.length > 0) {
         const { relationshipName, specificEntityName } = getPolymorphicRelationShipName(fieldName);
@@ -177,19 +207,11 @@ function resolveField(
         if (!referenceToName) {
             return undefined;
         }
-        if (isTriggeringRelatedRecord) {
-            return resolveRecordRelatedFieldReference(referenceToName, remainingFieldNames).then((remainingFields) =>
-                remainingFields ? [field, ...remainingFields] : undefined
-            );
-        }
         return resolveEntityFieldReference(referenceToName, remainingFieldNames).then((remainingFields) =>
             remainingFields ? [field, ...remainingFields] : undefined
         );
     }
-    let field = getEntityFieldWithApiName(fields, fieldName);
-    if (isTriggeringRelatedRecord && !field) {
-        field = getEntityFieldWithRelationshipName(fields, fieldName);
-    }
+    const field = getEntityFieldWithApiName(fields, fieldName);
     if (!field) {
         return undefined;
     }

@@ -323,8 +323,16 @@ export class MergeFieldsValidation {
         if (remainingFieldNames.length > 0) {
             if (property.dataType === FLOW_DATA_TYPE.APEX.value) {
                 return this._validateApexMergeField(property.subtype, remainingFieldNames, index, endIndex);
-            } else if (property.dataType === FLOW_DATA_TYPE.SOBJECT.value && !this.includeEntityRelatedRecordFields) {
-                return this._validateSObjectMergeField(property.subtype, remainingFieldNames, index, endIndex);
+            } else if (property.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+                return this._validateMergeField(
+                    this.includeEntityRelatedRecordFields
+                        ? sobjectLib.getRelatedRecordFieldsForEntity
+                        : sobjectLib.getFieldsForEntity,
+                    property.subtype,
+                    remainingFieldNames,
+                    index,
+                    endIndex
+                );
             }
             return {
                 error: validationErrors.unknownRecordField(apexClassName, fieldName, index, endIndex)
@@ -333,7 +341,8 @@ export class MergeFieldsValidation {
         return { field: property };
     }
 
-    _validateSObjectMergeField(
+    _validateMergeField(
+        getEntity: Function,
         entityName: string,
         fieldNames: string[],
         index: number,
@@ -346,9 +355,7 @@ export class MergeFieldsValidation {
                 error: validationErrors.mergeFieldNotAllowed(index, endIndex)
             };
         }
-        const fields = this.includeEntityRelatedRecordFields
-            ? sobjectLib.getRelatedRecordFieldsForEntity(entityName)
-            : sobjectLib.getFieldsForEntity(entityName);
+        const fields = getEntity(entityName);
 
         if (!fields) {
             // entity not cached or no entity with this name ...
@@ -356,7 +363,10 @@ export class MergeFieldsValidation {
                 field: undefined // we don't know if it is valid or not
             };
         }
-        if (remainingFieldNames.length > 0) {
+        if (
+            remainingFieldNames.length > 0 ||
+            (this.includeEntityRelatedRecordFields && this._isPolymorphicField(fieldName))
+        ) {
             const { relationshipName, specificEntityName } = getPolymorphicRelationShipName(fieldName);
             field = getEntityFieldWithRelationshipName(fields, relationshipName);
             if (!field) {
@@ -375,11 +385,14 @@ export class MergeFieldsValidation {
                     )
                 };
             }
-            return this._validateSObjectMergeField(referenceToName, remainingFieldNames, index, endIndex);
+            if (this.includeEntityRelatedRecordFields) {
+                return { field };
+            }
+            return this._validateMergeField(getEntity, referenceToName, remainingFieldNames, index, endIndex);
         }
         field = sobjectLib.getEntityFieldWithApiName(fields, fieldName);
 
-        if (this.includeEntityRelatedRecordFields && !field) {
+        if (!field) {
             field = getEntityFieldWithRelationshipName(fields, fieldName);
         }
 
@@ -390,6 +403,8 @@ export class MergeFieldsValidation {
         }
         return { field };
     }
+
+    _isPolymorphicField = (fieldText: string): boolean => (fieldText || '').includes(':');
 
     _validateApexOrSObjectMergeField(
         currentObjectName: string,
@@ -403,7 +418,15 @@ export class MergeFieldsValidation {
         if (dataType === FLOW_DATA_TYPE.APEX.value) {
             return this._validateApexMergeField(subtype, fieldNames, index, endIndex);
         } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-            return this._validateSObjectMergeField(subtype, fieldNames, index, endIndex);
+            return this._validateMergeField(
+                this.includeEntityRelatedRecordFields
+                    ? sobjectLib.getRelatedRecordFieldsForEntity
+                    : sobjectLib.getFieldsForEntity,
+                subtype,
+                fieldNames,
+                index,
+                endIndex
+            );
         }
         return {
             error: validationErrors.unknownRecordField(currentObjectName, currentFieldName, index, endIndex)
@@ -552,7 +575,10 @@ export class MergeFieldsValidation {
         }
         let field;
         if (resource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-            const { field: sobjectField, error } = this._validateSObjectMergeField(
+            const { field: sobjectField, error } = this._validateMergeField(
+                this.includeEntityRelatedRecordFields
+                    ? sobjectLib.getRelatedRecordFieldsForEntity
+                    : sobjectLib.getFieldsForEntity,
                 resource.subtype,
                 fieldNames,
                 index,

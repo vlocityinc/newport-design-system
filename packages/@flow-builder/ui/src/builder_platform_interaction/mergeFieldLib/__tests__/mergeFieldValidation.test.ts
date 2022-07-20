@@ -20,10 +20,6 @@ import { globalVariablesForAutoLaunchedFlow } from 'serverData/GetAllGlobalVaria
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { apexTypesForAutoLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForAutoLaunchedFlow.json';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
-import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
@@ -51,23 +47,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const actual = jest.requireActual('builder_platform_interaction/sobjectLib');
-    return {
-        getFieldsForEntity: jest.fn().mockImplementation((entityName) => {
-            if (entityName === 'Account') {
-                return mockAccountFields;
-            } else if (entityName === 'User') {
-                return mockUserFields;
-            } else if (entityName === 'FeedItem') {
-                return mockFeedItemFields;
-            }
-            return undefined;
-        }),
-        getEntityFieldWithApiName: actual.getEntityFieldWithApiName,
-        getEntity: jest.fn().mockImplementation((apiName) => mockEntities.find((entity) => entity.apiName === apiName))
-    };
-});
+jest.mock('builder_platform_interaction/sobjectLib', () => require('builder_platform_interaction_mocks/sobjectLib'));
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
@@ -283,7 +263,9 @@ describe('Merge field validation', () => {
             });
             it('Returns no error if the field description has not been cached yet', () => {
                 // in this case, we have no way to know if it is valid or not
-                const validationErrors = validateMergeField('{!accountSObjectVariable.CreatedBy.Contact.UnknownField}');
+                const validationErrors = validateMergeField(
+                    '{!accountSObjectVariable.CreatedBy.Individual.UnknownField}'
+                );
                 expect(validationErrors).toHaveLength(0);
             });
             it('Returns an error if one of the intermediary fields is not spannable', () => {
@@ -918,6 +900,12 @@ describe('Merge field validation (Record Triggered flow)', () => {
                 `The "Unknown" field doesn't exist on the "Account" object, or you don't have access to the field.`
             )
         ]);
+    });
+    it('Returns no validation error when it references existing Related Record field', () => {
+        const validationErrors = validateMergeField('{!$Record.Attachments}', {
+            includeEntityRelatedRecordFields: true
+        });
+        expect(validationErrors).toHaveLength(0);
     });
 });
 
