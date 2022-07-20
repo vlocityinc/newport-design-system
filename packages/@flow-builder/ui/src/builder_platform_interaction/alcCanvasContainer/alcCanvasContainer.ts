@@ -266,9 +266,12 @@ export default class AlcCanvasContainer extends LightningElement {
         const dynamicActionMenuItems = this._dynamicInvocableActions?.map((action) =>
             this.augmentElementToConnectorMenuItem(action, ELEMENT_TYPE.ACTION_CALL)
         );
-        const subflowMenuItems = this._subflows?.map((subflow) =>
-            this.augmentElementToConnectorMenuItem(subflow, ELEMENT_TYPE.SUBFLOW)
-        );
+        // Only populate subflows if they are a supported element type.
+        // TODO: This is a temporary fix. The preferred solution is documented in W-11455932.
+        const subflowMenuItems = this._elementsMetadata?.find((element) => element.elementType === ELEMENT_TYPE.SUBFLOW)
+            ? this._subflows?.map((subflow) => this.augmentElementToConnectorMenuItem(subflow, ELEMENT_TYPE.SUBFLOW))
+            : [];
+
         const menuItems = standardActionMenuItems.concat(dynamicActionMenuItems).concat(subflowMenuItems);
         this._connectorMenuMetadata = {
             ...this._connectorMenuMetadata,

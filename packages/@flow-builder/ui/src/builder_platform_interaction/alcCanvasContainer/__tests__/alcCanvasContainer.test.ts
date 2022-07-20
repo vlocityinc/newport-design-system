@@ -135,6 +135,18 @@ const elementsMetadata = [
     }
 ];
 
+const elementSubflow = [
+    {
+        section: 'Interaction',
+        type: 'default',
+        icon: 'standard:custom_notification',
+        label: 'Subflow',
+        value: 'Subflow',
+        elementType: 'Subflow',
+        description: 'Run subflow inside a flow.'
+    }
+];
+
 const standardInvocableActions = [
     {
         isStandard: true,
@@ -193,20 +205,34 @@ const subflows = [
 const startElement = {
     elementType: 'START_ELEMENT'
 };
-const createComponentForTest = async (optionsOverrides = {}) => {
-    return createComponent(
-        'builder_platform_interaction-alc-canvas-container',
-        {
-            elementsMetadata,
-            isMenuDataLoading: false,
-            autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT,
-            numPasteElementsAvailable: 0,
-            standardInvocableActions,
-            dynamicInvocableActions,
-            subflows
-        },
-        optionsOverrides
-    );
+const createComponentForTest = async (optionsOverrides = {}, includeSubflows: boolean) => {
+    return includeSubflows
+        ? createComponent(
+              'builder_platform_interaction-alc-canvas-container',
+              {
+                  elementsMetadata: elementsMetadata.concat(elementSubflow),
+                  isMenuDataLoading: false,
+                  autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT,
+                  numPasteElementsAvailable: 0,
+                  standardInvocableActions,
+                  dynamicInvocableActions,
+                  subflows
+              },
+              optionsOverrides
+          )
+        : createComponent(
+              'builder_platform_interaction-alc-canvas-container',
+              {
+                  elementsMetadata,
+                  isMenuDataLoading: false,
+                  autolayoutCanvasMode: AutoLayoutCanvasMode.DEFAULT,
+                  numPasteElementsAvailable: 0,
+                  standardInvocableActions,
+                  dynamicInvocableActions,
+                  subflows
+              },
+              optionsOverrides
+          );
 };
 
 describe('alc canvas container', () => {
@@ -230,20 +256,18 @@ describe('alc canvas container', () => {
         });
     });
 
-    beforeEach(async () => {
-        cmp = await createComponentForTest();
-    });
-
     const getBuilderContainerElement = () =>
         cmp.shadowRoot.querySelector('builder_platform_interaction-alc-canvas-container');
 
     const getAlcCanvas = () => cmp.shadowRoot.querySelector('builder_platform_interaction-alc-canvas');
 
-    it('renders the component', () => {
+    it('renders the component', async () => {
+        cmp = await createComponentForTest({}, true);
         expect(getBuilderContainerElement).not.toBeNull();
     });
 
     it('offsets when in selection mode', async () => {
+        cmp = await createComponentForTest({}, true);
         expect(getAlcCanvas().offsets).toEqual([0, 58]);
 
         cmp.autolayoutCanvasMode = AutoLayoutCanvasMode.SELECTION;
@@ -252,7 +276,8 @@ describe('alc canvas container', () => {
         expect(getAlcCanvas().offsets).toEqual([320, 58]);
     });
 
-    it('intializes augmented metadata types correctly', () => {
+    it('intializes augmented metadata types correctly', async () => {
+        cmp = await createComponentForTest({}, true);
         const elementTypes = cmp.elementsMetadata.map((element) => {
             return element.elementType;
         });
@@ -265,7 +290,8 @@ describe('alc canvas container', () => {
         expect(elementTypes).toEqual(expect.arrayContaining(expectedElementTypeArray));
     });
 
-    it('can have a fault connector for record update', () => {
+    it('can have a fault connector for record update', async () => {
+        cmp = await createComponentForTest({}, true);
         const elementsMetadata = cmp.elementsMetadata.filter(
             (element) => element.elementType === ELEMENT_TYPE.RECORD_UPDATE
         );
@@ -273,7 +299,8 @@ describe('alc canvas container', () => {
         expect(elementsMetadata[0].canHaveFaultConnector).toBe(true);
     });
 
-    it('generates the correct connector menu metadata ', () => {
+    it('generates the correct connector menu metadata ', async () => {
+        cmp = await createComponentForTest({}, true);
         const expectedElementTypes = new Set([
             'Screen',
             'ActionCall',
@@ -290,7 +317,8 @@ describe('alc canvas container', () => {
             'EMAIL_ALERT',
             'APEX_CALL',
             'ApexPlugin',
-            'EXTERNAL_SERVICE'
+            'EXTERNAL_SERVICE',
+            'Subflow'
         ]);
         const expectedMenuItems = [
             {
@@ -379,8 +407,97 @@ describe('alc canvas container', () => {
         expect(menuItems).toEqual(expectedMenuItems);
     });
 
-    it('augments the metadata', () => {
+    it('augments the metadata', async () => {
+        cmp = await createComponentForTest({}, true);
         expect(augmentElementsMetadata(elementsMetadata, startElement)).toMatchSnapshot();
+    });
+
+    it('excludes subflows from results when process type does not support them', async () => {
+        cmp = await createComponentForTest({}, false);
+        const expectedElementTypes = new Set([
+            'Screen',
+            'ActionCall',
+            'Decision',
+            'Wait',
+            'RecordCreate',
+            'RecordUpdate',
+            'RecordQuery',
+            'RecordDelete',
+            'START_ELEMENT',
+            'root',
+            'END_ELEMENT',
+            'orchestratedstage',
+            'EMAIL_ALERT',
+            'APEX_CALL',
+            'ApexPlugin',
+            'EXTERNAL_SERVICE'
+        ]);
+        const expectedMenuItems = [
+            {
+                guid: 'random_guid',
+                description: 'Post to the feed for a specific record, user, or Chatter group.',
+                label: 'Post to Chatter',
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: 'chatterPost',
+                actionName: 'chatterPost',
+                actionIsStandard: true,
+                icon: 'standard:custom_notification',
+                iconSrc: undefined,
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: 'background-navy',
+                iconSize: 'small',
+                iconVariant: '',
+                rowClass: 'slds-listbox__item',
+                elementSubtype: null,
+                tooltip: 'Post to Chatter: Post to the feed for a specific record, user, or Chatter group.',
+                flowName: undefined
+            },
+            {
+                guid: 'random_guid',
+                description: 'Test Action with Static Resource',
+                label: 'Action with Static Resource Icon',
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: 'apex',
+                actionName: 'CustomSVGIconAction',
+                actionIsStandard: false,
+                icon: null,
+                iconSrc: '/resource/1653591244000/customsvg#top',
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: undefined,
+                iconSize: 'small',
+                iconVariant: '',
+                rowClass: 'slds-listbox__item',
+                elementSubtype: null,
+                tooltip: 'Action with Static Resource Icon: Test Action with Static Resource',
+                flowName: undefined
+            },
+            {
+                guid: 'random_guid',
+                description: 'Test Action with Slds Icon',
+                label: 'Action with Slds Icon',
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                actionType: 'apex',
+                actionName: 'ActionWithSldsIcon',
+                actionIsStandard: false,
+                icon: 'standard:feed',
+                iconSrc: null,
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: undefined,
+                iconSize: 'small',
+                iconVariant: '',
+                rowClass: 'slds-listbox__item',
+                elementSubtype: null,
+                tooltip: 'Action with Slds Icon: Test Action with Slds Icon',
+                flowName: undefined
+            }
+        ];
+        const expectedIsLoading = false;
+
+        const { menuComponent, elementTypes, isLoading, menuItems } = getAlcCanvas().connectorMenuMetadata;
+        expect(menuComponent).toEqual('builder_platform_interaction/alcConnectorMenu');
+        expect(elementTypes).toEqual(expectedElementTypes);
+        expect(isLoading).toEqual(expectedIsLoading);
+        expect(menuItems).toEqual(expectedMenuItems);
     });
 });
 
