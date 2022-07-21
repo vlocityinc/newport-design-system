@@ -346,6 +346,8 @@ function getMenuItemsForSObjectField(
         includeEntityRelatedRecordFields = false
     } = {}
 ) {
+    const isRelatedRecordChildFieldOrNotRelatedRecord =
+        !includeEntityRelatedRecordFields || (includeEntityRelatedRecordFields && field.isRelatedRecordChild);
     if (
         allowSObjectFieldsTraversal &&
         field.isSpanningAllowed === true &&
@@ -360,19 +362,7 @@ function getMenuItemsForSObjectField(
                 })
             );
         });
-        if (includeEntityRelatedRecordFields) {
-            if (field.isRelatedRecordChild) {
-                // We don't want to display the IdFields because the expected value of the combobox for those fields
-                // are the same as the traversal ones in this case. ie: {!$Record.Account} for AccountId field and the traversal.
-                comboboxItems.push(
-                    getMenuItemForField(field, parent, {
-                        showAsFieldReference,
-                        showSubText,
-                        includeEntityRelatedRecordFields
-                    })
-                );
-            }
-        } else {
+        if (isRelatedRecordChildFieldOrNotRelatedRecord) {
             comboboxItems.push(
                 getMenuItemForField(field, parent, {
                     showAsFieldReference,
@@ -383,13 +373,15 @@ function getMenuItemsForSObjectField(
         }
         return comboboxItems;
     }
-    return [
-        getMenuItemForField(field, parent, {
-            showAsFieldReference,
-            showSubText,
-            includeEntityRelatedRecordFields
-        })
-    ];
+    return isRelatedRecordChildFieldOrNotRelatedRecord
+        ? [
+              getMenuItemForField(field, parent, {
+                  showAsFieldReference,
+                  showSubText,
+                  includeEntityRelatedRecordFields
+              })
+          ]
+        : [];
 }
 
 /**

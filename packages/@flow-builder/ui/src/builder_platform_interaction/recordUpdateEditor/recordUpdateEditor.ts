@@ -232,14 +232,6 @@ export default class RecordUpdateEditor extends LightningElement {
         return this.isTriggeringRecord || this.isRelatedRecordLookup;
     }
 
-    get showSobjectLookup(): boolean {
-        return this.state.recordUpdateElement.useSobject && !this.state.recordUpdateElement.isTriggeringRecord;
-    }
-
-    get showSpecifyConditions(): boolean {
-        return !this.state.recordUpdateElement.useSobject;
-    }
-
     get inputReference() {
         if (
             this.state.recordUpdateElement.inputReference &&
