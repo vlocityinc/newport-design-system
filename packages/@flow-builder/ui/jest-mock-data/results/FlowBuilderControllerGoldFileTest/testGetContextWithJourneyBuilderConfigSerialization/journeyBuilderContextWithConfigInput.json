@@ -20,7 +20,8 @@
       "builderType":"JourneyBuilder",
       "newFlowConfig":{
         "showRecommended":true,
-        "showAll":false
+        "showAll":false,
+        "modalHeaderTitle":"New Journey"
       },
       "name":"Journey Builder",
       "icon":"utility:checkin",

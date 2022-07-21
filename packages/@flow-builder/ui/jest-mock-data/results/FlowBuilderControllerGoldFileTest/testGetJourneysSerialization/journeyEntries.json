@@ -13,7 +13,7 @@
     },
     {
       "icon":"utility:clock",
-      "description":"Launches when a segment is received.",
+      "description":"Launch after the segment you select is received.",
       "defaultTriggerType":"Segment",
       "label":"Segment-Triggered Journey",
       "processType":"Journey",

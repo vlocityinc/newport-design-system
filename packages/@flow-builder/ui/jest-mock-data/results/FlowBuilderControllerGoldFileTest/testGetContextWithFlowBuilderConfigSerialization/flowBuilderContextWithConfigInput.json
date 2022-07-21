@@ -64,7 +64,8 @@
     "variables" : [ ],
     "waits" : [ ]
   }
-}
+},
+        "modalHeaderTitle":"New Flow"
       },
       "name":"Flow Builder",
       "icon":"utility:flow",

@@ -20,7 +20,8 @@
       "builderType":"FlowBuilder",
       "newFlowConfig":{
         "showRecommended":true,
-        "showAll":true
+        "showAll":true,
+        "modalHeaderTitle":"New Flow"
       },
       "name":"Flow Builder",
       "icon":"utility:flow",
