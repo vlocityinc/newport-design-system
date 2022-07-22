@@ -17,21 +17,23 @@ const getP4Port = ({ env }) => (env.P4PORT ? env.P4PORT : env.CUSTOM_P4PORT ? en
 
 const p4 = new P4({ P4PORT: getP4Port(process) });
 
-const POM_PROPERTIES_TO_CHECK = [
-    ['aura.version'],
-    ['lwc.version'],
-    ['spring.version'],
-    ['google.closure-compiler.version', 'com.google.javascript', 'closure-compiler']
-];
-
+const POM_PROPERTIES_TO_CHECK = ['aura.version', 'lwc.version', 'spring.version'];
 const PROPERTIES_FIELDS = { name: 'Property name', projectVersion: 'Project version', coreVersion: 'Core version' };
-const getCorePomXml = (branch) => {
-    return p4.cmd(`print -q //app/${branch}/core/third_party/dependencies/com_salesforce.bzl`).then((p4Response) => {
-        if (p4Response.error) {
-            throw Error(p4Response.error[0].data);
-        }
-        return p4Response.data;
-    });
+const CORE_BAZEL_FILENAMES = ['org_lwc', 'org_auraframework', 'org_springframework'];
+
+const getCoreBazelFilesContent = async (branch) => {
+    let data = '';
+    for (const bzlFilename of CORE_BAZEL_FILENAMES) {
+        data += await p4
+            .cmd(`print -q //app/${branch}/core/third_party/dependencies/${bzlFilename}.bzl`)
+            .then((p4Response) => {
+                if (p4Response.error) {
+                    throw Error(p4Response.error[0].data);
+                }
+                return p4Response.data;
+            });
+    }
+    return data;
 };
 const getPomXml = async (pomXml) => xml2js.parseStringPromise(pomXml, { explicitArray: false, ignoreAttrs: true });
 
@@ -39,14 +41,6 @@ const getProjectPomObject = async () => {
     const pomXml = fs.readFileSync('pom.xml', 'utf-8');
     return getPomXml(pomXml);
 };
-
-const buildDependenciesMap = (map, { groupId, artifactId, version }) => {
-    map[toDependencyIdentifier(groupId, artifactId)] = version;
-    return map;
-};
-
-const toDependencyIdentifier = (groupId, artifactId) => `${groupId}:${artifactId}`;
-const dependenciesSort = (dep1, dep2) => (dep1.groupId + dep1.artifactId).localeCompare(dep2.groupId + dep2.artifactId);
 
 const getProjectPomProperties = async () => {
     const {
@@ -58,8 +52,8 @@ const getProjectPomProperties = async () => {
 const getPomProperty = (propertyName, pomProperties) => pomProperties[propertyName];
 
 const getVersionsNotInSync = async (branch) => {
-    const data = await getCorePomXml(branch);
-    const corePomProperties = data
+    const data = await getCoreBazelFilesContent(branch);
+    const coreBazelProperties = data
         .split('\n')
         .filter((line) => line.startsWith('_'))
         .map((line) => line.replace(/\"/g, '').split(' = '))
@@ -69,8 +63,8 @@ const getVersionsNotInSync = async (branch) => {
         }, {});
 
     const projectPomProperties = await getProjectPomProperties();
-    return POM_PROPERTIES_TO_CHECK.map(([propertyName, groupId, artifactId]) => {
-        const coreVersion = corePomProperties['_' + propertyName.toUpperCase().replace('.', '_')];
+    return POM_PROPERTIES_TO_CHECK.map((propertyName) => {
+        const coreVersion = coreBazelProperties[`_${propertyName.toUpperCase().replace('.', '_')}`];
 
         if (coreVersion) {
             const projectVersion = getPomProperty(propertyName, projectPomProperties);
@@ -87,7 +81,11 @@ const getVersionsNotInSync = async (branch) => {
                 };
             }
         } else {
-            printWarning(`Could not get version for "${propertyName}" property in core pom.xml`);
+            printWarning(
+                `Could not get version for "${propertyName}" property in any of the following core Bazel files: ${CORE_BAZEL_FILENAMES.join(
+                    ', '
+                )}`
+            );
         }
     }).filter(Boolean);
 };
