@@ -13,7 +13,7 @@ import {
     ToggleMenuEvent,
     UpdateAutolayoutCanvasModeEvent
 } from 'builder_platform_interaction/alcEvents';
-import { MenuType, updateDeletionPathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { MenuType, updateCutOrDeletePathInfo } from 'builder_platform_interaction/autoLayoutCanvas';
 import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { removeDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils/domTestUtils';
 import {
@@ -159,7 +159,7 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         })),
         resolveNode,
         invokeModal: jest.fn(),
-        updateDeletionPathInfo: jest.fn(),
+        updateCutOrDeletePathInfo: jest.fn(),
         MenuType: autoLayoutCanvas.MenuType,
         panzoom,
         NodeType,
@@ -659,7 +659,7 @@ describe('Auto Layout Canvas', () => {
     });
 
     describe('highlight path', () => {
-        it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and no branch is persisted', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to false when deleting an element and no branch is persisted', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -668,7 +668,7 @@ describe('Auto Layout Canvas', () => {
                 null
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '1c397973-762d-443f-9780-2b9777b6d6a3',
                 null,
                 expect.anything(),
@@ -677,7 +677,7 @@ describe('Auto Layout Canvas', () => {
             );
         });
 
-        it('should set shouldDeleteBeyondMergingPoint to false when cutting an element and no branch is persisted', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to false when cutting an element and no branch is persisted', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -686,7 +686,7 @@ describe('Auto Layout Canvas', () => {
                 null
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '1c397973-762d-443f-9780-2b9777b6d6a3',
                 null,
                 expect.anything(),
@@ -695,7 +695,7 @@ describe('Auto Layout Canvas', () => {
             );
         });
 
-        it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and the branch to persist is not terminated', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to false when deleting an element and the branch to persist is not terminated', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -704,7 +704,7 @@ describe('Auto Layout Canvas', () => {
                 2
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '1c397973-762d-443f-9780-2b9777b6d6a3',
                 2,
                 expect.anything(),
@@ -713,7 +713,7 @@ describe('Auto Layout Canvas', () => {
             );
         });
 
-        it('should set shouldDeleteBeyondMergingPoint to false when cutting an element and the branch to persist is not terminated', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to false when cutting an element and the branch to persist is not terminated', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -722,7 +722,7 @@ describe('Auto Layout Canvas', () => {
                 2
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '1c397973-762d-443f-9780-2b9777b6d6a3',
                 2,
                 expect.anything(),
@@ -731,7 +731,7 @@ describe('Auto Layout Canvas', () => {
             );
         });
 
-        it('should set shouldDeleteBeyondMergingPoint to true when deleting an element and the branch to persist is terminated and next element is not end element', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to true when deleting an element and the branch to persist is terminated and next element is not end element', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -740,7 +740,7 @@ describe('Auto Layout Canvas', () => {
                 0
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '1c397973-762d-443f-9780-2b9777b6d6a3',
                 0,
                 expect.anything(),
@@ -749,7 +749,7 @@ describe('Auto Layout Canvas', () => {
             );
         });
 
-        it('should set shouldDeleteBeyondMergingPoint to true when cutting an element and the branch to persist is terminated and next element is not end element', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to true when cutting an element and the branch to persist is terminated and next element is not end element', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -758,7 +758,7 @@ describe('Auto Layout Canvas', () => {
                 0
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '1c397973-762d-443f-9780-2b9777b6d6a3',
                 0,
                 expect.anything(),
@@ -767,7 +767,7 @@ describe('Auto Layout Canvas', () => {
             );
         });
 
-        it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and head element is null', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to false when deleting an element and head element is null', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -776,7 +776,7 @@ describe('Auto Layout Canvas', () => {
                 -1
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '1c397973-762d-443f-9780-2b9777b6d6a3',
                 -1,
                 expect.anything(),
@@ -785,7 +785,7 @@ describe('Auto Layout Canvas', () => {
             );
         });
 
-        it('should set shouldDeleteBeyondMergingPoint to false when cutting an element and head element is null', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to false when cutting an element and head element is null', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -794,7 +794,7 @@ describe('Auto Layout Canvas', () => {
                 -1
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '1c397973-762d-443f-9780-2b9777b6d6a3',
                 -1,
                 expect.anything(),
@@ -803,7 +803,7 @@ describe('Auto Layout Canvas', () => {
             );
         });
 
-        it('should set shouldDeleteBeyondMergingPoint to false when deleting an element and next element is null', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to false when deleting an element and next element is null', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -812,7 +812,7 @@ describe('Auto Layout Canvas', () => {
                 0
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '4b54cd8b-6bba-407b-a02b-c2129290162e',
                 0,
                 expect.anything(),
@@ -821,7 +821,7 @@ describe('Auto Layout Canvas', () => {
             );
         });
 
-        it('should set shouldDeleteBeyondMergingPoint to false when cutting an element and next element is null', async () => {
+        it('should set shouldCutOrDeleteBeyondMergingPoint to false when cutting an element and next element is null', async () => {
             const flow = getFlow();
 
             const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent(
@@ -830,7 +830,7 @@ describe('Auto Layout Canvas', () => {
                 0
             );
             await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-            expect(updateDeletionPathInfo).toHaveBeenCalledWith(
+            expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
                 '4b54cd8b-6bba-407b-a02b-c2129290162e',
                 0,
                 expect.anything(),
@@ -845,7 +845,13 @@ describe('Auto Layout Canvas', () => {
 
                 const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent('decision', 2, undefined);
                 await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', undefined, expect.anything(), true, 2);
+                expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
+                    'decision',
+                    undefined,
+                    expect.anything(),
+                    true,
+                    2
+                );
             });
 
             it('GoTo is present at the merge point and no branch is being persisted after cutting', async () => {
@@ -853,7 +859,13 @@ describe('Auto Layout Canvas', () => {
 
                 const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent('decision', 0, undefined);
                 await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', undefined, expect.anything(), true, 0);
+                expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith(
+                    'decision',
+                    undefined,
+                    expect.anything(),
+                    true,
+                    0
+                );
             });
 
             it('GoTo is present at the merge point and the persisted branch is empty after deleting', async () => {
@@ -861,7 +873,7 @@ describe('Auto Layout Canvas', () => {
 
                 const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent('decision', 2, 0);
                 await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 0, expect.anything(), true, 2);
+                expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith('decision', 0, expect.anything(), true, 2);
             });
 
             it('GoTo is present at the merge point and the persisted branch is empty after cutting', async () => {
@@ -869,7 +881,7 @@ describe('Auto Layout Canvas', () => {
 
                 const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent('decision', 0, 0);
                 await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 0, expect.anything(), true, 0);
+                expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith('decision', 0, expect.anything(), true, 0);
             });
 
             it('GoTo is present at the merge point and the persisted branch is terminated after deleting', async () => {
@@ -877,7 +889,7 @@ describe('Auto Layout Canvas', () => {
 
                 const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent('decision', 2, 2);
                 await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 2, expect.anything(), true, 2);
+                expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith('decision', 2, expect.anything(), true, 2);
             });
 
             it('GoTo is present at the merge point and the persisted branch is terminated after cutting', async () => {
@@ -885,7 +897,7 @@ describe('Auto Layout Canvas', () => {
 
                 const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent('decision', 0, 2);
                 await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 2, expect.anything(), true, 0);
+                expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith('decision', 2, expect.anything(), true, 0);
             });
 
             it('GoTo is present at the merge point and the persisted branch is not terminated after deleting', async () => {
@@ -893,7 +905,7 @@ describe('Auto Layout Canvas', () => {
 
                 const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent('decision', 2, 1);
                 await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 1, expect.anything(), false, 2);
+                expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith('decision', 1, expect.anything(), false, 2);
             });
 
             it('GoTo is present at the merge point and the persisted branch is not terminated after cutting', async () => {
@@ -901,7 +913,7 @@ describe('Auto Layout Canvas', () => {
 
                 const highlightPathsToDeleteOrCutEvent = new HighlightPathsToDeleteOrCutEvent('decision', 0, 1);
                 await dispatchEvent(flow, highlightPathsToDeleteOrCutEvent);
-                expect(updateDeletionPathInfo).toHaveBeenCalledWith('decision', 1, expect.anything(), false, 0);
+                expect(updateCutOrDeletePathInfo).toHaveBeenCalledWith('decision', 1, expect.anything(), false, 0);
             });
         });
     });

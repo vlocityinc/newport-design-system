@@ -45,7 +45,8 @@ interface TargetInfo {
 type ElementsPositionMap = UI.StringKeyedMap<Position>;
 
 /**
- * @param flowModel
+ * @param flowModel - the flow model
+ * @returns flow render context
  */
 function createInitialFlowRenderContext(flowModel: FlowModel): FlowRenderContext {
     return {
@@ -54,12 +55,13 @@ function createInitialFlowRenderContext(flowModel: FlowModel): FlowRenderContext
         interactionState: {},
         elementsMetadata: {},
         layoutConfig: { ...getDefaultLayoutConfig() },
-        isDeletingBranch: false
+        isCutOrDeleteBranch: false
     } as FlowRenderContext;
 }
 
 /**
- * @param flowModel
+ * @param flowModel - the flow model
+ * @returns node layout map from flow render context
  */
 function getNodeLayoutMap(flowModel: FlowModel) {
     const flowRenderContext = createInitialFlowRenderContext(flowModel);
@@ -105,12 +107,12 @@ function calculateElementPositions(
 }
 
 /**
- * @param nodeLayoutMap
- * @param elementsPosition
- * @param flowModel
- * @param ele
- * @param offsetX
- * @param offsetY
+ * @param nodeLayoutMap - the node layout map
+ * @param elementsPosition - the element position
+ * @param flowModel - the flow model
+ * @param ele - the branch head node model
+ * @param offsetX - x offset
+ * @param offsetY - y offset
  */
 function calculateElementPositionsForBranch(
     nodeLayoutMap,
@@ -330,17 +332,19 @@ function isEndElement(element: NodeModel) {
 }
 
 /**
- * @param elements
- * @param elementGuid
+ * @param elements - the elements
+ * @param elementGuid - the guid
+ * @returns boolean
  */
 function isEndElementOrNull(elements, elementGuid: UI.Guid | null | undefined) {
     return elementGuid == null || isEndElement(elements[elementGuid]);
 }
 
 /**
- * @param flowModel
- * @param parentElement
- * @param currentTargetInfo
+ * @param flowModel - the flow model
+ * @param parentElement - the parent element
+ * @param currentTargetInfo - the current target info
+ * @returns target info
  */
 function getTargetInfo(
     flowModel: FlowModel,
@@ -365,7 +369,6 @@ function getTargetInfo(
  * @param flowModel - The alc elements map
  * @param branchingElement  - The branching element
  * @param ancestorNext - The branch's ancestor next
- * @returns true if all child branches are terminals
  */
 function convertBranchingElement(
     storeState: UI.StoreState,
@@ -396,7 +399,8 @@ function convertBranchingElement(
 
 // hard casts an element to UI.Start
 /**
- * @param element
+ * @param element - the element node model
+ * @returns element as UI.Start
  */
 function asStart(element: NodeModel): UI.Start {
     return (<unknown>element) as UI.Start;
@@ -409,7 +413,6 @@ function asStart(element: NodeModel): UI.Start {
  * @param flowModel
  * @param loopElement  - The loop element
  * @param ancestorNext - The loop's ancestor next
- * @returns true if all child branches are terminals
  */
 function convertLoopElement(
     storeState: UI.StoreState,
@@ -546,7 +549,7 @@ function convertBranchToFreeForm(
 }
 
 /**
- * @param storeState
+ * @param storeState - the UI store state
  */
 function assertStoreState(storeState: UI.StoreState) {
     const { elements, connectors } = storeState;

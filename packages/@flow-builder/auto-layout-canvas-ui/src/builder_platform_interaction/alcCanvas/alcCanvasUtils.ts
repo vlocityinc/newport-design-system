@@ -187,15 +187,15 @@ export const convertToElementMetadataMap = (elementsMetadata: ElementMetadata[])
 };
 
 /**
- * Helper to determine if we should delete past the merge point
+ * Helper to determine if we should cut/ delete past the merge point
  *
  * @param flowModel - The flow model.
  * @param selectedElement - Element clicked on to be cut or deleted
  * @param childIndexToKeep - The child index to keep
  * @param allowEndElement - Boolean to allow selectedElement's next if it's an end element
- * @returns true or false depending if we should delete past selectedElement's merge point
+ * @returns true or false depending if we should cut/ delete past selectedElement's merge point
  */
-export const shouldDeleteBeyondMergingPoint = (
+export const shouldCutOrDeleteBeyondMergingPoint = (
     flowModel: FlowModel,
     selectedElement: NodeModel,
     childIndexToKeep?: number | null,

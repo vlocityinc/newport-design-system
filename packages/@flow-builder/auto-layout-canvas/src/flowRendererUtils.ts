@@ -35,7 +35,7 @@ export interface FlowRenderContext {
     elementsMetadata: ElementsMetadata;
     layoutConfig: LayoutConfig;
     isFault: boolean;
-    isDeletingBranch: boolean;
+    isCutOrDeleteBranch: boolean;
     dynamicNodeDimensionMap: NodeDimensionMap;
 }
 
@@ -49,10 +49,10 @@ export type NodeOperationType = 'cut' | 'delete' | undefined;
 
 export interface FlowInteractionState {
     menuInfo: InteractionMenuInfo | null;
-    deletionPathInfo: {
+    cutAndDeletePathInfo: {
         childIndexToKeep: number;
-        elementGuidToDelete: Guid;
-        shouldDeleteBeyondMergingPoint: boolean;
+        elementGuidToCutOrDelete: Guid;
+        shouldCutOrDeleteBeyondMergingPoint: boolean;
         operationType: NodeOperationType;
     } | null;
 }

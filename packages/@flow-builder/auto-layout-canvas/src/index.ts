@@ -18,7 +18,7 @@ import {
     NodeOperationType,
     NodeRenderInfo
 } from './flowRendererUtils';
-import { clearDeletionPathInfo, closeFlowMenu, toggleFlowMenu, updateDeletionPathInfo } from './interactionUtils';
+import { clearCutOrDeletePathInfo, closeFlowMenu, toggleFlowMenu, updateCutOrDeletePathInfo } from './interactionUtils';
 import { calculateFlowLayout } from './layout';
 import MenuType from './MenuType';
 import NodeType from './NodeType';
@@ -100,8 +100,8 @@ export {
     renderFlow,
     toggleFlowMenu,
     closeFlowMenu,
-    updateDeletionPathInfo,
-    clearDeletionPathInfo,
+    updateCutOrDeletePathInfo,
+    clearCutOrDeletePathInfo,
     getDefaultLayoutConfig,
     calculateFlowLayout,
     getBranchLayoutKey,

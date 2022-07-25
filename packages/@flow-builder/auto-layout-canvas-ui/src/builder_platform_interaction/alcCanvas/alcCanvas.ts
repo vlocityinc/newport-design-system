@@ -30,7 +30,7 @@ import { processConnectorMenuMetadata } from 'builder_platform_interaction/alcMe
 import {
     animate,
     calculateFlowLayout,
-    clearDeletionPathInfo,
+    clearCutOrDeletePathInfo,
     closeFlowMenu,
     ConnectionSource,
     Dimension,
@@ -54,7 +54,7 @@ import {
     resolveParent,
     shouldDeleteGoToOnNext,
     toggleFlowMenu,
-    updateDeletionPathInfo
+    updateCutOrDeletePathInfo
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     CanvasMouseUpEvent,
@@ -87,7 +87,7 @@ import {
     getGoToElementsGeometry,
     getNodeAndGoToGeometry,
     getSanitizedNodeGeo,
-    shouldDeleteBeyondMergingPoint
+    shouldCutOrDeleteBeyondMergingPoint
 } from './alcCanvasUtils';
 
 const { debounce } = commonUtils;
@@ -552,7 +552,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                 const interactionState = {
                     ...this._flowRenderContext.interactionState,
                     menuInfo: { key: startElementGuid, type: MenuType.NODE },
-                    deletionPathInfo: null
+                    cutAndDeletePathInfo: null
                 };
 
                 const event = new ToggleMenuEvent({
@@ -585,7 +585,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             },
             elementsMetadata: elementsMetadataMap,
             layoutConfig: { ...getDefaultLayoutConfig() },
-            isDeletingBranch: false,
+            isCutOrDeleteBranch: false,
             dynamicNodeDimensionMap: new Map<Guid, Dimension>()
         } as FlowRenderContext;
     }
@@ -871,11 +871,11 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     };
 
     /**
-     * Clears the deletionPathInfo from the interaction state that in turn clears the highlighted
+     * Clears the cutAndDeletePathInfo from the interaction state that in turn clears the highlighted
      * path on the canvas
      */
     handleClearHighlightedPath = () => {
-        const interactionState = clearDeletionPathInfo(this._flowRenderContext.interactionState);
+        const interactionState = clearCutOrDeletePathInfo(this._flowRenderContext.interactionState);
         this.updateFlowRenderContext({ interactionState });
     };
 
@@ -895,7 +895,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                 isBranchTerminal(this.flowModel, elementToDeleteOrCut, childIndexToKeep))
         );
 
-        const interactionState = updateDeletionPathInfo(
+        const interactionState = updateCutOrDeletePathInfo(
             event.detail.elementGuid,
             event.detail.childIndexToKeep,
             this._flowRenderContext.interactionState,
@@ -1304,7 +1304,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         event.stopPropagation();
         const { guids, childIndexToKeep } = event.detail;
         const selectedElement = this.flowModel[guids[0]];
-        const shouldCutBeyondMergingPoint = shouldDeleteBeyondMergingPoint(
+        const shouldCutBeyondMergingPoint = shouldCutOrDeleteBeyondMergingPoint(
             this.flowModel,
             selectedElement,
             childIndexToKeep
@@ -1357,7 +1357,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     handleBranchElementDeletion = (event: DeleteBranchElementEvent) => {
         const { selectedElementGUID, selectedElementType, childIndexToKeep } = event.detail;
         const selectedElement = this.flowModel[selectedElementGUID[0]];
-        if (shouldDeleteBeyondMergingPoint(this.flowModel, selectedElement, childIndexToKeep)) {
+        if (shouldCutOrDeleteBeyondMergingPoint(this.flowModel, selectedElement, childIndexToKeep)) {
             // When the branch to persist is terminated and the deleting element's next is not an end element
             // or a GoTo target, a warning modal would be invoked, otherwise a DeleteElementEvent would be dispatched
             invokeModal({

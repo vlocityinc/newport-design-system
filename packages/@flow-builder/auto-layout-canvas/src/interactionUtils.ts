@@ -57,7 +57,7 @@ function toggleFlowMenu(
         return closeFlowMenu(interactionState);
     }
 
-    return { ...interactionState, menuInfo, deletionPathInfo: null };
+    return { ...interactionState, menuInfo, cutAndDeletePathInfo: null };
 }
 
 /**
@@ -67,43 +67,43 @@ function toggleFlowMenu(
  * @returns - The flow interaction state with Flow Menu closed
  */
 function closeFlowMenu(interactionState: FlowInteractionState): FlowInteractionState {
-    return { ...interactionState, menuInfo: null, deletionPathInfo: null };
+    return { ...interactionState, menuInfo: null, cutAndDeletePathInfo: null };
 }
 
 /**
  * Update deletion path info
  *
- * @param elementGuidToDelete - The Guid of the element to be deleted
+ * @param elementGuidToCutOrDelete - The Guid of the element to be cut/ deleted
  * @param childIndexToKeep - The child index to keep
  * @param interactionState - The flow interaction state
- * @param shouldDeleteBeyondMergingPoint - true if the element beyoud the merge point should be deleted
+ * @param shouldCutOrDeleteBeyondMergingPoint - true if the element beyoud the merge point should be cut/ deleted
  * @param operationType - The operation type
  * @returns - The updated path info
  */
-function updateDeletionPathInfo(
-    elementGuidToDelete: Guid,
+function updateCutOrDeletePathInfo(
+    elementGuidToCutOrDelete: Guid,
     childIndexToKeep: number,
     interactionState: FlowInteractionState,
-    shouldDeleteBeyondMergingPoint: boolean,
+    shouldCutOrDeleteBeyondMergingPoint: boolean,
     operationType: NodeOperationType
 ): FlowInteractionState {
-    const deletionPathInfo = {
-        elementGuidToDelete,
+    const cutAndDeletePathInfo = {
+        elementGuidToCutOrDelete,
         childIndexToKeep,
-        shouldDeleteBeyondMergingPoint,
+        shouldCutOrDeleteBeyondMergingPoint,
         operationType
     };
-    return { ...interactionState, deletionPathInfo };
+    return { ...interactionState, cutAndDeletePathInfo };
 }
 
 /**
- * Clears the deletionPathInfo in interactionState
+ * Clears the cutAndDeletePathInfo in interactionState
  *
  * @param interactionState - The flow interaction state
  * @returns - Clear the path info
  */
-function clearDeletionPathInfo(interactionState: FlowInteractionState): FlowInteractionState {
-    return { ...interactionState, deletionPathInfo: null };
+function clearCutOrDeletePathInfo(interactionState: FlowInteractionState): FlowInteractionState {
+    return { ...interactionState, cutAndDeletePathInfo: null };
 }
 
-export { isMenuOpened, toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo, clearDeletionPathInfo };
+export { isMenuOpened, toggleFlowMenu, closeFlowMenu, updateCutOrDeletePathInfo, clearCutOrDeletePathInfo };

@@ -208,12 +208,12 @@ function flowModelFromElements(elements) {
 
 function createFlowRenderContext(custom) {
     const defaultFlowRenderContext = {
-        interactionState: { menuInfo: {}, deletionPathInfo: {} },
+        interactionState: { menuInfo: {}, cutAndDeletePathInfo: {} },
         elementsMetadata,
         layoutConfig,
         progress: 1,
         nodeLayoutMap: {},
-        isDeletingBranch: false,
+        isCutOrDeleteBranch: false,
         dynamicNodeDimensionMap: new Map()
     };
 
@@ -433,10 +433,10 @@ function getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead) {
     const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
     const interactionState = {
         menuInfo: {},
-        deletionPathInfo: {
+        cutAndDeletePathInfo: {
             childIndexToKeep: 1,
-            elementGuidToDelete: BRANCH_ELEMENT_GUID,
-            shouldDeleteBeyondMergingPoint: false,
+            elementGuidToCutOrDelete: BRANCH_ELEMENT_GUID,
+            shouldCutOrDeleteBeyondMergingPoint: false,
             operationType: 'delete'
         }
     };
@@ -766,10 +766,10 @@ function getComplicatedFlow() {
 
     const interactionState = {
         menuInfo: {},
-        deletionPathInfo: {
+        cutAndDeletePathInfo: {
             childIndexToKeep: 0,
-            elementGuidToDelete: 'decision1-guid',
-            shouldDeleteBeyondMergingPoint: true,
+            elementGuidToCutOrDelete: 'decision1-guid',
+            shouldCutOrDeleteBeyondMergingPoint: true,
             operationType: 'delete'
         }
     };
@@ -852,10 +852,10 @@ function getFlowWithNestedDescisionWhichEndsWithAScreen() {
 
     const interactionState = {
         menuInfo: {},
-        deletionPathInfo: {
+        cutAndDeletePathInfo: {
             childIndexToKeep: 0,
-            elementGuidToDelete: 'decision2-guid',
-            shouldDeleteBeyondMergingPoint: true,
+            elementGuidToCutOrDelete: 'decision2-guid',
+            shouldCutOrDeleteBeyondMergingPoint: true,
             operationType: 'cut'
         }
     };
@@ -938,10 +938,10 @@ function getFlowWith3levelNestedDescisionWhichEndsWithAScreen() {
 
     const interactionState = {
         menuInfo: {},
-        deletionPathInfo: {
+        cutAndDeletePathInfo: {
             childIndexToKeep: 0,
-            elementGuidToDelete: 'decision2-guid',
-            shouldDeleteBeyondMergingPoint: true,
+            elementGuidToCutOrDelete: 'decision2-guid',
+            shouldCutOrDeleteBeyondMergingPoint: true,
             operationType: 'cut'
         }
     };
@@ -1044,10 +1044,10 @@ function getFlowForCutPaste() {
 
     const interactionState = {
         menuInfo: {},
-        deletionPathInfo: {
+        cutAndDeletePathInfo: {
             childIndexToKeep: 0,
-            elementGuidToDelete: 'decision2-guid',
-            shouldDeleteBeyondMergingPoint: true,
+            elementGuidToCutOrDelete: 'decision2-guid',
+            shouldCutOrDeleteBeyondMergingPoint: true,
             operationType: 'cut'
         }
     };

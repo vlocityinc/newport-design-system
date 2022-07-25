@@ -103,31 +103,32 @@ function isRootNode(node: NodeModel, context: FlowRenderContext) {
 }
 
 /**
- * Checks if the guid of the element being currently traversed is same as that present in deletionPathInfo
+ * Checks if the guid of the element being currently traversed is same as that present in cutAndDeletePathInfo
  *
  * @param context - The flow rendering context
  * @param currentElementGuid - Guid of the element being currently traversed
- * @returns true if the currentElementGuid matches the one present in the deletionPathInfo
+ * @returns true if the currentElementGuid matches the one present in the cutAndDeletePathInfo
  */
-function isElementGuidToDelete(context: FlowRenderContext, currentElementGuid: Guid) {
+function isElementGuidToCutOrDelete(context: FlowRenderContext, currentElementGuid: Guid) {
     const { interactionState } = context;
     return (
-        interactionState.deletionPathInfo &&
-        interactionState.deletionPathInfo.elementGuidToDelete === currentElementGuid
+        interactionState.cutAndDeletePathInfo &&
+        interactionState.cutAndDeletePathInfo.elementGuidToCutOrDelete === currentElementGuid
     );
 }
 
 /**
- * Checks if the index of the branch being traversed is same the one present in deletionPathInfo
+ * Checks if the index of the branch being traversed is same the one present in cutAndDeletePathInfo
  *
  * @param context - The flow rendering context
  * @param currentChildIndex - Index of the connector branch being traversed
- * @returns true if the index of the branch being traversed is same the one present in deletionPathInfo
+ * @returns true if the index of the branch being traversed is same the one present in cutAndDeletePathInfo
  */
 function isChildIndexToKeep(context: FlowRenderContext, currentChildIndex: number) {
     const { interactionState } = context;
     return (
-        interactionState.deletionPathInfo && interactionState.deletionPathInfo.childIndexToKeep === currentChildIndex
+        interactionState.cutAndDeletePathInfo &&
+        interactionState.cutAndDeletePathInfo.childIndexToKeep === currentChildIndex
     );
 }
 
@@ -139,10 +140,10 @@ function isChildIndexToKeep(context: FlowRenderContext, currentChildIndex: numbe
  * @param currentChildIndex - Index of the connector branch being traversed
  * @returns true if the connector should be marked as deleted
  */
-function shouldDeleteConnector(context: FlowRenderContext, nodeGuid: Guid, currentChildIndex: number) {
+function shouldCutOrDeleteConnector(context: FlowRenderContext, nodeGuid: Guid, currentChildIndex: number) {
     return !!(
-        context.isDeletingBranch ||
-        (isElementGuidToDelete(context, nodeGuid) && !isChildIndexToKeep(context, currentChildIndex))
+        context.isCutOrDeleteBranch ||
+        (isElementGuidToCutOrDelete(context, nodeGuid) && !isChildIndexToKeep(context, currentChildIndex))
     );
 }
 
@@ -178,7 +179,7 @@ function isMergeBranchHighlighted(node: NodeModel, branchIndex: number) {
 function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRenderInfo {
     const { guid, config, nodeType } = node;
 
-    const { elementsMetadata, nodeLayoutMap, progress, layoutConfig, isDeletingBranch } = context;
+    const { elementsMetadata, nodeLayoutMap, progress, layoutConfig, isCutOrDeleteBranch } = context;
     const { y, h, x } = getLayout(node.guid, progress, nodeLayoutMap);
 
     const metadata =
@@ -186,8 +187,8 @@ function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRend
             ? getElementMetadata(elementsMetadata, node.actionName)
             : getElementMetadata(elementsMetadata, node.elementSubtype || node.elementType);
     const operationType =
-        isElementGuidToDelete(context, guid) || isDeletingBranch
-            ? context.interactionState.deletionPathInfo?.operationType
+        isElementGuidToCutOrDelete(context, guid) || isCutOrDeleteBranch
+            ? context.interactionState.cutAndDeletePathInfo?.operationType
             : undefined;
 
     const nodeRenderInfo = {
@@ -239,11 +240,11 @@ function renderNode(
         renderBranches(node as ParentNodeModel, nodeRenderInfo, context, true);
         const branchLayout = getBranchLayout(node.guid, FAULT_INDEX, progress, nodeLayoutMap);
 
-        // Mark the Fault branch connector to be deleted if it's a part of the branch that's being deleted or
-        // if it's associated with the parent element that is being deleted (Pause Element)
+        // Mark the Fault branch connector to be cut/ deleted if it's a part of the branch that's being cut/ deleted or
+        // if it's associated with the parent element that is being cut/ deleted (Pause Element)
         const isHighlighted = isBranchHighlighted(node, FAULT_INDEX);
-        const operationType = shouldDeleteConnector(context, node.guid, FAULT_INDEX)
-            ? interactionState.deletionPathInfo?.operationType
+        const operationType = shouldCutOrDeleteConnector(context, node.guid, FAULT_INDEX)
+            ? interactionState.cutAndDeletePathInfo?.operationType
             : undefined;
 
         nodeRenderInfo.logicConnectors = (nodeRenderInfo.logicConnectors || []).concat([
@@ -309,13 +310,13 @@ function getNextConnectorHeight(
 /**
  * @param guid element Guid
  * @param context Flow render context
- * @returns true if the element is beyound the deleting merge point
+ * @returns true if the element is beyond the cutting/ deleting merge point
  */
-function isDeletingBeyondMergePoint(guid: string, context: FlowRenderContext) {
+function isCuttingOrDeletingBeyondMergePoint(guid: string, context: FlowRenderContext) {
     return !!(
-        isElementGuidToDelete(context, guid) &&
-        context.interactionState.deletionPathInfo &&
-        context.interactionState.deletionPathInfo.shouldDeleteBeyondMergingPoint
+        isElementGuidToCutOrDelete(context, guid) &&
+        context.interactionState.cutAndDeletePathInfo &&
+        context.interactionState.cutAndDeletePathInfo.shouldCutOrDeleteBeyondMergingPoint
     );
 }
 
@@ -334,7 +335,7 @@ function createNextConnector(
     context: FlowRenderContext,
     variant: ConnectorVariant
 ): ConnectorRenderInfo {
-    const { flowModel, progress, nodeLayoutMap, interactionState, isDeletingBranch } = context;
+    const { flowModel, progress, nodeLayoutMap, interactionState, isCutOrDeleteBranch } = context;
     const { y, joinOffsetY, addOffset, labelOffset } = getLayout(node.guid, progress, nodeLayoutMap);
     const { nodeType } = node;
 
@@ -369,8 +370,8 @@ function createNextConnector(
             : ConnectorLabelType.NONE;
 
     const operationType =
-        isDeletingBranch || isDeletingBeyondMergePoint(node.guid, context)
-            ? interactionState.deletionPathInfo?.operationType
+        isCutOrDeleteBranch || isCuttingOrDeletingBeyondMergePoint(node.guid, context)
+            ? interactionState.cutAndDeletePathInfo?.operationType
             : undefined;
 
     return connectorLib.createConnectorToNextNode(
@@ -403,7 +404,7 @@ function createGoToConnector(
     context: FlowRenderContext,
     variant: ConnectorVariant
 ): ConnectorRenderInfo {
-    const { progress, nodeLayoutMap, interactionState, isDeletingBranch, layoutConfig } = context;
+    const { progress, nodeLayoutMap, interactionState, isCutOrDeleteBranch, layoutConfig } = context;
     const { joinOffsetY, addOffset, labelOffset, h } = getLayout(node.guid, progress, nodeLayoutMap);
     const { nodeType } = node;
 
@@ -413,8 +414,8 @@ function createGoToConnector(
             : ConnectorVariant.DEFAULT;
 
     const operationType =
-        isDeletingBranch || isDeletingBeyondMergePoint(node.guid, context)
-            ? interactionState.deletionPathInfo?.operationType
+        isCutOrDeleteBranch || isCuttingOrDeletingBeyondMergePoint(node.guid, context)
+            ? interactionState.cutAndDeletePathInfo?.operationType
             : undefined;
 
     return connectorLib.createConnectorToNextNode(
@@ -449,7 +450,7 @@ function createGoToConnectorOnParentBranch(
     context: FlowRenderContext,
     isHighlighted: boolean
 ): ConnectorRenderInfo {
-    const { interactionState, isDeletingBranch, progress, nodeLayoutMap } = context;
+    const { interactionState, isCutOrDeleteBranch, progress, nodeLayoutMap } = context;
     const { addOffset, labelOffset, h } = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
     const variant = getConnectorVariant(parentNode, childIndex, context);
     const { nodeType } = parentNode;
@@ -464,7 +465,7 @@ function createGoToConnectorOnParentBranch(
         height = h - getDefaultLayoutConfig().grid.h;
     }
 
-    const operationType = isDeletingBranch ? interactionState.deletionPathInfo?.operationType : undefined;
+    const operationType = isCutOrDeleteBranch ? interactionState.cutAndDeletePathInfo?.operationType : undefined;
 
     return connectorLib.createConnectorToNextNode(
         { guid: parentNode.guid, childIndex },
@@ -513,20 +514,20 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
     const nodeRenderInfos: NodeRenderInfo[] = [];
 
     const connectorVariant = getConnectorVariant(parentNode, childIndex, context);
-    let resetIsDeletingBranch = false;
+    let resetisCutOrDeleteBranch = false;
     while (node) {
-        if (node.prev && isDeletingBeyondMergePoint(node.prev, context)) {
-            context.isDeletingBranch = true;
-            resetIsDeletingBranch = true;
+        if (node.prev && isCuttingOrDeletingBeyondMergePoint(node.prev, context)) {
+            context.isCutOrDeleteBranch = true;
+            resetisCutOrDeleteBranch = true;
         }
         const nodeRenderInfo = renderNode(parentNode, node, context, connectorVariant);
         nodeRenderInfos.push(nodeRenderInfo);
         node = node.next && !hasGoToOnNext(flowModel, node.guid) ? resolveNode(flowModel, node.next) : null;
 
-        // Resetting the isDeletingBranch after the entire branch has been rendered
-        if (!node && resetIsDeletingBranch) {
-            context.isDeletingBranch = false;
-            resetIsDeletingBranch = false;
+        // Resetting the isCutOrDeleteBranch after the entire branch has been rendered
+        if (!node && resetisCutOrDeleteBranch) {
+            context.isCutOrDeleteBranch = false;
+            resetisCutOrDeleteBranch = false;
         }
     }
 
@@ -597,10 +598,10 @@ function renderBranches(
     const childIndexes = children != null ? children.map((child, childIndex) => childIndex) : [FAULT_INDEX];
 
     const flows = childIndexes.map((i) => {
-        // When rendering branches for the element being deleted, setting context.isDeletingBranch to true
+        // When rendering branches for the element being cut/ deleted, setting context.isCutOrDeleteBranch to true
         // when traversing a branch whose index is not equal to childIndexToKeep
-        if (isElementGuidToDelete(context, node.guid)) {
-            context.isDeletingBranch = !isChildIndexToKeep(context, i);
+        if (isElementGuidToCutOrDelete(context, node.guid)) {
+            context.isCutOrDeleteBranch = !isChildIndexToKeep(context, i);
         }
         const isHighlighted = isBranchHighlighted(node, i);
         const flowRenderInfo = renderFlowHelper(node, i, context);
@@ -613,9 +614,9 @@ function renderBranches(
             flowRenderInfo.preConnector = createPreConnector(node, i, context, height, isHighlighted);
         }
 
-        //  Resetting context.isDeletingBranch to false after rendering each branch of the parent element being deleted
-        if (isElementGuidToDelete(context, node.guid)) {
-            context.isDeletingBranch = false;
+        //  Resetting context.isCutOrDeleteBranch to false after rendering each branch of the parent element being cut/ deleted
+        if (isElementGuidToCutOrDelete(context, node.guid)) {
+            context.isCutOrDeleteBranch = false;
         }
         return flowRenderInfo;
     });
@@ -731,7 +732,7 @@ function createPreConnector(
     height: number,
     isHighlighted: boolean
 ): ConnectorRenderInfo {
-    const { interactionState, isDeletingBranch, progress, nodeLayoutMap } = context;
+    const { interactionState, isCutOrDeleteBranch, progress, nodeLayoutMap } = context;
 
     const branchHeadGuid = childIndex === FAULT_INDEX ? parentNode.fault : parentNode.children[childIndex];
 
@@ -746,7 +747,7 @@ function createPreConnector(
 
     const branchLayout = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
 
-    const operationType = isDeletingBranch ? interactionState.deletionPathInfo?.operationType : undefined;
+    const operationType = isCutOrDeleteBranch ? interactionState.cutAndDeletePathInfo?.operationType : undefined;
 
     return connectorLib.createConnectorToNextNode(
         { guid: parentNode.guid, childIndex },
@@ -787,11 +788,11 @@ function createBranchConnectors(
         .map((_, branchIndex) => {
             const branchLayout = getBranchLayout(parentNode.guid, branchIndex, progress, nodeLayoutMap);
 
-            // Marking the connector as to be deleted if it's a part of the branch being deleted
-            // or if it's associated with the element being deleted and not equal to it's childIndexToKeep
+            // Marking the connector as to be cut/ deleted if it's a part of the branch being cut/ deleted
+            // or if it's associated with the element being cut/ deleted and not equal to it's childIndexToKeep
             const isHighlighted = isBranchHighlighted(parentNode, branchIndex);
-            const operationType = shouldDeleteConnector(context, parentNode.guid, branchIndex)
-                ? interactionState.deletionPathInfo?.operationType
+            const operationType = shouldCutOrDeleteConnector(context, parentNode.guid, branchIndex)
+                ? interactionState.cutAndDeletePathInfo?.operationType
                 : undefined;
 
             return connectorLib.createBranchConnector(
@@ -827,16 +828,16 @@ function createMergeConnectors(
             if (isBranchTerminal(flowModel, parentNode, index)) {
                 return null;
             }
-            // Marking the connector as to be deleted if it's a part of the branch being deleted
-            // or if it's associated with the element being deleted and not equal to it's childIndexToKeep
+            // Marking the connector as to be cut/ deleted if it's a part of the branch being cut/ deleted
+            // or if it's associated with the element being cut/ deleted and not equal to it's childIndexToKeep
             const isHighlighted =
                 isMergeBranchHighlighted(parentNode, index) && parentNode.config.highlightInfo!.highlightNext;
 
             const branchLayout = getBranchLayout(parentNode.guid, index, progress, nodeLayoutMap);
             let connectorType: ConnectorType | null = null;
             const geometry = createBranchOrMergeConnectorGeometry(branchLayout, layoutConfig, !IS_BRANCH, joinOffsetY);
-            const operationType = shouldDeleteConnector(context, parentNode.guid, index)
-                ? interactionState.deletionPathInfo?.operationType
+            const operationType = shouldCutOrDeleteConnector(context, parentNode.guid, index)
+                ? interactionState.cutAndDeletePathInfo?.operationType
                 : undefined;
 
             if (branchLayout.x < 0) {
@@ -880,8 +881,8 @@ function createLoopAfterLastConnector(
 
     const branchLayout = getBranchLayout(parentGuid, childIndex, progress, nodeLayoutMap);
     const w = branchLayout.w - branchLayout.offsetX;
-    const operationType = shouldDeleteConnector(context, parentGuid, childIndex)
-        ? interactionState.deletionPathInfo?.operationType
+    const operationType = shouldCutOrDeleteConnector(context, parentGuid, childIndex)
+        ? interactionState.cutAndDeletePathInfo?.operationType
         : undefined;
 
     const geometry = {
@@ -920,8 +921,8 @@ function createLoopBackConnector(
     const childIndex = FOR_EACH_INDEX;
     const branchLayout = getBranchLayout(parentGuid, childIndex, progress, nodeLayoutMap);
     const w = branchLayout.offsetX;
-    const operationType = shouldDeleteConnector(context, parentGuid, childIndex)
-        ? interactionState.deletionPathInfo?.operationType
+    const operationType = shouldCutOrDeleteConnector(context, parentGuid, childIndex)
+        ? interactionState.cutAndDeletePathInfo?.operationType
         : undefined;
 
     const geometry = {
@@ -953,7 +954,7 @@ function renderFlow(context: FlowRenderContext, progress: number): FlowRenderInf
     const rootNode = getRootNode(context.flowModel);
 
     const flowRenderInfo = renderFlowHelper(rootNode as ParentNodeModel, 0, context);
-    context.isDeletingBranch = false;
+    context.isCutOrDeleteBranch = false;
     return flowRenderInfo;
 }
 

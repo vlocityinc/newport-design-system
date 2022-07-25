@@ -49,7 +49,7 @@ interface CutGuidOptions {
 }
 
 const cutGuidOptionDefaults = {
-    shouldDeleteGoToOnNext: false,
+    shouldCutBeyondMergingPoint: false,
     childIndexToKeep: undefined
 };
 
@@ -1894,7 +1894,7 @@ function deleteElement(
 
     // Cleaning up any GoTos present beyond the merge point if those elements
     // need to be deleted as well
-    let shouldDeleteBeyondMergingPoint = false;
+    let shouldCutOrDeleteBeyondMergingPoint = false;
     if (
         state[guid].next &&
         !hasGoToOnNext(state, guid) &&
@@ -1902,7 +1902,7 @@ function deleteElement(
         isBranchTerminal(state, resolveNode(state, guid), childIndexToKeep)
     ) {
         state = cleanUpBranchGoTos(state, elementService, state[guid].next!);
-        shouldDeleteBeyondMergingPoint = true;
+        shouldCutOrDeleteBeyondMergingPoint = true;
     }
 
     const element = resolveNode(state, guid);
@@ -1964,7 +1964,7 @@ function deleteElement(
     }
 
     deleteElementAndDescendents(elementService, state, element.guid, childIndexToKeep);
-    if (shouldDeleteBeyondMergingPoint && next != null) {
+    if (shouldCutOrDeleteBeyondMergingPoint && next != null) {
         deleteBranch(elementService, state, next);
     }
 
