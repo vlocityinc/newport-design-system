@@ -8,7 +8,7 @@ import { augmentElementsMetadata } from '../alcCanvasContainerUtils';
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
-jest.mock('builder_platform_interaction/storeLib');
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const elementsMetadata = [
     {
@@ -235,24 +235,20 @@ const createComponentForTest = async (optionsOverrides = {}, includeSubflows: bo
           );
 };
 
+async function dispatchEvent(element, event) {
+    element.dispatchEvent(event);
+    await ticks(1);
+}
+
 describe('alc canvas container', () => {
     let cmp;
-
     beforeAll(() => {
-        Store.getStore.mockImplementation(() => {
-            return {
-                getCurrentState: jest.fn(() => {
-                    return {
-                        elements: {
-                            startGuid: startElement,
-                            root: { elementType: ELEMENT_TYPE.ROOT_ELEMENT }
-                        },
-                        properties: { processType: 'autolaunched', isAutoLayoutCanvas: true }
-                    };
-                }),
-                subscribe: jest.fn(() => jest.fn()),
-                unsubscribe: jest.fn()
-            };
+        Store.setMockState({
+            elements: {
+                startGuid: startElement,
+                root: { elementType: ELEMENT_TYPE.ROOT_ELEMENT }
+            },
+            properties: { processType: 'autolaunched', isAutoLayoutCanvas: true }
         });
     });
 
@@ -498,6 +494,15 @@ describe('alc canvas container', () => {
         expect(elementTypes).toEqual(expectedElementTypes);
         expect(isLoading).toEqual(expectedIsLoading);
         expect(menuItems).toEqual(expectedMenuItems);
+    });
+
+    it('dispatch highlightOnCanvas action with empty payload on handler for clear highlight', async () => {
+        cmp = await createComponentForTest({}, true);
+        await dispatchEvent(getAlcCanvas(), new CustomEvent('clearhighlights'));
+
+        const spy = Store.getStore().dispatch;
+        expect(spy).toHaveBeenCalled();
+        expect(spy.mock.calls[0][0]).toEqual({ payload: { guid: undefined }, type: 'HIGHLIGHT_ON_CANVAS' });
     });
 });
 

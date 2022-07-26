@@ -1,4 +1,4 @@
-import { deselectOnCanvas } from 'builder_platform_interaction/actions';
+import { deselectOnCanvas, highlightOnCanvas } from 'builder_platform_interaction/actions';
 import AlcCanvas from 'builder_platform_interaction/alcCanvas';
 import { setElementsMetadata } from 'builder_platform_interaction/alcCanvasUtils';
 import { shortcuts } from 'builder_platform_interaction/app';
@@ -229,6 +229,16 @@ export default class AlcCanvasContainer extends LightningElement {
     handleElementDeselection = () => {
         storeInstance.dispatch(deselectOnCanvas);
     };
+
+    /**
+     * Handles the mouse up event on canvas and clears the highlights when clicked on goto stub
+     */
+    handleClearHighlights() {
+        const payload = {
+            guid: undefined
+        };
+        storeInstance.dispatch(highlightOnCanvas(payload));
+    }
 
     /**
      * Updates the connector menu metadata

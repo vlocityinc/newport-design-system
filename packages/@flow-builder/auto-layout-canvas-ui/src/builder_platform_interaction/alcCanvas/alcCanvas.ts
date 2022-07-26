@@ -1240,9 +1240,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         ) {
             const canvasMouseUpEvent = new CanvasMouseUpEvent();
             this.dispatchEvent(canvasMouseUpEvent);
-
-            this.clearIncomingStubGuid();
         }
+        this.clearIncomingStubGuid();
+        // clear highlights when goto stub is clicked
+        this.dispatchEvent(new CustomEvent('clearhighlights'));
         this.showGrabbingCursor(false);
         this.isPanInProgress = false;
     };

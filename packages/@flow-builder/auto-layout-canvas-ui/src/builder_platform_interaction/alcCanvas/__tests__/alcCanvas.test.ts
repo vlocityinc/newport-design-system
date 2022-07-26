@@ -1038,6 +1038,19 @@ describe('Auto Layout Canvas', () => {
         });
     });
 
+    describe('Handle clear hightlights', () => {
+        it('dispatches a clearHighlight event on mouse up on CUT/Selection mode', async () => {
+            cmp.canvasMode = AutoLayoutCanvasMode.CUT;
+            await ticks(1);
+            expect(getFlow().canvasContext.mode).toStrictEqual(AutoLayoutCanvasMode.CUT);
+            const callback = jest.fn();
+            cmp.addEventListener('clearhighlights', callback);
+            const canvasCmp = cmp.shadowRoot.querySelector('.canvas');
+            canvasCmp.dispatchEvent(new CustomEvent('mouseup', {}));
+            expect(callback).toHaveBeenCalled();
+        });
+    });
+
     describe('Handling CloseMenuEvent', () => {
         describe('When node menu is closed', () => {
             test.each`
