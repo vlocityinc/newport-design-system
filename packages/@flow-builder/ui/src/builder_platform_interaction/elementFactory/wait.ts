@@ -7,6 +7,7 @@ import {
     FLOW_PROCESS_TYPE,
     WAIT_EVENT_FIELDS,
     WAIT_TIME_EVENT_FIELDS,
+    WAIT_TIME_EVENT_OFFSET_UNIT,
     WAIT_TIME_EVENT_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
@@ -37,6 +38,7 @@ import { createOutputParameter, createOutputParameterMetadataObject } from './ou
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
 export const DEFAULT_DURATION_VALUE = 1;
+export const DEFAULT_DURATION_UNIT = WAIT_TIME_EVENT_OFFSET_UNIT.DAYS;
 
 /**
  * Whether the event type is one of the wait time event types (AlarmEvent or DateRefAlarmEvent)
@@ -358,7 +360,7 @@ export function createWaitMetadataObject(wait, config = {}) {
  */
 function addJourneyWaitEventsParams(elementSource, elementTarget) {
     const processType = getProcessType();
-    const { duration, durationUnit, extendUntil } = elementSource;
+    const { duration = DEFAULT_DURATION_VALUE, durationUnit = DEFAULT_DURATION_UNIT, extendUntil } = elementSource;
     if (processType === FLOW_PROCESS_TYPE.JOURNEY) {
         Object.assign(elementTarget, {
             duration,

@@ -16,6 +16,10 @@ export default class Counter extends LightningElement {
         }
     }
 
+    handleValueChanged(event) {
+        this.dispatchValueChangedEvent(event.target?.value);
+    }
+
     dispatchValueChangedEvent(value) {
         const valueChangedEvent = new ValueChangedEvent(value);
         this.dispatchEvent(valueChangedEvent);

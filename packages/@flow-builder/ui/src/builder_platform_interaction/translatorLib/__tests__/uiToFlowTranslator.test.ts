@@ -57,6 +57,9 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
             CREATE: 'Create',
             CREATE_AND_UPDATE: 'CreateAndUpdate'
         },
+        WAIT_TIME_EVENT_OFFSET_UNIT: {
+            DAYS: 'Days'
+        },
         FlowScreenFieldType: {}
     };
 });
