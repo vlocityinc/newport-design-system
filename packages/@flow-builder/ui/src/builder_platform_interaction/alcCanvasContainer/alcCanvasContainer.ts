@@ -365,13 +365,6 @@ export default class AlcCanvasContainer extends LightningElement {
         }
     };
 
-    clearIncomingStubGuid() {
-        const alcCanvas = this.getAlcCanvas();
-        if (alcCanvas) {
-            alcCanvas.clearIncomingStubGuid();
-        }
-    }
-
     /**
      * Get the AlcCanvas element
      *

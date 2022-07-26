@@ -215,9 +215,16 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
     }
 
     get goToTargetClass() {
-        const target = getConnectionTarget(this.flowModel, this.connectorInfo.source);
+        const { guid, childIndex } = this.connectorInfo.source;
+
+        const highlightGoto =
+            (this.canvasContext.highlightInfo?.gotos ?? []).find(
+                // eslint-disable-next-line eqeqeq
+                (source) => source.guid === guid && source.childIndex == childIndex
+            ) != null;
+
         return classSet('go-to-info slds-is-relative').add({
-            'highlighted-container': target === this.canvasContext.incomingStubGuid
+            'highlighted-container': highlightGoto
         });
     }
 

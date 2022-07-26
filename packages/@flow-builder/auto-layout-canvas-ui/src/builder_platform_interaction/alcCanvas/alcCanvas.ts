@@ -35,22 +35,27 @@ import {
     ConnectionSource,
     Dimension,
     ElementMetadata,
+    FAULT_INDEX,
+    findParentElement,
     findSourceForPasteOperation,
     FlowInteractionState,
     FlowRenderContext,
     FlowRenderInfo,
     Geometry,
     getConnectionSource,
+    getConnectionSourcesFromIncomingGoTo,
     getConnectionTarget,
     getCutGuids,
     getDefaultLayoutConfig,
     getTargetGuidsForReconnection,
     Guid,
+    hasGoToOnNext,
     isBranchTerminal,
     MenuType,
     NodeType,
     panzoom,
     renderFlow,
+    resolveNode,
     resolveParent,
     shouldDeleteGoToOnNext,
     toggleFlowMenu,
@@ -216,7 +221,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         },
         menu: null,
         customIconMap: {},
-        incomingStubGuid: null
+        highlightInfo: null
     };
 
     isFirstTimeCalled = true;
@@ -342,7 +347,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     @api
     focusOnNode = (elementGuid: Guid) => {
         this._focusOnNode(elementGuid);
-        this.clearIncomingStubGuid();
+        this.clearHighlightInfo();
     };
 
     _focusOnNode = (elementGuid: Guid) => {
@@ -360,10 +365,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         findConnector(source, this.flowModel, alcFlow).focus();
     };
 
-    // TODO: should remove this method, the canvas should take care of this detail itself
-    @api
-    clearIncomingStubGuid() {
-        this.updateCanvasContext({ incomingStubGuid: null });
+    clearHighlightInfo() {
+        this.updateCanvasContext({
+            highlightInfo: null
+        });
     }
 
     /**
@@ -788,6 +793,27 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     }
 
     /**
+     * Updates the canvas context to include the outgoing connector stub that needs to be highlighted
+     *
+     * @param source - The ConnectionSource object that specifies the outgoing connector
+     */
+    @api
+    highlightGotoSource(source: ConnectionSource) {
+        let currentGuid = source.guid;
+        const node = resolveParent(this.flowModel, currentGuid);
+        const target = node.children && getConnectionTarget(this.flowModel, source);
+        if (target == null && source.childIndex !== FAULT_INDEX) {
+            // If the source is stationed at a merge point go to connector, then find its parent guid so that the proper connector highlights
+            while (!hasGoToOnNext(this.flowModel, currentGuid)) {
+                currentGuid = findParentElement(resolveNode(this.flowModel, currentGuid), this.flowModel).guid;
+            }
+            source = { guid: currentGuid };
+        }
+        // If the source is not at a merge point, then update the connector accordingly
+        this.updateCanvasContext({ highlightInfo: { gotos: [source] } });
+    }
+
+    /**
      * Handles the "Add GoTo" connector menu item selection
      *
      * @param event - The Goto path event
@@ -912,7 +938,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      */
     handleHighlightAllOutgoingStubs = (event) => {
         // Highlights goTo stubs
-        this.updateCanvasContext({ incomingStubGuid: event.detail.guid });
+        const sources = getConnectionSourcesFromIncomingGoTo(this.flowModel, event.detail.guid);
+        this.updateCanvasContext({ highlightInfo: { gotos: sources } });
 
         this.stubInteractionZoomToFit(event.detail.guid);
     };
@@ -1241,7 +1268,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             const canvasMouseUpEvent = new CanvasMouseUpEvent();
             this.dispatchEvent(canvasMouseUpEvent);
         }
-        this.clearIncomingStubGuid();
+        this.clearHighlightInfo();
         // clear highlights when goto stub is clicked
         this.dispatchEvent(new CustomEvent('clearhighlights'));
         this.showGrabbingCursor(false);

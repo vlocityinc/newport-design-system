@@ -7,6 +7,7 @@ export default class UsedByContent extends LightningElement {
     @api isResourceDetails = false;
     @api showLocatorIcon;
     @api customIconMap;
+    @api sectionType = 'used-by';
 
     get enableLocator() {
         return this.showLocatorIcon && this.isResourceDetails;

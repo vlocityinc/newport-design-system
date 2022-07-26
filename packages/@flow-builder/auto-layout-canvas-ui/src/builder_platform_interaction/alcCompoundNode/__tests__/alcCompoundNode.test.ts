@@ -8,7 +8,7 @@ const tag = 'builder_platform_interaction-alc-compound-node';
 
 const defaultCanvasContext: CanvasContext = {
     mode: AutoLayoutCanvasMode.DEFAULT,
-    incomingStubGuid: null,
+    highlightInfo: null,
     connectorMenuMetadata: {}
 };
 

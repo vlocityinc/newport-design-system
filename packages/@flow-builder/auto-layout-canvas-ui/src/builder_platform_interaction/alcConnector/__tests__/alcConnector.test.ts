@@ -303,7 +303,7 @@ const getScheduledPathConnectorInfo = () => {
 
 const defaultCanvasContext = {
     mode: AutoLayoutCanvasMode.DEFAULT,
-    incomingStubGuid: null,
+    highlightInfo: null,
     connectorMenuMetadata: {},
     operationType: 'delete',
     cutInfo: {
@@ -559,7 +559,10 @@ describe('Auto-Layout connector tests', () => {
         const regularConnector = await createComponentUnderTest({
             connectorInfo: getGoToConnectorInfo(),
             flowModel: goToFlowModel,
-            canvasContext: { ...defaultCanvasContext, incomingStubGuid: 'targetChild' }
+            canvasContext: {
+                ...defaultCanvasContext,
+                highlightInfo: { gotos: [{ guid: 'parentGuid1', childIndex: 1 }] }
+            }
         });
         const goToConnector = regularConnector.shadowRoot.querySelector(selectors.goToInfo);
         expect(goToConnector.classList).toContain('highlighted-container');

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import { createElement } from 'lwc';
 import UsedByContentItem from '../usedByContentItem';
 
@@ -12,10 +13,11 @@ jest.mock(
     }
 );
 
-function createComponentForTest(listItem, showLocatorIcon) {
+function createComponentForTest(listItem, showLocatorIcon, itemType = 'used-by') {
     const el = createElement('builder_platform_interaction-used-by-content-item', { is: UsedByContentItem });
     el.listItem = listItem;
     el.showLocatorIcon = showLocatorIcon;
+    el.itemType = itemType;
     setDocumentBodyChildren(el);
     return el;
 }
@@ -176,6 +178,64 @@ describe('Used-By-Content-Item component', () => {
                 selectors.usedBySectionLocatorIcon
             );
             expect(usedBySectionLocatorIcon.classList).not.toBeNull();
+        });
+    });
+    describe('handleUsageSectionLocatorClick', () => {
+        it('when the locator icon on a section that is not incoming go tos is clicked, expect the LocatorIconClickedEvent to be dispatched', async () => {
+            const expectedResult = {
+                guid: 'DECISION_1:1',
+                name: 'Decision_1',
+                isCanvasElement: true,
+                iconName: 'standard:decision'
+            };
+            const usedByContentItemComponent = createComponentForTest(expectedResult, true);
+            await ticks(1);
+            const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(
+                selectors.usedBySectionLocatorIcon
+            );
+            expect(usedBySectionLocatorIcon.classList).not.toBeNull();
+
+            const eventCallback = jest.fn();
+            usedByContentItemComponent.addEventListener(LocatorIconClickedEvent.EVENT_NAME, eventCallback);
+
+            usedBySectionLocatorIcon.click();
+
+            await ticks(1);
+
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({
+                guid: 'DECISION_1',
+                childIndex: 1,
+                highlightGoToSource: false
+            });
+        });
+        it('when the locator icon is clicked on the incoming go tos section, expect the LocatorIconClickedEvent to be dispatched', async () => {
+            const expectedResult = {
+                guid: 'DECISION_1:1',
+                name: 'Decision_1',
+                isCanvasElement: true,
+                iconName: 'standard:decision'
+            };
+            const usedByContentItemComponent = createComponentForTest(expectedResult, true, 'incoming-info');
+            await ticks(1);
+            const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(
+                selectors.usedBySectionLocatorIcon
+            );
+            expect(usedBySectionLocatorIcon.classList).not.toBeNull();
+
+            const eventCallback = jest.fn();
+            usedByContentItemComponent.addEventListener(LocatorIconClickedEvent.EVENT_NAME, eventCallback);
+
+            usedBySectionLocatorIcon.click();
+
+            await ticks(1);
+
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({
+                guid: 'DECISION_1',
+                childIndex: 1,
+                highlightGoToSource: true
+            });
         });
     });
 });

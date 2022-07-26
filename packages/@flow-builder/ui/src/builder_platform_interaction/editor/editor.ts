@@ -2837,12 +2837,15 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      * Handles the locator icon clicked event, pans the element into the viewport and dispatches an action to the store
      * to set the isHighlighted state of the canvas element to true.
      *
-     * @param {object} event - locator icon clicked event coming from left-panel
+     * @param event - locator icon clicked event coming from left-panel
      */
-    handleHighlightOnCanvas = (event) => {
-        if (event && event.detail && event.detail.elementGuid) {
-            const elementGuid = event.detail.elementGuid;
-            this.highlightOnCanvas(elementGuid);
+    handleHighlightOnCanvas = (event: LocatorIconClickedEvent) => {
+        const { guid, childIndex, highlightGoToSource } = event.detail;
+        const canvasContainer = this._getCanvasComponent();
+        const canvas = canvasContainer.getAlcCanvas();
+        this.highlightOnCanvas(guid);
+        if (highlightGoToSource) {
+            canvas.highlightGotoSource({ guid, childIndex });
         }
     };
 

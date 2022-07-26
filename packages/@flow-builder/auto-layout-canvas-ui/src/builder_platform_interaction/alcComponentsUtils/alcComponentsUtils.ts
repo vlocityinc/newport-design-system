@@ -67,10 +67,11 @@ export interface CanvasContext {
         childIndexToKeep?: number;
     };
 
-    // Clicked incoming goTo stub guid
-    incomingStubGuid: Guid | null;
     connectorMenuMetadata: ConnectorMenuMetadata | null;
     menu: MenuInfo | null;
+    highlightInfo: {
+        gotos: ConnectionSource[];
+    } | null;
 }
 
 export interface CustomIconMap {

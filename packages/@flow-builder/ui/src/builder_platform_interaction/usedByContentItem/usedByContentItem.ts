@@ -20,6 +20,9 @@ export default class UsedByContentItem extends LightningElement {
     showLocatorIcon = false;
 
     @api
+    itemType = 'used-by';
+
+    @api
     get customIconMap() {
         return this._customIconMap;
     }
@@ -71,8 +74,8 @@ export default class UsedByContentItem extends LightningElement {
      */
     handleUsageSectionLocatorClick(event) {
         const sourceRef = event?.currentTarget?.dataset?.guid;
-        const guid = parseConnectionSourceRef(sourceRef).guid; // Only take the source element guid, and not the suffix
-        const locatorIconEvent = new LocatorIconClickedEvent(guid);
+        const { guid, childIndex } = parseConnectionSourceRef(sourceRef); // Only take the source element guid, and not the suffix
+        const locatorIconEvent = new LocatorIconClickedEvent(guid, childIndex, this.itemType === 'incoming-info');
         this.dispatchEvent(locatorIconEvent);
         logInteraction(`find-in-canvas-button`, 'resource-details', null, 'click');
     }

@@ -158,7 +158,7 @@ const gotoUtils = {
      */
     parseConnectionSourceRef(connectionSourceRef: string): ConnectionSource {
         const [sourceGuid, suffix] = connectionSourceRef.split(':');
-        return { guid: sourceGuid, childIndex: parseInt(suffix, 10) };
+        return { guid: sourceGuid, childIndex: typeof suffix === 'string' ? parseInt(suffix, 10) : null };
     },
 
     /**

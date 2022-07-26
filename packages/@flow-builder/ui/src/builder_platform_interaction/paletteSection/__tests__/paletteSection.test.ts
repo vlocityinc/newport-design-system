@@ -110,7 +110,9 @@ describe('PaletteSection', () => {
 
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toEqual({
-                elementGuid: MOCK_RESOURCE_PALETTE_ITEM._children[0].guid
+                guid: MOCK_RESOURCE_PALETTE_ITEM._children[0].guid,
+                childIndex: null,
+                highlightGoToSource: false
             });
         });
     });
