@@ -182,7 +182,7 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * return {boolean} true if the element is using the output reference.
+     * @returns {boolean} true if the element is using the output reference.
      */
     get hasOutputReference() {
         return this.isInAddElementMode || this.outputReferenceValue !== '';
