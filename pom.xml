@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
     <properties>
         <aura.version>1.5499</aura.version>
-        <lwc.version>240.0.4-2.20.4</lwc.version>
+        <lwc.version>242.0.0-2.21.0</lwc.version>
         <spring.version>5.3.21</spring.version>
         <google.closure-compiler.version>v20130411-sfdc-patch1</google.closure-compiler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

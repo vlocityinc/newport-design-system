@@ -1,0 +1,12 @@
+jobs:
+    build-and-test:
+        memory-limit: 16
+    create-canary-release:
+        memory-limit: 16
+    build-dependency:
+        memory-limit: 16
+branches:
+    ~DEFAULT~:
+        pull-request:
+            workflow: build-and-test
+            auto-start: false
