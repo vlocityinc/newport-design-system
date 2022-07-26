@@ -261,6 +261,22 @@
       "isStandard":true,
       "allowsTransactionControl":false,
       "iconName":null,
+      "name":"createServiceReport",
+      "description":"Create Service Report",
+      "configurationEditor":null,
+      "label":"Create Service Report from a standard or custom template.",
+      "type":"createServiceReport",
+      "category":"Field service",
+      "genericTypes":[
+
+      ],
+      "durableId":"createServiceReport-createServiceReport"
+    },
+    {
+      "iconId":null,
+      "isStandard":true,
+      "allowsTransactionControl":false,
+      "iconName":null,
       "name":"customNotificationAction",
       "description":"Send custom notifications to recipients through desktop or mobile",
       "configurationEditor":null,

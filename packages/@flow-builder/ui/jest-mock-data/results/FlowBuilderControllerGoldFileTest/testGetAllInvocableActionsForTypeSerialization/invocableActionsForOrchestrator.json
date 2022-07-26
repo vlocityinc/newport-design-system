@@ -197,22 +197,6 @@
       "isStandard":false,
       "allowsTransactionControl":false,
       "iconName":null,
-      "name":"healthcloud_pm_flows__AccpetSlots",
-      "description":null,
-      "configurationEditor":null,
-      "label":"Accept Slot Flow",
-      "type":"stepInteractive",
-      "category":null,
-      "genericTypes":[
-
-      ],
-      "durableId":"stepInteractive-healthcloud_pm_flows__AccpetSlots"
-    },
-    {
-      "iconId":null,
-      "isStandard":false,
-      "allowsTransactionControl":false,
-      "iconName":null,
       "name":"industries_automotive__AutoIV",
       "description":"Authenticates the identity of a caller before their request can be processed by a contact center agent (CCA).",
       "configurationEditor":null,
@@ -294,7 +278,7 @@
       "allowsTransactionControl":false,
       "iconName":null,
       "name":"setup_service_experience__Verify_Cust",
-      "description":null,
+      "description":"Removed custom field references",
       "configurationEditor":null,
       "label":"Verify Identity",
       "type":"stepInteractive",

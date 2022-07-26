@@ -6,16 +6,6 @@
       "ProcessType":"Flow",
       "IsSwingFlow":false,
       "Description":null,
-      "EnumOrID":"healthcloud_pm_flows__AccpetSlots-1",
-      "Label":"Accept Slot Flow",
-      "VersionNumber":1
-    },
-    {
-      "Status":"Active",
-      "IsTemplate":true,
-      "ProcessType":"Flow",
-      "IsSwingFlow":false,
-      "Description":null,
       "EnumOrID":"setup_service_experience__Create_Case-1",
       "Label":"Create a Case",
       "VersionNumber":1

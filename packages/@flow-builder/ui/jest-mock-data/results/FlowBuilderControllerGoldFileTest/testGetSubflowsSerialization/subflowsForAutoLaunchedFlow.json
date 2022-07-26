@@ -65,14 +65,6 @@
       "isViewable":false
     },
     {
-      "masterLabel":"SCV Basic Routing Flow",
-      "activeVersionId":null,
-      "fullName":"opencti__SCV_Basic_Routing_Flow",
-      "description":null,
-      "latestVersionId":"opencti__SCV_Basic_Routing_Flow-1",
-      "isViewable":true
-    },
-    {
       "masterLabel":"SomeFlow",
       "activeVersionId":null,
       "fullName":"autoLaunchedFlow",

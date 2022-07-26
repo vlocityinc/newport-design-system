@@ -218,7 +218,7 @@ describe('Node Menu', () => {
             listItems[0].focus();
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
-            expect(getDetailPassedToEvent(callback)).toEqual({ restoreFocus: true });
+            expect(getDetailPassedToEvent(callback)).toEqual({ moveFocusToTrigger: true });
         });
     });
 
@@ -242,7 +242,7 @@ describe('Node Menu', () => {
                 test('Clicking on the Copy Action dispatches the close menu event with proper arguments', () => {
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     copyRow.click();
-                    expect(getDetailPassedToEvent(callback)).toEqual({ restoreFocus: true });
+                    expect(getDetailPassedToEvent(callback)).toEqual({ moveFocusToTrigger: true });
                 });
 
                 test('The copy row icon should have the right icon-name', () => {
@@ -274,7 +274,7 @@ describe('Node Menu', () => {
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     menu.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
                     expect(getDetailPassedToEvent(callback)).toEqual({
-                        restoreFocus: true
+                        moveFocusToTrigger: true
                     });
                 });
 
@@ -290,7 +290,7 @@ describe('Node Menu', () => {
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(getDetailPassedToEvent(callback)).toEqual({
-                        restoreFocus: true
+                        moveFocusToTrigger: true
                     });
                 });
             });
@@ -334,7 +334,7 @@ describe('Node Menu', () => {
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     deleteRow.click();
                     expect(getDetailPassedToEvent(callback)).toEqual({
-                        restoreFocus: false
+                        moveFocusToTrigger: false
                     });
                 });
 
@@ -391,7 +391,7 @@ describe('Node Menu', () => {
                     menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                     menu.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
                     expect(getDetailPassedToEvent(callback)).toEqual({
-                        restoreFocus: false
+                        moveFocusToTrigger: false
                     });
                 });
             });
@@ -507,7 +507,7 @@ describe('Node Menu', () => {
                 menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                 editButton.click();
                 expect(getDetailPassedToEvent(callback)).toEqual({
-                    restoreFocus: true
+                    moveFocusToTrigger: true
                 });
             });
 
@@ -516,7 +516,7 @@ describe('Node Menu', () => {
                 editButton.focus();
                 menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(getDetailPassedToEvent(callback)).toEqual({
-                    restoreFocus: true
+                    moveFocusToTrigger: true
                 });
             });
 
@@ -612,7 +612,7 @@ describe('Node Menu', () => {
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             backButton.focus();
             menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
-            expect(getDetailPassedToEvent(callback)).toEqual({ restoreFocus: true });
+            expect(getDetailPassedToEvent(callback)).toEqual({ moveFocusToTrigger: true });
         });
 
         test('Pressing escape while focus is on the combobox fires the CloseMenuEvent with proper arguments', () => {
@@ -620,7 +620,7 @@ describe('Node Menu', () => {
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             combobox.focus();
             menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
-            expect(getDetailPassedToEvent(callback)).toEqual({ restoreFocus: true });
+            expect(getDetailPassedToEvent(callback)).toEqual({ moveFocusToTrigger: true });
         });
 
         test('Clicking on the Delete Action should reveal the path picking combobox', () => {
@@ -702,7 +702,7 @@ describe('Node Menu', () => {
                 deleteButton.focus();
                 menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(getDetailPassedToEvent(callback)).toEqual({
-                    restoreFocus: true
+                    moveFocusToTrigger: true
                 });
             });
 
@@ -793,7 +793,7 @@ describe('Node Menu', () => {
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             backButton.focus();
             menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
-            expect(getDetailPassedToEvent(callback)).toEqual({ restoreFocus: true });
+            expect(getDetailPassedToEvent(callback)).toEqual({ moveFocusToTrigger: true });
         });
 
         test('Pressing escape while focus is on the combobox fires the CloseMenuEvent with proper arguments', () => {
@@ -801,7 +801,7 @@ describe('Node Menu', () => {
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             combobox.focus();
             menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
-            expect(getDetailPassedToEvent(callback)).toEqual({ restoreFocus: true });
+            expect(getDetailPassedToEvent(callback)).toEqual({ moveFocusToTrigger: true });
         });
 
         test('Clicking on the Cut Action should reveal the path picking combobox', () => {
@@ -883,7 +883,7 @@ describe('Node Menu', () => {
                 cutButton.focus();
                 menu.keyboardInteractions.execute(EscapeCommand.COMMAND_NAME);
                 expect(getDetailPassedToEvent(callback)).toEqual({
-                    restoreFocus: true
+                    moveFocusToTrigger: true
                 });
             });
 
@@ -933,7 +933,7 @@ describe('Node Menu', () => {
         test('Clicking on the Open Subflow row dispatches the close menu event with proper arguments', () => {
             menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             openFlowRow.click();
-            expect(getDetailPassedToEvent(callback)).toEqual({ restoreFocus: true });
+            expect(getDetailPassedToEvent(callback)).toEqual({ moveFocusToTrigger: true });
         });
 
         test('The Open Subflow row icon should have the right icon-name', () => {

@@ -202,12 +202,11 @@ export default class AlcNodeMenu extends AlcMenu {
         }
         const actionType = event.currentTarget.dataset.value;
         let closeMenu = true;
-        let restoreFocus = true;
+        let moveFocusToTrigger = true;
 
-        let actionEvent;
         switch (actionType) {
             case ELEMENT_ACTION_CONFIG.COPY_ACTION.value:
-                actionEvent = new CopySingleElementEvent(this.guid);
+                this.dispatchEvent(new CopySingleElementEvent(this.guid));
                 break;
             case ELEMENT_ACTION_CONFIG.CUT_ACTION.value:
             case ELEMENT_ACTION_CONFIG.DELETE_ACTION.value:
@@ -215,54 +214,42 @@ export default class AlcNodeMenu extends AlcMenu {
                     this.operationType = actionType === ELEMENT_ACTION_CONFIG.CUT_ACTION.value ? 'cut' : 'delete';
 
                     this._selectedConditionValue = ConditionOptions.NO_PATH;
-                    actionEvent = new HighlightPathsToDeleteOrCutEvent(this.guid, this.operationType, undefined);
+                    this.dispatchEvent(new HighlightPathsToDeleteOrCutEvent(this.guid, this.operationType, undefined));
                     closeMenu = false;
                     scheduleTask(() => this.dom.backButton.focus());
                 } else if (this.elementMetadata.type === NodeType.LOOP) {
-                    actionEvent =
+                    this.dispatchEvent(
                         actionType === ELEMENT_ACTION_CONFIG.CUT_ACTION.value
                             ? new CutElementsEvent([this.guid])
-                            : new DeleteElementEvent([this.guid], this.elementMetadata.elementType, FOR_EACH_INDEX);
+                            : new DeleteElementEvent([this.guid], this.elementMetadata.elementType, FOR_EACH_INDEX)
+                    );
                 } else {
-                    actionEvent =
+                    this.dispatchEvent(
                         actionType === ELEMENT_ACTION_CONFIG.CUT_ACTION.value
                             ? new CutElementsEvent([this.guid])
-                            : new DeleteElementEvent([this.guid], this.elementMetadata.elementType);
+                            : new DeleteElementEvent([this.guid], this.elementMetadata.elementType)
+                    );
                 }
-                restoreFocus = false;
+                moveFocusToTrigger = false;
                 break;
             case ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION.value:
-                actionEvent = new AddElementFaultEvent(this.guid);
+                this.dispatchEvent(new AddElementFaultEvent(this.guid));
                 break;
             case ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION.value:
-                actionEvent = new DeleteElementFaultEvent(this.guid);
+                this.dispatchEvent(new DeleteElementFaultEvent(this.guid));
                 break;
             case ELEMENT_ACTION_CONFIG.OPEN_SUBFLOW_ACTION.value:
-                actionEvent = new OpenSubflowEvent(this.flowElement.flowName);
+                this.dispatchEvent(new OpenSubflowEvent(this.flowElement.flowName));
                 break;
             default:
         }
 
-        const closeMenuEvent = closeMenu ? new CloseMenuEvent(restoreFocus) : undefined;
-        this.closeMenuAndDispatchAction(closeMenuEvent, actionEvent);
+        // Closing the menu as needed
+        if (closeMenu) {
+            this.dispatchEvent(new CloseMenuEvent(moveFocusToTrigger));
+        }
     };
 
-    /**
-     * Closes the menu and dispatches and action
-     *
-     * @param closeMenuEvent - The close menu event, if any
-     * @param actionEvent - The action event, if any
-     */
-    closeMenuAndDispatchAction(closeMenuEvent?: CloseMenuEvent, actionEvent?: Event) {
-        if (closeMenuEvent) {
-            this.dispatchEvent(closeMenuEvent);
-        }
-
-        // need to dispatch the action event after closing the menu, so that the focus is restored by the close menu handler BEFORE any action is executed
-        if (actionEvent) {
-            this.dispatchEvent(actionEvent);
-        }
-    }
     /**
      * Handles onchange event coming from the combobox and updates the _selectedConditionValue accordingly
      *
@@ -289,25 +276,16 @@ export default class AlcNodeMenu extends AlcMenu {
         if (event != null) {
             event.stopPropagation();
         }
-
-        let actionEvent;
-        let restoreFocus = true;
-
+        this.dispatchEvent(new CloseMenuEvent());
         if (this.operationType === undefined) {
-            actionEvent = new EditElementEvent(this.guid, undefined, undefined, true);
+            this.dispatchEvent(new EditElementEvent(this.guid, undefined, undefined, true));
         } else if (this.operationType === 'delete') {
-            actionEvent = new DeleteBranchElementEvent(
-                [this.guid],
-                this.elementMetadata.elementType,
-                this._childIndexToKeep
+            this.dispatchEvent(
+                new DeleteBranchElementEvent([this.guid], this.elementMetadata.elementType, this._childIndexToKeep)
             );
-            restoreFocus = false;
         } else if (this.operationType === 'cut') {
-            actionEvent = new CutElementsEvent([this.guid], this._childIndexToKeep);
-            restoreFocus = false;
+            this.dispatchEvent(new CutElementsEvent([this.guid], this._childIndexToKeep));
         }
-
-        this.closeMenuAndDispatchAction(new CloseMenuEvent(restoreFocus), actionEvent);
     };
 
     /**

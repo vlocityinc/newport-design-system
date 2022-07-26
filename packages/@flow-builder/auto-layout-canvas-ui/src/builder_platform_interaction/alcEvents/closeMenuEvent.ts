@@ -1,17 +1,17 @@
 const eventName = 'closemenu';
 
 interface CloseMenuEventDetail {
-    // whether to restore the focus when the menu is closed
-    restoreFocus: boolean;
+    // whether to focus on the trigger when the menu is closed
+    moveFocusToTrigger?: boolean;
 }
 export class CloseMenuEvent extends CustomEvent<CloseMenuEventDetail> {
-    constructor(restoreFocus = true) {
+    constructor(moveFocusToTrigger = true) {
         super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                restoreFocus
+                moveFocusToTrigger
             }
         });
     }
