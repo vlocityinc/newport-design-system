@@ -1,0 +1,9 @@
+#GUSINFO: Automation Builder Core, Flow Builder
+
+/packages/@flow-builder/auto-layout-canvas-ui/ @ppominville
+/packages/@flow-builder/auto-layout-canvas/ @ppominville
+/packages/@flow-builder/ui/src/builder_platform_interaction/alcCanvasContainer/ @ppominville
+/packages/@flow-builder/ui/src/builder_platform_interaction/alcConversionUtils/ @ppominville
+/packages/@flow-builder/field-input/ @ppominville
+/packages/@flow-builder/shared-utils/ @ppominville
+/src/main/components/ @ppominville
