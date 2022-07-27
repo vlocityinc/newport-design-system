@@ -1,3 +1,9 @@
+enforce-work-item-for-pr: true
+core-deploy:
+    enabled: true
+    user-core-packager: true
+    project-modules:
+        ui-interaction-builder-components: ui-interaction-builder-components.version
 jobs:
     build-and-test:
         memory-limit: 16
@@ -8,5 +14,16 @@ jobs:
 branches:
     ~DEFAULT~:
         pull-request:
-            workflow: build-and-test
+            workflow: core-deploy
             auto-start: false
+            require-up-to-date-before-merge: true
+            blocking-queue: true # https://confluence.internal.salesforce.com/display/UIPENGSYS/Core+Deployment+Config
+            merge-method: disabled
+        version:
+            auto-increment: pre-release
+            template: "{{slice pom.project.version '.' 0}}.{{autoIncrement}}"
+steps:
+    npm-configure-for-publish:
+        skip: true # until we are ready to ship npm packages
+    npm-publish-release:
+        skip: true # until we are ready to ship npm packages

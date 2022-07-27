@@ -1,0 +1,12 @@
+{
+    "modules": [
+        {
+            "dir": "src/main/modules"
+        }
+    ],
+    "components": [
+        {
+            "dir": "src/main/components"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "packageNamespace": "ui.interaction.builder.components",
+    "mavenPackageNamespace": "sfdc.ui",
+    "componentLocatorClassPrefix": "InteractionBuilder",
+    "artifactId": "ui-interaction-builder-components",
+    "artifactName": "Interaction Builder UI Components",
+    "lwcFilter": ["**/__tests__/**", "**/__benchmarks__/**"],
+    "version": "0.1.0-SNAPSHOT",
+    "logLevel": "debug",
+    "aura": "src/main/components"
+}
