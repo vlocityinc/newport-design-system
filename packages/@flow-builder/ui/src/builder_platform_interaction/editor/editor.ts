@@ -2037,12 +2037,14 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                 const triggerObjectType = getStartObject();
                 flowTestObject = getElementForPropertyEditor(flowTestObject);
                 const createOrEdit = FlowTestMode.Create;
+                const scheduledPathsList = getScheduledPathsList();
                 this.queueOpenCreateFlowTest(() => {
                     return {
                         flowTestObject,
                         createOrEdit,
                         triggerSaveType,
                         triggerObjectType,
+                        scheduledPathsList,
                         devNamePrefix: this.getDevNamePrefix(),
                         flowTestListViewCallback: this.handleViewAllTests,
                         builderMode: this.builderMode
