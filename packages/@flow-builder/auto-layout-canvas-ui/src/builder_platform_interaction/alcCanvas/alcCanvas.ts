@@ -72,6 +72,7 @@ import {
 } from 'builder_platform_interaction/events';
 import {
     commonUtils,
+    focusUtils,
     invokeModal,
     keyboardInteractionUtils,
     loggingUtils,
@@ -185,11 +186,6 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      * to select a GoTo target
      */
     _elementGuidToFocus!: Guid | null;
-
-    /**
-     * Guid of the top element that has been cut
-     */
-    _topCutGuid!: Guid | null;
 
     /* the current scale with a domain of [MIN_ZOOM, MAX_ZOOM] */
     _scale!: number;
@@ -747,11 +743,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     handleCloseMenu = (event: CloseMenuEvent) => {
         event.stopPropagation();
 
-        const { source, type } = this.canvasContext.menu!;
-        if (type === MenuType.CONNECTOR) {
-            this.focusOnConnector(source);
-        } else if (event.detail.moveFocusToTrigger) {
-            this._focusOnNode(source.guid);
+        if (event.detail.restoreFocus) {
+            focusUtils.restoreStashFocus();
+        } else {
+            focusUtils.clearStashFocus();
         }
 
         this.closeNodeOrConnectorMenu();
@@ -778,6 +773,9 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         this.updateCanvasContext({ menu: { type, source, autoFocus: moveFocusToMenu } });
 
         this.updateFlowRenderContext({ interactionState });
+
+        // stash the focus when opening a menu
+        focusUtils.stashFocus();
     }
 
     fireEventOnCanvasModeChange(mode: AutoLayoutCanvasMode | undefined) {
@@ -1014,14 +1012,6 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                         this.focusOnNode(this._elementGuidToFocus);
                     }
                     this._elementGuidToFocus = null;
-                }
-
-                // Moving focus to the connector above the element(s) that
-                // were cut and pasted
-                if (this._topCutGuid) {
-                    const topPastedElement = this.flowModel[this._topCutGuid];
-                    this.focusOnConnector(getConnectionSource(topPastedElement));
-                    this._topCutGuid = null;
                 }
             });
         }
@@ -1342,11 +1332,12 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             shouldCutBeyondMergingPoint,
             childIndexToKeep
         });
+
         this.updateCanvasContext({
             mode: AutoLayoutCanvasMode.CUT,
             cutInfo: { guids: cutElementGuids, childIndexToKeep }
         });
-        this.focusOnConnector(getConnectionSource(selectedElement));
+        this.moveFocusToIncomingConnector(selectedElement.guid);
         this.dispatchEvent(new CutElementsEvent(cutElementGuids, childIndexToKeep));
     };
 
@@ -1359,14 +1350,17 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         const { options } = event.detail;
         if (options.isCutPaste) {
             event.stopPropagation();
-            this._topCutGuid = this.canvasContext.cutInfo.guids[0];
+            const guid = this.canvasContext.cutInfo.guids[0];
 
             const source = findSourceForPasteOperation(
                 this.flowModel,
                 event.detail.source!,
-                this._topCutGuid,
+                guid,
                 this.canvasContext.cutInfo.childIndexToKeep
             );
+
+            this.moveFocusToIncomingConnector(guid);
+
             this.dispatchEvent(
                 new PasteOnCanvasEvent(source, {
                     childIndexToKeep: this.canvasContext.cutInfo.childIndexToKeep,
@@ -1377,10 +1371,16 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
     };
 
     handleDeleteElement = (event) => {
-        const { selectedElementGUID } = event.detail;
-        const elementToDelete = this.flowModel[selectedElementGUID[0]];
-        this.focusOnConnector(getConnectionSource(elementToDelete));
+        this.moveFocusToIncomingConnector(event.detail.selectedElementGUID[0]);
     };
+
+    private moveFocusToIncomingConnector(guid: Guid) {
+        const element = this.flowModel[guid];
+        this.focusOnConnector(getConnectionSource(element));
+
+        // clear the focus stash since we manually reset the focus above
+        focusUtils.clearStashFocus();
+    }
 
     handleBranchElementDeletion = (event: DeleteBranchElementEvent) => {
         const { selectedElementGUID, selectedElementType, childIndexToKeep } = event.detail;

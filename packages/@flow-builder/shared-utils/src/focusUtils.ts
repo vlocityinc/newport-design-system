@@ -28,3 +28,30 @@ export function getElementWithFocus(): HTMLElement | undefined {
 
     return undefined;
 }
+
+/* Stashed element to return the focus to */
+let stashedFocusElement: HTMLElement | undefined;
+
+/**
+ * Restores the focus to the stashedFocusElement if any
+ */
+export function restoreStashFocus(): void {
+    stashedFocusElement?.focus();
+    clearStashFocus();
+}
+
+/**
+ * Stashes an element for focus, or the current element that has focus
+ *
+ * @param element - An element to stash for focus, if any
+ */
+export function stashFocus(element?: HTMLElement): void {
+    stashedFocusElement = element ?? getElementWithFocus();
+}
+
+/**
+ * Clears any stashed focus element
+ */
+export function clearStashFocus() {
+    stashedFocusElement = undefined;
+}
