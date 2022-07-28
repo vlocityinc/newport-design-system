@@ -89,7 +89,7 @@ export default class DecisionEditor extends LightningElement {
         this.decisionElement = newValue;
         this.decisionElement = updateAndValidateElementInPropertyEditor(oldElement, newValue, this);
 
-        if (!this.activeOutcomeId) {
+        if (!this.activeOutcomeId || !this.activeOutcome) {
             this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
         }
     }

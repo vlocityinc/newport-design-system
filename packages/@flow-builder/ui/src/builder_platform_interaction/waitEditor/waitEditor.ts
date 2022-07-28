@@ -31,7 +31,7 @@ export default class WaitEditor extends PanelBasedPropertyEditor {
     configurationEditorInputVariables = [];
 
     override onSetNode() {
-        if (!this.activeWaitEventId) {
+        if (!this.activeWaitEventId || !this.activeWaitEvent) {
             this.activeWaitEventId = this.element.waitEvents[0].guid;
         }
         this.configurationEditor = {
