@@ -13,7 +13,7 @@ const validateAssignments = () => ValidationRules.validateExpressionWith2Propert
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
  *
- * @param index
+ * @param index the index(guid) of the picker
  * @returns {Function} the function to be called with each filter item to return the array of rules.
  */
 const validateInputReference = (index) => {
