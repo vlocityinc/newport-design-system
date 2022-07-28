@@ -22,6 +22,7 @@ branches:
         version:
             auto-increment: pre-release
             template: "{{slice pom.project.version '.' 0}}.{{autoIncrement}}"
+            initial-value: 9999
 steps:
     npm-configure-for-publish:
         skip: true # until we are ready to ship npm packages
