@@ -21,7 +21,7 @@ branches:
             merge-method: disabled
         version:
             auto-increment: pre-release
-            template: "{{slice pom.project.version '.' 0}}.{{autoIncrement}}"
+            template: "{{slice pom.project.version '.' 0}}.9999.{{autoIncrement}}"
             initial-value: 9999
 steps:
     npm-configure-for-publish:
