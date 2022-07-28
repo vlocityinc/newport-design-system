@@ -194,6 +194,8 @@ export const getRecordTriggerType = () => {
 /**
  * Evaluates if the outcome execution options should be displayed in
  * Start Element or Decision element.
+ *
+ * @returns {boolean} if triggerType and saveType match conditions
  */
 export const isExecuteOnlyWhenChangeMatchesConditionsPossible = () => {
     const triggerType = getTriggerType();
