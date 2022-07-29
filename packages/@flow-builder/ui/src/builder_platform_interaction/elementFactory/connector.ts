@@ -151,9 +151,8 @@ export const createConnectorMetadataObjects: Object = (
                         connectors: connectorObjects
                     });
                 } else {
-                    const connectorProp = supportsBranching === false ? 'defaultConnector' : 'connector';
                     Object.assign(connectorMetadata, {
-                        [connectorProp]: connectorObject
+                        connector: connectorObject
                     });
                 }
                 break;
