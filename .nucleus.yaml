@@ -16,7 +16,7 @@ jobs:
 branches:
     ~DEFAULT~:
         pull-request:
-            workflow: core-deploy
+            workflow: build-and-test
             auto-start: false
             require-up-to-date-before-merge: true
             blocking-queue: true # https://confluence.internal.salesforce.com/display/UIPENGSYS/Core+Deployment+Config
