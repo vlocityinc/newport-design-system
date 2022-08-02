@@ -2844,9 +2844,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     handleHighlightOnCanvas = (event: LocatorIconClickedEvent) => {
         const { guid, childIndex, highlightGoToSource } = event.detail;
         const canvasContainer = this._getCanvasComponent();
-        const canvas = canvasContainer.getAlcCanvas();
         this.highlightOnCanvas(guid);
         if (highlightGoToSource) {
+            const canvas = canvasContainer.getAlcCanvas();
             canvas.highlightGotoSource({ guid, childIndex });
         }
     };
