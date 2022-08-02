@@ -1357,6 +1357,23 @@ function resolveNode(flowModel: FlowModel, guid: Guid): NodeModel {
 }
 
 /**
+ * Resolves a child or fault element guid.
+ *
+ * @param node - The source node element from which the child or fault element stems from.
+ * @param childIndex - The child index of the source node element
+ * @returns The guid of the child or fault element.
+ */
+function resolveChildOrFaultGuid(node: NodeModel, childIndex: number) {
+    if (childIndex === FAULT_INDEX) {
+        return node.fault;
+    } else if (hasChildren(node) && childIndex >= 0 && childIndex < node.children.length) {
+        return node.children[childIndex];
+    } else {
+        throw new Error(`Invalid childIndex for parent: ${node.guid}`);
+    }
+}
+
+/**
  * Resolve a parent's child
  *
  * @param flowModel - The flow model
@@ -1369,17 +1386,8 @@ function resolveChild(
     parentNode: ParentNodeModel,
     childIndex: number
 ): BranchHeadNodeModel | null {
-    let branchHeadGuid;
-
-    if (childIndex === FAULT_INDEX) {
-        branchHeadGuid = parentNode.fault;
-    } else if (childIndex >= 0 && childIndex < parentNode.children.length) {
-        branchHeadGuid = parentNode.children[childIndex];
-    } else {
-        throw new Error(`Invalid childIndex for parent: ${parentNode.guid}`);
-    }
-
-    return branchHeadGuid ? resolveBranchHead(flowModel, branchHeadGuid) : null;
+    const guid = resolveChildOrFaultGuid(parentNode, childIndex);
+    return guid != null ? resolveBranchHead(flowModel, guid) : null;
 }
 
 /**
@@ -2796,6 +2804,98 @@ function findSourceForPasteOperation(
     return source;
 }
 
+/**
+ * Function to get the guid of the first selectable element starting at elementGuid
+ *
+ * @param flowModel - Representation of the flow as presented in the Canvas
+ * @param fromGuid - Guid of the element being checked
+ * @returns Guid of the first selectable element or undefined if no element is selectable
+ */
+const getFirstSelectableElementGuid = (flowModel: FlowModel, fromGuid: Guid): Guid | undefined => {
+    const element = resolveNode(flowModel, fromGuid);
+
+    // if the current element is selectable return it
+    if (element?.config?.isSelectable) {
+        return element.guid;
+    }
+
+    // otherwise check its children, if any
+    const sources: ConnectionSource[] = hasChildren(element)
+        ? element.children.map((_, i) => ({ guid: fromGuid, childIndex: i }))
+        : [];
+
+    // and its fault, if any
+    if (element.fault) {
+        sources.push({ guid: fromGuid, childIndex: FAULT_INDEX });
+    }
+
+    // and finally, check its next
+    if (element.next) {
+        sources.push({ guid: fromGuid });
+    }
+
+    for (let i = 0; i < sources.length; i++) {
+        const source = sources[i];
+
+        if (!hasGoTo(flowModel, source)) {
+            const target = getConnectionSourceTarget(flowModel, source);
+
+            if (target != null) {
+                const selectableElementGuid = getFirstSelectableElementGuid(flowModel, target.guid);
+                if (selectableElementGuid) {
+                    return selectableElementGuid;
+                }
+            }
+        }
+    }
+};
+
+/**
+ * Function to get the guid of the first selectable ancestor or sibling element on the canvas
+ *
+ * @param flowModel - Representation of the flow as presented in the Canvas
+ * @param source - Connection source of element being checked
+ * @returns Guid of the first selectable ancestor element, arbitrary sibling, or undefined if no element is selectable
+ */
+function getFirstSelectableAncestorOrSiblingGuid(flowModel: FlowModel, source: ConnectionSource): Guid | undefined {
+    let guid: string = source.guid;
+    let currentCanvasElement: BranchHeadNodeModel | NodeModel = flowModel[guid];
+    const ancestors = [];
+
+    // Explore the ancestors until a selectable ancestor is found
+    while (
+        !isRoot(currentCanvasElement.guid) &&
+        (currentCanvasElement.prev != null || isBranchHead(currentCanvasElement))
+    ) {
+        if (currentCanvasElement.config && currentCanvasElement.config?.isSelectable) {
+            return guid;
+        }
+        if (isBranchHead(currentCanvasElement)) {
+            ancestors.push(guid);
+        }
+        guid =
+            currentCanvasElement.prev != null ? currentCanvasElement.prev : resolveBranchHead(flowModel, guid).parent;
+        currentCanvasElement = flowModel[guid];
+    }
+    // If there are no selectable ancestors, find the first selectable left sibling; if no selectable left sibling then find the selectable right sibling
+    for (const [i, ancestorGuid] of ancestors.entries()) {
+        const ancestor = resolveParent(flowModel, ancestorGuid);
+        for (let childIndex = 0; childIndex < ancestor.children?.length; childIndex++) {
+            const childGuid = ancestor.children[childIndex] as string;
+            const child = flowModel[childGuid];
+            // Do not go into the same branch that the source element comes from, as we want siblings, not descendants
+            if (child && !(i === 0 && isBranchHead(child) && child.childIndex === source.childIndex)) {
+                const selectableElementGuid = getFirstSelectableElementGuid(flowModel, childGuid);
+                if (selectableElementGuid != null) {
+                    return selectableElementGuid;
+                }
+            }
+        }
+    }
+    // If there are no selectable elements at all, then return the first selectable guid of the whole flow
+    return getFirstSelectableElementGuid(flowModel, NodeType.ROOT);
+}
+
 export {
     connectToElement,
     linkElement,
@@ -2828,5 +2928,7 @@ export {
     isGoingBackToAncestorLoop,
     getConnectionSourcesFromIncomingGoTo,
     getMergingBranches,
-    getCutGuids
+    getCutGuids,
+    getFirstSelectableAncestorOrSiblingGuid,
+    getFirstSelectableElementGuid
 };

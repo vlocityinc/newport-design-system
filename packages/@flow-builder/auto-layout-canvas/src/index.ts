@@ -69,6 +69,8 @@ export {
     getConnectionTarget,
     getCutGuids,
     getFirstNonNullNext,
+    getFirstSelectableAncestorOrSiblingGuid,
+    getFirstSelectableElementGuid,
     getMergingBranches,
     getNonTerminalBranchIndexes,
     getSuffixForGoToConnection,

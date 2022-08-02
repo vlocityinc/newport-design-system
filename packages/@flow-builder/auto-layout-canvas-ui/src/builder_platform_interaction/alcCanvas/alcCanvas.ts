@@ -5,7 +5,6 @@ import {
     getAlcFlowData,
     getCanvasElementDeselectionData,
     getCanvasElementSelectionData,
-    getFirstSelectableElementGuid,
     getZoomKeyboardInteraction,
     importComponent,
     isCutMode,
@@ -47,6 +46,7 @@ import {
     getConnectionTarget,
     getCutGuids,
     getDefaultLayoutConfig,
+    getFirstSelectableAncestorOrSiblingGuid,
     getTargetGuidsForReconnection,
     Guid,
     hasGoToOnNext,
@@ -185,7 +185,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
      * Guid to set focus on when entering selection mode
      * to select a GoTo target
      */
-    _elementGuidToFocus!: Guid | null;
+    _elementGuidToFocus!: Guid | null | undefined;
 
     /* the current scale with a domain of [MIN_ZOOM, MAX_ZOOM] */
     _scale!: number;
@@ -606,11 +606,12 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         if (!isDefaultMode(canvasMode)) {
             this.closeNodeOrConnectorMenu();
             if (isReconnectionMode(this.canvasContext.mode)) {
-                const firstSelectableElementGuid = getFirstSelectableElementGuid(this.flowModel, 'root');
-                if (firstSelectableElementGuid) {
-                    // Setting _elementGuidToFocus to firstSelectableElementGuid so that
-                    // we can set focus on the correct node during the rerender
-                    this._elementGuidToFocus = firstSelectableElementGuid;
+                // set the _elementGuidToFocus to focus on the nearest selectable ancestor; if there are no selectable ancestors, then focus on a sibling
+                if (this._goToSource) {
+                    this._elementGuidToFocus = getFirstSelectableAncestorOrSiblingGuid(
+                        this.flowModel,
+                        this._goToSource
+                    );
                 }
             }
         } else {
@@ -1005,7 +1006,10 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
                 // Moving focus to the expected element when entering selection mode to
                 // select the GoTo target and when the target is selected.
                 if (this._elementGuidToFocus) {
-                    if (this.flowModel[this._elementGuidToFocus].nodeType === NodeType.END) {
+                    if (
+                        this.flowModel[this._elementGuidToFocus].nodeType === NodeType.END &&
+                        !isReconnectionMode(this.canvasContext.mode)
+                    ) {
                         const endElement = this.flowModel[this._elementGuidToFocus];
                         this.focusOnConnector(getConnectionSource(endElement));
                     } else {

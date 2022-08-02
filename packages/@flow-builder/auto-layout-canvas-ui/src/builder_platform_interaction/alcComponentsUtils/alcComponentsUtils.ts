@@ -103,7 +103,7 @@ enum ICON_SHAPE {
  * @param nodeType - The current node type
  * @returns - True if the element is a system element
  */
-function isSystemElement(nodeType: NodeType) {
+function isSystemElement(nodeType: NodeType): boolean {
     switch (nodeType) {
         case NodeType.ROOT:
         case NodeType.START:
@@ -492,55 +492,6 @@ const getCanvasElementDeselectionData = (
             : [],
         topSelectedGuid
     };
-};
-
-/**
- * Function to get the guid of the first selectable element on the canvas
- *
- * @param flowModel - Representation of the flow as presented in the Canvas
- * @param elementGuid - Guid of the element being checked
- * @returns Guid of the first selectable element or undefined if no element is selectable
- */
-const getFirstSelectableElementGuid = (flowModel: FlowModel, elementGuid: Guid): Guid | undefined => {
-    const currentCanvasElement = flowModel[elementGuid] as ParentNodeModel;
-    if (
-        !isSystemElement(currentCanvasElement.nodeType) &&
-        currentCanvasElement.config &&
-        currentCanvasElement.config.isSelectable
-    ) {
-        return currentCanvasElement.guid;
-    }
-
-    if (hasChildren(currentCanvasElement)) {
-        // Traversing down the branches to find the first selectable element
-        for (let i = 0; i < currentCanvasElement.children.length; i++) {
-            const childGuid = currentCanvasElement.children[i];
-            if (childGuid && !hasGoToOnBranchHead(flowModel, currentCanvasElement.guid, i)) {
-                const selectableElementGuid = getFirstSelectableElementGuid(flowModel, childGuid);
-                if (selectableElementGuid) {
-                    return selectableElementGuid;
-                }
-            }
-        }
-    }
-
-    if (currentCanvasElement.fault && !hasGoToOnBranchHead(flowModel, currentCanvasElement.guid, FAULT_INDEX)) {
-        // Traversing down the fault branch to find the first selectable element
-        const selectableElementGuid = getFirstSelectableElementGuid(flowModel, currentCanvasElement.fault);
-        if (selectableElementGuid) {
-            return selectableElementGuid;
-        }
-    }
-
-    if (currentCanvasElement.next && !hasGoToOnNext(flowModel, currentCanvasElement.guid)) {
-        // Traversing down to the next element to find the first selectable element
-        const selectableElementGuid = getFirstSelectableElementGuid(flowModel, currentCanvasElement.next);
-        if (selectableElementGuid) {
-            return selectableElementGuid;
-        }
-    }
-
-    return undefined;
 };
 
 /**
@@ -1502,6 +1453,5 @@ export {
     getAlcFlowData,
     getAlcConnectorData,
     getCanvasElementSelectionData,
-    getCanvasElementDeselectionData,
-    getFirstSelectableElementGuid
+    getCanvasElementDeselectionData
 };

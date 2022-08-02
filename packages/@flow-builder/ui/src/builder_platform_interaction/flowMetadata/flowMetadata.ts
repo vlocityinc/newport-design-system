@@ -522,7 +522,7 @@ export enum StageExitCriteria {
 /**
  * @param elementType
  */
-export function isSystemElement(elementType) {
+export function isSystemElement(elementType): boolean {
     switch (elementType) {
         case ELEMENT_TYPE.ROOT_ELEMENT:
         case ELEMENT_TYPE.START_ELEMENT:
