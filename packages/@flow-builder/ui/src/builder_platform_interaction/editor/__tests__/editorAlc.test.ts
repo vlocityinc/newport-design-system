@@ -23,6 +23,21 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { keyboardInteractionUtils } from 'builder_platform_interaction_mocks/sharedUtils';
 import { ShowToastEventName } from 'lightning/platformShowToastEvent';
+import {
+    assignment1,
+    assignment2,
+    assignment3,
+    assignment4,
+    assignment5,
+    decision1,
+    decision2,
+    end1,
+    flowForCutPasteUIModel,
+    X1,
+    X1_0,
+    X2,
+    X2_0
+} from 'mock/storeDataFlowForCutPaste';
 import { Decision1, Decision2, orchestratorFlowUIModel } from 'mock/storeDataOrchestrator';
 import {
     actionPostToChatter,
@@ -472,6 +487,203 @@ describe('auto-layout', () => {
                 expect(handler.mock.calls[0][0].detail.mode).toBe('pester');
                 expect(handler.mock.calls[0][0].detail.variant).toBe('success');
             });
+        });
+    });
+    describe('cut and paste', () => {
+        beforeAll(() => {
+            Store.setMockState(flowForCutPasteUIModel);
+        });
+        afterAll(() => {
+            Store.resetStore();
+        });
+        it('of a simple element to the bottom of the flow', async () => {
+            const expectedPasteAction = {
+                payload: {
+                    bottomCutOrCopiedGuid: assignment1.guid,
+                    canvasElementGuidMap: { '2a06bca1-8acc-431f-a602-8440fd343af6': assignment1.guid },
+                    childElementGuidMap: {},
+                    childIndexToKeep: undefined,
+                    cutOrCopiedCanvasElements: { '2a06bca1-8acc-431f-a602-8440fd343af6': assignment1 },
+                    cutOrCopiedChildElements: {},
+                    selectedElements: [assignment1],
+                    source: { guid: assignment5.guid },
+                    topCutOrCopiedGuid: assignment1.guid
+                },
+                type: 'PASTE_CUT_ELEMENT_ON_FIXED_CANVAS'
+            };
+            const editorComponent = await createComponentUnderTest();
+            const cutElementsEvent = new CutElementsEvent([assignment1.guid]);
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent({ guid: assignment5.guid }, { isCutPaste: true });
+
+            const spy = Store.getStore().dispatch;
+            await ticks(1);
+            const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+            // dispatching cut and then paste
+            alcCanvasContainer.dispatchEvent(cutElementsEvent);
+            await ticks(1);
+            alcCanvasContainer.dispatchEvent(pasteOnCanvasEvent);
+
+            // check that the correct paste action and payload were dispatched
+            await ticks(1);
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(expectedPasteAction);
+        });
+
+        it('of a whole decision element', async () => {
+            const expectedPasteAction = {
+                payload: {
+                    bottomCutOrCopiedGuid: decision1.guid,
+                    canvasElementGuidMap: {
+                        'cd26c02a-a6cf-4682-845b-a6de4e65bbdb': decision1.guid,
+                        'bf9dd006-2532-45fb-b5a0-703b227ea2f1': assignment2.guid,
+                        'cec5841b-465a-41d7-a918-7e40b788a017': decision2.guid,
+                        'd34f57b3-86d9-48ed-9e4e-7b59e27a22bc': assignment3.guid,
+                        'f0d1ca98-ff56-452f-bb65-2f7f3891202d': assignment4.guid
+                    },
+                    childElementGuidMap: {
+                        '1054e601-1a92-4b9e-90ef-b4b8b73d476f': X2.guid,
+                        '2e677de1-8d08-4c47-b245-63f22a0dac17': X1.guid,
+                        '32f64b96-4fd4-4644-887b-62ca9e04dba5': X2_0.guid,
+                        '823b6e62-9de2-484a-82f1-c65298231591': X1_0.guid
+                    },
+                    childIndexToKeep: undefined,
+                    cutOrCopiedCanvasElements: {
+                        'cd26c02a-a6cf-4682-845b-a6de4e65bbdb': decision1,
+                        'bf9dd006-2532-45fb-b5a0-703b227ea2f1': assignment2,
+                        'cec5841b-465a-41d7-a918-7e40b788a017': decision2,
+                        'd34f57b3-86d9-48ed-9e4e-7b59e27a22bc': assignment3,
+                        'f0d1ca98-ff56-452f-bb65-2f7f3891202d': assignment4
+                    },
+                    cutOrCopiedChildElements: {
+                        '1054e601-1a92-4b9e-90ef-b4b8b73d476f': X2,
+                        '2e677de1-8d08-4c47-b245-63f22a0dac17': X1,
+                        '32f64b96-4fd4-4644-887b-62ca9e04dba5': X2_0,
+                        '823b6e62-9de2-484a-82f1-c65298231591': X1_0
+                    },
+                    selectedElements: [decision1],
+                    source: { guid: assignment5.guid },
+                    topCutOrCopiedGuid: decision1.guid
+                },
+                type: 'PASTE_CUT_ELEMENT_ON_FIXED_CANVAS'
+            };
+            const editorComponent = await createComponentUnderTest();
+            const cutElementsEvent = new CutElementsEvent([
+                decision1.guid,
+                decision2.guid,
+                assignment2.guid,
+                end1.guid,
+                assignment3.guid,
+                assignment4.guid
+            ]);
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent({ guid: assignment5.guid }, { isCutPaste: true });
+
+            const spy = Store.getStore().dispatch;
+            const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+            // dispatching cut and then paste
+            alcCanvasContainer.dispatchEvent(cutElementsEvent);
+            await ticks(1);
+            alcCanvasContainer.dispatchEvent(pasteOnCanvasEvent);
+
+            // check that the correct paste action and payload were dispatched
+            await ticks(1);
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(expectedPasteAction);
+        });
+        it('of a decision element while keeping a branch', async () => {
+            const expectedPasteAction = {
+                payload: {
+                    bottomCutOrCopiedGuid: decision1.guid,
+                    canvasElementGuidMap: {
+                        'cd26c02a-a6cf-4682-845b-a6de4e65bbdb': decision1.guid,
+                        'f0d1ca98-ff56-452f-bb65-2f7f3891202d': assignment4.guid
+                    },
+                    childElementGuidMap: {
+                        '1054e601-1a92-4b9e-90ef-b4b8b73d476f': X2.guid,
+                        '2e677de1-8d08-4c47-b245-63f22a0dac17': X1.guid
+                    },
+                    childIndexToKeep: 0,
+                    cutOrCopiedCanvasElements: {
+                        'cd26c02a-a6cf-4682-845b-a6de4e65bbdb': decision1,
+                        'f0d1ca98-ff56-452f-bb65-2f7f3891202d': assignment4
+                    },
+                    cutOrCopiedChildElements: {
+                        '1054e601-1a92-4b9e-90ef-b4b8b73d476f': X2,
+                        '2e677de1-8d08-4c47-b245-63f22a0dac17': X1
+                    },
+                    selectedElements: [decision1],
+                    source: { guid: assignment5.guid },
+                    topCutOrCopiedGuid: decision1.guid
+                },
+                type: 'PASTE_CUT_ELEMENT_ON_FIXED_CANVAS'
+            };
+            const editorComponent = await createComponentUnderTest();
+            const cutElementsEvent = new CutElementsEvent([decision1.guid, assignment4.guid]);
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent(
+                { guid: assignment5.guid },
+                { childIndexToKeep: 0, isCutPaste: true }
+            );
+
+            const spy = Store.getStore().dispatch;
+            const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+            // dispatching cut and then paste
+            alcCanvasContainer.dispatchEvent(cutElementsEvent);
+            await ticks(1);
+            alcCanvasContainer.dispatchEvent(pasteOnCanvasEvent);
+
+            // check that the correct paste action and payload were dispatched
+            await ticks(1);
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(expectedPasteAction);
+        });
+        it('of a decision element while keeping a terminated branch', async () => {
+            const expectedPasteAction = {
+                payload: {
+                    bottomCutOrCopiedGuid: assignment3.guid,
+                    canvasElementGuidMap: {
+                        'cec5841b-465a-41d7-a918-7e40b788a017': decision2.guid,
+                        'd34f57b3-86d9-48ed-9e4e-7b59e27a22bc': assignment3.guid
+                    },
+                    childElementGuidMap: {
+                        '32f64b96-4fd4-4644-887b-62ca9e04dba5': X2_0.guid,
+                        '823b6e62-9de2-484a-82f1-c65298231591': X1_0.guid
+                    },
+                    childIndexToKeep: 0,
+                    cutOrCopiedCanvasElements: {
+                        'cec5841b-465a-41d7-a918-7e40b788a017': decision2,
+                        'd34f57b3-86d9-48ed-9e4e-7b59e27a22bc': assignment3
+                    },
+                    cutOrCopiedChildElements: {
+                        '32f64b96-4fd4-4644-887b-62ca9e04dba5': X2_0,
+                        '823b6e62-9de2-484a-82f1-c65298231591': X1_0
+                    },
+                    selectedElements: [decision2],
+                    source: { guid: assignment5.guid },
+                    topCutOrCopiedGuid: decision2.guid
+                },
+                type: 'PASTE_CUT_ELEMENT_ON_FIXED_CANVAS'
+            };
+            const editorComponent = await createComponentUnderTest();
+            const cutElementsEvent = new CutElementsEvent([decision2.guid, assignment3.guid]);
+            const pasteOnCanvasEvent = new PasteOnCanvasEvent(
+                { guid: assignment5.guid },
+                { childIndexToKeep: 0, isCutPaste: true }
+            );
+
+            const spy = Store.getStore().dispatch;
+            const alcCanvasContainer = editorComponent.shadowRoot.querySelector(selectors.ALC_BUILDER_CONTAINER);
+
+            // dispatching cut and then paste
+            alcCanvasContainer.dispatchEvent(cutElementsEvent);
+            await ticks(1);
+            alcCanvasContainer.dispatchEvent(pasteOnCanvasEvent);
+
+            // check that the correct paste action and payload were dispatched
+            await ticks(1);
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(expectedPasteAction);
         });
     });
 });

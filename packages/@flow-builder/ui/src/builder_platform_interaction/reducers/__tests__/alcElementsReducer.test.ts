@@ -10,6 +10,7 @@ import {
     DELETE_GOTO_CONNECTION,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_START_WITH_SCHEDULED_PATHS,
+    PASTE_CUT_ELEMENT_ON_FIXED_CANVAS,
     PASTE_ON_FIXED_CANVAS,
     SELECTION_ON_FIXED_CANVAS
 } from 'builder_platform_interaction/actions';
@@ -1344,7 +1345,7 @@ describe('alc-elements-reducer', () => {
     //     });
     // });
 
-    describe('When PASTE_ON_FIXED_CANVAS', () => {
+    describe('Paste', () => {
         let mockStoreData;
 
         const assignment1 = {
@@ -1352,7 +1353,16 @@ describe('alc-elements-reducer', () => {
             name: 'assignment1',
             label: 'Assignment 1',
             elementType: ELEMENT_TYPE.ASSIGNMENT,
-            next: 'wait1'
+            next: 'wait1',
+            prev: 'assingment2'
+        };
+
+        const assignment2 = {
+            guid: 'assignment2',
+            name: 'assignment2',
+            label: 'Assignment 2',
+            elementType: ELEMENT_TYPE.ASSIGNMENT,
+            next: 'assignment1'
         };
 
         const wait1 = {
@@ -1387,7 +1397,8 @@ describe('alc-elements-reducer', () => {
             next: null,
             parent: 'wait1',
             childIndex: 0,
-            isTerminal: false
+            isTerminal: false,
+            childReferences: []
         };
 
         const screen2 = {
@@ -1399,7 +1410,8 @@ describe('alc-elements-reducer', () => {
             next: null,
             parent: 'wait1',
             childIndex: 2,
-            isTerminal: true
+            isTerminal: true,
+            childReferences: []
         };
 
         const screen3 = {
@@ -1432,249 +1444,348 @@ describe('alc-elements-reducer', () => {
             label: 'Wait Event 3 With A Really Long Label Like So Long That Any Additional Characters Will Be Truncated Which Is Especially Important When Copy Pasting Elements Since The Labels and Names Of Pasted Elements Are Prepended With Some Other Text Like Copy 1 of A'
         };
 
-        const canvasElementGuidMap = {
-            assignment1: 'assignment1_0',
-            wait1: 'wait1_0',
-            screen3: 'screen3_0'
-        };
-        const childElementGuidMap = {
-            waitEvent1: 'waitEvent1_0',
-            waitEvent2: 'waitEvent2_0',
-            waitEvent3: 'waitEvent3_0'
-        };
-        const cutOrCopiedCanvasElements = {
-            assignment1,
-            wait1,
-            screen3
-        };
-        const cutOrCopiedChildElements = {
-            waitEvent1,
-            waitEvent2,
-            waitEvent3
-        };
-        const topCutOrCopiedGuid = 'assignment1';
-        const bottomCutOrCopiedGuid = 'wait1';
-
-        beforeEach(() => {
-            mockStoreData = {
-                elements: {
-                    assignment1,
-                    wait1,
-                    screen1,
-                    screen2,
-                    screen3,
-                    waitEvent1,
-                    waitEvent2,
-                    waitEvent3
-                }
+        describe('When PASTE_ON_FIXED_CANVAS', () => {
+            const canvasElementGuidMap = {
+                assignment1: 'assignment1_0',
+                wait1: 'wait1_0',
+                screen3: 'screen3_0'
             };
-
-            Store.setMockState(mockStoreData);
-        });
-
-        afterEach(() => {
-            Store.resetStore();
-        });
-
-        describe('When pasting elements in the main flow', () => {
-            let updatedState;
+            const childElementGuidMap = {
+                waitEvent1: 'waitEvent1_0',
+                waitEvent2: 'waitEvent2_0',
+                waitEvent3: 'waitEvent3_0'
+            };
+            const cutOrCopiedCanvasElements = {
+                assignment1,
+                wait1,
+                screen3
+            };
+            const cutOrCopiedChildElements = {
+                waitEvent1,
+                waitEvent2,
+                waitEvent3
+            };
+            const topCutOrCopiedGuid = 'assignment1';
+            const bottomCutOrCopiedGuid = 'wait1';
 
             beforeEach(() => {
-                updatedState = alcElementsReducer(mockStoreData.elements, {
-                    type: PASTE_ON_FIXED_CANVAS,
-                    payload: {
-                        canvasElementGuidMap,
-                        childElementGuidMap,
-                        childElementNameMap: {},
-                        cutOrCopiedCanvasElements,
-                        cutOrCopiedChildElements,
-                        topCutOrCopiedGuid,
-                        bottomCutOrCopiedGuid,
-                        source: {
-                            guid: 'assignment1'
-                        }
+                mockStoreData = {
+                    elements: {
+                        assignment1,
+                        assignment2,
+                        wait1,
+                        screen1,
+                        screen2,
+                        screen3,
+                        waitEvent1,
+                        waitEvent2,
+                        waitEvent3
                     }
+                };
+
+                Store.setMockState(mockStoreData);
+            });
+
+            afterEach(() => {
+                Store.resetStore();
+            });
+
+            describe('When pasting elements in the main flow', () => {
+                let updatedState;
+
+                beforeEach(() => {
+                    updatedState = alcElementsReducer(mockStoreData.elements, {
+                        type: PASTE_ON_FIXED_CANVAS,
+                        payload: {
+                            canvasElementGuidMap,
+                            childElementGuidMap,
+                            childElementNameMap: {},
+                            cutOrCopiedCanvasElements,
+                            cutOrCopiedChildElements,
+                            topCutOrCopiedGuid,
+                            bottomCutOrCopiedGuid,
+                            source: {
+                                guid: 'assignment1'
+                            }
+                        }
+                    });
+                });
+
+                it('Pasted elements should be included in the updated state', () => {
+                    expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
+                });
+
+                it('Previous Element next property should be updated', () => {
+                    expect(updatedState.assignment1.next).toEqual('assignment1_0');
+                });
+
+                it('Next Element previous property should be updated', () => {
+                    expect(updatedState.wait1.prev).toEqual('wait1_0');
+                });
+
+                it('Next Element should not have parent, childIndex or isTerminal property', () => {
+                    expect(Object.keys(updatedState.wait1).includes('parent')).toBeFalsy();
+                    expect(Object.keys(updatedState.wait1).includes('childIndex')).toBeFalsy();
+                    expect(Object.keys(updatedState.wait1).includes('isTerminal')).toBeFalsy();
+                });
+
+                it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
+                    expect(updatedState.screen3_0.next).toEqual('end-element-guid');
+                });
+
+                it('Pasted elements should have newly generated labels and names', () => {
+                    expect(updatedState.assignment1_0.label).toEqual('Copy 1 of Assignment 1');
+                    expect(updatedState.assignment1_0.name).toEqual('Copy_1_of_Assignment_1');
+                    expect(updatedState.wait1_0.label).toEqual('Copy 1 of Wait 1');
+                    expect(updatedState.wait1_0.name).toEqual('Copy_1_of_Wait_1');
+                    expect(updatedState.waitEvent2_0.label).toEqual('Copy 1 of waitEvent2');
+                    expect(updatedState.waitEvent2_0.name).toEqual('Copy_1_of_waitEvent2');
+                    expect(updatedState.screen3_0.label).toEqual('Copy 1 of Screen 3');
+                    expect(updatedState.screen3_0.name).toEqual('Copy_1_of_Screen_3');
+                    expect(updatedState.waitEvent3_0.label.length).toEqual(255);
                 });
             });
 
-            it('Pasted elements should be included in the updated state', () => {
-                expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
-            });
+            describe('When pasting elements on the branch head of a non-empty, non-terminated branch', () => {
+                let updatedState;
 
-            it('Previous Element next property should be updated', () => {
-                expect(updatedState.assignment1.next).toEqual('assignment1_0');
-            });
-
-            it('Next Element previous property should be updated', () => {
-                expect(updatedState.wait1.prev).toEqual('wait1_0');
-            });
-
-            it('Next Element should not have parent, childIndex or isTerminal property', () => {
-                expect(Object.keys(updatedState.wait1).includes('parent')).toBeFalsy();
-                expect(Object.keys(updatedState.wait1).includes('childIndex')).toBeFalsy();
-                expect(Object.keys(updatedState.wait1).includes('isTerminal')).toBeFalsy();
-            });
-
-            it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
-                expect(updatedState.screen3_0.next).toEqual('end-element-guid');
-            });
-
-            it('Pasted elements should have newly generated labels and names', () => {
-                expect(updatedState.assignment1_0.label).toEqual('Copy 1 of Assignment 1');
-                expect(updatedState.assignment1_0.name).toEqual('Copy_1_of_Assignment_1');
-                expect(updatedState.wait1_0.label).toEqual('Copy 1 of Wait 1');
-                expect(updatedState.wait1_0.name).toEqual('Copy_1_of_Wait_1');
-                expect(updatedState.waitEvent2_0.label).toEqual('Copy 1 of waitEvent2');
-                expect(updatedState.waitEvent2_0.name).toEqual('Copy_1_of_waitEvent2');
-                expect(updatedState.screen3_0.label).toEqual('Copy 1 of Screen 3');
-                expect(updatedState.screen3_0.name).toEqual('Copy_1_of_Screen_3');
-                expect(updatedState.waitEvent3_0.label.length).toEqual(255);
-            });
-        });
-
-        describe('When pasting elements on the branch head of a non-empty, non-terminated branch', () => {
-            let updatedState;
-
-            beforeEach(() => {
-                updatedState = alcElementsReducer(mockStoreData.elements, {
-                    type: PASTE_ON_FIXED_CANVAS,
-                    payload: {
-                        canvasElementGuidMap,
-                        childElementGuidMap,
-                        cutOrCopiedCanvasElements,
-                        cutOrCopiedChildElements,
-                        topCutOrCopiedGuid,
-                        bottomCutOrCopiedGuid,
-                        source: {
-                            guid: 'wait1',
-                            childIndex: 0
+                beforeEach(() => {
+                    updatedState = alcElementsReducer(mockStoreData.elements, {
+                        type: PASTE_ON_FIXED_CANVAS,
+                        payload: {
+                            canvasElementGuidMap,
+                            childElementGuidMap,
+                            cutOrCopiedCanvasElements,
+                            cutOrCopiedChildElements,
+                            topCutOrCopiedGuid,
+                            bottomCutOrCopiedGuid,
+                            source: {
+                                guid: 'wait1',
+                                childIndex: 0
+                            }
                         }
-                    }
+                    });
+                });
+
+                it('Pasted elements should be included in the updated state', () => {
+                    expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
+                });
+
+                it('assignment1_0 should have the right isTerminal property', () => {
+                    expect(updatedState.assignment1_0.isTerminal).toBeFalsy();
+                });
+
+                it('Next Element previous property should be updated', () => {
+                    expect(updatedState.screen1.prev).toEqual('wait1_0');
+                });
+
+                it('Next Element should not have parent, childIndex or isTerminal property', () => {
+                    expect(Object.keys(updatedState.screen1).includes('parent')).toBeFalsy();
+                    expect(Object.keys(updatedState.screen1).includes('childIndex')).toBeFalsy();
+                    expect(Object.keys(updatedState.screen1).includes('isTerminal')).toBeFalsy();
+                });
+
+                it('Parent element children property should be updated', () => {
+                    expect(updatedState.wait1.children).toEqual(['assignment1_0', null, 'screen2']);
+                });
+
+                it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
+                    expect(updatedState.screen3_0.next).toEqual('end-element-guid');
                 });
             });
 
-            it('Pasted elements should be included in the updated state', () => {
-                expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
-            });
+            describe('When pasting elements on the branch head of an empty, non-terminated branch', () => {
+                let updatedState;
 
-            it('assignment1_0 should have the right isTerminal property', () => {
-                expect(updatedState.assignment1_0.isTerminal).toBeFalsy();
-            });
-
-            it('Next Element previous property should be updated', () => {
-                expect(updatedState.screen1.prev).toEqual('wait1_0');
-            });
-
-            it('Next Element should not have parent, childIndex or isTerminal property', () => {
-                expect(Object.keys(updatedState.screen1).includes('parent')).toBeFalsy();
-                expect(Object.keys(updatedState.screen1).includes('childIndex')).toBeFalsy();
-                expect(Object.keys(updatedState.screen1).includes('isTerminal')).toBeFalsy();
-            });
-
-            it('Parent element children property should be updated', () => {
-                expect(updatedState.wait1.children).toEqual(['assignment1_0', null, 'screen2']);
-            });
-
-            it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
-                expect(updatedState.screen3_0.next).toEqual('end-element-guid');
-            });
-        });
-
-        describe('When pasting elements on the branch head of an empty, non-terminated branch', () => {
-            let updatedState;
-
-            beforeEach(() => {
-                updatedState = alcElementsReducer(mockStoreData.elements, {
-                    type: PASTE_ON_FIXED_CANVAS,
-                    payload: {
-                        canvasElementGuidMap,
-                        childElementGuidMap,
-                        cutOrCopiedCanvasElements,
-                        cutOrCopiedChildElements,
-                        topCutOrCopiedGuid,
-                        bottomCutOrCopiedGuid,
-                        source: {
-                            guid: 'wait1',
-                            childIndex: 1
+                beforeEach(() => {
+                    updatedState = alcElementsReducer(mockStoreData.elements, {
+                        type: PASTE_ON_FIXED_CANVAS,
+                        payload: {
+                            canvasElementGuidMap,
+                            childElementGuidMap,
+                            cutOrCopiedCanvasElements,
+                            cutOrCopiedChildElements,
+                            topCutOrCopiedGuid,
+                            bottomCutOrCopiedGuid,
+                            source: {
+                                guid: 'wait1',
+                                childIndex: 1
+                            }
                         }
-                    }
+                    });
+                });
+
+                it('Pasted elements should be included in the updated state', () => {
+                    expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
+                });
+
+                it('assignment1_0 should have the right isTerminal property', () => {
+                    expect(updatedState.assignment1_0.isTerminal).toBeFalsy();
+                });
+
+                it('Parent element children property should be updated', () => {
+                    expect(updatedState.wait1.children).toEqual(['screen1', 'assignment1_0', 'screen2']);
+                });
+
+                it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
+                    expect(updatedState.screen3_0.next).toEqual('end-element-guid');
                 });
             });
 
-            it('Pasted elements should be included in the updated state', () => {
-                expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
-            });
+            describe('When pasting elements on the branch head of a non-empty, terminated branch', () => {
+                let updatedState;
 
-            it('assignment1_0 should have the right isTerminal property', () => {
-                expect(updatedState.assignment1_0.isTerminal).toBeFalsy();
-            });
-
-            it('Parent element children property should be updated', () => {
-                expect(updatedState.wait1.children).toEqual(['screen1', 'assignment1_0', 'screen2']);
-            });
-
-            it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
-                expect(updatedState.screen3_0.next).toEqual('end-element-guid');
-            });
-        });
-
-        describe('When pasting elements on the branch head of a non-empty, terminated branch', () => {
-            let updatedState;
-
-            beforeEach(() => {
-                updatedState = alcElementsReducer(mockStoreData.elements, {
-                    type: PASTE_ON_FIXED_CANVAS,
-                    payload: {
-                        canvasElementGuidMap,
-                        childElementGuidMap,
-                        cutOrCopiedCanvasElements,
-                        cutOrCopiedChildElements,
-                        topCutOrCopiedGuid,
-                        bottomCutOrCopiedGuid,
-                        source: {
-                            guid: 'wait1',
-                            childIndex: 2
+                beforeEach(() => {
+                    updatedState = alcElementsReducer(mockStoreData.elements, {
+                        type: PASTE_ON_FIXED_CANVAS,
+                        payload: {
+                            canvasElementGuidMap,
+                            childElementGuidMap,
+                            cutOrCopiedCanvasElements,
+                            cutOrCopiedChildElements,
+                            topCutOrCopiedGuid,
+                            bottomCutOrCopiedGuid,
+                            source: {
+                                guid: 'wait1',
+                                childIndex: 2
+                            }
                         }
-                    }
+                    });
+                });
+
+                it('Pasted elements should be included in the updated state', () => {
+                    expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
+                    expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
+                });
+
+                it('assignment1_0 should have the right isTerminal property', () => {
+                    expect(updatedState.assignment1_0.isTerminal).toBeTruthy();
+                });
+
+                it('Next Element should not have parent, childIndex or isTerminal property', () => {
+                    expect(Object.keys(updatedState.screen2).includes('parent')).toBeFalsy();
+                    expect(Object.keys(updatedState.screen2).includes('childIndex')).toBeFalsy();
+                    expect(Object.keys(updatedState.screen2).includes('isTerminal')).toBeFalsy();
+                });
+
+                it('Parent element children property should be updated', () => {
+                    expect(updatedState.wait1.children).toEqual(['screen1', null, 'assignment1_0']);
+                });
+
+                it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
+                    expect(updatedState.screen3_0.next).toEqual('end-element-guid');
                 });
             });
+        });
+        describe('When PASTE_CUT_ELEMENT_ON_FIXED_CANVAS', () => {
+            let updatedState;
 
-            it('Pasted elements should be included in the updated state', () => {
-                expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
+            const canvasElementGuidMap = {
+                wait1: 'wait1',
+                screen1: 'screen1',
+                screen2: 'screen2',
+                screen3: 'screen3'
+            };
+            const childElementGuidMap = {
+                waitEvent1: 'waitEvent1',
+                waitEvent2: 'waitEvent2',
+                waitEvent3: 'waitEvent3'
+            };
+            const cutOrCopiedCanvasElements = {
+                wait1,
+                screen1,
+                screen2,
+                screen3
+            };
+            const cutOrCopiedChildElements = {
+                waitEvent1,
+                waitEvent2,
+                waitEvent3
+            };
+            const topCutOrCopiedGuid = 'wait1';
+            const bottomCutOrCopiedGuid = 'wait1';
+
+            beforeEach(() => {
+                mockStoreData = {
+                    elements: {
+                        assignment1,
+                        assignment2,
+                        wait1,
+                        screen1,
+                        screen2,
+                        screen3
+                    }
+                };
+
+                Store.setMockState(mockStoreData);
             });
 
-            it('assignment1_0 should have the right isTerminal property', () => {
-                expect(updatedState.assignment1_0.isTerminal).toBeTruthy();
+            afterEach(() => {
+                Store.resetStore();
             });
 
-            it('Next Element should not have parent, childIndex or isTerminal property', () => {
-                expect(Object.keys(updatedState.screen2).includes('parent')).toBeFalsy();
-                expect(Object.keys(updatedState.screen2).includes('childIndex')).toBeFalsy();
-                expect(Object.keys(updatedState.screen2).includes('isTerminal')).toBeFalsy();
-            });
-
-            it('Parent element children property should be updated', () => {
-                expect(updatedState.wait1.children).toEqual(['screen1', null, 'assignment1_0']);
-            });
-
-            it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
-                expect(updatedState.screen3_0.next).toEqual('end-element-guid');
+            describe('When pasting elements in the main flow', () => {
+                beforeEach(() => {
+                    updatedState = alcElementsReducer(mockStoreData.elements, {
+                        type: PASTE_CUT_ELEMENT_ON_FIXED_CANVAS,
+                        payload: {
+                            canvasElementGuidMap,
+                            childElementGuidMap,
+                            cutOrCopiedCanvasElements,
+                            cutOrCopiedChildElements,
+                            topCutOrCopiedGuid,
+                            bottomCutOrCopiedGuid,
+                            childIndexToKeep: undefined,
+                            selectedElements: [wait1],
+                            source: {
+                                guid: 'assignment2'
+                            }
+                        }
+                    });
+                });
+                it('Api names should not update', () => {
+                    expect(Object.keys(updatedState).includes('wait1_0')).toBeFalsy();
+                    expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeFalsy();
+                    expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeFalsy();
+                    expect(Object.keys(updatedState).includes('waitEvent3_0')).toBeFalsy();
+                    expect(Object.keys(updatedState).includes('screen1_0')).toBeFalsy();
+                    expect(Object.keys(updatedState).includes('screen2_0')).toBeFalsy();
+                    expect(Object.keys(updatedState).includes('screen3_0')).toBeFalsy();
+                });
+                it('Previous Element next property should be updated', () => {
+                    expect(updatedState.assignment2.next).toEqual('wait1');
+                });
+                it('Next Element previous property should be updated', () => {
+                    expect(updatedState.wait1.prev).toEqual('assignment2');
+                });
+                it('Pasted Fault Branch Element (screen3), should have the updated next property', () => {
+                    expect(updatedState.screen3.next).toEqual('end-element-guid');
+                });
+                it('Pasted elements should have newly generated labels and names', () => {
+                    expect(updatedState.assignment1.label).toEqual('Assignment 1');
+                    expect(updatedState.assignment1.name).toEqual('assignment1');
+                    expect(updatedState.wait1.label).toEqual('Wait 1');
+                    expect(updatedState.wait1.name).toEqual('wait1');
+                    expect(updatedState.waitEvent2.label).toEqual('');
+                    expect(updatedState.waitEvent2.name).toEqual('waitEvent2');
+                    expect(updatedState.screen3.label).toEqual('Screen 3');
+                    expect(updatedState.screen3.name).toEqual('screen3');
+                });
             });
         });
     });
