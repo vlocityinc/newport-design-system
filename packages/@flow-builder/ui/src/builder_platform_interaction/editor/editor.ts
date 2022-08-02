@@ -1152,6 +1152,9 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         if (this.elementBeingEditedInPanel) {
             const elementFromStore = getElementByGuid(this.elementBeingEditedInPanel.guid);
             this.elementBeingEditedInPanel = elementFromStore ? getElementForPropertyEditor(elementFromStore) : null;
+            if (!this.elementBeingEditedInPanel) {
+                this.handleClosePropertyEditor();
+            }
         }
 
         this.executeGuardrails(currentState);

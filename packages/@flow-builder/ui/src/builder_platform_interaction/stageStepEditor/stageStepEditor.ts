@@ -1,4 +1,5 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { isUnchangedProperty } from 'builder_platform_interaction/builderUtils';
 import {
     getParameterListWarnings,
     MERGE_WITH_PARAMETERS,
@@ -909,10 +910,11 @@ export default class StageStepEditor extends LightningElement {
      */
     handleLabelDescriptionPropertyChangedEvent(event: PropertyChangedEvent) {
         event.stopPropagation();
-
+        const hasUpdatedProperty = !isUnchangedProperty(this.element, event);
         this.element = stageStepReducer(this.element!, event);
-
-        this.dispatchEvent(new UpdateNodeEvent(this.element));
+        if (hasUpdatedProperty) {
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
+        }
     }
 
     /**
@@ -920,7 +922,6 @@ export default class StageStepEditor extends LightningElement {
      */
     handleParameterPropertyChangedEvent(event: PropertyChangedEvent) {
         event.stopPropagation();
-
         const inputParam: ParameterListRowItem | undefined = ([] as ParameterListRowItem[])
             .concat(
                 this.element!.inputParameters,

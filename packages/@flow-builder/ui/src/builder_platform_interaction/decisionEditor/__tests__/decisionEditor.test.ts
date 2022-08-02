@@ -56,6 +56,12 @@ jest.mock('builder_platform_interaction/sharedUtils', () =>
     jest.requireActual('builder_platform_interaction_mocks/sharedUtils')
 );
 
+jest.mock('builder_platform_interaction/builderUtils', () => {
+    return Object.assign(jest.requireActual('builder_platform_interaction/builderUtils'), {
+        isUnchangedProperty: jest.fn()
+    });
+});
+
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome',
     REORDERABLE_NAV: 'builder_platform_interaction-reorderable-vertical-navigation',

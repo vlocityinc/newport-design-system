@@ -1,3 +1,4 @@
+import { isUnchangedProperty } from 'builder_platform_interaction/builderUtils';
 import CustomPropertyEditor from 'builder_platform_interaction/customPropertyEditor';
 import { ConfigurationEditor } from 'builder_platform_interaction/customPropertyEditorLib';
 import { ElementOrComponentError, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
@@ -89,7 +90,10 @@ export default abstract class PanelBasedPropertyEditor extends LightningElement 
      * @param event reducer event type
      */
     updateElement(event) {
+        const hasUpdatedProperty = !isUnchangedProperty(this.element, event);
         this.element = this.reducer(this.element, event);
-        this.dispatchEvent(new UpdateNodeEvent(this.element));
+        if (hasUpdatedProperty) {
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
+        }
     }
 }

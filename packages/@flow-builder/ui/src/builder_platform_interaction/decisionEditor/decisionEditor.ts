@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { isUnchangedProperty } from 'builder_platform_interaction/builderUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
@@ -183,8 +184,11 @@ export default class DecisionEditor extends LightningElement {
      */
     handlePropertyChangedEvent(event) {
         event.stopPropagation();
+        const hasUpdatedProperty = !isUnchangedProperty(this.decisionElement, event);
         this.decisionElement = decisionReducer(this.decisionElement, event);
-        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
+        if (hasUpdatedProperty) {
+            this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
+        }
     }
 
     handleDefaultOutcomeChangedEvent(event) {

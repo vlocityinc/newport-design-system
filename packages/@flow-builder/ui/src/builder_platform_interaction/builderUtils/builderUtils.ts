@@ -1171,3 +1171,20 @@ export function arraysCompare(array1: string[], array2: string[]): boolean {
     }
     return true;
 }
+
+/**
+ * Checks if a change event corresponds to an actual change of the property value
+ * in order to avoid change events from incrementing undo history unecessarily
+ *
+ * @param element The property editor model
+ * @param event The change event to check
+ * @returns true if the property value has not changed
+ */
+export function isUnchangedProperty(
+    element,
+    event: CustomEvent<{ propertyName: string; value?: string } | any>
+): boolean {
+    const oldValue = getValueFromHydratedItem(element[event.detail?.propertyName]);
+    const newValue = event.detail?.value;
+    return typeof newValue !== 'object' && newValue !== undefined && oldValue === newValue;
+}

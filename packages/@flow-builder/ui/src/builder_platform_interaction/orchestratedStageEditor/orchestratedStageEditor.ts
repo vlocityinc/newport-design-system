@@ -1,3 +1,4 @@
+import { isUnchangedProperty } from 'builder_platform_interaction/builderUtils';
 import {
     getParameterListWarnings,
     MERGE_WITH_PARAMETERS,
@@ -286,10 +287,11 @@ export default class OrchestratedStageEditor extends LightningElement {
      */
     handlePropertyChangedEvent(event) {
         event.stopPropagation();
-
+        const hasUpdatedProperty = !isUnchangedProperty(this.element, event);
         this.element = orchestratedStageReducer(this.element, event);
-
-        this.dispatchEvent(new UpdateNodeEvent(this.element));
+        if (hasUpdatedProperty) {
+            this.dispatchEvent(new UpdateNodeEvent(this.element));
+        }
     }
 
     handleStageCompletesChanged(event: CustomEvent) {
