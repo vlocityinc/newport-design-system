@@ -1,7 +1,8 @@
 import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
 import { removeDocumentBodyChildren, setDocumentBodyChildren } from 'builder_platform_interaction/builderTestUtils';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, FLOW_ELEMENT_SUBTYPE } from 'builder_platform_interaction/flowMetadata';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 import StageStepMenu from 'builder_platform_interaction/stageStepMenu';
 import { createElement } from 'lwc';
@@ -11,7 +12,14 @@ const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabComman
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
 
 const selectors = {
+    menuItemListItem: 'li[role="presentation"]',
     menuItem: 'div[role="menuitem"]'
+};
+
+const menuItemSubSelectors = {
+    icon: 'lightning-icon',
+    label: 'span.slds-listbox__option-text',
+    description: 'span.slds-listbox__option-meta'
 };
 
 const createComponentUnderTest = () => {
@@ -37,6 +45,39 @@ describe('Stage Step Menu', () => {
         expect(stageStepMenuElement).toBeDefined();
     });
 
+    it('should have the correct menu configuration', () => {
+        const menuListItems = stageStepMenuElement.shadowRoot.querySelectorAll(selectors.menuItemListItem);
+
+        const sortedStepSubtypeKeys = Object.keys(elementTypeToConfigMap)
+            .filter((key) => {
+                const config = elementTypeToConfigMap[key];
+                const isStepSubtype = config.isElementSubtype && config.elementType === ELEMENT_TYPE.STAGE_STEP;
+                return isStepSubtype;
+            })
+            .sort();
+
+        expect(menuListItems.length).toEqual(sortedStepSubtypeKeys.length);
+
+        for (let i = 0; i < menuListItems.length; i++) {
+            const item = menuListItems[i];
+            const { labels, nodeConfig, elementSubtype } = elementTypeToConfigMap[sortedStepSubtypeKeys[i]];
+            const { singular } = labels!;
+            const { description, iconName, iconBackgroundColor } = nodeConfig;
+
+            expect(item.getAttribute('element-subtype')).toEqual(elementSubtype);
+
+            const icon = item.querySelector(menuItemSubSelectors.icon);
+            expect(icon.iconName).toEqual(iconName);
+            expect(icon.classList).toContain(iconBackgroundColor);
+
+            const labelNode = item.querySelector(menuItemSubSelectors.label);
+            const descriptionNode = item.querySelector(menuItemSubSelectors.description);
+
+            expect(labelNode.textContent).toEqual(singular);
+            expect(descriptionNode.textContent).toEqual(description);
+        }
+    });
+
     it('should create an Background Step when the Background Step button is clicked', () => {
         const callback = jest.fn();
         stageStepMenuElement.addEventListener(AddElementEvent.EVENT_NAME, callback);
@@ -44,6 +85,7 @@ describe('Stage Step Menu', () => {
         listItems[0].click();
         expect(callback.mock.calls[0][0].detail).toEqual({
             elementType: ELEMENT_TYPE.STAGE_STEP,
+            elementSubtype: FLOW_ELEMENT_SUBTYPE.BackgroundStep,
             actionType: ACTION_TYPE.STEP_BACKGROUND,
             parent: undefined,
             designateFocus: true
@@ -59,6 +101,7 @@ describe('Stage Step Menu', () => {
         stageStepMenuElement.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(callback.mock.calls[0][0].detail).toEqual({
             elementType: ELEMENT_TYPE.STAGE_STEP,
+            elementSubtype: FLOW_ELEMENT_SUBTYPE.BackgroundStep,
             actionType: ACTION_TYPE.STEP_BACKGROUND,
             parent: undefined,
             designateFocus: true
@@ -74,6 +117,7 @@ describe('Stage Step Menu', () => {
         stageStepMenuElement.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
         expect(callback.mock.calls[0][0].detail).toEqual({
             elementType: ELEMENT_TYPE.STAGE_STEP,
+            elementSubtype: FLOW_ELEMENT_SUBTYPE.BackgroundStep,
             actionType: ACTION_TYPE.STEP_BACKGROUND,
             parent: undefined,
             designateFocus: true
@@ -87,6 +131,7 @@ describe('Stage Step Menu', () => {
         listItems[1].click();
         expect(callback.mock.calls[0][0].detail).toEqual({
             elementType: ELEMENT_TYPE.STAGE_STEP,
+            elementSubtype: FLOW_ELEMENT_SUBTYPE.InteractiveStep,
             actionType: ACTION_TYPE.STEP_INTERACTIVE,
             parent: undefined,
             designateFocus: true
@@ -103,6 +148,7 @@ describe('Stage Step Menu', () => {
         stageStepMenuElement.keyboardInteractions.execute(EnterCommand.COMMAND_NAME);
         expect(callback.mock.calls[0][0].detail).toEqual({
             elementType: ELEMENT_TYPE.STAGE_STEP,
+            elementSubtype: FLOW_ELEMENT_SUBTYPE.InteractiveStep,
             actionType: ACTION_TYPE.STEP_INTERACTIVE,
             parent: undefined,
             designateFocus: true
@@ -119,6 +165,7 @@ describe('Stage Step Menu', () => {
         stageStepMenuElement.keyboardInteractions.execute(SpaceCommand.COMMAND_NAME);
         expect(callback.mock.calls[0][0].detail).toEqual({
             elementType: ELEMENT_TYPE.STAGE_STEP,
+            elementSubtype: FLOW_ELEMENT_SUBTYPE.InteractiveStep,
             actionType: ACTION_TYPE.STEP_INTERACTIVE,
             parent: undefined,
             designateFocus: true

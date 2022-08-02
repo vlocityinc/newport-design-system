@@ -1,8 +1,9 @@
 import { getTabKeyInteraction } from 'builder_platform_interaction/alcComponentsUtils';
 import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
 import AlcMenu from 'builder_platform_interaction/alcMenu';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { ACTION_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, FLOW_ELEMENT_SUBTYPE } from 'builder_platform_interaction/flowMetadata';
 import { api } from 'lwc';
 import { LABELS } from './stageStepMenuLabels';
 
@@ -16,40 +17,7 @@ export default class StageStepMenu extends AlcMenu {
     node;
 
     // configuration for menu items
-    menuConfiguration = {
-        sections: [
-            {
-                guid: 'steps',
-                header: LABELS.steps,
-                items: [
-                    {
-                        guid: 'background-step',
-                        action: ACTION_TYPE.STEP_BACKGROUND,
-                        label: LABELS.backgroundStepLabel,
-                        description: LABELS.autolaunchedStepDescription,
-                        iconName: 'standard:flow',
-                        iconSize: 'small',
-                        iconVariant: 'inverse',
-                        get tooltip() {
-                            return this.label + ': ' + this.description;
-                        }
-                    },
-                    {
-                        guid: 'interactive-step',
-                        action: ACTION_TYPE.STEP_INTERACTIVE,
-                        label: LABELS.interactiveStepLabel,
-                        description: LABELS.workStepDescription,
-                        iconName: 'standard:marketing_actions',
-                        iconSize: 'small',
-                        iconVariant: 'inverse',
-                        get tooltip() {
-                            return this.label + ': ' + this.description;
-                        }
-                    }
-                ]
-            }
-        ]
-    };
+    menuConfiguration;
 
     override getKeyboardInteractions() {
         return [...super.getKeyboardInteractions(), getTabKeyInteraction(() => this.handleTab())];
@@ -64,9 +32,18 @@ export default class StageStepMenu extends AlcMenu {
     override doSelectMenuItem(currentTarget: HTMLElement, designateFocus = true) {
         super.doSelectMenuItem(currentTarget);
 
+        const elementSubtype = currentTarget.getAttribute('element-subtype')!;
+        const actionType =
+            elementSubtype === FLOW_ELEMENT_SUBTYPE.InteractiveStep
+                ? ACTION_TYPE.STEP_INTERACTIVE
+                : elementSubtype === FLOW_ELEMENT_SUBTYPE.BackgroundStep
+                ? ACTION_TYPE.STEP_BACKGROUND
+                : undefined;
+
         const addItemEvent = new AddElementEvent({
             elementType: ELEMENT_TYPE.STAGE_STEP,
-            actionType: currentTarget.getAttribute('action')!,
+            elementSubtype,
+            actionType,
             parent: this.node?.guid,
             designateFocus
         });
@@ -98,4 +75,48 @@ export default class StageStepMenu extends AlcMenu {
      * No-op; overrides the super class implementation
      */
     override closeMenu() {}
+
+    connectedCallback(): void {
+        super.connectedCallback();
+
+        if (this.menuConfiguration === undefined) {
+            const sortedStepSubtypeKeys = Object.keys(elementTypeToConfigMap)
+                .filter((key) => {
+                    const config = elementTypeToConfigMap[key];
+                    const isStepSubtype = config.isElementSubtype && config.elementType === ELEMENT_TYPE.STAGE_STEP;
+                    return isStepSubtype;
+                })
+                .sort();
+
+            const menuItems = sortedStepSubtypeKeys.map((key) => {
+                const { labels, nodeConfig, elementSubtype } = elementTypeToConfigMap[key];
+                const { singular } = labels!;
+                const { description, iconName, iconBackgroundColor } = nodeConfig!;
+                const iconClasses = `slds-float_left slds-m-right_small ${iconBackgroundColor}`;
+
+                return {
+                    elementSubtype,
+                    iconClasses,
+                    label: singular,
+                    description,
+                    iconName,
+                    iconSize: 'small',
+                    iconVariant: 'inverse',
+                    get tooltip() {
+                        return `${singular}: ${description}`;
+                    }
+                };
+            });
+
+            this.menuConfiguration = {
+                sections: [
+                    {
+                        guid: 'steps',
+                        header: LABELS.steps,
+                        items: menuItems
+                    }
+                ]
+            };
+        }
+    }
 }

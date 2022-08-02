@@ -12,10 +12,10 @@
                             <span>{section.header}</span>
                         </li>
                         <template for:each={section.items} for:item="item">
-                            <div key={item.guid}>
+                            <div key={item.elementSubtype}>
                                 <li
                                     class="slds-listbox__item"
-                                    action={item.action}
+                                    element-subtype={item.elementSubtype}
                                     role="presentation"
                                     onclick={handleSelectMenuItem}
                                 >
@@ -28,7 +28,7 @@
                                             <lightning-icon
                                                 icon-name={item.iconName}
                                                 size={item.iconSize}
-                                                class="slds-float_left slds-m-right_small background-step-icon"
+                                                class={item.iconClasses}
                                                 variant={item.iconVariant}
                                             ></lightning-icon>
                                         </span>

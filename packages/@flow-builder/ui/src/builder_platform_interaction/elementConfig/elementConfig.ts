@@ -1278,8 +1278,12 @@ export const elementTypeToConfigMap: {
     [FLOW_ELEMENT_SUBTYPE.InteractiveStep]: {
         nodeConfig: {
             iconName: ICONS.interactiveStep,
-            iconBackgroundColor: 'background-navy'
+            iconBackgroundColor: 'background-navy',
+            description: LABELS.interactiveStepDescription
         },
+        elementSubtype: FLOW_ELEMENT_SUBTYPE.InteractiveStep,
+        isElementSubtype: true,
+        elementType: ELEMENT_TYPE.STAGE_STEP,
         canvasElement: true,
         labels: {
             singular: LABELS.interactiveStepSingularLabel,
@@ -1290,8 +1294,12 @@ export const elementTypeToConfigMap: {
     [FLOW_ELEMENT_SUBTYPE.BackgroundStep]: {
         nodeConfig: {
             iconName: ICONS.backgroundStep,
-            iconBackgroundColor: 'background-navy'
+            iconBackgroundColor: 'background-navy',
+            description: LABELS.backgroundStepDescription
         },
+        elementSubtype: FLOW_ELEMENT_SUBTYPE.BackgroundStep,
+        isElementSubtype: true,
+        elementType: ELEMENT_TYPE.STAGE_STEP,
         canvasElement: true,
         labels: {
             singular: LABELS.backgroundStepSingularLabel,
@@ -1355,6 +1363,8 @@ export const updateElementConfigMapWithSubtypes = (elements: FlowElementTypeBase
             );
 
             const elementToUpdate = elementTypeToConfigMap[subtypeElement.name!];
+            elementToUpdate.isElementSubtype = true;
+            elementToUpdate.elementType = subtypeElement.elementType;
             elementToUpdate.elementSubtype = subtypeElement.name;
             elementToUpdate.factory = elementTypeToConfigMap[subtypeElement.elementType!].factory;
             elementToUpdate.labels!.singular = subtypeElement.label!;
