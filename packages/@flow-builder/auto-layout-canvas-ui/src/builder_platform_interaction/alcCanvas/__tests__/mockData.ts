@@ -1090,6 +1090,140 @@ const flowModelForCutPaste = {
         prev: null,
         next: null,
         children: ['120d0803-8a95-4426-a94c-d05ccd659a30']
+    },
+    'f5d3eb1e-dcbc-431a-b48a-5a829697833b': {
+        guid: 'f5d3eb1e-dcbc-431a-b48a-5a829697833b',
+        name: 'decision3',
+        description: '',
+        label: 'decision3',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        isNew: true,
+        defaultConnectorLabel: 'Default Outcome',
+        childReferences: [
+            {
+                childReference: '97ebb5b3-b7bd-4ee3-a861-c3931624af18'
+            },
+            {
+                childReference: '17a6ace1-46bf-46c3-ad9e-d9c9376d9983'
+            }
+        ],
+        elementType: 'Decision',
+        maxConnections: 3,
+        availableConnections: [
+            {
+                childReference: '97ebb5b3-b7bd-4ee3-a861-c3931624af18',
+                type: 'REGULAR'
+            },
+            {
+                childReference: '17a6ace1-46bf-46c3-ad9e-d9c9376d9983',
+                type: 'REGULAR'
+            },
+            {
+                type: 'DEFAULT'
+            }
+        ],
+        children: ['8664b30b-cd73-4f8d-9686-d94ba9c43848', null, null],
+        nodeType: 'branch',
+        incomingGoTo: [],
+        prev: '0a5ebbaa-d798-4ea1-b17a-d212deb49557',
+        next: '31f323ac-4814-49f0-9c69-ee2c547cbd43'
+    },
+    '8664b30b-cd73-4f8d-9686-d94ba9c43848': {
+        guid: '8664b30b-cd73-4f8d-9686-d94ba9c43848',
+        name: 'END_ELEMENT',
+        description: '',
+        label: 'End',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        elementType: 'END_ELEMENT',
+        value: 'END_ELEMENT',
+        text: 'END_ELEMENT',
+        nodeType: 'end',
+        alcConnectionSource: {
+            guid: 'f5d3eb1e-dcbc-431a-b48a-5a829697833b',
+            childIndex: 0
+        },
+        parent: 'f5d3eb1e-dcbc-431a-b48a-5a829697833b',
+        childIndex: 0,
+        prev: null,
+        isTerminal: true
+    },
+    '31f323ac-4814-49f0-9c69-ee2c547cbd43': {
+        guid: '31f323ac-4814-49f0-9c69-ee2c547cbd43',
+        name: 'END_ELEMENT',
+        description: '',
+        label: 'End',
+        locationX: 0,
+        locationY: 0,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {
+            isSelected: false,
+            isHighlighted: false,
+            isSelectable: true,
+            hasError: false
+        },
+        canHaveFaultConnector: false,
+        elementType: 'END_ELEMENT',
+        value: 'END_ELEMENT',
+        text: 'END_ELEMENT',
+        nodeType: 'end',
+        prev: 'f5d3eb1e-dcbc-431a-b48a-5a829697833b'
+    },
+    '97ebb5b3-b7bd-4ee3-a861-c3931624af18': {
+        guid: '97ebb5b3-b7bd-4ee3-a861-c3931624af18',
+        name: 'z1',
+        label: 'z1',
+        elementType: 'OUTCOME',
+        dataType: 'Boolean',
+        conditionLogic: 'and',
+        conditions: [
+            {
+                rowIndex: '47642112-08b8-4b1f-a491-501483622cdc',
+                leftHandSide: '$Flow.CurrentDate',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: 'EqualTo'
+            }
+        ],
+        doesRequireRecordChangedToMeetCriteria: false
+    },
+    '17a6ace1-46bf-46c3-ad9e-d9c9376d9983': {
+        guid: '17a6ace1-46bf-46c3-ad9e-d9c9376d9983',
+        name: 'z2',
+        label: 'z2',
+        elementType: 'OUTCOME',
+        dataType: 'Boolean',
+        conditionLogic: 'and',
+        conditions: [
+            {
+                rowIndex: '66d0a338-1add-40b3-8675-6ab7636f6715',
+                leftHandSide: '05851c1b-2a1c-4cd2-a708-b1036c3a2814',
+                rightHandSide: '',
+                rightHandSideDataType: '',
+                operator: 'WasVisited'
+            }
+        ],
+        doesRequireRecordChangedToMeetCriteria: false
     }
 };
 

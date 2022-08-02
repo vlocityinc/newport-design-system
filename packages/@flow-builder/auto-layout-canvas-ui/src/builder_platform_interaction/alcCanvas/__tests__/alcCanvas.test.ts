@@ -1069,6 +1069,25 @@ describe('Auto Layout Canvas', () => {
             });
         });
     });
+    describe('handleCutElements', () => {
+        it('When cutting a decision that merges into an end element while keeping a terminated branch (shouldCutOrDeleteBeyondMergingPoint should be true)', async () => {
+            cmp.flowModel = flowModelForCutPaste;
+            const callback = jest.fn();
+            cmp.addEventListener(CutElementsEvent.EVENT_NAME, callback);
+
+            const cutElementsEvent = new CutElementsEvent(['f5d3eb1e-dcbc-431a-b48a-5a829697833b'], 0);
+            await dispatchEvent(getFlow(), cutElementsEvent);
+
+            expect(callback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: {
+                        guids: ['f5d3eb1e-dcbc-431a-b48a-5a829697833b', '31f323ac-4814-49f0-9c69-ee2c547cbd43'],
+                        childIndexToKeep: 0
+                    }
+                })
+            );
+        });
+    });
 
     describe('handlePasteOnCanvas', () => {
         it('When pasting above the topCut desicion while cutting all branches results in a no-op', async () => {

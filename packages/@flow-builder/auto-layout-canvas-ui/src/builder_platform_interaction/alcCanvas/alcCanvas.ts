@@ -1329,7 +1329,8 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
         const shouldCutBeyondMergingPoint = shouldCutOrDeleteBeyondMergingPoint(
             this.flowModel,
             selectedElement,
-            childIndexToKeep
+            childIndexToKeep,
+            true
         );
 
         const cutElementGuids = getCutGuids(this.flowModel, guids[0], {
