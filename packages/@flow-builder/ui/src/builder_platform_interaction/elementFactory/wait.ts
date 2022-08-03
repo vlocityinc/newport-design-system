@@ -360,12 +360,12 @@ export function createWaitMetadataObject(wait, config = {}) {
  */
 function addJourneyWaitEventsParams(elementSource, elementTarget) {
     const processType = getProcessType();
-    const { duration = DEFAULT_DURATION_VALUE, durationUnit = DEFAULT_DURATION_UNIT, extendUntil } = elementSource;
+    const { duration = DEFAULT_DURATION_VALUE, durationUnit = DEFAULT_DURATION_UNIT, resumeTime } = elementSource;
     if (processType === FLOW_PROCESS_TYPE.JOURNEY) {
         Object.assign(elementTarget, {
             duration,
             durationUnit,
-            extendUntil
+            resumeTime
         });
     }
 }

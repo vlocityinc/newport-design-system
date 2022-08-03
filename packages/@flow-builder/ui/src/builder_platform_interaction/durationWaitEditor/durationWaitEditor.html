@@ -19,18 +19,18 @@
             <lightning-input
                 label={extendUntilTimeCheckboxLabel}
                 type="checkbox"
-                checked={showExtendUntilTime}
-                onchange={toggleExtendUntilTime}
+                checked={showResumeTime}
+                onchange={toggleResumeTime}
             >
             </lightning-input>
             <lightning-helptext content={helpText}></lightning-helptext>
         </div>
-        <div if:true={showExtendUntilTime}>
+        <div if:true={showResumeTime}>
             <lightning-input
-                id="extendUntil"
+                id="resumeTime"
                 type="time"
-                name="extendUntil"
-                value={extendUntil}
+                name="resumeTime"
+                value={resumeTime}
                 label={timeLabel}
                 onchange={handleWaitEventValueChanged}
                 required

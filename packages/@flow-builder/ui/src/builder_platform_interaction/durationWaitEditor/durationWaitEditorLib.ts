@@ -8,7 +8,7 @@ export const defaultWaitElement = {
                 durationUnit: { value: 'Days', error: null },
                 elementType: 'WAIT_EVENT',
                 eventType: { value: 'AlarmEvent', error: null },
-                extendUntil: { value: null, error: null },
+                resumeTime: { value: null, error: null },
                 guid: null
             }
         ],

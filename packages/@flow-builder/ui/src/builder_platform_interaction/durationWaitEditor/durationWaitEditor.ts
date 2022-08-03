@@ -49,8 +49,8 @@ export default class DurationWaitEditor extends LightningElement {
         return getValueFromHydratedItem(this.waitEvent?.durationUnit) || WAIT_TIME_EVENT_OFFSET_UNIT.DAYS;
     }
 
-    get extendUntil() {
-        return getValueFromHydratedItem(this.waitEvent?.extendUntil);
+    get resumeTime() {
+        return getValueFromHydratedItem(this.waitEvent?.resumeTime);
     }
 
     get waitEvent() {
@@ -61,10 +61,10 @@ export default class DurationWaitEditor extends LightningElement {
         return this.waitElement.timeZoneId;
     }
 
-    get showExtendUntilTime() {
+    get showResumeTime() {
         // visibility of time fields is controlled by presence
         // of time values
-        const timeVal = getValueFromHydratedItem(this.waitEvent?.extendUntil);
+        const timeVal = getValueFromHydratedItem(this.waitEvent?.resumeTime);
         return timeVal != null;
     }
 
@@ -110,17 +110,17 @@ export default class DurationWaitEditor extends LightningElement {
         this.dispatchEvent(new ConfigurationEditorChangeEvent(name, value, dataType));
     }
 
-    toggleExtendUntilTime() {
+    toggleResumeTime() {
         const waitEvt = Object.assign({}, getValueFromHydratedItem(this.waitElement.waitEvents)[0]);
-        if (this.showExtendUntilTime) {
+        if (this.showResumeTime) {
             // clear time values when user explicitly unchecks the box
-            waitEvt.extendUntil = null;
+            waitEvt.resumeTime = null;
             this.updateCpe('waitEvents', [waitEvt]);
             this.updateCpe('timeZoneId', null);
         } else {
             // set time val to a defaul when box is checked
             // to display time fields
-            waitEvt.extendUntil = MIDNIGHT_TIME_VALUE;
+            waitEvt.resumeTime = MIDNIGHT_TIME_VALUE;
             this.updateCpe('waitEvents', [waitEvt]);
         }
     }
