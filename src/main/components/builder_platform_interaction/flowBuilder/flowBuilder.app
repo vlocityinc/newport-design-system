@@ -5,6 +5,9 @@
     template="builder_platform_interaction:flowBuilderTemplate"
     flavorOverrides="one:one"
 >
+    <aura:import library="lightning:iconSvgTemplatesStandard" property="standard"/>
+    <aura:import library="lightning:iconSvgTemplatesUtility" property="utility"/>
+    <aura:import library="lightning:iconSvgTemplatesCustom" property="custom"/>
     <!--Attributes -->
     <aura:attribute name="flowId" type="String" default="" description="The id of the flow to load" />
     <aura:attribute
