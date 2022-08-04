@@ -43,5 +43,18 @@ export async function showPrompt(promptId: string, referenceElement: Element) {
  * @returns the programmatic prompts to be registered
  */
 export function getRegistrations(): typeof PromptRegistration[] {
-    return [new PromptRegistration(Prompts.LeftPanelTogglePopover, LeftPanelTogglePopover)];
+    return [];
+}
+
+/**
+ * Returns all programmatic prompts that are no longer in use and should not be displayed to customers.
+ * This may no longer be necessary when other prompts are introduced, but some tests rely on at least
+ * one prompt class existing.
+ *
+ * @returns retired programmatic prompts
+ */
+export function getRetiredPromptRegistrations(): typeof PromptRegistration[] {
+    return [
+        new PromptRegistration(Prompts.LeftPanelTogglePopover, LeftPanelTogglePopover) // Retired in 242
+    ];
 }
