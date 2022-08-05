@@ -453,7 +453,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     /**
      * Returns if the current flow is a record triggered flow
      *
-     * @returns {boolean}
+     * @returns {boolean} true if recordChange triggerType and not Orchestrator processType
      */
     get isRecordTriggeredFlow() {
         return (
