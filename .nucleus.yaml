@@ -61,3 +61,9 @@ steps: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Job+Steps
         enabled: true
         params:
             gusTeamName: 'Automation Builder Simplification'
+    npm-bump-package-versions:
+        skip: true # until we are ready to ship npm packages
+    npm-configure-for-publish:
+        skip: true # until we are ready to ship npm packages
+    npm-publish-release:
+        skip: true # until we are ready to ship npm packages
