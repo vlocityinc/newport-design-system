@@ -1,32 +1,63 @@
 enforce-work-item-for-pr: true
-core-deploy:
+notifications: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Notifications
+    slack:
+        channel: automation-services-git-help
+core-deploy: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Core+Deployment+Config
     enabled: true
     user-core-packager: true
+    blocking-queue: true
+    auto-deploy: true
     project-modules:
         ui-interaction-builder-components: ui-interaction-builder-components.version
-jobs:
+jobs: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Jobs
     build-and-test:
-        memory-limit: 16
-    create-canary-release:
-        memory-limit: 16
-    build-dependency:
         memory-limit: 16
     release:
         memory-limit: 16
-branches:
+branches: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Branches
     ~DEFAULT~:
-        pull-request:
-            workflow: build-and-test
-            auto-start: false
+        pull-request: &branch-definition
+            workflow: core-deploy
             require-up-to-date-before-merge: true
-            blocking-queue: true # https://confluence.internal.salesforce.com/display/UIPENGSYS/Core+Deployment+Config
-            merge-method: disabled
-        version:
+            merge-method: disabled # do not auto-merge on approval
+            bot-comments: success
+        version: &version-definition
             auto-increment: pre-release
-            template: "{{slice pom.project.version '.' 0}}.9999.{{autoIncrement}}"
-            initial-value: 9999
-steps:
-    npm-configure-for-publish:
-        skip: true # until we are ready to ship npm packages
-    npm-publish-release:
-        skip: true # until we are ready to ship npm packages
+            template: "{{slice pom.project.version '.' 0}}.{{autoIncrement}}"
+            initial-value: 30
+    core-238-patch:
+        pull-request:
+            <<: *branch-definition # inherit
+        version:
+            <<: *version-definition
+            initial-value: 240
+        core-deploy:
+            annotations:
+                - nomerge # so these changes don't propogate across major branches.
+    core-240-patch:
+        pull-request:
+            <<: *branch-definition
+        version:
+            <<: *version-definition
+            initial-value: 171
+        core-deploy:
+            annotations:
+                - nomerge # so these changes don't propogate across major branches.
+steps: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Job+Steps
+    # Standard Steps: https://git.soma.salesforce.com/uiplatform/nucleus-pb/blob/master/src/config/nucleus.yaml
+    node-lint-prettify: # custom steps to run lint and prettify
+        group: test
+        description: Lint and Prettify
+        node:
+            command: ci:lint:prettify
+        before: node-unit-tests
+    node-unit-tests: # override standard step to supply custom test command
+        node:
+            command: ci:test
+    node-pre-release-tests: # override standard step to supply custom coverage command
+        node:
+            command: ci:test:coverage
+    populate-test-coverage-to-gus: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Code+Coverage+Configuration
+        enabled: true
+        params:
+            gusTeamName: 'Automation Builder Simplification'
