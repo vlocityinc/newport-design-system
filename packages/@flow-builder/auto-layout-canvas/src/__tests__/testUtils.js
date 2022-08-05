@@ -1900,6 +1900,82 @@ function getFlowWithPalettePromotedActions() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWithDecisionsAndLoopWithOutgoingGoto() {
+    const root = {
+        ...ROOT_ELEMENT,
+        children: ['start-guid']
+    };
+    let start = createElementWithElementType('start-guid', 'START_ELEMENT', NodeType.START);
+    let decision1 = createElementWithElementType('decision1-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let decision2 = createElementWithElementType('decision2-guid', 'BRANCH_ELEMENT', NodeType.BRANCH);
+    let loop = createElementWithElementType('loop-guid', 'LOOP_ELEMENT', NodeType.LOOP);
+    let end1 = createElementWithElementType('end1-guid', 'END_ELEMENT', NodeType.END);
+    let end2 = createElementWithElementType('end2-guid', 'END_ELEMENT', NodeType.END);
+    let end3 = createElementWithElementType('end3-guid', 'END_ELEMENT', NodeType.END);
+
+    start = {
+        ...start,
+        parent: 'root',
+        childIndex: 0,
+        next: 'decision1-guid'
+    };
+
+    decision1 = {
+        ...decision1,
+        prev: 'start-guid',
+        next: 'end1-guid',
+        children: [null, 'decision2-guid'],
+        childReferences: [{ childReference: 'o1' }],
+        incomingGoTo: ['loop-guid:forEach']
+    };
+
+    decision2 = {
+        ...decision2,
+        next: null,
+        children: ['end2-guid', 'loop-guid', 'end3-guid'],
+        parent: 'decision1-guid',
+        childIndex: 1,
+        isTerminal: false,
+        childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }]
+    };
+
+    loop = {
+        ...loop,
+        prev: null,
+        parent: 'decision2-guid',
+        next: null,
+        childIndex: 1,
+        isTerminal: false,
+        children: ['decision1-guid']
+    };
+
+    end1 = {
+        ...end1,
+        prev: 'decision1-guid',
+        next: null
+    };
+
+    end2 = {
+        ...end2,
+        childIndex: 0,
+        prev: null,
+        next: null,
+        parent: 'decision2-guid'
+    };
+
+    end3 = {
+        ...end3,
+        childIndex: 2,
+        prev: null,
+        next: null,
+        parent: 'decision2-guid'
+    };
+
+    const elements = [root, start, decision1, decision2, loop, end1, end2, end3];
+    const flowModel = flowModelFromElements(elements);
+    return createFlowRenderContext({ flowModel });
+}
+
 export {
     ACTION_ELEMENT_GUID,
     BRANCH_ELEMENT_GUID,
@@ -1958,5 +2034,6 @@ export {
     getFlowWhenGoingFromForEachBranch,
     getFlowWithPalettePromotedActions,
     getFlowWith3levelNestedDescisionWhichEndsWithAScreen,
-    getFlowForCutPaste
+    getFlowForCutPaste,
+    getFlowWithDecisionsAndLoopWithOutgoingGoto
 };

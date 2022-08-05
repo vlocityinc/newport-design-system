@@ -11,6 +11,7 @@ import {
     getFlowWhenGoingToLoopBranchHead,
     getFlowWhenGoingToPreviousElement,
     getFlowWith3levelNestedDescisionWhichEndsWithAScreen,
+    getFlowWithDecisionsAndLoopWithOutgoingGoto,
     getFlowWithDecisionWithOneElementOnLeftBranchContext,
     getFlowWithDynamicNodeComponent,
     getFlowWithEmptyDeciisionWith3BranchesContext,
@@ -140,6 +141,10 @@ describe('flowRenderer', () => {
 
         it('flow with a palette promoted actions', () => {
             renderAndAssert(getFlowWithPalettePromotedActions());
+        });
+
+        it('flow with decisions and loop with outgoing goto', () => {
+            renderAndAssert(getFlowWithDecisionsAndLoopWithOutgoingGoto());
         });
 
         describe('with menu', () => {

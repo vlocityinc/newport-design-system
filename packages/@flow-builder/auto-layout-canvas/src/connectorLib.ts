@@ -442,8 +442,9 @@ function createLoopSvgInfo(
  * @returns The params for the merge svg path
  */
 function getMergeLeftPathParams(width: number, height: number, layoutConfig: LayoutConfig): SvgPathParams {
-    const { curveRadius } = layoutConfig.connector;
+    let { curveRadius } = layoutConfig.connector;
 
+    curveRadius = Math.min(width / 2, curveRadius);
     const curveOffsetY = (height - 2 * curveRadius) / 2;
 
     return {
@@ -467,8 +468,9 @@ function getMergeLeftPathParams(width: number, height: number, layoutConfig: Lay
  * @returns The params for the merge svg path
  */
 function getMergeRightPathParams(width: number, height: number, layoutConfig: LayoutConfig): SvgPathParams {
-    const { curveRadius } = layoutConfig.connector;
+    let { curveRadius } = layoutConfig.connector;
 
+    curveRadius = Math.min(width / 2, curveRadius);
     const curveOffsetY = (height - 2 * curveRadius) / 2;
 
     return {
