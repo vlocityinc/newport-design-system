@@ -26,11 +26,9 @@
   .nds-b2b-card_container {
     flex: 1;
     .nds-b2b-card_tabs {
-      overflow: hidden;
       .nds-b2b-card_tab {
         width: 100%;
         color: $white;
-        overflow: hidden;
         transition: all 0.25s ease-in;
         &-label {
           display: flex;
