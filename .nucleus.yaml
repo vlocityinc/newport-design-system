@@ -14,6 +14,7 @@ jobs: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Jobs
         memory-limit: 16
     release:
         memory-limit: 16
+        type: release-npm-core-packager
 branches: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Branches
     ~DEFAULT~:
         pull-request: &branch-definition
