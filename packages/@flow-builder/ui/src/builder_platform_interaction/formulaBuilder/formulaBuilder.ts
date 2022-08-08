@@ -227,19 +227,6 @@ export default class FormulaBuilder extends LightningElement {
         }
     };
     /**
-     * handle text area change event.
-     *
-     * @param event text area change event
-     */
-    handleFormulaChanged(event) {
-        event.stopPropagation();
-        const error = this.checkFormulaExpressionWithMergeFields();
-        // set syntax validation message
-        if (error) {
-            this.validationResult = { isValidSyntax: false, validationMessage: '' };
-        }
-    }
-    /**
      * handle check syntax click event.
      *
      * @param event button click event

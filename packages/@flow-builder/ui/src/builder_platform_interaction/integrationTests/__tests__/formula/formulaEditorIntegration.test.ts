@@ -1,5 +1,4 @@
 import {
-    blurEvent,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
@@ -34,7 +33,9 @@ const createComponentForTest = (node, { isNewMode = false } = {}) => {
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,
     ...LIGHTNING_COMPONENTS_SELECTORS,
-    TEXTAREA: 'textarea'
+    TEXTAREA: 'textarea',
+    SYNTAXVALIDARION: 'formula-syntax-validation',
+    ERRORMESSAGE: '.slds-has-error'
 };
 
 const VALIDATION_ERROR_MESSAGES = {
@@ -47,18 +48,21 @@ const getDataTypePickerElement = (editor) => editor.shadowRoot.querySelector(SEL
 const getDataTypeComboboxElement = (editor) =>
     getDataTypePickerElement(editor).shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
 
-const getResourcedTextArea = (editor) =>
-    editor.shadowRoot.querySelector([SELECTORS.FORMULA_BUILDER, SELECTORS.RESOURCED_TEXTAREA]);
+const getFormulaBuilder = (editor) => editor.shadowRoot.querySelector(SELECTORS.FORMULA_BUILDER);
 
-const getFormulaTextArea = (editor) => getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.TEXTAREA);
+const getFormulaTextArea = (editor) => getFormulaBuilder(editor).shadowRoot.querySelector(SELECTORS.TEXTAREA);
 
 const getFerovResourcePicker = (editor) =>
-    getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+    getFormulaBuilder(editor).shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
 
 const getResourceCombobox = (editor) => {
     const baseResourcePicker = getFerovResourcePicker(editor).shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
     return new ComboboxTestComponent(baseResourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX));
 };
+
+const getSyntaxValidation = (formulaBuilder) => formulaBuilder.shadowRoot.querySelector(SELECTORS.SYNTAXVALIDARION);
+
+const getErrorMessage = (formulaBuilder) => formulaBuilder.shadowRoot.querySelector(SELECTORS.ERRORMESSAGE);
 
 describe('Formula Builder', () => {
     let store, uiFlow;
@@ -121,26 +125,28 @@ describe('Formula Builder', () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 expect(textArea.value).toBe('IF({!accountSObjectVariable.AnnualRevenue} < 1000000,"Small", "Big")');
             });
-            it('valides the formula on blur', async () => {
+            it('validates blank formula', async () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 textArea.value = '';
-                textArea.dispatchEvent(blurEvent);
+
+                const formulaBuilder = getFormulaBuilder(propertyEditor);
+                const syntaxBtn = getSyntaxValidation(formulaBuilder);
+                syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
                 await ticks();
-                expect(propertyEditor.node.expression.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                expect(syntaxBtn.validationResult.isValidSyntax).toBeFalsy();
+                expect(getErrorMessage(formulaBuilder).textContent).toEqual(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
             it('displays an error if the formula contains invalid merge fields', async () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 textArea.value = 'IF({!accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
-                textArea.dispatchEvent(blurEvent);
+
+                const formulaBuilder = getFormulaBuilder(propertyEditor);
+                const syntaxBtn = getSyntaxValidation(formulaBuilder);
+                syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
                 await ticks();
-                expect(propertyEditor.node.expression.error).toBe(VALIDATION_ERROR_MESSAGES.UNKNOWN_RECORD_FIELD);
-            });
-            it('does not display an error if the formula contains invalid global variables', async () => {
-                const textArea = getFormulaTextArea(propertyEditor);
-                textArea.value = 'IF({!$accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
-                textArea.dispatchEvent(blurEvent);
-                await ticks();
-                expect(propertyEditor.node.expression.error).toBe(null);
+                expect(getErrorMessage(formulaBuilder).textContent).toEqual(
+                    VALIDATION_ERROR_MESSAGES.UNKNOWN_RECORD_FIELD
+                );
             });
         });
         describe('Resource picker', () => {
@@ -271,26 +277,28 @@ describe('Formula Builder', () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 expect(textArea.value).toBe('IF({!accountSObjectVariable.AnnualRevenue} < 1000000,"Small", "Big")');
             });
-            it('valides the formula on blur', async () => {
+            it('validates blank formula', async () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 textArea.value = '';
-                textArea.dispatchEvent(blurEvent);
+
+                const formulaBuilder = getFormulaBuilder(propertyEditor);
+                const syntaxBtn = getSyntaxValidation(formulaBuilder);
+                syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
                 await ticks();
-                expect(propertyEditor.node.expression.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                expect(syntaxBtn.validationResult.isValidSyntax).toBeFalsy();
+                expect(getErrorMessage(formulaBuilder).textContent).toEqual(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
             it('displays an error if the formula contains invalid merge fields', async () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 textArea.value = 'IF({!accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
-                textArea.dispatchEvent(blurEvent);
+
+                const formulaBuilder = getFormulaBuilder(propertyEditor);
+                const syntaxBtn = getSyntaxValidation(formulaBuilder);
+                syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
                 await ticks();
-                expect(propertyEditor.node.expression.error).toBe(VALIDATION_ERROR_MESSAGES.UNKNOWN_RECORD_FIELD);
-            });
-            it('does not display an error if the formula contains invalid global variables', async () => {
-                const textArea = getFormulaTextArea(propertyEditor);
-                textArea.value = 'IF({!$accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
-                textArea.dispatchEvent(blurEvent);
-                await ticks();
-                expect(propertyEditor.node.expression.error).toBe(null);
+                expect(getErrorMessage(formulaBuilder).textContent).toEqual(
+                    VALIDATION_ERROR_MESSAGES.UNKNOWN_RECORD_FIELD
+                );
             });
         });
         describe('Resource picker', () => {

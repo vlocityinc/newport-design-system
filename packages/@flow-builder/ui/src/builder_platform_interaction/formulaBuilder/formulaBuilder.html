@@ -54,14 +54,8 @@
                     </div>
                 </div>
             </div>
-            <textarea
-                class="slds-textarea slds-input textarea-input"
-                name={name}
-                id={name}
-                onblur={handleFormulaChanged}
-                onchange={handleFormulaChanged}
-            >
-{_value}
+            <textarea class="slds-textarea slds-input textarea-input" name={name} id={name}>
+                {_value}
             </textarea>
         </div>
         <div if:true={error} class="slds-has-error">

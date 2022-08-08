@@ -1,5 +1,4 @@
 import {
-    blurEvent,
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
@@ -516,54 +515,21 @@ describe('Formula builder', () => {
             eventCallback = jest.fn();
             validateTextWithMergeFields.mockReturnValue([validationError]);
         });
-        it('Should validate global variables by default', () => {
+        it('Should validate global variables by default', async () => {
             const formulaBuilder = createComponentUnderTest({
                 flowProcessType,
                 required: true,
                 value: { value: '{!unknownMergeField}', error: null }
             });
             formulaBuilder.addEventListener('change', eventCallback);
-            const textarea = getTextArea(formulaBuilder);
-            textarea.dispatchEvent(new CustomEvent('blur'));
+            const syntaxBtn = getSyntaxValidation(formulaBuilder);
+            syntaxBtn.dispatchEvent(new CustomEvent('checksyntax'));
+            await ticks(1);
             expect(validateTextWithMergeFields).toHaveBeenCalledWith('{!unknownMergeField}', {
                 allowCollectionVariables: true,
                 allowGlobalConstants: true,
                 ignoreGlobalVariables: false
             });
-        });
-        it('Should not validate global variables in the formula editor', () => {
-            const formulaBuilder = createComponentUnderTest({
-                flowProcessType,
-                required: true,
-                resourcePickerConfig: {
-                    filterOptions: {
-                        forFormula: true
-                    }
-                },
-                value: { value: '{!unknownMergeField}', error: null }
-            });
-            formulaBuilder.addEventListener('change', eventCallback);
-            const textarea = getTextArea(formulaBuilder);
-            textarea.dispatchEvent(new CustomEvent('blur'));
-            expect(validateTextWithMergeFields).toHaveBeenCalledWith('{!unknownMergeField}', {
-                allowCollectionVariables: true,
-                allowGlobalConstants: true,
-                ignoreGlobalVariables: true
-            });
-        });
-        it('Should fire formulachanged event on blur text area with validation errors', async () => {
-            const formulaBuilder = createComponentUnderTest({
-                flowProcessType,
-                required: true,
-                value: { value: '{!unknownMergeField}', error: null }
-            });
-            formulaBuilder.addEventListener('formulachanged', eventCallback);
-            const textArea = getTextArea(formulaBuilder);
-            textArea.dispatchEvent(blurEvent);
-            await ticks(1);
-            expectValueChangedEventWithValue('{!unknownMergeField}', validationError.message);
-            const errorMsg = getErrorMessage(formulaBuilder);
-            expect(errorMsg.textContent).toEqual(validationError.message);
         });
         it('Should fire formulachanged event on click syntax validation button with validation errors', async () => {
             const formulaBuilder = createComponentUnderTest({
@@ -727,16 +693,6 @@ describe('Formula builder', () => {
             expectValueChangedEventWithValue(formula, null);
             expect(fetchPromise.mock.calls[0][0]).toBe(SERVER_ACTION_TYPE.VALIDATE_FORMULA);
             expect(fetchPromise.mock.calls[0][1]).toMatchObject(params);
-        });
-        it('Should check requiredness on text area blur', async () => {
-            const formulaBuilder = createComponentUnderTest({
-                flowProcessType,
-                required: true
-            });
-            const textarea = getTextArea(formulaBuilder);
-            textarea.dispatchEvent(blurEvent);
-            await ticks(1);
-            expect(getErrorMessage(formulaBuilder).textContent).toEqual('FlowBuilderValidation.cannotBeBlank');
         });
         it('Should check requiredness when check syntax button is clicked', async () => {
             const formulaBuilder = createComponentUnderTest({
