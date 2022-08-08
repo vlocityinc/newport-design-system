@@ -22,6 +22,12 @@ branches: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Branche
             require-up-to-date-before-merge: true
             merge-method: disabled # do not auto-merge on approval
             bot-comments: success
+            stages:
+                release:
+                    triggers:
+                        - command
+                        - check-rerun
+                        - pr-merge
         version: &version-definition
             auto-increment: pre-release
             template: "{{slice pom.project.version '.' 0}}.{{autoIncrement}}"
