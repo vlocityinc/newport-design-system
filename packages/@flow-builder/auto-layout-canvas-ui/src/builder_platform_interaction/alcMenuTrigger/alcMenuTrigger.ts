@@ -192,14 +192,8 @@ export default class AlcMenuTrigger extends withKeyboardInteractions(LightningEl
         event.preventDefault();
 
         if (isDefaultMode(this.canvasMode)) {
-            this.toggleMenuVisibility();
-
-            // Focus on the button even if the browser doesn't do it by default
-            // (the behavior differs between Chrome, Safari, Firefox). Focus should not be moved to
-            // End Element
-            if (this.isConnectorVariant() || this.elementMetadata.type !== NodeType.END) {
-                this.focusOnButton();
-            }
+            // W-11477191: Previously focused on button. Now focuses on search box if it exists, list otherwise.
+            this.toggleMenuVisibility(true);
         } else if (this.isConnectorInPasteMode()) {
             this.dispatchEvent(new PasteOnCanvasEvent(this.source, { isCutPaste: true }));
         }

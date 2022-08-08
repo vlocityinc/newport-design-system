@@ -359,9 +359,9 @@ describe('AlcMenuTrigger', () => {
             expect(button.tabIndex).toEqual(-1);
         });
 
-        it('Regular element should get focus on click in Base Mode', async () => {
+        it('Regular element should not get focus on click in Base Mode', async () => {
             const options = {};
-            await assertTriggerFocus(options, true);
+            await assertTriggerFocus(options, false);
         });
 
         it('Regular element should not get focus on click in Selection Mode', async () => {
@@ -371,9 +371,9 @@ describe('AlcMenuTrigger', () => {
             await assertTriggerFocus(options, false);
         });
 
-        it('Regular element should still get focus in base mode on click when disableEditElements is true', async () => {
+        it('Regular element should still not get focus in base mode on click when disableEditElements is true', async () => {
             const options = { disableEditElements: true };
-            await assertTriggerFocus(options, true);
+            await assertTriggerFocus(options, false);
         });
 
         it('End element should not get focus on click in Base Mode', async () => {
