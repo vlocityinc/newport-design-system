@@ -1,6 +1,8 @@
 import getDefaultTimeZone from '@salesforce/apex/interaction.FlowBuilderController.getDefaultTimeZone';
 import getTimeZones from '@salesforce/apex/interaction.FlowBuilderController.getTimeZones';
 import { ValueChangedEvent } from 'builder_platform_interaction/events';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { stringComparator } from 'builder_platform_interaction/sortLib';
 import { api, LightningElement, wire } from 'lwc';
 import { LABELS } from './timeZonePickerLabels';
 
@@ -20,6 +22,10 @@ export default class TimeZonePicker extends LightningElement {
     @api
     required = false;
 
+    // sort option
+    @api
+    sortOrder: Metadata.SortOrder = SORT_ORDER.ASC;
+
     @wire(getTimeZones)
     timeZoneData;
 
@@ -37,12 +43,14 @@ export default class TimeZonePicker extends LightningElement {
     }
 
     get timeZoneOptions() {
-        return (this.timeZoneData?.data || []).map((timezone) => {
+        const options = (this.timeZoneData?.data || []).map((timezone) => {
             return {
                 value: timezone.apiValue,
                 label: timezone.display
             };
         });
+        // sort options by label
+        return options.sort(stringComparator('label', this.sortOrder === SORT_ORDER.DESC));
     }
 
     handleTimeZoneChange(event) {

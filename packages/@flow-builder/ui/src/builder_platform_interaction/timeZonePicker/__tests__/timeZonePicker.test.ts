@@ -2,6 +2,7 @@ import getDefaultTimeZone from '@salesforce/apex/interaction.FlowBuilderControll
 import getTimeZones from '@salesforce/apex/interaction.FlowBuilderController.getTimeZones';
 import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ValueChangedEvent } from 'builder_platform_interaction/events';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { LABELS } from '../timeZonePickerLabels';
 
 const setupComponentUnderTest = async (props) =>
@@ -49,11 +50,23 @@ describe('time-zone-picker', () => {
 
     it('sets the options based on the fetched time zone data', async () => {
         const expectedOptions = [
-            { value: 'Asia/Aden', label: '(GMT+03:00) hora estándar de Arabia (Asia/Aden)' },
             { value: 'America/Los_Angeles', label: '(GMT-07:00) hora de verano del Pacífico (America/Los_Angeles)' },
-            { value: 'Europe/Monaco', label: '(GMT+02:00) hora de verano de Europa central (Europe/Monaco)' }
+            { value: 'Europe/Monaco', label: '(GMT+02:00) hora de verano de Europa central (Europe/Monaco)' },
+            { value: 'Asia/Aden', label: '(GMT+03:00) hora estándar de Arabia (Asia/Aden)' }
         ];
         const timeZonePicker = await setupComponentUnderTest({});
+        getTimeZones.emit(timeZoneMockData);
+        await ticks(1);
+        const baseCombobox = timeZonePicker.shadowRoot.querySelector(selectors.LIGHTNING_COMBOBOX);
+        expect(baseCombobox.options).toEqual(expectedOptions);
+    });
+    it('sets the options based on the fetched time zone data and sort them by desc order', async () => {
+        const expectedOptions = [
+            { value: 'Asia/Aden', label: '(GMT+03:00) hora estándar de Arabia (Asia/Aden)' },
+            { value: 'Europe/Monaco', label: '(GMT+02:00) hora de verano de Europa central (Europe/Monaco)' },
+            { value: 'America/Los_Angeles', label: '(GMT-07:00) hora de verano del Pacífico (America/Los_Angeles)' }
+        ];
+        const timeZonePicker = await setupComponentUnderTest({ sortOrder: SORT_ORDER.DESC });
         getTimeZones.emit(timeZoneMockData);
         await ticks(1);
         const baseCombobox = timeZonePicker.shadowRoot.querySelector(selectors.LIGHTNING_COMBOBOX);
