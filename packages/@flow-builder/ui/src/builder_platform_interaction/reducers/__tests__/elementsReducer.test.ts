@@ -1341,6 +1341,39 @@ describe('elements-reducer', () => {
                 });
                 expect(newElementState).toEqual(updatedElements);
             });
+
+            it('Canvas element that is selected but highlighted, canvas element should stay selected and not be disabled when highlighted.', () => {
+                const getElementWithConfigProp = (
+                    guid,
+                    isCanvasElement,
+                    isSelected,
+                    isHighlighted,
+                    hasError = false,
+                    isSelectable = false
+                ) => {
+                    return {
+                        guid,
+                        isCanvasElement,
+                        config: {
+                            isSelected,
+                            isHighlighted,
+                            hasError,
+                            isSelectable
+                        }
+                    };
+                };
+                const oldElement = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, false, false, true)
+                };
+                const updatedElements = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true, false, true)
+                };
+                const newElementState = elementReducer(oldElement, {
+                    type: HIGHLIGHT_ON_CANVAS,
+                    payload: { guid: 'highlightGUID' }
+                });
+                expect(newElementState).toEqual(updatedElements);
+            });
         });
 
         describe('Other canvas elements that have not been searched', () => {

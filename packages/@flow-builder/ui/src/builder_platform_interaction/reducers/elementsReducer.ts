@@ -619,7 +619,8 @@ function _highlightCanvasElement(elements, elementGuid) {
                         config: {
                             isSelected: element.config.isSelected,
                             isHighlighted: true,
-                            hasError: element.config.hasError
+                            hasError: element.config.hasError,
+                            isSelectable: element.config.isSelectable
                         }
                     });
                 }
@@ -628,7 +629,8 @@ function _highlightCanvasElement(elements, elementGuid) {
                     config: {
                         isSelected: element.config.isSelected,
                         isHighlighted: false,
-                        hasError: element.config.hasError
+                        hasError: element.config.hasError,
+                        isSelectable: element.config.isSelectable
                     }
                 });
             }
