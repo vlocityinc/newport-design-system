@@ -2,6 +2,11 @@ enforce-work-item-for-pr: true
 notifications: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Notifications
     slack:
         channel: automation-services-git-help
+        triggers:
+            - project-sync-results
+            - release-error
+            - deployment-queue-blocked
+            - deployment-error
 core-deploy: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Core+Deployment+Config
     enabled: true
     user-core-packager: true
@@ -23,7 +28,6 @@ branches: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Branche
             workflow: core-deploy
             require-up-to-date-before-merge: true
             merge-method: disabled # do not auto-merge on approval
-            bot-comments: success
             stages:
                 release:
                     triggers:
