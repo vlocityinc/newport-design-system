@@ -20,19 +20,6 @@ See [the Salesforce guide on Commit Signing](https://confluence.internal.salesfo
 -   [GPG Suite](https://gpgtools.org/) so that you can add your GPG key to your keychain.
 -   VSCode supports commit signing with the following setting `"git.enableCommitSigning": true`
 
-## Working with Forks and Branches
-
-1. Fork this repository. This creates an identical copy of the original repo but under your name.
-   ![Fork Button](https://help.github.com/assets/images/help/repository/fork_button.jpg)
-1. Clone this repository to your local filesystem. Please don't put it in the `blt` folder.
-    ```bash
-    git clone git@git.soma.salesforce.com:<YOUR_GITHUB_NAME>/ui-interaction-builder-components.git
-    ```
-1. Let's add the upstream repository.
-    ```bash
-    git remote add upstream git@git.soma.salesforce.com:automation-platform/ui-interaction-builder-components.git
-    ```
-
 ## Git Workflow
 
 ### Create a feature branch
