@@ -2,6 +2,7 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import type { UpdateRelatedRecordFieldsChangeEvent } from 'builder_platform_interaction/events';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import {
@@ -10,6 +11,7 @@ import {
     RECORD_UPDATE_WAY_TO_FIND_RECORDS
 } from 'builder_platform_interaction/flowMetadata';
 import { resolveReferenceFromIdentifier } from 'builder_platform_interaction/mergeFieldLib';
+import { getRelatedRecordName } from 'builder_platform_interaction/relatedRecordLib';
 import { UPDATEABLE_FILTER } from 'builder_platform_interaction/selectors';
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 import {
@@ -26,6 +28,7 @@ import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './recordUpdateEditorLabels';
 import { recordUpdateReducer } from './recordUpdateReducer';
 const { format } = commonUtils;
+
 export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
@@ -212,12 +215,26 @@ export default class RecordUpdateEditor extends LightningElement {
         return getValueFromHydratedItem(this.state.recordUpdateElement.object);
     }
 
-    get showConditionsAndAssignments(): boolean {
+    /**
+     * Display or not the field filters and assignments sections
+     *
+     * @returns true if valid related record or triggered record or object selected, otherwise false
+     */
+    get showConditionsAndAssignments() {
         return (
-            this.isTriggeringOrRelatedRecord ||
-            (this.isRecordLookup && this.objectName !== '') ||
-            (this.isRelatedRecordLookUp && this.objectName !== '')
+            (this.isRelatedRecordLookup && this.hasValidRelatedRecord) ||
+            this.isTriggeringRecord ||
+            (this.isRecordLookup && this.objectName !== '')
         );
+    }
+
+    /**
+     * Display or not the related record helpText
+     *
+     * @returns true if to be displayed, false otherwise
+     */
+    get showRelatedRecordHelpText() {
+        return this.isRelatedRecordLookup && this.hasValidRelatedRecord;
     }
 
     get showSobjectPicker(): boolean {
@@ -226,6 +243,10 @@ export default class RecordUpdateEditor extends LightningElement {
 
     get recordEntityName(): string {
         return this.isTriggeringOrRelatedRecord ? this.dollarRecordName() : this.objectName;
+    }
+
+    get recordEntityNameForConditionsAndAssignments(): string {
+        return this.isRelatedRecordLookup ? this.state.relatedRecordFieldSubType : this.recordEntityName;
     }
 
     get isTriggeringOrRelatedRecord(): boolean {
@@ -247,7 +268,9 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get resourceDisplayText() {
-        const entityToDisplay = getUpdateableEntities().find((entity) => entity.apiName === this.recordEntityName);
+        const entityToDisplay = getUpdateableEntities().find(
+            (entity) => entity.apiName === this.recordEntityNameForConditionsAndAssignments
+        );
         if (entityToDisplay) {
             return entityToDisplay.entityLabel;
         }
@@ -307,6 +330,15 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     /**
+     * is related record current value valid?
+     *
+     * @returns true if valid otherwise false
+     */
+    get hasValidRelatedRecord() {
+        return !!this.state.relatedRecordFieldSubType && !this.state.recordUpdateElement?.inputReference?.error;
+    }
+
+    /**
      * get the fields of the selected entity
      *
      * @param recordEntityName - selected Entity name
@@ -346,17 +378,9 @@ export default class RecordUpdateEditor extends LightningElement {
     getRecordRelatedFieldsAndUpdateFields = async () => {
         const fields = await resolveReferenceFromIdentifier(this.inputReference, true);
         if (fields) {
-            const { apiName, isCustom, isPolymorphic, isRelatedRecordChild, sobjectName } = fields.pop();
-            let leafRecordName;
-            if (isRelatedRecordChild) {
-                leafRecordName = sobjectName;
-            } else if (isCustom) {
-                leafRecordName = apiName;
-            } else if (isPolymorphic) {
-                leafRecordName = this.inputReference.split(':').slice(-1);
-            }
-            this.state.relatedRecordFieldSubType = leafRecordName;
-            this.updateFields(leafRecordName);
+            const relatedRecordName = getRelatedRecordName(fields.pop(), this.inputReference);
+            this.state.relatedRecordFieldSubType = relatedRecordName;
+            this.updateFields(relatedRecordName);
         } else {
             this.state.entityFields = {};
         }

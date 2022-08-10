@@ -1,6 +1,6 @@
 // @ts-nocheck
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces, getPolymorphicFieldSObjectName } from 'builder_platform_interaction/commonUtils';
 import {
     FLOW_DATA_TYPE,
     getDataTypeIcons,
@@ -115,7 +115,7 @@ function getSubText(dataType, label, { subtype, isSystemGeneratedOutput, element
 /**
  * Create one menu item
  *
- * @param {Object} args
+ * @param {Object} args arguments
  * @param {string} args.type - the type of the menu item
  * @param {string} args.text - the text of the menu item
  * @param {string} args.subText - the subtext of the menu item
@@ -181,7 +181,7 @@ const shouldShowDataTypeAsSubText = (parent) =>
  * Get sub text for given field
  *
  * @param {Object} [parent] Parent object if field is a second level item
- * @param field
+ * @param field field
  * @returns {string} the subtext to display
  */
 function getFieldSubText(parent, field) {
@@ -217,21 +217,22 @@ function getFieldDisplayText(parent, fieldNameOrRelationshipName, specificObject
 }
 
 /**
- * @param root0
- * @param root0.text
- * @param root0.iconName
- * @param root0.iconAlternativeText
- * @param root0.subText
- * @param root0.displayText
- * @param root0.value
- * @param root0.parent
- * @param root0.isSystemVariableField
- * @param root0.haveSystemVariableFields
- * @param root0.hasNext
- * @param root0.dataType
- * @param root0.subtype
- * @param root0.isCollection
- * @param root0.getChildrenItems
+ * @param root0 field
+ * @param root0.text text
+ * @param root0.iconName icon name
+ * @param root0.iconAlternativeText icon alternative text
+ * @param root0.subText subtext
+ * @param root0.displayText display text
+ * @param root0.value value
+ * @param root0.parent parent
+ * @param root0.isSystemVariableField is a system variable field?
+ * @param root0.haveSystemVariableFields have system variables fields?
+ * @param root0.hasNext has next
+ * @param root0.dataType data type
+ * @param root0.subtype subtype
+ * @param root0.isCollection is a collection?
+ * @param root0.getChildrenItems function to retrieve field's children items
+ * @returns corresponding menu item
  */
 function createMenuItemForField({
     text = '',
@@ -274,12 +275,15 @@ function createMenuItemForField({
 }
 
 /**
- * @param field
- * @param parent
- * @param referenceToName
- * @param root0
- * @param root0.showAsFieldReference
- * @param root0.showSubText
+ * Get menu item based on a given spannable field
+ *
+ * @param field field
+ * @param parent parent
+ * @param referenceToName referenceToName
+ * @param root0 config
+ * @param root0.showAsFieldReference show as field reference or not?
+ * @param root0.showSubText show subtext or not?
+ * @returns corresponding menu item
  */
 function getMenuItemForSpannableSObjectField(
     field,
@@ -314,7 +318,10 @@ function getMenuItemForSpannableSObjectField(
 }
 
 /**
- * @param item
+ * Get the merge field level of the given item
+ *
+ * @param item item
+ * @returns merge field level of the given item
  */
 function getMergeFieldLevel(item) {
     let mergeFieldLevel = 1;
@@ -328,13 +335,14 @@ function getMergeFieldLevel(item) {
 }
 
 /**
- * @param field
- * @param parent
- * @param root0
- * @param root0.showAsFieldReference
- * @param root0.showSubText
- * @param root0.allowSObjectFieldsTraversal
+ * @param field field
+ * @param parent parent
+ * @param root0 config
+ * @param root0.showAsFieldReference show as field reference?
+ * @param root0.showSubText show subtext?
+ * @param root0.allowSObjectFieldsTraversal allow sobject field traversal?
  * @param root0.includeEntityRelatedRecordFields - true if the entity related fields are included
+ * @returns array of menu items
  */
 function getMenuItemsForSObjectField(
     field,
@@ -385,14 +393,15 @@ function getMenuItemsForSObjectField(
 }
 
 /**
- * @param field
- * @param parent
- * @param root0
- * @param root0.allowSObjectFieldsTraversal
- * @param root0.allowApexTypeFieldsTraversal
- * @param root0.allowSObjectFields
- * @param root0.allowApexTypeFields
- * @param root0.allowElementFields
+ * @param field field
+ * @param parent parent
+ * @param root0 config
+ * @param root0.allowSObjectFieldsTraversal allow sobject fields traversal?
+ * @param root0.allowApexTypeFieldsTraversal allow Apex type fields traversal?
+ * @param root0.allowSObjectFields allow sobject fields?
+ * @param root0.allowApexTypeFields allow Apex typ fields?
+ * @param root0.allowElementFields allow element fields?
+ * @returns true if is traversable false otherwise
  */
 function isTraversable(
     field,
@@ -451,7 +460,18 @@ const getMenuitemFieldText = (
     return text;
 };
 
-const buildMenuitemFieldParentValue = (
+/**
+ * Get the full merge field value (including parent) for a given field and its corresponding parent return
+ *
+ * @param field field
+ * @param field.apiName api name
+ * @param field.isPolymorphic is polymorphic?
+ * @param field.relationshipName relationship name
+ * @param parentValue parent value
+ * @param isRelatedRecordLookupField is related record field?
+ * @returns full merge field value including parent one
+ */
+export const getParentValue = (
     { apiName, isPolymorphic, relationshipName },
     parentValue,
     isRelatedRecordLookupField
@@ -460,7 +480,7 @@ const buildMenuitemFieldParentValue = (
     if (isRelatedRecordLookupField && !isPolymorphic) {
         value += relationshipName;
     } else if (isRelatedRecordLookupField && isPolymorphic) {
-        value += `${relationshipName}:${apiName.split(':').slice(-1)}`;
+        value += `${relationshipName}:${getPolymorphicFieldSObjectName(apiName)}`;
     } else {
         value += apiName;
     }
@@ -522,7 +542,7 @@ export function getMenuItemForField(
         parent: showAsFieldReference ? parent : null,
         isSystemVariableField: parent ? parent.haveSystemVariableFields : false,
         text: getMenuitemFieldText(field, isRelatedRecordLookupField, referenceToName),
-        value: parent ? buildMenuitemFieldParentValue(field, parent.value, isRelatedRecordLookupField) : apiName,
+        value: parent ? getParentValue(field, parent.value, isRelatedRecordLookupField) : apiName,
         hasNext,
         displayText: getFieldDisplayText(parent, apiName, undefined, showAsFieldReference),
         getChildrenItems

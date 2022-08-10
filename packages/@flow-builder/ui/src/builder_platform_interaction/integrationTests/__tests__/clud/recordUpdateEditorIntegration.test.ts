@@ -664,7 +664,7 @@ describe('Triggering Record Update Editor', () => {
         describe('Handle event wayToFindRecords changed to Related Record Lookup', () => {
             let recordFilter;
             let relatedRecordFieldsPicker;
-            beforeAll(async () => {
+            beforeEach(async () => {
                 getLightningRadioGroup(recordUpdateComponent).dispatchEvent(
                     new CustomEvent('change', {
                         detail: { value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP }
@@ -674,19 +674,16 @@ describe('Triggering Record Update Editor', () => {
                 recordFilter = getRecordFilter(recordUpdateComponent);
                 relatedRecordFieldsPicker = getRelatedRecordFieldsPicker(recordUpdateComponent);
             });
-            it('should display the filter', () => {
-                expect(recordFilter).not.toBeNull();
+            it('should NOT display the filters', () => {
+                expect(recordFilter).toBeNull();
             });
-            it('should have filter logic equals to "no conditions"', () => {
-                expect(recordFilter.filterLogic).toMatchObject({ error: null, value: CONDITION_LOGIC.NO_CONDITIONS });
-            });
-            it('should display the Related Record Fields Picker', () => {
+            it('should display the Related Record Fields Picker with correct label', () => {
                 expect(relatedRecordFieldsPicker).not.toBeNull();
             });
-            it('should display the inputAssignment', () => {
-                expect(getRecordInputOutputAssignments(recordUpdateComponent)).not.toBeNull();
+            it('should NOT display the inputAssignment', () => {
+                expect(getRecordInputOutputAssignments(recordUpdateComponent)).toBeNull();
             });
-            it('should not display the sObject picker', () => {
+            it('should NOT display the sObject picker', () => {
                 expect(getSObjectOrSObjectCollectionPicker(recordUpdateComponent)).toBeNull();
             });
             test('Related Record Picker should have the correct label', () => {

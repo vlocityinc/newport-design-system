@@ -53,9 +53,10 @@ export function resolveReferenceFromIdentifier(
 }
 
 /**
- * @param flowResource
- * @param fieldNames
+ * @param flowResource flow resource to be resolved
+ * @param fieldNames field names array
  * @param isTriggeringRelatedRecord true need to get the related fields
+ * @returns Promise with flow resource as value
  */
 function resolveComplexTypeReference(
     flowResource,
@@ -170,8 +171,11 @@ function resolveRecordRelatedField(
     if (remainingFieldNames.length > 0 || _isPolymorphicField(fieldName)) {
         const { relationshipName, specificEntityName } = getPolymorphicRelationShipName(fieldName);
         const field = getEntityFieldWithRelationshipName(fields, relationshipName);
+        if (!field) {
+            return undefined;
+        }
         const referenceToName = getReferenceToName(field, specificEntityName);
-        if (!field || !referenceToName) {
+        if (!referenceToName) {
             return undefined;
         }
         if (_isPolymorphicField(fieldName) && remainingFieldNames.length === 0) {
@@ -344,7 +348,8 @@ function entityFieldIncludesReferenceToName(entityField, referenceToName: string
 }
 
 /**
- * @param fieldName
+ * @param fieldName field name
+ * @returns corresponding polymorphic relationship name
  */
 export function getPolymorphicRelationShipName(fieldName: string): {
     relationshipName: string;
@@ -361,8 +366,9 @@ export function getPolymorphicRelationShipName(fieldName: string): {
 }
 
 /**
- * @param fields
- * @param relationshipName
+ * @param fields array of fields
+ * @param relationshipName relationship name
+ * @returns field matching the relationship name or undefined if no match
  */
 export function getEntityFieldWithRelationshipName(fields, relationshipName: string) {
     relationshipName = relationshipName.toLowerCase();
@@ -382,7 +388,8 @@ export function getEntityFieldWithRelationshipName(fields, relationshipName: str
 }
 
 /**
- * @param extension
+ * @param extension extension
+ * @returns extension output parameters
  */
 function getExtensionOutputParamDescriptions(extension) {
     return extension.outputParameters.reduce((acc, parameter) => {

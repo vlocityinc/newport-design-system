@@ -2,17 +2,20 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS,
     setDocumentBodyChildren,
+    tick,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     AddRecordFieldAssignmentEvent,
     AddRecordFilterEvent,
+    ComboboxStateChangedEvent,
     DeleteRecordFieldAssignmentEvent,
     DeleteRecordFilterEvent,
     PropertyChangedEvent,
     SObjectReferenceChangedEvent,
     UpdateRecordFieldAssignmentEvent,
-    UpdateRecordFilterEvent
+    UpdateRecordFilterEvent,
+    UpdateRelatedRecordFieldsChangeEvent
 } from 'builder_platform_interaction/events';
 import {
     CONDITION_LOGIC,
@@ -23,6 +26,7 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName, getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { createElement } from 'lwc';
+import { mockFieldsPerRelatedRecordValue } from 'mock/fieldsData';
 import { accountSObjectVariable, flowWithAllElementsUIModel, updateAccountWithFilter } from 'mock/storeData';
 import {
     getElementByName,
@@ -56,6 +60,11 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getStartObject: jest.fn().mockReturnValue('MockEntityName')
     });
 });
+jest.mock('builder_platform_interaction/mergeFieldLib', () => ({
+    resolveReferenceFromIdentifier: jest.fn((recordUpdateInputReference) =>
+        Promise.resolve(mockFieldsPerRelatedRecordValue.get(recordUpdateInputReference))
+    )
+}));
 
 const MOCK_AFTER_SAVE: string = FLOW_TRIGGER_TYPE.AFTER_SAVE;
 const MOCK_BEFORE_SAVE: string = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
@@ -223,69 +232,10 @@ const triggeringRecordElement = {
     }
 };
 
-const relatedRecordLookupElement = {
-    guid: '574474cf-2e90-43e4-8f04-95a03e87dd8d',
-    name: {
-        value: '',
-        error: null
-    },
-    description: {
-        value: '',
-        error: null
-    },
-    label: {
-        value: '',
-        error: null
-    },
-    locationX: 444,
-    locationY: 63.3125,
-    isCanvasElement: true,
-    connectorCount: 0,
-    config: {
-        isSelected: false,
-        isHighlighted: false,
-        isSelectable: true
-    },
-    elementSubtype: {
-        value: null,
-        error: null
-    },
-    inputReference: {
-        value: '',
-        error: null
-    },
-    inputReferenceIndex: {
-        value: '8fd8d550-7478-4411-93ab-3c844fb93cfc',
-        error: null
-    },
-    maxConnections: 2,
-    availableConnections: [
-        {
-            type: 'REGULAR'
-        },
-        {
-            type: 'FAULT'
-        }
-    ],
-    elementType: 'RecordUpdate',
-    inputAssignments: [],
-    filters: [],
-    filterLogic: {
-        value: CONDITION_LOGIC.NO_CONDITIONS,
-        error: null
-    },
-    object: {
-        value: '',
-        error: null
-    },
-    objectIndex: {
-        value: '0d5629a2-48b2-4ea0-9603-a7a43e0a0ca6',
-        error: null
-    },
-    wayToFindRecords: {
-        value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP,
-        error: null
-    }
+const SELECTORS = {
+    recordFilterTitle: '.slds-text-heading_small',
+    infoMessage: '.slds-media__body',
+    relatedRecordHelpText: 'div[data-id="relatedRecordFieldsPickerHelpText"]'
 };
 
 const getSObjectOrSObjectCollectionPicker = (recordUpdateEditor) =>
@@ -312,10 +262,8 @@ const getInputOutputAssignments = (recordUpdateEditor) =>
 const getLightningFormattedRichText = (recordUpdateEditor) =>
     recordUpdateEditor.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_FORMATTED_RICH_TEXT);
 
-const selectors = {
-    recordFilterTitle: '.slds-text-heading_small',
-    infoMessage: '.slds-media__body'
-};
+const getRelatedRecordHelpText = (recordUpdateEditor: HTMLElement) =>
+    recordUpdateEditor.shadowRoot!.querySelector(SELECTORS.relatedRecordHelpText);
 
 const runQuerySelector = (context, selector) => {
     return context.shadowRoot.querySelector(selector);
@@ -397,36 +345,6 @@ describe('record-update-editor', () => {
                 expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
             });
         });
-        describe('using relatedRecordLookup', () => {
-            let recordUpdateEditor: RecordUpdateEditor;
-            beforeAll(() => {
-                (getTriggerType as jest.Mock).mockReturnValue(MOCK_AFTER_SAVE);
-            });
-            beforeEach(() => {
-                recordUpdateEditor = createComponentForTest(relatedRecordLookupElement);
-            });
-            it('contains a related Record Fields Picker', () => {
-                const sObjectPicker = getRelatedRecordFieldsPicker(recordUpdateEditor);
-                expect(sObjectPicker).not.toBeNull();
-            });
-            it('has a visible radioGroup', () => {
-                const wayToFindRecords = getLightningRadioGroup(recordUpdateEditor);
-                expect(wayToFindRecords).not.toBeNull();
-                expect(wayToFindRecords.options).toHaveLength(4);
-                expect(wayToFindRecords.value).toBe(RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP);
-            });
-            it('has visible recordFilters where filter logic is NO_CONDITIONS and filters are empty', () => {
-                const recordFilter = getRecordFilter(recordUpdateEditor);
-                expect(recordFilter).not.toBeNull();
-                expect(recordFilter.filterLogic.value).toBe(CONDITION_LOGIC.NO_CONDITIONS);
-            });
-            it('has visible inputAssignments', () => {
-                expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
-            });
-            it('does not have a visible entity picker', () => {
-                expect(getEntityResourcePicker(recordUpdateEditor)).toBeNull();
-            });
-        });
     });
     describe('existing', () => {
         describe('using sObject', () => {
@@ -475,7 +393,7 @@ describe('record-update-editor', () => {
                 expect(sObjectOrSObjectCollectionPicker.isPillSupported).toBe(true);
             });
             it('does not have an info message', () => {
-                expect(runQuerySelector(recordUpdateEditor, selectors.infoMessage)).toBeNull();
+                expect(runQuerySelector(recordUpdateEditor, SELECTORS.infoMessage)).toBeNull();
             });
 
             describe('Handle Events', () => {
@@ -541,8 +459,8 @@ describe('record-update-editor', () => {
             });
             it('has the correct texts', () => {
                 const recordFilter = getRecordFilter(recordUpdateEditor);
-                expect(runQuerySelector(recordUpdateEditor, selectors.infoMessage)).toBeNull();
-                expect(runQuerySelector(recordFilter, selectors.recordFilterTitle).textContent).toBe(
+                expect(runQuerySelector(recordUpdateEditor, SELECTORS.infoMessage)).toBeNull();
+                expect(runQuerySelector(recordFilter, SELECTORS.recordFilterTitle).textContent).toBe(
                     'FlowBuilderRecordUpdateEditor.findRecords'
                 );
             });
@@ -762,8 +680,8 @@ describe('record-update-editor', () => {
             });
             it('has the correct texts', () => {
                 const recordFilter = getRecordFilter(recordUpdateEditor);
-                expect(runQuerySelector(recordUpdateEditor, selectors.infoMessage)).toBeNull();
-                expect(runQuerySelector(recordFilter, selectors.recordFilterTitle).textContent).toBe(
+                expect(runQuerySelector(recordUpdateEditor, SELECTORS.infoMessage)).toBeNull();
+                expect(runQuerySelector(recordFilter, SELECTORS.recordFilterTitle).textContent).toBe(
                     'FlowBuilderRecordEditor.findRecords'
                 );
             });
@@ -777,6 +695,24 @@ describe('record-update-editor', () => {
                     await ticks(1);
                     const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
                     expect(sObjectOrSObjectCollectionPicker.value).toBe('');
+                });
+                it('should hide filters and input assignments when the object is empty', async () => {
+                    getEntityResourcePicker(recordUpdateEditor).dispatchEvent(
+                        new ComboboxStateChangedEvent(null, '', 'A value is required.')
+                    );
+                    await tick();
+                    expect(getRecordFilter(recordUpdateEditor)).toBeNull();
+                    expect(getInputOutputAssignments(recordUpdateEditor)).toBeNull();
+                });
+                test('changing the way to find the record(s) to update to "related record" mode should hide filters and input assignments', async () => {
+                    getLightningRadioGroup(recordUpdateEditor).dispatchEvent(
+                        new CustomEvent('change', {
+                            detail: { value: RECORD_UPDATE_WAY_TO_FIND_RECORDS.RELATED_RECORD_LOOKUP }
+                        })
+                    );
+                    await tick();
+                    expect(getRecordFilter(recordUpdateEditor)).toBeNull();
+                    expect(getInputOutputAssignments(recordUpdateEditor)).toBeNull();
                 });
                 describe('on TRIGGERING_RECORD change event', () => {
                     beforeEach(() => {
@@ -862,25 +798,27 @@ describe('record-update-editor', () => {
             });
         });
         describe('using related record fields', () => {
-            let recordUpdateEditor, recordUpdateNode;
-            beforeAll(() => {
-                // @ts-ignore
+            let recordUpdateEditor: HTMLElement;
+            beforeAll(async () => {
                 Store.setMockState(recordTriggeredFlowUIModel);
-                (getTriggerType as jest.Mock).mockReturnValue({});
+                const recordUpdateNode = getElementForPropertyEditor(updateTriggerRecordWithRelatedFields);
+                recordUpdateEditor = createComponentForTest(recordUpdateNode);
+                await tick();
             });
             afterAll(() => {
-                // @ts-ignore
                 Store.resetStore();
             });
-            beforeEach(() => {
-                recordUpdateNode = getElementForPropertyEditor(updateTriggerRecordWithRelatedFields);
-                recordUpdateEditor = createComponentForTest(recordUpdateNode);
-            });
-            it('has the related record fields picker visible &  has the sObject picker not visible', () => {
+            it('has the related record fields picker visible', () => {
                 const relatedRecordFieldsPicker = getRelatedRecordFieldsPicker(recordUpdateEditor);
+                expect(relatedRecordFieldsPicker).not.toBeNull();
+            });
+            it('has the related record fields picker helpText visible', () => {
+                const relatedRecordFieldsPickerHelpText = getRelatedRecordHelpText(recordUpdateEditor);
+                expect(relatedRecordFieldsPickerHelpText).not.toBeNull();
+            });
+            it('has the sObject picker not visible', () => {
                 const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
                 expect(sObjectOrSObjectCollectionPicker).toBeNull();
-                expect(relatedRecordFieldsPicker).not.toBeNull();
             });
             it('has visible recordFilters', () => {
                 const recordFilter = getRecordFilter(recordUpdateEditor);
@@ -891,6 +829,45 @@ describe('record-update-editor', () => {
             });
             it('has visible inputAssignments', () => {
                 expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
+            });
+            it.each`
+                inputReference | error
+                ${''}          | ${'A value is required.'}
+                ${'$Record'}   | ${'Enter a valid value.'}
+            `(
+                'should hide helpText, filters, assignments when inputReference is "$inputReference"',
+                async ({ inputReference, error }) => {
+                    getRelatedRecordFieldsPicker(recordUpdateEditor).dispatchEvent(
+                        new UpdateRelatedRecordFieldsChangeEvent(inputReference, undefined, error)
+                    );
+                    await tick();
+                    expect(getRelatedRecordHelpText(recordUpdateEditor)).toBeNull();
+                    expect(getInputOutputAssignments(recordUpdateEditor)).toBeNull();
+                    expect(getRecordFilter(recordUpdateEditor)).toBeNull();
+                }
+            );
+            it('should display helpText, filters, assignments when after an invalid related record a valid one is used', async () => {
+                const relatedRecordFieldsPicker = getRelatedRecordFieldsPicker(recordUpdateEditor);
+                relatedRecordFieldsPicker.dispatchEvent(
+                    new UpdateRelatedRecordFieldsChangeEvent('', undefined, 'A value is required.')
+                );
+                relatedRecordFieldsPicker.dispatchEvent(
+                    new UpdateRelatedRecordFieldsChangeEvent('$Record.Parent.Contacts', 'Contact', null)
+                );
+                await tick();
+                expect(getRelatedRecordHelpText(recordUpdateEditor)).not.toBeNull();
+                expect(getInputOutputAssignments(recordUpdateEditor)).not.toBeNull();
+                expect(getRecordFilter(recordUpdateEditor)).not.toBeNull();
+            });
+            it('has the correct related record entity for conditions and assignments', async () => {
+                getRelatedRecordFieldsPicker(recordUpdateEditor).dispatchEvent(
+                    new UpdateRelatedRecordFieldsChangeEvent('$Record.Owner', 'User', null)
+                );
+                await tick();
+                const inputAssignments = getInputOutputAssignments(recordUpdateEditor);
+                const recordFilter = getRecordFilter(recordUpdateEditor);
+                expect(inputAssignments.recordEntityName).toEqual('User');
+                expect(recordFilter.recordEntityName).toEqual('User');
             });
         });
     });

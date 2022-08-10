@@ -76,7 +76,11 @@
                 >
                 </builder_platform_interaction-related-record-fields-picker>
             </div>
-            <div if:true={isRelatedRecordLookup} class="slds-p-horizontal_small slds-form-element slds-m-bottom_small">
+            <div
+                if:true={showRelatedRecordHelpText}
+                data-id="relatedRecordFieldsPickerHelpText"
+                class="slds-p-horizontal_small slds-form-element slds-m-bottom_small"
+            >
                 <span>{relatedRecordFieldsPickerHelpText}</span>
             </div>
         </div>
@@ -120,7 +124,7 @@
             show-warning-message={showWarningMessage}
             is-singular={isTriggeringOrRelatedRecord}
             title={recordFilterTitle}
-            record-entity-name={recordEntityName}
+            record-entity-name={recordEntityNameForConditionsAndAssignments}
             record-fields={recordFieldsToFilter}
             onaddrecordfilter={handlePropertyOrListItemChanged}
             onupdaterecordfilter={handlePropertyOrListItemChanged}
@@ -133,7 +137,7 @@
         <builder_platform_interaction-record-input-output-assignments
             input-output-assignments-items={state.recordUpdateElement.inputAssignments}
             resource-display-text={resourceDisplayText}
-            record-entity-name={recordEntityName}
+            record-entity-name={recordEntityNameForConditionsAndAssignments}
             record-fields={recordFieldsToUpdate}
             element-type={state.recordUpdateElement.elementType}
             title={assignmentTitle}

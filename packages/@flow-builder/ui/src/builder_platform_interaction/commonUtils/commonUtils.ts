@@ -38,15 +38,13 @@ export const addCurlyBraces = (value: string) => {
 };
 
 /**
- * Splits a string by period. If no period, returns the string
+ * Split a string by a given separator (period character by default if none passed)
  *
  * @param value The string to split
  * @param separator The separator string to split the value. Defaults to period.
- * @returns The string split by given separator
+ * @returns The string array resulting from the split by given separator
  */
-export const splitStringBySeparator = (value: string, separator = '.') => {
-    return value.split(separator);
-};
+export const splitStringBySeparator = (value: string, separator = '.') => value.split(separator);
 
 /**
  * Remove curly braces and bang from the value if it exists.
@@ -75,7 +73,7 @@ export const isValidNumber = (value: string | number): boolean => {
 };
 
 /**
- * Sanitize a string so it is a valid dev name
+ * Sanitize a string, so it is a valid dev name
  * This includes:
  * Prepending an 'X' if it begins with a number
  * Stripping off preceding and trailing invalid characters
@@ -133,8 +131,9 @@ export function isReference(value: string): boolean {
 /**
  * Checks if a property is set on a given object, and returns it's value if so; else, return true by default
  *
- * @param object
- * @param propertyName
+ * @param object object
+ * @param propertyName property name
+ * @returns is the given property only owned by the given object?
  */
 export function getPropertyOrDefaultToTrue(object: Object, propertyName: string) {
     return object.hasOwnProperty(propertyName) && object[propertyName] !== undefined ? object[propertyName] : true;
@@ -143,7 +142,7 @@ export function getPropertyOrDefaultToTrue(object: Object, propertyName: string)
 export const APP_EXCHANGE_LINK = 'https://appexchange.salesforce.com/appxStore?type=Flow';
 
 /**
- * Basicaly converts possible string boolean values into real booleans
+ * Basically converts possible string boolean values into real booleans
  *
  * @param rawValue - dirty value about to be sanitized could be false, true or "false", "true"
  * @returns corresponding "pure" boolean value (eg: 'false' => false)
@@ -153,8 +152,9 @@ export const sanitizeBoolean = (rawValue?: string | boolean) => {
 };
 
 /**
- * @param obj
- * @param prop
+ * @param obj object
+ * @param prop property name
+ * @returns is the given property only owned by the given object?
  */
 export function hasOwnProperty<X extends {}, Y extends PropertyKey>(obj: X, prop: Y): obj is X & Record<Y, unknown> {
     return obj.hasOwnProperty(prop);
@@ -184,3 +184,14 @@ export function removeOrgNamespace(value: string): string {
     }
     return value;
 }
+
+const POLYMORPHIC_FIELD_SEPARATOR = ':';
+
+/**
+ * Get the leaf SObject part for a given polymorphic merge field value
+ *
+ * @param mergeFieldValue merge field with leaf polymorphic field value (eg: $Record.Owner:User)
+ * @returns SObject part of the given polymorphic field (eg: User for Owner:User)
+ */
+export const getPolymorphicFieldSObjectName = (mergeFieldValue = '') =>
+    splitStringBySeparator(mergeFieldValue, POLYMORPHIC_FIELD_SEPARATOR).slice(-1)[0];

@@ -32,6 +32,7 @@ import { systemVariablesForOrchestration } from 'serverData/GetSystemVariables/s
 import {
     getMenuItemForField,
     getMenuItemsForField,
+    getParentValue,
     getSystemAndGlobalVariableMenuData,
     mutateFlowResourceToComboboxShape,
     mutatePicklistValue
@@ -565,5 +566,20 @@ describe('menuDataGenerator', () => {
             });
             expect(menuItems[0].hasNext).toBeFalsy();
         });
+    });
+
+    describe('"getParentValue"', () => {
+        it.each`
+            field                                                                          | parentValue  | isRelatedRecordLookupField | expected
+            ${{ apiName: 'AccountId', isPolymorphic: false, relationshipName: 'Account' }} | ${'$Record'} | ${true}                    | ${'$Record.Account'}
+            ${{ apiName: 'Attachments', isPolymorphic: true, relationshipName: 'Parent' }} | ${'$Record'} | ${false}                   | ${'$Record.Attachments'}
+            ${{ apiName: 'Owner:user', isPolymorphic: true, relationshipName: 'Owner' }}   | ${'$Record'} | ${true}                    | ${'$Record.Owner:user'}
+        `(
+            'should return "$expected" for field: $field, parentValue: $parentValue and isRelatedRecordLookupField: $isRelatedRecordLookupField',
+            async ({ field, parentValue, isRelatedRecordLookupField, expected }) => {
+                const actual = getParentValue(field, parentValue, isRelatedRecordLookupField);
+                expect(actual).toBe(expected);
+            }
+        );
     });
 });

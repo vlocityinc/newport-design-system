@@ -7,13 +7,16 @@
         "namespace": "builder_platform_interaction",
         "ui": true
     },
+    "config": {
+        "eslintMaxWarnings": "1380"
+    },
     "scripts": {
         "build:ts": "tsc",
         "build": "yarn build:ts",
         "test": "jest src",
         "test:update-snapshots": "jest --updateSnapshot",
         "coverage": "yarn test --coverage",
-        "lint": "eslint --ignore-pattern src/**/*.test.ts --max-warnings 1440 src/**/*.ts",
+        "lint": "eslint --ignore-pattern src/**/*.test.ts --max-warnings $npm_package_config_eslintMaxWarnings src/**/*.ts",
         "ci:test": "yarn test --verbose false",
         "ci:test:coverage": "jest src --coverage --config jest.config.release.js"
     },

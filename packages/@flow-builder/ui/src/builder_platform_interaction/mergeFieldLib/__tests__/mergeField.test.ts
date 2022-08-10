@@ -34,6 +34,11 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             }
             return Promise.reject(`No entity with name ${entityName}`);
         }),
+        fetchRelatedRecordFieldsForEntity: jest.fn((entityName) =>
+            entityName === 'Account'
+                ? Promise.resolve(mockAccountFields)
+                : Promise.reject(`No entity with name ${entityName}`)
+        ),
         getEntityFieldWithApiName: actual.getEntityFieldWithApiName,
         getEntity: jest.fn().mockImplementation((apiName) => {
             return mockEntities.find((entity) => entity.apiName.toLowerCase() === apiName.toLowerCase());
@@ -110,7 +115,6 @@ describe('mergeField', () => {
         });
         describe('record system variable identifier', () => {
             beforeEach(() => {
-                Store.resetStore();
                 Store.setMockState(scheduleTriggeredFlowUIModel);
             });
             afterAll(() => {
@@ -132,7 +136,7 @@ describe('mergeField', () => {
                 ]);
             });
         });
-        describe('record__Prior system variable identifier', () => {
+        describe('Resolves record-triggered flow variable identifier', () => {
             beforeEach(() => {
                 Store.resetStore();
                 Store.setMockState(recordTriggeredFlowUIModel);
@@ -154,6 +158,10 @@ describe('mergeField', () => {
                         dataType: 'String'
                     })
                 ]);
+            });
+            it('returns undefined if record field currently selected no longer exists for the current triggered record', async () => {
+                const resolved = await resolveReferenceFromIdentifier('$Record.User:Owner', true);
+                expect(resolved).toBeUndefined();
             });
         });
         describe('record fields', () => {
