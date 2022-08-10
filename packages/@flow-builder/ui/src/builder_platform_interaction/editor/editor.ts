@@ -1260,6 +1260,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     promises.push(loadEventType(MANAGED_SETUP, object));
                 }
             }
+            promises.push(getAllSupportedElements(flowMetadata.processType, triggerType));
         }
         promises.push(loadParametersForInvocableApexActionsInFlowFromMetadata(flowMetadata.actionCalls));
         promises.push(loadFieldsForExtensionsInFlowFromMetadata(screenFieldsReferencedByLoops(flowMetadata)));

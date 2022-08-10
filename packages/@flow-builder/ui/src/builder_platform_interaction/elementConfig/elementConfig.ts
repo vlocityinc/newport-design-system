@@ -1273,7 +1273,8 @@ export const elementTypeToConfigMap: {
             singular: LABELS.durationWaitSingularLabel,
             plural: LABELS.durationWaitPluralLabel
         },
-        fieldInputCategory: 'DurationWait'
+        fieldInputCategory: 'DurationWait',
+        supportsBranching: false
     },
     [FLOW_ELEMENT_SUBTYPE.InteractiveStep]: {
         nodeConfig: {

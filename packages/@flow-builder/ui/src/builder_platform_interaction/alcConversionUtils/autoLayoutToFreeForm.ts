@@ -268,7 +268,9 @@ function toCanvasElement(elements: UI.Elements, alcCanvasElement: NodeModel): UI
     const canvasElement: Partial<UI.CanvasElement> = { ...alcCanvasElement, connectorCount: 0 };
 
     let availableConnections: UI.AvailableConnection[] = [];
-    const supportsMultipleConnectors = hasChildren(alcCanvasElement) || alcCanvasElement.canHaveFaultConnector;
+    const supportsMultipleConnectors =
+        (hasChildren(alcCanvasElement) || alcCanvasElement.canHaveFaultConnector) &&
+        doesElementSupportMultipleConnectors(elements, alcCanvasElement);
     let maxConnections = 1;
     const { nodeType } = alcCanvasElement;
 
@@ -319,6 +321,17 @@ function toCanvasElement(elements: UI.Elements, alcCanvasElement: NodeModel): UI
 
     // hard cast since the above delete statement messes with typescript
     return (<unknown>canvasElement) as UI.CanvasElement;
+}
+
+/**
+ * Check if the element supports multiple connectors or not
+ *
+ * @param elements - A map of UI.Elements
+ * @param alcElement - the ALC element which we need to know whether it supports multiple connectors
+ * @returns whether or not this element should support multiple connectors. Defaults to true.
+ */
+function doesElementSupportMultipleConnectors(elements, alcElement: NodeModel) {
+    return elements[alcElement.guid].supportsBranching !== false;
 }
 
 /**

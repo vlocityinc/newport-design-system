@@ -324,6 +324,8 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
                         }
                     }
                 }
+
+                supplementMetadataElementWithConfigs(metadataElement);
                 // end
                 const elementFactoryFunction = metadataKeyToFlowToUiFunctionMap[metadataKey];
                 if (metadataKey === METADATA_KEY.START) {
@@ -363,6 +365,18 @@ function createElementsUsingFlowMetadata(metadata: object, startElementReference
         storeElements,
         translateX
     };
+}
+
+/**
+ * Apply specified config information from `elementConfig.ts` to the metadata returned from the backend
+ *
+ * @param metadataElement a metadata element returned from the backend
+ */
+function supplementMetadataElementWithConfigs(metadataElement) {
+    if (metadataElement?.elementSubtype) {
+        const elementConfig = elementTypeToConfigMap[metadataElement.elementSubtype];
+        metadataElement.supportsBranching = elementConfig.supportsBranching;
+    }
 }
 
 /**

@@ -70,7 +70,11 @@ export default class WaitEditor extends PanelBasedPropertyEditor {
             element: {
                 guid: DEFAULT_WAIT_EVENT_ID
             },
-            label: defaultLabel && defaultLabel.value ? defaultLabel.value : LABELS.defaultPathLabel,
+            label: defaultLabel?.value
+                ? defaultLabel.value
+                : this.element.elementSubtype?.supportsBranching === false
+                ? ''
+                : LABELS.defaultPathLabel,
             isDraggable: false,
             hasErrors: defaultLabel && defaultLabel.error
         };

@@ -271,7 +271,13 @@ export function createDuplicateWait(
  */
 export function createWaitEvent(waitEvent = {}) {
     const newWaitEvent = baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
-    const { eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME, eventTypeIndex = generateGuid() } = waitEvent;
+    const {
+        eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
+        eventTypeIndex = generateGuid(),
+        duration,
+        durationUnit,
+        resumeTime
+    } = waitEvent;
     let {
         conditions = [],
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
@@ -296,7 +302,10 @@ export function createWaitEvent(waitEvent = {}) {
         eventType,
         eventTypeIndex,
         inputParameters,
-        outputParameters
+        outputParameters,
+        duration,
+        durationUnit,
+        resumeTime
     });
 }
 
@@ -312,7 +321,7 @@ export function createWaitMetadataObject(wait, config = {}) {
         throw new Error('Wait is not defined');
     }
     const newWait = baseCanvasElementMetadataObject(wait, config);
-    const { childReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, timeZoneId, connector } = wait;
+    const { childReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, timeZoneId } = wait;
     let waitEvents;
     if (childReferences && childReferences.length > 0) {
         waitEvents = childReferences.map(({ childReference }) => {
@@ -394,14 +403,15 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         newWaitEvents = [...newWaitEvents, newWaitEvent];
     }
 
-    const maxConnections = newWaitEvents.length + 2;
+    let maxConnections = MAX_CONNECTIONS_DEFAULT;
 
     const deletedCanvasElementChildren = getDeletedCanvasElementChildren(wait, newWaitEvents);
     const deletedWaitEventGuids = deletedCanvasElementChildren.map((waitEvent) => waitEvent.guid);
 
     let originalWait = getElementByGuid(wait.guid);
 
-    if (!originalWait) {
+    if (!originalWait && wait.supportsBranching !== false) {
+        maxConnections = calculateMaxWaitConnections(wait);
         originalWait = {
             availableConnections: [
                 {
@@ -421,7 +431,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
 
     // If addFaultConnectionForWaitElement is false, it means that the Fault Connector has already been established and
     // the connector count needs to be incremented
-    if (addFaultConnectionForWaitElement) {
+    if (addFaultConnectionForWaitElement && wait.supportsBranching !== false) {
         availableConnections.push({ type: CONNECTOR_TYPE.FAULT });
     } else {
         connectorCount += 1;
@@ -471,8 +481,10 @@ export function createWaitWithWaitEventReferences(wait = {}) {
         // updating availableConnections
         availableConnections = addRegularConnectorToAvailableConnections(availableConnections, waitEvents[i]);
     }
-    availableConnections = addDefaultConnectorToAvailableConnections(availableConnections, wait);
-    availableConnections = addFaultConnectorToAvailableConnections(availableConnections, wait);
+    if (wait.supportsBranching !== false) {
+        availableConnections = addDefaultConnectorToAvailableConnections(availableConnections, wait);
+        availableConnections = addFaultConnectorToAvailableConnections(availableConnections, wait);
+    }
     const connectorCount = connectors ? connectors.length : 0;
     const maxConnections = calculateMaxWaitConnections(wait);
     Object.assign(newWait, {
@@ -487,6 +499,8 @@ export function createWaitWithWaitEventReferences(wait = {}) {
 }
 
 /**
+ * Max connections for a wait is the number of wait events + 1 for the default, + 1 for fault
+ *
  * @param wait
  */
 function calculateMaxWaitConnections(wait) {
@@ -498,7 +512,7 @@ function calculateMaxWaitConnections(wait) {
     // W-5478126 https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000005ajm1IAA/view
     // Regular connectors for each event + default + fault
     let length = MAX_CONNECTIONS_DEFAULT;
-    if (wait.waitEvents) {
+    if (wait.waitEvents && wait.supportsBranching !== false) {
         length = wait.waitEvents.length + MAX_CONNECTIONS_DEFAULT;
     }
     return length;

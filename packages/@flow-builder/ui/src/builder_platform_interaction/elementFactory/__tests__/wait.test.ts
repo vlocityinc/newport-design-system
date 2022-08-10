@@ -824,6 +824,7 @@ describe('wait', () => {
             beforeEach(() => {
                 waitFromPropertyEditor = {
                     guid: existingWaitGuid,
+                    supportsBranching: true,
                     waitEvents: [
                         {
                             guid: 'waitEvent1'
@@ -844,9 +845,10 @@ describe('wait', () => {
                 expect(result.deletedChildElementGuids[0]).toEqual(existingWait.childReferences[0].childReference);
                 expect(result.deletedChildElementGuids[1]).toEqual(existingWait.childReferences[1].childReference);
             });
-            it('has the right maxConnections', () => {
+            it('has the right maxConnections when branching is not supported', () => {
+                waitFromPropertyEditor.supportsBranching = false;
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
-                expect(result.canvasElement.maxConnections).toEqual(3);
+                expect(result.canvasElement.maxConnections).toEqual(2);
             });
         });
     });

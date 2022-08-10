@@ -105,7 +105,6 @@ export const createConnectorObjects = (element, elementGuid, parentGuid, immedia
         );
         connectors.push(defaultConnector);
     }
-
     return connectors;
 };
 

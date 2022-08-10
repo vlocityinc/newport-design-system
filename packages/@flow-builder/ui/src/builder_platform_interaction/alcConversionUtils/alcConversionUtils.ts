@@ -25,7 +25,7 @@ function generateEndConnectors(elements: UI.Elements): UI.Connector[] {
     Object.values(elements).forEach((element) => {
         if (element.isCanvasElement) {
             const canvasElement = element as UI.CanvasElement;
-            if (canvasElement.availableConnections != null) {
+            if (canvasElement.availableConnections != null && canvasElement.supportsBranching !== false) {
                 // for elements that support multiple "out" connectors
 
                 canvasElement.availableConnections.forEach(({ childReference, type }, i) => {
