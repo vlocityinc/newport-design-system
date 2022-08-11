@@ -446,10 +446,10 @@ export enum COLLECTION_PROCESSOR_SUB_TYPE {
     FILTER = 'FilterCollectionProcessor'
 }
 
-export enum FLOW_ELEMENT_SUBTYPE {
-    InteractiveStep = 'InteractiveStep',
-    BackgroundStep = 'BackgroundStep'
-}
+export const FLOW_ELEMENT_SUBTYPE: Readonly<Record<UI.FlowElementSubtype, UI.FlowElementSubtype>> = {
+    InteractiveStep: 'InteractiveStep',
+    BackgroundStep: 'BackgroundStep'
+};
 
 export const SCHEDULED_PATH_TYPE = {
     RUN_ASYNC: 'AsyncAfterCommit',

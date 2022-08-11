@@ -1182,6 +1182,7 @@ export const elementTypeToConfigMap: {
             editModal: LABELS.editStageStepLabel
         },
         isChildElement: true,
+        nonHydratableProperties: ['stepSubtype'],
         factory: {
             propertyEditor: createStageStep
         },

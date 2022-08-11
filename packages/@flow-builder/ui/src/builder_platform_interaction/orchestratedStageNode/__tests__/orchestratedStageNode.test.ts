@@ -2,7 +2,7 @@
 import { FocusOutEvent } from 'builder_platform_interaction/alcEvents';
 import { createComponent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_ELEMENT_SUBTYPE } from 'builder_platform_interaction/flowMetadata';
 import { commands } from 'builder_platform_interaction/sharedUtils';
 
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp } = commands;
@@ -50,19 +50,22 @@ describe('Stepped-Stage-Node', () => {
                         {
                             name: 'some_step',
                             guid: itemGuid,
-                            config: {}
+                            config: {},
+                            stepSubtype: FLOW_ELEMENT_SUBTYPE.InteractiveStep
                         },
                         {
                             name: 'some_step_2',
                             guid: itemGuid + '_2',
-                            config: {}
+                            config: {},
+                            stepSubtype: FLOW_ELEMENT_SUBTYPE.InteractiveStep
                         },
                         {
                             name: 'some_step_3',
                             guid: itemGuid + '_3',
                             config: {
                                 hasError: true
-                            }
+                            },
+                            stepSubtype: FLOW_ELEMENT_SUBTYPE.InteractiveStep
                         }
                     ];
                 }

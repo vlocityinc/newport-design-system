@@ -59,6 +59,7 @@ export interface StageStep extends UI.ChildElement {
     parent: UI.Guid;
     stepTypeLabel: string;
     icon: string;
+    stepSubtype: UI.StageStepSubtype;
 
     relatedRecordItem: ParameterListRowItem | UI.HydratedValue;
 
@@ -531,9 +532,17 @@ export function createStageStep(step: StageStep): StageStep {
         assignees,
         relatedRecordItem,
         entryCriteria,
-        exitCriteria
+        exitCriteria,
+        stepSubtype,
+        elementSubtype
     } = step;
 
+    if (!stepSubtype && elementSubtype) {
+        // this is needed because when steps are created the AddElementEvent will use
+        // the property name 'elementSubtype' whereas our StageStep expects/stores stepSubtype
+        // in the db
+        newStep.stepSubtype = elementSubtype as UI.StageStepSubtype;
+    }
     // set up Step Action
     newStep.action = createActionCallHelper(action, step.actionName, step.actionType)!;
     newStep.inputParameters = inputParameters.map((p) => createInputParameter(p));
@@ -698,8 +707,7 @@ export function createOrchestratedStageMetadataObject(
             actionType: step.action.actionType,
             inputParameters: inputParametersMetadata,
             description: step.description,
-            // @todo: hardcoded, fix in  W-11070622
-            stepSubtype: 'BackgroundStep',
+            stepSubtype: step.stepSubtype,
             // Filter out any assignees on the UI side who don't actually have an assignee set
             assignees: step.assignees
                 .filter((assigneeUI) => assigneeUI?.assignee)

@@ -7,6 +7,11 @@
 declare namespace UI {
     type Guid = string;
     type ElementType = string;
+
+    type StageStepSubtype = 'InteractiveStep' | 'BackgroundStep';
+    // note: want to be explicit that this definition is NOT intended for orchestrator use specifically,
+    // feel free to remove this comment once other subtype consumers start adding to this union definition
+    type FlowElementSubtype = StageStepSubtype;
     type ElementSubtype = string;
     type Datatype = string;
     type ActionType = string;
@@ -31,6 +36,7 @@ declare namespace UI {
         // TODO: IMPORTANT: elementType should *NOT* be optional.  Once baseElement and its usages are cleaned up to always have
         // an elementType then it should be required here
         elementType?: ElementType;
+        elementSubtype?: ElementSubtype;
         label?: string | null;
         guid: Guid;
         // This is the "api name" in the property editor UI

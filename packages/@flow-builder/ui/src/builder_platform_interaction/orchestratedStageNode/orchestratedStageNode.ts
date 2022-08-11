@@ -1,6 +1,7 @@
 import { getDomElementGeometry, isCutMode, scheduleTask } from 'builder_platform_interaction/alcComponentsUtils';
 import { NodeResizeEvent, PopoverToggledEvent } from 'builder_platform_interaction/alcEvents';
 import { NodeRenderInfo } from 'builder_platform_interaction/autoLayoutCanvas';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { StageStep } from 'builder_platform_interaction/elementFactory';
 import { DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE, ICONS } from 'builder_platform_interaction/flowMetadata';
@@ -321,11 +322,12 @@ export default class OrchestratedStageNode extends withKeyboardInteractions(Ligh
             items.forEach((item, i) => {
                 item.ariaSelected = item.guid === this.activeElementGuid;
 
-                if (item.stepTypeLabel === LABELS.interactiveStepLabel) {
-                    item.icon = ICONS.interactiveStep;
-                } else if (item.stepTypeLabel === LABELS.backgroundStepLabel) {
-                    item.icon = ICONS.backgroundStep;
-                }
+                const { labels, nodeConfig } = elementTypeToConfigMap[item.stepSubtype];
+                const { singular } = labels!;
+                const { iconName } = nodeConfig!;
+
+                item.stepTypeLabel = singular;
+                item.icon = iconName;
 
                 if (i === 0 || item.guid === this._lastFocusedItemGuid) {
                     indexedItem = item;
