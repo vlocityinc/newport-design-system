@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
     AutoLayoutCanvasMode,
     isDefaultMode,
@@ -41,7 +40,8 @@ const { format } = commonUtils;
 const { logInteraction } = loggingUtils;
 
 const selectors = {
-    leftPanelToggle: '.left-panel-toggle'
+    leftPanelToggle: '.left-panel-toggle',
+    combobox: 'lightning-combobox'
 };
 
 /**
@@ -201,15 +201,18 @@ export default class Toolbar extends LightningElement {
         }
     };
 
-    @api focus(shiftBackward?: boolean) {
+    @api focus(shiftBackward = false) {
         const toolbarFocusableElements = this.template.querySelectorAll(
             'lightning-button, lightning-button-icon, button'
         );
         if (toolbarFocusableElements.length > 0) {
             let index = 0;
+
+            // @ts-ignore TODO: ts-migration-fix-me
             while (toolbarFocusableElements[index].disabled && index < toolbarFocusableElements.length - 1) {
                 ++index;
             }
+            // @ts-ignore TODO: ts-migration-fix-me
             toolbarFocusableElements[index].focus();
         } else {
             this.dispatchEvent(new ToolbarFocusOutEvent(shiftBackward));
@@ -221,7 +224,8 @@ export default class Toolbar extends LightningElement {
     // reset the value
     @api
     resetComboboxValueToFreeForm() {
-        this.template.querySelector('lightning-combobox').value = CanvasMode.FreeForm;
+        // @ts-ignore TODO: ts-migration-fix-me
+        this.template.querySelector(selectors.combobox).value = CanvasMode.FreeForm;
     }
 
     get showSelectionButton() {
@@ -502,13 +506,14 @@ export default class Toolbar extends LightningElement {
      */
     handleSave(event) {
         event.preventDefault();
-        const saveEvent = new SaveFlowEvent(SaveFlowEvent.Type.SAVE);
+        const saveEvent = new SaveFlowEvent('save');
         this.dispatchEvent(saveEvent);
     }
 
     handleSaveAs(event) {
         event.preventDefault();
         const saveAsEventType = this.getSaveAsEventType();
+        // @ts-ignore TODO: ts-migration-fix-me
         const saveAsEvent = new SaveFlowEvent(saveAsEventType);
         this.dispatchEvent(saveAsEvent);
         logInteraction(`save-as-button`, 'toolbar', null, 'click');
@@ -548,7 +553,7 @@ export default class Toolbar extends LightningElement {
     }
 
     displayLeftPanelTogglePopover(): void {
-        const element = this.template.querySelector(selectors.leftPanelToggle);
+        const element = this.template.querySelector(selectors.leftPanelToggle)!;
         showPrompt(Prompts.LeftPanelTogglePopover, element);
     }
 }

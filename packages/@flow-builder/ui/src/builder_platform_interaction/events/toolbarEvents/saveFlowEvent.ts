@@ -3,8 +3,14 @@
  */
 const eventName = 'save';
 
-export class SaveFlowEvent extends CustomEvent<any> {
-    constructor(type = null) {
+type SaveFlowEventDetail = {
+    type: SaveType | null;
+};
+
+type SaveType = 'save' | 'saveas' | 'saveasoverridden' | 'saveastemplate';
+
+export class SaveFlowEvent extends CustomEvent<SaveFlowEventDetail> {
+    constructor(type: SaveType | null = null) {
         super(eventName, {
             cancelable: false,
             composed: true,
@@ -26,5 +32,5 @@ export class SaveFlowEvent extends CustomEvent<any> {
         SAVE_AS: 'saveas',
         SAVE_AS_OVERRIDDEN: 'saveasoverridden',
         SAVE_AS_TEMPLATE: 'saveastemplate'
-    };
+    } as const;
 }

@@ -7,6 +7,7 @@ import {
     updateElementErrorState,
     updateFlow
 } from 'builder_platform_interaction/actions';
+import { UpdateAutolayoutCanvasModeEvent } from 'builder_platform_interaction/alcEvents';
 import {
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -35,6 +36,7 @@ import {
     EditElementEvent,
     EditFlowPropertiesEvent,
     NewResourceEvent,
+    SaveFlowEvent,
     SelectNodeEvent,
     ToggleMarqueeOnEvent,
     UpdateNodeEvent,
@@ -56,11 +58,12 @@ import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import { createElement } from 'lwc';
 import * as mockFlowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { supportedElements as mockSupportedElements } from 'serverData/GetSupportedElements/supportedElements.json';
-import { LABELS } from '../../toolbar/toolbarLabels';
 import Editor from '../editor';
 import { isGuardrailsEnabled } from '../editorUtils';
 
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
+
+jest.mock('builder_platform_interaction/toolbar', () => require('builder_platform_interaction_mocks/toolbar'));
 
 let mockSubscribers = [];
 let mockStoreState;
@@ -369,6 +372,10 @@ const getCanvas = (editorComponent) => {
     return deepQuerySelector(editorComponent, [selectors.CANVAS_CONTAINER, selectors.CANVAS]);
 };
 
+const getToolbar = (editorComponent) => {
+    return editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+};
+
 const createComponentUnderTest = (
     props = {
         builderType: 'old',
@@ -568,7 +575,7 @@ const updateElementAction = {
 const connectorElement = {
     payload: {
         childSource: undefined,
-        guid: 70,
+        guid: 34,
         source: '1',
         target: '2',
         label: null,
@@ -707,22 +714,23 @@ describe('editor', () => {
     describe('saving', () => {
         it('translates the ui model to flow data', async () => {
             // const editorComponent = createComponentUnderTest();
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const button = toolbar.shadowRoot.querySelector(selectors.save);
+            const toolbar = getToolbar(editorComponent);
+
             const flow = { fullName: 'Translate' };
             translateUIModelToFlow.mockReturnValue(flow);
-            button.click();
+            toolbar.dispatchEvent(new SaveFlowEvent('save'));
+
             await ticks(1);
             expect(translateUIModelToFlow.mock.calls).toHaveLength(1);
             expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(Store.getStore().getCurrentState());
         });
 
         it('passes the translated value to fetch', async () => {
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const button = toolbar.shadowRoot.querySelector(selectors.save);
+            const toolbar = getToolbar(editorComponent);
+
             const flow = { fullName: 'PassToFetch' };
             translateUIModelToFlow.mockReturnValue(flow);
-            button.click();
+            toolbar.dispatchEvent(new SaveFlowEvent('save'));
             await ticks(1);
             expect(translateUIModelToFlow.mock.calls).toHaveLength(1);
             expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(Store.getStore().getCurrentState());
@@ -966,13 +974,24 @@ describe('Left panel', () => {
 });
 
 describe('toolbar', () => {
+    describe('dispatch update canvas mode', () => {
+        it('doesnt move the focus to the toolbar', async () => {
+            mockIsAutolayoutCanvas = true;
+            const editorComponent = createComponentUnderTest();
+
+            const toolbar = getToolbar(editorComponent);
+            toolbar.dispatchEvent(new UpdateAutolayoutCanvasModeEvent('default'));
+            await ticks(1);
+            expect(toolbar.focus).not.toHaveBeenCalled();
+        });
+    });
     describe('showCanvasModeCombobox', () => {
         it('is not shown if isAutoLayoutCanvasOnly', async () => {
             mockIsAutolayoutCanvas = true;
 
             const editorComponent = createComponentUnderTest();
 
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+            const toolbar = getToolbar(editorComponent);
             const canvasCombobox = toolbar.shadowRoot.querySelector(selectors.canvasCombobox);
 
             expect(canvasCombobox).toBeNull();
@@ -982,9 +1001,8 @@ describe('toolbar', () => {
         it('is shown if not isAutoLayoutCanvasOnly', async () => {
             const editorComponent = createComponentUnderTest();
 
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const canvasCombobox = toolbar.shadowRoot.querySelector(selectors.canvasCombobox);
-            expect(canvasCombobox).toBeTruthy();
+            const toolbar = getToolbar(editorComponent);
+            expect(toolbar.showCanvasModeCombobox).toBeTruthy();
         });
     });
 });
@@ -1329,7 +1347,7 @@ describe('property editor', () => {
         await ticks(1);
 
         const event = new EditFlowPropertiesEvent();
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const toolbar = getToolbar(editorComponent);
         toolbar.dispatchEvent(event);
 
         await ticks(1);
@@ -1848,9 +1866,8 @@ describe('property editor', () => {
 
             expect(propertyEditorPanel.element.isNew).toBeTruthy();
 
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const saveButton = toolbar.shadowRoot.querySelector(selectors.save);
-            saveButton.click();
+            const toolbar = getToolbar(editorComponent);
+            toolbar.dispatchEvent(new SaveFlowEvent('save'));
 
             await ticks(1);
 
@@ -1871,7 +1888,7 @@ describe('property editor', () => {
             expect(propertyEditorPanel.element.isNew).toBeTruthy();
 
             const closePropertyEditorEvent = new ClosePropertyEditorEvent();
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+            const toolbar = getToolbar(editorComponent);
             toolbar.dispatchEvent(closePropertyEditorEvent);
 
             await ticks(1);
@@ -2155,9 +2172,8 @@ describe('in edit mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
-        expect(viewAllTestsButton).not.toBeNull();
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showViewAllTestsButton).toBeTruthy();
     });
     it('view test button is not displayed for trigger type not supported in flow testing', async () => {
         mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
@@ -2176,7 +2192,7 @@ describe('in edit mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const toolbar = getToolbar(editorComponent);
         const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
         expect(viewAllTestsButton).toBeNull();
     });
@@ -2196,7 +2212,7 @@ describe('in edit mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const toolbar = getToolbar(editorComponent);
         const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
         expect(viewAllTestsButton).toBeNull();
     });
@@ -2214,10 +2230,9 @@ describe('in edit mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
-        expect(viewAllTestsButton).not.toBeNull();
-        expect(viewAllTestsButton.disabled).toBeFalsy();
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showViewAllTestsButton).toBeTruthy();
+        expect(toolbar.isViewAllTestsDisabled).toBeFalsy();
     });
     it('view test button should be disabled if editing a flow that has not been saved', async () => {
         mockStoreState.properties.processType = FLOW_PROCESS_TYPE.ORCHESTRATOR;
@@ -2232,10 +2247,9 @@ describe('in edit mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
-        expect(viewAllTestsButton).not.toBeNull();
-        expect(viewAllTestsButton.disabled).toBeTruthy();
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showViewAllTestsButton).toBeTruthy();
+        expect(toolbar.isViewAllTestsDisabled).toBeTruthy();
     });
     it('view test button should be disabled if a flow has unsaved changes', async () => {
         mockStoreState.properties.hasUnsavedChanges = true;
@@ -2249,10 +2263,9 @@ describe('in edit mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
-        expect(viewAllTestsButton).not.toBeNull();
-        expect(viewAllTestsButton.disabled).toBeTruthy();
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showViewAllTestsButton).toBeTruthy();
+        expect(toolbar.isViewAllTestsDisabled).toBeTruthy();
     });
     it('edit test button should not be visible', async () => {
         mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
@@ -2267,7 +2280,7 @@ describe('in edit mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const toolbar = getToolbar(editorComponent);
         const editTestButton = toolbar.shadowRoot.querySelector(selectors.editTest);
         expect(editTestButton).toBeNull();
     });
@@ -2402,10 +2415,8 @@ describe('in debug mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
         await 1;
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
-        const testButton = lbg.querySelector(selectors.test);
-        expect(testButton).not.toBeNull();
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showAddToTestButton).toBeTruthy();
     });
 
     it('Add to test button is not displayed for not supported supported process and trigger type', async () => {
@@ -2424,10 +2435,8 @@ describe('in debug mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
         await ticks(1);
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
-        const testButton = lbg.querySelector(selectors.test);
-        expect(testButton).toBeNull();
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showDebugButton).toBeFalsy();
     });
 
     it('Add to test button is disabled for failed debug run', async () => {
@@ -2445,11 +2454,8 @@ describe('in debug mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
         await 1;
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const lbg = toolbar.shadowRoot.querySelector('lightning-button-group');
-        const testButton = lbg.querySelector(selectors.test);
-        expect(testButton).not.toBeNull();
-        expect(testButton.disabled).toBeTruthy();
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showAddToTestButton).toBeTruthy();
         mockDebugInterviewIsFailed = false;
     });
 
@@ -2531,10 +2537,8 @@ describe('in debug mode', () => {
         });
 
         it('resume during debug mode will be blocked if there is saved change', async () => {
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const save = toolbar.shadowRoot.querySelector(selectors.save);
-            save.click();
-
+            const toolbar = getToolbar(editorComponent);
+            toolbar.dispatchEvent(new SaveFlowEvent('save'));
             expect(editorComponent.blockDebugResume).toBeTruthy();
         });
 
@@ -2542,10 +2546,8 @@ describe('in debug mode', () => {
             const flow = { fullName: 'FAIL' };
             translateUIModelToFlow.mockReturnValue(flow);
 
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const save = toolbar.shadowRoot.querySelector(selectors.save);
-            save.click();
-
+            const toolbar = getToolbar(editorComponent);
+            toolbar.dispatchEvent(new SaveFlowEvent('save'));
             expect(editorComponent.blockDebugResume).toBeFalsy();
         });
 
@@ -2553,10 +2555,8 @@ describe('in debug mode', () => {
             const flow = { fullName: 'ERROR' };
             translateUIModelToFlow.mockReturnValue(flow);
 
-            const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-            const save = toolbar.shadowRoot.querySelector(selectors.save);
-            save.click();
-
+            const toolbar = getToolbar(editorComponent);
+            toolbar.dispatchEvent(new SaveFlowEvent('save'));
             expect(editorComponent.blockDebugResume).toBeFalsy();
         });
     });
@@ -2574,9 +2574,9 @@ describe('in debug mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
-        expect(viewAllTestsButton).toBeNull();
+        const toolbar = getToolbar(editorComponent);
+
+        expect(toolbar.isViewAllTestsDisabled).toBeTruthy();
     });
     it('edit test button should not be visible', async () => {
         mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
@@ -2592,9 +2592,8 @@ describe('in debug mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const editTestButton = toolbar.shadowRoot.querySelector(selectors.editTest);
-        expect(editTestButton).toBeNull();
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showEditTestButton).toBeFalsy();
     });
 });
 describe('in test mode', () => {
@@ -2649,10 +2648,8 @@ describe('in test mode', () => {
         editorComponent.setBuilderMode(BUILDER_MODE.TEST_MODE);
         await 1;
 
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const viewAllTestsButton = toolbar.shadowRoot.querySelector(selectors.viewAllTests);
-        expect(viewAllTestsButton).not.toBeNull();
-        expect(viewAllTestsButton.label).toBe(LABELS.viewTestTestingModeTitle);
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showViewAllTestsButton).toBeTruthy();
     });
     it('edit test button is displayed for supported process and trigger type', async () => {
         mockStoreState.properties.processType = FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
@@ -2668,9 +2665,8 @@ describe('in test mode', () => {
         });
         editorComponent.setBuilderMode(BUILDER_MODE.TEST_MODE);
         await 1;
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
-        const editTestButton = toolbar.shadowRoot.querySelector(selectors.editTest);
-        expect(editTestButton).not.toBeNull();
+        const toolbar = getToolbar(editorComponent);
+        expect(toolbar.showEditTestButton).toBeTruthy();
     });
 });
 
@@ -2681,7 +2677,7 @@ describe('On click of view Tests toolbar button', () => {
             hidePopover();
         }
         const viewAllTestsEvent = new ViewAllTestsEvent();
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const toolbar = getToolbar(editorComponent);
         toolbar.dispatchEvent(viewAllTestsEvent);
         await ticks(1);
         expect(invokeFlowTestManager).toHaveBeenCalled();
@@ -2701,7 +2697,7 @@ describe('On click of view Tests toolbar button', () => {
         );
         expect(isPopoverOpen()).toBe(true);
         const viewAllTestsEvent = new ViewAllTestsEvent();
-        const toolbar = editorComponent.shadowRoot.querySelector(selectors.TOOLBAR);
+        const toolbar = getToolbar(editorComponent);
         toolbar.dispatchEvent(viewAllTestsEvent);
         await ticks(1);
         expect(invokeFlowTestManager).not.toHaveBeenCalled();
