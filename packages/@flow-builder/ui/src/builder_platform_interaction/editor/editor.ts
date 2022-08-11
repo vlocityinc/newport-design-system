@@ -9,6 +9,7 @@ import {
     deleteGoToConnection,
     DESELECT_ON_CANVAS,
     doDuplicate,
+    HIGHLIGHT_ON_CANVAS,
     MARQUEE_SELECT_ON_CANVAS,
     redo,
     removeLastCreatedInlineResource,
@@ -675,7 +676,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         setAppName(APP_NAME);
         logPerfTransactionStart(EDITOR);
         this.loadFlowBuilderStartTime = time();
-        const blacklistedActionsForUndoRedoLib: any = [
+        const blacklistedActionsForUndoRedoLib = [
             INIT,
             UPDATE_APEX_CLASSES,
             ADD_START_ELEMENT,
@@ -685,7 +686,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             SELECTION_ON_FIXED_CANVAS,
             UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
             UPDATE_CANVAS_ELEMENT_ERROR_STATE,
-            UPDATE_RESOURCE_ERROR_STATE
+            UPDATE_RESOURCE_ERROR_STATE,
+            HIGHLIGHT_ON_CANVAS
         ];
         const groupedActions: any = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.

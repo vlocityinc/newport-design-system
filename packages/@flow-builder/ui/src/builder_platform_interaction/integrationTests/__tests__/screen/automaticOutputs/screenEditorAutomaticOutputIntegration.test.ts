@@ -3,7 +3,7 @@ import { clearExtensionsCache } from 'builder_platform_interaction/flowExtension
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { Store, StoreReducer } from 'builder_platform_interaction/storeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
@@ -72,7 +72,7 @@ describe('ScreenEditor', () => {
                     [FLOW_PROCESS_TYPE.FLOW]: mockFlowExtensions
                 })
             });
-            store = Store.getStore(reducer as StoreReducer);
+            store = Store.getStore(reducer as UI.StoreReducer<any>);
             translateFlowToUIAndDispatch(flowWithAllElements, store);
         });
         afterAll(() => {

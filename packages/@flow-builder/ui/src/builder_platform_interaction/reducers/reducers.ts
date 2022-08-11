@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { combinedReducer } from 'builder_platform_interaction/storeLib';
 import { shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import alcElementsReducer from './alcElementsReducer';
@@ -24,9 +23,10 @@ const ffcCombinedReducer = combinedReducer({
     peripheralData: peripheralDataReducer
 });
 
-const reducer = (state, action) => {
+const reducer = (state: UI.StoreState, action: UI.StoreAction<any>): UI.StoreState => {
     // need to resolve the reducer dynamically, since we don't know if we are using
     // the alc until after the module initialization time
+    // @ts-ignore TODO: ts-migration-fix-me
     return (shouldUseAutoLayoutCanvas() ? alcCombinedReducer : ffcCombinedReducer)(state, action);
 };
 

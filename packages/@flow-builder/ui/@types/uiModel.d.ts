@@ -323,6 +323,13 @@ declare namespace UI {
         entities?: StoredEntities;
     };
 
+    type StoreReducer<T> = (storeState: UI.StoreState, action: StoreAction<T>) => UI.StoreState;
+
+    type StoreAction<T> = {
+        type: string;
+        payload: T;
+    };
+
     interface StoreState {
         elements: Elements;
         connectors: Connector[];

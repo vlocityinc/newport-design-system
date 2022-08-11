@@ -51,6 +51,7 @@ import { focusUtils } from 'builder_platform_interaction/sharedUtils';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
+import { undoRedo } from 'builder_platform_interaction/undoRedoLib';
 import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import { createElement } from 'lwc';
 import * as mockFlowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -58,6 +59,7 @@ import { supportedElements as mockSupportedElements } from 'serverData/GetSuppor
 import { LABELS } from '../../toolbar/toolbarLabels';
 import Editor from '../editor';
 import { isGuardrailsEnabled } from '../editorUtils';
+
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
 
 let mockSubscribers = [];
@@ -222,7 +224,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
-        updateFlow: jest.requireActual('builder_platform_interaction/actions').updateFlow,
+        ...jest.requireActual('builder_platform_interaction/actions'),
         addElement: jest.fn((el) => {
             return {
                 value: el
@@ -279,6 +281,15 @@ jest.mock('builder_platform_interaction/actions', () => {
             type: 'DESELECT_ON_CANVAS',
             payload: {}
         }
+    };
+});
+
+jest.mock('builder_platform_interaction/undoRedoLib', () => {
+    const actual = jest.requireActual('builder_platform_interaction/undoRedoLib');
+
+    return {
+        ...actual,
+        undoRedo: jest.fn((reducer, options) => actual.undoRedo(reducer, options))
     };
 });
 
@@ -907,6 +918,23 @@ describe('editor', () => {
             expect(spy).toHaveBeenCalled();
             expect(spy.mock.calls[0][0]).toEqual(connectorElement);
         });
+    });
+    it('initializes undoRedo with correctly', async () => {
+        const blacklistedActions = [
+            'INIT',
+            'UPDATE_APEX_CLASSES',
+            'ADD_START_ELEMENT',
+            'UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE',
+            'UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE_AND_TRIGGER_TYPE',
+            'UPDATE_ENTITIES',
+            'SELECTION_ON_FIXED_CANVAS',
+            'UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY',
+            'UPDATE_CANVAS_ELEMENT_ERROR_STATE',
+            'UPDATE_RESOURCE_ERROR_STATE',
+            'HIGHLIGHT_ON_CANVAS'
+        ];
+
+        expect(undoRedo).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ blacklistedActions }));
     });
 });
 

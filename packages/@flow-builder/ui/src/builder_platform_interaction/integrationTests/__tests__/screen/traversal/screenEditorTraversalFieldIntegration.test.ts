@@ -8,7 +8,7 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { Store, StoreReducer } from 'builder_platform_interaction/storeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -39,7 +39,7 @@ describe('ScreenEditor', () => {
     let screenEditor: ScreenEditorTestComponent;
     describe('existing flow with a screen lightning component : Address or fileUpload, and an account variable', () => {
         beforeAll(async () => {
-            store = Store.getStore(reducer as StoreReducer);
+            store = Store.getStore(reducer as UI.StoreReducer<any>);
             initializeAuraFetch();
             initializeLoader(store);
         });

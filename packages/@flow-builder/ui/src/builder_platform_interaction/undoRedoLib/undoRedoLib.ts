@@ -1,11 +1,10 @@
-// @ts-nocheck
 /**
  * Design doc: https://salesforce.quip.com/Ax4HAoPvhmAb
  */
 // Internal State Holder variables for past, present and future state of the app
-let past = [];
-let present;
-let future = [];
+let past: any[] = [];
+let present: any;
+let future: any[] = [];
 let lastAction; // Used in grouping the multiple actions into one state
 /**
  * Undo Function
@@ -72,18 +71,21 @@ export const isRedoAvailable = () => {
     return future.length > 0 ? true : false;
 };
 
+type UndoRedoOptions = {
+    blacklistedActions: string[] | undefined;
+    groupedActions: string[] | undefined;
+};
 /**
  * Higher order function to be used on top of reducer function in the app.
  *
- * @param {*} reducer - reducer function for the app. Combined Reducer in case of flow builder
- * @param {Object} config - Config object containing blacklistedActions array & groupedActions array
- * @param config.blacklistedActions
- * @param config.groupedActions
- * @returns {Object} Reduced state object
+ * @param reducer - reducer function for the app. Combined Reducer in case of flow builder
+ * @param options - Config object containing blacklistedActions and groupedActions
+ * @returns decorated reducer with undo/redo
  */
-export const undoRedo =
-    (reducer, { blacklistedActions = [], groupedActions = [] }) =>
-    (state = {}, action) => {
+export const undoRedo = <T>(reducer: UI.StoreReducer<T>, options: UndoRedoOptions): UI.StoreReducer<T> => {
+    const { blacklistedActions = [], groupedActions = [] } = options;
+
+    return (state = {} as UI.StoreState, action: UI.StoreAction<T>): UI.StoreState => {
         switch (action.type) {
             case CLEAR_UNDO_REDO: {
                 past = [];
@@ -127,3 +129,4 @@ export const undoRedo =
         }
         return present;
     };
+};

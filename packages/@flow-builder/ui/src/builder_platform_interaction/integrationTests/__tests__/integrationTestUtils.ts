@@ -23,7 +23,6 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import { setOperators, setRules } from 'builder_platform_interaction/ruleLib';
 import { resetFetchOnceCache, setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { clearEntityFieldsCache, setEntities } from 'builder_platform_interaction/sobjectLib';
-import type { StoreReducer } from 'builder_platform_interaction/storeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { resetSystemVariables, setGlobalVariables } from 'builder_platform_interaction/systemLib';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
@@ -72,7 +71,7 @@ export const changeLightningRadioGroupValue = (lightningRadioGroup, newValue) =>
 
 export const setupState = ({ devMode = false } = {}) => {
     initializeContext({ devMode });
-    const store = Store.getStore(reducer as StoreReducer);
+    const store = Store.getStore(reducer as UI.StoreReducer<any>);
     initializeAuraFetch();
     initializeLoader(store);
     loadOnStart();
@@ -116,7 +115,7 @@ export const resetState = () => {
     setGlobalVariables({ globalVariableTypes: [], globalVariables: [] });
     setAuraFetch();
     resetFetchOnceCache();
-    const store = Store.getStore(reducer as StoreReducer);
+    const store = Store.getStore(reducer as UI.StoreReducer<any>);
     store.dispatch({ type: 'INIT' });
     setRules();
     setOperators();
