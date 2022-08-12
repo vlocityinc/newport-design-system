@@ -19,8 +19,7 @@ export default class WaitEditor extends PanelBasedPropertyEditor {
     labels = LABELS;
 
     constructor() {
-        super();
-        this.reducer = waitReducer;
+        super(waitReducer);
         resetDeletedGuids();
     }
 

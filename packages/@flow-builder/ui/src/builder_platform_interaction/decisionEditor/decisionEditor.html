@@ -1,12 +1,12 @@
 <template>
-    <div if:true={decisionElement} class="decisionElement">
+    <div if:true={element} class="decisionElement">
         <div class={styleForLabelDescription}>
             <builder_platform_interaction-label-description
-                label={decisionElement.label}
-                dev-name={decisionElement.name}
-                description={decisionElement.description}
-                guid={decisionElement.guid}
-                onpropertychanged={handlePropertyChangedEvent}
+                label={element.label}
+                dev-name={element.name}
+                description={element.description}
+                guid={element.guid}
+                onpropertychanged={handleValueChanged}
                 mode={mode}
                 editor-params={editorParams}
             >
@@ -29,7 +29,7 @@
                 menu-items={outcomesWithDefaultOutcome}
                 active-item-id={activeOutcomeId}
                 onlistiteminteraction={handleOutcomeSelected}
-                onreorderlist={handleReorderOutcomes}
+                onreorderlist={handleValueChanged}
                 hide-footer="true"
             >
                 <div slot="header" class="slds-grid">
@@ -56,11 +56,11 @@
                     show-delete={showDeleteOutcome}
                     should-focus={shouldFocus}
                     ondeleteoutcome={handleDeleteOutcome}
-                    onaddcondition={handlePropertyChangedEvent}
-                    ondeletecondition={handlePropertyChangedEvent}
-                    onupdatecondition={handlePropertyChangedEvent}
-                    onpropertychanged={handlePropertyChangedEvent}
-                    onexecutewhenoptionchanged={handleOutcomeExecutionOptionChange}
+                    onaddcondition={handleValueChanged}
+                    ondeletecondition={handleValueChanged}
+                    onupdatecondition={handleValueChanged}
+                    onpropertychanged={handleValueChanged}
+                    onexecutewhenoptionchanged={handleValueChanged}
                 >
                 </builder_platform_interaction-outcome>
                 <div if:true={isDefaultOutcome}>
@@ -70,7 +70,7 @@
                         </h3>
                     </div>
                     <builder_platform_interaction-label-description
-                        label={decisionElement.defaultConnectorLabel}
+                        label={element.defaultConnectorLabel}
                         onpropertychanged={handleDefaultOutcomeChangedEvent}
                         hide-dev-name="true"
                         hide-description="true"

@@ -1,6 +1,6 @@
 import { isUnchangedProperty } from 'builder_platform_interaction/builderUtils';
 import CustomPropertyEditor from 'builder_platform_interaction/customPropertyEditor';
-import { ConfigurationEditor } from 'builder_platform_interaction/customPropertyEditorLib';
+import { ConfigurationEditor, Reducer } from 'builder_platform_interaction/customPropertyEditorLib';
 import { ElementOrComponentError, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
@@ -18,7 +18,7 @@ export default abstract class PanelBasedPropertyEditor extends LightningElement 
     element;
 
     /* reducer function for the given element's property editor; make sure to set this in your property editor implementation */
-    reducer;
+    reducer: Reducer;
 
     /* CPE info */
     configurationEditor: ConfigurationEditor | undefined;
@@ -31,6 +31,11 @@ export default abstract class PanelBasedPropertyEditor extends LightningElement 
 
     @api
     editorParams: UI.PropertyEditorParameters = {};
+
+    constructor(reducer: Reducer) {
+        super();
+        this.reducer = reducer;
+    }
 
     @api
     get node() {

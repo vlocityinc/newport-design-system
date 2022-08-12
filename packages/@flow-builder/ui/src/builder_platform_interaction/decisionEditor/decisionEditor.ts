@@ -1,13 +1,11 @@
 // @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { isUnchangedProperty } from 'builder_platform_interaction/builderUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
+import PanelBasedPropertyEditor from 'builder_platform_interaction/panelBasedPropertyEditor';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
-import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { api, LightningElement, track } from 'lwc';
+import { api, track } from 'lwc';
 import { LABELS } from './decisionEditorLabels';
 import { decisionReducer, resetDeletedGuids } from './decisionReducer';
 
@@ -20,28 +18,16 @@ const EMPTY_OUTCOME_LABEL = LABELS.emptyOutcomeLabel;
 const EMPTY_DEFAULT_OUTCOME_LABEL = LABELS.emptyDefaultOutcomeLabel;
 const DEFAULT_OUTCOME_ID = 'defaultOutcome';
 
-export default class DecisionEditor extends LightningElement {
+export default class DecisionEditor extends PanelBasedPropertyEditor {
     @track activeOutcomeId;
-    @track decisionElement;
     @track shouldFocus = false;
 
     labels = LABELS;
 
     constructor() {
-        super();
+        super(decisionReducer);
         resetDeletedGuids();
     }
-
-    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
-    @api
-    mode;
-
-    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
-    @api
-    processType;
-
-    @api
-    editorParams;
 
     get isLabelCollapsibleToHeader() {
         return this.editorParams?.panelConfig?.isLabelCollapsibleToHeader;
@@ -54,55 +40,24 @@ export default class DecisionEditor extends LightningElement {
         return '';
     }
 
-    /**
-     * public api function to return the node
-     *
-     * @returns {object} node - node
-     */
-    @api getNode() {
-        return this.decisionElement;
-    }
-
-    /**
-     * public api function to run the rules from decision validation library
-     *
-     * @returns {object} list of errors
-     */
-    @api validate() {
-        const event = { type: VALIDATE_ALL };
-        this.decisionElement = decisionReducer(this.decisionElement, event);
-        return getErrorsFromHydratedElement(this.decisionElement);
-    }
-
     get activeOutcome() {
-        return this.decisionElement.outcomes.find((outcome) => outcome.guid === this.activeOutcomeId);
+        return this.element.outcomes.find((outcome) => outcome.guid === this.activeOutcomeId);
     }
 
-    // getter and setter for nodes don't work well with mixins
-    // currently need to be copied here for each property editor node
-    @api
-    get node() {
-        return this.decisionElement;
-    }
-
-    set node(newValue) {
-        const oldElement = this.decisionElement;
-        this.decisionElement = newValue;
-        this.decisionElement = updateAndValidateElementInPropertyEditor(oldElement, newValue, this);
-
+    override onSetNode(): void {
         if (!this.activeOutcomeId || !this.activeOutcome) {
-            this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
+            this.activeOutcomeId = this.element.outcomes[0].guid;
         }
     }
 
     get showDeleteOutcome() {
-        return this.decisionElement.outcomes.length > 1;
+        return this.element.outcomes.length > 1;
     }
 
     // getErrorsFromHydratedElement recursively walks the object structure and there could be performance issues by calling it in a getter
     // (and thus on every render) depending on the object depth
     get outcomesWithDefaultOutcome() {
-        const outcomesWithDefaultOutcome = this.decisionElement.outcomes.map((outcome) => {
+        const outcomesWithDefaultOutcome = this.element.outcomes.map((outcome) => {
             return {
                 element: outcome,
                 label: outcome.label && outcome.label.value ? outcome.label.value : EMPTY_OUTCOME_LABEL,
@@ -112,7 +67,7 @@ export default class DecisionEditor extends LightningElement {
         });
 
         // Add the default outcome
-        const defaultLabel = this.decisionElement.defaultConnectorLabel;
+        const defaultLabel = this.element.defaultConnectorLabel;
 
         outcomesWithDefaultOutcome.push({
             element: {
@@ -156,7 +111,7 @@ export default class DecisionEditor extends LightningElement {
         this.addOutcome();
 
         // Select the newly added outcome
-        const outcomes = this.decisionElement.outcomes;
+        const outcomes = this.element.outcomes;
         this.activeOutcomeId = outcomes[outcomes.length - 1].guid;
 
         // Focus on the newly selected outcome ( focused the name/label field )
@@ -166,7 +121,7 @@ export default class DecisionEditor extends LightningElement {
             outcome.focus();
         }
         this.shouldFocus = true;
-        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
 
     renderedCallback() {
@@ -176,28 +131,18 @@ export default class DecisionEditor extends LightningElement {
 
     addOutcome() {
         const event = { type: PROPERTY_EDITOR_ACTION.ADD_DECISION_OUTCOME };
-        this.decisionElement = decisionReducer(this.decisionElement, event);
+        this.element = decisionReducer(this.element, event);
     }
 
-    /**
-     * @param {object} event - property changed event coming from label-description component
-     */
-    handlePropertyChangedEvent(event) {
+    handleValueChanged(event) {
         event.stopPropagation();
-        const hasUpdatedProperty = !isUnchangedProperty(this.decisionElement, event);
-        this.decisionElement = decisionReducer(this.decisionElement, event);
-        if (hasUpdatedProperty) {
-            this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
-        }
+        this.updateElement(event);
     }
 
     handleDefaultOutcomeChangedEvent(event) {
         event.stopPropagation();
-
         const defaultOutcomeChangedEvent = new PropertyChangedEvent('defaultConnectorLabel', event.detail.value);
-
-        this.decisionElement = decisionReducer(this.decisionElement, defaultOutcomeChangedEvent);
-        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
+        this.updateElement(defaultOutcomeChangedEvent);
     }
 
     /**
@@ -207,42 +152,19 @@ export default class DecisionEditor extends LightningElement {
      */
     handleDeleteOutcome(event) {
         event.stopPropagation();
-        const originalNumberOfOutcomes = this.decisionElement.outcomes.length;
-        this.decisionElement = decisionReducer(this.decisionElement, event);
-        if (this.decisionElement.outcomes.length < originalNumberOfOutcomes) {
-            this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
+        const originalNumberOfOutcomes = this.element.outcomes.length;
+        this.element = decisionReducer(this.element, event);
+        if (this.element.outcomes.length < originalNumberOfOutcomes) {
+            this.activeOutcomeId = this.element.outcomes[0].guid;
         }
-        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
+        this.dispatchEvent(new UpdateNodeEvent(this.element));
 
         // Move focus to the active outcome (first outcome) post deletion
         this.template.querySelector(SELECTORS.OUTCOME)?.focus();
     }
 
-    /**
-     * Handles reordering in the list of the outcomes
-     *
-     * @param {object} event - reorderListEvent
-     */
-    handleReorderOutcomes(event) {
-        event.stopPropagation();
-        this.decisionElement = decisionReducer(this.decisionElement, event);
-        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
-    }
-
     handleOutcomeSelected(event) {
         event.stopPropagation();
         this.activeOutcomeId = event.detail.itemId;
-    }
-
-    /**
-     * Handles the change on when an outcome is executed
-     * i.e. whenever the conditions are met or only when the conditions are met for changed values.
-     *
-     * @param event
-     */
-    handleOutcomeExecutionOptionChange(event) {
-        event.stopPropagation();
-        this.decisionElement = decisionReducer(this.decisionElement, event);
-        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
     }
 }
