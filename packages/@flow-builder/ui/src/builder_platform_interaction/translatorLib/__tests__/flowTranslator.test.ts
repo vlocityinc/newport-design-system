@@ -13,6 +13,7 @@ import * as flowOnSlack from 'mock/flows/flowOnSlack.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as orchestratorFlow from 'mock/flows/orchestratorFlow.json';
 import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
+import * as recordTriggeredCaseFlow from 'mock/flows/recordTriggeredCaseFlow.json';
 import * as recordTriggeredFlow from 'mock/flows/recordTriggeredFlow.json';
 import * as scheduleTriggeredFlow from 'mock/flows/scheduleTriggeredFlow.json';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -22,6 +23,7 @@ import { flowOnSlackUIModel } from 'mock/storeDataFlowOnSlack';
 import { orchestratorFlowUIModel } from 'mock/storeDataOrchestrator';
 import { recommendationFlowUIModel } from 'mock/storeDataRecommendation';
 import { recordTriggeredFlowUIModel } from 'mock/storeDataRecordTriggered';
+import { recordTriggeredCaseFlowUIModel } from 'mock/storeDataRecordTriggeredCase';
 import { scheduleTriggeredFlowUIModel } from 'mock/storeDataScheduleTriggered';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { translateFlowToUIModel } from '../flowToUiTranslator';
@@ -36,6 +38,7 @@ expect.extend(goldObjectMatchers);
 
 const SAMPLE_FLOWS = [flowLegalNameChange, flowCollectionServicesDemo, flowWithVariables, flowWithAssignments];
 const MOCK_TRIGGER_TYPE: string = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+const JEST_MOCK_DATA_RELATIVE_PATH = 'jest-mock-data';
 
 // 1993 Park-Miller LCG
 const lcg = (s) => () => {
@@ -302,69 +305,80 @@ describe('Flow Translator', () => {
             expect(JSON.stringify(uiFlow2)).toEqual(JSON.stringify(uiFlow));
         });
     });
-    describe('UI models goldfiles', () => {
-        it('returns expected ui model for an autolaunched flow', () => {
+    describe('UI models GoldFiles', () => {
+        it('returns expected UI model for an autolaunched flow (scheduled triggered)', () => {
             uiFlow = translateFlowToUIModel(scheduleTriggeredFlow);
             store.dispatch(updateFlow(uiFlow));
 
             expect(uiFlow).toEqualGoldObject(
                 scheduleTriggeredFlowUIModel,
-                'scheduleTriggeredFlowUIModel in mock_store_data_scheduleTriggered/scheduleTriggeredFlowUIModel'
+                `scheduleTriggeredFlowUIModel in ${JEST_MOCK_DATA_RELATIVE_PATH}/storeDataScheduleTriggered/scheduleTriggeredFlowUIModel.ts`
             );
         });
-        it('returns expected ui model for a contact request flow', () => {
+        it('returns expected UI model for a contact request flow', () => {
             uiFlow = translateFlowToUIModel(contactRequestFlow);
             store.dispatch(updateFlow(uiFlow));
 
             expect(uiFlow).toEqualGoldObject(
                 contactRequestFlowUIModel,
-                'contactRequestFlowUIModel in mock_store_data_contactrequest/contactRequestFlowUIModel'
+                `contactRequestFlowUIModel in ${JEST_MOCK_DATA_RELATIVE_PATH}/storeDataContactrequest/contactRequestFlowUIModel.ts`
             );
         });
-        it('returns expected ui model for a field service mobile flow', () => {
+        it('returns expected UI model for a field service mobile flow', () => {
             uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
             store.dispatch(updateFlow(uiFlow));
 
             expect(uiFlow).toEqualGoldObject(
                 fieldServiceMobileFlowUIModel,
-                'fieldServiceMobileFlowUIModel in mock_store_data_contactrequest/fieldServiceMobileFlowUIModel'
+                `fieldServiceMobileFlowUIModel in ${JEST_MOCK_DATA_RELATIVE_PATH}/storeDataFieldServiceMobile/fieldServiceMobileFlowUIModel.ts`
             );
         });
-        it('returns expected ui model for a record triggered flow', () => {
+        it('returns expected ui model for a record triggered flow (Account)', () => {
             uiFlow = translateFlowToUIModel(recordTriggeredFlow);
             store.dispatch(updateFlow(uiFlow));
 
             expect(uiFlow).toEqualGoldObject(
                 recordTriggeredFlowUIModel,
-                'recordTriggeredFlowUIModel in mock_store_data_recordTriggered/recordTriggeredFlowUIModel'
+                `recordTriggeredFlowUIModel in ${JEST_MOCK_DATA_RELATIVE_PATH}/storeDataRecordTriggered/recordTriggeredFlowUIModel.ts`
             );
         });
-        it('returns expected ui model for an orchestrator flow', () => {
+
+        it('returns expected UI model for a record triggered flow (Case)', () => {
+            uiFlow = translateFlowToUIModel(recordTriggeredCaseFlow);
+            store.dispatch(updateFlow(uiFlow));
+
+            expect(uiFlow).toEqualGoldObject(
+                recordTriggeredCaseFlowUIModel,
+                `recordTriggeredCaseFlowUIModel in ${JEST_MOCK_DATA_RELATIVE_PATH}/storeDataRecordTriggeredCase/recordTriggeredCaseFlowUIModel.ts`
+            );
+        });
+
+        it('returns expected UI model for an orchestrator flow', () => {
             uiFlow = translateFlowToUIModel(orchestratorFlow);
             store.dispatch(updateFlow(uiFlow));
 
             expect(uiFlow).toEqualGoldObject(
                 orchestratorFlowUIModel,
-                'orchestratorFlowUIModel in mock_store_data_orchestrator/storeDataOrchestratorFlowUIModel'
+                `orchestratorFlowUIModel in ${JEST_MOCK_DATA_RELATIVE_PATH}/storeDataOrchestrator/storeDataOrchestratorFlowUIModel.ts`
             );
         });
-        it('returns expected ui model for an flow with slack environment', () => {
+        it('returns expected UI model for an flow with slack environment', () => {
             uiFlow = translateFlowToUIModel(flowOnSlack);
             store.dispatch(updateFlow(uiFlow));
 
             expect(uiFlow).toEqualGoldObject(
                 flowOnSlackUIModel,
-                'flowOnSlackUIModel in mock_store_data_slack/storeDataFlowOnSlackUIModel'
+                `flowOnSlackUIModel in ${JEST_MOCK_DATA_RELATIVE_PATH}/storeDataFlowOnSlack/flowOnSlackUIModel.ts`
             );
         });
 
-        it('returns expected ui model for a recommendation flow', () => {
+        it('returns expected UI model for a recommendation flow', () => {
             uiFlow = translateFlowToUIModel(recommendationFlow);
             store.dispatch(updateFlow(uiFlow));
 
             expect(uiFlow).toEqualGoldObject(
                 recommendationFlowUIModel,
-                'recommendationFlowUIModel in mock_store_data_recommendation/storeDataRecommendationFlowUIModel'
+                `recommendationFlowUIModel in ${JEST_MOCK_DATA_RELATIVE_PATH}/storeDataRecommendation/storeDataRecommendationFlowUIModel.ts`
             );
         });
     });

@@ -183,11 +183,21 @@ When working with any branch other than the current release branch (e.g. 224), m
 git checkout 224
 ```
 
-In the `workspace-user.xml`, update the `ui-interaction-builder-components` version:
+In the `workspace-user.xml`, update `_UI_INTERACTION_BUILDER_COMPONENTS_VERSION`:
 
 ```xml
-<ui-interaction-builder-components.version>224-SNAPSHOT</ui-interaction-builder-components.version>
+<_UI_INTERACTION_BUILDER_COMPONENTS_VERSION>224-SNAPSHOT</_UI_INTERACTION_BUILDER_COMPONENTS_VERSION>
 ```
+## STMFA/B environments
+
+We can quickly check what is the latest version of `ui-interaction-builder-components` jar on STMFA and STMFB environments.
+To do so, use the following commands:
+
+For STMFA:
+`yarn run check:stm-version`
+
+For STMFB:
+`yarn run check:stm-version stmfb`
 
 ## Perforce
 
@@ -220,3 +230,4 @@ No generic fallback provided for sure but same thing as for P4PORT, you can add 
 
 1. preexisting current environment variable in place
 2. CUSTOM_P4CLIENT in project .env file
+

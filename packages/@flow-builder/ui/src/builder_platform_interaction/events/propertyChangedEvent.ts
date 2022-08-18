@@ -40,7 +40,7 @@ export class PropertyChangedEvent extends CustomEvent<PropertyChangedEventDetail
         error: string | null = null,
         guid?: string | null,
         oldValue?: string,
-        listIndex?: Number,
+        listIndex?: number,
         dataType?: string | null,
         ignoreValidate = false
     ) {

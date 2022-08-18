@@ -417,4 +417,13 @@ declare namespace Metadata {
     }
 
     type SortOrder = 'Asc' | 'Desc';
+
+    interface Field {
+        apiName: string;
+        isCustom: boolean;
+        isPolymorphic: boolean;
+        isRelatedRecordChild: boolean;
+        sobjectName: string;
+        referenceToNames: string[];
+    }
 }

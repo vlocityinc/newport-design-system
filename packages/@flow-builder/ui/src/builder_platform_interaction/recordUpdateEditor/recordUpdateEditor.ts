@@ -1,9 +1,14 @@
-// @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import type { UpdateRelatedRecordFieldsChangeEvent } from 'builder_platform_interaction/events';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import type {
+    AddRecordFilterEvent,
+    DeleteRecordFilterEvent,
+    SObjectReferenceChangedEvent,
+    UpdateRecordFilterEvent,
+    UpdateRelatedRecordFieldsChangeEvent
+} from 'builder_platform_interaction/events';
+import { ComboboxStateChangedEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 import {
     CONDITION_LOGIC,
@@ -29,13 +34,34 @@ import { LABELS } from './recordUpdateEditorLabels';
 import { recordUpdateReducer } from './recordUpdateReducer';
 const { format } = commonUtils;
 
+type HydratedExpression = {
+    leftHandSide: UI.HydratedValue;
+    leftHandSideDataType: UI.HydratedValue;
+    rightHandSide: UI.HydratedValue;
+    rightHandSideDataType: UI.HydratedValue;
+};
+
+type RecordUpdateState = {
+    recordUpdateElement: {
+        object?: UI.HydratedValue;
+        inputReference?: UI.HydratedValue;
+        wayToFindRecords?: UI.HydratedValue;
+        filterLogic?: UI.HydratedValue;
+        inputAssignments?: HydratedExpression[];
+        filters?: HydratedExpression[];
+    };
+    entityFields: {};
+    entityRelatedFields: {};
+    relatedRecordFieldSubType: string;
+};
+
 export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
     crudFilter = UPDATEABLE_FILTER;
 
     @track
-    state = {
+    state: RecordUpdateState = {
         recordUpdateElement: {},
         entityFields: {},
         entityRelatedFields: {},
@@ -271,10 +297,7 @@ export default class RecordUpdateEditor extends LightningElement {
         const entityToDisplay = getUpdateableEntities().find(
             (entity) => entity.apiName === this.recordEntityNameForConditionsAndAssignments
         );
-        if (entityToDisplay) {
-            return entityToDisplay.entityLabel;
-        }
-        return '';
+        return entityToDisplay ? entityToDisplay.entityLabel : '';
     }
 
     get filterCriteriaRelatedRecordsLabel() {
@@ -321,7 +344,7 @@ export default class RecordUpdateEditor extends LightningElement {
         return BaseResourcePicker.getComboboxConfig(
             this.labels.object,
             this.labels.objectPlaceholder,
-            this.state.recordUpdateElement.object.error,
+            this.state.recordUpdateElement.object?.error,
             false,
             true,
             false,
@@ -343,7 +366,7 @@ export default class RecordUpdateEditor extends LightningElement {
      *
      * @param recordEntityName - selected Entity name
      */
-    updateFields(recordEntityName: string) {
+    updateFields(recordEntityName: string | null) {
         this.state.entityFields = {};
         if (recordEntityName) {
             fetchFieldsForEntity(recordEntityName)
@@ -357,9 +380,9 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     /**
-     * get the related fields of the selected entity
+     * Update the related fields based on the selected related record
      *
-     * @param recordEntityName - selected entity name
+     * @param recordEntityName - selected related record (ie: entity name)
      */
     updateRelatedFields(recordEntityName: string) {
         this.state.entityRelatedFields = {};
@@ -373,12 +396,12 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     /**
-     *  get the related record field entity type and update fields
+     *  get the related record field entity type and update related fields
      */
     getRecordRelatedFieldsAndUpdateFields = async () => {
         const fields = await resolveReferenceFromIdentifier(this.inputReference, true);
         if (fields) {
-            const relatedRecordName = getRelatedRecordName(fields.pop(), this.inputReference);
+            const relatedRecordName = getRelatedRecordName(fields.pop() as Metadata.Field, this.inputReference);
             this.state.relatedRecordFieldSubType = relatedRecordName;
             this.updateFields(relatedRecordName);
         } else {
@@ -387,36 +410,59 @@ export default class RecordUpdateEditor extends LightningElement {
     };
 
     /**
-     * type of triggering record, usually stored in Start element
+     * Get the type of triggering record (fetched from the Start element, eg: Account)
      *
-     * @returns the object type for the current flow.
+     * @returns the object type of the current start element if any or an empty string if none found.
      */
-    dollarRecordName(): string {
+    dollarRecordName() {
         return getStartObject() || '';
     }
 
     /**
-     * @param {object} event - input reference changed event coming from sobject-or-sobject-collection-picker component
+     * Handle change of input reference from the {@link SObjectOrSObjectCollectionPicker} component
+     *
+     * @param event SObjectReferenceChangedEvent
      */
-    handleInputReferenceChangedEvent(event) {
+    handleInputReferenceChangedEvent(event: SObjectReferenceChangedEvent) {
         event.stopPropagation();
-        this.updateProperty('inputReference', event.detail.value, event.detail.error);
+        const oldInputReference: string = getValueFromHydratedItem(this.state.recordUpdateElement.inputReference);
+        const newInputReference = event.detail.value;
+        if (oldInputReference !== newInputReference) {
+            this.updateProperty('inputReference', newInputReference, event.detail.error, oldInputReference);
+        }
     }
 
     /**
-     * Updates the property inputReference with the selected related fields.
-     * Then get the relatedFields sobjectName from the entityRelatedFields array and
+     * Handle input reference in related record mode
+     * Updates the property inputReference with the selected related record.
+     * Then get the related fields sobjectName from the entityRelatedFields array and
      * update the fields needed for the filter and assignment.
      *
-     * @param {object} event - related fields changed event coming from related-fields-picker component
+     * @param event - related fields changed event coming from {@link RelatedRecordFieldsPicker} component
      */
     handleRelatedRecordFieldsChangedEvent(event: UpdateRelatedRecordFieldsChangeEvent) {
         event.stopPropagation();
-        this.updateProperty('inputReference', event.detail.value, event.detail.error);
-        this.state.relatedRecordFieldSubType = event.detail?.subType;
-        this.updateFields(this.state.relatedRecordFieldSubType);
+        const oldInputReferenceFromRelatedRecord: string = getValueFromHydratedItem(
+            this.state.recordUpdateElement.inputReference
+        );
+        const newInputReferenceFromRelatedRecord = event.detail.value;
+        if (oldInputReferenceFromRelatedRecord !== newInputReferenceFromRelatedRecord) {
+            this.updateProperty(
+                'inputReference',
+                newInputReferenceFromRelatedRecord,
+                event.detail.error,
+                oldInputReferenceFromRelatedRecord
+            );
+            this.state.relatedRecordFieldSubType = event.detail?.subType || '';
+            this.updateFields(this.state.relatedRecordFieldSubType);
+        }
     }
 
+    /**
+     * Handle change of way to select the record(s) to update
+     *
+     * @param event changer event coming from options to fetch record(s) to update radio group
+     */
     handleWayToFindOptionChanged(event) {
         event.stopPropagation();
         this.updateProperty('wayToFindRecords', event.detail.value, event.detail.error);
@@ -429,23 +475,26 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     /**
-     * @param {object} event - comboboxstatechanged event from entity-resource-picker component. The property name depends on the record node
+     * Handle change of object
+     *
+     * @param event event from {@link EntityResourcePicker} component.
      */
-    handleResourceChanged(event) {
+    handleResourceChanged(event: ComboboxStateChangedEvent) {
         event.stopPropagation();
-        const oldRecordEntityName = this.state.recordUpdateElement.object;
+        const oldRecordEntityName = getValueFromHydratedItem(this.state.recordUpdateElement.object);
         const newRecordEntityName = event.detail.item ? event.detail.item.value : '';
-
         if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty('object', newRecordEntityName, event.detail.error, false, oldRecordEntityName);
+            this.updateProperty('object', newRecordEntityName, event.detail.error, oldRecordEntityName, false);
             this.updateFields(newRecordEntityName);
         }
     }
 
     /**
-     * @param {object} event - property changed event coming from label-description component or the list item changed events (add/update/delete)
+     * @param event - property changed event coming from {@link LabelDescription} component or the record filters list item changed events (add/update/delete)
      */
-    handlePropertyOrListItemChanged(event) {
+    handlePropertyOrListItemChanged(
+        event: AddRecordFilterEvent | UpdateRecordFilterEvent | DeleteRecordFilterEvent | PropertyChangedEvent
+    ) {
         event.stopPropagation();
         this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
     }
@@ -455,9 +504,23 @@ export default class RecordUpdateEditor extends LightningElement {
         this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
     }
 
-    updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
-        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
-        propChangedEvent.detail.ignoreValidate = ignoreValidate;
+    updateProperty(
+        propertyName: string,
+        newValue: string | null,
+        error?: string | null,
+        oldValue?: string,
+        ignoreValidate?: boolean
+    ) {
+        const propChangedEvent = new PropertyChangedEvent(
+            propertyName,
+            newValue,
+            error,
+            null,
+            oldValue,
+            undefined,
+            undefined,
+            ignoreValidate
+        );
         this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, propChangedEvent);
     }
 

@@ -32,7 +32,7 @@ export const getRadioGroups = (parentElement) =>
 export const getLightningRadioGroup = (editor) =>
     editor.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP);
 
-export const getRecordVariablePickerChildComboboxComponent = (parentComponent) =>
+export const getComboboxFromPicker = (parentComponent) =>
     new ComboboxTestComponent(
         deepQuerySelector(parentComponent, [
             INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
@@ -40,6 +40,10 @@ export const getRecordVariablePickerChildComboboxComponent = (parentComponent) =
             INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
         ])
     );
+
+export const getRecordVariablePickerChildComboboxComponent = (parentComponent) =>
+    getComboboxFromPicker(parentComponent);
+
 export const getEntityResourcePickerChildGroupedComboboxComponent = (parentPickerComponent) =>
     new GroupedComboboxTestComponent(
         deepQuerySelector(parentPickerComponent, [

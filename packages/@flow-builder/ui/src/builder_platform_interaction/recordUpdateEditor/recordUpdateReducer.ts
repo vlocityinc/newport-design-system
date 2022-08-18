@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
     AddRecordFieldAssignmentEvent,
@@ -24,64 +23,29 @@ const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 const INPUTASSIGNMENTS_PROP = 'inputAssignments';
 const FILTERS_PROP = 'filters';
 
-const emptyFilterItem = () => {
-    return {
-        [LHS]: { value: '', error: null },
-        [OPERATOR]: { value: '', error: null },
-        [RHS]: { value: '', error: null },
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
-            value: '',
-            error: null
-        },
-        rowIndex: generateGuid()
-    };
-};
+const emptyFilterItem = () => ({
+    [LHS]: { value: '', error: null },
+    [OPERATOR]: { value: '', error: null },
+    [RHS]: { value: '', error: null },
+    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+        value: '',
+        error: null
+    },
+    rowIndex: generateGuid()
+});
 
-const emptyAssignmentItem = () => {
-    return {
-        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null },
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
-            value: '',
-            error: null
-        },
-        rowIndex: generateGuid()
-    };
-};
+const emptyAssignmentItem = () => ({
+    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
+    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null },
+    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+        value: '',
+        error: null
+    },
+    rowIndex: generateGuid()
+});
 
-const resetFilter = (state) => {
-    // reset filters: create one empty filter item
-    return set(state, FILTERS_PROP, [emptyFilterItem()]);
-};
-
-const resetFilterErrors = (state) => {
-    const oldFilters = state.filters;
-    state = set(
-        state,
-        FILTERS_PROP,
-        oldFilters.map((filter) => {
-            filter[LHS].error = null;
-            filter[OPERATOR].error = null;
-            filter[RHS].error = null;
-            return filter;
-        })
-    );
-    return state;
-};
-
-const resetAssignmentErrors = (state) => {
-    const oldInputAssignments = state.inputAssignments;
-    state = set(
-        state,
-        INPUTASSIGNMENTS_PROP,
-        oldInputAssignments.map((inputAssignment) => {
-            inputAssignment[LHS].error = null;
-            inputAssignment[RHS].error = null;
-            return inputAssignment;
-        })
-    );
-    return state;
-};
+// reset filters: create one empty filter item
+const resetFilter = (state) => set(state, FILTERS_PROP, [emptyFilterItem()]);
 
 const addRecordFilter = (state) => {
     const path = [FILTERS_PROP, state.filters.length];
@@ -115,7 +79,7 @@ const updateRecordRecordFieldAssignment = (state, event) => {
     return set(state, path, item);
 };
 
-const resetRecordUpdate = (state, resetObject) => {
+const resetRecordUpdate = (state: { wayToFindRecords: UI.HydratedValue }, resetObject = false) => {
     state = resetFilter(state);
 
     // reset FilterLogic
@@ -145,7 +109,7 @@ const managePropertyChanged = (state, event) => {
     if (!event.detail.ignoreValidate) {
         event.detail.error =
             event.detail.error === null
-                ? recordUpdateValidation.validateProperty(propName, event.detail.value)
+                ? recordUpdateValidation.validateProperty(propName, event.detail.value, false)
                 : event.detail.error;
     }
     state = updateProperties(state, {
@@ -157,11 +121,6 @@ const managePropertyChanged = (state, event) => {
             state = resetRecordUpdate(state);
         } else if (propName === 'filterLogic' && event.detail.value === CONDITION_LOGIC.NO_CONDITIONS) {
             state = resetFilter(state);
-        } else if (propName === FILTERS_PROP) {
-            // reset errors in filters if any, and preserve values
-            state = resetFilterErrors(state);
-        } else if (propName === INPUTASSIGNMENTS_PROP) {
-            state = resetAssignmentErrors(state);
         } else if (propName === 'wayToFindRecords' && event.detail.value !== event.detail.oldValue) {
             state = resetRecordUpdate(state, true);
         }
@@ -170,7 +129,7 @@ const managePropertyChanged = (state, event) => {
 };
 
 /**
- * Record update reducer function runs validation rules and returns back the updated element state
+ * Record update reducer function runs validation rules and returns the updated element state
  * or update a property based on action type from second argument
  *
  * @param {object} state - element / node state
@@ -180,7 +139,7 @@ const managePropertyChanged = (state, event) => {
 export const recordUpdateReducer = (state, event) => {
     switch (event.type) {
         case AddRecordFilterEvent.EVENT_NAME:
-            return addRecordFilter(state, event);
+            return addRecordFilter(state);
         case UpdateRecordFilterEvent.EVENT_NAME:
             return updateRecordFilter(state, event);
         case DeleteRecordFilterEvent.EVENT_NAME:

@@ -131,7 +131,7 @@ export const createComponent = async (tagName, options = {}, optionsOverride = {
     Object.assign(el, options);
 
     setDocumentBodyChildren(el);
-    await ticks(1);
+    await tick();
     return el;
 };
 

@@ -12,17 +12,7 @@ import { getPolymorphicFieldSObjectName } from 'builder_platform_interaction/com
  * @param inputReference corresponding inputReference value
  * @returns related record name
  */
-export const getRelatedRecordName = (
-    field: {
-        apiName: string;
-        isCustom: boolean;
-        isPolymorphic: boolean;
-        isRelatedRecordChild: boolean;
-        sobjectName: string;
-        referenceToNames: string[];
-    },
-    inputReference: string
-) => {
+export const getRelatedRecordName = (field: Metadata.Field, inputReference: string) => {
     const { apiName, isCustom, isPolymorphic, isRelatedRecordChild, sobjectName, referenceToNames = [] } = field;
     let relatedRecordName;
     if (isRelatedRecordChild) {

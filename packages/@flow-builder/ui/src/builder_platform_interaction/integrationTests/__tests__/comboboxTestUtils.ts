@@ -36,6 +36,17 @@ export function getSObjectOrSObjectCollectionPickerCombobox(element: SObjectOrSO
     );
 }
 
+export const getRecordChildrenComboboxMenuItemsValues = async (combobox: ComboboxTestComponent) => {
+    await combobox.removePill();
+    await combobox.selectItemBy('text', ['$Record'], { blur: false });
+    return Object.values(combobox.getItems());
+};
+
+export const findComboboxMenuItemByValue = (
+    comboboxMenuItemsValues: { value: string }[],
+    ownerUserMergeFieldValue: string
+) => comboboxMenuItemsValues.find(({ value }) => value === ownerUserMergeFieldValue);
+
 export class ComboboxTestComponent extends TestComponent<Combobox> {
     public getGroupedCombobox() {
         return new GroupedComboboxTestComponent(
