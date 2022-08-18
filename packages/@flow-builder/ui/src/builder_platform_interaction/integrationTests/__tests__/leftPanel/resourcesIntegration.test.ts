@@ -31,7 +31,18 @@ import {
 import { initializeAuraFetch } from '../serverDataTestUtils';
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 jest.mock('builder_platform_interaction/alcCanvas', () => require('builder_platform_interaction_mocks/alcCanvas'));
-
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+    const mockSubtypeConfig = require('mock/flows/elementSubtypeConfigMock.json');
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.SortCollectionProcessor = mockSubtypeConfig.SortCollectionProcessor;
+    elementTypeToConfigMap.FilterCollectionProcessor = mockSubtypeConfig.FilterCollectionProcessor;
+    elementTypeToConfigMap.RecommendationMapCollectionProcessor =
+        mockSubtypeConfig.RecommendationMapCollectionProcessor;
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
 jest.mock('builder_platform_interaction/sharedUtils', () => {
     const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
 

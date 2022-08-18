@@ -1,6 +1,7 @@
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { COLLECTION_PROCESSOR_SUB_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
+import * as mockSubtypeConfig from 'mock/flows/elementSubtypeConfigMock.json';
 import {
     actionCallAutomaticOutput,
     apexCallAutomaticAnonymousAccountOutput,
@@ -88,6 +89,19 @@ jest.mock(
     },
     { virtual: true }
 );
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.SortCollectionProcessor = mockSubtypeConfig.SortCollectionProcessor;
+    elementTypeToConfigMap.FilterCollectionProcessor = mockSubtypeConfig.FilterCollectionProcessor;
+    elementTypeToConfigMap.RecommendationMapCollectionProcessor =
+        mockSubtypeConfig.RecommendationMapCollectionProcessor;
+
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
 
 const createElement = (
     elementType,

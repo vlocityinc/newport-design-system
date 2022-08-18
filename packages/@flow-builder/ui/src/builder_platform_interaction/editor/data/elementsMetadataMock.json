@@ -1,0 +1,132 @@
+[
+    {
+        "section": "Shortcuts",
+        "description": "Update fields on the triggering record.",
+        "elementType": "RecordUpdate",
+        "label": "Update Triggering Record",
+        "icon": "standard:record_update",
+        "value": "RecordUpdate",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Shortcuts",
+        "description": "Send an email using an email alert.",
+        "elementType": "ActionCall",
+        "actionType": "emailAlert",
+        "actionName": "emailAlert",
+        "actionIsStandard": false,
+        "label": "Send Email Alert",
+        "iconBackgroundColor": "background-navy",
+        "icon": "standard:email",
+        "value": "ActionCall",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Interaction",
+        "description": "Perform an action outside of the flow. Choose from your org’s custom create and update actions or an out-of-the-box action, like Post to Chatter or Submit for Approval.",
+        "elementType": "ActionCall",
+        "label": "Action",
+        "iconBackgroundColor": "background-navy",
+        "icon": "standard:custom_notification",
+        "value": "ActionCall",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Interaction",
+        "description": "Launch another flow that’s available in your org.",
+        "elementType": "Subflow",
+        "label": "Subflow",
+        "iconBackgroundColor": "background-navy",
+        "icon": "standard:flow",
+        "value": "Subflow",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Logic",
+        "description": "Set variable values.",
+        "elementType": "Assignment",
+        "label": "Assignment",
+        "icon": "standard:assignment",
+        "value": "Assignment",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Logic",
+        "description": "Create paths for the flow to take based on conditions you set.",
+        "elementType": "Decision",
+        "label": "Decision",
+        "icon": "standard:decision",
+        "iconShape": "diamond",
+        "value": "Decision",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Logic",
+        "description": "Iterate over a collection of values or records.",
+        "elementType": "Loop",
+        "label": "Loop",
+        "icon": "standard:loop",
+        "value": "Loop",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Logic",
+        "description": "Sort items in a collection.",
+        "elementType": "CollectionProcessor",
+        "label": "Collection Sort",
+        "iconBackgroundColor": "background-orange",
+        "icon": "standard:sort",
+        "value": "CollectionProcessor",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu",
+        "supportsBranching": false,
+        "elementSubtype": "SortCollectionProcessor"
+    },
+    {
+        "section": "Logic",
+        "description": "Without changing the original collection, remove items based on a set of conditions.",
+        "elementType": "CollectionProcessor",
+        "label": "Collection Filter",
+        "iconBackgroundColor": "background-orange",
+        "icon": "standard:filter",
+        "value": "CollectionProcessor",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu",
+        "supportsBranching": false,
+        "elementSubtype": "FilterCollectionProcessor"
+    },
+    {
+        "section": "Data",
+        "description": "Create Salesforce records using values from the flow.",
+        "elementType": "RecordCreate",
+        "label": "Create Records",
+        "icon": "standard:record_create",
+        "value": "RecordCreate",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Data",
+        "description": "Update Salesforce records using values from the flow.",
+        "elementType": "RecordUpdate",
+        "label": "Update Records",
+        "icon": "standard:record_update",
+        "value": "RecordUpdate",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Data",
+        "description": "Find Salesforce records, and store their field values to use later in the flow.",
+        "elementType": "RecordQuery",
+        "label": "Get Records",
+        "icon": "standard:record_lookup",
+        "value": "RecordQuery",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    },
+    {
+        "section": "Data",
+        "description": "Delete Salesforce records.",
+        "elementType": "RecordDelete",
+        "label": "Delete Records",
+        "icon": "standard:record_delete",
+        "value": "RecordDelete",
+        "menuComponent": "builder_platform_interaction/alcNodeMenu"
+    }
+]

@@ -48,6 +48,8 @@ import {
     recordTriggeredFlowUIModel,
     updateTriggeringRecord
 } from 'mock/storeDataRecordTriggered';
+import { supportedElements as mockSupportedElements } from 'serverData/GetSupportedElements/supportedElements.json';
+import * as mockElementsMetadata from '../data/elementsMetadataMock.json';
 
 const { Keys } = keyboardInteractionUtils;
 
@@ -99,6 +101,17 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         setAuraFetch: actual.setAuraFetch,
         setAuraGetCallback: actual.setAuraGetCallback
     };
+});
+const mockSupportedElementsForAutoLaunchedFlow = mockSupportedElements.AutoLaunchedFlow__None;
+jest.mock('../editorUtils', () => {
+    return Object.assign(jest.requireActual('../editorUtils'), {
+        getElementsMetadata: jest.fn().mockImplementation(() => {
+            return mockElementsMetadata;
+        }),
+        getAllSupportedElements: () => {
+            return Promise.resolve(mockSupportedElementsForAutoLaunchedFlow);
+        }
+    });
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {

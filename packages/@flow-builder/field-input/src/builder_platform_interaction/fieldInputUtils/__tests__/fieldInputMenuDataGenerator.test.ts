@@ -2,6 +2,7 @@ import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaL
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from 'builder_platform_interaction/systemLib';
+import * as mockSubtypeConfig from 'mock/flows/elementSubtypeConfigMock.json';
 import {
     accountSObjectCollectionVariable,
     accountSObjectVariable,
@@ -53,6 +54,20 @@ jest.mock(
         virtual: true
     }
 );
+
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.SortCollectionProcessor = mockSubtypeConfig.SortCollectionProcessor;
+    elementTypeToConfigMap.FilterCollectionProcessor = mockSubtypeConfig.FilterCollectionProcessor;
+    elementTypeToConfigMap.RecommendationMapCollectionProcessor =
+        mockSubtypeConfig.RecommendationMapCollectionProcessor;
+
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
 
 describe('fieldInputMenuDataGenerator', () => {
     describe('Tests for mutateFlowResourceToComboboxShape', () => {

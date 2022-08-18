@@ -570,8 +570,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
      */
     get hasCanvasElements() {
         return (
-            (this.hasFlow && storeInstance.getCurrentState().canvasElements.length > 0) ||
-            this.properties.isAutoLayoutCanvas
+            ((this.hasFlow && storeInstance.getCurrentState().canvasElements.length > 0) ||
+                this.properties.isAutoLayoutCanvas) &&
+            this.elementsMetadata &&
+            Object.keys(this.elementsMetadata).length > 0
         );
     }
 
@@ -3336,7 +3338,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         const canvas = this._getCanvasComponent()!;
         let canvasSections;
 
-        if (this.properties.isAutoLayoutCanvas) {
+        if (this.properties.isAutoLayoutCanvas && this.hasCanvasElements) {
             const alcCanvas = canvas.getAlcCanvas();
             canvasSections = alcCanvas ? alcCanvas.getAriaSections() : [];
         } else {

@@ -117,13 +117,10 @@ import {
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import {
     ACTION_TYPE,
-    COLLECTION_PROCESSOR_SUB_TYPE,
     ELEMENT_TYPE,
-    FLOW_ELEMENT_SUBTYPE,
     FLOW_TRIGGER_TYPE,
     ICONS,
-    METADATA_KEY,
-    WAIT_SUB_TYPE
+    METADATA_KEY
 } from 'builder_platform_interaction/flowMetadata';
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
@@ -1214,100 +1211,6 @@ export const elementTypeToConfigMap: {
             singular: LABELS.stageStepSingularLabel,
             plural: LABELS.stageStepPluralLabel
         }
-    },
-    /**
-     * Currently, when the flowBuilder app is loaded - the canvas loads prior to the leftPanel.
-     * Unlike the configuration for the base element types, which is hardcoded in the elementConfig.ts
-     * and is therefore available at the time of loading of the canvas, the subtype configuration is received
-     * from the service at the time of loading the leftPanel. Due to this there was issue in loading a flow
-     * which had been saved with collection processor subtypes. We would need to fix the subtype framework to be able
-     * to handle this case. For now, we are ok to add basic sort configuration here.
-     * But once the subtypes f/w fix is in place - this would need to be removed.
-     */
-    [COLLECTION_PROCESSOR_SUB_TYPE.SORT]: {
-        nodeConfig: {
-            iconName: 'standard:sort',
-            utilityIconName: 'utility:sort',
-            iconBackgroundColor: 'background-orange'
-        },
-        canvasElement: true,
-        labels: {
-            singular: LABELS.sortSingularLabel,
-            plural: LABELS.sortPluralLabel
-        },
-        fieldInputCategory: 'Sort'
-    },
-    [COLLECTION_PROCESSOR_SUB_TYPE.FILTER]: {
-        nodeConfig: {
-            iconName: 'standard:filter',
-            utilityIconName: 'utility:filter',
-            iconBackgroundColor: 'background-orange'
-        },
-        canvasElement: true,
-        labels: {
-            singular: LABELS.filterSingularLabel,
-            plural: LABELS.filterPluralLabel
-        },
-        fieldInputCategory: 'Filter'
-    },
-    [COLLECTION_PROCESSOR_SUB_TYPE.MAP]: {
-        nodeConfig: {
-            iconName: 'standard:data_mapping',
-            utilityIconName: 'utility:data_mapping',
-            iconBackgroundColor: 'background-orange'
-        },
-        canvasElement: true,
-        labels: {
-            singular: LABELS.mapSingularLabel,
-            plural: LABELS.mapPluralLabel
-        },
-        fieldInputCategory: 'Map'
-    },
-    [WAIT_SUB_TYPE.DURATION_WAIT]: {
-        nodeConfig: {
-            iconName: 'standard:today',
-            utilityIconName: 'utility:today',
-            iconBackgroundColor: 'background-orange'
-        },
-        canvasElement: true,
-        labels: {
-            singular: LABELS.durationWaitSingularLabel,
-            plural: LABELS.durationWaitPluralLabel
-        },
-        fieldInputCategory: 'DurationWait',
-        supportsBranching: false
-    },
-    [FLOW_ELEMENT_SUBTYPE.InteractiveStep]: {
-        nodeConfig: {
-            iconName: ICONS.interactiveStep,
-            iconBackgroundColor: 'background-navy',
-            description: LABELS.interactiveStepDescription
-        },
-        elementSubtype: FLOW_ELEMENT_SUBTYPE.InteractiveStep,
-        isElementSubtype: true,
-        elementType: ELEMENT_TYPE.STAGE_STEP,
-        canvasElement: true,
-        labels: {
-            singular: LABELS.interactiveStepSingularLabel,
-            plural: LABELS.interactiveStepPluralLabel
-        },
-        fieldInputCategory: 'StageStep'
-    },
-    [FLOW_ELEMENT_SUBTYPE.BackgroundStep]: {
-        nodeConfig: {
-            iconName: ICONS.backgroundStep,
-            iconBackgroundColor: 'background-navy',
-            description: LABELS.backgroundStepDescription
-        },
-        elementSubtype: FLOW_ELEMENT_SUBTYPE.BackgroundStep,
-        isElementSubtype: true,
-        elementType: ELEMENT_TYPE.STAGE_STEP,
-        canvasElement: true,
-        labels: {
-            singular: LABELS.backgroundStepSingularLabel,
-            plural: LABELS.backgroundStepPluralLabel
-        },
-        fieldInputCategory: 'StageStep'
     },
     [ELEMENT_TYPE.ROLLBACK]: {
         descriptor: 'builder_platform_interaction:rollbackEditor',

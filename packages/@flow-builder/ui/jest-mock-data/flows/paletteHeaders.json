@@ -1,0 +1,95 @@
+{
+    "headers": [
+        {
+            "headerLabel": "Shortcuts",
+            "headerAutolayoutVisibility": true,
+            "headerItems": [
+                {
+                    "shortcutEnumName": "RecordUpdate",
+                    "type": "shortcut",
+                    "shortcutEnumType": "element",
+                    "shortcutLabel": "Update Triggering Record",
+                    "shortcutDescription": "Update fields on the triggering record."
+                },
+                {
+                    "actionIsStandard": false,
+                    "shortcutEnumName": "emailAlert",
+                    "type": "shortcut",
+                    "shortcutEnumType": "action",
+                    "shortcutLabel": "Send Email Alert",
+                    "shortcutDescription": "Send an email using an email alert."
+                }
+            ],
+            "headerFreeformVisibility": false
+        },
+        {
+            "headerLabel": "Interaction",
+            "headerAutolayoutVisibility": true,
+            "headerItems": [
+                {
+                    "name": "ActionCall",
+                    "type": "element"
+                },
+                {
+                    "name": "Subflow",
+                    "type": "element"
+                }
+            ],
+            "headerFreeformVisibility": true
+        },
+        {
+            "headerLabel": "Logic",
+            "headerAutolayoutVisibility": true,
+            "headerItems": [
+                {
+                    "name": "Assignment",
+                    "type": "element"
+                },
+                {
+                    "name": "Decision",
+                    "type": "element"
+                },
+                {
+                    "name": "Wait",
+                    "type": "element"
+                },
+                {
+                    "name": "Loop",
+                    "type": "element"
+                },
+                {
+                    "name": "SortCollectionProcessor",
+                    "type": "elementSubtype"
+                },
+                {
+                    "name": "FilterCollectionProcessor",
+                    "type": "elementSubtype"
+                }
+            ],
+            "headerFreeformVisibility": true
+        },
+        {
+            "headerLabel": "Data",
+            "headerAutolayoutVisibility": true,
+            "headerItems": [
+                {
+                    "name": "RecordCreate",
+                    "type": "element"
+                },
+                {
+                    "name": "RecordUpdate",
+                    "type": "element"
+                },
+                {
+                    "name": "RecordQuery",
+                    "type": "element"
+                },
+                {
+                    "name": "RecordDelete",
+                    "type": "element"
+                }
+            ],
+            "headerFreeformVisibility": true
+        }
+    ]
+}

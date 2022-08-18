@@ -12,6 +12,7 @@ import {
     setGlobalVariables,
     setProcessTypeFeatures
 } from 'builder_platform_interaction/systemLib';
+import * as mockSubtypeConfig from 'mock/flows/elementSubtypeConfigMock.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as orchestration from 'mock/flows/orchestratorFlow.json';
 import * as recommendationFlow from 'mock/flows/recommendationFlow.json';
@@ -60,6 +61,23 @@ jest.mock(
         virtual: true
     }
 );
+
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.SortCollectionProcessor = mockSubtypeConfig.SortCollectionProcessor;
+    elementTypeToConfigMap.FilterCollectionProcessor = mockSubtypeConfig.FilterCollectionProcessor;
+    elementTypeToConfigMap.RecommendationMapCollectionProcessor =
+        mockSubtypeConfig.RecommendationMapCollectionProcessor;
+    elementTypeToConfigMap.DurationWait = mockSubtypeConfig.DurationWait;
+    elementTypeToConfigMap.InteractiveStep = mockSubtypeConfig.InteractiveStep;
+    elementTypeToConfigMap.BackgroundStep = mockSubtypeConfig.BackgroundStep;
+
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
 
 function setStoreMockState(mockState) {
     // @ts-ignore

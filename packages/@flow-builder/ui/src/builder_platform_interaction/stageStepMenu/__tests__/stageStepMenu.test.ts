@@ -10,7 +10,16 @@ import { createElement } from 'lwc';
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp, EscapeCommand, TabCommand } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
-
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+    const mockSubtypeConfig = require('mock/flows/elementSubtypeConfigMock.json');
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.InteractiveStep = mockSubtypeConfig.InteractiveStep;
+    elementTypeToConfigMap.BackgroundStep = mockSubtypeConfig.BackgroundStep;
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
 const selectors = {
     menuItemListItem: 'li[role="presentation"]',
     menuItem: 'div[role="menuitem"]'

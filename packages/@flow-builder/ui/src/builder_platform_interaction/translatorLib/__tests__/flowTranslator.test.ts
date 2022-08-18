@@ -98,6 +98,20 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () =>
     require('builder_platform_interaction_mocks/flowExtensionLib')
 );
 
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+    const mockSubtypeConfig = jest.requireActual('mock/flows/elementSubtypeConfigMock.json');
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.SortCollectionProcessor = mockSubtypeConfig.SortCollectionProcessor;
+    elementTypeToConfigMap.FilterCollectionProcessor = mockSubtypeConfig.FilterCollectionProcessor;
+    elementTypeToConfigMap.RecommendationMapCollectionProcessor =
+        mockSubtypeConfig.RecommendationMapCollectionProcessor;
+
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
+
 /**
  * Modify the expected object. This can be used when we have an expected object that is not exactly what we want.
  *

@@ -7,6 +7,16 @@ import {
     isChildElement,
     updateElementConfigMapWithSubtypes
 } from '../elementConfig';
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+    const mockSubtypeConfig = jest.requireActual('mock/flows/elementSubtypeConfigMock.json');
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.SortCollectionProcessor = mockSubtypeConfig.SortCollectionProcessor;
+
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
 
 function verifyConfig(elementType, config) {
     let expectedConfig = elementTypeToConfigMap[elementType];

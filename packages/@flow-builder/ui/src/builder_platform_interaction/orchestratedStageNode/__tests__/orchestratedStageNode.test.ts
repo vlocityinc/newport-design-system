@@ -8,7 +8,17 @@ import { commands } from 'builder_platform_interaction/sharedUtils';
 const { EnterCommand, SpaceCommand, ArrowDown, ArrowUp } = commands;
 
 jest.mock('builder_platform_interaction/sharedUtils', () => require('builder_platform_interaction_mocks/sharedUtils'));
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+    const mockSubtypeConfig = jest.requireActual('mock/flows/elementSubtypeConfigMock.json');
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.InteractiveStep = mockSubtypeConfig.InteractiveStep;
+    elementTypeToConfigMap.BackgroundStep = mockSubtypeConfig.BackgroundStep;
 
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
 const defaultOptions = {
     canvasContext: {
         connectorMenuMetadata: {}
