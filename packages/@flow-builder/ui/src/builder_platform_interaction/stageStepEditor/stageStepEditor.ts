@@ -1,5 +1,4 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { isUnchangedProperty } from 'builder_platform_interaction/builderUtils';
 import {
     getParameterListWarnings,
     MERGE_WITH_PARAMETERS,
@@ -7,11 +6,7 @@ import {
     REMOVE_UNSET_PARAMETERS
 } from 'builder_platform_interaction/calloutEditorLib';
 import { isUndefinedOrNull, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import {
-    getErrorsFromHydratedElement,
-    getValueFromHydratedItem,
-    ValueWithError
-} from 'builder_platform_interaction/dataMutationLib';
+import { getValueFromHydratedItem, ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     ASSIGNEE_DATA_TYPE_PROPERTY_NAME,
@@ -57,25 +52,23 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import PanelBasedPropertyEditor from 'builder_platform_interaction/panelBasedPropertyEditor';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
-import { api, LightningElement, track } from 'lwc';
+import { api, track } from 'lwc';
 import { LABELS } from './stageStepEditorLabels';
 import { stageStepReducer } from './stageStepReducer';
 
 // Standard inputs that should not show up as inputs associated with the selected action
 const STANDARD_INPUT_PREFIX = 'ActionInput__';
 
-export default class StageStepEditor extends LightningElement {
+export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep> {
     error;
 
     labels = LABELS;
-
-    element?: StageStep;
 
     selectedEntryCriteria?: EntryCriteria;
     selectedExitCriteria?: ExitCriteria;
@@ -125,6 +118,7 @@ export default class StageStepEditor extends LightningElement {
     exitActionErrorMessage;
 
     _relatedRecordPickerGuid = generateGuid();
+
     /**
      * display any relatedRecord errorMessage if
      * - it's not the first time opening the editor
@@ -223,21 +217,10 @@ export default class StageStepEditor extends LightningElement {
 
     assigneeRecordPickerAttributes = this.userRecordPickerAttributes;
 
-    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
-    @api
-    mode;
-
-    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
-    @api
-    processType;
-
     @api
     triggerType;
 
-    _editorParams;
-
-    @api
-    get editorParams() {
+    override getEditorParams(): UI.PropertyEditorParameters {
         const params = { ...this._editorParams };
         const panelConfig = { ...this._editorParams?.panelConfig };
 
@@ -255,37 +238,13 @@ export default class StageStepEditor extends LightningElement {
         return params;
     }
 
-    set editorParams(params) {
-        this._editorParams = params;
-    }
-
     constructor() {
-        super();
+        super(stageStepReducer);
         this.rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.STAGE_STEP);
     }
 
-    /**
-     * public api function to return the node
-     *
-     * @returns the node
-     */
-    @api getNode() {
-        return this.element;
-    }
-
-    /**
-     * public api function to run the rules from stage validation library
-     *
-     * @returns list of errors
-     */
-    @api validate(): object {
-        const event = new OrchestrationStageStepEditorValidateEvent(
-            this._assigneePickerGuid,
-            this._relatedRecordPickerGuid
-        );
-        this.element = stageStepReducer(this.element!, event);
-
-        return getErrorsFromHydratedElement(this.element);
+    override getValidateEvent(): CustomEvent {
+        return new OrchestrationStageStepEditorValidateEvent(this._assigneePickerGuid, this._relatedRecordPickerGuid);
     }
 
     @api
@@ -296,18 +255,7 @@ export default class StageStepEditor extends LightningElement {
         labelDescription.focus?.();
     }
 
-    // getter and setter for nodes don't work well with mixins
-    // currently need to be copied here for each property editor node
-    @api
-    get node() {
-        return this.element;
-    }
-
-    set node(newValue) {
-        const oldElement = this.element;
-        this.element = newValue;
-        this.element = updateAndValidateElementInPropertyEditor(oldElement, newValue, this);
-
+    override onSetNode() {
         if (!this.element) {
             return;
         }
@@ -901,20 +849,7 @@ export default class StageStepEditor extends LightningElement {
                 rowIndex
             }
         });
-        this.element = stageStepReducer(this.element!, removeUnsetParamsEvent);
-        this.dispatchEvent(new UpdateNodeEvent(this.element));
-    }
-
-    /**
-     * @param event - property changed event coming from the label description component
-     */
-    handleLabelDescriptionPropertyChangedEvent(event: PropertyChangedEvent) {
-        event.stopPropagation();
-        const hasUpdatedProperty = !isUnchangedProperty(this.element, event);
-        this.element = stageStepReducer(this.element!, event);
-        if (hasUpdatedProperty) {
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
-        }
+        this.updateElement(removeUnsetParamsEvent);
     }
 
     /**
@@ -1058,8 +993,7 @@ export default class StageStepEditor extends LightningElement {
                     stringValue: 'Completed'
                 }
             });
-            this.element = stageStepReducer(this.element!, updateEntryCriteria);
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
+            this.updateElement(updateEntryCriteria);
         }
     }
 
@@ -1098,9 +1032,7 @@ export default class StageStepEditor extends LightningElement {
             assigneeType,
             isReference
         );
-        this.element = stageStepReducer(this.element!, updateActor);
-
-        this.dispatchEvent(new UpdateNodeEvent(this.element));
+        this.updateElement(updateActor);
     };
 
     /**
@@ -1171,8 +1103,7 @@ export default class StageStepEditor extends LightningElement {
             this.element?.assignees[0]?.isReference,
             error
         );
-        this.element = stageStepReducer(this.element!, updateActor);
-        this.dispatchEvent(new UpdateNodeEvent(this.element));
+        this.updateElement(updateActor);
     }
 
     handleRecordChanged = (event: ComboboxStateChangedEvent) => {
@@ -1249,16 +1180,13 @@ export default class StageStepEditor extends LightningElement {
             };
 
             const updateRecord = new PropertyChangedEvent('relatedRecordItem', valueToSet, error);
-            this.element = stageStepReducer(this.element!, updateRecord);
-
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
+            this.updateElement(updateRecord);
         }
     };
 
     handleCheckboxClicked(event: CustomEvent) {
         event.stopPropagation();
-        this.element = stageStepReducer(this.element!, new RequiresAsyncProcessingChangedEvent(event.detail.checked));
-        this.dispatchEvent(new UpdateNodeEvent(this.element));
+        this.updateElement(new RequiresAsyncProcessingChangedEvent(event.detail.checked));
     }
 
     handleOpenFlowClicked() {

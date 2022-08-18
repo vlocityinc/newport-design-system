@@ -39,8 +39,6 @@ export type ConfigurationEditor = {
     errors: [];
 };
 
-export type Reducer = (state: object, event: CustomEvent | { type: string }) => object;
-
 export type BuilderContext = {
     variables: Metadata.Variable[];
     constants: Metadata.Constant[];

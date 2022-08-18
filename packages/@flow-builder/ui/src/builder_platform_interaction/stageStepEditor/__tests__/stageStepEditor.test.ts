@@ -89,7 +89,7 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
 
     return Object.assign('', actual, {
-        getErrorsFromHydratedElement: jest.fn()
+        getErrorsFromHydratedElement: jest.fn(() => [])
     });
 });
 
@@ -1429,7 +1429,7 @@ describe('StageStepEditor', () => {
         });
 
         it('gets the errors after validating', () => {
-            getErrorsFromHydratedElement.mockReturnValue(editor.node);
+            getErrorsFromHydratedElement.mockReturnValue([editor.node]);
             editor.validate();
             expect(getErrorsFromHydratedElement).toHaveBeenLastCalledWith(editor.node);
         });

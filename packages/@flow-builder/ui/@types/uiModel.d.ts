@@ -625,8 +625,13 @@ declare namespace UI {
 
     type PropertyEditorParameters = {
         isAutoLayoutCanvas?: boolean;
-        panelConfig?: object;
+        panelConfig?: {
+            isLabelCollapsibleToHeader?: boolean;
+            customIcon?: string;
+        };
     };
+
+    type Reducer<T> = (state: T, event: CustomEvent) => T;
 
     type FieldInputCategory =
         | 'Action'

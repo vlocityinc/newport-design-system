@@ -1,6 +1,6 @@
 import { isUnchangedProperty } from 'builder_platform_interaction/builderUtils';
 import CustomPropertyEditor from 'builder_platform_interaction/customPropertyEditor';
-import { ConfigurationEditor, Reducer } from 'builder_platform_interaction/customPropertyEditorLib';
+import { ConfigurationEditor } from 'builder_platform_interaction/customPropertyEditorLib';
 import { ElementOrComponentError, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
@@ -12,13 +12,16 @@ import { api, LightningElement, track } from 'lwc';
  */
 
 const CUSTOM_PROPERTY_EDITOR_SELECTOR = 'builder_platform_interaction-custom-property-editor';
-export default abstract class PanelBasedPropertyEditor extends LightningElement {
+export default abstract class PanelBasedPropertyEditor<T> extends LightningElement {
     /* State object of the element being edited in the property editor */
     @track
     element;
 
     /* reducer function for the given element's property editor; make sure to set this in your property editor implementation */
-    reducer: Reducer;
+    reducer: UI.Reducer<T>;
+
+    /* black listed fields to not have their errors removed when new; set this in your property editor implementation if needed */
+    elementBlackListFields: string[] = [];
 
     /* CPE info */
     configurationEditor: ConfigurationEditor | undefined;
@@ -29,10 +32,23 @@ export default abstract class PanelBasedPropertyEditor extends LightningElement 
     @api
     processType: string | undefined;
 
-    @api
-    editorParams: UI.PropertyEditorParameters = {};
+    _editorParams: UI.PropertyEditorParameters = {};
 
-    constructor(reducer: Reducer) {
+    /* Override this in your property editor implementation if you need custom logic executed to get editor params */
+    getEditorParams(): UI.PropertyEditorParameters {
+        return this._editorParams;
+    }
+
+    @api
+    get editorParams() {
+        return this.getEditorParams();
+    }
+
+    set editorParams(newValue: UI.PropertyEditorParameters) {
+        this._editorParams = newValue;
+    }
+
+    constructor(reducer: UI.Reducer<T>) {
         super();
         this.reducer = reducer;
     }
@@ -45,7 +61,12 @@ export default abstract class PanelBasedPropertyEditor extends LightningElement 
     set node(newValue) {
         const oldElement = this.element;
         this.element = newValue;
-        this.element = updateAndValidateElementInPropertyEditor(oldElement, newValue, this);
+        this.element = updateAndValidateElementInPropertyEditor(
+            oldElement,
+            newValue,
+            this,
+            this.elementBlackListFields
+        );
 
         this.onSetNode();
     }
@@ -69,6 +90,11 @@ export default abstract class PanelBasedPropertyEditor extends LightningElement 
         return !!this.configurationEditor?.name;
     }
 
+    /* Override this in your property editor implementation if you need a custom validation event */
+    getValidateEvent(): CustomEvent<object> {
+        return new CustomEvent(VALIDATE_ALL);
+    }
+
     /**
      * public api function to run validation defined on the property editor
      *
@@ -82,11 +108,21 @@ export default abstract class PanelBasedPropertyEditor extends LightningElement 
         if (editor) {
             errors = editor.validate();
         }
-        const event = { type: VALIDATE_ALL };
+        const event = this.getValidateEvent();
         this.element = this.reducer(this.element, event);
         const standardPropertyEditorErrors = getErrorsFromHydratedElement(this.element);
         errors = [...errors, ...standardPropertyEditorErrors];
         return errors;
+    }
+
+    /**
+     * Helper function to to handle simple component updates
+     *
+     * @param event reducer event type
+     */
+    handleValueChanged(event) {
+        event.stopPropagation();
+        this.updateElement(event);
     }
 
     /**

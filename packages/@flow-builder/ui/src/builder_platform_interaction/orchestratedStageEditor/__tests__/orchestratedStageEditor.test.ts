@@ -360,7 +360,7 @@ describe('OrchestratedStageEditor', () => {
         });
 
         it('gets the errors after validating', () => {
-            getErrorsFromHydratedElement.mockReturnValueOnce(editor.node);
+            getErrorsFromHydratedElement.mockReturnValueOnce([editor.node]);
             editor.validate();
             expect(getErrorsFromHydratedElement).toHaveBeenCalledWith(editor.node);
         });

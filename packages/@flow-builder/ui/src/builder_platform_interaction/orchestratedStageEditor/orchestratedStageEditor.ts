@@ -1,4 +1,3 @@
-import { isUnchangedProperty } from 'builder_platform_interaction/builderUtils';
 import {
     getParameterListWarnings,
     MERGE_WITH_PARAMETERS,
@@ -6,12 +5,8 @@ import {
     REMOVE_UNSET_PARAMETERS
 } from 'builder_platform_interaction/calloutEditorLib';
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import {
-    getErrorsFromHydratedElement,
-    getValueFromHydratedItem,
-    ValueWithError
-} from 'builder_platform_interaction/dataMutationLib';
-import { ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
+import { getValueFromHydratedItem, ValueWithError } from 'builder_platform_interaction/dataMutationLib';
+import { OrchestratedStage, ParameterListRowItem } from 'builder_platform_interaction/elementFactory';
 import {
     DeleteOrchestrationActionEvent,
     ORCHESTRATED_ACTION_CATEGORY,
@@ -29,20 +24,17 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import PanelBasedPropertyEditor from 'builder_platform_interaction/panelBasedPropertyEditor';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { updateAndValidateElementInPropertyEditor } from 'builder_platform_interaction/validation';
-import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { api, LightningElement } from 'lwc';
+import { api } from 'lwc';
 import { LABELS } from './orchestratedStageEditorLabels';
 import { orchestratedStageReducer } from './orchestratedStageReducer';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
 };
-export default class OrchestratedStageEditor extends LightningElement {
-    element;
-
+export default class OrchestratedStageEditor extends PanelBasedPropertyEditor<OrchestratedStage> {
     labels = LABELS;
 
     isActionsFetched = false;
@@ -60,19 +52,14 @@ export default class OrchestratedStageEditor extends LightningElement {
 
     flowNamesToIds: {} = {};
 
-    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
-    @api
-    mode;
+    elementBlackListFields = ['stageSteps'];
 
-    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
-    @api
-    processType;
+    constructor() {
+        super(orchestratedStageReducer);
+    }
 
     @api
     triggerType;
-
-    @api
-    editorParams;
 
     @api
     focus() {
@@ -91,39 +78,7 @@ export default class OrchestratedStageEditor extends LightningElement {
         return '';
     }
 
-    /**
-     * public api function to return the node
-     *
-     * @returns {object} node - node
-     */
-    @api getNode() {
-        return this.element;
-    }
-
-    /**
-     * public api function to run the rules from stage validation library
-     *
-     * @returns list of errors
-     */
-    @api validate(): object {
-        const event = new CustomEvent(VALIDATE_ALL);
-        this.element = orchestratedStageReducer(this.element, event);
-
-        return getErrorsFromHydratedElement(this.element);
-    }
-
-    // getter and setter for nodes don't work well with mixins
-    // currently need to be copied here for each property editor node
-    @api
-    get node() {
-        return this.element;
-    }
-
-    set node(newValue) {
-        const oldElement = this.element;
-        this.element = newValue;
-        this.element = updateAndValidateElementInPropertyEditor(oldElement, newValue, this, ['stageSteps']);
-
+    override onSetNode(): void {
         this.selectedExitCriteria = (this.element.exitCriteria as ValueWithError).value as StageExitCriteria;
 
         if (this.selectedExitAction?.actionName) {
@@ -272,7 +227,7 @@ export default class OrchestratedStageEditor extends LightningElement {
         });
 
         // Update the merged parameters
-        this.element = orchestratedStageReducer(this.element!, event);
+        this.element = this.reducer(this.element!, event);
 
         this.exitActionParameterListConfig = this.createActionParameterListConfig(
             this.element!.exitActionInputParameters,
@@ -280,18 +235,6 @@ export default class OrchestratedStageEditor extends LightningElement {
         );
 
         this.displayActionSpinner = false;
-    }
-
-    /**
-     * @param {object} event - property changed event coming from label-description component
-     */
-    handlePropertyChangedEvent(event) {
-        event.stopPropagation();
-        const hasUpdatedProperty = !isUnchangedProperty(this.element, event);
-        this.element = orchestratedStageReducer(this.element, event);
-        if (hasUpdatedProperty) {
-            this.dispatchEvent(new UpdateNodeEvent(this.element));
-        }
     }
 
     handleStageCompletesChanged(event: CustomEvent) {
@@ -302,7 +245,7 @@ export default class OrchestratedStageEditor extends LightningElement {
             ORCHESTRATED_ACTION_CATEGORY.EXIT,
             this.selectedExitCriteria
         );
-        this.element = orchestratedStageReducer(this.element!, updateExitCriteriaEvent);
+        this.element = this.reducer(this.element!, updateExitCriteriaEvent);
 
         // delete any alternative Exit Criteria Metadata if necessary
         if (this.selectedExitCriteria === StageExitCriteria.ON_STEP_COMPLETE) {
@@ -310,7 +253,7 @@ export default class OrchestratedStageEditor extends LightningElement {
                 this.element!.guid,
                 ORCHESTRATED_ACTION_CATEGORY.EXIT
             );
-            this.element = orchestratedStageReducer(this.element!, deleteExitActionEvent);
+            this.element = this.reducer(this.element!, deleteExitActionEvent);
         }
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
@@ -322,7 +265,7 @@ export default class OrchestratedStageEditor extends LightningElement {
             e.detail.value,
             e.detail.error
         );
-        this.element = orchestratedStageReducer(this.element!, orchEvt);
+        this.element = this.reducer(this.element!, orchEvt);
 
         if (e.detail.value!.actionName) {
             await this.setActionParameters(this.selectedExitAction);
@@ -340,8 +283,7 @@ export default class OrchestratedStageEditor extends LightningElement {
                 rowIndex
             }
         });
-        this.element = orchestratedStageReducer(this.element!, removeUnsetParamsEvent);
-        this.dispatchEvent(new UpdateNodeEvent(this.element));
+        this.updateElement(removeUnsetParamsEvent);
     }
 
     /**
@@ -356,7 +298,7 @@ export default class OrchestratedStageEditor extends LightningElement {
         // Only update the element if an actual change in value has occurred
         const sanitizedValue = removeCurlyBraces(event.detail.value);
         if (!!inputParam && (!inputParam!.value || (<ValueWithError>inputParam!.value).value !== sanitizedValue)) {
-            this.element = orchestratedStageReducer(this.element!, event);
+            this.element = this.reducer(this.element!, event);
 
             this.updateNodeForFieldLevelCommit(inputParam!.rowIndex);
         }
