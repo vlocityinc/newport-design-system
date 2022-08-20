@@ -15,7 +15,7 @@ export * from './fieldInputMenuDataRetrieval';
  * @returns A new MenuSelectItemEvent
  */
 export function newMenuSelectItemEvent(item: FieldInput.MenuItem) {
-    return newCustomEvent<FieldInput.MenuSelectItemEventDetail>('fieldinputmenuselectitem', { item });
+    return newCustomEvent<FieldInput.MenuSelectItemEventDetail>('selectitem', { item });
 }
 
 /**

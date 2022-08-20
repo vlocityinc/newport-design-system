@@ -713,6 +713,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
             fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then((data) => this.getHeaderUrlsCallBack(data));
 
+            // temporary
+            // @ts-ignore
+            window.enableFieldInput = () => (window.isFieldInputEnabled = true);
+            // @ts-ignore
+            window.disableFieldInput = () => (window.isFieldInputEnabled = false);
+
             initializeLoader(storeInstance);
             // W-7708069. Need to load references in Flow once we get all apex types.
             loadOnStart().then(() => this.loadReferencesInFlow());

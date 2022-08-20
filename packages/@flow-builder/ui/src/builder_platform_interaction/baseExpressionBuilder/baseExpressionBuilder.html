@@ -1,6 +1,7 @@
 <template>
     <div class={containerClasses}>
         <builder_platform_interaction-combobox
+            if:false={isFieldInputEnabled}
             allowed-param-types={lhsParamTypes}
             class={lhsClasses}
             enable-field-drilldown
@@ -14,7 +15,7 @@
             value={lhsValue}
             enable-lookup-traversal={enableLookupTraversal}
             is-pill-supported
-            onaddnewresource={handleAddNewResource}
+            onaddnewresource={handleAddNewResourceLeft}
             oncomboboxstatechanged={handleLhsValueChanged}
             onfiltermatches={handleFilterLhsMatches}
             onfetchmenudata={handleFetchLhsMenuData}
@@ -26,6 +27,16 @@
             disabled={lhsDisabled}
         >
         </builder_platform_interaction-combobox>
+        <builder_platform_interaction-field-input
+            if:true={isFieldInputEnabled}
+            rules={lhsParamTypes}
+            config={lhsConfig}
+            context={lhsContext}
+            value={lhsMenuItem}
+            onaddnewresource={handleAddNewResourceLeft}
+            onselectitem={handleLhsItemSelect}
+            onunselectitem={handleLhsItemUnselect}
+        ></builder_platform_interaction-field-input>
         <lightning-combobox
             if:false={hideOperator}
             class={operatorClasses}
@@ -62,7 +73,7 @@
             value={rhsValue}
             enable-lookup-traversal={enableLookupTraversal}
             is-pill-supported
-            onaddnewresource={handleAddNewResource}
+            onaddnewresource={handleAddNewResourceRight}
             oncomboboxstatechanged={handleRhsValueChanged}
             onfiltermatches={handleFilterRhsMatches}
             onfetchmenudata={handleFetchRhsMenuData}

@@ -58,7 +58,13 @@ jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
         getInlineResource: jest.fn()
     };
 });
-jest.mock('builder_platform_interaction/sharedUtils');
+
+jest.mock('builder_platform_interaction/sharedUtils', () => {
+    const sharedUtils = jest.requireActual('builder_platform_interaction_mocks/sharedUtils');
+    const customIconUtils = jest.requireActual('builder_platform_interaction/sharedUtils/customIconUtils');
+    return Object.assign({}, sharedUtils, { customIconUtils });
+});
+
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         removeLastCreatedInlineResource: jest.fn(),
@@ -116,6 +122,25 @@ function createMockEmptyRHSExpression(lhsGuid) {
         rhsIsField: false,
         rhsFields: null,
         rhsLiteralsAllowed: true
+    });
+}
+
+function createMockEmptyExpression() {
+    return createComponentForTest({
+        containerElement: ELEMENT_TYPE.ASSIGNMENT,
+        rules: [],
+        lhsDisplayOption: expressionUtilsMock.LHS_DISPLAY_OPTION.NOT_FIELD,
+        lhsValue: null,
+        lhsParam: null,
+        lhsIsField: false,
+        lhsFields: null,
+        lhsActivePicklistValues: null,
+        showLhsAsFieldReference: true,
+        rhsValue: null,
+        rhsIsField: false,
+        rhsFields: null,
+        rhsLiteralsAllowed: true,
+        rhsIsFer: false
     });
 }
 
@@ -1222,7 +1247,8 @@ describe('base expression builder', () => {
                 properties: {
                     lastInlineResourceRowIndex: idx,
                     lastInlineResourceGuid: '6f346269-409c-422e-9e8c-3898d164298q'
-                }
+                },
+                elements: {}
             });
             expressionBuilder.rowIndex = idx;
             const combobox = expressionBuilder.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
@@ -1240,7 +1266,8 @@ describe('base expression builder', () => {
                     lastInlineResourceRowIndex: idx,
                     lastInlineResourceGuid: '6f346269-409c-422e-9e8c-3898d164298p',
                     lastInlineResourcePosition: 'left'
-                }
+                },
+                elements: {}
             });
             expressionBuilder.rowIndex = idx;
             const combobox = expressionBuilder.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
@@ -1256,7 +1283,8 @@ describe('base expression builder', () => {
                     lastInlineResourceRowIndex: idx,
                     lastInlineResourceGuid: '6f346269-409c-422e-9e8c-3898d164298n',
                     lastInlineResourcePosition: null
-                }
+                },
+                elements: {}
             });
             expressionBuilder.rowIndex = idx;
             const combobox = expressionBuilder.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
@@ -1271,7 +1299,8 @@ describe('base expression builder', () => {
                     lastInlineResourceRowIndex: '931204fe-9c9a-45cf-b804-76fc6df47cc9',
                     lastInlineResourceGuid: '6f346269-409c-422e-9e8c-3898d164298d',
                     lastInlineResourcePosition: 'left'
-                }
+                },
+                elements: {}
             });
             expressionBuilder.rowIndex = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
             const combobox = expressionBuilder.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
@@ -1339,6 +1368,49 @@ describe('base expression builder', () => {
                     categoriesToInclude: [globalConstantCategory]
                 }
             });
+        });
+    });
+    describe.only('field input', () => {
+        beforeAll(() => {
+            global.isFieldInputEnabled = true;
+            Store.setMockState(flowWithAllElementsUIModel);
+        });
+        afterAll(() => {
+            global.isFieldInputEnabled = false;
+            Store.resetStore();
+        });
+        it('should appear if window.isFieldInputEnabled is true', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest();
+            const fieldInput = expressionBuilder.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FIELD_INPUT);
+            expect(fieldInput).toBeTruthy();
+        });
+        it('should not show a pill by default', async () => {
+            const expressionBuilder = createMockEmptyExpression();
+            const fieldInput = expressionBuilder.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FIELD_INPUT);
+            const fieldInputBox = fieldInput.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FIELD_INPUT_BOX);
+
+            // fetch menu data and elements
+            expressionBuilder.lhsMustBeWritable = true;
+            await ticks();
+
+            const fieldInputBoxPill = fieldInputBox.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.FIELD_INPUT_BOX_PILL
+            );
+            expect(fieldInputBoxPill).toBeFalsy();
+        });
+        it('should show a pill for a valid value', async () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest();
+            const fieldInput = expressionBuilder.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FIELD_INPUT);
+            const fieldInputBox = fieldInput.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FIELD_INPUT_BOX);
+
+            // fetch menu data and elements
+            expressionBuilder.lhsMustBeWritable = true;
+            await ticks();
+
+            const fieldInputBoxPill = fieldInputBox.shadowRoot.querySelector(
+                INTERACTION_COMPONENTS_SELECTORS.FIELD_INPUT_BOX_PILL
+            );
+            expect(fieldInputBoxPill).toBeTruthy();
         });
     });
 });

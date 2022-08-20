@@ -32,7 +32,7 @@ export default class FieldInput extends LightningElement {
     @track contextItems: FieldInput.MenuContextItem[] = [menuContextItemAll];
 
     /* The currently selected item, as shown in a pill */
-    @track selectedItem: FieldInput.MenuItem | undefined;
+    @api value: FieldInput.MenuItem | undefined;
 
     /* Whether the menu is opened */
     @track isMenuOpened = false;
@@ -45,14 +45,6 @@ export default class FieldInput extends LightningElement {
 
     /* menu config */
     @api config: FieldInput.MenuConfig = defaultConfig;
-
-    /* input box configuration, subject to usage context */
-    inputBoxConfig: FieldInput.MenuInputBoxConfig = {
-        labels: {
-            inputLabel: this.labels.inputLabel,
-            inputPlaceholder: this.labels.inputPlaceholder
-        }
-    };
 
     /* whether a hide menu action has been scheduled and is pending */
     hasPendingHideMenu = false;
@@ -71,8 +63,6 @@ export default class FieldInput extends LightningElement {
                 { ...menuItem.view, label: menuItem.label, name: menuItem.name }
             ]);
         } else {
-            // otherwise set the selected item and close the menu
-            this.selectedItem = menuItem;
             this.shouldShowMenu(false);
         }
     }
@@ -119,13 +109,6 @@ export default class FieldInput extends LightningElement {
             // otherwise dismiss any pending hide menu
             this.resetPendingHideMenu();
         }
-    }
-
-    /**
-     * Clears any selected item
-     */
-    handleUnselectItem() {
-        this.selectedItem = undefined;
     }
 
     /**

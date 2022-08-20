@@ -25,8 +25,10 @@ const createComponentUnderTest = async (overrideProps) => {
 
 const selectors = {
     fieldInputBox: 'builder_platform_interaction-field-input-box',
+    fieldInputBoxPill: 'builder_platform_interaction-field-input-box-pill',
     fieldInputMenu: 'builder_platform_interaction-field-input-menu',
-    fieldInputContainer: '.container'
+    fieldInputContainer: '.container',
+    lightningIcon: 'lightning-icon'
 };
 
 function dispatch(cmp, eventName) {
@@ -147,6 +149,33 @@ describe('Field Input Tests', () => {
 
         it('when a breadcrumb is selected', async () => {
             await selectMenuItem(dom, itemWithView);
+        });
+    });
+
+    describe('configuration', () => {
+        it('can customize the input label', async () => {
+            const inputLabel = 'inputLabel';
+            cmp = await createComponentUnderTest({
+                config: {
+                    labels: {
+                        inputLabel
+                    }
+                }
+            });
+            const fieldInputBox = cmp.shadowRoot.querySelector(selectors.fieldInputBox);
+            expect(fieldInputBox.config.labels.inputLabel).toStrictEqual(inputLabel);
+        });
+        it('can customize the input placeholder', async () => {
+            const inputPlaceholder = 'inputPlaceholder';
+            cmp = await createComponentUnderTest({
+                config: {
+                    labels: {
+                        inputPlaceholder
+                    }
+                }
+            });
+            const fieldInputBox = cmp.shadowRoot.querySelector(selectors.fieldInputBox);
+            expect(fieldInputBox.config.labels.inputPlaceholder).toStrictEqual(inputPlaceholder);
         });
     });
 });

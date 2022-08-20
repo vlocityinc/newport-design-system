@@ -151,7 +151,7 @@ describe('Field Input Menu Section Item Tests', () => {
         const cmp = await createComponentUnderTest(defaultSectionItem);
         const row = cmp.shadowRoot.querySelector(selectors.defaultComboboxItemClass);
         const selectHandler = jest.fn();
-        cmp.addEventListener('fieldinputmenuselectitem', selectHandler);
+        cmp.addEventListener('selectitem', selectHandler);
         row.click();
         expect(selectHandler).toHaveBeenCalledTimes(1);
     });

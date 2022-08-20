@@ -43,7 +43,7 @@ export default class FieldInputBox extends withKeyboardInteractions(LightningEle
         if (selectedItem != null) {
             this._selectedItem = selectedItem;
             this.searchText = '';
-            this.pill = { label: selectedItem.label, iconName: 'standard:account' };
+            this.pill = { ...selectedItem };
         } else {
             this._selectedItem = undefined;
             this.pill = undefined;

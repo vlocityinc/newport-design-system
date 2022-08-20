@@ -66,7 +66,7 @@ export default class FieldInputMenu extends withKeyboardInteractions(LightningEl
 
     handleFooterClick(event) {
         event.preventDefault();
-        this.dispatchEvent(new NewResourceEvent(null, false));
+        this.dispatchEvent(new NewResourceEvent());
     }
 
     isAllResources() {

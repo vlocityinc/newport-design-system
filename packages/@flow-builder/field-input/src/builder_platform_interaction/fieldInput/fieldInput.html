@@ -1,17 +1,12 @@
 <template>
     <div class="container" onfocusin={handleFocusIn} onfocusout={handleFocusOut}>
-        <builder_platform_interaction-field-input-box
-            selected-item={selectedItem}
-            onunselectitem={handleUnselectItem}
-            onshowmenu={handleShowMenu}
-            config={inputBoxConfig}
-        >
+        <builder_platform_interaction-field-input-box selected-item={value} onshowmenu={handleShowMenu} config={config}>
         </builder_platform_interaction-field-input-box>
         <builder_platform_interaction-field-input-menu
             if:true={isMenuOpened}
             context-items={contextItems}
             onfieldinputbreadcrumbclick={handleFieldInputBreadcrumbClick}
-            onfieldinputmenuselectitem={handleFieldInputMenuSelectItem}
+            onselectitem={handleFieldInputMenuSelectItem}
             tabindex="0"
             context={context}
             rules={rules}

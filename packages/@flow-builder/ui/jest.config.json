@@ -35,6 +35,7 @@
         "^(builder_platform_interaction)/alcStartMenu$": "<rootDir>/../ui/src/builder_platform_interaction/alcStartMenu/alcStartMenu",
         "^(builder_platform_interaction)/builderTestUtils/commonTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils",
         "^(builder_platform_interaction)/builderTestUtils/domTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/domTestUtils",
+        "^builder_platform_interaction_mocks/sharedUtils/keyboardInteractionUtils$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/keyboardInteractionUtils/keyboardInteractionUtils",
         "^builder_platform_interaction/sharedUtils/keyboardInteractionUtils": "<rootDir>/../shared-utils/src/keyboardInteractionUtils",
 
         "^builder_platform_interaction_mocks/sharedUtils/sharedUtils$": "<rootDir>/../shared-utils/jest-modules/builder_platform_interaction/sharedUtils/sharedUtils",
@@ -44,6 +45,8 @@
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
         "^builder_platform_interaction/sharedUtils$": "<rootDir>/../shared-utils/dist/index.esNext.js",
         "^builder_platform_interaction/(alcMenuTemplate|alcConnectorMenu|alcNodeMenu|zoomPanel|alcCanvas|alcEvents|alcMenu|alcComponentsUtils|menu|popover|contextualMenuUtils)$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/$1/$1",
+        "^(builder_platform_interaction)/focusTrap$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/focusTrap/focusTrap",
+        "^(builder_platform_interaction)/(fieldInput.*)$": "<rootDir>/../field-input/src/builder_platform_interaction/$2/$2",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2",
         "^(builder_framework)/(.+)$": "<rootDir>/../shared-utils/jest-modules/$1/$2/$2",
         "^lightning/(configProvider|input|textarea|groupedCombobox|baseCombobox|baseComboboxItem|inputRichText|popup|primitiveIcon|platformShowToastEvent)$": "<rootDir>/jest-modules/lightning/$1/$1",

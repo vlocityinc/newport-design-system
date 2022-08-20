@@ -2,7 +2,7 @@
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import { isObject, isUndefined } from 'builder_platform_interaction/commonUtils';
-import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { pick, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { RowContentsChangedEvent } from 'builder_platform_interaction/events';
 import {
@@ -84,7 +84,8 @@ export default class BaseExpressionBuilder extends LightningElement {
         [LHS_FILTERED_MENU_DATA]: undefined,
         [RHS_FULL_MENU_DATA]: undefined,
         [RHS_FILTERED_MENU_DATA]: undefined,
-        rhsRenderIncrementally: false
+        rhsRenderIncrementally: false,
+        flowElements: []
     };
 
     /**
@@ -96,8 +97,47 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     @api
-    get rules() {
+    get rules(): RulesMap {
         return this._rules;
+    }
+
+    get lhsContext(): FieldInput.Context {
+        return {
+            flowElements: this.state.flowElements
+        };
+    }
+
+    get lhsConfig(): FieldInput.MenuConfig {
+        return {
+            sortField: 'label',
+            activePicklistValues: [],
+            traversalConfig: { isEnabled: true },
+            filter: {
+                includeNewResource: true,
+                allowGlobalConstants: false,
+                showSystemVariables: true,
+                showGlobalVariables: true,
+                shouldBeWritable: false
+            },
+            labels: {
+                inputLabel: this.lhsLabel,
+                inputPlaceholder: this.lhsPlaceholder
+            }
+        };
+    }
+
+    get lhsMenuItem(): FieldInput.MenuItem | undefined {
+        return this.lhsValue && typeof this.lhsValue === 'object'
+            ? {
+                  ...pick(this.lhsValue, ['value', 'iconName', 'iconSize']),
+                  name: this.lhsValue.text,
+                  label: this.lhsValue.text
+              }
+            : undefined;
+    }
+
+    get isFieldInputEnabled(): boolean {
+        return window.isFieldInputEnabled;
     }
 
     /**
@@ -656,6 +696,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         storeInstance = Store.getStore();
         this._unsubscribeStore = storeInstance.subscribe(this.handleStoreChange);
     }
+
     /**
      * Unsubscribe from the store.
      */
@@ -668,7 +709,8 @@ export default class BaseExpressionBuilder extends LightningElement {
      * Callback from the store for changes in store.
      */
     handleStoreChange = () => {
-        const position = storeInstance.getCurrentState().properties.lastInlineResourcePosition;
+        const state = storeInstance.getCurrentState(),
+            position = state.properties.lastInlineResourcePosition;
         if (!position) {
             this.setLhsMenuData();
             this.setRhsMenuData();
@@ -859,6 +901,12 @@ export default class BaseExpressionBuilder extends LightningElement {
             const menu = position === LEFT ? LHS_FULL_MENU_DATA : RHS_FULL_MENU_DATA;
             const inlineItem = getInlineResource(resource, this.state[menu]);
             if (position === LEFT) {
+                if (this.isFieldInputEnabled) {
+                    this.updateExpressionOnLhsChanged(
+                        { item: inlineItem },
+                        this.getElementOrField(inlineItem.value, this.lhsFields)
+                    );
+                }
                 this._lhsInlineResource = inlineItem;
             } else if (position === RIGHT) {
                 this._rhsInlineResource = inlineItem;
@@ -866,15 +914,21 @@ export default class BaseExpressionBuilder extends LightningElement {
         }
     };
 
-    handleAddNewResource(event) {
-        if (event && event.detail) {
-            const payload = {
-                lastInlineResourcePosition: event.detail.position,
-                lastInlineResourceRowIndex: this.rowIndex
-            };
-            storeInstance.dispatch(updateInlineResourceProperties(payload));
-            logInteraction('base expression builder inline resource', 'combobox', null, 'click');
-        }
+    fireUpdateInlineResourceProperties(name: string, lastInlineResourcePosition: string) {
+        const payload = {
+            lastInlineResourcePosition,
+            lastInlineResourceRowIndex: this.rowIndex
+        };
+        storeInstance.dispatch(updateInlineResourceProperties(payload));
+        logInteraction('base expression builder inline resource', name, null, 'click');
+    }
+
+    handleAddNewResourceLeft(event: Event) {
+        this.fireUpdateInlineResourceProperties(event.target.tagName.toLowerCase(), LEFT);
+    }
+
+    handleAddNewResourceRight(event: Event) {
+        this.fireUpdateInlineResourceProperties(event.target.tagName.toLowerCase(), RIGHT);
     }
 
     get enableLookupTraversal() {
@@ -982,7 +1036,8 @@ export default class BaseExpressionBuilder extends LightningElement {
                 })
             );
         } else {
-            const menuDataElements = getStoreElements(storeInstance.getCurrentState(), config);
+            const currentState = storeInstance.getCurrentState();
+            const menuDataElements = getStoreElements(currentState, config);
             const menuData = filterAndMutateMenuData(menuDataElements, paramTypes, {
                 activePicklistValues: picklistValues,
                 traversalConfig: {
@@ -1000,7 +1055,8 @@ export default class BaseExpressionBuilder extends LightningElement {
             });
             updateState({
                 [fullMenuData]: menuData,
-                [filteredMenuData]: menuData
+                [filteredMenuData]: menuData,
+                flowElements: Object.values(currentState.elements)
             });
         }
 
@@ -1144,6 +1200,17 @@ export default class BaseExpressionBuilder extends LightningElement {
         } else {
             this.updateExpressionOnLhsChanged(event.detail, lhsElementOrField);
         }
+    }
+
+    handleLhsItemSelect(event: Event) {
+        this.updateExpressionOnLhsChanged(
+            event.detail,
+            this.getElementOrField(event.detail.item.value, this.lhsFields)
+        );
+    }
+
+    handleLhsItemUnselect() {
+        this.updateExpressionOnLhsChanged({}, null);
     }
 
     /**
