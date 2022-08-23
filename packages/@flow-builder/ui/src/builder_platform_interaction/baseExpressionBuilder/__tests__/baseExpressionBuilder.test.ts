@@ -1208,15 +1208,6 @@ describe('base expression builder', () => {
             });
         }
 
-        it('does not dispatch updateInlineResource if there is no event detail ', async () => {
-            const expressionBuilder = createMockEmptyRHSExpression(stringVariable.guid).shadowRoot.querySelector(
-                INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
-            );
-            const spy = Store.getStore().dispatch;
-            expressionBuilder.dispatchEvent(handleEmptyAddInlineResource());
-            await ticks(1);
-            expect(spy).not.toHaveBeenCalled();
-        });
         it('dispatches updateInlineResourceProperties with correct payload (given detail)', async () => {
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
             const expressionBuilder = createMockEmptyRHSExpression(stringVariable.guid);
@@ -1370,7 +1361,7 @@ describe('base expression builder', () => {
             });
         });
     });
-    describe.only('field input', () => {
+    describe('field input', () => {
         beforeAll(() => {
             global.isFieldInputEnabled = true;
             Store.setMockState(flowWithAllElementsUIModel);
