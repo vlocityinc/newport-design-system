@@ -142,11 +142,13 @@ export default class ProcessTypesTemplates extends LightningElement {
         }
 
         this.state.templatesLoading = true;
+        // added for W-11212406
+        const cachedProcessType = this.processType;
         fetchOnce(SERVER_ACTION_TYPE.GET_TEMPLATES, { processTypes }, { disableErrorModal: true })
             .then((data) => {
                 this.state.templatesLoading = false;
                 // caches the returned templates to avoid calling to server when changing the process type
-                cacheTemplates(this.state.processTypes, this.processType, data);
+                cacheTemplates(this.state.processTypes, cachedProcessType, data);
                 this.updateTemplateTiles();
                 this.updateSelectedItem();
             })
