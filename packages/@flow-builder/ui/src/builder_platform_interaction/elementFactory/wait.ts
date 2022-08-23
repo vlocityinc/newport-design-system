@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { getIsoTime } from 'builder_platform_interaction/dateTimeUtils';
 import {
     CONDITION_LOGIC,
     CONNECTOR_TYPE,
@@ -285,6 +286,8 @@ export function createWaitEvent(waitEvent = {}) {
         outputParameters = {}
     } = waitEvent;
 
+    const isoResumeTime = getIsoTime(resumeTime);
+
     if (conditions.length > 0 && conditionLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
         conditions = conditions.map((condition) => createCondition(condition));
     } else {
@@ -305,7 +308,7 @@ export function createWaitEvent(waitEvent = {}) {
         outputParameters,
         duration,
         durationUnit,
-        resumeTime
+        resumeTime: isoResumeTime
     });
 }
 
@@ -467,7 +470,7 @@ export function createWaitWithWaitEventReferences(wait = {}) {
     let newWaitEvents = [],
         childReferences = [],
         availableConnections = [];
-    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents = [] } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, timeZoneId, waitEvents = [] } = wait;
     // create connectors for wait, which initially are the default and fault ones.
     let connectors = createConnectorObjects(wait, newWait.guid);
     for (let i = 0; i < waitEvents.length; i++) {
@@ -493,7 +496,8 @@ export function createWaitWithWaitEventReferences(wait = {}) {
         elementType,
         connectorCount,
         maxConnections,
-        availableConnections
+        availableConnections,
+        timeZoneId
     });
     return baseCanvasElementsArrayToMap([newWait, ...newWaitEvents], connectors);
 }

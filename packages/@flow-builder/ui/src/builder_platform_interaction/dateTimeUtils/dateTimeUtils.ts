@@ -2,6 +2,7 @@
 import shortDateFormat from '@salesforce/i18n/dateTime.shortDateFormat';
 import shortDateTimeFormat from '@salesforce/i18n/dateTime.shortDateTimeFormat';
 import timeZone from '@salesforce/i18n/timeZone';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { getLocalizationService } from 'lightning/configProvider';
 import { parseDateTimeUTC, syncUTCToWallTime, syncWallTimeToUTC } from 'lightning/internalLocalizationService';
 
@@ -17,6 +18,26 @@ export const getFormat = (isDateTime = false) => {
     }
     return shortDateFormat;
 };
+
+/**
+ * @param time startTime
+ * @returns ISOStartTime object
+ */
+export function getIsoTime(time) {
+    if (time && typeof time === 'object' && !isUndefinedOrNull(time.timeInMillis)) {
+        return getISOTimeFromMillis(time.timeInMillis);
+    }
+    return time;
+}
+
+/**
+ * @param timeinMillis
+ */
+function getISOTimeFromMillis(timeinMillis) {
+    const date = new Date(timeinMillis);
+    // ISO Time is in this format: 2008-09-15T15:53:00Z, and we just care about the latter time portion minus the Z
+    return date.toISOString().slice(0, -1).split('T')[1];
+}
 
 /**
  * Information about a parsed date that came from a string literal

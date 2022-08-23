@@ -1,6 +1,6 @@
-import { generateInternalName, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { generateInternalName } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
+import { formatDateTimeUTC, getDayOfTheWeek, getIsoTime } from 'builder_platform_interaction/dateTimeUtils';
 import {
     CONDITION_LOGIC,
     CONNECTOR_TYPE,
@@ -152,7 +152,7 @@ export function createStartElement(
         }
     }
 
-    const isoStartTime = getIsoStartTime(startTime);
+    const isoStartTime = getIsoTime(startTime);
 
     let label;
     if (isScheduledTriggerType(triggerType)) {
@@ -211,16 +211,6 @@ export function createStartElement(
     newStartElement.shouldSupportScheduledPaths = shouldSupportScheduledPaths(newStartElement, processType);
 
     return newStartElement;
-}
-
-/**
- * @param startTime startTime
- * @returns ISOStartTime instance of Metadata.StartTime
- */
-export function getIsoStartTime(startTime: Metadata.StartTime) {
-    return startTime && !isUndefinedOrNull(startTime.timeInMillis)
-        ? getISOTimeFromMillis(startTime.timeInMillis)
-        : startTime;
 }
 
 /**
@@ -461,15 +451,6 @@ export function createStartElementMetadataObject(startElement: UI.Start, config 
         scheduledPaths,
         filterFormula
     });
-}
-
-/**
- * @param timeinMillis
- */
-function getISOTimeFromMillis(timeinMillis) {
-    const date = new Date(timeinMillis);
-    // ISO Time is in this format: 2008-09-15T15:53:00Z, and we just care about the latter time portion minus the Z
-    return date.toISOString().slice(0, -1).split('T')[1];
 }
 
 /**

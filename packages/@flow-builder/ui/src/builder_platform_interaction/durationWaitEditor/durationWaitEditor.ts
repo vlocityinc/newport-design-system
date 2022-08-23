@@ -1,5 +1,6 @@
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getIsoTime } from 'builder_platform_interaction/dateTimeUtils';
 import { DEFAULT_DURATION_VALUE } from 'builder_platform_interaction/elementFactory';
 import { ConfigurationEditorChangeEvent } from 'builder_platform_interaction/events';
 import { SCHEDULED_PATH_OFFSET_UNIT, WAIT_TIME_EVENT_OFFSET_UNIT } from 'builder_platform_interaction/flowMetadata';
@@ -50,7 +51,8 @@ export default class DurationWaitEditor extends LightningElement {
     }
 
     get resumeTime() {
-        return getValueFromHydratedItem(this.waitEvent?.resumeTime);
+        const timeValue = getValueFromHydratedItem(this.waitEvent?.resumeTime);
+        return getIsoTime(timeValue);
     }
 
     get waitEvent() {
