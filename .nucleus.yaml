@@ -56,6 +56,17 @@ branches: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Branche
         core-deploy:
             annotations:
                 - nomerge # so these changes don't propogate across major branches.
+    core-240-freeze:
+        params:
+            p4Branch: //app/240/freeze
+        pull-request:
+            <<: *branch-definition # inherit
+        version:
+            auto-increment: pre-release
+            template: "{{slice pom.project.version '.' 0}}.178.{{autoIncrement}}"
+        core-deploy:
+            annotations:
+                - nomerge # so these changes don't propogate across major branches.
 steps: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Job+Steps
     # Standard Steps: https://git.soma.salesforce.com/uiplatform/nucleus-pb/blob/master/src/config/nucleus.yaml
     node-lint-prettify: # custom steps to run lint and prettify
