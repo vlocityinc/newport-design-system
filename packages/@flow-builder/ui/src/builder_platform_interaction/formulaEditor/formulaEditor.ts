@@ -137,6 +137,13 @@ export default class FormulaEditor extends LightningElement {
         this.formulaResource = formulaReducer(this.formulaResource, action);
     }
 
+    handleFormulaTextChanged(event) {
+        const propertyName = 'expression';
+        const value = event.detail.value;
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_FORMULA_TEXT, { propertyName, value });
+        this.formulaResource = formulaReducer(this.formulaResource, action);
+    }
+
     @api
     validate() {
         const action = createAction(VALIDATE_ALL);

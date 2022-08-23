@@ -62,6 +62,7 @@ export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';
 export { FetchMenuDataEvent } from './fetchMenuDataEvent';
 export { FilterMatchesEvent } from './filterMatchesEvent';
 export { FormulaChangedEvent } from './formulaChangedEvent';
+export { FormulaTextChangeEvent } from './formulaTextChangeEvent';
 export { InputsOnNextNavToAssocScrnChangeEvent } from './inputsOnNextNavToAssocScrnChangeEvent';
 export { ItemSelectedEvent } from './itemSelectedEvent';
 export { LegalNoticeDismissedEvent } from './legalNoticeDismissedEvent';

@@ -1,2 +1,2 @@
-#GUSINFO:Automation Builder Core,Flow Builder
+#GUSINFO:Automation Builder Core,Automation Builder Core
 *

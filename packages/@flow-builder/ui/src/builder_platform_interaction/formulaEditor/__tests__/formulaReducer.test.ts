@@ -66,6 +66,28 @@ describe('formula-reducer', () => {
             expect(newState).not.toBe(originalState);
         });
     });
+    describe('UPDATE_FORMULA_TEXT action', () => {
+        it('updates the formula text', () => {
+            const propertyName = 'expression';
+            const value = '4+4';
+            const error = null;
+            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
+            const newState = formulaReducer(originalState, action);
+            expect(newState.expression.value).toEqual('4+4');
+            expect(newState.expression.error).toBe(null);
+            expect(newState).not.toBe(originalState);
+        });
+        it('updated the formula text without running validation', () => {
+            const propertyName = 'expression';
+            const value = '4+A';
+            const error = null;
+            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
+            const newState = formulaReducer(originalState, action);
+            expect(newState.expression.value).toEqual(value);
+            expect(newState.expression.error).toBe(error);
+            expect(newState).not.toBe(originalState);
+        });
+    });
     it('ignores unknown events', () => {
         const event = {
             type: 'unknown event',

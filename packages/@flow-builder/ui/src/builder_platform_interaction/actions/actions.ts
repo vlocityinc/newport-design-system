@@ -87,7 +87,8 @@ export enum PROPERTY_EDITOR_ACTION {
     UPDATE_ELEMENT_VALUE = 'UPDATE_ELEMENT_VALUE',
     UPDATE_FILTER_ITEM = 'updaterecordfilter',
     UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE = 'updateoutputassignmentbeforeclose',
-    UPDATE_START_ELEMENT_SCHEDULED_PATH = 'updatestartelementscheduledpath'
+    UPDATE_START_ELEMENT_SCHEDULED_PATH = 'updatestartelementscheduledpath',
+    UPDATE_FORMULA_TEXT = 'updateformulatext'
 }
 
 export const ADD_END_ELEMENT = 'ADD_END_ELEMENT';

@@ -1,7 +1,7 @@
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { FormulaChangedEvent } from 'builder_platform_interaction/events';
+import { FormulaChangedEvent, FormulaTextChangeEvent } from 'builder_platform_interaction/events';
 import { ElementFilterConfig } from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE, FORMULA_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
@@ -226,6 +226,19 @@ export default class FormulaBuilder extends LightningElement {
             }
         }
     };
+    /**
+     * handle text area change event.
+     *
+     * @param event text area change event
+     */
+    handleFormulaChanged(event) {
+        event.stopPropagation();
+        const textarea = this.dom.as<HTMLTextAreaElement>().textArea;
+        this._value = textarea.value;
+
+        this.dispatchEvent(new FormulaTextChangeEvent(this._value));
+    }
+
     /**
      * handle check syntax click event.
      *

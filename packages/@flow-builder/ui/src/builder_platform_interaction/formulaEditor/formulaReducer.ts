@@ -18,6 +18,15 @@ const formulaPropertyChanged = (state, action) => {
     });
 };
 
+const formulaTextChanged = (state, action) => {
+    return updateProperties(state, {
+        [action.payload.propertyName]: {
+            value: action.payload.value,
+            error: null
+        }
+    });
+};
+
 const formulaDataTypeChanged = (state, action) => {
     const dataType = action.payload.value.dataType;
     let dataTypeError = formulaValidation.validateProperty('dataType', dataType);
@@ -47,6 +56,8 @@ export const formulaReducer = (state, action) => {
             return formulaPropertyChanged(state, action);
         case PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE:
             return formulaDataTypeChanged(state, action);
+        case PROPERTY_EDITOR_ACTION.UPDATE_FORMULA_TEXT:
+            return formulaTextChanged(state, action);
         case VALIDATE_ALL:
             return formulaValidation.validateAll(state);
         default:
