@@ -1,4 +1,3 @@
-// @ts-nocheck
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import {
@@ -44,6 +43,9 @@ const COLLECTION_VAR_ELEMENT_CONFIG = {
 export default class LoopEditor extends LightningElement {
     labels = LABELS;
     processTypeAutomaticOutPutHandlingSupport = FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+
+    _collectionVariable;
+    processTypeValue;
 
     /**
      * internal state for the loop editor
@@ -276,6 +278,7 @@ export default class LoopEditor extends LightningElement {
             loopCollectionValue,
             loopCollectionErrorMessage,
             loopVariableValue,
+            // @ts-ignore migration fixme
             loopVarErrorMessage
         );
         this.loopElement = loopReducer(

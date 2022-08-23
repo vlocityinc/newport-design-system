@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
@@ -155,7 +154,8 @@ const waitEventReducer = (state, event, waitEventOperation) => {
  * @param waitSingularLabel
  * @returns {Function} function that is called by waitEventReducer and passes in the chosen waitEvent and event payload to modify event
  */
-const waitEventOperation = (property, operation, deletedGuids, waitSingularLabel) => {
+// @ts-ignore migration fixme: remove the any
+const waitEventOperation: any = (property, operation, deletedGuids, waitSingularLabel) => {
     return (waitEvent, event) => {
         const results = operation(waitEvent[property], event, deletedGuids, waitSingularLabel);
         return Object.assign({}, waitEvent, { [property]: results });
@@ -195,7 +195,7 @@ const configureConditionsByLogic = (waitEvent, event) => {
  * @returns {WaitEvent} WaitEvent with updated input parameters
  */
 const updatePlatformEventInputParametersByLogic = (waitEvent, event) => {
-    const inputParameters = [];
+    const inputParameters: any[] = [];
 
     if (event.detail.value !== CONDITION_LOGIC.NO_CONDITIONS && waitEvent.inputParameters.length === 0) {
         // condition logic must be 'and' and we need an input parameter
@@ -256,7 +256,7 @@ const updateWaitEventParameter = (state, event) => {
 
     const updateParameter = (parameters) => {
         // Only set the params that are actually passed in
-        const propsToUpdate = {};
+        const propsToUpdate = {} as any;
 
         const nameValue = getValueFromHydratedItem(event.detail.name);
         if (!isUndefinedOrNull(nameValue)) {

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
     AddConditionEvent,
     DeleteConditionEvent,
@@ -22,8 +21,8 @@ const defaultLogicalOperator = CONDITION_LOGIC.AND;
 export default class ConditionList extends LightningElement {
     @track state = {
         conditions: [],
-        conditionLogicComboBoxValue: null,
-        conditionLogic: null,
+        conditionLogicComboBoxValue: null as string | null,
+        conditionLogic: null as any,
         showCustomLogicInput: false
     };
 
@@ -61,7 +60,7 @@ export default class ConditionList extends LightningElement {
         if (conditionLogic) {
             this.state.conditionLogic = conditionLogic;
 
-            this.processConditionLogic(this.state.conditionLogic.value);
+            this.processConditionLogic(this.state.conditionLogic!.value);
         }
     }
 
@@ -224,12 +223,7 @@ export default class ConditionList extends LightningElement {
     handleUpdateCondition(event) {
         event.stopPropagation();
 
-        const updateConditionEvent = new UpdateConditionEvent(
-            this.parentGuid,
-            event.detail.index,
-            event.detail.value,
-            event.detail.error
-        );
+        const updateConditionEvent = new UpdateConditionEvent(this.parentGuid, event.detail.index, event.detail.value);
 
         this.dispatchEvent(updateConditionEvent);
     }

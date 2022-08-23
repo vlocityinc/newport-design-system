@@ -1,16 +1,15 @@
-// @ts-nocheck
 import { commonUtils } from 'builder_platform_interaction/sharedUtils';
 const { memoize } = commonUtils;
 
 /**
  * This is used to derive data from a state in the store.
  *
- * @param {Function[]} selectors An array of selectors that are needed for transformation.
- * @param {Function} transformation A function, which derives data based on selectors.
- * @param {boolean} shouldMemoize Set to true to memoize the selectors and the transformation.
- * @returns {Function} A function in which a user passes the state and it transforms an appropriate piece of data.
+ * @param selectors An array of selectors that are needed for transformation.
+ * @param transformation A function, which derives data based on selectors.
+ * @param shouldMemoize Set to true to memoize the selectors and the transformation.
+ * @returns A function in which a user passes the state and it transforms an appropriate piece of data.
  */
-export function createSelector(selectors, transformation, shouldMemoize = false) {
+export function createSelector(selectors: Function[], transformation: Function, shouldMemoize = false): Function {
     if (!selectors || !selectors.length || !Array.isArray(selectors)) {
         throw new Error(`could not transform the ${selectors}.`);
     }

@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const BUILDER_MODE = {
     EDIT_MODE: 'editMode',
     DEBUG_MODE: 'debugMode',

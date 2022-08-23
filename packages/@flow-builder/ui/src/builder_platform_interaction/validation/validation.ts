@@ -93,7 +93,7 @@ export class Validation {
      * @param {string[]} overrideRules - if passed these rules will override the default rules for that specific field.
      * @returns {string|null} error - error string or null based on if the field value is valid or not
      */
-    validateProperty(propName, value, overrideRules) {
+    validateProperty(propName, value, overrideRules?) {
         const rulesForField = overrideRules || this.finalizedRules[propName] || [];
         return this.runRulesOnData(rulesForField, value);
     }

@@ -96,7 +96,7 @@ const getRecordPriorSystemVariable = ({ elements }) => {
     return undefined;
 };
 
-export const getSystemVariablesFromState = ({ elements }, category: string) => {
+export const getSystemVariablesFromState = ({ elements }, category?: string) => {
     const currentSystemVariables = { ...systemVariables };
     const recordPrior = getRecordPriorSystemVariable({ elements });
     if (recordPrior) {

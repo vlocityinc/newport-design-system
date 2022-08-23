@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { formatLhs, formatOperator, formatRhs } from 'builder_platform_interaction/conditionListItemUtil';
 import { DeleteListItemEvent } from 'builder_platform_interaction/events';
@@ -16,7 +15,9 @@ export default class ConditionListItem extends LightningElement {
 
     @api
     focus() {
-        const buttonIcon = this.template.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON);
+        const buttonIcon = this.template.querySelector<HTMLElement>(
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON_ICON
+        );
         buttonIcon?.focus();
     }
 

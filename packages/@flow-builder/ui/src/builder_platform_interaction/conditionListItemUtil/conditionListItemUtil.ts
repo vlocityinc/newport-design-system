@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import {
@@ -15,6 +14,8 @@ import { transformOperatorsForCombobox } from 'builder_platform_interaction/rule
  */
 export function formatLhs(lhsValue) {
     const comboxShape = getResourceById(lhsValue);
+
+    // @ts-ignore migration fixme
     const dataType = comboxShape.dataType;
     const displayText = resourceToDisplayText(lhsValue, comboxShape);
     return { displayText, dataType };

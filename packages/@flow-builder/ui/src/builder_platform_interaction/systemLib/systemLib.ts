@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
