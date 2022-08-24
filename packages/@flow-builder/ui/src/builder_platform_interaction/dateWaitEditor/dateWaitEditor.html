@@ -1,0 +1,35 @@
+<template>
+    <div class="container slds-grid slds-grid_vertical slds-m-around_medium">
+        <h3 class="slds-text-heading_small slds-m-bottom_x-small">{labels.setDateTimeLabel}</h3>
+        <h3 class="slds-m-bottom_small">{labels.setDateTimeDescription}</h3>
+        <div class="slds-col slds-grid slds-grid_horizontal">
+            <lightning-input
+                id="resumeDate"
+                class="slds-size_7-of-12 slds-p-bottom_medium"
+                type="date"
+                name="resumeDate"
+                value={resumeDate}
+                label={labels.resumeDateLabel}
+                onchange={handleWaitEventChanged}
+                required
+            ></lightning-input>
+            <lightning-input
+                id="resumeTime"
+                class="slds-size_5-of-12 slds-p-bottom_medium"
+                type="time"
+                name="resumeTime"
+                value={resumeTime}
+                label={labels.resumeTimeLabel}
+                onchange={handleWaitEventChanged}
+                required
+            ></lightning-input>
+        </div>
+        <div class="slds-col">
+            <builder_platform_interaction-time-zone-picker
+                id="timeZoneId"
+                value={timeZoneId}
+                onvaluechanged={handleTimeZoneChanged}
+            ></builder_platform_interaction-time-zone-picker>
+        </div>
+    </div>
+</template>

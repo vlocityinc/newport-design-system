@@ -643,6 +643,7 @@ declare namespace UI {
         | 'ApexVariable'
         | 'ApexCollection'
         | 'Decision'
+        | 'DateWait'
         | 'DurationWait'
         | 'Choice'
         | 'Constant'

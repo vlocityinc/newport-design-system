@@ -4,10 +4,11 @@ export const defaultWaitElement = {
             {
                 conditionLogic: { error: null, value: 'no_conditions' },
                 conditions: [],
-                duration: { value: 0, error: null },
-                durationUnit: { value: 'Days', error: null },
+                duration: { value: null, error: null },
+                durationUnit: { value: null, error: null },
                 elementType: 'WAIT_EVENT',
                 eventType: { value: 'AlarmEvent', error: null },
+                resumeDate: { value: null, error: null },
                 resumeTime: { value: null, error: null },
                 guid: null
             }

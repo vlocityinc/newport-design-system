@@ -1,12 +1,13 @@
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getIsoTime } from 'builder_platform_interaction/dateTimeUtils';
-import { DEFAULT_DURATION_VALUE } from 'builder_platform_interaction/elementFactory';
+import { DEFAULT_DURATION_UNIT, DEFAULT_DURATION_VALUE } from 'builder_platform_interaction/elementFactory';
 import { ConfigurationEditorChangeEvent } from 'builder_platform_interaction/events';
 import { SCHEDULED_PATH_OFFSET_UNIT, WAIT_TIME_EVENT_OFFSET_UNIT } from 'builder_platform_interaction/flowMetadata';
+import { defaultWaitElement, WaitElement } from 'builder_platform_interaction/waitEditorLib';
+import { parsePropertyNameFromId } from 'builder_platform_interaction/waitEditorUtils';
 import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './durationWaitEditorLabels';
-import { defaultWaitElement, WaitElement } from './durationWaitEditorLib';
 import { durationWaitValidation, getRules } from './durationWaitValidation';
 
 const ELEMENT_PROPS = {
@@ -28,6 +29,21 @@ export default class DurationWaitEditor extends LightningElement {
     selectedDurationUnit: string = WAIT_TIME_EVENT_OFFSET_UNIT.DAYS;
     @track waitElement: WaitElement = defaultWaitElement;
     _inputVariables: UI.ConfigurationEditorInputVariable[] = [];
+
+    connectedCallback() {
+        this.initDefaults();
+    }
+
+    initDefaults() {
+        const waitEvt = Object.assign({}, this.waitEvent);
+        const durVal = this.waitEvent?.duration == null ? DEFAULT_DURATION_VALUE : this.waitEvent?.duration;
+        const durUnitVal = this.waitEvent?.durationUnit == null ? DEFAULT_DURATION_UNIT : this.waitEvent?.durationUnit;
+
+        waitEvt.duration = durVal;
+        waitEvt.durationUnit = durUnitVal;
+
+        this.updateCpe('waitEvents', [waitEvt]);
+    }
 
     @api
     get inputVariables(): UI.ConfigurationEditorInputVariable[] {
@@ -93,7 +109,7 @@ export default class DurationWaitEditor extends LightningElement {
 
     handleValueChanged(event) {
         event.stopPropagation();
-        const propertyName = event.target.id.split('-')[0];
+        const propertyName = parsePropertyNameFromId(event.target.id);
         const { value } = event.detail;
         this.updateCpe(propertyName, value);
     }
@@ -101,7 +117,7 @@ export default class DurationWaitEditor extends LightningElement {
     handleWaitEventValueChanged(event) {
         event.stopPropagation();
         const { value } = event.detail;
-        const propertyName = event.target.id.split('-')[0];
+        const propertyName = parsePropertyNameFromId(event.target.id);
         const waitEvt = Object.assign({}, getValueFromHydratedItem(this.waitElement.waitEvents)[0]);
         waitEvt[propertyName] = value;
         this.updateCpe('waitEvents', [waitEvt]);

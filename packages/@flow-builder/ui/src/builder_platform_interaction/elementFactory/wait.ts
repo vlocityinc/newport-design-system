@@ -277,6 +277,7 @@ export function createWaitEvent(waitEvent = {}) {
         eventTypeIndex = generateGuid(),
         duration,
         durationUnit,
+        resumeDate,
         resumeTime
     } = waitEvent;
     let {
@@ -308,6 +309,7 @@ export function createWaitEvent(waitEvent = {}) {
         outputParameters,
         duration,
         durationUnit,
+        resumeDate,
         resumeTime: isoResumeTime
     });
 }
@@ -372,11 +374,12 @@ export function createWaitMetadataObject(wait, config = {}) {
  */
 function addJourneyWaitEventsParams(elementSource, elementTarget) {
     const processType = getProcessType();
-    const { duration = DEFAULT_DURATION_VALUE, durationUnit = DEFAULT_DURATION_UNIT, resumeTime } = elementSource;
+    const { duration, durationUnit, resumeDate, resumeTime } = elementSource;
     if (processType === FLOW_PROCESS_TYPE.JOURNEY) {
         Object.assign(elementTarget, {
             duration,
             durationUnit,
+            resumeDate,
             resumeTime
         });
     }

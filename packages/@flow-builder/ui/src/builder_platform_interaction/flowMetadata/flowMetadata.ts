@@ -240,6 +240,7 @@ export const WAIT_TIME_EVENT_OFFSET_UNIT = {
 };
 
 export enum WAIT_SUB_TYPE {
+    DATE_WAIT = 'DateWait',
     DURATION_WAIT = 'DurationWait'
 }
 

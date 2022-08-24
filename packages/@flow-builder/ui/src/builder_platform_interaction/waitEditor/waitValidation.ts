@@ -123,8 +123,8 @@ class WaitValidation extends Validation {
     getWaitEventRules(elementSubtype: WAIT_SUB_TYPE) {
         return (waitEvent) => {
             let rules = Object.assign({}, defaultRules);
-            // These wait event validations do not apply to durationWait subtype
-            if (elementSubtype !== WAIT_SUB_TYPE.DURATION_WAIT) {
+            // These wait event validations do not apply to some wait subtypes
+            if (!this.isExcludedWaitSubtype(elementSubtype)) {
                 if (waitEvent.conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
                     rules = Object.assign(rules, conditionRule);
                 }
@@ -140,6 +140,10 @@ class WaitValidation extends Validation {
             }
             return rules;
         };
+    }
+
+    isExcludedWaitSubtype(elementSubtype: WAIT_SUB_TYPE) {
+        return elementSubtype === WAIT_SUB_TYPE.DATE_WAIT || elementSubtype === WAIT_SUB_TYPE.DURATION_WAIT;
     }
 
     /**
