@@ -4,3 +4,6 @@
 '226-freeze': '//app/226/freeze/...'
 '228': '//app/228/patch/...'
 '228-freeze': '//app/228/freeze/...'
+'core-238-patch': '//app/238/patch/...'
+'core-240-patch': '//app/240/patch/...'
+'core-240-freeze': '//app/240/freeze/...'
