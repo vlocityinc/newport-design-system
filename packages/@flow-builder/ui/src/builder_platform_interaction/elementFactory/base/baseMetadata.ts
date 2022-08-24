@@ -6,7 +6,7 @@ import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './baseList';
 /**
  * @param element
  */
-function baseElementMetadataObject(element = {}) {
+export function baseElementMetadataObject(element = {}) {
     const { name = '' } = element;
     return {
         name

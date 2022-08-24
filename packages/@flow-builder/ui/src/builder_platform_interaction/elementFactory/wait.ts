@@ -25,13 +25,15 @@ import {
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
+    baseElementMetadataObject,
+    baseResourceMetadataObject,
     createConditionMetadataObject
 } from './base/baseMetadata';
 import {
     addRegularConnectorToAvailableConnections,
     getConnectionProperties
 } from './commonFactoryUtils/connectionPropertiesUtils';
-import { createConnectorObjects } from './connector';
+import { createConnectorMetadataObjects, createConnectorObjects } from './connector';
 import { LABELS } from './elementFactoryLabels';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
@@ -55,6 +57,7 @@ export const isWaitTimeEventType = (eventTypeName) => {
  * Returns the event parameter type field name. 'inputParameters' or 'outputParameters'
  *
  * @param {boolean} isInputParameter whether input or output param, true for input.
+ * @returns {string} a constant value from WAIT_EVENT_FIELDS
  */
 export const getParametersPropertyName = (isInputParameter) => {
     return isInputParameter ? WAIT_EVENT_FIELDS.INPUT_PARAMETERS : WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS;
@@ -88,6 +91,7 @@ const outputParameterMapToArray = (parameters) => {
  * @param {string} eventType The event type
  * @param {Array} parameters The parameters array
  * @param {boolean} isInput whether the parameters are input or output. true for input, false otherwise.
+ * @returns {Object[]} an array of additional parameters parameters
  */
 const getAdditionalParameters = (eventType, parameters, isInput = false) => {
     const existingParameterNames = parameters.reduce((acc, param) => {
@@ -325,13 +329,19 @@ export function createWaitMetadataObject(wait, config = {}) {
     if (!wait) {
         throw new Error('Wait is not defined');
     }
-    const newWait = baseCanvasElementMetadataObject(wait, config);
+    const newWait =
+        wait.supportsBranching !== false
+            ? baseCanvasElementMetadataObject(wait, config)
+            : createNonBranchingWaitElementMetadataObject(wait, config);
     const { childReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, timeZoneId } = wait;
     let waitEvents;
     if (childReferences && childReferences.length > 0) {
         waitEvents = childReferences.map(({ childReference }) => {
             const waitEvent = getElementByGuid(childReference);
-            const metadataWaitEvent = baseChildElementMetadataObject(waitEvent, config);
+            const metadataWaitEvent =
+                wait.supportsBranching !== false
+                    ? baseChildElementMetadataObject(waitEvent, config)
+                    : createWaitEventElementMetadataObjectForNonBranchingWait(waitEvent, wait, config);
             const { eventType } = waitEvent;
             let { inputParameters = [], outputParameters, conditions = [], conditionLogic } = waitEvent;
 
@@ -369,8 +379,80 @@ export function createWaitMetadataObject(wait, config = {}) {
 }
 
 /**
- * @param elementSource
- * @param elementTarget
+ * Creates a base non-branching Wait element metadata object for the backend store
+ *
+ * @param canvasElement a canvas element
+ * @param config the flow config
+ * @returns {object} a base non-branching Wait element
+ */
+export function createNonBranchingWaitElementMetadataObject(canvasElement = {}, config = {}) {
+    const newCanvasElement = baseResourceMetadataObject(canvasElement);
+    const { xyTranslate } = config;
+    const { label = '' } = canvasElement;
+    let { locationX = 0, locationY = 0 } = canvasElement;
+
+    const { elementSubtype } = canvasElement;
+
+    if (xyTranslate) {
+        locationX += xyTranslate.translateX;
+        locationY += xyTranslate.translateY;
+    }
+
+    return Object.assign(newCanvasElement, {
+        label,
+        locationX,
+        locationY,
+        elementSubtype
+    });
+}
+
+/**
+ * Creates a base Wait Event element metadata object for non-branching Waits for the backend store
+ *
+ * @param waitEvent - store representation of a child element
+ * @param wait - store representation of the wait parent
+ * @param {object} config - flow config
+ * @returns {object} a wait event element with the connectors on it.
+ */
+function createWaitEventElementMetadataObjectForNonBranchingWait(
+    waitEvent = {},
+    wait = {},
+    config: object = {}
+): object {
+    const newWaitEvent = baseElementMetadataObject(waitEvent);
+    const { label = '' } = waitEvent;
+    const { connectorMap = {} } = config;
+
+    /**
+     * (242) Some context behind the weird assignment here. While the function `createWaitMetadataObject()` is specified as the `uiToFlow` factory function for waits,
+     * `uiToFlow` factory methods are actually invoked during a flow load as well (i.e. during flowToUi). The path is mapAppToState() -> executeGuardrails() -> translateUIModelToFlow().
+     *
+     * What concerns us about this difference is that the shape of `connectorMap` on `config` in thsi method, looks slightly different in this method during save time vs. load time invocations.
+     * During save time, the connectorMap is faultily constructed for waits without branching. The connectors corresponding to the waits without branching need to be explicitly assigned to the
+     * wait events, which is what is being done in the first half of the logical short circuit here.
+     *
+     * During load time, the connectorMap contains the appropriate shape of the connectors. (i.e. the map key for the connector and the childSource property on the entry is the GUID corresponding to the wait event.)
+     * This is the second half of the logical short circuit.
+     */
+
+    const hasWaitEventConnector = connectorMap[waitEvent.guid] && connectorMap[waitEvent.guid][0].childSource;
+    const connectors = connectorMap[wait.guid] || (hasWaitEventConnector ? connectorMap[waitEvent.guid] : undefined);
+    if (hasWaitEventConnector) {
+        connectors[0] = { ...connectors[0], source: waitEvent.guid };
+    }
+
+    let connectorMetadata = {};
+    if (connectors) {
+        connectorMetadata = createConnectorMetadataObjects(connectors, false);
+    }
+    return Object.assign(newWaitEvent, { label }, connectorMetadata);
+}
+
+/**
+ * Adds Wait Event parameters relevant for the Journey process type.
+ *
+ * @param elementSource the source element
+ * @param elementTarget the element to add parameters to
  */
 function addJourneyWaitEventsParams(elementSource, elementTarget) {
     const processType = getProcessType();
@@ -479,6 +561,11 @@ export function createWaitWithWaitEventReferences(wait = {}) {
     for (let i = 0; i < waitEvents.length; i++) {
         const waitEvent = createWaitEvent(waitEvents[i]);
         const connectorsFromWaitEvent = createConnectorObjects(waitEvents[i], waitEvent.guid, newWait.guid);
+        if (wait.supportsBranching === false) {
+            for (const connectorFromWaitEvent of connectorsFromWaitEvent) {
+                Object.assign(connectorFromWaitEvent, { childSource: undefined });
+            }
+        }
         // add the wait event connector to the list of connectors
         connectors = [...connectors, ...connectorsFromWaitEvent];
         newWaitEvents = [...newWaitEvents, waitEvent];
@@ -508,7 +595,8 @@ export function createWaitWithWaitEventReferences(wait = {}) {
 /**
  * Max connections for a wait is the number of wait events + 1 for the default, + 1 for fault
  *
- * @param wait
+ * @param wait {object} the wait object from metadata
+ * @returns {number} the number of maximum connections
  */
 function calculateMaxWaitConnections(wait) {
     if (!wait) {
