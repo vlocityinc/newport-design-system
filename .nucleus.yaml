@@ -61,9 +61,6 @@ branches: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Branche
             p4Branch: //app/240/freeze
         pull-request:
             <<: *branch-definition # inherit
-        version:
-            auto-increment: pre-release
-            template: "{{slice pom.project.version '.' 0}}.178.{{autoIncrement}}"
         core-deploy:
             annotations:
                 - nomerge # so these changes don't propogate across major branches.
