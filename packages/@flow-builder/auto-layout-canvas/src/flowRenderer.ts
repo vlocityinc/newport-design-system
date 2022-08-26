@@ -23,6 +23,7 @@ import {
     FAULT_INDEX,
     FOR_EACH_INDEX,
     getElementMetadata,
+    getMetadataKey,
     getRootNode,
     Guid,
     NodeModel,
@@ -182,10 +183,8 @@ function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRend
     const { elementsMetadata, nodeLayoutMap, progress, layoutConfig, isCutOrDeleteBranch } = context;
     const { y, h, x } = getLayout(node.guid, progress, nodeLayoutMap);
 
-    const metadata =
-        node.actionName && node.actionName in elementsMetadata
-            ? getElementMetadata(elementsMetadata, node.actionName)
-            : getElementMetadata(elementsMetadata, node.elementSubtype || node.elementType);
+    const metadata = getElementMetadata(elementsMetadata, getMetadataKey(node));
+
     const operationType =
         isElementGuidToCutOrDelete(context, guid) || isCutOrDeleteBranch
             ? context.interactionState.cutAndDeletePathInfo?.operationType

@@ -19,6 +19,7 @@ import {
     FAULT_INDEX,
     FlowModel,
     getElementMetadata,
+    getMetadataKey,
     Guid,
     NodeModel,
     NodeRef,
@@ -288,7 +289,7 @@ function calculateExtraHeightForMenu({
  * @returns the ElementType for the node
  */
 function getElementType(context: FlowRenderContext, nodeModel: NodeModel): NodeType {
-    return getElementMetadata(context.elementsMetadata, nodeModel.elementSubtype || nodeModel.elementType).type;
+    return getElementMetadata(context.elementsMetadata, getMetadataKey(nodeModel)).type;
 }
 
 /**
