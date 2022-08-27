@@ -138,7 +138,8 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         hasChildren,
         hasGoToOnBranchHead,
         findSourceForPasteOperation,
-        getCutGuids
+        getCutGuids,
+        getMetadataKey
     } = autoLayoutCanvas;
     const { flowRenderInfo } = jest.requireActual('./mockData');
 
@@ -172,7 +173,8 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         hasChildren,
         hasGoToOnBranchHead,
         findSourceForPasteOperation,
-        getCutGuids
+        getCutGuids,
+        getMetadataKey
     };
 });
 

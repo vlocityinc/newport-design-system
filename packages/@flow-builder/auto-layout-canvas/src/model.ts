@@ -174,4 +174,16 @@ function getElementMetadata(elementsMetadata: ElementsMetadata, elementType: str
     return elementsMetadata[elementType] || ELEMENT_METADATA_DEFAULT;
 }
 
-export { resolveNode, getRootNode, canHaveChildren, getElementMetadata };
+/**
+ * Helper function that returns metadatakey
+ *
+ * @param node - node containing metadatakey information
+ * @returns metadata key
+ */
+function getMetadataKey(
+    node: { elementType: string; elementSubtype: string; actionName: string } | ElementMetadata | NodeModel
+) {
+    return node.actionName || node.elementSubtype || node.elementType;
+}
+
+export { resolveNode, getRootNode, canHaveChildren, getElementMetadata, getMetadataKey };

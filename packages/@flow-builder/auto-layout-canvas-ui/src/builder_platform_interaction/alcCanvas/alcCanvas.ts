@@ -47,6 +47,7 @@ import {
     getCutGuids,
     getDefaultLayoutConfig,
     getFirstSelectableAncestorOrSiblingGuid,
+    getMetadataKey,
     getTargetGuidsForReconnection,
     Guid,
     hasGoToOnNext,
@@ -656,10 +657,7 @@ export default class AlcCanvas extends withKeyboardInteractions(LightningElement
             );
             let count = 0;
             nodes.forEach((node) => {
-                const metadata =
-                    this._flowRenderContext.elementsMetadata[
-                        node.actionName || node.elementSubtype || node.elementType
-                    ];
+                const metadata = this._flowRenderContext.elementsMetadata[getMetadataKey(node)];
                 if (metadata && metadata.dynamicNodeComponent) {
                     count++;
                 }

@@ -24,7 +24,6 @@ import MenuType from './MenuType';
 import NodeType from './NodeType';
 import reducer from './reducer';
 import { Geometry } from './svgUtils';
-
 export { assertAutoLayoutState } from './assertUtils';
 export {
     BranchHeadNodeModel,
@@ -36,6 +35,7 @@ export {
     FlowModel,
     FOR_EACH_INDEX,
     getElementMetadata,
+    getMetadataKey,
     getRootNode,
     GOTO_CONNECTION_SUFFIX,
     Guid,
