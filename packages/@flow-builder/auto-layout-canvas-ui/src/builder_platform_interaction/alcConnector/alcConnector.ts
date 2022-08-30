@@ -107,6 +107,10 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
         return isCutMode(this.canvasContext.mode) && !this.isDisabled;
     }
 
+    get addButtonLabel() {
+        return this.isCutModeEnabled ? this.labels.pasteElementIconAltText : this.labels.addElementIconAltText;
+    }
+
     get addIconClasses() {
         return classSet({
             'circle-text': true,

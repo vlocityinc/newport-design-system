@@ -25,18 +25,18 @@
                 canvas-mode={canvasContext.mode}
                 variant={menuTriggerVariant}
                 aria-haspopup="dialog"
-                aria-label={labels.connectorButtonLabel}
+                aria-label={addButtonLabel}
                 connector-aria-info={connectorAriaInfo}
                 disabled={isDisabled}
             >
                 <div slot="trigger">
                     <!-- Uses css to show and hide the different icons in Cut mode-->
                     <lightning-icon
-                        alternative-text={labels.addElementIconAltText}
+                        alternative-text={addButtonLabel}
                         class={addIconClasses}
                         icon-name="utility:add"
                         size="x-small"
-                        title={labels.addElementIconAltText}
+                        title={addButtonLabel}
                         variant={addIconVariant}
                     ></lightning-icon>
                     <lightning-icon

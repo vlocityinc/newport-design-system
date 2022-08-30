@@ -550,9 +550,9 @@ describe('Auto-Layout connector tests', () => {
             connectorInfo: getRegularConnectorInfo(),
             flowModel: regularFlowModel
         });
-        const connectorButtonLabel = regularConnector.shadowRoot.querySelector(selectors.alcMenuTrigger);
-        expect(connectorButtonLabel.getAttribute('aria-label')).toEqual(LABELS.connectorButtonLabel);
-        expect(connectorButtonLabel.getAttribute('aria-haspopup')).toEqual('dialog');
+        const addElementIconAltText = regularConnector.shadowRoot.querySelector(selectors.alcMenuTrigger);
+        expect(addElementIconAltText.getAttribute('aria-label')).toEqual(LABELS.addElementIconAltText);
+        expect(addElementIconAltText.getAttribute('aria-haspopup')).toEqual('dialog');
     });
 
     it('Should have class highlighted-container when goTo stub is clicked', async () => {

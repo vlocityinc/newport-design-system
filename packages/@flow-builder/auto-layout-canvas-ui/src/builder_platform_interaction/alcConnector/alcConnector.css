@@ -123,12 +123,10 @@ builder_platform_interaction-focus-trap.slds-is-open {
     display: none;
 }
 
-builder_platform_interaction-alc-menu-trigger:focus-within .primary-add-icon,
 builder_platform_interaction-alc-menu-trigger:hover .primary-add-icon {
     display: none;
 }
 
-builder_platform_interaction-alc-menu-trigger:focus-within .secondary-paste-icon,
 builder_platform_interaction-alc-menu-trigger:hover .secondary-paste-icon {
     display: inline-block;
 }
