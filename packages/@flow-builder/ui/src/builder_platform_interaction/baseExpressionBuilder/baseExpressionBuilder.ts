@@ -901,7 +901,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             const menu = position === LEFT ? LHS_FULL_MENU_DATA : RHS_FULL_MENU_DATA;
             const inlineItem = getInlineResource(resource, this.state[menu]);
             if (position === LEFT) {
-                if (this.isFieldInputEnabled) {
+                if (this.isFieldInputEnabled && inlineItem != null) {
                     this.updateExpressionOnLhsChanged(
                         { item: inlineItem },
                         this.getElementOrField(inlineItem.value, this.lhsFields)
