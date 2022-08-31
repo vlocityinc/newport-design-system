@@ -8,6 +8,7 @@ import {
 import { isUndefinedOrNull, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { getValueFromHydratedItem, ValueWithError } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import {
     ASSIGNEE_DATA_TYPE_PROPERTY_NAME,
     ASSIGNEE_PROPERTY_NAME,
@@ -22,6 +23,7 @@ import {
 } from 'builder_platform_interaction/elementFactory';
 import {
     ComboboxStateChangedEvent,
+    ConfigurationEditorChangeEvent,
     CreateEntryConditionsEvent,
     DeleteAllConditionsEvent,
     DeleteOrchestrationActionEvent,
@@ -47,8 +49,8 @@ import {
     ELEMENT_TYPE,
     EntryCriteria,
     ExitCriteria,
-    FLOW_TRANSACTION_MODEL,
-    ICONS
+    FLOW_ELEMENT_SUBTYPE,
+    FLOW_TRANSACTION_MODEL
 } from 'builder_platform_interaction/flowMetadata';
 import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
@@ -66,6 +68,16 @@ import { stageStepReducer } from './stageStepReducer';
 const STANDARD_INPUT_PREFIX = 'ActionInput__';
 
 export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep> {
+    @track
+    configurationEditorInputVariables: UI.ConfigurationEditorInputVariable[] = [];
+
+    setConfigurationEditorInputVariables() {
+        this.configurationEditorInputVariables = Object.entries(this.element).map(([key, value]) => ({
+            name: key,
+            value: getValueFromHydratedItem(value)
+        }));
+    }
+
     error;
 
     labels = LABELS;
@@ -221,18 +233,13 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
     triggerType;
 
     override getEditorParams(): UI.PropertyEditorParameters {
+        if (!this.element) {
+            return this._editorParams;
+        }
+
         const params = { ...this._editorParams };
         const panelConfig = { ...this._editorParams?.panelConfig };
-
-        if (this.isStepWithType(ACTION_TYPE.STEP_INTERACTIVE)) {
-            panelConfig.customIcon = ICONS.interactiveStep;
-        } else if (this.isStepWithType(ACTION_TYPE.STEP_BACKGROUND)) {
-            panelConfig.customIcon = ICONS.backgroundStep;
-        } else if (this.isStepWithType(undefined)) {
-            return this._editorParams;
-        } else {
-            throw new Error('Action Type is not recognized in stageStepEditor');
-        }
+        panelConfig.customIcon = elementTypeToConfigMap[this.element.stepSubtype].nodeConfig?.iconName;
 
         params.panelConfig = panelConfig;
         return params;
@@ -258,6 +265,14 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
     override onSetNode() {
         if (!this.element) {
             return;
+        }
+
+        if (this.isCustomStepType) {
+            this.configurationEditor = {
+                name: elementTypeToConfigMap[this.element.stepSubtype].configComponent || null,
+                errors: []
+            };
+            this.setConfigurationEditorInputVariables();
         }
 
         this.selectedEntryCriteria = (this.element.entryCriteria as ValueWithError).value as EntryCriteria;
@@ -351,6 +366,13 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
                 this.displayAssigneeSpinner = false;
             });
         }
+    }
+
+    get isCustomStepType(): boolean {
+        return !(
+            this.element?.stepSubtype === FLOW_ELEMENT_SUBTYPE.BackgroundStep ||
+            this.element?.stepSubtype === FLOW_ELEMENT_SUBTYPE.InteractiveStep
+        );
     }
 
     get isLabelCollapsibleToHeader() {
@@ -850,6 +872,14 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
             }
         });
         this.updateElement(removeUnsetParamsEvent);
+    }
+
+    /**
+     * @param event ConfigurationEditorChangeEvent from the CPE
+     */
+    handleConfigurationEditorChange(event: ConfigurationEditorChangeEvent) {
+        event.stopPropagation();
+        this.updateElement(event);
     }
 
     /**

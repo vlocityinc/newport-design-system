@@ -82,5 +82,22 @@
             "plural": "Background Steps"
         },
         "fieldInputCategory": "StageStep"
+    },
+    "TestStep": {
+        "nodeConfig": {
+            "iconName": "standard:sort",
+            "iconBackgroundColor": "background-navy",
+            "description": "Test Step Description"
+        },
+        "elementSubtype": "TestStep",
+        "isElementSubtype": "true",
+        "elementType": "StageStep",
+        "canvasElement": "true",
+        "labels": {
+            "singular": "Test Step",
+            "plural": "Test Steps"
+        },
+        "configComponent": "testStepEditor",
+        "fieldInputCategory": "StageStep"
     }
 }

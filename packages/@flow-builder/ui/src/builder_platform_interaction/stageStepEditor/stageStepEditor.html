@@ -13,287 +13,303 @@
             </builder_platform_interaction-label-description>
         </div>
     </div>
-    <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
-        <span class="slds-text-heading_small">{labels.entrySectionLabel}</span>
-        <div class="slds-p-top_x-small">
-            <lightning-combobox
-                name="stepStart"
-                label={labels.startRadioLabel}
-                value={selectedEntryCriteria}
-                placeholder="Select Progress"
-                options={stepStartOptions}
-                onchange={handleStepStartChanged}
-                required
-                field-level-help={entryCriteriaHelpText}
-                class="stepStart"
-            ></lightning-combobox>
-        </div>
 
-        <div class="slds-p-top_x-small" if:true={isStartCriteriaBasedOnCustomAction}>
-            <builder_platform_interaction-action-selector
-                class="slds-col slds-size_3-of-3 entry-action"
-                selected-action={selectedEntryAction}
-                error-message={entryActionErrorMessage}
-                invocable-actions={availableDeterminationActions}
-                invocable-actions-fetched={isActionsFetched}
-                selected-category={selectedCategory}
-                selected-filter-by={selectedFilterBy}
-                onvaluechanged={handleEntryActionSelected}
-                oncannotretrieveactions={handleCannotRetrieveActions}
-                flow-process-type={processType}
-                label-override={labels.determinationFlowSelectorHeader}
-            >
-            </builder_platform_interaction-action-selector>
-        </div>
-        <div class="slds-p-top_x-small" if:true={isStartCriteriaBasedOnStep}>
-            <builder_platform_interaction-combobox
-                menu-data={entryConditionsAvailableStepItems}
-                oncomboboxstatechanged={handleEntryCriteriaItemChanged}
-                onitemselected={handleEntryCriteriaItemChanged}
-                label={labels.entryCriteriaItemsPlaceholder}
-                value={entryConditionsSelectedItem}
-                placeholder={labels.entryConditionsItemsPlaceholder}
-            >
-            </builder_platform_interaction-combobox>
-        </div>
-        <div class="slds-p-top_x-small" if:true={showOpenEntryConditionFlow}>
-            <lightning-button
-                label={labels.openFlowLabel}
-                onclick={handleOpenEntryConditionFlowClicked}
-                icon-name="utility:new_window"
-                icon-position="right"
-                class="open-flow"
-            ></lightning-button>
-        </div>
-        <div if:true={showEntryParameterList}>
-            <h3 if:false={isEntryActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
-                {entryActionParameterListConfig.inputHeader}
-            </h3>
-            <builder_platform_interaction-parameter-list
-                inputs={entryActionParameterListConfig.inputs}
-                outputs={entryActionParameterListConfig.outputs}
-                warnings={entryActionParameterListConfig.warnings}
-                input-header={entryActionParameterListConfig.inputHeader}
-                output-header={entryActionParameterListConfig.outputHeader}
-                element-type={actionElementType}
-                sort-inputs={entryActionParameterListConfig.sortInputs}
-                sort-outputs={entryActionParameterListConfig.sortOutputs}
-                empty-inputs-title={entryActionParameterListConfig.emptyInputsTitle}
-                empty-inputs-body={entryActionParameterListConfig.emptyInputsBody}
-                empty-inputs-outputs-title={entryActionParameterListConfig.emptyInputsOutputsTitle}
-                empty-inputs-outputs-body={entryActionParameterListConfig.emptyInputsOutputsBody}
-                store-output-automatically={entryActionParameterListConfig.storeOutputAutomatically}
-                automatic-output-handling-supported={entryActionParameterListConfig.automaticOutputHandlingSupported}
-                element-info={entryActionElementInfo}
-                onupdateparameteritem={handleParameterPropertyChangedEvent}
-                ondeleteparameteritem={handleParameterPropertyChangedEvent}
-            ></builder_platform_interaction-parameter-list>
-        </div>
-    </div>
-
-    <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
-        <span class="slds-text-heading_small">{actionSectionLabel}</span>
-        <lightning-spinner
-            if:true={displayActionSpinner}
-            size="medium"
-            variant="brand"
-            class="spinner"
-        ></lightning-spinner>
-        <div class="slds-p-top_x-small">
-            <builder_platform_interaction-action-selector
-                class="slds-col slds-size_3-of-3"
-                selected-action={selectedAction}
-                error-message={actionErrorMessage}
-                invocable-actions={availableActions}
-                invocable-actions-fetched={isActionsFetched}
-                selected-category={selectedCategory}
-                selected-filter-by={selectedFilterBy}
-                onvaluechanged={handleActionSelected}
-                oncannotretrieveactions={handleCannotRetrieveActions}
-                flow-process-type={processType}
-                label-override={labels.actionSelectorLabel}
-                required="true"
-                field-level-help={actionTooltipLabel}
-            >
-            </builder_platform_interaction-action-selector>
-        </div>
-        <div class="slds-p-top_x-small" if:true={showOpenFlow}>
-            <lightning-button
-                label={labels.openFlowLabel}
-                onclick={handleOpenFlowClicked}
-                icon-name="utility:new_window"
-                icon-position="right"
-                class="open-flow"
-            ></lightning-button>
-        </div>
-        <div if:true={showExternalCalloutsCheckbox} class="slds-p-top_small slds-grid">
-            <lightning-input
-                type="checkbox"
-                class="externalCalloutsCheckbox"
-                label={labels.containsExternalCalloutsLabel}
-                name="externalCalloutsCB"
-                checked={requiresAsyncProcessing}
-                onchange={handleCheckboxClicked}
-            ></lightning-input>
-            <lightning-helptext content={labels.containsExternalCalloutsTooltip}></lightning-helptext>
-        </div>
-        <div if:true={showParameterList}>
-            <h3 if:false={isActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
-                {actionParameterListConfig.inputHeader}
-            </h3>
-            <builder_platform_interaction-parameter-list
-                inputs={actionParameterListConfig.inputs}
-                outputs={actionParameterListConfig.outputs}
-                warnings={actionParameterListConfig.warnings}
-                input-header={actionParameterListConfig.inputHeader}
-                output-header={actionParameterListConfig.outputHeader}
-                element-type={actionElementType}
-                sort-inputs={actionParameterListConfig.sortInputs}
-                sort-outputs={actionParameterListConfig.sortOutputs}
-                empty-inputs-title={actionParameterListConfig.emptyInputsTitle}
-                empty-inputs-body={actionParameterListConfig.emptyInputsBody}
-                empty-inputs-outputs-title={actionParameterListConfig.emptyInputsOutputsTitle}
-                empty-inputs-outputs-body={actionParameterListConfig.emptyInputsOutputsBody}
-                store-output-automatically={actionParameterListConfig.storeOutputAutomatically}
-                automatic-output-handling-supported={actionParameterListConfig.automaticOutputHandlingSupported}
-                element-info={actionElementInfo}
-                onupdateparameteritem={handleParameterPropertyChangedEvent}
-                ondeleteparameteritem={handleParameterPropertyChangedEvent}
-            ></builder_platform_interaction-parameter-list>
-        </div>
-    </div>
-    <div if:true={isStepWithUserAction}>
+    <template if:true={isCustomStepType}>
+        <builder_platform_interaction-custom-property-editor
+            configuration-editor={configurationEditor}
+            configuration-editor-input-variables={configurationEditorInputVariables}
+            onconfiguration_editor_input_value_changed={handleConfigurationEditorChange}
+        ></builder_platform_interaction-custom-property-editor>
+    </template>
+    <template if:false={isCustomStepType}>
         <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
-            <span class="slds-text-heading_small">{labels.recordSelectionSectionLabel}</span>
-            <builder_platform_interaction-ferov-resource-picker
-                class="slds-col slds-size_3-of-3 recordPicker slds-p-top_x-small"
-                combobox-config={recordComboBoxConfig}
-                property-editor-element-type={propertyEditorElementType}
-                element-param={recordElementParam}
-                rules={resourcePickerRules}
-                error-message={recordErrorMessage}
-                row-index={_relatedRecordPickerGuid}
-                oncomboboxstatechanged={handleRecordChanged}
-                onitemselected={handleRecordItemSelected}
-                value={recordValue}
-                is-pill-supported
-                hide-global-constants
-            ></builder_platform_interaction-ferov-resource-picker>
-        </div>
-
-        <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
-            <span class="slds-text-heading_small">{labels.actorSelectionSectionLabel}</span>
-            <lightning-spinner
-                if:true={displayAssigneeSpinner}
-                size="medium"
-                variant="brand"
-                class="spinner"
-            ></lightning-spinner>
-
+            <span class="slds-text-heading_small">{labels.entrySectionLabel}</span>
             <div class="slds-p-top_x-small">
                 <lightning-combobox
-                    name="assigneeType"
-                    label={labels.assigneeTypeSelectionLabel}
-                    value={selectedAssigneeType}
-                    options={assigneeTypeOptions}
-                    onchange={handleAssigneeTypeChanged}
-                    required
-                    field-level-help={labels.assigneeTypeHelpText}
-                    aria-controls="assigneePicker"
-                    class="slds-combobox-addon_start assigneeType"
-                ></lightning-combobox>
-                <div id="assigneePicker" class="assigneePicker slds-p-top_x-small">
-                    <builder_platform_interaction-record-picker
-                        if:false={isAssigneeReference}
-                        attributes={assigneeRecordPickerAttributes}
-                        values={assigneeRecordIds}
-                        error={actorErrorMessage}
-                        record-selected-callback={handleAssigneeEntitySelected}
-                        required
-                    ></builder_platform_interaction-record-picker>
-                    <builder_platform_interaction-ferov-resource-picker
-                        if:true={isAssigneeReference}
-                        combobox-config={assigneeReferenceComboBoxConfig}
-                        property-editor-element-type={propertyEditorElementType}
-                        element-param={actorElementParam}
-                        rules={resourcePickerRules}
-                        error-message={actorErrorMessage}
-                        row-index={_assigneePickerGuid}
-                        oncomboboxstatechanged={handleActorChanged}
-                        onitemselected={handleActorItemSelected}
-                        value={actorValue}
-                        is-pill-supported
-                        hide-global-constants
-                    ></builder_platform_interaction-ferov-resource-picker>
-                </div>
-            </div>
-        </div>
-
-        <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
-            <span class="slds-text-heading_small">{labels.exitSectionLabel}</span>
-            <div class="slds-p-top_x-small">
-                <lightning-combobox
-                    name="stepCompletes"
-                    label={labels.exitActionSelectionLabel}
-                    value={selectedExitCriteria}
+                    name="stepStart"
+                    label={labels.startRadioLabel}
+                    value={selectedEntryCriteria}
                     placeholder="Select Progress"
-                    options={stepCompletesOptions}
-                    onchange={handleStepCompletesChanged}
+                    options={stepStartOptions}
+                    onchange={handleStepStartChanged}
                     required
-                    field-level-help={exitCriteriaHelpText}
-                    class="stepCompletes"
+                    field-level-help={entryCriteriaHelpText}
+                    class="stepStart"
                 ></lightning-combobox>
             </div>
-            <div class="slds-p-top_x-small" if:true={isExitCriteriaBasedOnCustomAction}>
+
+            <div class="slds-p-top_x-small" if:true={isStartCriteriaBasedOnCustomAction}>
                 <builder_platform_interaction-action-selector
-                    class="slds-col slds-size_3-of-3 exit-action"
-                    selected-action={selectedExitAction}
-                    error-message={exitActionErrorMessage}
+                    class="slds-col slds-size_3-of-3 entry-action"
+                    selected-action={selectedEntryAction}
+                    error-message={entryActionErrorMessage}
                     invocable-actions={availableDeterminationActions}
                     invocable-actions-fetched={isActionsFetched}
                     selected-category={selectedCategory}
                     selected-filter-by={selectedFilterBy}
-                    onvaluechanged={handleExitActionSelected}
+                    onvaluechanged={handleEntryActionSelected}
                     oncannotretrieveactions={handleCannotRetrieveActions}
                     flow-process-type={processType}
-                    label-override={labels.exitDeterminationFlowSelectorHeader}
+                    label-override={labels.determinationFlowSelectorHeader}
                 >
                 </builder_platform_interaction-action-selector>
             </div>
-            <div class="slds-p-top_x-small" if:true={showOpenExitConditionFlow}>
+            <div class="slds-p-top_x-small" if:true={isStartCriteriaBasedOnStep}>
+                <builder_platform_interaction-combobox
+                    menu-data={entryConditionsAvailableStepItems}
+                    oncomboboxstatechanged={handleEntryCriteriaItemChanged}
+                    onitemselected={handleEntryCriteriaItemChanged}
+                    label={labels.entryCriteriaItemsPlaceholder}
+                    value={entryConditionsSelectedItem}
+                    placeholder={labels.entryConditionsItemsPlaceholder}
+                >
+                </builder_platform_interaction-combobox>
+            </div>
+            <div class="slds-p-top_x-small" if:true={showOpenEntryConditionFlow}>
                 <lightning-button
                     label={labels.openFlowLabel}
-                    onclick={handleOpenExitConditionFlowClicked}
+                    onclick={handleOpenEntryConditionFlowClicked}
                     icon-name="utility:new_window"
                     icon-position="right"
                     class="open-flow"
                 ></lightning-button>
             </div>
-            <div if:true={showExitParameterList}>
-                <h3 if:false={isExitActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
-                    {exitActionParameterListConfig.inputHeader}
+            <div if:true={showEntryParameterList}>
+                <h3
+                    if:false={isEntryActionInputsEmpty}
+                    class="slds-text-color_weak slds-text-heading_small inputHeader"
+                >
+                    {entryActionParameterListConfig.inputHeader}
                 </h3>
                 <builder_platform_interaction-parameter-list
-                    inputs={exitActionParameterListConfig.inputs}
-                    outputs={exitActionParameterListConfig.outputs}
-                    warnings={exitActionParameterListConfig.warnings}
-                    input-header={exitActionParameterListConfig.inputHeader}
-                    output-header={exitActionParameterListConfig.outputHeader}
+                    inputs={entryActionParameterListConfig.inputs}
+                    outputs={entryActionParameterListConfig.outputs}
+                    warnings={entryActionParameterListConfig.warnings}
+                    input-header={entryActionParameterListConfig.inputHeader}
+                    output-header={entryActionParameterListConfig.outputHeader}
                     element-type={actionElementType}
-                    sort-inputs={exitActionParameterListConfig.sortInputs}
-                    sort-outputs={exitActionParameterListConfig.sortOutputs}
-                    empty-inputs-title={exitActionParameterListConfig.emptyInputsTitle}
-                    empty-inputs-body={exitActionParameterListConfig.emptyInputsBody}
-                    empty-inputs-outputs-title={exitActionParameterListConfig.emptyInputsOutputsTitle}
-                    empty-inputs-outputs-body={exitActionParameterListConfig.emptyInputsOutputsBody}
-                    store-output-automatically={exitActionParameterListConfig.storeOutputAutomatically}
-                    automatic-output-handling-supported={exitActionParameterListConfig.automaticOutputHandlingSupported}
-                    element-info={exitActionElementInfo}
+                    sort-inputs={entryActionParameterListConfig.sortInputs}
+                    sort-outputs={entryActionParameterListConfig.sortOutputs}
+                    empty-inputs-title={entryActionParameterListConfig.emptyInputsTitle}
+                    empty-inputs-body={entryActionParameterListConfig.emptyInputsBody}
+                    empty-inputs-outputs-title={entryActionParameterListConfig.emptyInputsOutputsTitle}
+                    empty-inputs-outputs-body={entryActionParameterListConfig.emptyInputsOutputsBody}
+                    store-output-automatically={entryActionParameterListConfig.storeOutputAutomatically}
+                    automatic-output-handling-supported={entryActionParameterListConfig.automaticOutputHandlingSupported}
+                    element-info={entryActionElementInfo}
                     onupdateparameteritem={handleParameterPropertyChangedEvent}
                     ondeleteparameteritem={handleParameterPropertyChangedEvent}
-                >
-                </builder_platform_interaction-parameter-list>
+                ></builder_platform_interaction-parameter-list>
             </div>
         </div>
-    </div>
+
+        <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
+            <span class="slds-text-heading_small">{actionSectionLabel}</span>
+            <lightning-spinner
+                if:true={displayActionSpinner}
+                size="medium"
+                variant="brand"
+                class="spinner"
+            ></lightning-spinner>
+            <div class="slds-p-top_x-small">
+                <builder_platform_interaction-action-selector
+                    class="slds-col slds-size_3-of-3"
+                    selected-action={selectedAction}
+                    error-message={actionErrorMessage}
+                    invocable-actions={availableActions}
+                    invocable-actions-fetched={isActionsFetched}
+                    selected-category={selectedCategory}
+                    selected-filter-by={selectedFilterBy}
+                    onvaluechanged={handleActionSelected}
+                    oncannotretrieveactions={handleCannotRetrieveActions}
+                    flow-process-type={processType}
+                    label-override={labels.actionSelectorLabel}
+                    required="true"
+                    field-level-help={actionTooltipLabel}
+                >
+                </builder_platform_interaction-action-selector>
+            </div>
+            <div class="slds-p-top_x-small" if:true={showOpenFlow}>
+                <lightning-button
+                    label={labels.openFlowLabel}
+                    onclick={handleOpenFlowClicked}
+                    icon-name="utility:new_window"
+                    icon-position="right"
+                    class="open-flow"
+                ></lightning-button>
+            </div>
+            <div if:true={showExternalCalloutsCheckbox} class="slds-p-top_small slds-grid">
+                <lightning-input
+                    type="checkbox"
+                    class="externalCalloutsCheckbox"
+                    label={labels.containsExternalCalloutsLabel}
+                    name="externalCalloutsCB"
+                    checked={requiresAsyncProcessing}
+                    onchange={handleCheckboxClicked}
+                ></lightning-input>
+                <lightning-helptext content={labels.containsExternalCalloutsTooltip}></lightning-helptext>
+            </div>
+            <div if:true={showParameterList}>
+                <h3 if:false={isActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
+                    {actionParameterListConfig.inputHeader}
+                </h3>
+                <builder_platform_interaction-parameter-list
+                    inputs={actionParameterListConfig.inputs}
+                    outputs={actionParameterListConfig.outputs}
+                    warnings={actionParameterListConfig.warnings}
+                    input-header={actionParameterListConfig.inputHeader}
+                    output-header={actionParameterListConfig.outputHeader}
+                    element-type={actionElementType}
+                    sort-inputs={actionParameterListConfig.sortInputs}
+                    sort-outputs={actionParameterListConfig.sortOutputs}
+                    empty-inputs-title={actionParameterListConfig.emptyInputsTitle}
+                    empty-inputs-body={actionParameterListConfig.emptyInputsBody}
+                    empty-inputs-outputs-title={actionParameterListConfig.emptyInputsOutputsTitle}
+                    empty-inputs-outputs-body={actionParameterListConfig.emptyInputsOutputsBody}
+                    store-output-automatically={actionParameterListConfig.storeOutputAutomatically}
+                    automatic-output-handling-supported={actionParameterListConfig.automaticOutputHandlingSupported}
+                    element-info={actionElementInfo}
+                    onupdateparameteritem={handleParameterPropertyChangedEvent}
+                    ondeleteparameteritem={handleParameterPropertyChangedEvent}
+                ></builder_platform_interaction-parameter-list>
+            </div>
+        </div>
+        <div if:true={isStepWithUserAction}>
+            <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
+                <span class="slds-text-heading_small">{labels.recordSelectionSectionLabel}</span>
+                <builder_platform_interaction-ferov-resource-picker
+                    class="slds-col slds-size_3-of-3 recordPicker slds-p-top_x-small"
+                    combobox-config={recordComboBoxConfig}
+                    property-editor-element-type={propertyEditorElementType}
+                    element-param={recordElementParam}
+                    rules={resourcePickerRules}
+                    error-message={recordErrorMessage}
+                    row-index={_relatedRecordPickerGuid}
+                    oncomboboxstatechanged={handleRecordChanged}
+                    onitemselected={handleRecordItemSelected}
+                    value={recordValue}
+                    is-pill-supported
+                    hide-global-constants
+                ></builder_platform_interaction-ferov-resource-picker>
+            </div>
+
+            <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
+                <span class="slds-text-heading_small">{labels.actorSelectionSectionLabel}</span>
+                <lightning-spinner
+                    if:true={displayAssigneeSpinner}
+                    size="medium"
+                    variant="brand"
+                    class="spinner"
+                ></lightning-spinner>
+
+                <div class="slds-p-top_x-small">
+                    <lightning-combobox
+                        name="assigneeType"
+                        label={labels.assigneeTypeSelectionLabel}
+                        value={selectedAssigneeType}
+                        options={assigneeTypeOptions}
+                        onchange={handleAssigneeTypeChanged}
+                        required
+                        field-level-help={labels.assigneeTypeHelpText}
+                        aria-controls="assigneePicker"
+                        class="slds-combobox-addon_start assigneeType"
+                    ></lightning-combobox>
+                    <div id="assigneePicker" class="assigneePicker slds-p-top_x-small">
+                        <builder_platform_interaction-record-picker
+                            if:false={isAssigneeReference}
+                            attributes={assigneeRecordPickerAttributes}
+                            values={assigneeRecordIds}
+                            error={actorErrorMessage}
+                            record-selected-callback={handleAssigneeEntitySelected}
+                            required
+                        ></builder_platform_interaction-record-picker>
+                        <builder_platform_interaction-ferov-resource-picker
+                            if:true={isAssigneeReference}
+                            combobox-config={assigneeReferenceComboBoxConfig}
+                            property-editor-element-type={propertyEditorElementType}
+                            element-param={actorElementParam}
+                            rules={resourcePickerRules}
+                            error-message={actorErrorMessage}
+                            row-index={_assigneePickerGuid}
+                            oncomboboxstatechanged={handleActorChanged}
+                            onitemselected={handleActorItemSelected}
+                            value={actorValue}
+                            is-pill-supported
+                            hide-global-constants
+                        ></builder_platform_interaction-ferov-resource-picker>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
+                <span class="slds-text-heading_small">{labels.exitSectionLabel}</span>
+                <div class="slds-p-top_x-small">
+                    <lightning-combobox
+                        name="stepCompletes"
+                        label={labels.exitActionSelectionLabel}
+                        value={selectedExitCriteria}
+                        placeholder="Select Progress"
+                        options={stepCompletesOptions}
+                        onchange={handleStepCompletesChanged}
+                        required
+                        field-level-help={exitCriteriaHelpText}
+                        class="stepCompletes"
+                    ></lightning-combobox>
+                </div>
+                <div class="slds-p-top_x-small" if:true={isExitCriteriaBasedOnCustomAction}>
+                    <builder_platform_interaction-action-selector
+                        class="slds-col slds-size_3-of-3 exit-action"
+                        selected-action={selectedExitAction}
+                        error-message={exitActionErrorMessage}
+                        invocable-actions={availableDeterminationActions}
+                        invocable-actions-fetched={isActionsFetched}
+                        selected-category={selectedCategory}
+                        selected-filter-by={selectedFilterBy}
+                        onvaluechanged={handleExitActionSelected}
+                        oncannotretrieveactions={handleCannotRetrieveActions}
+                        flow-process-type={processType}
+                        label-override={labels.exitDeterminationFlowSelectorHeader}
+                    >
+                    </builder_platform_interaction-action-selector>
+                </div>
+                <div class="slds-p-top_x-small" if:true={showOpenExitConditionFlow}>
+                    <lightning-button
+                        label={labels.openFlowLabel}
+                        onclick={handleOpenExitConditionFlowClicked}
+                        icon-name="utility:new_window"
+                        icon-position="right"
+                        class="open-flow"
+                    ></lightning-button>
+                </div>
+                <div if:true={showExitParameterList}>
+                    <h3
+                        if:false={isExitActionInputsEmpty}
+                        class="slds-text-color_weak slds-text-heading_small inputHeader"
+                    >
+                        {exitActionParameterListConfig.inputHeader}
+                    </h3>
+                    <builder_platform_interaction-parameter-list
+                        inputs={exitActionParameterListConfig.inputs}
+                        outputs={exitActionParameterListConfig.outputs}
+                        warnings={exitActionParameterListConfig.warnings}
+                        input-header={exitActionParameterListConfig.inputHeader}
+                        output-header={exitActionParameterListConfig.outputHeader}
+                        element-type={actionElementType}
+                        sort-inputs={exitActionParameterListConfig.sortInputs}
+                        sort-outputs={exitActionParameterListConfig.sortOutputs}
+                        empty-inputs-title={exitActionParameterListConfig.emptyInputsTitle}
+                        empty-inputs-body={exitActionParameterListConfig.emptyInputsBody}
+                        empty-inputs-outputs-title={exitActionParameterListConfig.emptyInputsOutputsTitle}
+                        empty-inputs-outputs-body={exitActionParameterListConfig.emptyInputsOutputsBody}
+                        store-output-automatically={exitActionParameterListConfig.storeOutputAutomatically}
+                        automatic-output-handling-supported={exitActionParameterListConfig.automaticOutputHandlingSupported}
+                        element-info={exitActionElementInfo}
+                        onupdateparameteritem={handleParameterPropertyChangedEvent}
+                        ondeleteparameteritem={handleParameterPropertyChangedEvent}
+                    >
+                    </builder_platform_interaction-parameter-list>
+                </div>
+            </div>
+        </div>
+    </template>
 </template>

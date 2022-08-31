@@ -8,6 +8,7 @@ import {
 } from 'builder_platform_interaction/dataMutationLib';
 import { createCondition, StageStep } from 'builder_platform_interaction/elementFactory';
 import {
+    ConfigurationEditorChangeEvent,
     CreateEntryConditionsEvent,
     DeleteAllConditionsEvent,
     DeleteConditionEvent,
@@ -334,6 +335,22 @@ const updateRequiresAsyncProcessingField = (state: StageStep, event: RequiresAsy
 };
 
 /**
+ *
+ * Updates any property on the StageStep directly from the value passed in the CPE
+ * NOTE: no validation will be done here as it is assumed that the child CPE will perform any
+ * necessary validation
+ *
+ * @param state the StageStep UI model
+ * @param event the ConfigurationEditorChangeEvent from the CPE
+ * @returns new StageStep with updated properties
+ */
+const updateFromConfigurationEditorChange = (state: StageStep, event: ConfigurationEditorChangeEvent) => {
+    return updateProperties(state, {
+        [event.detail.name]: event.detail.newValue
+    });
+};
+
+/**
  * orchestratedStage reducer function runs validation rules and returns back the updated element state
  *
  * @param state The flow model
@@ -382,6 +399,9 @@ export const stageStepReducer = (state: StageStep, event: CustomEvent): StageSte
             break;
         case UpdateEntryExitCriteriaEvent.EVENT_NAME:
             newState = updateEntryExitCriteria(state, event);
+            break;
+        case ConfigurationEditorChangeEvent.EVENT_NAME:
+            newState = updateFromConfigurationEditorChange(state, event);
             break;
         case OrchestrationStageStepEditorValidateEvent.EVENT_NAME: {
             const typedEvent = event as OrchestrationStageStepEditorValidateEvent;

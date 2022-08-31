@@ -8,6 +8,7 @@ import {
 } from 'builder_platform_interaction/dataMutationLib';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import {
+    ConfigurationEditorChangeEvent,
     CreateEntryConditionsEvent,
     DeleteAllConditionsEvent,
     DeleteConditionEvent,
@@ -1117,6 +1118,21 @@ describe('StageStep Reducer', () => {
             const newState = stageStepReducer(originalStateWithEntryExitActions, event);
 
             expect(removeAllUnsetParameters).toHaveBeenCalledWith(newState);
+        });
+    });
+
+    describe('ConfigurationEditorChangeEvent', () => {
+        it('should directly update the step property', () => {
+            const newAction = {
+                actionType: ACTION_TYPE.stepInteractive,
+                actionName: 'someInteractiveStep',
+                elementType: 'ActionCall'
+            };
+            const event = new ConfigurationEditorChangeEvent('action', newAction);
+
+            const newState = stageStepReducer(originalState, event);
+            const expectedState = { ...originalState, action: newAction };
+            expect(newState).toEqual(expectedState);
         });
     });
 });

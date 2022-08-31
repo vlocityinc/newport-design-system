@@ -1,8 +1,9 @@
 // @ts-nocheck
 import { setDocumentBodyChildren, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { MERGE_WITH_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import {
     ASSIGNEE_RESOURCE_TYPE,
     ASSIGNEE_TYPE,
@@ -10,6 +11,7 @@ import {
 } from 'builder_platform_interaction/elementFactory';
 import {
     ComboboxStateChangedEvent,
+    ConfigurationEditorChangeEvent,
     CreateEntryConditionsEvent,
     DeleteAllConditionsEvent,
     DeleteOrchestrationActionEvent,
@@ -23,13 +25,7 @@ import {
     UpdateParameterItemEvent,
     ValueChangedEvent
 } from 'builder_platform_interaction/events';
-import {
-    ACTION_TYPE,
-    ELEMENT_TYPE,
-    EntryCriteria,
-    ExitCriteria,
-    ICONS
-} from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, ELEMENT_TYPE, EntryCriteria, ExitCriteria } from 'builder_platform_interaction/flowMetadata';
 import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -101,6 +97,19 @@ jest.mock('builder_platform_interaction/validation', () => {
     });
 });
 
+jest.mock('builder_platform_interaction/elementConfig', () => {
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
+    const mockSubtypeConfig = jest.requireActual('mock/flows/elementSubtypeConfigMock.json');
+    const elementTypeToConfigMap = actual.elementTypeToConfigMap;
+    elementTypeToConfigMap.InteractiveStep = mockSubtypeConfig.InteractiveStep;
+    elementTypeToConfigMap.BackgroundStep = mockSubtypeConfig.BackgroundStep;
+    elementTypeToConfigMap.TestStep = mockSubtypeConfig.TestStep;
+
+    return Object.assign({}, actual, {
+        elementTypeToConfigMap
+    });
+});
+
 const RELATED_RECORD_ID = 'mockRecordId';
 const mockInputParameters = [
     { name: { value: 'ip1' }, value: { value: 'ip1Value' }, rowIndex: 'ip1Guid' },
@@ -165,11 +174,13 @@ const selectors = {
     EXIT_ACTION: '.exit-action',
     ASYNC_PROCESSING_BOX: '.externalCalloutsCheckbox',
     REQUIRED: '.required',
-    OPEN_FLOW_SELECTOR: '.open-flow'
+    OPEN_FLOW_SELECTOR: '.open-flow',
+    CPE: 'builder_platform_interaction-custom-property-editor'
 };
 
 describe('StageStepEditor', () => {
     const nodeParams = {
+        stepSubtype: 'InteractiveStep',
         guid: 'someGuid',
         name: 'someName',
         label: 'someLabel',
@@ -228,6 +239,7 @@ describe('StageStepEditor', () => {
     };
 
     const autolaunchedNodeParams = {
+        stepSubtype: 'BackgroundStep',
         guid: 'someGuid',
         name: 'someName',
         label: 'someLabel',
@@ -272,6 +284,7 @@ describe('StageStepEditor', () => {
     };
 
     const nodeParamsWithDeterminations = {
+        stepSubtype: 'InteractiveStep',
         guid: 'someGuid',
         name: 'someName',
         label: 'someLabel',
@@ -326,6 +339,7 @@ describe('StageStepEditor', () => {
     };
 
     const nodeParamsWithNoFlowsSelected = {
+        stepSubtype: 'InteractiveStep',
         guid: 'someGuid',
         name: 'someName',
         label: 'someLabel',
@@ -409,10 +423,13 @@ describe('StageStepEditor', () => {
         });
 
         it('has correct custom icon for each step type', () => {
-            expect(editor.editorParams.panelConfig.customIcon).toBe(ICONS.interactiveStep);
-
+            expect(editor.editorParams.panelConfig.customIcon).toBe(
+                elementTypeToConfigMap[nodeParams.stepSubtype].nodeConfig?.iconName
+            );
             editor = createComponentUnderTest(autolaunchedNodeParams);
-            expect(editor.editorParams.panelConfig.customIcon).toBe(ICONS.backgroundStep);
+            expect(editor.editorParams.panelConfig.customIcon).toBe(
+                elementTypeToConfigMap[autolaunchedNodeParams.stepSubtype].nodeConfig?.iconName
+            );
         });
 
         it('initializes the entry criteria item combobox menu data', () => {
@@ -1685,6 +1702,46 @@ describe('StageStepEditor', () => {
                 editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
                 // verify openFlow is called with the flow name
                 expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
+            });
+        });
+    });
+
+    describe('Standard Steps', () => {
+        describe('Default Step Types', () => {
+            it('should not render CPE', () => {
+                const cpe = editor.shadowRoot.querySelector(selectors.CPE);
+                expect(cpe).toBeNull();
+            });
+        });
+
+        describe('Custom Step Types', () => {
+            const cstNodeParams = { ...nodeParams, stepSubtype: 'TestStep' };
+            beforeEach(() => {
+                editor = createComponentUnderTest(cstNodeParams);
+            });
+
+            it('should render CPE with correct @api attributes', () => {
+                const cpe = editor.shadowRoot.querySelector(selectors.CPE);
+                expect(cpe).not.toBeNull();
+
+                const expectedconfigurationEditor = {
+                    name: 'testStepEditor',
+                    errors: []
+                };
+                expect(cpe.configurationEditor).toEqual(expectedconfigurationEditor);
+
+                const expectedInputVariables = Object.entries(cstNodeParams).map(([key, value]) => ({
+                    name: key,
+                    value: getValueFromHydratedItem(value)
+                }));
+                expect(cpe.configurationEditorInputVariables).toEqual(expect.arrayContaining(expectedInputVariables));
+            });
+
+            it('change events from the CPE should be directly processed by reducer', () => {
+                const cpe = editor.shadowRoot.querySelector(selectors.CPE);
+                const e = new ConfigurationEditorChangeEvent('property', 'value');
+                cpe.dispatchEvent(e);
+                expect(stageStepReducer).toHaveBeenCalledWith(cstNodeParams, e);
             });
         });
     });
