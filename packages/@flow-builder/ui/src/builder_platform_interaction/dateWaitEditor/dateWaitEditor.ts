@@ -27,6 +27,17 @@ export default class DateWaitEditor extends LightningElement {
     labels = LABELS;
 
     @api
+    get dateWaitInfo() {
+        return this.dateWaitElement;
+    }
+
+    set dateWaitInfo(value) {
+        if (value) {
+            this.dateWaitElement = value;
+        }
+    }
+
+    @api
     get inputVariables(): UI.ConfigurationEditorInputVariable[] {
         return this._inputVars;
     }

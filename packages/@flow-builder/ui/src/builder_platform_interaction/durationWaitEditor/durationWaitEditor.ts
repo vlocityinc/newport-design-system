@@ -46,6 +46,17 @@ export default class DurationWaitEditor extends LightningElement {
     }
 
     @api
+    get durationWaitInfo() {
+        return this.waitElement;
+    }
+
+    set durationWaitInfo(value) {
+        if (value) {
+            this.waitElement = value;
+        }
+    }
+
+    @api
     get inputVariables(): UI.ConfigurationEditorInputVariable[] {
         return this._inputVariables;
     }

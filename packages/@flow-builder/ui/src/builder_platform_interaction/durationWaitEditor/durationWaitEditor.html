@@ -9,7 +9,7 @@
             ></builder_platform_interaction-counter>
             <lightning-combobox
                 id="durationUnit"
-                class="slds-size_7-of-12 slds-p-left_medium slds-p-top_xx-small"
+                class="durationUnit slds-size_7-of-12 slds-p-left_medium slds-p-top_xx-small"
                 options={durationUnitOptions}
                 value={durationUnit}
                 onchange={handleWaitEventValueChanged}
@@ -17,6 +17,7 @@
         </div>
         <div class="extend-until slds-col slds-grid slds-grid_horizontal">
             <lightning-input
+                class="extendUntil"
                 label={extendUntilTimeCheckboxLabel}
                 type="checkbox"
                 checked={showResumeTime}
@@ -27,6 +28,7 @@
         </div>
         <div if:true={showResumeTime}>
             <lightning-input
+                class="resumeTime"
                 id="resumeTime"
                 type="time"
                 name="resumeTime"
