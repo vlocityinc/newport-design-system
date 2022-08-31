@@ -4,7 +4,6 @@ import errorLabel from '@salesforce/label/FlowBuilderDebugPanel.errorLabel';
 import failLabel from '@salesforce/label/FlowBuilderDebugPanel.failLabel';
 import interviewError from '@salesforce/label/FlowBuilderDebugPanel.interviewError';
 import interviewErrorAt from '@salesforce/label/FlowBuilderDebugPanel.interviewErrorAt';
-import interviewFinishDuration from '@salesforce/label/FlowBuilderDebugPanel.interviewFinishDuration';
 import interviewFinishedAt from '@salesforce/label/FlowBuilderDebugPanel.interviewFinishedAt';
 import interviewFinishHeader from '@salesforce/label/FlowBuilderDebugPanel.interviewFinishHeader';
 import interviewPaused from '@salesforce/label/FlowBuilderDebugPanel.interviewPaused';
@@ -18,7 +17,6 @@ import errorBody from '@salesforce/label/InteractionRuntimeError.ErrorBody';
 
 export const LABELS = {
     interviewFinishHeader,
-    interviewFinishDuration,
     interviewError,
     interviewStartedAt,
     interviewFinishedAt,

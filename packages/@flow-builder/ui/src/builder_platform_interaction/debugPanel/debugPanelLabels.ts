@@ -9,7 +9,6 @@ import filterClosePopoverAltText from '@salesforce/label/FlowBuilderDebugPanel.f
 import filterPopoverAltText from '@salesforce/label/FlowBuilderDebugPanel.filterPopoverAltText';
 import filterTitleText from '@salesforce/label/FlowBuilderDebugPanel.filterTitleText';
 import testInspector from '@salesforce/label/FlowBuilderDebugPanel.flowTestInspector';
-import flowTestLogLabel from '@salesforce/label/FlowBuilderDebugPanel.flowTestLogLabel';
 import flowTestLogTabLabel from '@salesforce/label/FlowBuilderDebugPanel.flowTestLogTabLabel';
 import flowTestOutcomesLabel from '@salesforce/label/FlowBuilderDebugPanel.flowTestOutcomesLabel';
 import flowTestOutcomeTabLabel from '@salesforce/label/FlowBuilderDebugPanel.flowTestOutcomeTabLabel';
@@ -26,7 +25,6 @@ export const LABELS = {
     debugInspector,
     testInspector,
     flowTestOutcomeTabLabel,
-    flowTestLogLabel,
     govLimFilter,
     transactionFilter,
     basicFilter,

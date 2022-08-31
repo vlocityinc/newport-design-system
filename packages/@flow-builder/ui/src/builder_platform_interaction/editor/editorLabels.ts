@@ -1,6 +1,4 @@
 // @ts-nocheck
-import backButtonRedirectConfirmationMessage from '@salesforce/label/FlowBuilderAlertModal.backButtonRedirectConfirmationMessage';
-import backButtonRedirectConfirmationTitle from '@salesforce/label/FlowBuilderAlertModal.backButtonRedirectConfirmationTitle';
 import cancelButtonLabel from '@salesforce/label/FlowBuilderAlertModal.cancelButtonLabel';
 import continueToDebugTitle from '@salesforce/label/FlowBuilderAlertModal.continueToDebugTitle';
 import errorMessageDisconnectedElements from '@salesforce/label/FlowBuilderAlertModal.errorMessageDisconnectedElements';
@@ -53,8 +51,6 @@ export const LABELS = {
     spinnerAlternativeText,
     cancel,
     okayButtonLabel,
-    backButtonRedirectConfirmationTitle,
-    backButtonRedirectConfirmationMessage,
     unsavedChangesHeaderTitle,
     cancelButtonLabel,
     continueToDebugTitle,

@@ -93,7 +93,6 @@ import deleteColumnConsequence from '@salesforce/label/FlowBuilderScreenEditor.d
 import deleteConfirmation from '@salesforce/label/FlowBuilderScreenEditor.deleteConfirmation';
 import deleteConsequence from '@salesforce/label/FlowBuilderScreenEditor.deleteConsequence';
 import deleteSectionConsequence from '@salesforce/label/FlowBuilderScreenEditor.deleteSectionConsequence';
-import editAlternativeText from '@salesforce/label/FlowBuilderScreenEditor.editAlternativeText';
 import eightOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.eightOfTwelveWidth';
 import elevenOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.elevenOfTwelveWidth';
 import errorIconTitle from '@salesforce/label/FlowBuilderScreenEditor.errorIconTitle';
@@ -269,7 +268,6 @@ export const LABELS = {
     required,
     deleteAlternativeText,
     moveAlternativeText,
-    editAlternativeText,
     cancel,
     deleteConfirmation,
     deleteConsequence,

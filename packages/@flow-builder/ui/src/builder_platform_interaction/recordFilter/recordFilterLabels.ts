@@ -15,7 +15,6 @@ import filterNoCriteriaRunFlow from '@salesforce/label/FlowBuilderRecordEditor.f
 import filterNoCriteriaUpdate from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdate';
 import filterOperatorLabel from '@salesforce/label/FlowBuilderRecordEditor.filterOperatorLabel';
 import filterOperatorPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.filterOperatorPlaceholder';
-import filterPrefix from '@salesforce/label/FlowBuilderRecordEditor.filterPrefix';
 import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel';
 import findRecords from '@salesforce/label/FlowBuilderRecordEditor.findRecords';
 import getAllRecords from '@salesforce/label/FlowBuilderRecordEditor.getAllRecords';
@@ -42,7 +41,6 @@ export const LABELS = {
     filterOperatorPlaceholder,
     filterAllCriterias,
     filterAllCriteriasAnd,
-    filterPrefix,
     updateAllRecords,
     getAllRecords,
     warning,
