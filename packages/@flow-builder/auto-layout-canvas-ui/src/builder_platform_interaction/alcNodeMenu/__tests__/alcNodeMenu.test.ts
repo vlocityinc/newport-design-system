@@ -111,7 +111,6 @@ const dummySubflowElement = {
 const selectors = {
     header: '[slot="header"]',
     headerLabel: '.test-header-label',
-    headerDescription: '.test-header-description',
     menuActionList: '.slds-dropdown__divst',
     menuActionRow: '.slds-dropdown__item',
     menuActionRowMenuItem: 'a[role="menuitem"]',
@@ -189,11 +188,6 @@ describe('Node Menu', () => {
         it('Should have the correct label in the header', () => {
             const headerLabel = getHeader(menu).querySelector(selectors.headerLabel);
             expect(headerLabel.textContent).toEqual(dummySimpleElement.label);
-        });
-
-        it('Should have the correct description in the header', () => {
-            const headerDescription = getHeader(menu).querySelector(selectors.headerDescription);
-            expect(headerDescription.textContent).toEqual(dummySimpleElement.description);
         });
 
         test('Focus should move correctly to the next row on arrow down', () => {

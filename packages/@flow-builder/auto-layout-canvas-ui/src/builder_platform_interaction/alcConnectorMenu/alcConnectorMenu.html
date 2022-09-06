@@ -56,7 +56,7 @@
                                         variant={item.iconVariant}
                                     ></lightning-icon>
                                 </span>
-                                <span class="slds-media__body">
+                                <span class="slds-media__body y-center-align">
                                     <span class="slds-listbox__option-text slds-listbox__option-text_entity">
                                         <template if:true={isSearchInputEmpty}> {item.label} </template>
                                         <template if:false={isSearchInputEmpty}>
@@ -64,12 +64,15 @@
                                             </lightning-formatted-rich-text>
                                         </template>
                                     </span>
-                                    <span
-                                        if:true={item.description}
-                                        class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate"
-                                        >{item.description}
-                                    </span>
                                 </span>
+                                <builder_platform_interaction-alc-description-popup
+                                    if:true={item.description}
+                                    class="lightning-popup-source y-center-align"
+                                    description={item.description}
+                                    icon="utility:info"
+                                    tabindex="-1"
+                                >
+                                </builder_platform_interaction-alc-description-popup>
                             </div>
                         </li>
                     </template>

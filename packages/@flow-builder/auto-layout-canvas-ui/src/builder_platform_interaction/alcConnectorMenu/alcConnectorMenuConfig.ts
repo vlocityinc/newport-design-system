@@ -12,6 +12,8 @@ export const GOTO_ACTION = 'goTo';
 export const GOTO_REROUTE_ACTION = 'goToReroute';
 export const GOTO_DELETE_ACTION = 'goToDelete';
 
+const iconContainerClass = 'slds-media__figure slds-listbox__option-icon y-center-align';
+
 const actionSection: MenuSection = {
     guid: generateGuid(),
     heading: '',
@@ -23,7 +25,7 @@ const actionSection: MenuSection = {
 const pasteActionItem: MenuItem = {
     guid: generateGuid(),
     icon: 'utility:paste',
-    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+    iconContainerClass,
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
@@ -35,7 +37,7 @@ const pasteActionItem: MenuItem = {
 const addGoToActionItem: MenuItem = {
     guid: generateGuid(),
     icon: 'utility:level_down',
-    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+    iconContainerClass,
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
@@ -47,7 +49,7 @@ const addGoToActionItem: MenuItem = {
 const rerouteGoToActionItem: MenuItem = {
     guid: generateGuid(),
     icon: 'utility:level_down',
-    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+    iconContainerClass,
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
@@ -59,7 +61,7 @@ const rerouteGoToActionItem: MenuItem = {
 const deleteGoToActionItem: MenuItem = {
     guid: generateGuid(),
     icon: 'utility:delete',
-    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+    iconContainerClass,
     iconClass: '',
     iconSize: 'x-small',
     iconVariant: '',
@@ -147,7 +149,7 @@ const configureElementMenu = (
                 acc.push(sectionDefinition);
             }
 
-            let iconContainerClass = 'slds-media__figure slds-listbox__option-icon';
+            let baseContainerClass = iconContainerClass;
             let iconClass = '';
             let iconSize = 'small';
             let iconVariant = '';
@@ -161,7 +163,7 @@ const configureElementMenu = (
                 iconSize = 'xx-small';
                 iconVariant = 'inverse';
             } else if (iconShape === ICON_SHAPE.DIAMOND) {
-                iconContainerClass = `${iconContainerClass} rotate-icon-container slds-icon-standard-decision`;
+                baseContainerClass = `${baseContainerClass} rotate-icon-container slds-icon-standard-decision`;
                 iconClass = `${iconClass} rotate-icon-svg`;
             }
 
@@ -176,7 +178,7 @@ const configureElementMenu = (
                     actionType,
                     actionName,
                     icon,
-                    iconContainerClass,
+                    iconContainerClass: baseContainerClass,
                     iconClass,
                     iconSize,
                     iconVariant,

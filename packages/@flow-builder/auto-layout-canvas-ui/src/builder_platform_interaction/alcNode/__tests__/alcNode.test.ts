@@ -74,7 +74,8 @@ const selectors = {
     errorIcon: '.error-icon',
     iconContainer: '.icon-container',
     focusTrap: 'builder_platform_interaction-focus-trap',
-    textContainer: '.text-container'
+    textContainer: '.text-container',
+    popupSource: '.lightning-popup-source'
 };
 
 describe('AlcNode', () => {
@@ -606,6 +607,24 @@ describe('AlcNode', () => {
             });
             const startTextLabel = alcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
             expect(startTextLabel.textContent).toEqual('start description');
+        });
+
+        it('Should show a popup component if metadata description is set', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: startLabelNodeInfo
+            });
+            const startNodePopup = alcNodeComponent.shadowRoot.querySelector(selectors.popupSource);
+            expect(startNodePopup).toBeDefined();
+        });
+
+        it('Should not show a popup component if metadata description is not set', async () => {
+            const alcNodeComponent = await createComponentUnderTest({
+                flowModel,
+                nodeInfo: noLabelNodeInfo
+            });
+            const noLabelNodePopup = alcNodeComponent.shadowRoot.querySelector(selectors.popupSource);
+            expect(noLabelNodePopup).toBeNull();
         });
     });
 

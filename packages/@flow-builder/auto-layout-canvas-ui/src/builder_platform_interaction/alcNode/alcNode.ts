@@ -327,6 +327,11 @@ export default class AlcNode extends withKeyboardInteractions(LightningElement) 
         return label;
     }
 
+    get nodeDescription() {
+        const description = this.getNode().description;
+        return description;
+    }
+
     get iconAriaLabel() {
         // Use description in metadata as label for element whose label is not set (start node for example)
         const node = this.getNode();

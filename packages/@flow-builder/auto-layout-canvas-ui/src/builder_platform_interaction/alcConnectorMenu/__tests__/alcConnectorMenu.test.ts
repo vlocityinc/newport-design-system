@@ -109,7 +109,8 @@ const selectors = {
     listboxItemDiv: 'div[role="menuitem"]',
     decisionIconSpan: '.rotate-icon-container.slds-icon-standard-decision',
     decisionIcon: '.rotate-icon-svg',
-    endIcon: '.background-red.end-element-svg'
+    endIcon: '.background-red.end-element-svg',
+    popupSource: '.lightning-popup-source'
 };
 
 const changeSearchInput = (cmp, inputChange) => {
@@ -489,5 +490,57 @@ describe('Alc Connector Menu', () => {
         await ticks(2);
         const spinnerValue = getAlcMenuTemplate(cmp).showSpinner;
         expect(spinnerValue).toBeFalsy();
+    });
+
+    it('Should show a popup component if item description is set', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            description: 'Paste copied element(s)',
+                            icon: 'utility:paste',
+                            label: 'Paste copied element(s)',
+                            elementType: PASTE_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = await createComponentUnderTest();
+        await ticks(1);
+        const popupComponent = cmp.shadowRoot.querySelector(selectors.popupSource);
+        expect(popupComponent).toBeDefined();
+    });
+
+    it('Should not show a popup component if item description is not set', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            description: '',
+                            icon: 'utility:paste',
+                            label: 'Paste copied element(s)',
+                            elementType: PASTE_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = await createComponentUnderTest();
+        await ticks(1);
+        const popupComponent = cmp.shadowRoot.querySelector(selectors.popupSource);
+        expect(popupComponent).toBeNull();
     });
 });

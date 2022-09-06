@@ -1,0 +1,18 @@
+<template>
+    <lightning-popup-source>
+        <lightning-button-icon
+            class="button-icon"
+            slot="source"
+            icon-name={icon}
+            size="medium"
+            variant="bare"
+            onmouseenter={popupSourceMouseEnter}
+            onmouseleave={popupSourceMouseLeave}
+            tabindex="-1"
+        >
+        </lightning-button-icon>
+        <div class="slds-popover__body">
+            <span class="slds-text-body_regular">{description}</span>
+        </div>
+    </lightning-popup-source>
+</template>

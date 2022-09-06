@@ -51,3 +51,20 @@
     color: var(--lwc-colorGray13);
     font-weight: var(--lwc-fontWeightBold);
 }
+
+.lightning-popup-source {
+    display: none;
+}
+
+.y-center-align {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+div[role='menuitem']:focus .lightning-popup-source {
+    display: inline;
+}
+
+li:hover .lightning-popup-source {
+    display: inline;
+}

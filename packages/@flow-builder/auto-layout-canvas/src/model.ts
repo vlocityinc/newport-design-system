@@ -35,6 +35,7 @@ export interface ConnectionSource {
 export interface NodeModel {
     guid: Guid;
     label: string;
+    description?: string;
     elementType: string;
     elementSubtype?: string;
     maxConnections: number;

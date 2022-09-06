@@ -51,7 +51,16 @@
             <!-- Label and Element Type -->
             <div class={textContainerClasses}>
                 <div if:false={dynamicNodeConstructor}>
-                    <div class="text-element-label slds-text-body_regular">{nodeLabel}</div>
+                    <div class="label-icon-container">
+                        <span class="text-element-label slds-text-body_regular slds-align-middle">{nodeLabel}</span>
+                        <builder_platform_interaction-alc-description-popup
+                            if:true={nodeDescription}
+                            class="lightning-popup-source text-element-label-description slds-align-middle"
+                            description={nodeDescription}
+                            icon="utility:display_text"
+                        >
+                        </builder_platform_interaction-alc-description-popup>
+                    </div>
                     <div if:true={showElementType} class="text-element-type slds-text-body_regular slds-truncate">
                         {nodeInfo.metadata.label}
                     </div>
