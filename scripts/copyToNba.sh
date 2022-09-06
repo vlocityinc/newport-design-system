@@ -33,12 +33,19 @@ p4 sync -f $UI_INTERACTION_BUILDER_COMPONENTS_COPY/...
 rm -rf $UI_INTERACTION_BUILDER_COMPONENTS_COPY
 mkdir -p $UI_INTERACTION_BUILDER_COMPONENTS_COPY/src
 
+# make node_modules directory
+mkdir -p $UI_INTERACTION_BUILDER_COMPONENTS_COPY/node_modules
+mkdir -p $UI_INTERACTION_BUILDER_COMPONENTS_COPY/jest-modules/builder_framework
+
 # copy built files over
 cp -r src/main/modules/builder_platform_interaction $UI_INTERACTION_BUILDER_COMPONENTS_COPY/src
 cp -r packages/@flow-builder/ui/build/ui/jest-modules $UI_INTERACTION_BUILDER_COMPONENTS_COPY
 cp -r packages/@flow-builder/ui/build/ui/jest-mock-data $UI_INTERACTION_BUILDER_COMPONENTS_COPY
 
 # copy shared utils jest-modules
-cp -r packages/@flow-builder/shared-utils/build/esNext/jest-modules/builder_platform_interaction/* $UI_INTERACTION_BUILDER_COMPONENTS_COPY/jest-modules/builder_platform_interaction
+cp -r packages/@flow-builder/shared-utils/jest-modules/builder_framework/command $UI_INTERACTION_BUILDER_COMPONENTS_COPY/jest-modules/builder_framework
+
+# copy lightning-component-stubs node_modules
+cp -r node_modules/lightning-components-stubs $UI_INTERACTION_BUILDER_COMPONENTS_COPY/node_modules
 
 p4 reconcile -c $CL -e -a -d $UI_INTERACTION_BUILDER_COMPONENTS_COPY/...
