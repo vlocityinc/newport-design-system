@@ -3217,8 +3217,10 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
     }
 
     showToastForCutCopyPasteOrDelete(singularLabel: string, pluralLabel: string, numberOfElements: number) {
-        const label = numberOfElements === 1 ? singularLabel : format(pluralLabel, numberOfElements);
-        this.showToast(label, 'success');
+        if (numberOfElements >= 1) {
+            const label = numberOfElements === 1 ? singularLabel : format(pluralLabel, numberOfElements);
+            this.showToast(label, 'success');
+        }
     }
 
     /**
