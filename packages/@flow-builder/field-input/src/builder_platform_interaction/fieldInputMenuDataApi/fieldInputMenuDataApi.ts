@@ -1,5 +1,5 @@
 import { getRulesForElementType } from 'builder_platform_interaction/ruleLib';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity, fetchFieldsForPicklist } from 'builder_platform_interaction/sobjectLib';
 
 /**
  * Invokes an LDS adaptor programatically, as opposed to using '@wire'
@@ -44,7 +44,6 @@ type LegacyApiConfig<C, L, R> = {
 
 // TODO: define proper types
 type GetObjectInfoLegacyApiData = {};
-type GetPicklistValuesLegacyApiData = {};
 
 type GetEntityInfoLegacyApiConfig = LegacyApiConfig<
     GetObjectInfoApiConfig,
@@ -81,15 +80,13 @@ function getObjectInfoApiLegacyDataAdapter(legacyApiResult: GetObjectInfoLegacyA
 }
 
 /**
- * Transforms the api results of the legacy getObjectInfo into the shape of the getObjectInfo API
+ * Transforms the api results of the legacy getEntityFields into the shape of the getPicklistValues API
  *
  * @param legacyData - The legacy data
  * @returns The getPicklistValues API result
  */
 function getPicklistValuesApiLegacyDataAdapter(legacyData: GetPicklistValuesLegacyApiData): GetPicklistValuesApiData {
-    // TODO: tansform the legacy data
-    // @ts-ignore
-    return legacyData;
+    return { values: legacyData };
 }
 
 const apisConfigGetEntityInfo: GetEntityInfoLegacyApiConfig = {
@@ -108,7 +105,7 @@ function legacyGetObjectInfoApi(config: GetObjectInfoApiConfig): WirePromise<Get
 }
 
 const apisConfigGetPicklistValues: GetPicklistValueLegacyApiConfig = {
-    legacyApi: (/* config*/) => Promise.resolve({}), // TODO
+    legacyApi: (config: GetPicklistValuesApiConfig) => fetchFieldsForPicklist(config.fieldApiName, config.recordTypeId),
     legacyApiAdaptor: getPicklistValuesApiLegacyDataAdapter
 };
 

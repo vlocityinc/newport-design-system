@@ -9,12 +9,20 @@ const apiData: GetObjectInfoApiData = {
         {
             label: 'Address',
             apiName: 'address',
-            dataType: 'string'
+            dataType: 'string',
+            sobjectName: 'Account'
         },
         {
             label: 'Address2',
             apiName: 'address2',
-            dataType: 'string'
+            dataType: 'string',
+            sobjectName: 'Account'
+        },
+        {
+            label: 'BillingGeocodeAccuracy',
+            apiName: 'address2',
+            dataType: 'Picklist',
+            sobjectName: 'Account'
         }
     ]
 };

@@ -76,7 +76,7 @@ ${paths.join(',\n')}
          }
     },
 
-    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types", "../shared-utils/@types/index.d.ts", "../auto-layout-canvas-ui/@types/index.d.ts"]
+    "include": ["src/builder_platform_interaction/**/*", "jest-modules/**/*", "jest-mock-data/**/*", "@types", "../shared-utils/@types/index.d.ts", "../auto-layout-canvas-ui/@types/index.d.ts", "../field-input/@types/index.d.ts"]
 }`
     );
 })(

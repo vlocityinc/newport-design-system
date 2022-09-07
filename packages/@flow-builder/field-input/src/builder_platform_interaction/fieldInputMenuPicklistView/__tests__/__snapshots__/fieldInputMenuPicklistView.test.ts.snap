@@ -4,7 +4,7 @@ exports[`Field Input Menu Picklist View Tests utils > getPicklistValuesViewSecti
 Object {
   "items": Array [
     Object {
-      "iconName": "tbd",
+      "iconName": "utility:text",
       "iconSize": "x-small",
       "key": "Advertisement",
       "label": "Advertisement",
@@ -12,7 +12,7 @@ Object {
       "value": "Advertisement",
     },
     Object {
-      "iconName": "tbd",
+      "iconName": "utility:text",
       "iconSize": "x-small",
       "key": "Employee Referral",
       "label": "Employee Referral",

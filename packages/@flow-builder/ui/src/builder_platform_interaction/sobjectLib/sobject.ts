@@ -202,6 +202,22 @@ export const fetchFieldsForEntity = (
 };
 
 /**
+ * Fetch picklistField given a recordTypeId and fieldApiName
+ *
+ * @param fieldApiName field api name of the format Account.AccountSource
+ * @param recordTypeId recordTypeID, once we switch to UI-API use the Object Info defaultRecordTypeId property, which is returned from getObjectInfo.
+ * @returns Promise object with the picklist values
+ */
+export const fetchFieldsForPicklist = async (
+    fieldApiName: string,
+    recordTypeId: string
+): Promise<GetPicklistValuesLegacyApiData> => {
+    const [entityName, fieldName] = fieldApiName.split('.');
+    const fields = await fetchFieldsForEntity(entityName);
+    return fields[fieldName].activePicklistValues;
+};
+
+/**
  * Grabs the fields for a specific sObject from the cache, undefined if not a valid entityName
  *
  * @param entityName Api name of the SObject

@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import accountObjectInfo from 'mock-data/getObjectInfo/getObjectInfo_Account';
+import picklistInfo from 'mock-data/getPicklistValues/getPicklistValues_Account_012RO00000055zsYAA_AccountSource';
 import { getObjectInfoApi, getPicklistValuesApi, makeWireResponse } from '../fieldInputMenuDataApi';
-
-const picklistValues = {};
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         fetchFieldsForEntity: jest.fn(() => {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
             return Promise.resolve(require('mock-data/getObjectInfo/getObjectInfo_Account').default.fields);
+        }),
+        fetchFieldsForPicklist: jest.fn(() => {
+            return Promise.resolve(
+                require('mock-data/getPicklistValues/getPicklistValues_Account_012RO00000055zsYAA_AccountSource')
+                    .default.values
+            );
         })
     };
 });
@@ -19,15 +24,14 @@ describe('Field Input Menu Data Api Tests', () => {
 
     describe('apis', () => {
         it('getPicklistValues', async () => {
-            const fieldApiName = 'Account.address';
+            const fieldApiName = 'Account.Address';
             const recordTypeId = 'TBD';
 
             const response = await getPicklistValuesApi({
                 recordTypeId,
                 fieldApiName
             });
-
-            expect(response).toEqual(makeWireResponse(picklistValues));
+            expect(response).toEqual(makeWireResponse({ values: picklistInfo.values }));
         });
 
         it('getObjectInfo', async () => {

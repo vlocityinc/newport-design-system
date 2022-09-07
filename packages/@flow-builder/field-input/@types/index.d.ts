@@ -225,6 +225,7 @@ type GetObjectInfoApiData = {
         label: string;
         apiName: string;
         dataType: string;
+        sobjectName: string;
     }[];
 };
 
@@ -235,6 +236,11 @@ type GetPicklistValuesApiData = {
         value: string;
     }[];
 };
+
+type GetPicklistValuesLegacyApiData = {
+    label: string;
+    value: string;
+}[];
 
 type GetPicklistValuesApiConfig = {
     recordTypeId: string;
