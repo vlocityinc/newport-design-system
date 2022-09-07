@@ -36,7 +36,7 @@ branches: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Branche
                         - pr-merge
         version: &version-definition
             auto-increment: pre-release
-            template: "{{slice pom.project.version '.' 0}}.{{autoIncrement}}"
+            template: "{{slice pom.project.version '.' 0}}.{{autoIncrement}}.0"
             initial-value: 30
     core-238-patch:
         pull-request:
