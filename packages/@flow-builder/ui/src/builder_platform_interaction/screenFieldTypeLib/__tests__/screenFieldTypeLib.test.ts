@@ -5,6 +5,7 @@ import {
     getSupportedScreenFieldTypes,
     isAutomaticFieldsSupported
 } from 'builder_platform_interaction/screenFieldTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { supportedScreenFieldsForFlow as mockSupportedScreenFieldsForFlow } from 'serverData/GetSupportedScreenFields/supportedScreenFieldsForFlow.json';
 import { supportedScreenFieldsForFlowOnSlack as mockSupportedScreenFieldsForSlack } from 'serverData/GetSupportedScreenFields/supportedScreenFieldsForFlowOnSlack.json';
 
@@ -13,6 +14,8 @@ jest.mock('builder_platform_interaction/contextLib', () => {
         orgHasFlowScreenSections: jest.fn()
     });
 });
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
@@ -38,6 +41,11 @@ describe('getAllScreenFieldTypes function', () => {
     beforeEach(() => {
         processType = 'dummyProcessType';
         triggerType = 'dummyTriggerType';
+        Store.setMockState({
+            canvasElements: ['element1', 'element2'],
+            connectors: ['connector1', 'connector2'],
+            properties: { processType: 'autolaunched' }
+        });
     });
 
     it('when sections perm is disabled, section field type is not in supported screen types', async () => {

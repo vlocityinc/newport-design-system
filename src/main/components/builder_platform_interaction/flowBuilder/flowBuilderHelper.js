@@ -1,5 +1,7 @@
 ({
     init: function (cmp) {
+        var loggingUtils = cmp.find('sharedUtils').loggingUtils;
+        loggingUtils.logPerfTransactionStart('ServerDataLib');
         var serverDataLibInit = cmp.find('serverDataLibInit');
         var serverDataLib = serverDataLibInit.find('serverDataLib');
         var serverActionType = serverDataLib.SERVER_ACTION_TYPE.GET_CONTEXT;
@@ -18,6 +20,13 @@
 
         var imageLib = cmp.find('imageLib');
         imageLib.preloadImages();
+        loggingUtils.logPerfTransactionEnd('ServerDataLib', {
+            context: {
+                flowId: cmp.get('v.flowId'),
+                processType: cmp.get('v.processType'),
+                triggerType: cmp.get('v.triggerType')
+            }
+        });
     },
 
     getContextCallback: function (response) {

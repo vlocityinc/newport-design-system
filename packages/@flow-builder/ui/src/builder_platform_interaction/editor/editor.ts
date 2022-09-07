@@ -2615,7 +2615,13 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
             this.isLeftPanelToggled = !setupInAutoLayoutCanvas;
 
+            const currentState = storeInstance.getCurrentState();
             logPerfTransactionEnd(TOGGLE_CANVAS_MODE, {
+                flowId: this.flowId,
+                processType: this.properties.processType,
+                triggerType: this.triggerType,
+                numOfNodes: currentState.canvasElements.length,
+                numOfConnectors: currentState.connectors.length,
                 isSuccess: true,
                 newMode: setupInAutoLayoutCanvas ? 'auto-layout' : 'free-form'
             });
@@ -3482,6 +3488,8 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             this.spinners.showFlowMetadataSpinner = false;
             logPerfTransactionEnd(EDITOR, {
                 flowId: this.flowId,
+                processType: this.properties.processType,
+                triggerType: this.triggerType,
                 numOfNodes: currentState.canvasElements.length,
                 numOfConnectors: currentState.connectors.length
             });

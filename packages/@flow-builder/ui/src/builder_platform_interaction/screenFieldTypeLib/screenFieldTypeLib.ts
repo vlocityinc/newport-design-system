@@ -3,6 +3,7 @@ import { FlowScreenFieldType } from 'builder_platform_interaction/flowMetadata';
 import { getSectionFieldType } from 'builder_platform_interaction/screenEditorUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { loggingUtils } from 'builder_platform_interaction/sharedUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const SCREEN_FIELD_TYPES = 'SCREEN_FIELD_TYPES';
 const { logPerfTransactionStart, logPerfTransactionEnd } = loggingUtils;
@@ -27,10 +28,16 @@ export function getSupportedScreenFieldTypes(
     const param = { flowProcessType, flowTriggerType, flowEnvironments, flowEnvironmentKey: sortedEnv?.join() };
     return fetchOnce(SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES, param)
         .then((data) => {
+            const { properties, canvasElements, connectors } = Store.getStore().getCurrentState();
             logPerfTransactionEnd(
                 SCREEN_FIELD_TYPES,
                 {
-                    numOfScreenFieldTypes: data.length
+                    numOfScreenFieldTypes: data.length,
+                    flowId: properties.definitionId,
+                    processType: flowProcessType,
+                    triggerType: flowTriggerType,
+                    numOfNodes: Object.values(canvasElements).length,
+                    numOfConnectors: Object.values(connectors).length
                 },
                 null
             );

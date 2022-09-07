@@ -13,7 +13,9 @@
                             target: bodyComponent.desc,
                             gusTeamId: 'a00B00000019ubOIAQ',
                             elementType: bodyComponent.attr.mode,
-                            message: 'Property editor body created successfully'
+                            message: 'Property editor body created successfully',
+                            processType: bodyComponent.attr.processType,
+                            triggerType: bodyComponent.attr.triggerType
                         }
                     });
                 } else if (status === 'ERROR') {
@@ -23,7 +25,9 @@
                             target: bodyComponent.desc,
                             gusTeamId: 'a00B00000019ubOIAQ',
                             elementType: bodyComponent.attr.mode,
-                            message: 'Error creating the property editor body'
+                            message: 'Error creating the property editor body',
+                            processType: bodyComponent.attr.processType,
+                            triggerType: bodyComponent.attr.triggerType
                         }
                     });
                     throw new Error('Error creating the property editor: ' + errorMessage);
