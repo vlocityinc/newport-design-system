@@ -8,7 +8,7 @@
         "ui": true
     },
     "config": {
-        "eslintMaxWarnings": "1380"
+        "eslintMaxWarnings": "1370"
     },
     "scripts": {
         "build:ts": "tsc",
