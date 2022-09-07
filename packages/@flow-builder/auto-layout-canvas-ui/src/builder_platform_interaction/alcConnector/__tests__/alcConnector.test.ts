@@ -118,6 +118,28 @@ const mergeFlowModel = {
     }
 };
 
+const mergeFlowModelWithMergePointConnector = {
+    parentGuid: {
+        guid: 'parentGuid',
+        nodeType: NodeType.BRANCH,
+        children: ['end', null, null],
+        childReferences: [{ childReference: 'o1' }, { childReference: 'o2' }],
+        defaultConnectorLabel: 'Default',
+        next: null
+    },
+    end: {
+        parent: 'parentGuid',
+        childIndex: 0,
+        isTerminal: true
+    },
+    o1: {
+        label: 'o1'
+    },
+    o2: {
+        label: 'o2'
+    }
+};
+
 const getDefaultConnectorInfo = () => {
     return {
         type: 'straight',
@@ -695,6 +717,30 @@ describe('Auto-Layout connector tests', () => {
                 cutInfo: {
                     guids: ['parentGuid', 's2'],
                     childIndexToKeep: 1
+                }
+            }
+        });
+        const button = regularConnector.shadowRoot
+            .querySelector(selectors.alcMenuTrigger)
+            .shadowRoot.querySelector('button');
+        expect(button.hasAttribute('disabled')).toBeTruthy();
+    });
+
+    it('Should disable a connector if connector is at merge point', async () => {
+        const regularConnector = await createComponentUnderTest({
+            connectorInfo: {
+                ...getMergeConnectorInfo(),
+                source: {
+                    guid: 'parentGuid'
+                }
+            },
+            flowModel: mergeFlowModelWithMergePointConnector,
+            canvasContext: {
+                ...defaultCanvasContext,
+                mode: AutoLayoutCanvasMode.CUT,
+                cutInfo: {
+                    guids: ['parentGuid'],
+                    childIndexToKeep: 0
                 }
             }
         });

@@ -20,8 +20,11 @@ import {
     FlowModel,
     getConnectionTarget,
     hasGoTo,
+    isBranchingElement,
+    isBranchTerminal,
     MenuType,
     NodeType,
+    resolveNode,
     resolveParent,
     START_IMMEDIATE_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -288,24 +291,32 @@ export default class AlcConnector extends withKeyboardInteractions(LightningElem
 
     get isDisabled(): boolean {
         const {
-            cutInfo: { guids, childIndexToKeep }
+            cutInfo: { guids: cutGuids, childIndexToKeep }
         } = this.canvasContext;
         const { guid, childIndex } = this.connectorInfo.source;
-        const parent = resolveParent(this.flowModel, guid);
+        const sourceNode = resolveNode(this.flowModel, guid);
 
         // branch heads
-        if (guid === guids[0] && childIndex != null) {
+        if (guid === cutGuids[0] && childIndex != null) {
             // handle case where a branch in a decision is not cut
             if (childIndex === childIndexToKeep) {
                 return false;
             }
-            return guids.includes(guid);
-        } else if (guid !== guids[0]) {
+            return cutGuids.includes(guid);
+        } else if (guid !== cutGuids[0]) {
             // elements after branch heads
-            return guids.includes(guid);
+            return cutGuids.includes(guid);
         }
+
+        const isMergePoint = sourceNode.guid === cutGuids[0] && isBranchingElement(sourceNode);
+        const isBranchToKeepTerminal = isBranchTerminal(this.flowModel, sourceNode, childIndexToKeep!);
+
+        if (isMergePoint && isBranchToKeepTerminal) {
+            return true;
+        }
+
         // next connector after element being cut
-        return parent.next != null && guids.includes(parent.next);
+        return sourceNode.next != null && cutGuids.includes(sourceNode.next);
     }
 
     /**
