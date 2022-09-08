@@ -124,6 +124,7 @@ export function getElementTypeLabel({ elementType }) {
  * @param {string} resource.dataType - the datatype of the element
  * @param {boolean} [resource.isCollection=false] - whether or not that element is a collection
  * @param {boolean} [resource.isSystemGeneratedOutput=false] - whether or not that element is an anonymous output
+ * @returns resource category label for the element
  */
 export function getResourceCategory({
     elementType,
