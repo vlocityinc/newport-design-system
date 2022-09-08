@@ -7,6 +7,7 @@ import {
 import { setOperators, setRules } from 'builder_platform_interaction/ruleLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { setEntities, setEventTypes, setWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
+import { setSubflows } from 'builder_platform_interaction/subflowsLib';
 import { setGlobalVariables, setProcessTypeFeatures, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import {
     loadDynamicActions,
@@ -17,6 +18,7 @@ import {
     loadProcessTypeFeatures,
     loadRules,
     loadStandardActions,
+    loadSubflows,
     loadSystemVariables,
     loadWorkflowEnabledEntities
 } from '../dataForProcessType';
@@ -37,6 +39,12 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         setEventTypes: jest.fn(),
         setWorkflowEnabledEntities: jest.fn(),
         RUNTIME: jest.requireActual('builder_platform_interaction/sobjectLib').RUNTIME
+    };
+});
+
+jest.mock('builder_platform_interaction/subflowsLib', () => {
+    return {
+        setSubflows: jest.fn()
     };
 });
 
@@ -113,6 +121,26 @@ describe('dataForProcessType', () => {
             fetchOnce.mockRejectedValue('error');
             await expect(loadDynamicActions('a')).rejects.toEqual('error');
             expect(setDynamicInvocableActions).toBeCalledTimes(0);
+        });
+    });
+
+    describe('load subflows', () => {
+        it('invokes call out and call back', async () => {
+            fetchOnce.mockResolvedValue('subflows');
+            await loadSubflows('s', 't');
+            expect(fetchOnce).toBeCalledWith(
+                SERVER_ACTION_TYPE.GET_SUBFLOWS,
+                { flowProcessType: 's', flowTriggerType: 't' },
+                expect.anything()
+            );
+            expect(setSubflows).toBeCalledTimes(1);
+            expect(setSubflows).toBeCalledWith('subflows');
+        });
+
+        it('does not invoke call back on error', async () => {
+            fetchOnce.mockRejectedValue('error');
+            await expect(loadSubflows('s', 't')).rejects.toEqual('error');
+            expect(setSubflows).toBeCalledTimes(0);
         });
     });
 

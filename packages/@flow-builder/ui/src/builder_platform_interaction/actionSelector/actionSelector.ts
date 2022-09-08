@@ -3,7 +3,12 @@ import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericEr
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 import { ActionsLoadedEvent, CannotRetrieveActionsEvent, ValueChangedEvent } from 'builder_platform_interaction/events';
 import { filterMatches } from 'builder_platform_interaction/expressionUtils';
-import { ACTION_TYPE, ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ACTION_TYPE,
+    ELEMENT_TYPE,
+    FLOW_PROCESS_TYPE,
+    FLOW_TRIGGER_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { isOrchestrator } from 'builder_platform_interaction/processTypeLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -63,6 +68,9 @@ export default class ActionSelector extends LightningElement {
     @api
     flowProcessType = FLOW_PROCESS_TYPE.FLOW;
 
+    @api
+    flowTriggerType = FLOW_TRIGGER_TYPE.NONE;
+
     @api labelOverride: string | null = null;
 
     @api required = false;
@@ -110,6 +118,7 @@ export default class ActionSelector extends LightningElement {
         const { definitionId: flowDefinitionId } = Store.getStore().getCurrentState().properties;
         fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
             flowProcessType: this.flowProcessType,
+            flowTriggerType: this.flowTriggerType,
             flowDefinitionId
         })
             .then((subflows) => {

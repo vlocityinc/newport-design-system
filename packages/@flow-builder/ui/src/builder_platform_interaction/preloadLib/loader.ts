@@ -164,7 +164,7 @@ class Loader {
             loadDynamicActionsProcessTypePromise = loadDynamicActions(flowProcessType, flowTriggerType);
         }
         loadApexPlugins();
-        const loadSubflowsPromise = loadSubflows(flowProcessType, flowDefinitionId);
+        const loadSubflowsPromise = loadSubflows(flowProcessType, flowTriggerType, flowDefinitionId);
         const loadPalettePromise = loadPalette(flowProcessType, flowTriggerType);
         const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(
             flowProcessType,
@@ -187,11 +187,18 @@ class Loader {
      * @param flowProcessType - Flow Process Type
      * @param flowTriggerType - Flow Trigger Type
      * @param recordTriggerType - Record Trigger Type
+     * @param flowDefinitionId - Flow Defintion Id
      * @returns Object with promises
      */
-    public loadOnTriggerTypeChange(flowProcessType, flowTriggerType, recordTriggerType) {
+    public loadOnTriggerTypeChange(
+        flowProcessType: string,
+        flowTriggerType?: string,
+        recordTriggerType?: string,
+        flowDefinitionId?: string
+    ) {
         const loadStandardActionsTriggerTypePromise = loadStandardActions(flowProcessType, flowTriggerType);
         const loadDynamicActionsTriggerTypePromise = loadDynamicActions(flowProcessType, flowTriggerType);
+        const loadSubflowsTriggerTypePromise = loadSubflows(flowProcessType, flowTriggerType, flowDefinitionId);
         const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(
             flowProcessType,
             flowTriggerType,
@@ -201,6 +208,7 @@ class Loader {
         return {
             loadStandardActionsTriggerTypePromise,
             loadDynamicActionsTriggerTypePromise,
+            loadSubflowsTriggerTypePromise,
             loadPeripheralMetadataPromise,
             loadPalettePromise
         };
@@ -395,13 +403,15 @@ export const loadOnProcessTypeChange = (
  * @param flowProcessType The flow processType
  * @param flowTriggerType The flow Trigger type
  * @param flowRecordTriggerType The flow record trigger type
+ * @param flowDefinitionId The flow definition Id
  * @returns Object with promises
  */
 export const loadOnTriggerTypeChange = (
     flowProcessType: string,
     flowTriggerType?: string,
-    flowRecordTriggerType?: string
-) => loader.loadOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType);
+    flowRecordTriggerType?: string,
+    flowDefinitionId?: string
+) => loader.loadOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType, flowDefinitionId);
 
 /**
  * Triggers loading of operators and operator rules

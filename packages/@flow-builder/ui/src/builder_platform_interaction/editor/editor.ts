@@ -1089,9 +1089,15 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     const {
                         loadStandardActionsTriggerTypePromise,
                         loadDynamicActionsTriggerTypePromise,
+                        loadSubflowsTriggerTypePromise,
                         loadPeripheralMetadataPromise,
                         loadPalettePromise
-                    } = loadOnTriggerTypeChange(flowProcessType, flowTriggerType, flowRecordTriggerType);
+                    } = loadOnTriggerTypeChange(
+                        flowProcessType,
+                        flowTriggerType,
+                        flowRecordTriggerType,
+                        definitionId as string
+                    );
                     this._isMenuDataLoadingIndicator = {
                         ...this._isMenuDataLoadingIndicator,
                         standardActions: true,
@@ -1099,6 +1105,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     };
                     standardActionsPromise = loadStandardActionsTriggerTypePromise;
                     dynamicActionsPromise = loadDynamicActionsTriggerTypePromise;
+                    subflowPromise = loadSubflowsTriggerTypePromise;
                     this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
                     palettePromise = loadPalettePromise.then((data) => {
                         this.palette = data;

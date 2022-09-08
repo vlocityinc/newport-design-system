@@ -641,7 +641,8 @@ describe('StageStepEditor', () => {
     describe('actions', () => {
         it('fetched on connectedCallback', () => {
             expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
-                flowProcessType: editor.processType
+                flowProcessType: editor.processType,
+                flowTriggerType: editor.triggerType
             });
             expect(getFlowIdsForNames).toHaveBeenCalledWith(
                 invocableActionsForOrchestrator.map((action) => action.name)

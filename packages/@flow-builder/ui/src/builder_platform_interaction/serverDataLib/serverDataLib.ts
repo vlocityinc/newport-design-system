@@ -242,7 +242,7 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_RUN_IN_MODES]: () => SERVER_ACTION_TYPE.GET_RUN_IN_MODES,
     [SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME]: (params) => `${params.entity}-${params.devName}`,
     [SERVER_ACTION_TYPE.GET_RECORD_DEV_NAME_BY_ID]: (params) => `${params.entity}-${params.recordId}`,
-    [SERVER_ACTION_TYPE.GET_SUBFLOWS]: (params) => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_SUBFLOWS]: (params) => `${params.flowProcessType}-${params.flowTriggerType}`,
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: (params) => `${params.flowProcessType}-${params.flowTriggerType}`,
     [SERVER_ACTION_TYPE.GET_STANDARD_INVOCABLE_ACTIONS]: (params) =>
         `${params.flowProcessType}-${params.flowTriggerType}`,
