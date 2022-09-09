@@ -18,6 +18,13 @@
             info={viewProps}
         >
         </builder_platform_interaction-field-input-menu-picklist-view>
+        <builder_platform_interaction-field-input-menu-mock-view
+            if:true={viewProps.isMockView}
+            rules={rules}
+            config={config}
+            context={context}
+        >
+        </builder_platform_interaction-field-input-menu-mock-view>
         <div tabindex="0" if:true={viewProps.missingViewType}>Missing View of Type: {viewProps.missingViewType}</div>
     </div>
 </template>

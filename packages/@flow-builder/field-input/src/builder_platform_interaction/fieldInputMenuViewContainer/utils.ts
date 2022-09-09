@@ -1,7 +1,8 @@
 const viewDispatchMap = {
     All: { isAllView: true },
     ObjectFields: { isObjectFieldsView: true },
-    PicklistValues: { isPicklistValuesView: true }
+    PicklistValues: { isPicklistValuesView: true },
+    Mock: { isMockView: true }
 } as const;
 
 /**

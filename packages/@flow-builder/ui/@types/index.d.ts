@@ -144,6 +144,8 @@ type MenuFilter = Readonly<{
     hideRecordSystemVariable?: boolean;
     // whether or not the entity related fields ar includes
     includeEntityRelatedRecordFields?: boolean;
+    // whether or not mocks should be filtered out
+    showMocks?: boolean;
 }>;
 
 type MenuConfig = Readonly<{

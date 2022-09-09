@@ -196,12 +196,36 @@ export const filterAndMapToMenuItems = (
     flowElements = filterFlowElements(flowElements, config, allowedParamTypes);
     const picklistValuesSection = getPicklistValuesSection(config, allowedParamTypes);
 
-    return [
+    const sections: FieldInput.MenuSection[] = [
         ...(picklistValuesSection ? [picklistValuesSection] : []),
         ...getElementMenuSections(flowElements, config, allowedParamTypes),
         getGlobalConstantsMenuSection(config, allowedParamTypes),
         getSystemAndGlobalVariablesMenuSection(config, allowedParamTypes, startElement)!
-    ].filter((section) => section.items.length !== 0);
+    ];
+
+    if (config.filter.showMocks) {
+        sections.push({
+            label: 'Mocks',
+            name: 'Mocks',
+            items: [
+                {
+                    category: 'Mocks',
+                    dataType: undefined,
+                    description: 'Mock variable',
+                    iconAlternativeText: 'Mock variable',
+                    iconName: 'utility:all',
+                    iconSize: 'x-small',
+                    label: 'Random Mocks',
+                    name: '$Mock',
+                    subtype: '$Mock',
+                    value: '$Mock',
+                    view: { type: 'Mock' }
+                }
+            ]
+        });
+    }
+
+    return sections.filter((section) => section.items.length !== 0);
 };
 
 /**

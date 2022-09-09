@@ -715,7 +715,12 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
 
             // temporary
             // @ts-ignore
-            window.enableFieldInput = () => (window.isFieldInputEnabled = true);
+            window.enableFieldInput = (args = { withMocks: false }) => {
+                // @ts-ignore
+                window.isFieldInputEnabled = true;
+                // @ts-ignore
+                window.isFieldInputMocksEnabled = args.withMocks;
+            };
             // @ts-ignore
             window.disableFieldInput = () => (window.isFieldInputEnabled = false);
 

@@ -117,7 +117,8 @@ export default class BaseExpressionBuilder extends LightningElement {
                 allowGlobalConstants: false,
                 showSystemVariables: true,
                 showGlobalVariables: true,
-                shouldBeWritable: false
+                shouldBeWritable: false,
+                showMocks: window.isFieldInputMocksEnabled
             },
             labels: {
                 inputLabel: this.lhsLabel,

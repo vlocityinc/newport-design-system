@@ -16,7 +16,7 @@ declare namespace FieldInput {
     }>;
 
     type MenuSection = Readonly<{
-        name: Category | 'PicklistValues' | 'GlobalResources' | 'GlobalValues' | 'Constants' | 'ObjectFields';
+        name: Category | 'PicklistValues' | 'GlobalResources' | 'GlobalValues' | 'Constants' | 'ObjectFields' | 'Mocks';
         // we don't have a label when we only have one section
         label?: string;
         items: MenuItem[];
@@ -111,7 +111,8 @@ declare namespace FieldInput {
         | 'Resources.Api'
         | 'Resources.System'
         | 'Resources.Labels'
-        | 'MenuItemViewTypeTbd';
+        | 'MenuItemViewTypeTbd'
+        | 'Mock';
 
     interface MenuItemView {
         readonly type: MenuItemViewType;

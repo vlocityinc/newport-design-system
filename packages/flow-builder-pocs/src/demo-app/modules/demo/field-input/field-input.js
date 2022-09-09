@@ -29,11 +29,23 @@ storeInstance.dispatch(updateFlow(storeState));
 export default class FieldInput extends LightningElement {
     static delegatesFocus = true;
 
-    get context() {
-        return {
-            flowElements: []
-        };
-    }
+    context = {
+        flowElements: []
+    };
+
+    config = {
+        sortField: 'label',
+        activePicklistValues: [],
+        traversalConfig: { isEnabled: true },
+        filter: {
+            includeNewResource: true,
+            allowGlobalConstants: true,
+            showSystemVariables: true,
+            showGlobalVariables: true,
+            shouldBeWritable: false,
+            showMocks: true
+        }
+    };
 
     renderedCallback() {
         this.template.querySelector('builder_platform_interaction-field-input')?.focus();
