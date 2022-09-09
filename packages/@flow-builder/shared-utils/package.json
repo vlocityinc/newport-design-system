@@ -1,7 +1,6 @@
 {
     "name": "@flow-builder/shared-utils",
     "version": "0.0.1",
-    "private": true,
     "description": "Flow Builder Shared Utils",
     "main": "dist/index.js",
     "typings": "dist/types/index.d.ts",

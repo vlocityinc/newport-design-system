@@ -60,7 +60,7 @@ steps: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Job+Steps
     # Standard Steps: https://git.soma.salesforce.com/uiplatform/nucleus-pb/blob/master/src/config/nucleus.yaml
     node-lint-prettify: # custom steps to run lint and prettify
         group: test
-        description: Lint and Prettify
+        description: lint and prettify
         node:
             command: ci:lint:prettify
         before: node-unit-tests
@@ -74,9 +74,3 @@ steps: # https://confluence.internal.salesforce.com/display/UIPENGSYS/Job+Steps
         enabled: true
         params:
             gusTeamName: 'Automation Builder Simplification'
-    npm-bump-package-versions:
-        skip: true # until we are ready to ship npm packages
-    npm-configure-for-publish:
-        skip: true # until we are ready to ship npm packages
-    npm-publish-release:
-        skip: true # until we are ready to ship npm packages
