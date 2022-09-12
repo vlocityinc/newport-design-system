@@ -1,6 +1,6 @@
 const viewDispatchMap = {
     All: { isAllView: true },
-    ObjectFields: { isObjectFieldsView: true },
+    ObjectFields: { isObjectFieldsView: true, objectApiName: 'Account' }, // figure out how to get entityName from $Record
     PicklistValues: { isPicklistValuesView: true },
     Mock: { isMockView: true }
 } as const;
@@ -13,16 +13,5 @@ const viewDispatchMap = {
  */
 export const getViewProps = (view: FieldInput.MenuItemView) => {
     const viewDispatch = viewDispatchMap[view.type];
-    const viewObj = { ...view, ...viewDispatch };
-    switch (view.type) {
-        case 'All':
-        case 'PicklistValues':
-            return viewObj;
-        case 'ObjectFields':
-            return { ...viewObj, objectApiName: 'Account' }; // figure out how to get entityName from $Record
-        default:
-            return {
-                missingViewType: view.type
-            };
-    }
+    return viewDispatch != null ? { ...view, ...viewDispatch } : { missingViewType: view.type };
 };
