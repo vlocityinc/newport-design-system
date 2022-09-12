@@ -2,12 +2,12 @@ import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 
 const additionalRules = {
-    duration: [
+    offset: [
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldBeANumber
     ],
-    durationUnit: [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank]
+    offsetUnit: [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank]
 };
 
 export const durationWaitValidation = new Validation(additionalRules);

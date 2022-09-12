@@ -2,16 +2,16 @@
     <div class="container slds-grid slds-grid_vertical slds-m-around_medium">
         <div class="dateUnitPicker slds-col slds-grid slds-grid_horizontal">
             <builder_platform_interaction-counter
-                id="duration"
+                id="offset"
                 class="slds-size_5-of-12 slds-p-bottom_medium"
                 onvaluechanged={handleWaitEventValueChanged}
-                count={duration}
+                count={offset}
             ></builder_platform_interaction-counter>
             <lightning-combobox
-                id="durationUnit"
-                class="durationUnit slds-size_7-of-12 slds-p-left_medium slds-p-top_xx-small"
-                options={durationUnitOptions}
-                value={durationUnit}
+                id="offsetUnit"
+                class="offsetUnit slds-size_7-of-12 slds-p-left_medium slds-p-top_xx-small"
+                options={offsetUnitOptions}
+                value={offsetUnit}
                 onchange={handleWaitEventValueChanged}
             ></lightning-combobox>
         </div>

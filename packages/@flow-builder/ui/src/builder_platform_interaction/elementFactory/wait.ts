@@ -40,8 +40,8 @@ import { createOutputParameter, createOutputParameterMetadataObject } from './ou
 
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
-export const DEFAULT_DURATION_VALUE = 1;
-export const DEFAULT_DURATION_UNIT = WAIT_TIME_EVENT_OFFSET_UNIT.DAYS;
+export const DEFAULT_OFFSET_VALUE = 1;
+export const DEFAULT_OFFSET_UNIT = WAIT_TIME_EVENT_OFFSET_UNIT.DAYS;
 
 /**
  * Whether the event type is one of the wait time event types (AlarmEvent or DateRefAlarmEvent)
@@ -279,8 +279,8 @@ export function createWaitEvent(waitEvent = {}) {
     const {
         eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
         eventTypeIndex = generateGuid(),
-        duration,
-        durationUnit,
+        offset,
+        offsetUnit,
         resumeDate,
         resumeTime
     } = waitEvent;
@@ -311,8 +311,8 @@ export function createWaitEvent(waitEvent = {}) {
         eventTypeIndex,
         inputParameters,
         outputParameters,
-        duration,
-        durationUnit,
+        offset,
+        offsetUnit,
         resumeDate,
         resumeTime: isoResumeTime
     });
@@ -456,11 +456,11 @@ function createWaitEventElementMetadataObjectForNonBranchingWait(
  */
 function addJourneyWaitEventsParams(elementSource, elementTarget) {
     const processType = getProcessType();
-    const { duration, durationUnit, resumeDate, resumeTime } = elementSource;
+    const { offset, offsetUnit, resumeDate, resumeTime } = elementSource;
     if (processType === FLOW_PROCESS_TYPE.JOURNEY) {
         Object.assign(elementTarget, {
-            duration,
-            durationUnit,
+            offset,
+            offsetUnit,
             resumeDate,
             resumeTime
         });

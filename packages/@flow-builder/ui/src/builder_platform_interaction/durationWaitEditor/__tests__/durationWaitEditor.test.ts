@@ -15,8 +15,8 @@ function createComponentForTest(durationWaitInfo) {
 }
 
 const selectors = {
-    DURATION_INPUT: 'builder_platform_interaction-counter',
-    DURATION_UNIT_INPUT: 'lightning-combobox.durationUnit',
+    OFFSET_INPUT: 'builder_platform_interaction-counter',
+    OFFSET_UNIT_INPUT: 'lightning-combobox.offsetUnit',
     EXTEND_UNTIL_INPUT: 'lightning-input.extendUntil',
     RESUME_TIME_INPUT: 'lightning-input.resumeTime',
     TIME_ZONE_INPUT: 'builder_platform_interaction-time-zone-picker'
@@ -40,11 +40,11 @@ const newDurationWait = () => ({
             guid: 'a-wait-event-guid',
             label: 'Pause Configuration 1 of theDurationWait',
             name: 'Pause_Configuration_1_of_theDurationWait',
-            duration: 4,
-            durationUnit: 'Days',
             conditions: [],
             conditionLogic: { value: 'no_conditions', error: null },
             inputParameters: [],
+            offset: 4,
+            offsetUnit: 'Days',
             outputParameters: {},
             resumeTime: null
         }
@@ -70,11 +70,11 @@ const newDurationWaitWithExtendUntil = () => ({
             guid: 'a-wait-event-guid',
             label: 'Pause Configuration 1 of theDurationWait',
             name: 'Pause_Configuration_1_of_theDurationWait',
-            duration: 4,
-            durationUnit: 'Days',
             conditions: [],
             conditionLogic: { value: 'no_conditions', error: null },
             inputParameters: [],
+            offset: 4,
+            offsetUnit: 'Days',
             outputParameters: {},
             resumeTime: '12:34:56.789'
         }
@@ -99,14 +99,14 @@ describe('duration-wait-editor', () => {
         expect(durationWaitEditor).not.toBeNull();
     });
 
-    it('should have duration counter', () => {
-        const durationInput = query(durationWaitEditor, selectors.DURATION_INPUT);
-        expect(durationInput).not.toBeNull();
+    it('should have offset counter', () => {
+        const offsetInput = query(durationWaitEditor, selectors.OFFSET_INPUT);
+        expect(offsetInput).not.toBeNull();
     });
 
-    it('should have duration unit combobox', () => {
-        const durationUnitInput = query(durationWaitEditor, selectors.DURATION_UNIT_INPUT);
-        expect(durationUnitInput).not.toBeNull();
+    it('should have offset unit combobox', () => {
+        const offsetUnitInput = query(durationWaitEditor, selectors.OFFSET_UNIT_INPUT);
+        expect(offsetUnitInput).not.toBeNull();
     });
 
     it('should have extend until checkbox', () => {
@@ -132,9 +132,9 @@ describe('duration-wait-editor', () => {
         expect(timeZoneInputExtendUntil).not.toBeNull();
     });
 
-    it('should trigger waitEvent changed when duration updated', () => {
-        const durationInput = query(durationWaitEditor, selectors.DURATION_INPUT);
-        durationInput.dispatchEvent(
+    it('should trigger waitEvent changed when offset updated', () => {
+        const offsetInput = query(durationWaitEditor, selectors.OFFSET_INPUT);
+        offsetInput.dispatchEvent(
             new CustomEvent('valuechanged', {
                 detail: { value: '5' }
             })
@@ -142,9 +142,9 @@ describe('duration-wait-editor', () => {
         expect(configurationEditorChangeEventSpy).toHaveBeenCalled();
     });
 
-    it('should trigger waitEvent changed when duration unit updated', () => {
-        const durationUnitInput = query(durationWaitEditor, selectors.DURATION_UNIT_INPUT);
-        durationUnitInput.dispatchEvent(
+    it('should trigger waitEvent changed when offset unit updated', () => {
+        const offsetUnitInput = query(durationWaitEditor, selectors.OFFSET_UNIT_INPUT);
+        offsetUnitInput.dispatchEvent(
             new CustomEvent('change', {
                 detail: { value: SCHEDULED_PATH_OFFSET_UNIT.HOURS }
             })

@@ -1,7 +1,7 @@
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getIsoTime } from 'builder_platform_interaction/dateTimeUtils';
-import { DEFAULT_DURATION_UNIT, DEFAULT_DURATION_VALUE } from 'builder_platform_interaction/elementFactory';
+import { DEFAULT_OFFSET_UNIT, DEFAULT_OFFSET_VALUE } from 'builder_platform_interaction/elementFactory';
 import { ConfigurationEditorChangeEvent } from 'builder_platform_interaction/events';
 import { SCHEDULED_PATH_OFFSET_UNIT, WAIT_TIME_EVENT_OFFSET_UNIT } from 'builder_platform_interaction/flowMetadata';
 import { defaultWaitElement, WaitElement } from 'builder_platform_interaction/waitEditorLib';
@@ -26,7 +26,7 @@ const MIDNIGHT_TIME_VALUE = '00:00:00.000';
 type DurationWaitProperty = keyof typeof ELEMENT_PROPS;
 
 export default class DurationWaitEditor extends LightningElement {
-    selectedDurationUnit: string = WAIT_TIME_EVENT_OFFSET_UNIT.DAYS;
+    selectedOffsetUnit: string = WAIT_TIME_EVENT_OFFSET_UNIT.DAYS;
     @track waitElement: WaitElement = defaultWaitElement;
     _inputVariables: UI.ConfigurationEditorInputVariable[] = [];
 
@@ -36,11 +36,11 @@ export default class DurationWaitEditor extends LightningElement {
 
     initDefaults() {
         const waitEvt = Object.assign({}, this.waitEvent);
-        const durVal = this.waitEvent?.duration == null ? DEFAULT_DURATION_VALUE : this.waitEvent?.duration;
-        const durUnitVal = this.waitEvent?.durationUnit == null ? DEFAULT_DURATION_UNIT : this.waitEvent?.durationUnit;
+        const offsetVal = this.waitEvent?.offset == null ? DEFAULT_OFFSET_VALUE : this.waitEvent?.offset;
+        const offsetUnitVal = this.waitEvent?.offsetUnit == null ? DEFAULT_OFFSET_UNIT : this.waitEvent?.offsetUnit;
 
-        waitEvt.duration = durVal;
-        waitEvt.durationUnit = durUnitVal;
+        waitEvt.offset = offsetVal;
+        waitEvt.offsetUnit = offsetUnitVal;
 
         this.updateCpe('waitEvents', [waitEvt]);
     }
@@ -68,13 +68,13 @@ export default class DurationWaitEditor extends LightningElement {
         this._inputVariables = inputVars;
     }
 
-    get duration() {
-        const durationValue = getValueFromHydratedItem(this.waitEvent?.duration);
-        return durationValue ?? DEFAULT_DURATION_VALUE;
+    get offset() {
+        const offsetValue = getValueFromHydratedItem(this.waitEvent?.offset);
+        return offsetValue ?? DEFAULT_OFFSET_VALUE;
     }
 
-    get durationUnit() {
-        return getValueFromHydratedItem(this.waitEvent?.durationUnit) || WAIT_TIME_EVENT_OFFSET_UNIT.DAYS;
+    get offsetUnit() {
+        return getValueFromHydratedItem(this.waitEvent?.offsetUnit) || WAIT_TIME_EVENT_OFFSET_UNIT.DAYS;
     }
 
     get resumeTime() {
@@ -101,7 +101,7 @@ export default class DurationWaitEditor extends LightningElement {
         return LABELS.extendUntilHelpText;
     }
 
-    get durationUnitOptions() {
+    get offsetUnitOptions() {
         return [
             { label: SCHEDULED_PATH_OFFSET_UNIT.MINUTES, value: WAIT_TIME_EVENT_OFFSET_UNIT.MINUTES },
             { label: SCHEDULED_PATH_OFFSET_UNIT.HOURS, value: WAIT_TIME_EVENT_OFFSET_UNIT.HOURS },
