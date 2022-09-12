@@ -128,19 +128,19 @@ const actionChanged = (state: StageStep, event: OrchestrationActionValueChangedE
         [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryAction',
         [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitAction',
         [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'action'
-    }[event.detail.actionCategory];
+    }[event.detail.actionCategory!];
 
     const actionErrorProperty: string = {
         [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: 'entryActionError',
         [ORCHESTRATED_ACTION_CATEGORY.EXIT]: 'exitActionError',
         [ORCHESTRATED_ACTION_CATEGORY.STEP]: 'actionError'
-    }[event.detail.actionCategory];
+    }[event.detail.actionCategory!];
 
     const actionInputParametersProperty: string = {
         [ORCHESTRATED_ACTION_CATEGORY.ENTRY]: PARAMETER_PROPERTY.ENTRY_INPUT,
         [ORCHESTRATED_ACTION_CATEGORY.EXIT]: PARAMETER_PROPERTY.EXIT_INPUT,
         [ORCHESTRATED_ACTION_CATEGORY.STEP]: PARAMETER_PROPERTY.INPUT
-    }[event.detail.actionCategory];
+    }[event.detail.actionCategory!];
 
     let actionName: string | UI.HydratedValue = (<InvocableAction>event.detail.value).actionName;
 

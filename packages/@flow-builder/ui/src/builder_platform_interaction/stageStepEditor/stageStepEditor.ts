@@ -37,8 +37,7 @@ import {
     UpdateConditionEvent,
     UpdateEntryExitCriteriaEvent,
     UpdateNodeEvent,
-    UpdateParameterItemEvent,
-    ValueChangedEvent
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
 import {
     getFerovDataTypeForValidId,
@@ -52,7 +51,7 @@ import {
     FLOW_ELEMENT_SUBTYPE,
     FLOW_TRANSACTION_MODEL
 } from 'builder_platform_interaction/flowMetadata';
-import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
+import { getFlowIdsForNames } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction, InvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import PanelBasedPropertyEditor from 'builder_platform_interaction/panelBasedPropertyEditor';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
@@ -67,6 +66,11 @@ import { stageStepReducer } from './stageStepReducer';
 // Standard inputs that should not show up as inputs associated with the selected action
 const STANDARD_INPUT_PREFIX = 'ActionInput__';
 
+// Property name for object array included in configurationEditorInpuutVariables
+// It holds values a CPE might need to render that are not provided by the
+// element itself
+const CONFIGURATION_PROPERTIES = '__configurationProperties';
+
 export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep> {
     @track
     configurationEditorInputVariables: UI.ConfigurationEditorInputVariable[] = [];
@@ -76,6 +80,21 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
             name: key,
             value: getValueFromHydratedItem(value)
         }));
+
+        // Manually include information needed ActionAndParameters so it will be available
+        // in the CPE to pass through
+        this.configurationEditorInputVariables.push({
+            name: CONFIGURATION_PROPERTIES,
+            value: {
+                actionErrorMessage: this.actionErrorMessage,
+                entryActionErrorMessage: this.entryActionErrorMessage,
+                exitActionErrorMessage: this.exitActionErrorMessage,
+                availableActions: this.availableActions,
+                availableDeterminationActions: this.availableDeterminationActions,
+                isActionsFetched: this.isActionsFetched,
+                processType: this.processType
+            }
+        });
     }
 
     error;
@@ -449,26 +468,8 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
         return this.selectedExitCriteria === ExitCriteria.ON_DETERMINATION_COMPLETE;
     }
 
-    get showParameterList(): boolean {
-        return this.selectedAction?.actionName && !this.actionErrorMessage && !!this.actionParameterListConfig;
-    }
-
     get showExternalCalloutsCheckbox(): boolean {
         return this.selectedAction?.actionName && !this.actionErrorMessage && !this.isStepWithUserAction;
-    }
-
-    get showEntryParameterList(): boolean {
-        return (
-            this.selectedEntryAction?.actionName &&
-            !this.entryActionErrorMessage &&
-            !!this.entryActionParameterListConfig
-        );
-    }
-
-    get showExitParameterList(): boolean {
-        return (
-            this.selectedExitAction?.actionName && !this.exitActionErrorMessage && !!this.exitActionParameterListConfig
-        );
     }
 
     createActionParameterListConfig(
@@ -782,6 +783,9 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
             this.isActionsFetched = true;
             this.displayActionSpinner = false;
         }
+
+        // Set variables on connected to make sure process type is available
+        this.setConfigurationEditorInputVariables();
     }
 
     isStepWithType(actionType: ACTION_TYPE | undefined): boolean {
@@ -882,6 +886,11 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
         this.updateElement(event);
     }
 
+    handleActionRequiresAsync(event: RequiresAsyncProcessingChangedEvent) {
+        event.stopPropagation();
+        this.updateElement(event);
+    }
+
     /**
      * @param event - property changed event coming from parameter list component
      */
@@ -964,29 +973,37 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
         this.dispatchEvent(new UpdateNodeEvent(this.element));
     }
 
-    async handleActionSelected(e: ValueChangedEvent<InvocableAction>) {
-        e.detail.value.actionType = this.element?.action?.actionType.value;
-        this.actionSelected(ORCHESTRATED_ACTION_CATEGORY.STEP, e);
+    async handleActionSelected(e: OrchestrationActionValueChangedEvent<InvocableAction>) {
+        e.detail.actionCategory = ORCHESTRATED_ACTION_CATEGORY.STEP;
+        if (e.detail.value) {
+            e.detail.value.actionType = this.element?.action.actionType.value;
+        }
+        await this.actionSelected(e);
     }
 
-    async handleEntryActionSelected(e: ValueChangedEvent<InvocableAction>) {
-        e.detail.value.actionType = ACTION_TYPE.EVALUATION_FLOW;
-        this.actionSelected(ORCHESTRATED_ACTION_CATEGORY.ENTRY, e);
+    async handleEntryActionSelected(e: OrchestrationActionValueChangedEvent<InvocableAction>) {
+        e.detail.actionCategory = ORCHESTRATED_ACTION_CATEGORY.ENTRY;
+        if (e.detail.value) {
+            e.detail.value.actionType = ACTION_TYPE.EVALUATION_FLOW;
+        }
+        await this.actionSelected(e);
     }
 
-    async handleExitActionSelected(e: ValueChangedEvent<InvocableAction>) {
-        e.detail.value.actionType = ACTION_TYPE.EVALUATION_FLOW;
-        this.actionSelected(ORCHESTRATED_ACTION_CATEGORY.EXIT, e);
+    async handleExitActionSelected(e: OrchestrationActionValueChangedEvent<InvocableAction>) {
+        e.detail.actionCategory = ORCHESTRATED_ACTION_CATEGORY.EXIT;
+        if (e.detail.value) {
+            e.detail.value.actionType = ACTION_TYPE.EVALUATION_FLOW;
+        }
+        await this.actionSelected(e);
     }
 
-    async actionSelected(actionCategory: ORCHESTRATED_ACTION_CATEGORY, e: ValueChangedEvent<InvocableAction>) {
-        const orchEvt = new OrchestrationActionValueChangedEvent(actionCategory, e.detail.value, e.detail.error);
-
+    async actionSelected(e: OrchestrationActionValueChangedEvent<InvocableAction>) {
         // Update the selected action
-        this.element = stageStepReducer(this.element!, orchEvt);
+        this.element = stageStepReducer(this.element!, e);
 
         // Only load parameters if a valid action is selected
-        if (e.detail.value.actionName) {
+        const actionCategory = e.detail.actionCategory;
+        if (e.detail.value?.actionName) {
             if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP) {
                 await this.setActionParameters(this.selectedAction, actionCategory);
             } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.ENTRY) {
@@ -1001,7 +1018,7 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
             this.element = stageStepReducer(this.element!, new RequiresAsyncProcessingChangedEvent(false));
         }
 
-        const error = e.detail.item ? e.detail.item.error : e.detail.error;
+        const error = e.detail.error;
         if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.STEP) {
             this.actionErrorMessage = error;
         } else if (actionCategory === ORCHESTRATED_ACTION_CATEGORY.ENTRY) {
@@ -1213,44 +1230,4 @@ export default class StageStepEditor extends PanelBasedPropertyEditor<StageStep>
             this.updateElement(updateRecord);
         }
     };
-
-    handleCheckboxClicked(event: CustomEvent) {
-        event.stopPropagation();
-        this.updateElement(new RequiresAsyncProcessingChangedEvent(event.detail.checked));
-    }
-
-    handleOpenFlowClicked() {
-        const actionId = this.flowNamesToIds[this.selectedAction?.actionName];
-        openFlow(actionId);
-    }
-
-    handleOpenEntryConditionFlowClicked() {
-        const actionId = this.flowNamesToIds[this.selectedEntryAction?.actionName];
-        openFlow(actionId);
-    }
-
-    handleOpenExitConditionFlowClicked() {
-        const actionId = this.flowNamesToIds[this.selectedExitAction?.actionName];
-        openFlow(actionId);
-    }
-
-    get showOpenFlow(): boolean {
-        return this.selectedAction?.actionName && !this.actionErrorMessage;
-    }
-
-    get showOpenEntryConditionFlow(): boolean {
-        return (
-            this.selectedEntryAction?.actionName &&
-            !this.entryActionErrorMessage &&
-            this.selectedEntryCriteria === EntryCriteria.ON_DETERMINATION_COMPLETE
-        );
-    }
-
-    get showOpenExitConditionFlow(): boolean {
-        return (
-            this.selectedExitAction?.actionName &&
-            !this.exitActionErrorMessage &&
-            this.selectedExitCriteria === ExitCriteria.ON_DETERMINATION_COMPLETE
-        );
-    }
 }

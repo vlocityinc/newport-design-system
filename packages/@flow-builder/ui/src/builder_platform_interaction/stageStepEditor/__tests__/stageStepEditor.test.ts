@@ -17,16 +17,16 @@ import {
     DeleteOrchestrationActionEvent,
     ItemSelectedEvent,
     ORCHESTRATED_ACTION_CATEGORY,
+    OrchestrationActionValueChangedEvent,
     OrchestrationStageStepEditorValidateEvent,
     PropertyChangedEvent,
     RequiresAsyncProcessingChangedEvent,
     UpdateConditionEvent,
     UpdateEntryExitCriteriaEvent,
-    UpdateParameterItemEvent,
-    ValueChangedEvent
+    UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { ACTION_TYPE, ELEMENT_TYPE, EntryCriteria, ExitCriteria } from 'builder_platform_interaction/flowMetadata';
-import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
+import { getFlowIdsForNames } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -147,12 +147,18 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
     return elementFactory;
 });
 
-const createComponentUnderTest = (node) => {
+const createComponentUnderTest = async (node) => {
     const el = createElement('builder_platform_interaction-stepped-stage-item-editor', {
         is: StageStepEditor
     });
-    el.node = node;
-    el.processType = 'someProcessType';
+
+    Object.assign(el, {
+        node,
+        processType: 'someProcessType'
+    });
+
+    await ticks();
+
     setDocumentBodyChildren(el);
     return el;
 };
@@ -163,7 +169,7 @@ const selectors = {
     ENTRY_CRITERIA_ITEM: 'builder_platform_interaction-combobox',
     EXIT_CRITERIA_DROPDOWN: 'lightning-combobox.stepCompletes',
     ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
-    PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
+    ACTION_AND_PARAMETERS: 'builder_platform_interaction-action-and-parameters',
     RELATED_RECORD_SELECTOR: 'builder_platform_interaction-ferov-resource-picker.recordPicker',
     ASSIGNEE_TYPE_SELECTOR: 'lightning-combobox.assigneeType',
     ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR: 'builder_platform_interaction-record-picker',
@@ -338,61 +344,6 @@ describe('StageStepEditor', () => {
         }
     };
 
-    const nodeParamsWithNoFlowsSelected = {
-        stepSubtype: 'InteractiveStep',
-        guid: 'someGuid',
-        name: 'someName',
-        label: 'someLabel',
-        description: 'someDescription',
-        entryConditions: [],
-        relatedRecordItem: {
-            name: { value: 'ActionInput__RecordId' },
-            rowIndex: 'ActionInput__RecordIdGuid',
-            value: { value: RELATED_RECORD_ID }
-        },
-        action: {
-            actionName: {
-                value: ''
-            },
-            actionType: {
-                value: ACTION_TYPE.STEP_INTERACTIVE
-            }
-        },
-        assignees: [
-            {
-                assignee: { value: 'orchestrator@salesforce.com' },
-                assigneeType: 'User',
-                isReference: false
-            }
-        ],
-        inputParameters: mockInputParameters,
-        entryAction: {
-            actionName: {
-                value: ''
-            },
-            actionType: {
-                value: ACTION_TYPE.EVALUATION_FLOW
-            }
-        },
-        entryActionInputParameters: mockInputParameters,
-        entryCriteria: {
-            value: EntryCriteria.ON_STAGE_START
-        },
-
-        exitAction: {
-            actionName: {
-                value: ''
-            },
-            actionType: {
-                value: ACTION_TYPE.EVALUATION_FLOW
-            }
-        },
-        exitActionInputParameters: mockInputParameters,
-        exitCriteria: {
-            value: ExitCriteria.ON_STEP_COMPLETE
-        }
-    };
-
     let editor;
 
     beforeAll(() => {
@@ -402,8 +353,8 @@ describe('StageStepEditor', () => {
         });
     });
 
-    beforeEach(() => {
-        editor = createComponentUnderTest(nodeParams);
+    beforeEach(async () => {
+        editor = await createComponentUnderTest(nodeParams);
     });
 
     describe('node', () => {
@@ -422,19 +373,19 @@ describe('StageStepEditor', () => {
             expect(labelDescription.description).toBe(nodeParams.description);
         });
 
-        it('has correct custom icon for each step type', () => {
-            expect(editor.editorParams.panelConfig.customIcon).toBe(
+        it('has correct custom icon for each step type', async () => {
+            await expect(editor.editorParams.panelConfig.customIcon).toBe(
                 elementTypeToConfigMap[nodeParams.stepSubtype].nodeConfig?.iconName
             );
-            editor = createComponentUnderTest(autolaunchedNodeParams);
+            editor = await createComponentUnderTest(autolaunchedNodeParams);
             expect(editor.editorParams.panelConfig.customIcon).toBe(
                 elementTypeToConfigMap[autolaunchedNodeParams.stepSubtype].nodeConfig?.iconName
             );
         });
 
-        it('initializes the entry criteria item combobox menu data', () => {
+        it('initializes the entry criteria item combobox menu data', async () => {
             // Start when another step completes
-            editor = createComponentUnderTest({
+            editor = await createComponentUnderTest({
                 ...nodeParamsWithDeterminations,
                 ...{
                     entryCriteria: {
@@ -457,9 +408,9 @@ describe('StageStepEditor', () => {
             expect(entryConditionsItem.value).toEqual('');
         });
 
-        it('sets entry criteria item selected', () => {
+        it('sets entry criteria item selected', async () => {
             // Start when another step completes
-            editor = createComponentUnderTest({
+            editor = await createComponentUnderTest({
                 ...nodeParamsWithDeterminations,
                 ...{
                     entryCriteria: {
@@ -474,8 +425,8 @@ describe('StageStepEditor', () => {
             expect(entryConditionsItem.value).toEqual(entryConditionsItem.menuData[0]);
         });
 
-        it('should not show exit criteria for autolaunched step', () => {
-            editor = createComponentUnderTest(autolaunchedNodeParams);
+        it('should not show exit criteria for autolaunched step', async () => {
+            editor = await createComponentUnderTest(autolaunchedNodeParams);
             const dropdown = editor.shadowRoot.querySelector(selectors.EXIT_CRITERIA_DROPDOWN);
             expect(typeof dropdown).toBe('object');
         });
@@ -513,7 +464,7 @@ describe('StageStepEditor', () => {
                             }
                         ]
                     };
-                    editor = createComponentUnderTest(stepWithGroupAssignee);
+                    editor = await createComponentUnderTest(stepWithGroupAssignee);
 
                     expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_RECORD_ID_BY_DEV_NAME, {
                         devName: {
@@ -535,7 +486,7 @@ describe('StageStepEditor', () => {
     });
 
     describe('input parameters', () => {
-        it('are empty if no action is present', () => {
+        it('are empty if no action is present', async () => {
             const nodeWithNoAction = {
                 ...nodeParams,
                 ...{
@@ -552,7 +503,7 @@ describe('StageStepEditor', () => {
                 }
             };
 
-            editor = createComponentUnderTest(nodeWithNoAction);
+            editor = await createComponentUnderTest(nodeWithNoAction);
 
             expect(stageStepReducer).toHaveBeenCalledWith(
                 nodeWithNoAction,
@@ -563,7 +514,7 @@ describe('StageStepEditor', () => {
                 })
             );
         });
-        it('are empty if either action name or type is missing', () => {
+        it('are empty if either action name or type is missing', async () => {
             const nodeWithNoActions = [
                 {
                     ...nodeParams,
@@ -593,13 +544,13 @@ describe('StageStepEditor', () => {
                 }
             ];
 
-            editor = createComponentUnderTest(nodeWithNoActions[0]);
+            editor = await createComponentUnderTest(nodeWithNoActions[0]);
             expect(stageStepReducer).toHaveBeenCalledWith(
                 nodeWithNoActions[0],
                 new CustomEvent(MERGE_WITH_PARAMETERS, { detail: { parameters: [] } })
             );
 
-            editor = createComponentUnderTest(nodeWithNoActions[1]);
+            editor = await createComponentUnderTest(nodeWithNoActions[1]);
             expect(stageStepReducer).toHaveBeenCalledWith(
                 nodeWithNoActions[1],
                 new CustomEvent(MERGE_WITH_PARAMETERS, { detail: { parameters: [] } })
@@ -626,21 +577,19 @@ describe('StageStepEditor', () => {
 
         describe('list config', () => {
             it('filters out app process internal input variables', async () => {
-                editor = createComponentUnderTest(nodeParamsWithDeterminations);
+                editor = await createComponentUnderTest(nodeParamsWithDeterminations);
 
-                // Wait for async param loading
-                await ticks(1);
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
 
-                const parameterList = editor.shadowRoot.querySelector(selectors.PARAMETER_LIST);
-                expect(parameterList.inputs).toHaveLength(1);
-                expect(parameterList.inputs[0]).toEqual(nodeParams.inputParameters[0]);
+                expect(actionAndParameters.actionParameterListConfig.inputs).toHaveLength(1);
+                expect(actionAndParameters.actionParameterListConfig.inputs[0]).toEqual(nodeParams.inputParameters[0]);
             });
         });
     });
 
     describe('actions', () => {
         it('fetched on connectedCallback', () => {
-            expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
+            expect(fetchOnce).toHaveBeenCalledWith(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
                 flowProcessType: editor.processType,
                 flowTriggerType: editor.triggerType
             });
@@ -650,29 +599,31 @@ describe('StageStepEditor', () => {
         });
 
         it('list set from available actions', () => {
-            const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            expect(actionSelector.invocableActions).toEqual(mockStepInteractiveFlows);
+            const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+            expect(actionAndParameters.availableActions).toEqual(mockStepInteractiveFlows);
         });
         describe('autolaunched step', () => {
-            beforeEach(() => {
-                editor = createComponentUnderTest(autolaunchedNodeParams);
+            beforeEach(async () => {
+                editor = await createComponentUnderTest(autolaunchedNodeParams);
             });
             it('list set from available actions for autolaunched step', () => {
-                const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-                expect(actionSelector.invocableActions).toEqual(mockStepBackgroundFlows);
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+                expect(actionAndParameters.availableActions).toEqual(mockStepBackgroundFlows);
             });
         });
 
         describe('evaluation flow', () => {
-            beforeEach(() => {
-                editor = createComponentUnderTest(nodeParamsWithDeterminations);
+            beforeEach(async () => {
+                editor = await createComponentUnderTest(nodeParamsWithDeterminations);
             });
             it('list set from available actions for evaluation flow', () => {
-                const entryActionSelector = editor.shadowRoot.querySelector(selectors.ENTRY_ACTION);
-                expect(entryActionSelector.invocableActions).toEqual(mockEvaluationFlows);
+                const actionAndParameters = editor.shadowRoot.querySelectorAll(selectors.ACTION_AND_PARAMETERS);
 
-                const exitActionSelector = editor.shadowRoot.querySelector(selectors.EXIT_ACTION);
-                expect(exitActionSelector.invocableActions).toEqual(mockEvaluationFlows);
+                const entryActionAndParameters = actionAndParameters[0];
+                expect(entryActionAndParameters.availableActions).toEqual(mockEvaluationFlows);
+
+                const exitActionAndParameters = actionAndParameters[2];
+                expect(exitActionAndParameters.availableActions).toEqual(mockEvaluationFlows);
             });
         });
     });
@@ -761,18 +712,19 @@ describe('StageStepEditor', () => {
         });
 
         describe('actionSelected updates Action', () => {
-            it('sets action type in event detail', () => {
-                editor = createComponentUnderTest(autolaunchedNodeParams);
+            it('sets action type in event detail', async () => {
+                editor = await createComponentUnderTest(autolaunchedNodeParams);
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
 
-                const actionCombobox = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-
-                const comboboxEvent = new ValueChangedEvent({ actionName: 'stepBackground' });
-                actionCombobox.dispatchEvent(comboboxEvent);
+                const comboboxEvent = new OrchestrationActionValueChangedEvent({
+                    actionName: 'stepBackground'
+                });
+                actionAndParameters.dispatchEvent(comboboxEvent);
 
                 // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
                 // Until then use the more brittle `.mocks`
-                const secondToLastCall = stageStepReducer.mock.calls.length - 2;
-                expect(stageStepReducer.mock.calls[secondToLastCall][1].detail).toEqual({
+                const fourthToLastCall = stageStepReducer.mock.calls.length - 4;
+                expect(stageStepReducer.mock.calls[fourthToLastCall][1].detail).toEqual({
                     actionCategory: 2,
                     parameters: []
                 });
@@ -780,94 +732,110 @@ describe('StageStepEditor', () => {
         });
 
         describe('requiresAsyncProcessing', () => {
-            it('should be false if not specified', () => {
-                editor = createComponentUnderTest(autolaunchedNodeParams);
+            it('should be false if not specified', async () => {
+                editor = await createComponentUnderTest(autolaunchedNodeParams);
 
                 expect(editor.node.requiresAsyncProcessing).toBeFalsy();
 
-                const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
-                expect(asyncProcessingCheckbox.checked).toBeFalsy();
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+                expect(actionAndParameters.requiresAsyncProcessing).toBeFalsy();
             });
 
-            it('should be true if specified and true', () => {
+            it('should be true if specified and true', async () => {
                 const paramsWithAsyncProcessing = {
                     ...autolaunchedNodeParams,
                     requiresAsyncProcessing: true
                 };
-                editor = createComponentUnderTest(paramsWithAsyncProcessing);
+                editor = await createComponentUnderTest(paramsWithAsyncProcessing);
 
                 expect(editor.node.requiresAsyncProcessing).toBe(true);
 
-                const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
-                expect(asyncProcessingCheckbox.checked).toBe(true);
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+                expect(actionAndParameters.requiresAsyncProcessing).toBeTruthy();
             });
 
-            it('is clicked', () => {
-                editor = createComponentUnderTest(autolaunchedNodeParams);
-                const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
-                const checkboxEvent = new CustomEvent('change', {
-                    detail: {
-                        value: true
-                    }
+            it('is clicked', async () => {
+                editor = await createComponentUnderTest(autolaunchedNodeParams);
+
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+
+                const checkboxEvent = new RequiresAsyncProcessingChangedEvent(true);
+
+                actionAndParameters.dispatchEvent(checkboxEvent);
+
+                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                // Until then use the more brittle `.mocks`
+                let lastCall = stageStepReducer.mock.calls.length - 1;
+                expect(stageStepReducer.mock.calls[lastCall]).toEqual([
+                    autolaunchedNodeParams,
+                    expect.objectContaining({
+                        detail: {
+                            checked: true
+                        }
+                    })
+                ]);
+
+                checkboxEvent.detail.checked = false;
+                actionAndParameters.dispatchEvent(checkboxEvent);
+
+                lastCall = stageStepReducer.mock.calls.length - 1;
+                expect(stageStepReducer.mock.calls[lastCall]).toEqual([
+                    autolaunchedNodeParams,
+                    expect.objectContaining({
+                        detail: {
+                            checked: false
+                        }
+                    })
+                ]);
+            });
+
+            it('is reset when a new action is selected', async () => {
+                editor = await createComponentUnderTest(autolaunchedNodeParams);
+
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+
+                const selectorEvent = new OrchestrationActionValueChangedEvent({ actionName: 'stepBackground' });
+                actionAndParameters.dispatchEvent(selectorEvent);
+
+                // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+                // Until then use the more brittle `.mocks`
+                const lastCall = stageStepReducer.mock.calls.length - 1;
+                expect(stageStepReducer.mock.calls[lastCall][1].detail).toEqual({
+                    checked: false
                 });
-
-                asyncProcessingCheckbox.dispatchEvent(checkboxEvent);
-                expect(stageStepReducer).toHaveBeenCalledWith(
-                    autolaunchedNodeParams,
-                    new RequiresAsyncProcessingChangedEvent(true)
-                );
-
-                checkboxEvent.detail.value = false;
-                asyncProcessingCheckbox.dispatchEvent(checkboxEvent);
-                expect(stageStepReducer).toHaveBeenCalledWith(
-                    autolaunchedNodeParams,
-                    new RequiresAsyncProcessingChangedEvent(false)
-                );
             });
 
-            it('is reset when a new action is selected', () => {
-                editor = createComponentUnderTest(autolaunchedNodeParams);
-                const actionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-                const selectorEvent = new ValueChangedEvent({ actionName: 'stepBackground' });
-                actionSelector.dispatchEvent(selectorEvent);
-
-                expect(stageStepReducer).toHaveBeenCalledWith(
-                    autolaunchedNodeParams,
-                    new RequiresAsyncProcessingChangedEvent(false)
-                );
-            });
-
-            it('should not exist for interactive steps', () => {
-                editor = createComponentUnderTest(nodeParams);
+            it('should not exist for interactive steps', async () => {
+                editor = await createComponentUnderTest(nodeParams);
 
                 const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
                 expect(asyncProcessingCheckbox).toBeNull();
             });
 
-            it('should not exist without an action', () => {
+            it('should not exist without an action', async () => {
                 const nodeWithoutAction = {
                     ...autolaunchedNodeParams
                 };
                 nodeWithoutAction.action.actionName.value = undefined;
-                editor = createComponentUnderTest(nodeWithoutAction);
+                editor = await createComponentUnderTest(nodeWithoutAction);
 
                 const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
                 expect(asyncProcessingCheckbox).toBeNull();
             });
 
-            it('should not exist without a valid action', () => {
+            it('should not exist without a valid action', async () => {
                 const nodeWithActionErrorMessage = {
                     ...autolaunchedNodeParams
                 };
                 nodeWithActionErrorMessage.action.actionName.error = 'error';
-                editor = createComponentUnderTest(nodeWithActionErrorMessage);
+                editor = await createComponentUnderTest(nodeWithActionErrorMessage);
 
                 const asyncProcessingCheckbox = editor.shadowRoot.querySelector(selectors.ASYNC_PROCESSING_BOX);
                 expect(asyncProcessingCheckbox).toBeNull();
             });
         });
 
-        it('handleEntryCriteriaItemChanged updates entry criteria', () => {
+        it('handleEntryCriteriaItemChanged updates entry criteria', async () => {
             // Start when another step completes
             const element = {
                 ...nodeParamsWithDeterminations,
@@ -878,7 +846,7 @@ describe('StageStepEditor', () => {
                     entryConditions: [{ leftHandSide: { value: 'nonexistentItem.Status' } }]
                 }
             };
-            editor = createComponentUnderTest(element);
+            editor = await createComponentUnderTest(element);
 
             const devName = 'someOtherItem';
 
@@ -900,37 +868,37 @@ describe('StageStepEditor', () => {
 
         describe('handleParameterPropertyChangedEvent', () => {
             it('updates input parameter on change', () => {
-                const paramList = editor.shadowRoot.querySelector(selectors.PARAMETER_LIST);
-
                 const updateEvent = new UpdateParameterItemEvent(
                     true,
                     mockInputParameters[0].rowIndex,
                     'someName',
                     'someNewValue'
                 );
-                paramList.dispatchEvent(updateEvent);
+
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+                actionAndParameters.dispatchEvent(updateEvent);
 
                 expect(stageStepReducer).toHaveBeenCalledWith(nodeParams, updateEvent);
             });
 
             it('does not update input parameter if value is the same', () => {
-                const paramList = editor.shadowRoot.querySelector(selectors.PARAMETER_LIST);
-
                 const updateEvent = new UpdateParameterItemEvent(
                     true,
                     mockInputParameters[0].rowIndex,
                     'someName',
                     mockInputParameters[0].value.value
                 );
-                paramList.dispatchEvent(updateEvent);
+
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+                actionAndParameters.dispatchEvent(updateEvent);
 
                 expect(stageStepReducer).not.toHaveBeenCalledWith(nodeParams, updateEvent);
             });
         });
 
         describe('assignee', () => {
-            it('should not be visible for autolaunched step', () => {
-                editor = createComponentUnderTest(autolaunchedNodeParams);
+            it('should not be visible for autolaunched step', async () => {
+                editor = await createComponentUnderTest(autolaunchedNodeParams);
                 const assigneeType = editor.shadowRoot.querySelector(selectors.ASSIGNEE_TYPE_SELECTOR);
                 expect(assigneeType).toBeNull();
             });
@@ -1026,9 +994,7 @@ describe('StageStepEditor', () => {
                             }
                         ]
                     };
-                    editor = createComponentUnderTest(stepWithGroupAssignee);
-
-                    await ticks(1);
+                    editor = await createComponentUnderTest(stepWithGroupAssignee);
 
                     const recordPicker = editor.shadowRoot.querySelector(
                         selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
@@ -1089,9 +1055,7 @@ describe('StageStepEditor', () => {
                             }
                         ]
                     };
-                    editor = createComponentUnderTest(stepWithQueueAssignee);
-
-                    await ticks(1);
+                    editor = await createComponentUnderTest(stepWithQueueAssignee);
 
                     const recordPicker = editor.shadowRoot.querySelector(
                         selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
@@ -1172,9 +1136,7 @@ describe('StageStepEditor', () => {
                             }
                         ]
                     };
-                    editor = createComponentUnderTest(stepWithGroupAssignee);
-
-                    await ticks(1);
+                    editor = await createComponentUnderTest(stepWithGroupAssignee);
 
                     const passedError = editor.shadowRoot.querySelector(
                         selectors.ASSIGNEE_LITERAL_RECORD_PICKER_SELECTOR
@@ -1376,8 +1338,8 @@ describe('StageStepEditor', () => {
                 });
             });
 
-            it('causes the related record input parameter to be updated when the old value in the input parameter is null', () => {
-                const editor = createComponentUnderTest({
+            it('causes the related record input parameter to be updated when the old value in the input parameter is null', async () => {
+                const editor = await createComponentUnderTest({
                     ...nodeParams,
                     inputParameters: [
                         ...mockInputParameters.slice(0, mockInputParameters.length - 1),
@@ -1403,8 +1365,8 @@ describe('StageStepEditor', () => {
                 });
             });
 
-            it('should not be visible for autolaunched step', () => {
-                editor = createComponentUnderTest(autolaunchedNodeParams);
+            it('should not be visible for autolaunched step', async () => {
+                editor = await createComponentUnderTest(autolaunchedNodeParams);
                 const recordSelector = editor.shadowRoot.querySelector(selectors.RELATED_RECORD_SELECTOR);
                 expect(recordSelector).toBeNull();
             });
@@ -1414,7 +1376,7 @@ describe('StageStepEditor', () => {
     describe('validation', () => {
         it('should initiallly validate when editor renders', async () => {
             stageStepReducer.mockClear();
-            editor = createComponentUnderTest({
+            editor = await createComponentUnderTest({
                 ...nodeParams,
                 assignees: [
                     {
@@ -1570,143 +1532,6 @@ describe('StageStepEditor', () => {
         });
     });
 
-    describe('inline open flow', () => {
-        describe('screen flow', () => {
-            const mockFlowName = mockStepInteractiveFlows[0].name;
-            beforeEach(() => {
-                editor = createComponentUnderTest({
-                    ...nodeParamsWithNoFlowsSelected,
-                    action: {
-                        actionName: {
-                            value: mockFlowName
-                        },
-                        actionType: {
-                            value: ACTION_TYPE.STEP_INTERACTIVE
-                        }
-                    }
-                });
-            });
-            it('show open flow button when a screen flow is selected', () => {
-                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-                expect(openFlowButton).not.toBeNull();
-            });
-            it('do not show open flow button when a screen flow is not selected', () => {
-                editor = createComponentUnderTest({
-                    ...nodeParamsWithNoFlowsSelected
-                });
-                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-                expect(openFlowButton).toBeNull();
-            });
-            it('openFlow is called when click on Open Flow button of screen flow ', () => {
-                editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
-                // verify openFlow is called with the flow name
-                expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
-            });
-        });
-        describe('autolaunched flow', () => {
-            const mockFlowName = mockStepBackgroundFlows[0].name;
-            beforeEach(() => {
-                editor = createComponentUnderTest({
-                    ...nodeParamsWithNoFlowsSelected,
-                    action: {
-                        actionName: {
-                            value: mockFlowName
-                        },
-                        actionType: {
-                            value: ACTION_TYPE.STEP_BACKGROUND
-                        }
-                    }
-                });
-            });
-            it('show open flow button when an autolaunched flow is selected', () => {
-                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-                expect(openFlowButton).not.toBeNull();
-            });
-            it('do not show open flow button when an autolaunched flow is not selected', () => {
-                editor = createComponentUnderTest({
-                    ...nodeParamsWithNoFlowsSelected
-                });
-                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-                expect(openFlowButton).toBeNull();
-            });
-            it('openFlow is called when click on Open Flow button of an autolaunched flow ', () => {
-                editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
-                // verify openFlow is called with the flow name
-                expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
-            });
-        });
-        describe('entry condition flow', () => {
-            const mockFlowName = mockEvaluationFlows[0].name;
-            beforeEach(() => {
-                editor = createComponentUnderTest({
-                    ...nodeParamsWithNoFlowsSelected,
-                    entryAction: {
-                        actionName: {
-                            value: mockFlowName
-                        },
-                        actionType: {
-                            value: ACTION_TYPE.EVALUATION_FLOW
-                        }
-                    },
-                    entryCriteria: {
-                        value: EntryCriteria.ON_DETERMINATION_COMPLETE
-                    }
-                });
-            });
-            it('show open flow button when an entry condition flow is selected', () => {
-                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-                expect(openFlowButton).not.toBeNull();
-            });
-            it('do not show open flow button when an entry condition flow is not selected', () => {
-                editor = createComponentUnderTest({
-                    ...nodeParamsWithNoFlowsSelected
-                });
-                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-                expect(openFlowButton).toBeNull();
-            });
-            it('openFlow is called when click on Open Flow button of an entry condition flow ', () => {
-                editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
-                // verify openFlow is called with the flow id
-                expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
-            });
-        });
-        describe('exit condition flow', () => {
-            const mockFlowName = mockEvaluationFlows[0].name;
-            beforeEach(() => {
-                editor = createComponentUnderTest({
-                    ...nodeParamsWithNoFlowsSelected,
-                    exitAction: {
-                        actionName: {
-                            value: mockFlowName
-                        },
-                        actionType: {
-                            value: ACTION_TYPE.EVALUATION_FLOW
-                        }
-                    },
-                    exitCriteria: {
-                        value: ExitCriteria.ON_DETERMINATION_COMPLETE
-                    }
-                });
-            });
-            it('show open flow button when an exit condition flow is selected', () => {
-                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-                expect(openFlowButton).not.toBeNull();
-            });
-            it('do not show open flow button when an exit condition flow is not selected', () => {
-                editor = createComponentUnderTest({
-                    ...nodeParamsWithNoFlowsSelected
-                });
-                const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-                expect(openFlowButton).toBeNull();
-            });
-            it('openFlow is called when click on Open Flow button of an exit condition flow ', () => {
-                editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
-                // verify openFlow is called with the flow name
-                expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
-            });
-        });
-    });
-
     describe('Standard Steps', () => {
         describe('Default Step Types', () => {
             it('should not render CPE', () => {
@@ -1717,11 +1542,11 @@ describe('StageStepEditor', () => {
 
         describe('Custom Step Types', () => {
             const cstNodeParams = { ...nodeParams, stepSubtype: 'TestStep' };
-            beforeEach(() => {
-                editor = createComponentUnderTest(cstNodeParams);
+            beforeEach(async () => {
+                editor = await createComponentUnderTest(cstNodeParams);
             });
 
-            it('should render CPE with correct @api attributes', () => {
+            it('should render CPE with correct @api attributes', async () => {
                 const cpe = editor.shadowRoot.querySelector(selectors.CPE);
                 expect(cpe).not.toBeNull();
 
@@ -1736,6 +1561,23 @@ describe('StageStepEditor', () => {
                     value: getValueFromHydratedItem(value)
                 }));
                 expect(cpe.configurationEditorInputVariables).toEqual(expect.arrayContaining(expectedInputVariables));
+
+                expect(cpe.configurationEditorInputVariables).toEqual(
+                    expect.arrayContaining([
+                        {
+                            name: '__configurationProperties',
+                            value: {
+                                actionErrorMessage: editor.actionErrorMessage,
+                                entryActionErrorMessage: editor.entryActionErrorMessage,
+                                exitActionErrorMessage: editor.exitActionErrorMessage,
+                                availableActions: mockStepInteractiveFlows,
+                                availableDeterminationActions: mockEvaluationFlows,
+                                isActionsFetched: true,
+                                processType: editor.processType
+                            }
+                        }
+                    ])
+                );
             });
 
             it('change events from the CPE should be directly processed by reducer', () => {

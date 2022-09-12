@@ -33,56 +33,19 @@
             ></lightning-combobox>
         </div>
         <div class="slds-p-top_x-small" if:true={isExitCriteriaBasedOnCustomAction}>
-            <builder_platform_interaction-action-selector
-                class="slds-col slds-size_3-of-3"
+            <builder_platform_interaction-action-and-parameters
                 selected-action={selectedExitAction}
-                error-message={exitActionErrorMessage}
-                invocable-actions={availableDeterminationActions}
-                invocable-actions-fetched={isActionsFetched}
-                selected-category={selectedCategory}
-                selected-filter-by={selectedFilterBy}
-                onvaluechanged={handleExitActionSelected}
-                oncannotretrieveactions={handleCannotRetrieveActions}
-                flow-process-type={processType}
-                flow-trigger-type={triggerType}
-                label-override={labels.determinationFlowSelectorHeader}
-                field-level-help={exitCriteriaHelpText}
-            >
-            </builder_platform_interaction-action-selector>
-        </div>
-        <div class="slds-p-top_x-small" if:true={showOpenExitConditionFlow}>
-            <lightning-button
-                label={labels.openFlowLabel}
-                onclick={handleOpenExitConditionFlowClicked}
-                icon-name="utility:new_window"
-                icon-position="right"
-                class="open-flow"
-            ></lightning-button>
-        </div>
-        <div if:true={showExitParameterList}>
-            <h3 if:false={emptyInputs} class="slds-text-color_weak inputHeader">
-                {exitActionParameterListConfig.inputHeader}
-            </h3>
-            <builder_platform_interaction-parameter-list
-                inputs={exitActionParameterListConfig.inputs}
-                outputs={exitActionParameterListConfig.outputs}
-                warnings={exitActionParameterListConfig.warnings}
-                input-header={exitActionParameterListConfig.inputHeader}
-                output-header={exitActionParameterListConfig.outputHeader}
-                element-type={actionElementType}
-                sort-inputs={exitActionParameterListConfig.sortInputs}
-                sort-outputs={exitActionParameterListConfig.sortOutputs}
-                empty-inputs-title={exitActionParameterListConfig.emptyInputsTitle}
-                empty-inputs-body={exitActionParameterListConfig.emptyInputsBody}
-                empty-inputs-outputs-title={exitActionParameterListConfig.emptyInputsOutputsTitle}
-                empty-inputs-outputs-body={exitActionParameterListConfig.emptyInputsOutputsBody}
-                store-output-automatically={exitActionParameterListConfig.storeOutputAutomatically}
-                automatic-output-handling-supported={exitActionParameterListConfig.automaticOutputHandlingSupported}
-                element-info={exitActionElementInfo}
+                action-error-message={exitActionErrorMessage}
+                available-actions={availableDeterminationActions}
+                is-actions-fetched={isActionsFetched}
+                process-type={processType}
+                action-selector-label={labels.determinationFlowSelectorHeader}
+                action-parameter-list-config={exitActionParameterListConfig}
+                onorchestrationactionvaluechanged={handleExitActionSelected}
                 onupdateparameteritem={handleParameterPropertyChangedEvent}
                 ondeleteparameteritem={handleParameterPropertyChangedEvent}
             >
-            </builder_platform_interaction-parameter-list>
+            </builder_platform_interaction-action-and-parameters>
         </div>
     </div>
 </template>

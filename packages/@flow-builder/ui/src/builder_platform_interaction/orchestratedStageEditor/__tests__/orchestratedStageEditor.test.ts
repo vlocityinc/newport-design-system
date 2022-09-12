@@ -14,7 +14,7 @@ import {
     UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { ACTION_TYPE, ELEMENT_TYPE, StageExitCriteria } from 'builder_platform_interaction/flowMetadata';
-import { getFlowIdsForNames, openFlow } from 'builder_platform_interaction/inlineOpenFlowUtils';
+import { getFlowIdsForNames } from 'builder_platform_interaction/inlineOpenFlowUtils';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import OrchestratedStageEditor from 'builder_platform_interaction/orchestratedStageEditor';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -117,7 +117,7 @@ const createComponentUnderTest = (node) => {
 };
 
 const selectors = {
-    ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
+    ACTION_AND_PARAMETERS: 'builder_platform_interaction-action-and-parameters',
     OPEN_FLOW_SELECTOR: '.open-flow'
 };
 
@@ -236,10 +236,29 @@ describe('OrchestratedStageEditor', () => {
         });
 
         describe('list config', () => {
-            it('filters out app process internal input variables', () => {
-                const parameterList = editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.PARAMETER_LIST);
-                expect(parameterList.inputs).toHaveLength(1);
-                expect(parameterList.inputs[0]).toEqual(nodeParams.exitActionInputParameters[0]);
+            it('filters out app process internal input variables', async () => {
+                editor = createComponentUnderTest({
+                    ...nodeParams,
+                    exitCriteria: {
+                        value: StageExitCriteria.ON_DETERMINATION_COMPLETE
+                    },
+                    exitAction: {
+                        actionName: {
+                            value: mockEvaluationFlows[0]
+                        },
+                        actionType: {
+                            value: ACTION_TYPE.EVALUATION_FLOW
+                        }
+                    },
+                    exitActionInputParameters: mockInputParameters
+                });
+
+                await ticks();
+
+                const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+
+                expect(actionAndParameters.actionParameterListConfig.inputs).toHaveLength(1);
+                expect(actionAndParameters.actionParameterListConfig.inputs[0]).toEqual(mockInputParameters[0]);
             });
         });
     });
@@ -321,30 +340,54 @@ describe('OrchestratedStageEditor', () => {
     });
 
     describe('handleParameterPropertyChangedEvent', () => {
-        it('updates input parameter on change', () => {
-            const paramList = editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.PARAMETER_LIST);
+        beforeEach(async () => {
+            editor = createComponentUnderTest({
+                ...nodeParams,
+                exitCriteria: {
+                    value: StageExitCriteria.ON_DETERMINATION_COMPLETE
+                },
+                exitAction: {
+                    actionName: {
+                        value: mockEvaluationFlows[0]
+                    },
+                    actionType: {
+                        value: ACTION_TYPE.EVALUATION_FLOW
+                    }
+                },
+                exitActionInputParameters: mockInputParameters
+            });
 
+            await ticks();
+        });
+        it('updates input parameter on change', () => {
             const updateEvent = new UpdateParameterItemEvent(
                 true,
                 mockInputParameters[0].rowIndex,
                 'someName',
                 'someNewValue'
             );
-            paramList.dispatchEvent(updateEvent);
 
-            expect(orchestratedStageReducer).toHaveBeenCalledWith(nodeParams, updateEvent);
+            const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+            actionAndParameters.dispatchEvent(updateEvent);
+
+            // Bug with toHaveBeenCalledWith and custom object - https://github.com/facebook/jest/issues/11078
+            // Until then use the more brittle `.mocks`
+            const lastCall = orchestratedStageReducer.mock.calls.length - 1;
+            expect(orchestratedStageReducer.mock.calls[lastCall][1].detail).toEqual({
+                rowIndex: updateEvent.detail.rowIndex
+            });
         });
 
         it('does not update input parameter if value is the same', () => {
-            const paramList = editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.PARAMETER_LIST);
-
             const updateEvent = new UpdateParameterItemEvent(
                 true,
                 mockInputParameters[0].rowIndex,
                 'someName',
                 mockInputParameters[0].value.value
             );
-            paramList.dispatchEvent(updateEvent);
+
+            const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+            actionAndParameters.dispatchEvent(updateEvent);
 
             expect(orchestratedStageReducer).not.toHaveBeenCalledWith(nodeParams, updateEvent);
         });
@@ -386,55 +429,8 @@ describe('OrchestratedStageEditor', () => {
             });
         });
         it('list set from available actions for evaluation flow', () => {
-            const exitActionSelector = editor.shadowRoot.querySelector(selectors.ACTION_SELECTOR);
-            expect(exitActionSelector.invocableActions).toEqual(mockEvaluationFlows);
-        });
-    });
-
-    describe('inline open flow', () => {
-        const mockFlowName = mockEvaluationFlows[0].name;
-        beforeEach(() => {
-            editor = createComponentUnderTest({
-                ...nodeParams,
-                exitAction: {
-                    actionName: {
-                        value: mockFlowName
-                    },
-                    actionType: {
-                        value: ACTION_TYPE.EVALUATION_FLOW
-                    }
-                },
-                exitCriteria: {
-                    value: StageExitCriteria.ON_DETERMINATION_COMPLETE
-                }
-            });
-        });
-        it('show open flow button when an exit condition flow is selected', () => {
-            const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-            expect(openFlowButton).not.toBeNull();
-        });
-        it('do not show open flow button when an exit condition flow is not selected', () => {
-            editor = createComponentUnderTest({
-                ...nodeParams,
-                exitCriteria: {
-                    value: StageExitCriteria.ON_STEP_COMPLETE
-                },
-                exitAction: {
-                    actionName: {
-                        value: ''
-                    },
-                    actionType: {
-                        value: ACTION_TYPE.EVALUATION_FLOW
-                    }
-                }
-            });
-            const openFlowButton = editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR);
-            expect(openFlowButton).toBeNull();
-        });
-        it('openFlow is called when click on Open Flow button', () => {
-            editor.shadowRoot.querySelector(selectors.OPEN_FLOW_SELECTOR).click();
-            // verify openFlow is called with the flow name
-            expect(openFlow).toHaveBeenCalledWith(flowIds[mockFlowName]);
+            const actionAndParameters = editor.shadowRoot.querySelector(selectors.ACTION_AND_PARAMETERS);
+            expect(actionAndParameters.availableActions).toEqual(mockEvaluationFlows);
         });
     });
 });

@@ -6,7 +6,7 @@ import { ORCHESTRATED_ACTION_CATEGORY } from 'builder_platform_interaction/event
 const eventName = 'orchestrationactionvaluechanged';
 
 type OrchestrationActionValueChangedEventDetail<T> = {
-    actionCategory: ORCHESTRATED_ACTION_CATEGORY;
+    actionCategory: ORCHESTRATED_ACTION_CATEGORY | null;
     value: T | null;
     error?: string | null;
 };
@@ -15,7 +15,7 @@ export class OrchestrationActionValueChangedEvent<T> extends CustomEvent<
     OrchestrationActionValueChangedEventDetail<T>
 > {
     constructor(
-        actionCategory: ORCHESTRATED_ACTION_CATEGORY,
+        actionCategory: ORCHESTRATED_ACTION_CATEGORY | null = null,
         value: T | null = null,
         error: string | null | undefined = null
     ) {

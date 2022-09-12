@@ -34,6 +34,7 @@
             "builder_platform_interaction/alcConnector": ["../auto-layout-canvas-ui/src/builder_platform_interaction/alcConnector/alcConnector.ts"],
             "builder_platform_interaction/zoomPanel": ["../auto-layout-canvas-ui/src/builder_platform_interaction/zoomPanel/zoomPanel.ts"],
             "builder_platform_interaction/accordionSectionWithIcon": ["./src/builder_platform_interaction/accordionSectionWithIcon/accordionSectionWithIcon.ts"],
+            "builder_platform_interaction/actionAndParameters": ["./src/builder_platform_interaction/actionAndParameters/actionAndParameters.ts"],
             "builder_platform_interaction/actionSelector": ["./src/builder_platform_interaction/actionSelector/actionSelector.ts"],
             "builder_platform_interaction/actions": ["./src/builder_platform_interaction/actions/actions.ts"],
             "builder_platform_interaction/alcCanvasContainer": ["./src/builder_platform_interaction/alcCanvasContainer/alcCanvasContainer.ts"],

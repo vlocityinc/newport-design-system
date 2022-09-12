@@ -21,6 +21,7 @@
             onconfiguration_editor_input_value_changed={handleConfigurationEditorChange}
         ></builder_platform_interaction-custom-property-editor>
     </template>
+
     <template if:false={isCustomStepType}>
         <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
             <span class="slds-text-heading_small">{labels.entrySectionLabel}</span>
@@ -38,22 +39,6 @@
                 ></lightning-combobox>
             </div>
 
-            <div class="slds-p-top_x-small" if:true={isStartCriteriaBasedOnCustomAction}>
-                <builder_platform_interaction-action-selector
-                    class="slds-col slds-size_3-of-3 entry-action"
-                    selected-action={selectedEntryAction}
-                    error-message={entryActionErrorMessage}
-                    invocable-actions={availableDeterminationActions}
-                    invocable-actions-fetched={isActionsFetched}
-                    selected-category={selectedCategory}
-                    selected-filter-by={selectedFilterBy}
-                    onvaluechanged={handleEntryActionSelected}
-                    oncannotretrieveactions={handleCannotRetrieveActions}
-                    flow-process-type={processType}
-                    label-override={labels.determinationFlowSelectorHeader}
-                >
-                </builder_platform_interaction-action-selector>
-            </div>
             <div class="slds-p-top_x-small" if:true={isStartCriteriaBasedOnStep}>
                 <builder_platform_interaction-combobox
                     menu-data={entryConditionsAvailableStepItems}
@@ -65,42 +50,21 @@
                 >
                 </builder_platform_interaction-combobox>
             </div>
-            <div class="slds-p-top_x-small" if:true={showOpenEntryConditionFlow}>
-                <lightning-button
-                    label={labels.openFlowLabel}
-                    onclick={handleOpenEntryConditionFlowClicked}
-                    icon-name="utility:new_window"
-                    icon-position="right"
-                    class="open-flow"
-                ></lightning-button>
-            </div>
-            <div if:true={showEntryParameterList}>
-                <h3
-                    if:false={isEntryActionInputsEmpty}
-                    class="slds-text-color_weak slds-text-heading_small inputHeader"
-                >
-                    {entryActionParameterListConfig.inputHeader}
-                </h3>
-                <builder_platform_interaction-parameter-list
-                    inputs={entryActionParameterListConfig.inputs}
-                    outputs={entryActionParameterListConfig.outputs}
-                    warnings={entryActionParameterListConfig.warnings}
-                    input-header={entryActionParameterListConfig.inputHeader}
-                    output-header={entryActionParameterListConfig.outputHeader}
-                    element-type={actionElementType}
-                    sort-inputs={entryActionParameterListConfig.sortInputs}
-                    sort-outputs={entryActionParameterListConfig.sortOutputs}
-                    empty-inputs-title={entryActionParameterListConfig.emptyInputsTitle}
-                    empty-inputs-body={entryActionParameterListConfig.emptyInputsBody}
-                    empty-inputs-outputs-title={entryActionParameterListConfig.emptyInputsOutputsTitle}
-                    empty-inputs-outputs-body={entryActionParameterListConfig.emptyInputsOutputsBody}
-                    store-output-automatically={entryActionParameterListConfig.storeOutputAutomatically}
-                    automatic-output-handling-supported={entryActionParameterListConfig.automaticOutputHandlingSupported}
-                    element-info={entryActionElementInfo}
-                    onupdateparameteritem={handleParameterPropertyChangedEvent}
-                    ondeleteparameteritem={handleParameterPropertyChangedEvent}
-                ></builder_platform_interaction-parameter-list>
-            </div>
+
+            <builder_platform_interaction-action-and-parameters
+                if:true={isStartCriteriaBasedOnCustomAction}
+                selected-action={selectedEntryAction}
+                action-error-message={entryActionErrorMessage}
+                available-actions={availableDeterminationActions}
+                is-actions-fetched={isActionsFetched}
+                process-type={processType}
+                action-selector-label={labels.determinationFlowSelectorHeader}
+                action-parameter-list-config={entryActionParameterListConfig}
+                onorchestrationactionvaluechanged={handleEntryActionSelected}
+                onupdateparameteritem={handleParameterPropertyChangedEvent}
+                ondeleteparameteritem={handleParameterPropertyChangedEvent}
+            >
+            </builder_platform_interaction-action-and-parameters>
         </div>
 
         <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
@@ -111,69 +75,25 @@
                 variant="brand"
                 class="spinner"
             ></lightning-spinner>
-            <div class="slds-p-top_x-small">
-                <builder_platform_interaction-action-selector
-                    class="slds-col slds-size_3-of-3"
-                    selected-action={selectedAction}
-                    error-message={actionErrorMessage}
-                    invocable-actions={availableActions}
-                    invocable-actions-fetched={isActionsFetched}
-                    selected-category={selectedCategory}
-                    selected-filter-by={selectedFilterBy}
-                    onvaluechanged={handleActionSelected}
-                    oncannotretrieveactions={handleCannotRetrieveActions}
-                    flow-process-type={processType}
-                    flow-trigger-type={triggerType}
-                    label-override={labels.actionSelectorLabel}
-                    required="true"
-                    field-level-help={actionTooltipLabel}
-                >
-                </builder_platform_interaction-action-selector>
-            </div>
-            <div class="slds-p-top_x-small" if:true={showOpenFlow}>
-                <lightning-button
-                    label={labels.openFlowLabel}
-                    onclick={handleOpenFlowClicked}
-                    icon-name="utility:new_window"
-                    icon-position="right"
-                    class="open-flow"
-                ></lightning-button>
-            </div>
-            <div if:true={showExternalCalloutsCheckbox} class="slds-p-top_small slds-grid">
-                <lightning-input
-                    type="checkbox"
-                    class="externalCalloutsCheckbox"
-                    label={labels.containsExternalCalloutsLabel}
-                    name="externalCalloutsCB"
-                    checked={requiresAsyncProcessing}
-                    onchange={handleCheckboxClicked}
-                ></lightning-input>
-                <lightning-helptext content={labels.containsExternalCalloutsTooltip}></lightning-helptext>
-            </div>
-            <div if:true={showParameterList}>
-                <h3 if:false={isActionInputsEmpty} class="slds-text-color_weak slds-text-heading_small inputHeader">
-                    {actionParameterListConfig.inputHeader}
-                </h3>
-                <builder_platform_interaction-parameter-list
-                    inputs={actionParameterListConfig.inputs}
-                    outputs={actionParameterListConfig.outputs}
-                    warnings={actionParameterListConfig.warnings}
-                    input-header={actionParameterListConfig.inputHeader}
-                    output-header={actionParameterListConfig.outputHeader}
-                    element-type={actionElementType}
-                    sort-inputs={actionParameterListConfig.sortInputs}
-                    sort-outputs={actionParameterListConfig.sortOutputs}
-                    empty-inputs-title={actionParameterListConfig.emptyInputsTitle}
-                    empty-inputs-body={actionParameterListConfig.emptyInputsBody}
-                    empty-inputs-outputs-title={actionParameterListConfig.emptyInputsOutputsTitle}
-                    empty-inputs-outputs-body={actionParameterListConfig.emptyInputsOutputsBody}
-                    store-output-automatically={actionParameterListConfig.storeOutputAutomatically}
-                    automatic-output-handling-supported={actionParameterListConfig.automaticOutputHandlingSupported}
-                    element-info={actionElementInfo}
-                    onupdateparameteritem={handleParameterPropertyChangedEvent}
-                    ondeleteparameteritem={handleParameterPropertyChangedEvent}
-                ></builder_platform_interaction-parameter-list>
-            </div>
+
+            <builder_platform_interaction-action-and-parameters
+                selected-action={selectedAction}
+                action-error-message={actionErrorMessage}
+                available-actions={availableActions}
+                is-actions-fetched={isActionsFetched}
+                process-type={processType}
+                action-selector-label={labels.actionSelectorLabel}
+                required="true"
+                action-tooltip-label={actionTooltipLabel}
+                show-external-callouts-checkbox={showExternalCalloutsCheckbox}
+                requires-async-processing={requiresAsyncProcessing}
+                action-parameter-list-config={actionParameterListConfig}
+                onorchestrationactionvaluechanged={handleActionSelected}
+                onupdateparameteritem={handleParameterPropertyChangedEvent}
+                ondeleteparameteritem={handleParameterPropertyChangedEvent}
+                onrequiresasyncprocessingchanged={handleActionRequiresAsync}
+            >
+            </builder_platform_interaction-action-and-parameters>
         </div>
         <div if:true={isStepWithUserAction}>
             <div class="slds-border_top slds-p-top_medium slds-p-left_small slds-p-bottom_small slds-p-right_small">
@@ -258,57 +178,19 @@
                     ></lightning-combobox>
                 </div>
                 <div class="slds-p-top_x-small" if:true={isExitCriteriaBasedOnCustomAction}>
-                    <builder_platform_interaction-action-selector
-                        class="slds-col slds-size_3-of-3 exit-action"
+                    <builder_platform_interaction-action-and-parameters
                         selected-action={selectedExitAction}
-                        error-message={exitActionErrorMessage}
-                        invocable-actions={availableDeterminationActions}
-                        invocable-actions-fetched={isActionsFetched}
-                        selected-category={selectedCategory}
-                        selected-filter-by={selectedFilterBy}
-                        onvaluechanged={handleExitActionSelected}
-                        oncannotretrieveactions={handleCannotRetrieveActions}
-                        flow-process-type={processType}
-                        label-override={labels.exitDeterminationFlowSelectorHeader}
-                    >
-                    </builder_platform_interaction-action-selector>
-                </div>
-                <div class="slds-p-top_x-small" if:true={showOpenExitConditionFlow}>
-                    <lightning-button
-                        label={labels.openFlowLabel}
-                        onclick={handleOpenExitConditionFlowClicked}
-                        icon-name="utility:new_window"
-                        icon-position="right"
-                        class="open-flow"
-                    ></lightning-button>
-                </div>
-                <div if:true={showExitParameterList}>
-                    <h3
-                        if:false={isExitActionInputsEmpty}
-                        class="slds-text-color_weak slds-text-heading_small inputHeader"
-                    >
-                        {exitActionParameterListConfig.inputHeader}
-                    </h3>
-                    <builder_platform_interaction-parameter-list
-                        inputs={exitActionParameterListConfig.inputs}
-                        outputs={exitActionParameterListConfig.outputs}
-                        warnings={exitActionParameterListConfig.warnings}
-                        input-header={exitActionParameterListConfig.inputHeader}
-                        output-header={exitActionParameterListConfig.outputHeader}
-                        element-type={actionElementType}
-                        sort-inputs={exitActionParameterListConfig.sortInputs}
-                        sort-outputs={exitActionParameterListConfig.sortOutputs}
-                        empty-inputs-title={exitActionParameterListConfig.emptyInputsTitle}
-                        empty-inputs-body={exitActionParameterListConfig.emptyInputsBody}
-                        empty-inputs-outputs-title={exitActionParameterListConfig.emptyInputsOutputsTitle}
-                        empty-inputs-outputs-body={exitActionParameterListConfig.emptyInputsOutputsBody}
-                        store-output-automatically={exitActionParameterListConfig.storeOutputAutomatically}
-                        automatic-output-handling-supported={exitActionParameterListConfig.automaticOutputHandlingSupported}
-                        element-info={exitActionElementInfo}
+                        action-error-message={exitActionErrorMessage}
+                        available-actions={availableDeterminationActions}
+                        is-actions-fetched={isActionsFetched}
+                        process-type={processType}
+                        action-selector-label={labels.determinationFlowSelectorHeader}
+                        action-parameter-list-config={exitActionParameterListConfig}
+                        onorchestrationactionvaluechanged={handleExitActionSelected}
                         onupdateparameteritem={handleParameterPropertyChangedEvent}
                         ondeleteparameteritem={handleParameterPropertyChangedEvent}
                     >
-                    </builder_platform_interaction-parameter-list>
+                    </builder_platform_interaction-action-and-parameters>
                 </div>
             </div>
         </div>
