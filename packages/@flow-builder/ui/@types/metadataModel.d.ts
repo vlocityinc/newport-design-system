@@ -426,4 +426,28 @@ declare namespace Metadata {
         sobjectName: string;
         referenceToNames: string[];
     }
+
+    interface Transform {
+        connector: Connector;
+        apexClass: string;
+        dataType: string;
+        isCollection: boolean;
+        objectType: string;
+        scale: number;
+        outputValue: string;
+        transformValue: TransformValue[];
+    }
+
+    interface TransformValue {
+        inputReference: string;
+        transformActions: TransformAction;
+    }
+
+    interface TransformAction {
+        transformType: TransformActionType;
+        outputFieldApiName: string;
+        value: string;
+    }
+
+    type TransformActionType = 'Map';
 }

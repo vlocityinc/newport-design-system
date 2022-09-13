@@ -687,4 +687,39 @@ declare namespace UI {
             description: string;
         };
     }
+
+    interface Transform {
+        name: string;
+        dataType: string;
+        isCollection: boolean;
+        fieldType: string;
+        location: Location;
+        connectors?: Connector[];
+        apexClass: string;
+        scale: number;
+        outputValue: string;
+        transformValue: TransformValue[];
+    }
+
+    interface TransformValue {
+        inputReference: string;
+        transformActions: TransformAction;
+    }
+
+    interface TransformAction {
+        transformType: TransformActionType;
+        outputFieldApiName: string;
+        value: string;
+    }
+
+    interface Location {
+        x: number;
+        y: number;
+    }
+
+    interface Connector extends Location {
+        endpoint: string;
+    }
+
+    type TransformActionType = 'Map';
 }
