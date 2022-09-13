@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { CLEAR_UNDO_REDO, INIT, REDO, UNDO } from '../undoRedoLib';
+import { CLEAR_UNDO_REDO, END_EDIT_SESSION, INIT, REDO, START_EDIT_SESSION, UNDO } from '../undoRedoLib';
 
 const initialStoreState = {
     elements: {},
@@ -36,8 +36,10 @@ describe('UndoRedo Library Function', () => {
     const mockRedoAction = { type: REDO };
     const mockUndoAction = { type: UNDO };
     const mockClearUndoRedoAction = { type: CLEAR_UNDO_REDO };
-    const mockGroupedAction = { type: MOCK_GROUPED_ACTION };
-    const mockGroupedAction2 = { type: MOCK_GROUPED_ACTION2 };
+    const mockSessionStartAction = { type: START_EDIT_SESSION };
+    const mockSessionEndAction = { type: END_EDIT_SESSION };
+    const mockGroupedAction = { type: MOCK_GROUPED_ACTION, payload: {} };
+    const mockGroupedAction2 = { type: MOCK_GROUPED_ACTION2, payload: {} };
 
     const mockTestAction = { type: 'test' };
 
@@ -164,6 +166,109 @@ describe('UndoRedo Library Function', () => {
             // Do Undo, to put present state into future array
             undoRedoFnWithMockReducer(initialStoreState, mockUndoAction);
             expect(isRedoAvailable()).toBe(true);
+        });
+    });
+
+    describe('UndoRedo function - Session Revisioning', () => {
+        it('Expect no past states if closing session without any changes', () => {
+            undoRedoFnWithMockReducer(initialStoreState, mockInitAction);
+            undoRedoFnWithMockReducer(initialStoreState, mockTestAction);
+            undoRedoFnWithMockReducer(initialStoreState, mockSessionStartAction);
+            const result = undoRedoFnWithMockReducer(initialStoreState, mockSessionEndAction);
+            expect(result).toEqual(initialStoreState);
+            expect(isUndoAvailable()).toBe(false);
+        });
+        it('Expect one past state if dispatching one action during a session', () => {
+            let storeState = undoRedoFnWithMockReducer(initialStoreState, mockInitAction);
+            // Initialize present state
+            storeState = undoRedoFnWithMockReducer(storeState, mockTestAction);
+            expect(isUndoAvailable()).toBe(false);
+            storeState = undoRedoFnWithMockReducer(storeState, mockSessionStartAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            undoRedoFnWithMockReducer(storeState, mockSessionEndAction);
+            expect(isUndoAvailable()).toBe(true);
+        });
+        it('Expect past state if dispatching multiple grouped actions during a session', () => {
+            let storeState = undoRedoFnWithMockReducer(initialStoreState, mockInitAction);
+            // Initialize present state
+            storeState = undoRedoFnWithMockReducer(storeState, mockTestAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockSessionStartAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            undoRedoFnWithMockReducer(storeState, mockSessionEndAction);
+            // After closing the session, the grouped actions should result in only one undoable action
+            expect(isUndoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            expect(isUndoAvailable()).toBe(false);
+        });
+        it('Expect multiple past states during a session if dispatching multiple undo action with multiple actions', () => {
+            let storeState = undoRedoFnWithMockReducer(initialStoreState, mockInitAction);
+            // Initialize present state
+            storeState = undoRedoFnWithMockReducer(storeState, mockTestAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockSessionStartAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            // After dispatching three grouped actions while inside a panel session, we should be able to undo each
+            // action separately iff we are still inside the same session
+            expect(isUndoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            expect(isUndoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            expect(isUndoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            // After undoing every change, there should be no more undo actions available
+            expect(isUndoAvailable()).toBe(false);
+        });
+        it('Expect grouped action to be sorted after other actions after session closes', () => {
+            mockGroupedAction.payload.isSessionGroupable = true;
+            let storeState = undoRedoFnWithMockReducer(initialStoreState, mockInitAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockTestAction);
+            // Start session
+            storeState = undoRedoFnWithMockReducer(storeState, mockSessionStartAction);
+
+            // Dispatch a few grouped actions mixed with other non-blacklisted actions
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockTestAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction2);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+
+            // End Session
+            undoRedoFnWithMockReducer(storeState, mockSessionEndAction);
+            // After closing the session, the grouped actions should be sorted to the end of the undo stack
+            // The first undo action will undo all mockGroupedAction(s)
+            expect(isUndoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            // Second undo will undo the mockGroupedAction2 action
+            expect(isUndoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            // Third undo will undo the mockTestAction
+            expect(isUndoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            expect(isUndoAvailable()).toBe(false);
+        });
+        it('Expect undo/redo to work on every action during a session even if action is group-able', () => {
+            let storeState = undoRedoFnWithMockReducer(initialStoreState, mockInitAction);
+            // Initialize present state
+            storeState = undoRedoFnWithMockReducer(storeState, mockTestAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockSessionStartAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            storeState = undoRedoFnWithMockReducer(storeState, mockGroupedAction);
+            // Undo each change that happened so far
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            undoRedoFnWithMockReducer(storeState, mockUndoAction);
+            // Redo all the changes
+            expect(isRedoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockRedoAction);
+            expect(isRedoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockRedoAction);
+            expect(isRedoAvailable()).toBe(true);
+            undoRedoFnWithMockReducer(storeState, mockRedoAction);
+            expect(isRedoAvailable()).toBe(false);
         });
     });
 });

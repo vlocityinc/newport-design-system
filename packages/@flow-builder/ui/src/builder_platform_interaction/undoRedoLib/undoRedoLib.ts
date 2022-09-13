@@ -1,11 +1,16 @@
 /**
  * Design doc: https://salesforce.quip.com/Ax4HAoPvhmAb
  */
+
+import { SessionManager } from './sessionManager';
+
 // Internal State Holder variables for past, present and future state of the app
 let past: any[] = [];
 let present: any;
 let future: any[] = [];
 let lastAction; // Used in grouping the multiple actions into one state
+const sessionManager = new SessionManager();
+
 /**
  * Undo Function
  *  - Adds the present state object to the future state array.
@@ -19,6 +24,9 @@ let lastAction; // Used in grouping the multiple actions into one state
 const undo = (pastStates, presentState, futureStates) => {
     if (pastStates && pastStates.length < 1) {
         throw new Error('Undo: Past State Array Length cannot be less than 1');
+    }
+    if (sessionManager?.isActive) {
+        sessionManager.undoAction();
     }
     const previous = pastStates[pastStates.length - 1];
     const updatedPast = pastStates.slice(0, pastStates.length - 1);
@@ -43,6 +51,9 @@ const redo = (pastStates, presentState, futureStates) => {
     if (futureStates && futureStates.length < 1) {
         throw new Error('Redo: Future State Array length cannot be less than 1');
     }
+    if (sessionManager?.isActive) {
+        sessionManager.redoAction();
+    }
     const next = futureStates[0];
     const updatedFuture = futureStates.slice(1);
     return {
@@ -56,6 +67,8 @@ export const UNDO = 'UNDO';
 export const REDO = 'REDO';
 export const INIT = 'INIT';
 export const CLEAR_UNDO_REDO = 'CLEAR_UNDO_REDO';
+export const START_EDIT_SESSION = 'START_EDIT_SESSION';
+export const END_EDIT_SESSION = 'END_EDIT_SESSION';
 
 /**
  * @returns {boolean} True if past array contains any state objects, false otherwise
@@ -75,6 +88,7 @@ type UndoRedoOptions = {
     blacklistedActions: string[] | undefined;
     groupedActions: string[] | undefined;
 };
+
 /**
  * Higher order function to be used on top of reducer function in the app.
  *
@@ -91,6 +105,10 @@ export const undoRedo = <T>(reducer: UI.StoreReducer<T>, options: UndoRedoOption
                 past = [];
                 future = [];
                 lastAction = undefined;
+                if (sessionManager.isActive) {
+                    // Clean up the session if active
+                    sessionManager.clearSession();
+                }
                 break;
             }
             case UNDO: {
@@ -101,6 +119,12 @@ export const undoRedo = <T>(reducer: UI.StoreReducer<T>, options: UndoRedoOption
                 ({ past, present, future } = redo(past, present, future));
                 break;
             }
+            case START_EDIT_SESSION:
+                sessionManager.startSession();
+                break;
+            case END_EDIT_SESSION:
+                ({ past, present } = sessionManager.endSession(reducer, past, present, groupedActions));
+                break;
             default: {
                 const newState = reducer(state, action);
 
@@ -115,8 +139,13 @@ export const undoRedo = <T>(reducer: UI.StoreReducer<T>, options: UndoRedoOption
                     return newState;
                 }
 
-                // Grouped Actions
-                if (groupedActions.includes(action.type) && lastAction === action.type) {
+                // Session tracking
+                if (sessionManager.isActive) {
+                    sessionManager.addAction(action);
+                }
+
+                // Grouped Actions -- Do not group if inside of panel
+                if (!sessionManager.isActive && groupedActions.includes(action.type) && lastAction === action.type) {
                     present = newState;
                 } else {
                     // Do not ever put undefined in the past state. Else it would result in undo state corruption.

@@ -1859,7 +1859,7 @@ describe('property editor', () => {
             const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(editElementEvent);
 
-            await ticks(1);
+            await ticks(3);
 
             const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL);
             expect(propertyEditorPanel.params.panelConfig.isLabelCollapsibleToHeader).toEqual(true);
@@ -1871,7 +1871,7 @@ describe('property editor', () => {
             const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.CANVAS_CONTAINER);
             canvasContainer.dispatchEvent(editElementEvent);
 
-            await ticks(1);
+            await ticks(3);
 
             const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.PROPERTY_EDITOR_PANEL);
             expect(propertyEditorPanel.params.panelConfig.isFieldLevelCommitEnabled).toEqual(true);

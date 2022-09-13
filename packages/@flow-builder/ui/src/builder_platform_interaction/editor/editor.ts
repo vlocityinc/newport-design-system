@@ -9,6 +9,7 @@ import {
     deleteGoToConnection,
     DESELECT_ON_CANVAS,
     doDuplicate,
+    endEditSession,
     HIGHLIGHT_ON_CANVAS,
     MARQUEE_SELECT_ON_CANVAS,
     redo,
@@ -17,6 +18,7 @@ import {
     selectionOnFixedCanvas,
     SELECTION_ON_FIXED_CANVAS,
     selectOnCanvas,
+    startEditSession,
     TOGGLE_ON_CANVAS,
     undo,
     updateElement,
@@ -2197,6 +2199,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
             await this.handleClosePropertyEditor(false);
 
             this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
+            storeInstance.dispatch(startEditSession());
             this.showPropertyEditorRightPanel = true;
             this.propertyEditorParams.panelConfig.isLabelCollapsibleToHeader = true;
             this.propertyEditorParams.panelConfig.isFieldLevelCommitEnabled = true;
@@ -2796,6 +2799,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
                     }
                 });
             }
+            storeInstance.dispatch(endEditSession());
         }
         await this.setElementBeingEditedInPanelAsNotNew();
         this.showPropertyEditorRightPanel = false;
@@ -3260,6 +3264,7 @@ export default class Editor extends withKeyboardInteractions(LightningElement) {
         // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = getElementForStore(node);
         const currentNode = getElementByGuid(nodeForStore.guid);
+        nodeForStore.isSessionGroupable = true;
         nodeForStore.isInlineEditingResource = this._isInlineEditingResource;
         // @ts-ignore
         if (storeInstance.getCurrentState().elements[node.guid]?.config?.hasError !== node.config?.hasError) {

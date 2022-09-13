@@ -1,6 +1,12 @@
 import { ConnectionSource } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { CLEAR_UNDO_REDO, REDO, UNDO } from 'builder_platform_interaction/undoRedoLib';
+import {
+    CLEAR_UNDO_REDO,
+    END_EDIT_SESSION,
+    REDO,
+    START_EDIT_SESSION,
+    UNDO
+} from 'builder_platform_interaction/undoRedoLib';
 
 export const UPDATE_ENTITIES = 'UPDATE_ENTITIES';
 export const UPDATE_FLOW = 'UPDATE_FLOW';
@@ -141,6 +147,20 @@ export const redo = createAction(REDO);
  * To be used for clear undo redo stack. Please talk to the Process UI Design time team before using this.
  */
 export const clearUndoRedo = createAction(CLEAR_UNDO_REDO);
+
+/**
+ * Used to signal the start of a revisable editing session
+ *
+ * @returns Session start action
+ */
+export const startEditSession = (): UI.StoreAction<object> => createAction(START_EDIT_SESSION);
+
+/**
+ * Used to signal the end of a revisable editing session
+ *
+ * @returns Session start action
+ */
+export const endEditSession = (): UI.StoreAction<object> => createAction(END_EDIT_SESSION);
 
 /**
  * Action for updating flow properties in the store.
