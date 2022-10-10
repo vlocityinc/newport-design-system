@@ -1,0 +1,53 @@
+.nds-b2b-quote-clone-header {
+  font-weight: 400;
+  font-size: 1.25rem;
+  text-align: center;
+  color: $newport-black-primary;
+}
+
+.nds-b2b-quote-clone-content {
+  margin: 2.25rem;
+  .nds-b2b-quote-clone-title{
+    font-weight: 400;
+    font-size: 0.8rem;
+    line-height: 1.25rem;
+    color: $newport-black-primary;
+  }
+  .nds-b2b-quote-clone-input-label {
+    font-weight: 400;
+    font-size: 0.8rem;
+    line-height: 1.125rem;
+    color: $palette-gray-11;
+    margin-top: 1rem;
+  }
+  .nds-b2b-quote-clone-input{
+    background: $white-primary;
+    border: 0.063 solid $newport-border-gray;
+    border-radius: 0.25rem;
+    width: 19rem;
+    height: 2rem;
+  }
+  .nds-b2b-quote-clone-option-title {
+    font-weight: 400;
+    font-size: 0.8rem;
+    line-height: 1.25rem;
+    color: $newport-black-primary;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .nds-b2b-quote-clone-option {
+    display: flex;
+    align-items: center;
+    .nds-b2b-quote-clone-option-text {
+      font-weight: 400;
+      font-size: 0.8rem;
+      line-height: 1.25rem;
+      color: $palette-gray-11;
+      margin-left: .4rem;
+    }
+  }
+}
+
+nds-b2b-quote-clone-footer {
+  background-color: $palette-gray-90;
+}
