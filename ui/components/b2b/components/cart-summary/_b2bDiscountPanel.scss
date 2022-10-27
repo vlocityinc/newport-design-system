@@ -1,0 +1,40 @@
+.nds-b2b-discount-panel-wrapper {
+  background-color: $white-primary;
+  border: 1px solid rgb(196, 196, 196);
+
+  .nds-b2b-discount-panel {
+    .nds-b2b-discount-header {
+      border-bottom: 1px solid #C4C4C4;
+    }
+
+    .nds-b2b-section-tile {
+      background: $palette-gray-2;
+      box-shadow: 0px -1px 0px $palette-gray-8, 0px 1px 0px $palette-gray-8;
+    }
+
+    .nds-b2b-section-tile_title {
+      color: #0B0B0B;
+    }
+
+    .nds-b2b-section-tile_pill {
+      background: rgba(221, 219, 218, 0.33);
+      color: #FF8A00;
+      font-weight: 700;
+      padding: 0.2rem;
+      border-radius: 0.75rem
+    }
+
+    .nds-b2b-discount-modal_title {
+      color: #979797;
+    }
+
+    .nds-b2b-discount-promo_header {
+      background: #257BCD;
+      color: $white-primary;
+    }
+
+    .nds-b2b-discount-promo_description {
+      color: #000000;
+    }
+  }
+}
