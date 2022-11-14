@@ -36,5 +36,20 @@
     .nds-b2b-discount-promo_description {
       color: #000000;
     }
+
+    .nds-accordion__section {
+      position: relative;
+      margin: 0.5rem 0;
+    }
+
+    .nds-accordion__summary-heading {
+      font-size: 1rem;
+      line-height: 1.25;
+    }
+
+    .nds-accordion__content {
+      max-height: 11rem;
+      overflow-y: auto;
+    }
   }
 }

@@ -1,5 +1,16 @@
 .nds-b2b-cart-summary {
     z-index: $z-index-default;
+
+    .nds-b2b-cart-price-text {
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .nds-b2b-quote-details-wrapper {
+      background: $palette-gray-3;
+      border: 1px solid $newport-border-gray;
+      border-radius: 3px 3px 0px 0px;
+    }
 }
 .nds-b2b-stretch-y {
     height: 100%;
