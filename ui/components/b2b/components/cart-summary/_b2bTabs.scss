@@ -11,7 +11,7 @@
     font-size: $font-size-5;
     padding-bottom: $spacing-small;
     border-bottom: 2px solid transparent;
-    
+
     &:not(:first-child) {
         margin-left: $spacing-x-large;
     }
@@ -27,13 +27,13 @@
 
     @include b2b-desktop-view {
         position: absolute;
-        left: 4rem; 
+        left: 1rem;
         bottom: 0;
     }
 }
 
 .nds-b2b-tabs_default{
-    //Only override the default styles of ootb tabs if the parent class is nds-b2b-tabs 
+    //Only override the default styles of ootb tabs if the parent class is nds-b2b-tabs
     //to match wireframes and leverage existing lwc
     .nds-tabs_default {
         background-color: transparent;
