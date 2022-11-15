@@ -14,9 +14,27 @@
   }
 }
 
+.nds-b2b-grey-35{
+  color:$grey-35;
+}
+
 .b2b-config-offer {
   padding-bottom: 2rem;
   background: $white-smoke;
+
+  .nds-b2b-inline-block-relative{
+    display:inline-block;
+    position:relative;
+  }
+  .nds-b2b-popover-alignment{
+    position:absolute;
+    left: 0;
+    top:2rem;
+    width:48rem;
+    max-height: 25rem;
+    overflow-y: auto;
+  }
+  
   @media screen and (min-width: 48rem){
     padding: 1rem 1rem 9rem;
   }
