@@ -22,7 +22,7 @@
   }
   .nds-b2b-quote-clone-input{
     background: $white-primary;
-    border: 0.063 solid $newport-border-gray;
+    border: 0.063rem solid $newport-border-gray;
     border-radius: 0.25rem;
     width: 19rem;
     height: 2rem;
@@ -50,4 +50,11 @@
 
 .nds-b2b-quote-clone-footer {
   background-color: $palette-gray-90;
+  padding: 0.5rem;
+}
+
+.nds-b2b-quote-clone-wrapper {
+  .nds-modal__footer {
+    padding: 0;
+  }
 }
