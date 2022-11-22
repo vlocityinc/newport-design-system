@@ -109,6 +109,9 @@
                 font-size: 0.8rem;
                 font-weight: $font-weight-bold;
                 margin-right: 0.5rem;
+                word-break: break-word;
+                white-space: break-spaces;
+                hyphens: auto;
               }
               &:not(:first-child):before {
                 content: " . ";
