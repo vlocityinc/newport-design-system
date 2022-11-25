@@ -12,9 +12,16 @@ $b2b-flex-end: flex-end;
 $b2b-text-center: center;
 $b2b-config-promo-wrapper-blue: #a5ccef;
 $b2b-config-promo-details-blue: #1586e8;
+$b2b-config-promo-header-blue: #257BCD;
 $b2b-checkbox-focus: $offset-none $offset-none ($offset-small)+px ($offset-x-small)+px $azure !default;
 $b2b-checkbox-blue: #C0E5FF;
 $b2b-checkbox-red: #FFC2C2;
+$b2b-header-gray: #C4C4C4;
+$b2b-section-title-black: #0B0B0B;
+$b2b-pill-text-orange: #FF8A00;
+$b2b-section-background-gray: rgba(221, 219, 218, 0.33);
+$b2b-section-description-black: #000000;
+$b2b-modal-title-gray: #979797;
 
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
   overflow: hidden;
