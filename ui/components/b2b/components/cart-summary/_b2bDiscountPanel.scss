@@ -24,19 +24,6 @@
       border-radius: 0.75rem
     }
 
-    .nds-b2b-discount-modal_title {
-      color: #979797;
-    }
-
-    .nds-b2b-discount-promo_header {
-      background: #257BCD;
-      color: $white-primary;
-    }
-
-    .nds-b2b-discount-promo_description {
-      color: #000000;
-    }
-
     .nds-accordion__section {
       position: relative;
       margin: 0.5rem 0;
@@ -51,5 +38,22 @@
       max-height: 11rem;
       overflow-y: auto;
     }
+  }
+
+  .nds-b2b-promo-modal_title {
+    color: #0B0B0B;
+  }
+
+  .nds-b2b-discount-modal_title {
+    color: #979797;
+  }
+
+  .nds-b2b-discount-promo_header {
+    background: #257BCD;
+    color: $white-primary;
+  }
+
+  .nds-b2b-discount-promo_description {
+    color: #000000;
   }
 }
