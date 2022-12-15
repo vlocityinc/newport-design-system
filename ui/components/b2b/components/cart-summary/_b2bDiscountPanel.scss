@@ -14,14 +14,24 @@
 
     .nds-b2b-section-tile_title {
       color: $b2b-section-title-black;
+      line-height: 1.5rem;
     }
 
     .nds-b2b-section-tile_pill {
       background: $b2b-section-background-gray;
       color: $b2b-pill-text-orange;
       font-weight: 700;
-      padding: 0.2rem;
-      border-radius: 0.75rem
+      font-size: 0.6rem;
+      line-height: 0.75rem;
+      width: fit-content;
+      padding: 0.2rem 1rem;
+      border-radius: 0.6rem;
+      border: 0.3px solid $b2b-pill-border-gray;
+    }
+
+    .nds-b2b-section-status-icon {
+      height: 1.2rem;
+      width: 1.2rem;
     }
 
     .nds-accordion__section {
