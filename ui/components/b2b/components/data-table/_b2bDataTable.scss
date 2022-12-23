@@ -41,11 +41,20 @@ $b2b-table-border: $palette-gray-5;
 		letter-spacing: 0.05rem;
 	}
 
-	&:not(.nds-b2b-table_cell-readonly):hover {
+	&:not(.nds-b2b-table_cell-readonly):hover,
+	&:not(.nds-b2b-table_cell-readonly):focus {
 		background-color: $white;
 
 		.nds-b2b-hover-icon {
 			opacity: 1;
+		}
+	}
+
+	&:not(.nds-b2b-table_cell-readonly) {
+		.nds-b2b-table_sort:focus {
+			.nds-b2b-hover-icon {
+				opacity: 1;
+			}
 		}
 	}
 
