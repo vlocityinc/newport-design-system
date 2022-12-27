@@ -101,6 +101,7 @@ $b2b-table-border: $palette-gray-5;
 
 		& [type=checkbox]:focus ~ .nds-checkbox_faux{
 			border-color: $black-primary;
+			opacity: 1;
 		}
 
 		& [type=checkbox]:focus:checked ~ .nds-checkbox_faux,
@@ -278,6 +279,12 @@ $b2b-table-border: $palette-gray-5;
 			background-color: $palette-gray-3 ;//$color-background-row-hover;
 
 			.nds-b2b-row_hover-show {
+				opacity: 1;
+			}
+		}
+
+		&:not(.nds-b2b-table_head-row) {
+			.nds-b2b-row_hover-show:focus {
 				opacity: 1;
 			}
 		}
