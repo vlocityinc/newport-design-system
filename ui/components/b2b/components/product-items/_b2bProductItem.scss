@@ -21,7 +21,7 @@
           background: $palette-gray-90;
         }
       }
-      &:hover {
+      &:hover, &:focus {
         border: none;
         background-color: $palette-gray-90;
         .nds-b2b-product-description {
@@ -103,8 +103,8 @@
         }
       }
     }
-    
-    &:hover {
+
+    &:hover, &:focus {
       border: 1px solid $hawkes-blue;
       background-color: $alice-blue;
       .nds-b2b-product-description {
@@ -117,7 +117,7 @@
     opacity: 0.6;
     cursor:not-allowed;
   }
-  
+
   @media screen and (min-width: 48rem) {
     margin-right: 0.7rem;
     min-width: 17rem;
