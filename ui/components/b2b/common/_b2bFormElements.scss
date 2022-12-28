@@ -11,7 +11,13 @@
 		margin-bottom: 0;
 		padding-left: $spacing-small;
 		padding-right: $spacing-small;
-	}	
+	}
+
+	&.b2b-field-mapping-combobox {
+		.nds-input {
+			border: $border-width-thin solid $b2b-combobox-border;
+		}
+	}
 
 	.nds-input-has-icon_right {
 		.nds-input__icon {
