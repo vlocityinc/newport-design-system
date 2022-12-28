@@ -14,14 +14,7 @@
     padding: 0.5rem 0 1rem 1.2rem;
     color: $black-primary;
     font-size: .9rem;
-
-    &:hover {
-      background: $alice-blue;
-    }
-
-    &.selected {
-      background: $alice-blue;
-    }
+    @include b2b-product-category-events;
   }
   .nds-b2b-category-name {
     padding: 0.5rem 1rem 0.5rem 1.25rem;
@@ -34,12 +27,7 @@
       float: right;
       transition: all 0.25s ease-in;
     }
-    &:hover {
-      background: $alice-blue;
-    }
-    &.selected {
-      background: $alice-blue;
-    }
+    @include b2b-product-category-events;
     &.nds-b2b-category-name_label {
       font-size: $font-size-category-name;
       transition: all 0.25s ease-in;

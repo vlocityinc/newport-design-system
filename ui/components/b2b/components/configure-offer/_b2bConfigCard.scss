@@ -159,10 +159,10 @@
               width: 4.4rem;
               padding-left: 0.6rem;
               font-size: 0.9rem;
+              border-radius: 0.25rem;
               &:focus {
-                outline: none;
-                -webkit-appearance: none;
-                margin: 0;
+                box-shadow: 0px 0px 3px $azure;
+                border: 0.1rem solid $b2b-color-brand-base-60;
               }
               &:disabled {
                 background-color: $palette-gray-90;
