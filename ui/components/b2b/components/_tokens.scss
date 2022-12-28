@@ -24,6 +24,8 @@ $b2b-section-background-gray: rgba(221, 219, 218, 0.33);
 $b2b-section-description-black: #000000;
 $b2b-modal-title-gray: #979797;
 $b2b-color-brand-base-60: #1b96ff;
+$b2b-product-item-border: #0176d3;
+$b2b-combobox-border: #939393;
 
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
   overflow: hidden;
