@@ -26,6 +26,9 @@ $b2b-modal-title-gray: #979797;
 $b2b-color-brand-base-60: #1b96ff;
 $b2b-product-item-border: #0176d3;
 $b2b-combobox-border: #939393;
+$b2b-color-neutral-base-30: #444444;
+$b2b-color-neutral-base-50: #747474;
+$b2b-color-neutral-base-40: #5c5c5c;
 
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
   overflow: hidden;
