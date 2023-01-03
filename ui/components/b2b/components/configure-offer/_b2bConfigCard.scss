@@ -42,19 +42,6 @@
           cursor: pointer;
           transition: all 0.25s ease-in;
           /* Icon */
-          &.nds-b2b-expand-accordion{
-            &::after {
-              content: "\276F";
-              width: 1.3em;
-              height: 1.3em;
-              font-size: 1.6rem;
-              text-align: center;
-              transition: all 0.35s;
-              color: $palette-warm-gray-7;
-              right: 0;
-              position: relative;
-            }
-          }
           .nds-b2b-card_title {
             width: 100%;
             padding-right: 2.5rem;
@@ -233,6 +220,9 @@
               }
             }
           }
+          .nds-b2b-expansion-icon {
+            fill: $b2b-color-neutral-base-40;
+          }
           @media screen and (min-width: 30rem) {
             padding: 1.5rem 3rem 1rem 1.5rem;
             .nds-b2b-attributes_info {
@@ -260,7 +250,7 @@
         }
         input.nds-b2b-card_checkbox:checked {
           + .nds-b2b-card_tab-label {
-            &::after {
+            & .nds-b2b-expansion-icon {
               transform: rotate(90deg);
             }
           }
