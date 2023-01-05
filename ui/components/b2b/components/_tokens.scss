@@ -29,6 +29,7 @@ $b2b-combobox-border: #939393;
 $b2b-color-neutral-base-30: #444444;
 $b2b-color-neutral-base-50: #747474;
 $b2b-color-neutral-base-40: #5c5c5c;
+$b2b-color-neutral-base-80: #c9c9c9;
 
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
   overflow: hidden;
