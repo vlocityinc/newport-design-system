@@ -426,3 +426,12 @@ $b2b-table-border: $palette-gray-5;
 .nds-b2b-validation_partial{
   background-color: rgba(255, 165, 0,0.3);
 }
+
+.nds-b2b-record-map-container {
+	display: flex;
+	margin-top: 0.85rem;
+
+	.nds-b2b-record-count {
+		width: 92.5%;
+	}
+}
