@@ -389,3 +389,10 @@ svg.nds-button__icon {
     }
   }
 }
+
+.nds-button_last {
+  border-radius: corner-values(0 $button-border-radius $button-border-radius 0);
+}
+.nds-button_first {
+  border-radius: corner-values($button-border-radius 0 0 $button-border-radius);
+}
