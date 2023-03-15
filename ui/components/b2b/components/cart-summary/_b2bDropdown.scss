@@ -5,7 +5,6 @@
 
 .nds-b2b-dropdown {
     position: absolute;
-    top: 100%;
     left: 0;
     background-color: $white;
     border: 1px solid $color-border;
@@ -19,6 +18,14 @@
         right: 0;
     }
 }
+.nds-b2b-dropdown_trigger.nds-b2b-dropdown-showdown .nds-b2b-dropdown {
+  top: 100%;
+}
+
+.nds-b2b-dropdown_trigger.nds-b2b-dropdown-showup .nds-b2b-dropdown {
+  bottom: 100%;
+}
+
 .nds-b2b-dropdown_open .nds-b2b-dropdown{
     display: block;
 }
