@@ -23,6 +23,7 @@ $b2b-pill-border-gray: #C5C5C5;
 $b2b-section-background-gray: rgba(221, 219, 218, 0.33);
 $b2b-section-description-black: #000000;
 $b2b-modal-title-gray: #979797;
+$b2b-color-neutral-base-30: #444444;
 
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
   overflow: hidden;
