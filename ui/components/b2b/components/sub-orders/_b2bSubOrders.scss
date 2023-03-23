@@ -18,3 +18,7 @@
         color: $b2b-color-neutral-base-30;
     }
 }
+
+.slds-table tbody tr.slds-is-selected .slds-dropdown a[aria-disabled=true], .slds-table tr.slds-is-selected:hover .slds-dropdown a[aria-disabled=true] {
+    color: var(--slds-g-color-neutral-base-80, var(--lwc-colorTextButtonDefaultDisabled,rgb(201, 201, 201)));
+}
