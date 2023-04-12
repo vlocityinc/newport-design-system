@@ -220,11 +220,9 @@
         }
         &-content {
           padding: 0 1rem;
-          max-height: 0;
           background: white;
           transition: all 0.35s;
           color: $grey-35;
-          overflow: auto;
           @media screen and (min-width: 48rem) {
             padding: 0 1.5rem;
           }
@@ -243,7 +241,6 @@
             }
           }
           ~ .nds-b2b-expand-accordion ~ .nds-b2b-card_tab-content {
-            max-height: calc(200vh - 1.3rem);
             border-top: 1px solid $light-silver;
             &.nds-b2b-extra-padding {
               padding: 1rem;
