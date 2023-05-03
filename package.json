@@ -70,7 +70,7 @@
     "fsevents": "^2.3.2"
   },
   "engines": {
-    "node": ">=14.0.0 <17.0.0",
+    "node": ">=14.0.0 <=20",
     "npm": ">=3.10.6"
   },
   "license": "SEE LICENSE IN README.md",
@@ -79,15 +79,15 @@
     "url": "git@github.com:vlocityinc/newport-design-system.git"
   },
   "scripts": {
-    "build": "gulp build -v",
-    "build-prod": "gulp build",
-    "build-storybook": "build-storybook -c .storybook -s . -o .out",
+    "build": "NODE_OPTIONS=\"--openssl-legacy-provider\" gulp build -v",
+    "build-prod": "NODE_OPTIONS=\"--openssl-legacy-provider\" gulp build",
+    "build-storybook": "NODE_OPTIONS=\"--openssl-legacy-provider\" build-storybook -c .storybook -s . -o .out",
     "dist": "node scripts/dist.js",
-    "gulp": "gulp",
-    "lint": "gulp lint",
+    "gulp": "NODE_OPTIONS=\"--openssl-legacy-provider\" gulp",
+    "lint": "NODE_OPTIONS=\"--openssl-legacy-provider\" gulp lint",
     "start": "npm run build && npm run storybook",
     "precommit": "lint-staged",
-    "storybook": "start-storybook -s ./ -p 6006",
+    "storybook": "NODE_OPTIONS=\"--openssl-legacy-provider\" start-storybook -s ./ -p 6006",
     "test": "snyk test"
   },
   "lint-staged": {

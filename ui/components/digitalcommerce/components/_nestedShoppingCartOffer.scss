@@ -71,7 +71,7 @@
             padding-left: $spacing-applied-promo;
             .nds-dc-offer_image {
               height: 6.25rem;
-              margin: -1rem $spacing-applied-promo 0 -$spacing-applied-promo;
+              margin: -1rem $spacing-applied-promo 0 - $spacing-applied-promo;
               display: none;
             }
           }
