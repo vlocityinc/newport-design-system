@@ -51,7 +51,7 @@
     input[type="checkbox"]:checked
     + label
     + ul {
-    max-height: 62rem;
+    max-height: none;
   }
   .nds-b2b-categories-list_nav-list
     input[type="checkbox"]:checked
