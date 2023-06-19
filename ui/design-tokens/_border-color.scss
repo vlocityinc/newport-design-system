@@ -78,7 +78,7 @@ $color-border-button-inverse-disabled: $white-transparent-15 !default;
 // Border color on form elements.
 $color-border-input: $newport-border-gray !default;
 // Border color on active form elements.
-$color-border-input-active: $newport-color-brand-orange !default;
+$color-border-input-active: $newport-color-accessibility-orange !default;
 // Border color on disabled form elements.
 $color-border-input-disabled: $palette-gray-6 !default;
 // The borders to create the checkmark
@@ -100,3 +100,6 @@ $color-stroke-header-button: $palette-gray-7 !default;
 $color-border-botticelli: $newport-border-botticelli !default;
 $color-comment-msz: $newport-color-comment-msz !default;
 $color-dropdown-border: $newport-dropdown-border !default;
+// Accessibility fix for radio group
+$color-radio-readonly-inside: $accessible-gray-1 !default;
+$color-radio-readonly-border: $accessible-gray-2 !default;
