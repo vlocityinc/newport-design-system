@@ -49,7 +49,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
                     class="nds-grid nds-grid_vertical nds-grid_vertical-align-center nds-m-top_x-small nds-size_1-of-1">
                     <span class="nds-truncate">Matt</span><span class="nds-truncate">Example</span><span
                         class="nds-truncate">mexample@example.com</span></div>
-                        <span class="nds-is-absolute slds-icon_container nds-icon_container--circle" style="top: -1rem; right: -1rem; background: rgb(6, 165, 154);">
+                        <span class="nds-is-absolute slds-icon_container nds-icon_container--circle" style="top: -1rem; right: -1rem; background: rgb(80, 227, 194);">
                         <svg aria-hidden="true" class="nds-icon nds-input__icon nds-icon-text- nds-icon_small">
                           <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#approval"></use></svg><span class="nds-assistive-text">icon</span>
                       </span>
@@ -148,7 +148,7 @@ storiesOf(`${base}`.replace(/(^\/)|(\/$)/g, ''),  module)
                                     </use>
                                 </svg><span class="nds-assistive-text">down icon</span>
                             </button></div><span class="nds-is-absolute slds-icon_container nds-icon_container--circle"
-                            style="top: -1rem; right: -1rem; background: rgb(6, 165, 154);">
+                            style="top: -1rem; right: -1rem; background: rgb(80, 227, 194);">
                             <svg aria-hidden="true" class="nds-icon nds-input__icon nds-icon-text- nds-icon_small">
                                 <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#approval">
                                 </use>
