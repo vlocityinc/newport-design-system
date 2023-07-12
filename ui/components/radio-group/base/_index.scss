@@ -86,8 +86,8 @@
       ~.nds-radio--faux,
       +.nds-radio__label .nds-radio_faux,
       +.nds-radio__label .nds-radio--faux {
-        background-color: $color-background-input-disabled;
-        border-color: $color-border-input-disabled;
+        background-color: $color-radio-readonly-inside;
+        border-color: $color-radio-readonly-border;
       }
     }
   }
