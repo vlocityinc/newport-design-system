@@ -255,7 +255,6 @@
     #{$left}: calc(-50% + 8px);
     max-width: 5rem;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: auto;
   }
-} 
+}
