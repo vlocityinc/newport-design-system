@@ -97,7 +97,7 @@
     ]
   },
   "dependencies": {
-    "@storybook/addon-docs": "^6.3.8",
+    "@storybook/addon-docs": "^7.2.0",
     "babel-eslint": "^10.0.3",
     "comment-parser": "^0.5.4",
     "gulp-clean-css": "^4.2.0",
