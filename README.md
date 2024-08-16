@@ -33,7 +33,7 @@ cd newport-design-system
 (optional) Switch to the right branch for your version of the Salesforce package, for example
 
 ```bash
-git checkout ins-108.0
+git checkout 248
 ```
 
 Install the dependencies by running:
