@@ -204,7 +204,8 @@ input[placeholder]::placeholder {
   color: $color-border-error;
   font-size: .75rem;
   font-weight: 400;
-  text-transform: capitalize;
+  /*text-transform: capitalize;*/ 
+  /*Commenting this line to avoid default capitalization of newport error label*/
   margin-top: .625rem;
 
   &.nds-form-element__help_text-transform__none {
