@@ -50,6 +50,40 @@
     }
   }
 
+  &_small &__container {
+    @include mq-small-min {
+      width:60%;
+      max-width: 52.0625rem;
+      min-width: 40rem
+    }
+  }
+  
+  &_medium &__container {
+    @include mq-medium-min {
+      width:70%;
+      max-width: 75rem;
+      min-width: 40rem
+    }
+  }
+
+  &_large &__container {
+    @include mq-large-min {
+      width:90%;
+      max-width: none;
+      min-width: 40rem
+    }
+  }
+
+  &__container &__close {
+    @include square($square-icon-medium-boundary);
+    margin-left: auto;
+    position: relative;
+    bottom: $square-icon-x-small-content;
+    background-color : $color-gray-1;
+    top: inherit;
+    right: inherit;
+  }
+
   &__header,
   &__content {
     background: $color-background-alt;
