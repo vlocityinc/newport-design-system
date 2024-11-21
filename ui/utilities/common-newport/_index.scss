@@ -394,7 +394,7 @@ span[vlc-slds-pop-over] {
   }
 }
 
-.nds-step_label {
+.nds-step_label , .via-nds .nds-step_label {
   font-size: 1.3rem;
   font-weight: 600;
   color: $color-background-brand-primary;
