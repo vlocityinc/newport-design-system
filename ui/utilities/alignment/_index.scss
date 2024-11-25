@@ -9,8 +9,6 @@
  * @modifier
  */
 .nds-align_absolute-center,
-.nds-align--absolute-center, 
-.via-nds .nds-align--absolute-center, 
-.via-nds .nds-align_absolute-center {
+.nds-align--absolute-center {
   @include absolute-center;
 }
