@@ -747,3 +747,9 @@ form {
   max-height: 0;
   line-height: 0;
 }
+
+@media (max-width:480px) {
+  .nds-popover.nds-popover_tooltip .nds-popover__body {
+    overflow-y: auto;
+  }
+}
