@@ -397,3 +397,15 @@
     box-shadow: 0 0 0 2px #fff inset, 0 0 0 3px $color-border inset;
   }
 }
+
+/**
+   * Visible focus ring for keyboard navigation on listbox options
+   *
+   * @selector .nds-has-focus
+   * @restrict .nds-listbox__option
+   * @modifier
+   */
+   .nds-listbox__option.nds-has-focus {
+    outline: $border-width-thick solid $color-border-input-active;
+    outline-offset: -2px;
+  }
