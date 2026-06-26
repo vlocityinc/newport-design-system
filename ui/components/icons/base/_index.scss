@@ -156,7 +156,7 @@ $bg-standard-map: map-merge($task2-monkey-patch, $bg-standard-map);
  * @group color
  */
 .nds-icon-text-warning {
-  fill: $color-text-warning-alt;
+  fill: $color-icon-text-warning;
 }
 
 /**
@@ -186,5 +186,5 @@ $bg-standard-map: map-merge($task2-monkey-patch, $bg-standard-map);
  * @group color
  */
  .nds-icon-text-success {
-  fill: $newport-color-success-msz;
+  fill: $color-icon-text-success;
 }
