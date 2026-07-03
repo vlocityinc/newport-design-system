@@ -78,9 +78,9 @@
     }
 
     &.nds-is-selected:focus > .nds-day {
-      background: $color-background-row-hover;
-      box-shadow: $color-border-brand-dark 0 0 3px;
-      color: currentColor;
+      background: $color-background-button-brand-hover;
+      color: $color-text-button-brand-hover;
+      box-shadow: 0 0 0 2px $color-background-modal, 0 0 0 4px $color-border-brand-dark;
     }
   }
 
@@ -131,7 +131,7 @@
       outline: none;
     }
   }
-  
+
   input[type=date] {
     -webkit-appearance: none;
     -moz-appearance: none;
